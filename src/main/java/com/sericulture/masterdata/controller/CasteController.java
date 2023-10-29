@@ -1,55 +1,51 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
+import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.caste.CasteResponse;
+import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
 import com.sericulture.masterdata.model.api.education.EditEducationRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.education.EducationResponse;
-import com.sericulture.masterdata.service.EducationService;
+import com.sericulture.masterdata.service.CasteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Locale;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/education")
-public class EducationController {
+@RequestMapping("/v1/caste")
+public class CasteController {
 
     @Autowired
-    EducationService educationService;
+    CasteService casteService;
 
-    @Autowired
-    MessageSource messageSource;
-
-    @Operation(summary = "Insert Education Details", description = "Creates Education Details in to DB")
+    @Operation(summary = "Insert Caste Details", description = "Creates Caste Details in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
-                    {
-                            @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
-                    }),
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Title should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                            }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> getEducationDetails(@RequestBody EducationRequest educationRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(EducationResponse.class);
+    public ResponseEntity<?>addCasteDetails(@RequestBody CasteRequest casteRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(CasteResponse.class);
 
-        rw.setContent(educationService.insertEducationDetails(educationRequest));
+        rw.setContent(casteService.insertCasteDetails(casteRequest));
         return ResponseEntity.ok(rw);
     }
-
 
     @GetMapping("/list")
     @ApiResponses(value = {
@@ -71,9 +67,10 @@ public class EducationController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(educationService.getPaginatedEducationDetails(PageRequest.of(pageNumber, size)));
+        rw.setContent(casteService.getPaginatedCasteDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -85,10 +82,10 @@ public class EducationController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteEducationDetails(
+    public ResponseEntity<?> deleteCasteDetails(
             @PathVariable final Integer id
     ) {
-        educationService.deleteEducationDetails(id);
+        casteService.deleteCasteDetails(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -104,15 +101,11 @@ public class EducationController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editEducationDetails(
-            @RequestBody final EditEducationRequest educationRequest
+            @RequestBody final EditCasteRequest editCasteRequest
     ) {
-        ResponseWrapper<EducationResponse> rw = ResponseWrapper.createWrapper(EducationResponse.class);
-        rw.setContent(educationService.updateEducationDetails(educationRequest));
+        ResponseWrapper<CasteResponse> rw = ResponseWrapper.createWrapper(CasteResponse.class);
+        rw.setContent(casteService.updateCasteDetails(editCasteRequest));
         return ResponseEntity.ok(rw);
     }
 
-    @GetMapping("/testLanguage")
-    public String testLanguage(){
-       return messageSource.getMessage("greeting",null, LocaleContextHolder.getLocale());
-    }
 }

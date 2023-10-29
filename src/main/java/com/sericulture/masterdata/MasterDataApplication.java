@@ -10,4 +10,6 @@ public class MasterDataApplication {
 		SpringApplication.run(MasterDataApplication.class, args);
 	}
 
+
+
 }
