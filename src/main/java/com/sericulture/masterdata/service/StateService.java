@@ -48,13 +48,12 @@ public class StateService {
         validator.validate(state);
         List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
         if(!stateList.isEmpty() && stateList.stream().filter(State::getActive).findAny().isPresent()){
-            return mapper.stateEntityToObject(state,StateResponse.class);
-        }
-        if(!stateList.isEmpty() && stateList.stream().filter(Predicate.not(State::getActive)).findAny().isPresent()){
             throw new ValidationException("State name already exist");
         }
+        if(!stateList.isEmpty() && stateList.stream().filter(Predicate.not(State::getActive)).findAny().isPresent()){
+            throw new ValidationException("State name already exist with inactive state");
+        }
         return mapper.stateEntityToObject(stateRepository.save(state),StateResponse.class);
-
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -84,6 +83,16 @@ public class StateService {
         } else {
             throw new ValidationException("Invalid Id");
         }
+    }
+
+    @Transactional
+    public StateResponse getById(int id){
+        State state = stateRepository.findByStateIdAndActive(id,true);
+        if(state == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ",state);
+        return mapper.stateEntityToObject(state,StateResponse.class);
     }
 
     @Transactional
