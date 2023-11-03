@@ -99,13 +99,15 @@ public class StateService {
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
         List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
         if(stateList.size()>0){
-            throw new ValidationException("state already exists for the given code and title, duplicates are not allowed.");
+            throw new ValidationException("state already exists with this name, duplicates are not allowed.");
         }
 
         State state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
         if(Objects.nonNull(state)){
             state.setStateName(stateRequest.getStateName());
             state.setActive(true);
+        }else{
+            throw new ValidationException("Error occurred while fetching state");
         }
         return mapper.stateEntityToObject(stateRepository.save(state),StateResponse.class);
     }
