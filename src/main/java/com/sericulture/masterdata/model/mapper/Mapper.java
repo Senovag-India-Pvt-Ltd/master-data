@@ -2,9 +2,11 @@ package com.sericulture.masterdata.model.mapper;
 
 ;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.entity.Caste;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Education;
 import com.sericulture.masterdata.model.entity.State;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +73,7 @@ public class Mapper {
     }
 
     /**
-     * Maps Education Entity to Education Response Object
+     * Maps State Entity to State Response Object
      * @param stateRequest
      * @param <T>
      */
@@ -80,4 +82,23 @@ public class Mapper {
         return (T) mapper.map(stateRequest, claaz);
     }
 
+    /**
+     * Maps District Entity to District Response Object
+     * @param districtEntity
+     * @param <T>
+     */
+    public <T> T districtEntityToObject(District districtEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, districtEntity);
+        return (T) mapper.map(districtEntity, claaz);
+    }
+
+    /**
+     * Maps District Entity to District Response Object
+     * @param districtRequest
+     * @param <T>
+     */
+    public <T> T districtObjectToEntity(DistrictRequest districtRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, districtRequest);
+        return (T) mapper.map(districtRequest, claaz);
+    }
 }

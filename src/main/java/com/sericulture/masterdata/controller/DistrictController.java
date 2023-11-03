@@ -1,10 +1,10 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
-import com.sericulture.masterdata.model.api.state.EditStateRequest;
-import com.sericulture.masterdata.model.api.state.StateRequest;
-import com.sericulture.masterdata.model.api.state.StateResponse;
-import com.sericulture.masterdata.service.StateService;
+import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
+import com.sericulture.masterdata.model.api.district.DistrictRequest;
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
+import com.sericulture.masterdata.service.DistrictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,28 +19,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/state")
-public class StateController {
+@RequestMapping("/v1/district")
+public class DistrictController {
 
     @Autowired
-    StateService stateService;
+    DistrictService districtService;
 
-    @Operation(summary = "Insert State Details", description = "Creates State Details in to DB")
+    @Operation(summary = "Insert District Details", description = "Creates District Details in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
                             {
                                     @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"State name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"District name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addStateDetails(@RequestBody StateRequest stateRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(StateResponse.class);
+    public ResponseEntity<?> addDistrictDetails(@RequestBody DistrictRequest districtRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(DistrictResponse.class);
 
-        rw.setContent(stateService.insertStateDetails(stateRequest));
+        rw.setContent(districtService.insertDistrictDetails(districtRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -49,7 +49,7 @@ public class StateController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"state\":[{\"id\":10,\"stateName\":\"\"},{\"id\":11,\"stateName\":\"Karnataka\"},{\"id\":13,\"stateName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"district\":[{\"id\":10,\"districtName\":\"\",\"stateId\":1,},{\"id\":11,\"districtName\":\"Shimoga\",\"stateId\":1,},{\"id\":13,\"districtName\":\"Hubli\",\"stateId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -64,7 +64,7 @@ public class StateController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(stateService.getPaginatedStateDetails(PageRequest.of(pageNumber, size)));
+        rw.setContent(districtService.getPaginatedDistrictDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -79,10 +79,10 @@ public class StateController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteStateDetails(
+    public ResponseEntity<?> deleteDistrictDetails(
             @PathVariable final Integer id
     ) {
-        stateService.deleteStateDetails(id);
+        districtService.deleteDistrictDetails(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -97,11 +97,11 @@ public class StateController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editStateDetails(
-            @RequestBody final EditStateRequest editStateRequest
+    public ResponseEntity<?> editDistrictDetails(
+            @RequestBody final EditDistrictRequest editDistrictRequest
     ) {
-        ResponseWrapper<StateResponse> rw = ResponseWrapper.createWrapper(StateResponse.class);
-        rw.setContent(stateService.updateStateDetails(editStateRequest));
+        ResponseWrapper<DistrictResponse> rw = ResponseWrapper.createWrapper(DistrictResponse.class);
+        rw.setContent(districtService.updateDistrictDetails(editDistrictRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -119,9 +119,9 @@ public class StateController {
     public ResponseEntity<?> getById(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(StateResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(DistrictResponse.class);
 
-        rw.setContent(stateService.getById(id));
+        rw.setContent(districtService.getById(id));
         return ResponseEntity.ok(rw);
     }
 
