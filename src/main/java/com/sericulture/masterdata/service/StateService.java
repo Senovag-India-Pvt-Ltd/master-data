@@ -46,7 +46,7 @@ public class StateService {
     public StateResponse insertStateDetails(StateRequest stateRequest){
         State state = mapper.stateObjectToEntity(stateRequest,State.class);
         validator.validate(state);
-        List<State> stateList = stateRepository.findAllByStateName(stateRequest.getStateName());
+        List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
         if(!stateList.isEmpty() && stateList.stream().filter(State::getActive).findAny().isPresent()){
             return mapper.stateEntityToObject(state,StateResponse.class);
         }
@@ -88,12 +88,12 @@ public class StateService {
 
     @Transactional
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
-        State state = stateRepository.findByStateName(stateRequest.getStateName());
-        if(state != null){
+        List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
+        if(stateList.size()>0){
             throw new ValidationException("state already exists for the given code and title, duplicates are not allowed.");
         }
 
-        state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
+        State state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
         if(Objects.nonNull(state)){
             state.setStateName(stateRequest.getStateName());
             state.setActive(true);
