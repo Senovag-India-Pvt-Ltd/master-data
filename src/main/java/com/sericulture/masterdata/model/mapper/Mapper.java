@@ -249,24 +249,4 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, relationshipRequest);
         return (T) mapper.map(relationshipRequest, claaz);
     }
-
-    /**
-     * Maps Relationship Entity to Relationship Response Object
-     * @param relationshipEntity
-     * @param <T>
-     */
-    public <T> T relationshipEntityToObject(Relationship relationshipEntity, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, relationshipEntity);
-        return (T) mapper.map(relationshipEntity, claaz);
-    }
-
-    /**
-     * Maps Education Entity to Education Response Object
-     * @param relationshipRequest
-     * @param <T>
-     */
-    public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
-        log.info("Value of mapper is:", mapper, relationshipRequest);
-        return (T) mapper.map(relationshipRequest, claaz);
-    }
 }
