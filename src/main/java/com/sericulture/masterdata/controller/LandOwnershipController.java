@@ -1,13 +1,9 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
-import com.sericulture.masterdata.model.api.irrigation_source.EditIrrigationSourceRequest;
-import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceRequest;
-import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceResponse;
 import com.sericulture.masterdata.model.api.landOwnership.EditLandOwnershipRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
-import com.sericulture.masterdata.service.IrrigationSourceService;
 import com.sericulture.masterdata.service.LandOwnershipService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

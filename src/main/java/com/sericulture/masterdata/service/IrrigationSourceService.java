@@ -1,8 +1,8 @@
 package com.sericulture.masterdata.service;
 
-import com.sericulture.masterdata.model.api.irrigation_source.EditIrrigationSourceRequest;
-import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceRequest;
-import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceResponse;
+import com.sericulture.masterdata.model.api.irrigationSource.EditIrrigationSourceRequest;
+import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
+import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceResponse;
 import com.sericulture.masterdata.model.entity.IrrigationSource;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;

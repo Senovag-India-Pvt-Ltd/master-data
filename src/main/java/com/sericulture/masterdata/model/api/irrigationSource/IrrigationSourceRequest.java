@@ -1,4 +1,4 @@
-package com.sericulture.masterdata.model.api.irrigation_source;
+package com.sericulture.masterdata.model.api.irrigationSource;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;

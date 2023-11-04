@@ -1,4 +1,4 @@
-package com.sericulture.masterdata.model.api.irrigation_source;
+package com.sericulture.masterdata.model.api.irrigationSource;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
