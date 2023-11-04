@@ -4,12 +4,14 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
+import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
+import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -153,40 +155,40 @@ public class Mapper {
      * @param hobliEntity
      * @param <T>
      */
-   /* public <T> T hobliEntityToObject(Hobli hobliEntity, Class<T> claaz) {
+    public <T> T hobliEntityToObject(Hobli hobliEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, hobliEntity);
         return (T) mapper.map(hobliEntity, claaz);
-    }*/
+    }
 
     /**
      * Maps Hobli Entity to Hobli Response Object
      * @param hobliRequest
      * @param <T>
      */
-  /*  public <T> T hobliObjectToEntity(HobliRequest hobliRequest, Class<T> claaz) {
+    public <T> T hobliObjectToEntity(HobliRequest hobliRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, hobliRequest);
         return (T) mapper.map(hobliRequest, claaz);
-    }*/
+    }
 
     /**
      * Maps Village Entity to Village Response Object
      * @param villageEntity
      * @param <T>
      */
-    /*public <T> T villageEntityToObject(Village villageEntity, Class<T> claaz) {
+    public <T> T villageEntityToObject(Village villageEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, villageEntity);
         return (T) mapper.map(villageEntity, claaz);
-    }*/
+    }
 
     /**
      * Maps Village Entity to Village Response Object
      * @param villageRequest
      * @param <T>
      */
-   /* public <T> T villageObjectToEntity(VillageRequest villageRequest, Class<T> claaz) {
+    public <T> T villageObjectToEntity(VillageRequest villageRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, villageRequest);
         return (T) mapper.map(villageRequest, claaz);
-    }*/
+    }
 
 
 
@@ -245,6 +247,26 @@ public class Mapper {
      */
     public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, relationshipRequest);
+        return (T) mapper.map(relationshipRequest, claaz);
+    }
+
+    /**
+     * Maps Relationship Entity to Relationship Response Object
+     * @param relationshipEntity
+     * @param <T>
+     */
+    public <T> T relationshipEntityToObject(Relationship relationshipEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, relationshipEntity);
+        return (T) mapper.map(relationshipEntity, claaz);
+    }
+
+    /**
+     * Maps Education Entity to Education Response Object
+     * @param relationshipRequest
+     * @param <T>
+     */
+    public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, relationshipRequest);
         return (T) mapper.map(relationshipRequest, claaz);
     }
 }
