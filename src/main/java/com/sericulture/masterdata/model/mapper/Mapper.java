@@ -4,10 +4,12 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
+import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
+import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -329,5 +331,45 @@ public class Mapper {
     public <T> T roofTypeObjectToEntity(RoofTypeRequest roofTypeRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, roofTypeRequest);
         return (T) mapper.map(roofTypeRequest, claaz);
+    }
+
+    /**
+     * Maps MulberryVariety Entity to MulberryVariety Response Object
+     * @param mulberryVarietyEntity
+     * @param <T>
+     */
+    public <T> T mulberryVarietyEntityToObject(MulberryVariety mulberryVarietyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mulberryVarietyEntity);
+        return (T) mapper.map(mulberryVarietyEntity, claaz);
+    }
+
+    /**
+     * Maps MulberryVariety Object to MulberryVariety Response Entity
+     * @param mulberryVarietyRequest
+     * @param <T>
+     */
+    public <T> T mulberryVarietyObjectToEntity(MulberryVarietyRequest mulberryVarietyRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mulberryVarietyRequest);
+        return (T) mapper.map(mulberryVarietyRequest, claaz);
+    }
+
+    /**
+     * Maps Godown Entity to Godown Response Object
+     * @param godownEntity
+     * @param <T>
+     */
+    public <T> T godownEntityToObject(Godown godownEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, godownEntity);
+        return (T) mapper.map(godownEntity, claaz);
+    }
+
+    /**
+     * Maps Godown Object to Godown Response Entity
+     * @param godownRequest
+     * @param <T>
+     */
+    public <T> T godownObjectToEntity(GodownRequest godownRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, godownRequest);
+        return (T) mapper.map(godownRequest, claaz);
     }
 }

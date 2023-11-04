@@ -1,0 +1,23 @@
+package com.sericulture.masterdata.model.api.godown;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class GodownResponse {
+
+    @Schema(name="godownId", example = "1")
+    int godownId;
+
+    @Schema(name = "godownName", example = "Godown 1")
+    String godownName;
+
+    @Schema(name="marketMasterId", example = "1")
+    int marketMasterId;
+}
