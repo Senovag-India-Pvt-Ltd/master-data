@@ -123,7 +123,7 @@ public class TalukService {
 
     @Transactional
     public TalukResponse updateTalukDetails(EditTalukRequest talukRequest){
-        List<Taluk> talukList = talukRepository.findByTalukNameAndTalukId(talukRequest.getTalukName(), talukRequest.getTalukId());
+        List<Taluk> talukList = talukRepository.findByTalukName(talukRequest.getTalukName());
         if(talukList.size()>0){
             throw new ValidationException("Taluk already exists with this state, duplicates are not allowed.");
         }

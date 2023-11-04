@@ -125,7 +125,7 @@ public class DistrictService {
 
     @Transactional
     public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest){
-        List<District> districtList = districtRepository.findByDistrictNameAndStateId(districtRequest.getDistrictName(), districtRequest.getStateId());
+        List<District> districtList = districtRepository.findByDistrictName(districtRequest.getDistrictName());
         if(districtList.size()>0){
             throw new ValidationException("District already exists with this state, duplicates are not allowed.");
         }
