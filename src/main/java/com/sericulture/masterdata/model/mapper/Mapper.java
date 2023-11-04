@@ -12,6 +12,7 @@ import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyReque
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
+import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -250,6 +251,25 @@ public class Mapper {
     public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, relationshipRequest);
         return (T) mapper.map(relationshipRequest, claaz);
+    }
+    /**
+     * Maps Soil Type Entity to Soil Type Response Object
+     * @param soilTypeEntity
+     * @param <T>
+     */
+    public <T> T soilTypeEntityToObject(SoilType soilTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, soilTypeEntity);
+        return (T) mapper.map(soilTypeEntity, claaz);
+    }
+
+    /**
+     * Maps Soil Type Object to Soil Type Response Entity
+     * @param soilTypeRequest
+     * @param <T>
+     */
+    public <T> T soilTypeObjectToEntity(SoilTypeRequest soilTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, soilTypeRequest);
+        return (T) mapper.map(soilTypeRequest, claaz);
     }
 
     /**
