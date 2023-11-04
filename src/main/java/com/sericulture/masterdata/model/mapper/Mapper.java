@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
+import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -161,4 +162,26 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, villageRequest);
         return (T) mapper.map(villageRequest, claaz);
     }*/
+
+
+
+    /**
+     * Maps LandCategory Entity to LandCategory Response Object
+     * @param landCategoryEntity
+     * @param <T>
+     */
+    public <T> T landCategoryEntityToObject(LandCategory landCategoryEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, landCategoryEntity);
+        return (T) mapper.map(landCategoryEntity, claaz);
+    }
+
+    /**
+     * Maps State Entity to State Response Object
+     * @param landCategoryRequest
+     * @param <T>
+     */
+    public <T> T landCategoryObjectToEntity(LandCategoryRequest landCategoryRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, landCategoryRequest);
+        return (T) mapper.map(landCategoryRequest, claaz);
+    }
 }
