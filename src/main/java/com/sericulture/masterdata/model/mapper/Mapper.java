@@ -8,6 +8,7 @@ import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
+import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -289,5 +290,25 @@ public class Mapper {
     public <T> T mulberrySourceObjectToEntity(MulberrySourceRequest mulberrySourceRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, mulberrySourceRequest);
         return (T) mapper.map(mulberrySourceRequest, claaz);
+    }
+
+    /**
+     * Maps MulberryVariety Entity to MulberryVariety Response Object
+     * @param mulberryVarietyEntity
+     * @param <T>
+     */
+    public <T> T mulberryVarietyEntityToObject(MulberryVariety mulberryVarietyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mulberryVarietyEntity);
+        return (T) mapper.map(mulberryVarietyEntity, claaz);
+    }
+
+    /**
+     * Maps MulberryVariety Object to MulberryVariety Response Entity
+     * @param mulberryVarietyRequest
+     * @param <T>
+     */
+    public <T> T mulberryVarietyObjectToEntity(MulberryVarietyRequest mulberryVarietyRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mulberryVarietyRequest);
+        return (T) mapper.map(mulberryVarietyRequest, claaz);
     }
 }
