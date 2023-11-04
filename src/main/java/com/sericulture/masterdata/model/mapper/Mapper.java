@@ -10,6 +10,7 @@ import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
+import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.entity.*;
@@ -247,5 +248,25 @@ public class Mapper {
     public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, relationshipRequest);
         return (T) mapper.map(relationshipRequest, claaz);
+    }
+
+    /**
+     * Maps SilkWormVariety Entity to SilkWormVariety Response Object
+     * @param silkWormVarietyEntity
+     * @param <T>
+     */
+    public <T> T silkWormVarietyEntityToObject(SilkWormVariety silkWormVarietyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, silkWormVarietyEntity);
+        return (T) mapper.map(silkWormVarietyEntity, claaz);
+    }
+
+    /**
+     * Maps SilkWormVariety Object to SilkWormVariety Response Entity
+     * @param silkWormVarietyRequest
+     * @param <T>
+     */
+    public <T> T silkWormVarietyObjectToEntity(SilkWormVarietyRequest silkWormVarietyRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, silkWormVarietyRequest);
+        return (T) mapper.map(silkWormVarietyRequest, claaz);
     }
 }
