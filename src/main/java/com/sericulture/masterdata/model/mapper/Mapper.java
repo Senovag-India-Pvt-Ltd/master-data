@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceRequest;
+import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -207,5 +208,43 @@ public class Mapper {
     public <T> T landCategoryObjectToEntity(LandCategoryRequest landCategoryRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, landCategoryRequest);
         return (T) mapper.map(landCategoryRequest, claaz);
+    }
+    /**
+     * Maps LandOwnership Entity to LandOwnership Response Object
+     * @param landOwnershipEntity
+     * @param <T>
+     */
+    public <T> T landOwnershipEntityToObject(LandOwnership landOwnershipEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, landOwnershipEntity);
+        return (T) mapper.map(landOwnershipEntity, claaz);
+    }
+
+    /**
+     * Maps LandOwnership Object to LandOwnership Response Entity
+     * @param landOwnershipRequest
+     * @param <T>
+     */
+    public <T> T landOwnershipObjectToEntity(LandOwnershipRequest landOwnershipRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, landOwnershipRequest);
+        return (T) mapper.map(landOwnershipRequest, claaz);
+    }
+    /**
+     * Maps Relationship Entity to Relationship Response Object
+     * @param relationshipEntity
+     * @param <T>
+     */
+    public <T> T relationshipEntityToObject(Relationship relationshipEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, relationshipEntity);
+        return (T) mapper.map(relationshipEntity, claaz);
+    }
+
+    /**
+     * Maps Relationship Object to Relationship Response Entity
+     * @param relationshipRequest
+     * @param <T>
+     */
+    public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, relationshipRequest);
+        return (T) mapper.map(relationshipRequest, claaz);
     }
 }
