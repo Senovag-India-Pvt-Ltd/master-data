@@ -50,7 +50,7 @@ public class SoilTypeService {
             throw new ValidationException("SoilType name already exist");
         }
         if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(Predicate.not(SoilType::getActive)).findAny().isPresent()){
-            throw new ValidationException("SoilType name already exist");
+            throw new ValidationException("SoilType name already exist with inactive state");
         }
         return mapper.soilTypeEntityToObject(soilTypeRepository.save(soilType), SoilTypeResponse.class);
     }
