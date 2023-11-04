@@ -4,13 +4,10 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
+import com.sericulture.masterdata.model.api.irrigation_source.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
-import com.sericulture.masterdata.model.entity.Caste;
-import com.sericulture.masterdata.model.entity.District;
-import com.sericulture.masterdata.model.entity.Education;
-import com.sericulture.masterdata.model.entity.Relationship;
-import com.sericulture.masterdata.model.entity.State;
+import com.sericulture.masterdata.model.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +89,15 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, relationshipEntity);
         return (T) mapper.map(relationshipEntity, claaz);
     }
+    /**
+     * Maps Education Entity to Education Response Object
+     * @param relationshipRequest
+     * @param <T>
+     */
+    public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, relationshipRequest);
+        return (T) mapper.map(relationshipRequest, claaz);
+    }
 
     /**
      * Maps District Entity to District Response Object
@@ -113,12 +119,24 @@ public class Mapper {
         return (T) mapper.map(districtRequest, claaz);
     }
     /**
-     * Maps Education Entity to Education Response Object
-     * @param relationshipRequest
+     * Maps IrrigationSource Entity to IrrigationSource Response Object
+     * @param irrigationSourceEntity
      * @param <T>
      */
-    public <T> T relationshipObjectToEntity(RelationshipRequest relationshipRequest, Class<T> claaz) {
-        log.info("Value of mapper is:", mapper, relationshipRequest);
-        return (T) mapper.map(relationshipRequest, claaz);
+    public <T> T irrigationSourceEntityToObject(IrrigationSource irrigationSourceEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, irrigationSourceEntity);
+        return (T) mapper.map(irrigationSourceEntity, claaz);
     }
+
+    /**
+     * Maps IrrigationSource Object to IrrigationSource Response Entity
+     * @param irrigationSourceRequest
+     * @param <T>
+     */
+    public <T> T irrigationSourceObjectToEntity(IrrigationSourceRequest irrigationSourceRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, irrigationSourceRequest);
+        return (T) mapper.map(irrigationSourceRequest, claaz);
+    }
+
+
 }
