@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.model.mapper;
 
 ;
+import com.sericulture.masterdata.model.api.FarmerBankAccount.FarmerBankAccountRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
@@ -495,5 +496,25 @@ public class Mapper {
     public <T> T farmerFamilyObjectToEntity(FarmerFamilyRequest farmerFamilyRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, farmerFamilyRequest);
         return (T) mapper.map(farmerFamilyRequest, claaz);
+    }
+
+    /**
+     * Maps FarmerBankAccount Entity to FarmerBankAccount Response Object
+     * @param farmerBankAccountEntity
+     * @param <T>
+     */
+    public <T> T farmerBankAccountEntityToObject(FarmerBankAccount farmerBankAccountEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerBankAccountEntity);
+        return (T) mapper.map(farmerBankAccountEntity, claaz);
+    }
+
+    /**
+     * Maps FarmerBankAccount Object to FarmerBankAccount Response Entity
+     * @param farmerBankAccountRequest
+     * @param <T>
+     */
+    public <T> T farmerBankAccountObjectToEntity(FarmerBankAccountRequest farmerBankAccountRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerBankAccountRequest);
+        return (T) mapper.map(farmerBankAccountRequest, claaz);
     }
 }
