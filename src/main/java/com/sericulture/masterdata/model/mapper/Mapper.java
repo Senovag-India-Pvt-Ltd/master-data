@@ -11,9 +11,11 @@ import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
+import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
+import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
@@ -313,6 +315,25 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, mulberrySourceRequest);
         return (T) mapper.map(mulberrySourceRequest, claaz);
     }
+    /**
+     * Maps RoofType Entity to RoofType Response Object
+     * @param roofTypeEntity
+     * @param <T>
+     */
+    public <T> T roofTypeEntityToObject(RoofType roofTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, roofTypeEntity);
+        return (T) mapper.map(roofTypeEntity, claaz);
+    }
+
+    /**
+     * Maps RoofType Object to RoofType Response Entity
+     * @param roofTypeRequest
+     * @param <T>
+     */
+    public <T> T roofTypeObjectToEntity(RoofTypeRequest roofTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, roofTypeRequest);
+        return (T) mapper.map(roofTypeRequest, claaz);
+    }
 
     /**
      * Maps MulberryVariety Entity to MulberryVariety Response Object
@@ -372,5 +393,24 @@ public class Mapper {
     public <T> T machineTypeObjectToEntity(MachineTypeMasterRequest machineTypeRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, machineTypeRequest);
         return (T) mapper.map(machineTypeRequest, claaz);
+    }
+    /**
+     * Maps PlantationType Entity to PlantationType Response Object
+     * @param plantationTypeEntity
+     * @param <T>
+     */
+    public <T> T plantationTypeEntityToObject(PlantationType plantationTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, plantationTypeEntity);
+        return (T) mapper.map(plantationTypeEntity, claaz);
+    }
+
+    /**
+     * Maps PlantationType Object to PlantationType Response Entity
+     * @param plantationTypeRequest
+     * @param <T>
+     */
+    public <T> T plantationTypeObjectToEntity(PlantationTypeRequest plantationTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, plantationTypeRequest);
+        return (T) mapper.map(plantationTypeRequest, claaz);
     }
 }
