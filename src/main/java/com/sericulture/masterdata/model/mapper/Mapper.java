@@ -10,6 +10,7 @@ import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceReq
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
+import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -371,5 +372,24 @@ public class Mapper {
     public <T> T godownObjectToEntity(GodownRequest godownRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, godownRequest);
         return (T) mapper.map(godownRequest, claaz);
+    }
+    /**
+     * Maps PlantationType Entity to PlantationType Response Object
+     * @param plantationTypeEntity
+     * @param <T>
+     */
+    public <T> T plantationTypeEntityToObject(PlantationType plantationTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, plantationTypeEntity);
+        return (T) mapper.map(plantationTypeEntity, claaz);
+    }
+
+    /**
+     * Maps PlantationType Object to PlantationType Response Entity
+     * @param plantationTypeRequest
+     * @param <T>
+     */
+    public <T> T plantationTypeObjectToEntity(PlantationTypeRequest plantationTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, plantationTypeRequest);
+        return (T) mapper.map(plantationTypeRequest, claaz);
     }
 }
