@@ -12,6 +12,7 @@ import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterR
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
+import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -412,5 +413,25 @@ public class Mapper {
     public <T> T plantationTypeObjectToEntity(PlantationTypeRequest plantationTypeRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, plantationTypeRequest);
         return (T) mapper.map(plantationTypeRequest, claaz);
+    }
+
+    /**
+     * Maps ReasonLotReject Entity to ReasonLotReject Response Object
+     * @param reasonLotRejectMasterEntity
+     * @param <T>
+     */
+    public <T> T reasonLotRejectEntityToObject(ReasonLotRejectMaster reasonLotRejectMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, reasonLotRejectMasterEntity);
+        return (T) mapper.map(reasonLotRejectMasterEntity, claaz);
+    }
+
+    /**
+     * Maps ReasonLotReject Object to ReasonLotReject Response Entity
+     * @param reasonLotRejectMasterRequest
+     * @param <T>
+     */
+    public <T> T reasonLotRejectObjectToEntity(ReasonLotRejectMasterRequest reasonLotRejectMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, reasonLotRejectMasterRequest);
+        return (T) mapper.map(reasonLotRejectMasterRequest, claaz);
     }
 }
