@@ -4,6 +4,7 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
+import com.sericulture.masterdata.model.api.farmer.FarmerRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
@@ -433,5 +434,25 @@ public class Mapper {
     public <T> T reasonLotRejectObjectToEntity(ReasonLotRejectMasterRequest reasonLotRejectMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, reasonLotRejectMasterRequest);
         return (T) mapper.map(reasonLotRejectMasterRequest, claaz);
+    }
+
+    /**
+     * Maps Farmer Entity to Farmer Response Object
+     * @param farmerEntity
+     * @param <T>
+     */
+    public <T> T farmerEntityToObject(Farmer farmerEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerEntity);
+        return (T) mapper.map(farmerEntity, claaz);
+    }
+
+    /**
+     * Maps Farmer Object to Farmer Response Entity
+     * @param farmerRequest
+     * @param <T>
+     */
+    public <T> T farmerObjectToEntity(FarmerRequest farmerRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerRequest);
+        return (T) mapper.map(farmerRequest, claaz);
     }
 }
