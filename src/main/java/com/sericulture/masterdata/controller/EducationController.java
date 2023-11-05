@@ -111,6 +111,26 @@ public class EducationController {
         return ResponseEntity.ok(rw);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getById(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(EducationResponse.class);
+
+        rw.setContent(educationService.getById(id));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/testLanguage")
     public String testLanguage(){
        return messageSource.getMessage("greeting",null, LocaleContextHolder.getLocale());

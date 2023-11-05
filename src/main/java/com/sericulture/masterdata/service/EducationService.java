@@ -90,6 +90,16 @@ public class EducationService {
     }
 
     @Transactional
+    public EducationResponse getById(long id) {
+        Education education = educationRepository.findByIdAndActive(id, true);
+        if (education == null) {
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("The entity is:", education);
+        return mapper.educationEntityToObject(education, EducationResponse.class);
+    }
+
+    @Transactional
     public EducationResponse updateEducationDetails(EditEducationRequest educationRequest) {
         List<Education> educations = educationRepository.findByNameAndActiveIn(educationRequest.getName(), Set.of(true,false));
         if(!educations.isEmpty()) {

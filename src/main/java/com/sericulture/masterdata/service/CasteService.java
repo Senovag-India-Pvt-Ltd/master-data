@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.caste.CasteResponse;
 import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
 import com.sericulture.masterdata.model.entity.Caste;
+import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.CasteRepository;
@@ -95,6 +96,16 @@ public class CasteService {
     }
 
     @Transactional
+    public CasteResponse getById(int id){
+        Caste caste = casteRepository.findByIdAndActive(id,true);
+        if(caste == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ",caste);
+        return mapper.casteEntityToObject(caste,CasteResponse.class);
+    }
+
+    @Transactional
     public CasteResponse updateCasteDetails(EditCasteRequest casteRequest){
         Caste caste = casteRepository.findByCodeAndTitle(casteRequest.getCode(),casteRequest.getTitle());
         if(caste!=null){
@@ -111,5 +122,7 @@ public class CasteService {
 
 
     }
+
+
 
 }

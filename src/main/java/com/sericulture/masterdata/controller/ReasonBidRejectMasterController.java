@@ -1,10 +1,10 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
-import com.sericulture.masterdata.model.api.caste.CasteRequest;
-import com.sericulture.masterdata.model.api.caste.CasteResponse;
-import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
-import com.sericulture.masterdata.service.CasteService;
+import com.sericulture.masterdata.model.api.reasonBidRejectMaster.EditReasonBidRejectMasterRequest;
+import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
+import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterResponse;
+import com.sericulture.masterdata.service.ReasonBidRejectMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,28 +19,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/caste")
-public class CasteController {
-
+@RequestMapping("/v1/reason-bid-reject-master")
+public class ReasonBidRejectMasterController {
     @Autowired
-    CasteService casteService;
+    ReasonBidRejectMasterService reasonBidRejectMasterService;
 
-    @Operation(summary = "Insert Caste Details", description = "Creates Caste Details in to DB")
+    @Operation(summary = "Insert ReasonBidReject Details", description = "Creates ReasonBidReject Details in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
                             {
                                     @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Title should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"ReasonBidReject name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?>addCasteDetails(@RequestBody CasteRequest casteRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(CasteResponse.class);
+    public ResponseEntity<?> addReasonBidRejectMasterDetails(@RequestBody ReasonBidRejectMasterRequest reasonBidRejectMasterRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ReasonBidRejectMasterResponse.class);
 
-        rw.setContent(casteService.insertCasteDetails(casteRequest));
+        rw.setContent(reasonBidRejectMasterService.insertReasonBidRejectMasterDetails(reasonBidRejectMasterRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -49,7 +48,7 @@ public class CasteController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"education\":[{\"id\":10,\"name\":\"\",\"code\":null},{\"id\":11,\"name\":\"SA\",\"code\":null},{\"id\":13,\"name\":\"SAC\",\"code\":null},{\"id\":14,\"name\":\"Bachelor of Engineeringsssssssssssssssss\",\"code\":null},{\"id\":15,\"name\":\"Bachelor of Engg\",\"code\":null}],\"totalPages\":2,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":1,\"reasonBidReject\":[{\"id\":1,\"reasonBidRejectName\":\"\"},{\"id\":2,\"reasonBidRejectName\":\"Reason Bid Reject 1\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -64,7 +63,7 @@ public class CasteController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(casteService.getPaginatedCasteDetails(PageRequest.of(pageNumber, size)));
+        rw.setContent(reasonBidRejectMasterService.getPaginatedReasonBidRejectMasterDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -79,10 +78,10 @@ public class CasteController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCasteDetails(
+    public ResponseEntity<?> deleteReasonBidRejectMasterDetails(
             @PathVariable final Integer id
     ) {
-        casteService.deleteCasteDetails(id);
+        reasonBidRejectMasterService.deleteReasonBidRejectMasterDetails(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -97,11 +96,11 @@ public class CasteController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editEducationDetails(
-            @RequestBody final EditCasteRequest editCasteRequest
+    public ResponseEntity<?> editReasonBidRejectMasterDetails(
+            @RequestBody final EditReasonBidRejectMasterRequest editReasonBidRejectMasterRequest
     ) {
-        ResponseWrapper<CasteResponse> rw = ResponseWrapper.createWrapper(CasteResponse.class);
-        rw.setContent(casteService.updateCasteDetails(editCasteRequest));
+        ResponseWrapper<ReasonBidRejectMasterResponse> rw = ResponseWrapper.createWrapper(ReasonBidRejectMasterResponse.class);
+        rw.setContent(reasonBidRejectMasterService.updateReasonBidRejectMasterDetails(editReasonBidRejectMasterRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -119,10 +118,11 @@ public class CasteController {
     public ResponseEntity<?> getById(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(CasteResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ReasonBidRejectMasterResponse.class);
 
-        rw.setContent(casteService.getById(id));
+        rw.setContent(reasonBidRejectMasterService.getById(id));
         return ResponseEntity.ok(rw);
     }
+
 
 }
