@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.farmer.FarmerRequest;
+import com.sericulture.masterdata.model.api.farmerFamily.FarmerFamilyRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
@@ -454,5 +455,25 @@ public class Mapper {
     public <T> T farmerObjectToEntity(FarmerRequest farmerRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, farmerRequest);
         return (T) mapper.map(farmerRequest, claaz);
+    }
+
+    /**
+     * Maps FarmerFamily Entity to FarmerFamily Response Object
+     * @param farmerFamilyEntity
+     * @param <T>
+     */
+    public <T> T farmerFamilyEntityToObject(FarmerFamily farmerFamilyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerFamilyEntity);
+        return (T) mapper.map(farmerFamilyEntity, claaz);
+    }
+
+    /**
+     * Maps FarmerFamily Object to FarmerFamily Response Entity
+     * @param farmerFamilyRequest
+     * @param <T>
+     */
+    public <T> T farmerFamilyObjectToEntity(FarmerFamilyRequest farmerFamilyRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerFamilyRequest);
+        return (T) mapper.map(farmerFamilyRequest, claaz);
     }
 }
