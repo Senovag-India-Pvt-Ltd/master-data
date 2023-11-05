@@ -8,6 +8,7 @@ import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
+import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
@@ -351,5 +352,25 @@ public class Mapper {
     public <T> T godownObjectToEntity(GodownRequest godownRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, godownRequest);
         return (T) mapper.map(godownRequest, claaz);
+    }
+
+    /**
+     * Maps MachineType Entity to MachineType Response Object
+     * @param machineMasterEntity
+     * @param <T>
+     */
+    public <T> T machineTypeEntityToObject(MachineTypeMaster machineMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, machineMasterEntity);
+        return (T) mapper.map(machineMasterEntity, claaz);
+    }
+
+    /**
+     * Maps MachineMaster Object to MachineMaster Response Entity
+     * @param machineTypeRequest
+     * @param <T>
+     */
+    public <T> T machineTypeObjectToEntity(MachineTypeMasterRequest machineTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, machineTypeRequest);
+        return (T) mapper.map(machineTypeRequest, claaz);
     }
 }
