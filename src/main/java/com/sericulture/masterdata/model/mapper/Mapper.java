@@ -25,6 +25,7 @@ import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
+import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -537,6 +538,25 @@ public class Mapper {
     public <T> T roleObjectToEntity(RoleRequest roleRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, roleRequest);
         return (T) mapper.map(roleRequest, claaz);
+    }
+    /**
+     * Maps Subsidy Entity to Subsidy Response Object
+     * @param subsidyEntity
+     * @param <T>
+     */
+    public <T> T subsidyEntityToObject(Subsidy subsidyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, subsidyEntity);
+        return (T) mapper.map(subsidyEntity, claaz);
+    }
+
+    /**
+     * Maps Subsidy Object to Subsidy Response Object
+     * @param subsidyRequest
+     * @param <T>
+     */
+    public <T> T subsidyObjectToEntity(SubsidyRequest subsidyRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, subsidyRequest);
+        return (T) mapper.map(subsidyRequest, claaz);
     }
 
 }
