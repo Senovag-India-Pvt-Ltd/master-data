@@ -20,6 +20,7 @@ import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejec
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
+import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
@@ -517,4 +518,25 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, farmerBankAccountRequest);
         return (T) mapper.map(farmerBankAccountRequest, claaz);
     }
+
+    /**
+     * Maps Role Entity to Role Response Object
+     * @param roleEntity
+     * @param <T>
+     */
+    public <T> T roleEntityToObject(Role roleEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, roleEntity);
+        return (T) mapper.map(roleEntity, claaz);
+    }
+
+    /**
+     * Maps Role Object to Role Response Object
+     * @param roleRequest
+     * @param <T>
+     */
+    public <T> T roleObjectToEntity(RoleRequest roleRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, roleRequest);
+        return (T) mapper.map(roleRequest, claaz);
+    }
+
 }
