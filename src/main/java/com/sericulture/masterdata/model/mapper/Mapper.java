@@ -1,12 +1,9 @@
 package com.sericulture.masterdata.model.mapper;
 
 ;
-import com.sericulture.masterdata.model.api.FarmerBankAccount.FarmerBankAccountRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
-import com.sericulture.masterdata.model.api.farmer.FarmerRequest;
-import com.sericulture.masterdata.model.api.farmerFamily.FarmerFamilyRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
@@ -456,65 +453,5 @@ public class Mapper {
     public <T> T reasonBidRejectObjectToEntity(ReasonBidRejectMasterRequest reasonBidRejectMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, reasonBidRejectMasterRequest);
         return (T) mapper.map(reasonBidRejectMasterRequest, claaz);
-    }
-
-    /**
-     * Maps Farmer Entity to Farmer Response Object
-     * @param farmerEntity
-     * @param <T>
-     */
-    public <T> T farmerEntityToObject(Farmer farmerEntity, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, farmerEntity);
-        return (T) mapper.map(farmerEntity, claaz);
-    }
-
-    /**
-     * Maps Farmer Object to Farmer Response Entity
-     * @param farmerRequest
-     * @param <T>
-     */
-    public <T> T farmerObjectToEntity(FarmerRequest farmerRequest, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, farmerRequest);
-        return (T) mapper.map(farmerRequest, claaz);
-    }
-
-    /**
-     * Maps FarmerFamily Entity to FarmerFamily Response Object
-     * @param farmerFamilyEntity
-     * @param <T>
-     */
-    public <T> T farmerFamilyEntityToObject(FarmerFamily farmerFamilyEntity, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, farmerFamilyEntity);
-        return (T) mapper.map(farmerFamilyEntity, claaz);
-    }
-
-    /**
-     * Maps FarmerFamily Object to FarmerFamily Response Entity
-     * @param farmerFamilyRequest
-     * @param <T>
-     */
-    public <T> T farmerFamilyObjectToEntity(FarmerFamilyRequest farmerFamilyRequest, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, farmerFamilyRequest);
-        return (T) mapper.map(farmerFamilyRequest, claaz);
-    }
-
-    /**
-     * Maps FarmerBankAccount Entity to FarmerBankAccount Response Object
-     * @param farmerBankAccountEntity
-     * @param <T>
-     */
-    public <T> T farmerBankAccountEntityToObject(FarmerBankAccount farmerBankAccountEntity, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, farmerBankAccountEntity);
-        return (T) mapper.map(farmerBankAccountEntity, claaz);
-    }
-
-    /**
-     * Maps FarmerBankAccount Object to FarmerBankAccount Response Entity
-     * @param farmerBankAccountRequest
-     * @param <T>
-     */
-    public <T> T farmerBankAccountObjectToEntity(FarmerBankAccountRequest farmerBankAccountRequest, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, farmerBankAccountRequest);
-        return (T) mapper.map(farmerBankAccountRequest, claaz);
     }
 }
