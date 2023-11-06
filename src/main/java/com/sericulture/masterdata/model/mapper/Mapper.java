@@ -456,4 +456,44 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, reasonBidRejectMasterRequest);
         return (T) mapper.map(reasonBidRejectMasterRequest, claaz);
     }
+
+    /**
+     * Maps Subsidy Entity to Subsidy Response Object
+     * @param subsidyEntity
+     * @param <T>
+     */
+    public <T> T subsidyEntityToObject(Subsidy subsidyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, subsidyEntity);
+        return (T) mapper.map(subsidyEntity, claaz);
+    }
+
+    /**
+     * Maps Subsidy Object to Subsidy Response Object
+     * @param subsidyRequest
+     * @param <T>
+     */
+    public <T> T subsidyObjectToEntity(SubsidyRequest subsidyRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, subsidyRequest);
+        return (T) mapper.map(subsidyRequest, claaz);
+    }
+
+    /**
+     * Maps Role Entity to Role Response Object
+     * @param roleEntity
+     * @param <T>
+     */
+    public <T> T roleEntityToObject(Role roleEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, roleEntity);
+        return (T) mapper.map(roleEntity, claaz);
+    }
+
+    /**
+     * Maps Role Object to Role Response Object
+     * @param roleRequest
+     * @param <T>
+     */
+    public <T> T roleObjectToEntity(RoleRequest roleRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, roleRequest);
+        return (T) mapper.map(roleRequest, claaz);
+    }
 }
