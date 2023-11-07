@@ -12,11 +12,11 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DistrictResponse {
 
-    @Schema(name="stateId", example = "1")
-    int stateId;
-
     @Schema(name="districtId", example = "1")
     int districtId;
+
+    @Schema(name="stateId", example = "1")
+    int stateId;
 
     @Schema(name = "districtName", example = "Shimoga")
     String districtName;
