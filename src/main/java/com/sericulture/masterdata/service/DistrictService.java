@@ -8,10 +8,10 @@ import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.District;
-import com.sericulture.masterdata.model.entity.District;
-import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.DistrictRepository;
@@ -113,7 +113,7 @@ public class DistrictService {
         return mapper.districtEntityToObject(district,DistrictResponse.class);
     }
 
-    @Transactional
+    /*@Transactional
     public DistrictResponse getDistrictByStateId(long stateId){
         District district = districtRepository.findByStateIdAndActive(stateId,true);
         if(district == null){
@@ -121,6 +121,25 @@ public class DistrictService {
         }
         log.info("Entity is ",district);
         return mapper.districtEntityToObject(district,DistrictResponse.class);
+    }
+*/
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getDistrictByStateId(Long stateId){
+        List<District> districtList = districtRepository.findByStateIdAndActive(stateId,true);
+        if(districtList.isEmpty()){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ",districtList);
+        return convertListToMapResponse(districtList);
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<District> districtList) {
+        Map<String, Object> response = new HashMap<>();
+        List<DistrictResponse> districtResponses = districtList.stream()
+                .map(district -> mapper.districtEntityToObject(district,DistrictResponse.class)).collect(Collectors.toList());
+        response.put("district",districtResponses);
+        response.put("totalItems", districtList.size());
+        return response;
     }
 
     @Transactional

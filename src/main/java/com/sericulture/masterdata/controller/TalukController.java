@@ -126,26 +126,6 @@ public class TalukController {
         return ResponseEntity.ok(rw);
     }
 
-    /*@ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok Response"),
-            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
-                    content =
-                            {
-                                    @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
-                            }),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
-    })
-    @GetMapping("/get-by-district-id/{districtId}")
-    public ResponseEntity<?> getByDistrictId(
-            @PathVariable final Long districtId
-    ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(TalukResponse.class);
-
-        rw.setContent(talukService.getTalukByDistrictId(districtId));
-        return ResponseEntity.ok(rw);
-    }*/
-
     @GetMapping("/get-by-district-id/{districtId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

@@ -124,7 +124,7 @@ public class DistrictController {
         rw.setContent(districtService.getById(id));
         return ResponseEntity.ok(rw);
     }
-
+    @GetMapping("/get-by-state-id/{stateId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -135,12 +135,10 @@ public class DistrictController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-by-state-id/{stateId}")
     public ResponseEntity<?> getByStateId(
             @PathVariable final Long stateId
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(DistrictResponse.class);
-
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(districtService.getDistrictByStateId(stateId));
         return ResponseEntity.ok(rw);
     }
