@@ -10,11 +10,11 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class TalukRequest extends RequestBody {
-    /*@Schema(name = "stateId", example = "1", required = true)
+    @Schema(name = "stateId", example = "1")
     Long stateId;
 
-    @Schema(name = "districtId", example = "1", required = true)
-    Long districtId;*/
+    @Schema(name = "districtId", example = "1")
+    Long districtId;
 
     @Schema(name = "talukName", example = "Thirthahalli", required = true)
     String talukName;

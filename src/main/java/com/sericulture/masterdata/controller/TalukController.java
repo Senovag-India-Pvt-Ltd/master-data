@@ -126,7 +126,7 @@ public class TalukController {
         return ResponseEntity.ok(rw);
     }
 
-    @ApiResponses(value = {
+    /*@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -142,6 +142,29 @@ public class TalukController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(TalukResponse.class);
 
+        rw.setContent(talukService.getTalukByDistrictId(districtId));
+        return ResponseEntity.ok(rw);
+    }*/
+
+    @GetMapping("/get-by-district-id/{districtId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"taluk\":[{\"id\":10,\"talukName\":\"\",\"stateId\":1,},{\"id\":11,\"talukName\":\"Shimoga\",\"stateId\":1,},{\"id\":13,\"talukName\":\"Hubli\",\"stateId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByDistrictId(
+            @PathVariable final Long districtId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(talukService.getTalukByDistrictId(districtId));
         return ResponseEntity.ok(rw);
     }
