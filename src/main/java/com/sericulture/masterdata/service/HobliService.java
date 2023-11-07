@@ -1,8 +1,10 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.hobli.EditHobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -96,15 +98,23 @@ public class HobliService {
         log.info("Entity is ",hobli);
         return mapper.hobliEntityToObject(hobli,HobliResponse.class);
     }
-
-    @Transactional
-    public HobliResponse getHobliByTalukId(long talukId){
-        Hobli hobli = hobliRepository.findByTalukIdAndActive(talukId,true);
-        if(hobli == null){
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getHobliByTalukId(Long talukId){
+        List<Hobli> hobliList = hobliRepository.findByTalukIdAndActive(talukId,true);
+        if(hobliList.isEmpty()){
             throw new ValidationException("Invalid Id");
         }
-        log.info("Entity is ",hobli);
-        return mapper.hobliEntityToObject(hobli,HobliResponse.class);
+        log.info("Entity is ",hobliList);
+        return convertListToMapResponse(hobliList);
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<Hobli> hobliList) {
+        Map<String, Object> response = new HashMap<>();
+        List<HobliResponse> hobliResponses = hobliList.stream()
+                .map(hobli -> mapper.hobliEntityToObject(hobli,HobliResponse.class)).collect(Collectors.toList());
+        response.put("hobli",hobliResponses);
+        response.put("totalItems", hobliList.size());
+        return response;
     }
 
     @Transactional

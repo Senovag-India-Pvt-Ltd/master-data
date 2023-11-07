@@ -125,6 +125,7 @@ public class HobliController {
         return ResponseEntity.ok(rw);
     }
 
+    @GetMapping("/get-by-taluk-id/{talukId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -135,12 +136,10 @@ public class HobliController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-by-taluk-id/{talukId}")
     public ResponseEntity<?> getByTalukId(
             @PathVariable final Long talukId
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(HobliResponse.class);
-
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(hobliService.getHobliByTalukId(talukId));
         return ResponseEntity.ok(rw);
     }

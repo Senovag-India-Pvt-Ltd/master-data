@@ -1,8 +1,10 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -96,15 +98,23 @@ public class VillageService {
         log.info("Entity is ",village);
         return mapper.villageEntityToObject(village,VillageResponse.class);
     }
-
-    @Transactional
-    public VillageResponse getVillageByHobliId(long hobliId){
-        Village village = villageRepository.findByHobliIdAndActive(hobliId,true);
-        if(village == null){
+        @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getVillageByHobliId(Long talukId){
+        List<Village> villageList = villageRepository.findByHobliIdAndActive(talukId,true);
+        if(villageList.isEmpty()){
             throw new ValidationException("Invalid Id");
         }
-        log.info("Entity is ",village);
-        return mapper.villageEntityToObject(village,VillageResponse.class);
+        log.info("Entity is ",villageList);
+        return convertListToMapResponse(villageList);
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<Village> villageList) {
+        Map<String, Object> response = new HashMap<>();
+        List<VillageResponse> villageResponses = villageList.stream()
+                .map(village -> mapper.villageEntityToObject(village,VillageResponse.class)).collect(Collectors.toList());
+        response.put("village",villageResponses);
+        response.put("totalItems", villageList.size());
+        return response;
     }
 
     @Transactional

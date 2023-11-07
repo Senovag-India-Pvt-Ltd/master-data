@@ -23,7 +23,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
 
     public Village findByVillageIdAndActive(long id, boolean isActive);
 
-    public Village findByHobliIdAndActive(long stateId, boolean isActive);
+    public List<Village> findByHobliIdAndActive(long stateId, boolean isActive);
 
     public Village findByVillageIdAndActiveIn(@Param("villageId") long villageId, @Param("active") Set<Boolean> active);
 }

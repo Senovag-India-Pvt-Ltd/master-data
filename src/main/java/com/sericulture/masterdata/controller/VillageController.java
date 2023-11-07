@@ -139,8 +139,7 @@ public class VillageController {
     public ResponseEntity<?> getByHobliId(
             @PathVariable final Long hobliId
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(VillageResponse.class);
-
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(villageService.getVillageByHobliId(hobliId));
         return ResponseEntity.ok(rw);
     }

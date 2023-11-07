@@ -113,16 +113,6 @@ public class DistrictService {
         return mapper.districtEntityToObject(district,DistrictResponse.class);
     }
 
-    /*@Transactional
-    public DistrictResponse getDistrictByStateId(long stateId){
-        District district = districtRepository.findByStateIdAndActive(stateId,true);
-        if(district == null){
-            throw new ValidationException("Invalid Id");
-        }
-        log.info("Entity is ",district);
-        return mapper.districtEntityToObject(district,DistrictResponse.class);
-    }
-*/
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getDistrictByStateId(Long stateId){
         List<District> districtList = districtRepository.findByStateIdAndActive(stateId,true);

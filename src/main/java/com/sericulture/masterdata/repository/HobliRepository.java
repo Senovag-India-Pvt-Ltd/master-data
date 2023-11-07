@@ -24,7 +24,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
 
     public Hobli findByHobliIdAndActive(long id, boolean isActive);
 
-    public Hobli findByTalukIdAndActive(long talukId, boolean isActive);
+    public List<Hobli> findByTalukIdAndActive(long talukId, boolean isActive);
 
     public Hobli findByHobliIdAndActiveIn(@Param("hobliId") long hobliId, @Param("active") Set<Boolean> active);
 }
