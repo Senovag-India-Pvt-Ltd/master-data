@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.mapper;
 
 ;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
+import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
@@ -536,5 +537,24 @@ public class Mapper {
     public <T> T binCounterMasterObjectToEntity(BinCounterMasterRequest binCounterMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, binCounterMasterRequest);
         return (T) mapper.map(binCounterMasterRequest, claaz);
+    }
+    /**
+     * Maps BinMaster Entity to BinMaster  Response Object
+     * @param binMasterEntity
+     * @param <T>
+     */
+    public <T> T binMasterEntityToObject(BinMaster binMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,binMasterEntity );
+        return (T) mapper.map(binMasterEntity, claaz);
+    }
+
+    /**
+     * Maps BinMaster  Object to BinMaster   Response Object
+     * @param binMasterRequest
+     * @param <T>
+     */
+    public <T> T binMasterObjectToEntity(BinMasterRequest binMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, binMasterRequest);
+        return (T) mapper.map(binMasterRequest, claaz);
     }
 }
