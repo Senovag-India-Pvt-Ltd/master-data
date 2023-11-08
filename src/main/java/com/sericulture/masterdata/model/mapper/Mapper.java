@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.model.mapper;
 
 ;
+import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
@@ -9,6 +10,7 @@ import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
+import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
@@ -493,7 +495,46 @@ public class Mapper {
      * @param <T>
      */
     public <T> T roleObjectToEntity(RoleRequest roleRequest, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, roleRequest);
+        log.info("Value of mapper is:", mapper, roleRequest);
         return (T) mapper.map(roleRequest, claaz);
+    }
+
+        /**
+         * Maps MarketMaster Entity to MarketMaster  Response Object
+         * @param marketMasterEntity
+         * @param <T>
+         */
+        public <T> T marketmasterEntityToObject(MarketMaster marketMasterEntity, Class<T> claaz) {
+            log.info("Value of mapper is:",mapper,marketMasterEntity );
+            return (T) mapper.map(marketMasterEntity, claaz);
+        }
+
+        /**
+         * Maps MarketMaster  Object to MarketMaster  Response Object
+         * @param marketMasterRequest
+         * @param <T>
+         */
+        public <T> T marketMasterObjectToEntity(MarketMasterRequest marketMasterRequest, Class<T> claaz) {
+            log.info("Value of mapper is:",mapper, marketMasterRequest);
+            return (T) mapper.map(marketMasterRequest, claaz);
+    }
+    /**
+     * Maps BinCounterMaster Entity to BinCounterMaster  Response Object
+     * @param binCounterMasterEntity
+     * @param <T>
+     */
+    public <T> T binCounterMasterEntityToObject(BinCounterMaster binCounterMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,binCounterMasterEntity );
+        return (T) mapper.map(binCounterMasterEntity, claaz);
+    }
+
+    /**
+     * Maps BinCounterMaster  Object to BinCounterMaster   Response Object
+     * @param binCounterMasterRequest
+     * @param <T>
+     */
+    public <T> T binCounterMasterObjectToEntity(BinCounterMasterRequest binCounterMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, binCounterMasterRequest);
+        return (T) mapper.map(binCounterMasterRequest, claaz);
     }
 }
