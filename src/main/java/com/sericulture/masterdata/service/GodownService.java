@@ -1,8 +1,10 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.godown.EditGodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownResponse;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Godown;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -95,15 +97,25 @@ public class GodownService {
         return mapper.godownEntityToObject(godown,GodownResponse.class);
     }
 
-    @Transactional
-    public GodownResponse getByMarketMasterId(int marketMasterId){
-        Godown godown = godownRepository.findByMarketMasterIdAndActive(marketMasterId,true);
-        if(godown == null){
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByMarketMasterId(int marketMasterId){
+        List<Godown> godownList = godownRepository.findByMarketMasterIdAndActive(marketMasterId,true);
+        if(godownList.isEmpty()){
             throw new ValidationException("Invalid Id");
         }
-        log.info("Entity is ",godown);
-        return mapper.godownEntityToObject(godown,GodownResponse.class);
+        log.info("Entity is ",godownList);
+        return convertListToMapResponse(godownList);
     }
+
+    private Map<String, Object> convertListToMapResponse(List<Godown> godownList) {
+        Map<String, Object> response = new HashMap<>();
+        List<GodownResponse> godownResponses = godownList.stream()
+                .map(godown -> mapper.godownEntityToObject(godown,GodownResponse.class)).collect(Collectors.toList());
+        response.put("godown",godownResponses);
+        response.put("totalItems", godownResponses.size());
+        return response;
+    }
+
 
     @Transactional
     public GodownResponse updateGodownDetails(EditGodownRequest godownRequest){

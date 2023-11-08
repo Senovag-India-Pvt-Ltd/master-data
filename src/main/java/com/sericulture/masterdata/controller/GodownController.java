@@ -125,6 +125,7 @@ public class GodownController {
         return ResponseEntity.ok(rw);
     }
 
+    @GetMapping("/get-by-market-master-id/{marketMasterId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -135,12 +136,10 @@ public class GodownController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-by-market-master-id/{marketMasterId}")
     public ResponseEntity<?> getByMarketMasterId(
             @PathVariable final Integer marketMasterId
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(GodownResponse.class);
-
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(godownService.getByMarketMasterId(marketMasterId));
         return ResponseEntity.ok(rw);
     }

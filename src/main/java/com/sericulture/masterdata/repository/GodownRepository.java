@@ -16,7 +16,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
 
     public Godown findByGodownNameAndActive(String godownName,boolean isActive);
 
-    public Godown findByMarketMasterIdAndActive(int marketMasterId, boolean isActive);
+    public List<Godown> findByMarketMasterIdAndActive(int marketMasterId, boolean isActive);
 
     public Page<Godown> findByActiveOrderByGodownIdAsc(boolean isActive, final Pageable pageable);
 
