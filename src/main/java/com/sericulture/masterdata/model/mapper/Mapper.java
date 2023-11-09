@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
+import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
@@ -26,6 +27,7 @@ import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
+import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -556,5 +558,43 @@ public class Mapper {
     public <T> T binMasterObjectToEntity(BinMasterRequest binMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, binMasterRequest);
         return (T) mapper.map(binMasterRequest, claaz);
+    }
+    /**
+     * Maps TraderType Entity to TraderType  Response Object
+     * @param traderTypeMasterEntity
+     * @param <T>
+     */
+    public <T> T traderTypeMasterEntityToObject(TraderTypeMaster traderTypeMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,traderTypeMasterEntity );
+        return (T) mapper.map(traderTypeMasterEntity, claaz);
+    }
+
+    /**
+     * Maps TraderType  Object to TraderType Response Object
+     * @param traderTypeMasterRequest
+     * @param <T>
+     */
+    public <T> T traderTypeMasterObjectToEntity(TraderTypeMasterRequest traderTypeMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, traderTypeMasterRequest);
+        return (T) mapper.map(traderTypeMasterRequest, claaz);
+    }
+    /**
+     * Maps ExternalUnitType Entity to ExternalUnitType  Response Object
+     * @param externalUnitTypeEntity
+     * @param <T>
+     */
+    public <T> T externalUnitTypeEntityToObject(ExternalUnitType externalUnitTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,externalUnitTypeEntity );
+        return (T) mapper.map(externalUnitTypeEntity, claaz);
+    }
+
+    /**
+     * Maps ExternalUnitType Object to ExternalUnitType Response Object
+     * @param externalUnitTypeRequest
+     * @param <T>
+     */
+    public <T> T externalUnitTypeObjectToEntity(ExternalUnitTypeRequest externalUnitTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, externalUnitTypeRequest);
+        return (T) mapper.map(externalUnitTypeRequest, claaz);
     }
 }

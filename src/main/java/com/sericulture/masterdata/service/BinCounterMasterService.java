@@ -3,10 +3,8 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterResponse;
 import com.sericulture.masterdata.model.api.binCounterMaster.EditBinCounterMasterRequest;
-import com.sericulture.masterdata.model.api.marketMaster.EditMarketMasterRequest;
-import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
-import com.sericulture.masterdata.model.entity.MarketMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.BinCounterMasterRepository;
@@ -47,6 +45,53 @@ public class BinCounterMasterService {
 //        }
         return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster), BinCounterMasterResponse.class);
     }
+
+    @Transactional
+    public void insertBinMasterDetails(Map<String, Object> payload) {
+        // Extract binCounterMasterDetail data
+        Map<String, Object> binCounterMasterDetail = (Map<String, Object>) payload.get("binCounterMasterDetail");
+        Map<String, Object> record = (Map<String, Object>) binCounterMasterDetail.get("record");
+        Long marketId = ((Number) record.get("market_id")).longValue();
+        Long godownId = ((Number) record.get("godown_id")).longValue();
+        Long smallBinStart = ((Number) record.get("small_bin_start")).longValue();
+        Long smallBinEnd = ((Number) record.get("small_bin_end")).longValue();
+        Long bigBinStart = ((Number) record.get("big_bin_start")).longValue();
+        Long bigBinEnd = ((Number) record.get("big_bin_end")).longValue();
+
+        // Save data to BinCounterMaster
+        BinCounterMasterRequest binCounterMasterRequest = new BinCounterMasterRequest();
+        binCounterMasterRequest.setMarketId(marketId);
+        binCounterMasterRequest.setGodownId(godownId);
+        binCounterMasterRequest.setSmallBinStart(smallBinStart);
+        binCounterMasterRequest.setSmallBinEnd(smallBinEnd);
+        binCounterMasterRequest.setBigBinStart(bigBinStart);
+        binCounterMasterRequest.setBigBinEnd(bigBinEnd);
+        BinCounterMasterResponse binCounterMasterResponse = insertBinCounterMasterDetails(binCounterMasterRequest);
+
+
+        // Extract smallBinDetails data
+        List<Map<String, Object>> smallBinRecords = (List<Map<String, Object>>) payload.get("smallBinDetails");
+        for (Map<String, Object> smallBinRecord : smallBinRecords) {
+            BinMasterRequest binMasterRequest = new BinMasterRequest();
+            binMasterRequest.setBinCounterMasterId(binCounterMasterResponse.getBinCounterMasterId());
+            binMasterRequest.setType(((Number) smallBinRecord.get("type")).longValue());
+            binMasterRequest.setBinNumber((String) smallBinRecord.get("binNumber"));
+            if (smallBinRecord.containsKey("status")) {
+                binMasterRequest.setStatus(((Number) smallBinRecord.get("status")).longValue());
+            }
+        }
+
+        // Extract bigBinDetails data
+        List<Map<String, Object>> bigBins = (List<Map<String, Object>>) payload.get("bigBinDetails");
+        for (Map<String, Object> bigBinRecord : bigBins) {
+            BinMasterRequest binMasterRequest = new BinMasterRequest();
+            binMasterRequest.setBinCounterMasterId(binCounterMasterResponse.getBinCounterMasterId());
+            binMasterRequest.setType(((Number) bigBinRecord.get("type")).longValue());
+            binMasterRequest.setBinNumber((String) bigBinRecord.get("binNumber"));
+            //insertBinMasterDetails(binMasterRequest);
+        }
+    }
+
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedBinCounterMasterDetails(final Pageable pageable){

@@ -12,7 +12,7 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BinCounterMasterResponse {
     @Schema(name = "binCounterMasterId", example = "1")
-    int binCounterMasterId;
+    long binCounterMasterId;
 
     @Schema(name = "marketId", example = "1")
     int marketId;
