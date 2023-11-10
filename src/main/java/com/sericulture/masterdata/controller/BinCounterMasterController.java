@@ -18,12 +18,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/binCounterMaster")
 public class BinCounterMasterController {
     @Autowired
     BinCounterMasterService binCounterMasterService;
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"BinCounter name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+
+    @PostMapping("/binCounterMaster")
+    public BinCounterMasterResponse saveBinCounterMaster(@RequestBody BinCounterMasterRequest binCounterMasterRequest) {
+        return binCounterMasterService.saveBinCounterMasterDetails(binCounterMasterRequest);
+    }
+
+    @PostMapping("/binMasterDetails")
+    public void saveBinMasterDetails(@RequestBody Map<String, Object> payload) {
+        List<Map<String, Object>> binMasterDetails = (List<Map<String, Object>>) payload.get("binMasterDetails");
+        Long binCounterMasterId = (Long) payload.get("binCounterMasterId");
+        binCounterMasterService.saveBinMasterDetails(binCounterMasterId, binMasterDetails);
+    }
 
     @Operation(summary = "Insert BinCounter Details", description = "Creates BinCounter Details in to DB")
     @ApiResponses(value = {
