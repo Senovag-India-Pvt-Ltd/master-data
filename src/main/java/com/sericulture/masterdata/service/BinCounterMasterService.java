@@ -2,12 +2,15 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterResponse;
+import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterWithBinMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.EditBinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
+import com.sericulture.masterdata.model.entity.BinMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.BinCounterMasterRepository;
+import com.sericulture.masterdata.repository.BinMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +35,9 @@ public class BinCounterMasterService {
     @Autowired
     CustomValidator validator;
 
+    @Autowired
+    BinMasterRepository binMasterRepository;
+
     @Transactional
     public BinCounterMasterResponse insertBinCounterMasterDetails(BinCounterMasterRequest binCounterMasterRequest){
         BinCounterMaster binCounterMaster = mapper.binCounterMasterObjectToEntity(binCounterMasterRequest,BinCounterMaster.class);
@@ -44,6 +50,28 @@ public class BinCounterMasterService {
 //            throw new ValidationException("BinCounterMaster name already exist with inactive state");
 //        }
         return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster), BinCounterMasterResponse.class);
+    }
+
+    @Transactional
+    public BinCounterMasterResponse save(BinCounterMasterWithBinMasterRequest binCounterMasterWithBinMasterRequest){
+        BinCounterMaster binCounterMaster = mapper.binCounterMasterObjectToEntity(binCounterMasterWithBinMasterRequest.getBinCounterMasterRequest(),BinCounterMaster.class);
+        validator.validate(binCounterMaster);
+        BinCounterMaster binCounterMaster1 = binCounterMasterRepository.save(binCounterMaster);
+
+        //To save small bins
+        for(BinMasterRequest smallBinMasterRequest: binCounterMasterWithBinMasterRequest.getSmallBinMasterRequestList()) {
+            smallBinMasterRequest.setBinCounterMasterId(binCounterMaster1.getBinCounterMasterId());
+            BinMaster binMaster = mapper.binMasterObjectToEntity(smallBinMasterRequest,BinMaster.class);
+            binMasterRepository.save(binMaster);
+        }
+
+        //To save big bins
+        for(BinMasterRequest bigBinMasterRequest: binCounterMasterWithBinMasterRequest.getBigBinMasterRequestList()) {
+            bigBinMasterRequest.setBinCounterMasterId(binCounterMaster1.getBinCounterMasterId());
+            BinMaster binMaster = mapper.binMasterObjectToEntity(bigBinMasterRequest,BinMaster.class);
+            binMasterRepository.save(binMaster);
+        }
+        return mapper.binCounterMasterEntityToObject(binCounterMaster1, BinCounterMasterResponse.class);
     }
 
     @Transactional

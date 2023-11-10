@@ -3,6 +3,7 @@ package com.sericulture.masterdata.controller;
 import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterResponse;
+import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterWithBinMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.EditBinCounterMasterRequest;
 import com.sericulture.masterdata.service.BinCounterMasterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,6 +41,25 @@ public class BinCounterMasterController {
         ResponseWrapper rw = ResponseWrapper.createWrapper(BinCounterMasterResponse.class);
 
         rw.setContent(binCounterMasterService.insertBinCounterMasterDetails(binCounterMasterRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @Operation(summary = "Insert BinCounter Details", description = "Creates BinCounter Details in to DB")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"BinCounter name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/save")
+    public ResponseEntity<?> save(@RequestBody BinCounterMasterWithBinMasterRequest binCounterMasterWithBinMasterRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(BinCounterMasterResponse.class);
+
+        rw.setContent(binCounterMasterService.save(binCounterMasterWithBinMasterRequest));
         return ResponseEntity.ok(rw);
     }
 
