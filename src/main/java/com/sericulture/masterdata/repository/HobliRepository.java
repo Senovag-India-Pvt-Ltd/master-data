@@ -31,16 +31,16 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
-            " hobli.stateId,"+
-            " state.stateName,"+
-            " hobli.districtId,"+
-            " district.districtName,"+
+            " hobli.stateId," +
+            " hobli.districtId," +
             " hobli.talukId," +
+            " state.stateName," +
+            " district.districtName," +
             " taluk.talukName" +
             ") \n" +
             "from Hobli hobli\n" +
             "left join State state\n" +
-            "on hobli.stateId = hobli.stateId " +
+            "on hobli.stateId = state.stateId " +
             "left join District district\n" +
             "on hobli.districtId = district.districtId " +
             "left join Taluk taluk\n" +
@@ -49,28 +49,6 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
             "ORDER BY hobli.hobliId ASC"
     )
     Page<HobliDTO> getByActiveOrderByHobliIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
-
-
-   /* @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
-        " hobli.hobliId," +
-        " hobli.hobliName," +
-        " hobli.stateId,"+
-        " state.stateName,"+
-        " hobli.districtId,"+
-        " district.districtName,"+
-        " hobli.talukId," +
-        " taluk.talukName" +
-        ") " +
-        "from Hobli hobli " +
-        "left join State state on hobli.stateId = state.stateId " +
-        "left join District district on hobli.districtId = district.districtId " +
-        "left join Taluk taluk on hobli.talukId = taluk.talukId " +
-        "where hobli.active = :isActive " +
-        "ORDER BY hobli.hobliId ASC"
-    )*/
-
-//Page<HobliDTO> getByActiveOrderByHobliIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
-
 
     public List<Hobli> findByTalukIdAndActive(long talukId, boolean isActive);
 
