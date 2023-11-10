@@ -30,6 +30,8 @@ import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
+import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -166,6 +168,15 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, talukEntity);
         return (T) mapper.map(talukEntity, claaz);
     }
+    /**
+     * Maps TalukDTO to Taluk Response Object
+     * @param talukDTO
+     * @param <T>
+     */
+    public <T> T talukDTOToObject(TalukDTO talukDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, talukDTO);
+        return (T) mapper.map(talukDTO, claaz);
+    }
 
     /**
      * Maps Taluk Entity to Taluk Response Object
@@ -185,6 +196,17 @@ public class Mapper {
     public <T> T hobliEntityToObject(Hobli hobliEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, hobliEntity);
         return (T) mapper.map(hobliEntity, claaz);
+
+    }
+
+    /**
+     * Maps HobliDTO to Hobli Response Object
+     * @param hobliDTO
+     * @param <T>
+     */
+    public <T> T hobliDTOToObject(HobliDTO hobliDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hobliDTO);
+        return (T) mapper.map(hobliDTO, claaz);
     }
 
     /**

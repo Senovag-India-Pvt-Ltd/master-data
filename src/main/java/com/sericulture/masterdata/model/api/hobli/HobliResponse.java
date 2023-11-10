@@ -24,6 +24,16 @@ public class HobliResponse {
     @Schema(name="hobliId", example = "1")
     int hobliId;
 
+    @Schema(name="stateName", example = "karnaa")
+    String stateName;
+
+    @Schema(name="districtName", example = "Udupi")
+    String districtName;
+
+    @Schema(name="talukName", example = "kundapurr")
+    String talukName;
+
     @Schema(name = "hobliName", example = "Kasaba")
     String hobliName;
+
 }

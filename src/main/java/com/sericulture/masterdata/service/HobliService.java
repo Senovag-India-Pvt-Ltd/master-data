@@ -4,6 +4,8 @@ import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.hobli.EditHobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.dto.DistrictDTO;
+import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.Hobli;
@@ -50,7 +52,7 @@ public class HobliService {
     public HobliResponse insertHobliDetails(HobliRequest hobliRequest){
         Hobli hobli = mapper.hobliObjectToEntity(hobliRequest,Hobli.class);
         validator.validate(hobli);
-        List<Hobli> hobliList = hobliRepository.findByHobliName(hobliRequest.getHobliName());
+        List<Hobli> hobliList = hobliRepository.findByHobliNameAndTalukId(hobliRequest.getHobliName(), hobliRequest.getTalukId());
         if(!hobliList.isEmpty() && hobliList.stream().filter(Hobli::getActive).findAny().isPresent()){
             throw new ValidationException("Hobli name already exist");
         }
@@ -75,6 +77,22 @@ public class HobliService {
         response.put("totalItems", activeHoblis.getTotalElements());
         response.put("totalPages", activeHoblis.getTotalPages());
 
+        return response;
+    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedHobliDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(hobliRepository.getByActiveOrderByHobliIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<HobliDTO> activeHoblis) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<HobliResponse> hobliResponses = activeHoblis.getContent().stream()
+                .map(hobli -> mapper.hobliDTOToObject(hobli,HobliResponse.class)).collect(Collectors.toList());
+        response.put("hobli",hobliResponses);
+        response.put("currentPage", activeHoblis.getNumber());
+        response.put("totalItems", activeHoblis.getTotalElements());
+        response.put("totalPages", activeHoblis.getTotalPages());
         return response;
     }
 
