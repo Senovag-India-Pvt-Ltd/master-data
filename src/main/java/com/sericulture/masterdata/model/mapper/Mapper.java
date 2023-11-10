@@ -27,6 +27,7 @@ import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyReque
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
+import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -111,6 +112,16 @@ public class Mapper {
     public <T> T districtEntityToObject(District districtEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, districtEntity);
         return (T) mapper.map(districtEntity, claaz);
+    }
+
+    /**
+     * Maps DistrictDTO to District Response Object
+     * @param districtDTO
+     * @param <T>
+     */
+    public <T> T districtDTOToObject(DistrictDTO districtDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, districtDTO);
+        return (T) mapper.map(districtDTO, claaz);
     }
 
     /**

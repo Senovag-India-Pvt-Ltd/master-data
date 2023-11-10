@@ -9,6 +9,7 @@ import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.District;
@@ -89,6 +90,23 @@ public class DistrictService {
         response.put("totalItems", activeDistricts.getTotalElements());
         response.put("totalPages", activeDistricts.getTotalPages());
 
+        return response;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedDistrictDetailsWithStateName(final Pageable pageable){
+        return convertDTOToMapResponse(districtRepository.getByActiveOrderByDistrictIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<DistrictDTO> activeDistricts) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<DistrictResponse> districtResponses = activeDistricts.getContent().stream()
+                .map(district -> mapper.districtDTOToObject(district,DistrictResponse.class)).collect(Collectors.toList());
+        response.put("district",districtResponses);
+        response.put("currentPage", activeDistricts.getNumber());
+        response.put("totalItems", activeDistricts.getTotalElements());
+        response.put("totalPages", activeDistricts.getTotalPages());
         return response;
     }
 

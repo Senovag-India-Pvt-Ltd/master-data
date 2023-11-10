@@ -20,4 +20,7 @@ public class DistrictResponse {
 
     @Schema(name = "districtName", example = "Shimoga")
     String districtName;
+
+    @Schema(name = "stateName", example = "Karnataka")
+    String stateName;
 }
