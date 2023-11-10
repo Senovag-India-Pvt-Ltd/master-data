@@ -46,52 +46,86 @@ public class BinCounterMasterService {
         return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster), BinCounterMasterResponse.class);
     }
 
+//    @Transactional
+//    public void insertBinMasterDetails(Map<String, Object> payload) {
+//        // Extract binCounterMasterDetail data
+//        Map<String, Object> binCounterMasterDetail = (Map<String, Object>) payload.get("binCounterMasterDetail");
+//        Map<String, Object> record = (Map<String, Object>) binCounterMasterDetail.get("record");
+//        Long marketId = ((Number) record.get("market_id")).longValue();
+//        Long godownId = ((Number) record.get("godown_id")).longValue();
+//        Long smallBinStart = ((Number) record.get("small_bin_start")).longValue();
+//        Long smallBinEnd = ((Number) record.get("small_bin_end")).longValue();
+//        Long bigBinStart = ((Number) record.get("big_bin_start")).longValue();
+//        Long bigBinEnd = ((Number) record.get("big_bin_end")).longValue();
+//
+//        // Save data to BinCounterMaster
+//        BinCounterMasterRequest binCounterMasterRequest = new BinCounterMasterRequest();
+//        binCounterMasterRequest.setMarketId(marketId);
+//        binCounterMasterRequest.setGodownId(godownId);
+//        binCounterMasterRequest.setSmallBinStart(smallBinStart);
+//        binCounterMasterRequest.setSmallBinEnd(smallBinEnd);
+//        binCounterMasterRequest.setBigBinStart(bigBinStart);
+//        binCounterMasterRequest.setBigBinEnd(bigBinEnd);
+//        BinCounterMasterResponse binCounterMasterResponse = insertBinCounterMasterDetails(binCounterMasterRequest);
+//
+//
+//        // Extract smallBinDetails data
+//        List<Map<String, Object>> smallBinRecords = (List<Map<String, Object>>) payload.get("smallBinDetails");
+//        for (Map<String, Object> smallBinRecord : smallBinRecords) {
+//            BinMasterRequest binMasterRequest = new BinMasterRequest();
+//            binMasterRequest.setBinCounterMasterId(binCounterMasterResponse.getBinCounterMasterId());
+//            binMasterRequest.setType(((Number) smallBinRecord.get("type")).longValue());
+//            binMasterRequest.setBinNumber((String) smallBinRecord.get("binNumber"));
+//            if (smallBinRecord.containsKey("status")) {
+//                binMasterRequest.setStatus(((Number) smallBinRecord.get("status")).longValue());
+//            }
+//        }
+//
+//        // Extract bigBinDetails data
+//        List<Map<String, Object>> bigBins = (List<Map<String, Object>>) payload.get("bigBinDetails");
+//        for (Map<String, Object> bigBinRecord : bigBins) {
+//            BinMasterRequest binMasterRequest = new BinMasterRequest();
+//            binMasterRequest.setBinCounterMasterId(binCounterMasterResponse.getBinCounterMasterId());
+//            binMasterRequest.setType(((Number) bigBinRecord.get("type")).longValue());
+//            binMasterRequest.setBinNumber((String) bigBinRecord.get("binNumber"));
+//            //insertBinMasterDetails(binMasterRequest);
+//        }
+//    }
+    // other service methods
+
     @Transactional
-    public void insertBinMasterDetails(Map<String, Object> payload) {
-        // Extract binCounterMasterDetail data
-        Map<String, Object> binCounterMasterDetail = (Map<String, Object>) payload.get("binCounterMasterDetail");
-        Map<String, Object> record = (Map<String, Object>) binCounterMasterDetail.get("record");
-        Long marketId = ((Number) record.get("market_id")).longValue();
-        Long godownId = ((Number) record.get("godown_id")).longValue();
-        Long smallBinStart = ((Number) record.get("small_bin_start")).longValue();
-        Long smallBinEnd = ((Number) record.get("small_bin_end")).longValue();
-        Long bigBinStart = ((Number) record.get("big_bin_start")).longValue();
-        Long bigBinEnd = ((Number) record.get("big_bin_end")).longValue();
+    public BinCounterMasterResponse saveBinCounterMasterDetails(BinCounterMasterRequest binCounterMasterRequest) {
+    BinCounterMaster binCounterMaster = new BinCounterMaster();
+    // Set values from binCounterMasterRequest to binCounterMaster
+    binCounterMaster.setMarketId(binCounterMasterRequest.getMarketId());
+    binCounterMaster.setGodownId(binCounterMasterRequest.getGodownId());
+    binCounterMaster.setSmallBinStart(binCounterMasterRequest.getSmallBinStart());
+    binCounterMaster.setSmallBinEnd(binCounterMasterRequest.getSmallBinEnd());
+    binCounterMaster.setBigBinStart(binCounterMasterRequest.getBigBinStart());
+    binCounterMaster.setBigBinEnd(binCounterMasterRequest.getBigBinEnd());
 
-        // Save data to BinCounterMaster
-        BinCounterMasterRequest binCounterMasterRequest = new BinCounterMasterRequest();
-        binCounterMasterRequest.setMarketId(marketId);
-        binCounterMasterRequest.setGodownId(godownId);
-        binCounterMasterRequest.setSmallBinStart(smallBinStart);
-        binCounterMasterRequest.setSmallBinEnd(smallBinEnd);
-        binCounterMasterRequest.setBigBinStart(bigBinStart);
-        binCounterMasterRequest.setBigBinEnd(bigBinEnd);
-        BinCounterMasterResponse binCounterMasterResponse = insertBinCounterMasterDetails(binCounterMasterRequest);
+    // Save binCounterMaster and return the generated ID
+    binCounterMaster = binCounterMasterRepository.save(binCounterMaster);
 
+    // Create and return the response object with the generated ID
+    //return new BinCounterMasterResponse(binCounterMaster.getBinCounterMasterId());
+        return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster),BinCounterMasterResponse.class);
+}
 
-        // Extract smallBinDetails data
-        List<Map<String, Object>> smallBinRecords = (List<Map<String, Object>>) payload.get("smallBinDetails");
-        for (Map<String, Object> smallBinRecord : smallBinRecords) {
-            BinMasterRequest binMasterRequest = new BinMasterRequest();
-            binMasterRequest.setBinCounterMasterId(binCounterMasterResponse.getBinCounterMasterId());
-            binMasterRequest.setType(((Number) smallBinRecord.get("type")).longValue());
-            binMasterRequest.setBinNumber((String) smallBinRecord.get("binNumber"));
-            if (smallBinRecord.containsKey("status")) {
-                binMasterRequest.setStatus(((Number) smallBinRecord.get("status")).longValue());
-            }
+    @Transactional
+    public void saveBinMasterDetails(Long binCounterMasterId, List<Map<String, Object>> binDetails) {
+    for (Map<String, Object> binDetail : binDetails) {
+        BinMasterRequest binMasterRequest = new BinMasterRequest();
+        binMasterRequest.setBinCounterMasterId(binCounterMasterId);
+        binMasterRequest.setType(((Number) binDetail.get("type")).longValue());
+        binMasterRequest.setBinNumber((String) binDetail.get("binNumber"));
+        if (binDetail.containsKey("status")) {
+            binMasterRequest.setStatus(((Number) binDetail.get("status")).longValue());
         }
-
-        // Extract bigBinDetails data
-        List<Map<String, Object>> bigBins = (List<Map<String, Object>>) payload.get("bigBinDetails");
-        for (Map<String, Object> bigBinRecord : bigBins) {
-            BinMasterRequest binMasterRequest = new BinMasterRequest();
-            binMasterRequest.setBinCounterMasterId(binCounterMasterResponse.getBinCounterMasterId());
-            binMasterRequest.setType(((Number) bigBinRecord.get("type")).longValue());
-            binMasterRequest.setBinNumber((String) bigBinRecord.get("binNumber"));
-            //insertBinMasterDetails(binMasterRequest);
-        }
+        // Save the binMaster details using a repository or data access layer
+        // binMasterRepository.save(binMasterRequest);
     }
-
+}
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedBinCounterMasterDetails(final Pageable pageable){
