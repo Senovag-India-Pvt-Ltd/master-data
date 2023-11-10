@@ -32,6 +32,7 @@ import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.dto.TalukDTO;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -227,6 +228,15 @@ public class Mapper {
     public <T> T villageEntityToObject(Village villageEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, villageEntity);
         return (T) mapper.map(villageEntity, claaz);
+    }
+    /**
+     * Maps VillageDTO to Village Response Object
+     * @param villageDTO
+     * @param <T>
+     */
+    public <T> T villageDTOToObject(VillageDTO villageDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, villageDTO);
+        return (T) mapper.map(villageDTO, claaz);
     }
 
     /**

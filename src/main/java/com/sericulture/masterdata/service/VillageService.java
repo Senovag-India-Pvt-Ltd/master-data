@@ -4,6 +4,8 @@ import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.entity.State;
@@ -75,6 +77,22 @@ public class VillageService {
         response.put("totalItems", activeVillages.getTotalElements());
         response.put("totalPages", activeVillages.getTotalPages());
 
+        return response;
+    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedVillageDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(villageRepository.getByActiveOrderByVillageIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<VillageDTO> activeVillages) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<VillageResponse> villageResponses = activeVillages.getContent().stream()
+                .map(village -> mapper.villageDTOToObject(village,VillageResponse.class)).collect(Collectors.toList());
+        response.put("village",villageResponses);
+        response.put("currentPage", activeVillages.getNumber());
+        response.put("totalItems", activeVillages.getTotalElements());
+        response.put("totalPages", activeVillages.getTotalPages());
         return response;
     }
 

@@ -21,6 +21,12 @@ public class TalukResponse {
     @Schema(name="talukId", example = "1")
     int talukId;
 
+    @Schema(name = "stateName", example = "Karnataka")
+    String stateName;
+
+    @Schema(name = "districtName", example = "Thirthahalli")
+    String districtName;
+
     @Schema(name = "talukName", example = "Thirthahalli")
     String talukName;
 }

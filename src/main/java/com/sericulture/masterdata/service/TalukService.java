@@ -1,12 +1,15 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.district.EditTalukRequest;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.entity.Taluk;
@@ -87,6 +90,22 @@ public class TalukService {
         response.put("totalItems", activeTaluks.getTotalElements());
         response.put("totalPages", activeTaluks.getTotalPages());
 
+        return response;
+    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedTalukDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(talukRepository.getByActiveOrderByTalukIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<TalukDTO> activeTaluks) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<TalukResponse> talukResponses = activeTaluks.getContent().stream()
+                .map(taluk -> mapper.talukDTOToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk",talukResponses);
+        response.put("currentPage", activeTaluks.getNumber());
+        response.put("totalItems", activeTaluks.getTotalElements());
+        response.put("totalPages", activeTaluks.getTotalPages());
         return response;
     }
 
