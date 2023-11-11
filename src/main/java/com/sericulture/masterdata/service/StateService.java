@@ -61,6 +61,11 @@ public class StateService {
         return convertToMapResponse(stateRepository.findByActiveOrderByStateIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(stateRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<State> activeStates) {
         Map<String, Object> response = new HashMap<>();
 
@@ -71,6 +76,15 @@ public class StateService {
         response.put("totalItems", activeStates.getTotalElements());
         response.put("totalPages", activeStates.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<State> activeStates) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<StateResponse> stateResponses = activeStates.stream()
+                .map(state -> mapper.stateEntityToObject(state,StateResponse.class)).collect(Collectors.toList());
+        response.put("state",stateResponses);
         return response;
     }
 

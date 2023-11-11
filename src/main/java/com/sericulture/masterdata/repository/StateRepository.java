@@ -24,4 +24,6 @@ public interface StateRepository extends PagingAndSortingRepository<State, Long>
 
     public State findByStateIdAndActiveIn(@Param("stateId") long stateId, @Param("active") Set<Boolean> active);
 
+    public List<State> findByActive(boolean isActive);
+
 }
