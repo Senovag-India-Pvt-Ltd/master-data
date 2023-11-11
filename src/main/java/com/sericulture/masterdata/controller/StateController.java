@@ -64,7 +64,6 @@ public class StateController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(stateService.getAllByActive(isActive));
-        // rw.setContent(stateService.getAllByActive(true));
         return ResponseEntity.ok(rw);
     }
 
