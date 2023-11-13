@@ -25,4 +25,6 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
     public Godown findByGodownIdAndActive(long id, boolean isActive);
 
     public Godown findByGodownIdAndActiveIn(@Param("godownId") long godownId, @Param("active") Set<Boolean> active);
+
+    public List<Godown> findByActive(boolean isActive);
 }

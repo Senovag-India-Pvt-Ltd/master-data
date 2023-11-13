@@ -4,9 +4,11 @@ import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.hobli.EditHobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.entity.District;
+import com.sericulture.masterdata.model.entity.LandOwnership;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -67,6 +69,11 @@ public class HobliService {
         return convertToMapResponse(hobliRepository.findByActiveOrderByHobliIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(hobliRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Hobli> activeHoblis) {
         Map<String, Object> response = new HashMap<>();
 
@@ -77,6 +84,14 @@ public class HobliService {
         response.put("totalItems", activeHoblis.getTotalElements());
         response.put("totalPages", activeHoblis.getTotalPages());
 
+        return response;
+    }
+    private Map<String, Object> convertListEntityToMapResponse(final List<Hobli> activeHoblis) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<HobliResponse> hobliResponses = activeHoblis.stream()
+                .map(hobli -> mapper.hobliEntityToObject(hobli,HobliResponse.class)).collect(Collectors.toList());
+        response.put("hobli",hobliResponses);
         return response;
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)

@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.silkwormvariety.EditSilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyResponse;
+import com.sericulture.masterdata.model.api.soilType.SoilTypeResponse;
 import com.sericulture.masterdata.model.entity.SilkWormVariety;
+import com.sericulture.masterdata.model.entity.SoilType;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.SilkWormVarietyRepository;
@@ -61,6 +63,11 @@ public class SilkWormVarietyService {
         return convertToMapResponse(silkWormVarietyRepository.findByActiveOrderBySilkWormVarietyIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(silkWormVarietyRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<SilkWormVariety> activeSilkWormVarietys) {
         Map<String, Object> response = new HashMap<>();
 
@@ -71,6 +78,15 @@ public class SilkWormVarietyService {
         response.put("totalItems", activeSilkWormVarietys.getTotalElements());
         response.put("totalPages", activeSilkWormVarietys.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<SilkWormVariety> activeSilkWormVarietys) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<SilkWormVarietyResponse> silkWormVarietyResponses = activeSilkWormVarietys.stream()
+                .map(silkWormVariety -> mapper.silkWormVarietyEntityToObject(silkWormVariety,SilkWormVarietyResponse.class)).collect(Collectors.toList());
+        response.put("silkWormVariety",silkWormVarietyResponses);
         return response;
     }
 

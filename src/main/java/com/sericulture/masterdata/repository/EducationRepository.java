@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.Education;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,5 +24,5 @@ public interface EducationRepository extends PagingAndSortingRepository<Educatio
 
     public Education save(Education education);
 
-
+    public List<Education> findByActive(boolean isActive);
 }

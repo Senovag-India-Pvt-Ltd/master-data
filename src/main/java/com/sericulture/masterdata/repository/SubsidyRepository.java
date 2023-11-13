@@ -24,5 +24,5 @@ public interface SubsidyRepository extends PagingAndSortingRepository<Subsidy, L
 
     public Subsidy findBySubsidyIdAndActiveIn(@Param("subsidyId") long subsidyId, @Param("active") Set<Boolean> active);
 
-
+    public List<Subsidy> findByActive(boolean isActive);
 }

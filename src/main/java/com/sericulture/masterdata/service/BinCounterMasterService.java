@@ -5,8 +5,10 @@ import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRes
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterWithBinMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.EditBinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.BinMaster;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.BinCounterMasterRepository;
@@ -112,6 +114,10 @@ public class BinCounterMasterService {
     public Map<String,Object> getPaginatedBinCounterMasterDetails(final Pageable pageable){
         return convertToMapResponse(binCounterMasterRepository.findByActiveOrderByBinCounterMasterIdAsc( true, pageable));
     }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(binCounterMasterRepository.findByActive(isActive));
+    }
 
     private Map<String, Object> convertToMapResponse(final Page<BinCounterMaster> activeBinCounterMasters) {
         Map<String, Object> response = new HashMap<>();
@@ -123,6 +129,14 @@ public class BinCounterMasterService {
         response.put("totalItems", activeBinCounterMasters.getTotalElements());
         response.put("totalPages", activeBinCounterMasters.getTotalPages());
 
+        return response;
+    }
+    private Map<String, Object> convertListEntityToMapResponse(final List<BinCounterMaster> activeBinCounterMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<BinCounterMasterResponse> binCounterMasterResponses = activeBinCounterMasters.stream()
+                .map(binCounterMaster -> mapper.binCounterMasterEntityToObject(binCounterMaster,BinCounterMasterResponse.class)).collect(Collectors.toList());
+        response.put("binCounterMaster",binCounterMasterResponses);
         return response;
     }
 

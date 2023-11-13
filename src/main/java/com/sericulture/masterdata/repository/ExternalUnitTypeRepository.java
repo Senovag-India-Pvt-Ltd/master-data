@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.ExternalUnitType;
 import com.sericulture.masterdata.model.entity.TraderTypeMaster;
 import org.springframework.data.domain.Page;
@@ -25,5 +26,5 @@ public interface ExternalUnitTypeRepository extends PagingAndSortingRepository<E
 
     public ExternalUnitType findByExternalUnitTypeIdAndActiveIn(@Param("externalUnitTypeId") long externalUnitTypeId, @Param("active") Set<Boolean> active);
 
-
+    public List<ExternalUnitType> findByActive(boolean isActive);
 }

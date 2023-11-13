@@ -23,4 +23,6 @@ public interface MulberrySourceRepository extends PagingAndSortingRepository<Mul
     public MulberrySource findByMulberrySourceIdAndActive(long id, boolean isActive);
 
     public MulberrySource findByMulberrySourceIdAndActiveIn(@Param("mulberrySourceId") long mulberrySourceId, @Param("active") Set<Boolean> active);
+
+    public List<MulberrySource> findByActive(boolean isActive);
 }

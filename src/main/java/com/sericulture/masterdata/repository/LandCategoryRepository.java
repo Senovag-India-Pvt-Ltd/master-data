@@ -22,7 +22,7 @@ public interface LandCategoryRepository extends PagingAndSortingRepository<LandC
 
     public LandCategory findByIdAndActiveIn(@Param("id") long id, @Param("active") Set<Boolean> active);
 
-
+    public List<LandCategory> findByActive(boolean isActive);
 
 
 

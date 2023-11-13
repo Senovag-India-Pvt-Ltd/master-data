@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.BinMaster;
 import com.sericulture.masterdata.model.entity.District;
 import org.springframework.data.domain.Page;
@@ -29,4 +30,5 @@ public interface BinMasterRepository extends PagingAndSortingRepository<BinMaste
 
     public BinMaster findByBinMasterIdAndActiveIn(@Param("binMasterId") long binMasterId, @Param("active") Set<Boolean> active);
 
+    public List<BinMaster> findByActive(boolean isActive);
 }

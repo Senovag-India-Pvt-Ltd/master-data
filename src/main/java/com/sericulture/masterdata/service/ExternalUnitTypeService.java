@@ -3,13 +3,16 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.externalUnitType.EditExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeResponse;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.traderTypeMaster.EditTraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterResponse;
 import com.sericulture.masterdata.model.entity.ExternalUnitType;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.entity.TraderTypeMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
+import com.sericulture.masterdata.repository.EducationRepository;
 import com.sericulture.masterdata.repository.ExternalUnitTypeRepository;
 import com.sericulture.masterdata.repository.TraderTypeMasterRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +68,11 @@ public class ExternalUnitTypeService {
         return convertToMapResponse(externalUnitTypeRepository.findByActiveOrderByExternalUnitTypeIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(externalUnitTypeRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<ExternalUnitType> activeExternalUnitTypes) {
         Map<String, Object> response = new HashMap<>();
 
@@ -75,6 +83,15 @@ public class ExternalUnitTypeService {
         response.put("totalItems", activeExternalUnitTypes.getTotalElements());
         response.put("totalPages", activeExternalUnitTypes.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<ExternalUnitType> activeExternalUnitTypes) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ExternalUnitTypeResponse> externalUnitTypeResponses = activeExternalUnitTypes.stream()
+                .map(externalUnitType -> mapper.externalUnitTypeEntityToObject(externalUnitType,ExternalUnitTypeResponse.class)).collect(Collectors.toList());
+        response.put("externalUnitType",externalUnitTypeResponses);
         return response;
     }
 

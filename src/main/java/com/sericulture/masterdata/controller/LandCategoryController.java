@@ -44,6 +44,29 @@ public class LandCategoryController {
         return ResponseEntity.ok(rw);
     }
 
+    @GetMapping("/get-all")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"landCategory\":[{\"id\":10,\"landCategoryName\":\"\"},{\"id\":11,\"landCategoryName\":\"landCategory 1\"},{\"id\":13,\"landCategoryName\":\"landCategory 2\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getAllByActive(
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(landCategoryService.getAllByActive(isActive));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/list")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

@@ -23,5 +23,5 @@ public interface RoofTypeRepository extends PagingAndSortingRepository<RoofType,
     public RoofType findByRoofTypeIdAndActive(long id, boolean isActive);
 
     public RoofType findByRoofTypeIdAndActiveIn(@Param("roofTypeId") long roofTypeId, @Param("active") Set<Boolean> active);
-
+    public List<RoofType> findByActive(boolean isActive);
 }

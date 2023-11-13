@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.mulberryVariety.EditMulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyResponse;
+import com.sericulture.masterdata.model.api.plantationType.PlantationTypeResponse;
 import com.sericulture.masterdata.model.entity.MulberryVariety;
+import com.sericulture.masterdata.model.entity.PlantationType;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MulberryVarietyRepository;
@@ -61,6 +63,11 @@ public class MulberryVarietyService {
         return convertToMapResponse(mulberryVarietyRepository.findByActiveOrderByMulberryVarietyIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(mulberryVarietyRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<MulberryVariety> activeMulberryVarietys) {
         Map<String, Object> response = new HashMap<>();
 
@@ -71,6 +78,15 @@ public class MulberryVarietyService {
         response.put("totalItems", activeMulberryVarietys.getTotalElements());
         response.put("totalPages", activeMulberryVarietys.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<MulberryVariety> activeMulberryVarietys) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<MulberryVarietyResponse> mulberryVarietyResponses = activeMulberryVarietys.stream()
+                .map(mulberryVariety -> mapper.mulberryVarietyEntityToObject(mulberryVariety,MulberryVarietyResponse.class)).collect(Collectors.toList());
+        response.put("mulberryVariety",mulberryVarietyResponses);
         return response;
     }
 

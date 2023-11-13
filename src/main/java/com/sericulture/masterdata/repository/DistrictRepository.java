@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.DistrictDTO;
+import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.District;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,4 +44,6 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     public List<District> findByStateIdAndActive(long stateId, boolean isActive);
 
     public District findByDistrictIdAndActiveIn(@Param("districtId") long districtId, @Param("active") Set<Boolean> active);
+
+    public List<District> findByActive(boolean isActive);
 }

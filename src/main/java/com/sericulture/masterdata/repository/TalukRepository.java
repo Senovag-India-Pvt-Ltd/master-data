@@ -54,4 +54,6 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
 
 
     public Taluk findByTalukIdAndActiveIn(@Param("talukId") long talukId, @Param("active") Set<Boolean> active);
+
+    public List<Taluk> findByActive(boolean isActive);
 }

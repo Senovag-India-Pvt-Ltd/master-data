@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.EditReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterResponse;
+import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterResponse;
 import com.sericulture.masterdata.model.entity.ReasonBidRejectMaster;
+import com.sericulture.masterdata.model.entity.ReasonLotRejectMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReasonBidRejectMasterRepository;
@@ -60,6 +62,11 @@ public class ReasonBidRejectMasterService {
         return convertToMapResponse(reasonBidRejectMasterRepository.findByActiveOrderByReasonBidRejectIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(reasonBidRejectMasterRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<ReasonBidRejectMaster> activeReasonBidRejectMasters) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class ReasonBidRejectMasterService {
         response.put("totalItems", activeReasonBidRejectMasters.getTotalElements());
         response.put("totalPages", activeReasonBidRejectMasters.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<ReasonBidRejectMaster> activeReasonBidRejectMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ReasonBidRejectMasterResponse> reasonBidRejectMasterResponses = activeReasonBidRejectMasters.stream()
+                .map(reasonBidRejectMaster -> mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster,ReasonBidRejectMasterResponse.class)).collect(Collectors.toList());
+        response.put("reasonBidRejectMaster",reasonBidRejectMasterResponses);
         return response;
     }
 

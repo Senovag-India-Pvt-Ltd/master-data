@@ -44,6 +44,29 @@ public class HobliController {
         return ResponseEntity.ok(rw);
     }
 
+    @GetMapping("/get-all")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"hobli\":[{\"id\":10,\"hobliName\":\"\"},{\"id\":11,\"hobliName\":\"Byndoor\"},{\"id\":13,\"landOwnershipName\":\"Kundapura\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getAllByActive(
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(hobliService.getAllByActive(isActive));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/list")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Hobli;
+import com.sericulture.masterdata.model.entity.LandCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -54,4 +55,6 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
 
 
     public Hobli findByHobliIdAndActiveIn(@Param("hobliId") long hobliId, @Param("active") Set<Boolean> active);
+
+    public List<Hobli> findByActive(boolean isActive);
 }

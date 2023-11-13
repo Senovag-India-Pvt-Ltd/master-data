@@ -24,4 +24,5 @@ public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
 
     public Role findByRoleIdAndActiveIn(@Param("roleId") long stateId, @Param("active") Set<Boolean> active);
 
+    public List<Role> findByActive(boolean isActive);
 }

@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.plantationType.EditPlantationTypeRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeResponse;
+import com.sericulture.masterdata.model.api.soilType.SoilTypeResponse;
 import com.sericulture.masterdata.model.entity.PlantationType;
+import com.sericulture.masterdata.model.entity.SoilType;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.PlantationTypeRepository;
@@ -60,6 +62,11 @@ public class PlantationTypeService {
         return convertToMapResponse(plantationTypeRepository.findByActiveOrderByPlantationTypeIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(plantationTypeRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<PlantationType> activePlantationTypes) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class PlantationTypeService {
         response.put("totalItems", activePlantationTypes.getTotalElements());
         response.put("totalPages", activePlantationTypes.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<PlantationType> activePlantationTypes) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<PlantationTypeResponse> plantationTypeResponses = activePlantationTypes.stream()
+                .map(plantationType -> mapper.plantationTypeEntityToObject(plantationType,PlantationTypeResponse.class)).collect(Collectors.toList());
+        response.put("plantationType",plantationTypeResponses);
         return response;
     }
 

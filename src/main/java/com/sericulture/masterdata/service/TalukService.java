@@ -8,12 +8,12 @@ import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.dto.TalukDTO;
+import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.entity.Taluk;
-import com.sericulture.masterdata.model.entity.Taluk;
-import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.TalukRepository;
@@ -80,6 +80,11 @@ public class TalukService {
         return convertToMapResponse(talukRepository.findByActiveOrderByTalukIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(talukRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Taluk> activeTaluks) {
         Map<String, Object> response = new HashMap<>();
 
@@ -92,10 +97,21 @@ public class TalukService {
 
         return response;
     }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Taluk> activeTaluks) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<TalukResponse> talukResponses = activeTaluks.stream()
+                .map(taluk -> mapper.talukEntityToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk",talukResponses);
+        return response;
+    }
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTalukDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(talukRepository.getByActiveOrderByTalukIdAsc( true, pageable));
     }
+
 
     private Map<String, Object> convertDTOToMapResponse(final Page<TalukDTO> activeTaluks) {
         Map<String, Object> response = new HashMap<>();

@@ -3,8 +3,10 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterResponse;
 import com.sericulture.masterdata.model.api.binMaster.EditBinMasterRequest;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.BinMaster;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.BinCounterMasterRepository;
@@ -69,6 +71,11 @@ public class BinMasterService {
         return convertToMapResponse(binMasterRepository.findByActiveOrderByBinMasterIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(binMasterRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<BinMaster> activeBinMasters) {
         Map<String, Object> response = new HashMap<>();
 
@@ -79,6 +86,14 @@ public class BinMasterService {
         response.put("totalItems", activeBinMasters.getTotalElements());
         response.put("totalPages", activeBinMasters.getTotalPages());
 
+        return response;
+    }
+    private Map<String, Object> convertListEntityToMapResponse(final List<BinMaster> activeBinMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<BinMasterResponse> binMasterResponses = activeBinMasters.stream()
+                .map(binMaster -> mapper.binMasterEntityToObject(binMaster,BinMasterResponse.class)).collect(Collectors.toList());
+        response.put("binMaster",binMasterResponses);
         return response;
     }
 

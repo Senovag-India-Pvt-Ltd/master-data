@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.machineTypeMaster.EditMachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterResponse;
+import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
 import com.sericulture.masterdata.model.entity.MachineTypeMaster;
+import com.sericulture.masterdata.model.entity.MarketMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MachineTypeMasterRepository;
@@ -61,6 +63,11 @@ public class MachineTypeMasterService {
         return convertToMapResponse(machineTypeMasterRepository.findByActiveOrderByMachineTypeIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(machineTypeMasterRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<MachineTypeMaster> activeMachineTypeMasters) {
         Map<String, Object> response = new HashMap<>();
 
@@ -71,6 +78,15 @@ public class MachineTypeMasterService {
         response.put("totalItems", activeMachineTypeMasters.getTotalElements());
         response.put("totalPages", activeMachineTypeMasters.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<MachineTypeMaster> activeMachineTypeMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<MachineTypeMasterResponse> machineTypeMasterResponses = activeMachineTypeMasters.stream()
+                .map(machineTypeMaster -> mapper.machineTypeEntityToObject(machineTypeMaster,MachineTypeMasterResponse.class)).collect(Collectors.toList());
+        response.put("machineTypeMaster",machineTypeMasterResponses);
         return response;
     }
 

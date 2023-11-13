@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.landOwnership.EditLandOwnershipRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
+import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
 import com.sericulture.masterdata.model.entity.LandOwnership;
+import com.sericulture.masterdata.model.entity.MarketMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.LandOwnershipRepository;
@@ -60,6 +62,11 @@ public class LandOwnershipService {
         return convertToMapResponse(landOwnershipRepository.findByActiveOrderByLandOwnershipIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(landOwnershipRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<LandOwnership> activeLandOwnerships) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class LandOwnershipService {
         response.put("totalItems", activeLandOwnerships.getTotalElements());
         response.put("totalPages", activeLandOwnerships.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<LandOwnership> activeLandOwnerships) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<LandOwnershipResponse> landOwnershipResponses = activeLandOwnerships.stream()
+                .map(landOwnership -> mapper.landOwnershipEntityToObject(landOwnership,LandOwnershipResponse.class)).collect(Collectors.toList());
+        response.put("landOwnership",landOwnershipResponses);
         return response;
     }
 

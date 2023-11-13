@@ -4,7 +4,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.education.EditEducationRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.education.EducationResponse;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.entity.Education;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.EducationRepository;
@@ -62,6 +64,11 @@ public class EducationService {
         return convertToMapResponse(educationRepository.findByActiveOrderByIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(educationRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Education> pageEducationDetails) {
         Map<String, Object> response = new HashMap<>();
 
@@ -75,6 +82,15 @@ public class EducationService {
         response.put("currentPage", pageEducationDetails.getNumber());
         response.put("totalItems", pageEducationDetails.getTotalElements());
         response.put("totalPages", pageEducationDetails.getTotalPages());
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Education> pageEducationDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<EducationResponse> educationResponses = pageEducationDetails.stream()
+                .map(education -> mapper.educationEntityToObject(education,EducationResponse.class)).collect(Collectors.toList());
+        response.put("education",educationResponses);
         return response;
     }
 

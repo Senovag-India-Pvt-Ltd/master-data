@@ -23,4 +23,6 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
     public MarketMaster findByMarketMasterIdAndActive(long marketMasterId, boolean isActive);
 
     public MarketMaster findByMarketMasterIdAndActiveIn(@Param("marketMasterId") long marketMasterId, @Param("active") Set<Boolean> active);
+
+    public List<MarketMaster> findByActive(boolean isActive);
 }

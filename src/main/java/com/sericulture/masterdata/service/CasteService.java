@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.caste.CasteResponse;
 import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.entity.Caste;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -71,6 +73,11 @@ public class CasteService {
         return convertToMapResponse(casteRepository.findByActiveOrderByIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(casteRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Caste> activeCastes) {
         Map<String, Object> response = new HashMap<>();
 
@@ -81,6 +88,15 @@ public class CasteService {
         response.put("totalItems", activeCastes.getTotalElements());
         response.put("totalPages", activeCastes.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Caste> activeCastes) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<CasteResponse> casteResponses = activeCastes.stream()
+                .map(caste -> mapper.casteEntityToObject(caste,CasteResponse.class)).collect(Collectors.toList());
+        response.put("caste",casteResponses);
         return response;
     }
 

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
+import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.Village;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,4 +57,6 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     public List<Village> findByHobliIdAndActive(long stateId, boolean isActive);
 
     public Village findByVillageIdAndActiveIn(@Param("villageId") long villageId, @Param("active") Set<Boolean> active);
+
+    public List<Village> findByActive(boolean isActive);
 }

@@ -24,4 +24,5 @@ public interface SilkWormVarietyRepository extends PagingAndSortingRepository<Si
 
     public SilkWormVariety findBySilkWormVarietyIdAndActiveIn(@Param("silkWormVarietyId") long silkWormVarietyId, @Param("active") Set<Boolean> active);
 
+    public List<SilkWormVariety> findByActive(boolean isActive);
 }

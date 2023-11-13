@@ -25,4 +25,5 @@ public interface SoilTypeRepository extends PagingAndSortingRepository<SoilType,
 
     public SoilType findBySoilTypeIdAndActiveIn(@Param("id") long id, @Param("active") Set<Boolean> active);
 
+    public List<SoilType> findByActive(boolean isActive);
 }

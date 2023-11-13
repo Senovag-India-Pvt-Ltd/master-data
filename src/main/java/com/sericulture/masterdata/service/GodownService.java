@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.godown.EditGodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownResponse;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Godown;
+import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.GodownRepository;
@@ -63,6 +65,11 @@ public class GodownService {
         return convertToMapResponse(godownRepository.findByActiveOrderByGodownIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(godownRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Godown> activeGodowns) {
         Map<String, Object> response = new HashMap<>();
 
@@ -73,6 +80,15 @@ public class GodownService {
         response.put("totalItems", activeGodowns.getTotalElements());
         response.put("totalPages", activeGodowns.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Godown> activeGodowns) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<GodownResponse> godownResponses = activeGodowns.stream()
+                .map(godown -> mapper.godownEntityToObject(godown,GodownResponse.class)).collect(Collectors.toList());
+        response.put("godown",godownResponses);
         return response;
     }
 

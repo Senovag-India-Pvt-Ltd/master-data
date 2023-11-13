@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.soilType.EditSoilTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeResponse;
+import com.sericulture.masterdata.model.api.state.StateResponse;
 import com.sericulture.masterdata.model.entity.SoilType;
+import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.SoilTypeRepository;
@@ -60,6 +62,11 @@ public class SoilTypeService {
         return convertToMapResponse(soilTypeRepository.findByActiveOrderBySoilTypeIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(soilTypeRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<SoilType> activeSoilTypes) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class SoilTypeService {
         response.put("totalItems", activeSoilTypes.getTotalElements());
         response.put("totalPages", activeSoilTypes.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<SoilType> activeSoilTypes) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<SoilTypeResponse> soilTypeResponses = activeSoilTypes.stream()
+                .map(soilType -> mapper.soilTypeEntityToObject(soilType,SoilTypeResponse.class)).collect(Collectors.toList());
+        response.put("soilType",soilTypeResponses);
         return response;
     }
 

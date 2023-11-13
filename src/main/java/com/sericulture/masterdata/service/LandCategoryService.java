@@ -4,7 +4,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.landCategory.EditLandCategoryRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryResponse;
+import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
 import com.sericulture.masterdata.model.entity.LandCategory;
+import com.sericulture.masterdata.model.entity.LandOwnership;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.LandCategoryRepository;
@@ -61,16 +63,30 @@ public class LandCategoryService {
         return convertToMapResponse(landCategoryRepository.findByActiveOrderByIdAsc( true, pageable));
     }
 
-    private Map<String, Object> convertToMapResponse(final Page<LandCategory> activeStates) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(landCategoryRepository.findByActive(isActive));
+    }
+
+    private Map<String, Object> convertToMapResponse(final Page<LandCategory> activeLandCategorys) {
         Map<String, Object> response = new HashMap<>();
 
-        List<LandCategoryResponse> landCategoryResponses = activeStates.getContent().stream()
+        List<LandCategoryResponse> landCategoryResponses = activeLandCategorys.getContent().stream()
                 .map(state -> mapper.landCategoryEntityToObject(state,LandCategoryResponse.class)).collect(Collectors.toList());
         response.put("landCategory",landCategoryResponses);
-        response.put("currentPage", activeStates.getNumber());
-        response.put("totalItems", activeStates.getTotalElements());
-        response.put("totalPages", activeStates.getTotalPages());
+        response.put("currentPage", activeLandCategorys.getNumber());
+        response.put("totalItems", activeLandCategorys.getTotalElements());
+        response.put("totalPages", activeLandCategorys.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<LandCategory> activeLandCategorys) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<LandCategoryResponse> landCategoryResponses = activeLandCategorys.stream()
+                .map(landCategory -> mapper.landCategoryEntityToObject(landCategory,LandCategoryResponse.class)).collect(Collectors.toList());
+        response.put("landCategory",landCategoryResponses);
         return response;
     }
 

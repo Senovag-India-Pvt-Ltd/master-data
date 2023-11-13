@@ -8,6 +8,7 @@ import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.entity.*;
@@ -80,6 +81,11 @@ public class DistrictService {
         return convertToMapResponse(districtRepository.findByActiveOrderByDistrictIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(districtRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<District> activeDistricts) {
         Map<String, Object> response = new HashMap<>();
 
@@ -90,6 +96,15 @@ public class DistrictService {
         response.put("totalItems", activeDistricts.getTotalElements());
         response.put("totalPages", activeDistricts.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<District> activeDistricts) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<DistrictResponse> districtResponses = activeDistricts.stream()
+                .map(district -> mapper.districtEntityToObject(district,DistrictResponse.class)).collect(Collectors.toList());
+        response.put("district",districtResponses);
         return response;
     }
 

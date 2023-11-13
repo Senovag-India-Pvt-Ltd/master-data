@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.marketMaster.EditMarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceResponse;
 import com.sericulture.masterdata.model.entity.MarketMaster;
+import com.sericulture.masterdata.model.entity.MulberrySource;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MarketMasterRepository;
@@ -39,7 +41,7 @@ public class MarketMasterService {
             marketMaster = marketMasterRepository.findByMarketMasterNameAndActive(marketMasterName,true);
         }
         log.info("Entity is ",marketMasterName);
-        return mapper.marketmasterEntityToObject(marketMaster,MarketMasterResponse.class);
+        return mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class);
     }
 
     @Transactional
@@ -53,24 +55,37 @@ public class MarketMasterService {
         if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(Predicate.not(MarketMaster::getActive)).findAny().isPresent()){
             throw new ValidationException("Market name already exist with inactive state");
         }
-        return mapper.marketmasterEntityToObject(marketMasterRepository.save(marketMaster),MarketMasterResponse.class);
+        return mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster),MarketMasterResponse.class);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMarketMasterDetails(final Pageable pageable){
         return convertToMapResponse(marketMasterRepository.findByActiveOrderByMarketMasterIdAsc( true, pageable));
     }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(marketMasterRepository.findByActive(isActive));
+    }
 
     private Map<String, Object> convertToMapResponse(final Page<MarketMaster> activeMarketMasters) {
         Map<String, Object> response = new HashMap<>();
 
         List<MarketMasterResponse> marketMasterResponses = activeMarketMasters.getContent().stream()
-                .map(marketMaster -> mapper.marketmasterEntityToObject(marketMaster,MarketMasterResponse.class)).collect(Collectors.toList());
+                .map(marketMaster -> mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class)).collect(Collectors.toList());
         response.put("marketMaster",marketMasterResponses);
         response.put("currentPage", activeMarketMasters.getNumber());
         response.put("totalItems", activeMarketMasters.getTotalElements());
         response.put("totalPages", activeMarketMasters.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<MarketMaster> activeMarketMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<MarketMasterResponse> marketMasterResponses = activeMarketMasters.stream()
+                .map(marketMaster -> mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class)).collect(Collectors.toList());
+        response.put("marketMaster",marketMasterResponses);
         return response;
     }
 
@@ -92,7 +107,7 @@ public class MarketMasterService {
             throw new ValidationException("Invalid Id");
         }
         log.info("Entity is ",marketMaster);
-        return mapper.marketmasterEntityToObject(marketMaster,MarketMasterResponse.class);
+        return mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class);
     }
 
     @Transactional
@@ -109,7 +124,7 @@ public class MarketMasterService {
         }else{
             throw new ValidationException("Error occurred while fetching village");
         }
-        return mapper.marketmasterEntityToObject(marketMasterRepository.save(marketMaster),MarketMasterResponse.class);
+        return mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster),MarketMasterResponse.class);
     }
 
 }

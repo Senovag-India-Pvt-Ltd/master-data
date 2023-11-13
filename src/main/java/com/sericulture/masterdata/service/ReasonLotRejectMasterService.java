@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.EditReasonLotRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterResponse;
+import com.sericulture.masterdata.model.api.relationship.RelationshipResponse;
 import com.sericulture.masterdata.model.entity.ReasonLotRejectMaster;
+import com.sericulture.masterdata.model.entity.Relationship;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReasonLotRejectMasterRepository;
@@ -61,6 +63,12 @@ public class ReasonLotRejectMasterService {
         return convertToMapResponse(reasonLotRejectMasterRepository.findByActiveOrderByReasonLotRejectIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(reasonLotRejectMasterRepository.findByActive(isActive));
+    }
+
+
     private Map<String, Object> convertToMapResponse(final Page<ReasonLotRejectMaster> activeReasonLotRejectMasters) {
         Map<String, Object> response = new HashMap<>();
 
@@ -71,6 +79,15 @@ public class ReasonLotRejectMasterService {
         response.put("totalItems", activeReasonLotRejectMasters.getTotalElements());
         response.put("totalPages", activeReasonLotRejectMasters.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<ReasonLotRejectMaster> activeReasonLotRejectMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ReasonLotRejectMasterResponse> reasonLotRejectMasterResponses = activeReasonLotRejectMasters.stream()
+                .map(reasonLotRejectMaster -> mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster,ReasonLotRejectMasterResponse.class)).collect(Collectors.toList());
+        response.put("reasonLotRejectMaster",reasonLotRejectMasterResponses);
         return response;
     }
 

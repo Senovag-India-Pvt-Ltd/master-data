@@ -25,6 +25,6 @@ public interface RelationshipRepository extends PagingAndSortingRepository<Relat
 
         public Relationship findByRelationshipIdAndActiveIn(@Param("relationshipId") long relationshipId, @Param("active") Set<Boolean> active);
 
-
+        public List<Relationship> findByActive(boolean isActive);
 
 }

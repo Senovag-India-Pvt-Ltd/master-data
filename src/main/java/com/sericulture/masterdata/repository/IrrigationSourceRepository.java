@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.IrrigationSource;
+import com.sericulture.masterdata.model.entity.LandCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -24,5 +25,5 @@ public interface IrrigationSourceRepository extends PagingAndSortingRepository<I
 
     public IrrigationSource findByIrrigationSourceIdAndActiveIn(@Param("irrigationSourceId") long irrigationSourceId, @Param("active") Set<Boolean> active);
 
-
+    public List<IrrigationSource> findByActive(boolean isActive);
 }

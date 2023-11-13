@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.api.state.StateResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
@@ -67,6 +68,11 @@ public class VillageService {
         return convertToMapResponse(villageRepository.findByActiveOrderByVillageIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(villageRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Village> activeVillages) {
         Map<String, Object> response = new HashMap<>();
 
@@ -79,6 +85,16 @@ public class VillageService {
 
         return response;
     }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Village> activeVillages) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<VillageResponse> villageResponses = activeVillages.stream()
+                .map(village -> mapper.villageEntityToObject(village,VillageResponse.class)).collect(Collectors.toList());
+        response.put("village",villageResponses);
+        return response;
+    }
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedVillageDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(villageRepository.getByActiveOrderByVillageIdAsc( true, pageable));

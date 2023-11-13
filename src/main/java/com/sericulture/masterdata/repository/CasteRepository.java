@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.Caste;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,6 @@ public interface CasteRepository extends PagingAndSortingRepository<Caste, Long>
 
     public Caste findByIdAndActiveIn(@Param("id") long id, @Param("active") Set<Boolean> active);
 
-
+    public List<Caste> findByActive(boolean isActive);
 
 }

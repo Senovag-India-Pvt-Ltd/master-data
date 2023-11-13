@@ -24,4 +24,5 @@ public interface MachineTypeMasterRepository extends PagingAndSortingRepository<
 
     public MachineTypeMaster findByMachineTypeIdAndActiveIn(@Param("machineTypeId") long machineTypeId, @Param("active") Set<Boolean> active);
 
+    public List<MachineTypeMaster> findByActive(boolean isActive);
 }

@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.irrigationSource.EditIrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceResponse;
+import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
 import com.sericulture.masterdata.model.entity.IrrigationSource;
+import com.sericulture.masterdata.model.entity.LandOwnership;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.IrrigationSourceRepository;
@@ -60,6 +62,11 @@ public class IrrigationSourceService {
         return convertToMapResponse(irrigationSourceRepository.findByActiveOrderByIrrigationSourceIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(irrigationSourceRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<IrrigationSource> activeIrrigationSources) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class IrrigationSourceService {
         response.put("totalItems", activeIrrigationSources.getTotalElements());
         response.put("totalPages", activeIrrigationSources.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<IrrigationSource> activeIrrigationSources) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<IrrigationSourceResponse> irrigationSourceResponses = activeIrrigationSources.stream()
+                .map(irrigationSource -> mapper.irrigationSourceEntityToObject(irrigationSource,IrrigationSourceResponse.class)).collect(Collectors.toList());
+        response.put("irrigationSource",irrigationSourceResponses);
         return response;
     }
 

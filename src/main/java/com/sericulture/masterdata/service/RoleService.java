@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.role.EditRoleRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.role.RoleResponse;
+import com.sericulture.masterdata.model.api.roofType.RoofTypeResponse;
 import com.sericulture.masterdata.model.entity.Role;
+import com.sericulture.masterdata.model.entity.RoofType;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RoleRepository;
@@ -60,6 +62,11 @@ public class RoleService {
         return convertToMapResponse(roleRepository.findByActiveOrderByRoleIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(roleRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Role> activeRoles) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class RoleService {
         response.put("totalItems", activeRoles.getTotalElements());
         response.put("totalPages", activeRoles.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Role> activeRoles) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<RoleResponse> roleResponses = activeRoles.stream()
+                .map(role -> mapper.roleEntityToObject(role,RoleResponse.class)).collect(Collectors.toList());
+        response.put("role",roleResponses);
         return response;
     }
 

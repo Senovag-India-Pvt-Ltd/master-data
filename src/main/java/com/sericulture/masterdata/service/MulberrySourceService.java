@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.mulberrySource.EditMulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceResponse;
+import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyResponse;
 import com.sericulture.masterdata.model.entity.MulberrySource;
+import com.sericulture.masterdata.model.entity.MulberryVariety;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MulberrySourceRepository;
@@ -61,6 +63,11 @@ public class MulberrySourceService {
         return convertToMapResponse(mulberrySourceRepository.findByActiveOrderByMulberrySourceIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(mulberrySourceRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<MulberrySource> activeMulberrySources) {
         Map<String, Object> response = new HashMap<>();
 
@@ -71,6 +78,15 @@ public class MulberrySourceService {
         response.put("totalItems", activeMulberrySources.getTotalElements());
         response.put("totalPages", activeMulberrySources.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<MulberrySource> activeMulberrySources) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<MulberrySourceResponse> mulberrySourceResponses = activeMulberrySources.stream()
+                .map(mulberrySource -> mapper.mulberrySourceEntityToObject(mulberrySource,MulberrySourceResponse.class)).collect(Collectors.toList());
+        response.put("mulberrySource",mulberrySourceResponses);
         return response;
     }
 

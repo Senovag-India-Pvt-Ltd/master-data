@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.TraderTypeMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -25,5 +26,5 @@ public interface TraderTypeMasterRepository extends PagingAndSortingRepository<T
 
     public TraderTypeMaster findByTraderTypeMasterIdAndActiveIn(@Param("traderTypeMasterId") long traderTypeMasterId, @Param("active") Set<Boolean> active);
 
-
+    public List<TraderTypeMaster> findByActive(boolean isActive);
 }

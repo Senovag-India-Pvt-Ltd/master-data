@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.traderTypeMaster.EditTraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.TraderTypeMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.TraderTypeMasterRepository;
@@ -60,6 +62,11 @@ public class TraderTypeMasterService {
         return convertToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(traderTypeMasterRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<TraderTypeMaster> activeTraderTypeMasters) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class TraderTypeMasterService {
         response.put("totalItems", activeTraderTypeMasters.getTotalElements());
         response.put("totalPages", activeTraderTypeMasters.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<TraderTypeMaster> activeTraderTypeMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<TraderTypeMasterResponse> traderTypeMasterResponses = activeTraderTypeMasters.stream()
+                .map(traderTypeMaster -> mapper.traderTypeMasterEntityToObject(traderTypeMaster,TraderTypeMasterResponse.class)).collect(Collectors.toList());
+        response.put("traderTypeMaster",traderTypeMasterResponses);
         return response;
     }
 

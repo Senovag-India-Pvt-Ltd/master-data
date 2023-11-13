@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.subsidy.EditSubsidyRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.entity.Subsidy;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.SubsidyRepository;
@@ -60,6 +62,11 @@ public class SubsidyService {
         return convertToMapResponse(subsidyRepository.findByActiveOrderBySubsidyIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(subsidyRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<Subsidy> activeSubsidys) {
         Map<String, Object> response = new HashMap<>();
 
@@ -72,6 +79,16 @@ public class SubsidyService {
 
         return response;
     }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Subsidy> activeSubsidys) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<SubsidyResponse> subsidyResponses = activeSubsidys.stream()
+                .map(subsidy -> mapper.subsidyEntityToObject(subsidy,SubsidyResponse.class)).collect(Collectors.toList());
+        response.put("subsidy",subsidyResponses);
+        return response;
+    }
+
 
     @Transactional
     public void deleteSubsidyDetails(long id) {

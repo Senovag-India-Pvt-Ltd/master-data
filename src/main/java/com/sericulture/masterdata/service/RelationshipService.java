@@ -3,10 +3,12 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.relationship.EditRelationshipRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipResponse;
+import com.sericulture.masterdata.model.api.role.RoleResponse;
 import com.sericulture.masterdata.model.api.state.EditStateRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.state.StateResponse;
 import com.sericulture.masterdata.model.entity.Relationship;
+import com.sericulture.masterdata.model.entity.Role;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -65,6 +67,10 @@ public class RelationshipService {
     public Map<String,Object> getPaginatedRelationshipDetails(final Pageable pageable){
         return convertToMapResponse(relationshipRepository.findByActiveOrderByRelationshipIdAsc( true, pageable));
     }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(relationshipRepository.findByActive(isActive));
+    }
 
     private Map<String, Object> convertToMapResponse(final Page<Relationship> activeRelationships) {
         Map<String, Object> response = new HashMap<>();
@@ -76,6 +82,15 @@ public class RelationshipService {
         response.put("totalItems", activeRelationships.getTotalElements());
         response.put("totalPages", activeRelationships.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<Relationship> activeRelationships) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<RelationshipResponse> relationshipResponses = activeRelationships.stream()
+                .map(relationship -> mapper.relationshipEntityToObject(relationship,RelationshipResponse.class)).collect(Collectors.toList());
+        response.put("relationship",relationshipResponses);
         return response;
     }
 

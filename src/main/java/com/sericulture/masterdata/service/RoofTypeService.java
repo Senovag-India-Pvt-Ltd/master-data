@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.roofType.EditRoofTypeRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeResponse;
+import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyResponse;
 import com.sericulture.masterdata.model.entity.RoofType;
+import com.sericulture.masterdata.model.entity.SilkWormVariety;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RoofTypeRepository;
@@ -60,6 +62,11 @@ public class RoofTypeService {
         return convertToMapResponse(roofTypeRepository.findByActiveOrderByRoofTypeIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(roofTypeRepository.findByActive(isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<RoofType> activeRoofTypes) {
         Map<String, Object> response = new HashMap<>();
 
@@ -70,6 +77,15 @@ public class RoofTypeService {
         response.put("totalItems", activeRoofTypes.getTotalElements());
         response.put("totalPages", activeRoofTypes.getTotalPages());
 
+        return response;
+    }
+
+    private Map<String, Object> convertListEntityToMapResponse(final List<RoofType> activeRoofTypes) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<RoofTypeResponse> roofTypeResponses = activeRoofTypes.stream()
+                .map(roofType -> mapper.roofTypeEntityToObject(roofType,RoofTypeResponse.class)).collect(Collectors.toList());
+        response.put("roofType",roofTypeResponses);
         return response;
     }
 

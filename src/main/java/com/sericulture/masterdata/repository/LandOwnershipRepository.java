@@ -24,5 +24,5 @@ public interface LandOwnershipRepository extends PagingAndSortingRepository<Land
 
     public LandOwnership findByLandOwnershipIdAndActiveIn(@Param("landOwnershipId") long landOwnershipId, @Param("active") Set<Boolean> active);
 
-
+    public List<LandOwnership> findByActive(boolean isActive);
 }

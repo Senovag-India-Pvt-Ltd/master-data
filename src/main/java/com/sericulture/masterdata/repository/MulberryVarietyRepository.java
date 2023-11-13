@@ -23,4 +23,6 @@ public interface MulberryVarietyRepository extends PagingAndSortingRepository<Mu
     public MulberryVariety findByMulberryVarietyIdAndActive(long id, boolean isActive);
 
     public MulberryVariety findByMulberryVarietyIdAndActiveIn(@Param("mulberryVarietyId") long mulberryVarietyId, @Param("active") Set<Boolean> active);
+
+    public List<MulberryVariety> findByActive(boolean isActive);
 }

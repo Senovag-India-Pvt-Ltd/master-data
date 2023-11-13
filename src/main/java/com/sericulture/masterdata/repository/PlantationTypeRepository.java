@@ -24,5 +24,5 @@ public interface PlantationTypeRepository extends PagingAndSortingRepository<Pla
 
     public PlantationType findByPlantationTypeIdAndActiveIn(@Param("plantationTypeId") long plantationTypeId, @Param("active") Set<Boolean> active);
 
-
+    public List<PlantationType> findByActive(boolean isActive);
 }

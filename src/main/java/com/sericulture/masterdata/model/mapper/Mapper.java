@@ -550,7 +550,7 @@ public class Mapper {
          * @param marketMasterEntity
          * @param <T>
          */
-        public <T> T marketmasterEntityToObject(MarketMaster marketMasterEntity, Class<T> claaz) {
+        public <T> T marketMasterEntityToObject(MarketMaster marketMasterEntity, Class<T> claaz) {
             log.info("Value of mapper is:",mapper,marketMasterEntity );
             return (T) mapper.map(marketMasterEntity, claaz);
         }
