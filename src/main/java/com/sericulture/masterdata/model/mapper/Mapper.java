@@ -16,6 +16,7 @@ import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
+import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
@@ -25,6 +26,7 @@ import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
+import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
@@ -639,5 +641,43 @@ public class Mapper {
     public <T> T externalUnitTypeObjectToEntity(ExternalUnitTypeRequest externalUnitTypeRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, externalUnitTypeRequest);
         return (T) mapper.map(externalUnitTypeRequest, claaz);
+    }
+    /**
+     * Maps Race Entity to Race Response Object
+     * @param raceMasterEntity
+     * @param <T>
+     */
+    public <T> T raceMasterEntityToObject(RaceMaster raceMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, raceMasterEntity);
+        return (T) mapper.map(raceMasterEntity, claaz);
+    }
+
+    /**
+     * Maps Race Object to Race Response Object
+     * @param raceMasterRequest
+     * @param <T>
+     */
+    public <T> T raceMasterObjectToEntity(RaceMasterRequest raceMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, raceMasterRequest);
+        return (T) mapper.map(raceMasterRequest, claaz);
+    }
+    /**
+     * Maps Source Entity to Source Response Object
+     * @param sourceMasterEntity
+     * @param <T>
+     */
+    public <T> T sourceMasterEntityToObject(SourceMaster sourceMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, sourceMasterEntity);
+        return (T) mapper.map(sourceMasterEntity, claaz);
+    }
+
+    /**
+     * Maps Source Object to Source Response Object
+     * @param sourceMasterRequest
+     * @param <T>
+     */
+    public <T> T sourceMasterObjectToEntity(SourceMasterRequest sourceMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, sourceMasterRequest);
+        return (T) mapper.map(sourceMasterRequest, claaz);
     }
 }
