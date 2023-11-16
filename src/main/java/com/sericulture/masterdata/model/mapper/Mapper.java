@@ -36,6 +36,7 @@ import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
+import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
@@ -801,5 +802,24 @@ public class Mapper {
     public <T> T rpPagePermissionObjectToEntity(RpPagePermissionRequest rpPagePermissionRequest, Class<T> claaz) {
         log.info("Value of mapper is:", mapper, rpPagePermissionRequest);
         return (T) mapper.map(rpPagePermissionRequest, claaz);
+    }
+    /**
+     * Maps VendorMaster Entity to VendorMaster  Response Object
+     * @param vendorMasterEntity
+     * @param <T>
+     */
+    public <T> T vendorMasterEntityToObject(VendorMaster vendorMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,vendorMasterEntity );
+        return (T) mapper.map(vendorMasterEntity, claaz);
+    }
+
+    /**
+     * Maps VendorMaster  Object to VendorMaster  Response Object
+     * @param vendorMasterRequest
+     * @param <T>
+     */
+    public <T> T vendorMasterObjectToEntity(VendorMasterRequest vendorMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, vendorMasterRequest);
+        return (T) mapper.map(vendorMasterRequest, claaz);
     }
 }
