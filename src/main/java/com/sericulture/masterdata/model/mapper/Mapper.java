@@ -24,6 +24,11 @@ import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
+import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
+import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
+import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
+import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
+import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
@@ -679,5 +684,101 @@ public class Mapper {
     public <T> T sourceMasterObjectToEntity(SourceMasterRequest sourceMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:", mapper, sourceMasterRequest);
         return (T) mapper.map(sourceMasterRequest, claaz);
+    }
+    /**
+     * Maps Rp Page Root Entity to Rp Page Root Response Object
+     * @param rpPageRootEntity
+     * @param <T>
+     */
+    public <T> T rpPageRootEntityToObject(RpPageRoot rpPageRootEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rpPageRootEntity);
+        return (T) mapper.map(rpPageRootEntity, claaz);
+    }
+
+    /**
+     * Maps Rp Page Root Object to Rp Page Root Response Object
+     * @param rpPageRootRequest
+     * @param <T>
+     */
+    public <T> T rpPageRootObjectToEntity(RpPageRootRequest rpPageRootRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, rpPageRootRequest);
+        return (T) mapper.map(rpPageRootRequest, claaz);
+    }
+
+    /**
+     * Maps rpRoleAssociation Entity to rpRoleAssociation Response Object
+     * @param rpRoleAssociationEntity
+     * @param <T>
+     */
+    public <T> T rpRoleAssociationEntityToObject(RpRoleAssociation rpRoleAssociationEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rpRoleAssociationEntity);
+        return (T) mapper.map(rpRoleAssociationEntity, claaz);
+    }
+
+    /**
+     * Maps rpRoleAssociation Object to rpRoleAssociation Response Object
+     * @param rpRoleAssociationRequest
+     * @param <T>
+     */
+    public <T> T rpRoleAssociationObjectToEntity(RpRoleAssociationRequest rpRoleAssociationRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, rpRoleAssociationRequest);
+        return (T) mapper.map(rpRoleAssociationRequest, claaz);
+    }
+    /**
+     * Maps SC Program Entity SC Program Response Object
+     * @param scProgramEntity
+     * @param <T>
+     */
+    public <T> T scProgramEntityToObject(ScProgram scProgramEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scProgramEntity);
+        return (T) mapper.map(scProgramEntity, claaz);
+    }
+
+    /**
+     * Maps SC Program Object to SC Program Response Object
+     * @param scProgramRequest
+     * @param <T>
+     */
+    public <T> T scProgramObjectToEntity(ScProgramRequest scProgramRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, scProgramRequest);
+        return (T) mapper.map(scProgramRequest, claaz);
+    }
+    /**
+     * Maps SC Component Entity to SC Component Response Object
+     * @param scComponentEntity
+     * @param <T>
+     */
+    public <T> T scComponentEntityToObject(ScComponent scComponentEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scComponentEntity);
+        return (T) mapper.map(scComponentEntity, claaz);
+    }
+
+    /**
+     * Maps SC Component Object to SC Component Response Object
+     * @param scComponentRequest
+     * @param <T>
+     */
+    public <T> T scComponentObjectToEntity(ScComponentRequest scComponentRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, scComponentRequest);
+        return (T) mapper.map(scComponentRequest, claaz);
+    }
+    /**
+     * Maps SC Head Account Entity to SC Head Account Response Object
+     * @param scHeadAccountEntity
+     * @param <T>
+     */
+    public <T> T scHeadAccountEntityToObject(ScHeadAccount scHeadAccountEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scHeadAccountEntity);
+        return (T) mapper.map(scHeadAccountEntity, claaz);
+    }
+
+    /**
+     * Maps SC Head Account Object to SC Head Account Response Object
+     * @param scHeadAccountRequest
+     * @param <T>
+     */
+    public <T> T scHeadAccountObjectToEntity(ScHeadAccountRequest scHeadAccountRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, scHeadAccountRequest);
+        return (T) mapper.map(scHeadAccountRequest, claaz);
     }
 }
