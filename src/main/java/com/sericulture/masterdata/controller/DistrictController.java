@@ -147,6 +147,27 @@ public class DistrictController {
         rw.setContent(districtService.getById(id));
         return ResponseEntity.ok(rw);
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-join/{id}")
+    public ResponseEntity<?> getByIdJoin(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(DistrictResponse.class);
+
+        rw.setContent(districtService.getByIdJoin(id));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/get-by-state-id/{stateId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
