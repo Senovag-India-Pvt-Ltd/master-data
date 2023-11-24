@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.Village;
@@ -46,6 +47,31 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             "ORDER BY village.villageId ASC"
     )
     Page<VillageDTO> getByActiveOrderByVillageIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
+
+    @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
+            " village.villageId," +
+            " village.villageName," +
+            " village.stateId," +
+            " village.districtId," +
+            " village.talukId," +
+            " village.hobliId," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName," +
+            " hobli.hobliName" +
+            ") \n" +
+            "from Village village\n" +
+            "left join State state\n" +
+            "on village.stateId = state.stateId " +
+            "left join District district\n" +
+            "on village.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on village.talukId = taluk.talukId " +
+            "left join Hobli hobli\n" +
+            "on village.hobliId = hobli.hobliId " +
+            "where village.active = :isActive AND village.villageId = :id "
+    )
+    public VillageDTO getByVillageIdAndActive(long id, boolean isActive);
 
 
     public Page<Village> findByActiveOrderByVillageIdAsc(boolean isActive, final Pageable pageable);

@@ -132,6 +132,16 @@ public class VillageService {
         log.info("Entity is ",village);
         return mapper.villageEntityToObject(village,VillageResponse.class);
     }
+
+    @Transactional
+    public VillageResponse getByIdJoin(int id){
+        VillageDTO villageDTO = villageRepository.getByVillageIdAndActive(id,true);
+        if(villageDTO == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ", villageDTO);
+        return mapper.villageDTOToObject(villageDTO, VillageResponse.class);
+    }
         @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getVillageByHobliId(Long talukId){
         List<Village> villageList = villageRepository.findByHobliIdAndActive(talukId,true);

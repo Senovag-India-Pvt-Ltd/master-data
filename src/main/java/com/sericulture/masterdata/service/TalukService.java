@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditTalukRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -9,6 +10,7 @@ import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.*;
@@ -144,6 +146,16 @@ public class TalukService {
         }
         log.info("Entity is ",taluk);
         return mapper.talukEntityToObject(taluk,TalukResponse.class);
+    }
+
+    @Transactional
+    public TalukResponse getByIdJoin(int id){
+        TalukDTO talukDTO = talukRepository.getByTalukIdAndActive(id,true);
+        if(talukDTO == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ", talukDTO);
+        return mapper.talukDTOToObject(talukDTO, TalukResponse.class);
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTalukByDistrictId(Long districtId){

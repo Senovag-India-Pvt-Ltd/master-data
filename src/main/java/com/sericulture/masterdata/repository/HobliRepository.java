@@ -1,10 +1,7 @@
 package com.sericulture.masterdata.repository;
 
-import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
-import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Hobli;
-import com.sericulture.masterdata.model.entity.LandCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -50,6 +47,27 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
             "ORDER BY hobli.hobliId ASC"
     )
     Page<HobliDTO> getByActiveOrderByHobliIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
+
+    @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
+            " hobli.hobliId," +
+            " hobli.hobliName," +
+            " hobli.stateId," +
+            " hobli.districtId," +
+            " hobli.talukId," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName" +
+            ") \n" +
+            "from Hobli hobli\n" +
+            "left join State state\n" +
+            "on hobli.stateId = state.stateId " +
+            "left join District district\n" +
+            "on hobli.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on hobli.talukId = taluk.talukId " +
+            "where hobli.active = :isActive AND hobli.hobliId = :id "
+    )
+    public HobliDTO getByHobliIdAndActive(long id, boolean isActive);
 
     public List<Hobli> findByTalukIdAndActive(long talukId, boolean isActive);
 

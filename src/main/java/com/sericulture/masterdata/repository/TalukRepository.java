@@ -1,6 +1,4 @@
 package com.sericulture.masterdata.repository;
-
-import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.Taluk;
 import org.springframework.data.domain.Page;
@@ -38,6 +36,23 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             "ORDER BY taluk.talukId ASC"
     )
     Page<TalukDTO> getByActiveOrderByTalukIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
+
+    @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
+            " taluk.talukId," +
+            " taluk.talukName," +
+            " taluk.stateId," +
+            " taluk.districtId," +
+            " state.stateName," +
+            " district.districtName" +
+            ") \n" +
+            "from Taluk taluk\n" +
+            "left join State state\n" +
+            "on taluk.stateId = state.stateId " +
+            "left join District district\n" +
+            "on taluk.districtId = district.districtId " +
+            "where taluk.active = :isActive AND taluk.talukId = :id"
+    )
+    public TalukDTO getByTalukIdAndActive(long id, boolean isActive);
 
 
     public Page<Taluk> findByActiveOrderByTalukIdAsc(boolean isActive, final Pageable pageable);

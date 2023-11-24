@@ -1,19 +1,12 @@
 package com.sericulture.masterdata.service;
 
-import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.hobli.EditHobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
-import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
-import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
-import com.sericulture.masterdata.model.entity.District;
-import com.sericulture.masterdata.model.entity.LandOwnership;
-import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
-import com.sericulture.masterdata.repository.StateRepository;
 import com.sericulture.masterdata.repository.HobliRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +123,16 @@ public class HobliService {
         }
         log.info("Entity is ",hobli);
         return mapper.hobliEntityToObject(hobli,HobliResponse.class);
+    }
+
+    @Transactional
+    public HobliResponse getByIdJoin(int id){
+        HobliDTO hobliDTO = hobliRepository.getByHobliIdAndActive(id,true);
+        if(hobliDTO == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ", hobliDTO);
+        return mapper.hobliDTOToObject(hobliDTO, HobliResponse.class);
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getHobliByTalukId(Long talukId){
