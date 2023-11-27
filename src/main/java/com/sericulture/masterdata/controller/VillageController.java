@@ -210,4 +210,24 @@ public class VillageController {
         rw.setContent(villageService.getPaginatedVillageDetailsWithJoin(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-details-by-village-name/{villageName}")
+    public ResponseEntity<?> getVillageDetailsByName(
+            @PathVariable final String villageName
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(VillageResponse.class);
+
+        rw.setContent(villageService.getDetailsByVillageName(villageName));
+        return ResponseEntity.ok(rw);
+    }
 }

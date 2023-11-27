@@ -179,4 +179,13 @@ public class VillageService {
         return mapper.villageEntityToObject(villageRepository.save(village),VillageResponse.class);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public VillageResponse getDetailsByVillageName(String villageName){
+        Village village = villageRepository.findByVillageNameAndActive(villageName, true);
+
+        if(village== null){
+            throw new ValidationException("Village not found");
+        }
+        return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true),VillageResponse.class);
+    }
 }
