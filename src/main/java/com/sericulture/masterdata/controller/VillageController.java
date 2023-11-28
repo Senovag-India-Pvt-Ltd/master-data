@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.service.VillageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -221,13 +222,13 @@ public class VillageController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-details-by-village-name/{villageName}")
+    @PostMapping("/get-details-by-village-name")
     public ResponseEntity<?> getVillageDetailsByName(
-            @PathVariable final String villageName
+            @RequestBody final VillageDTO villageDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(VillageResponse.class);
 
-        rw.setContent(villageService.getDetailsByVillageName(villageName));
+        rw.setContent(villageService.getDetailsByVillageName(villageDTO.getVillageName()));
         return ResponseEntity.ok(rw);
     }
 }

@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.caste.CasteResponse;
 import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
+import com.sericulture.masterdata.model.dto.CasteDTO;
 import com.sericulture.masterdata.service.CasteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -158,13 +159,13 @@ public class CasteController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-by-title/{title}")
+    @PostMapping("/get-by-title")
     public ResponseEntity<?> getByTitle(
-            @PathVariable final String title
+            @RequestBody final CasteDTO casteDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(CasteResponse.class);
 
-        rw.setContent(casteService.getCasteDetailsByTitle(title));
+        rw.setContent(casteService.getCasteDetailsByTitle(casteDTO.getCaste()));
         return ResponseEntity.ok(rw);
     }
 }

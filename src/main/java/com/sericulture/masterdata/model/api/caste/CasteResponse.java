@@ -20,4 +20,10 @@ public class CasteResponse {
 
     @Schema(name = "code", example = "123")
     String code;
+
+    @Schema(name = "error", example = "0")
+    String error;
+
+    @Schema(name = "error_description", example = "Caste not found")
+    String error_description;
 }

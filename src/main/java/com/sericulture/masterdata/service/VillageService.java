@@ -180,12 +180,15 @@ public class VillageService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public VillageResponse getDetailsByVillageName(String villageName){
+    public VillageResponse getDetailsByVillageName(String villageName) {
         Village village = villageRepository.findByVillageNameAndActive(villageName, true);
-
-        if(village== null){
-            throw new ValidationException("Village not found");
+        if (village == null) {
+            VillageResponse villageResponse = new VillageResponse();
+            villageResponse.setError("Error");
+            villageResponse.setError_description("Village not found");
+            return villageResponse;
+        } else {
+            return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true), VillageResponse.class);
         }
-        return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true),VillageResponse.class);
     }
 }
