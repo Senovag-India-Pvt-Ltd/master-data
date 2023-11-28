@@ -10,6 +10,7 @@ import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeReq
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
+import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
@@ -165,6 +166,26 @@ public class Mapper {
     public <T> T irrigationSourceObjectToEntity(IrrigationSourceRequest irrigationSourceRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, irrigationSourceRequest);
         return (T) mapper.map(irrigationSourceRequest, claaz);
+    }
+
+    /**
+     * Maps IrrigationType Entity to IrrigationType Response Object
+     * @param irrigationTypeEntity
+     * @param <T>
+     */
+    public <T> T irrigationTypeEntityToObject(IrrigationType irrigationTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, irrigationTypeEntity);
+        return (T) mapper.map(irrigationTypeEntity, claaz);
+    }
+
+    /**
+     * Maps IrrigationType Object to IrrigationType Response Entity
+     * @param irrigationTypeRequest
+     * @param <T>
+     */
+    public <T> T irrigationTypeObjectToEntity(IrrigationTypeRequest irrigationTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, irrigationTypeRequest);
+        return (T) mapper.map(irrigationTypeRequest, claaz);
     }
 
 
