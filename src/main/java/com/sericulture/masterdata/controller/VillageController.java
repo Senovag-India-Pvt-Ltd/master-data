@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.service.VillageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -208,6 +209,26 @@ public class VillageController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(villageService.getPaginatedVillageDetailsWithJoin(PageRequest.of(pageNumber, size)));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-details-by-village-name")
+    public ResponseEntity<?> getVillageDetailsByName(
+            @RequestBody final VillageDTO villageDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(VillageResponse.class);
+
+        rw.setContent(villageService.getDetailsByVillageName(villageDTO.getVillageName()));
         return ResponseEntity.ok(rw);
     }
 }

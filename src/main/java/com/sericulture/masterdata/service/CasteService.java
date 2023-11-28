@@ -48,6 +48,20 @@ public class CasteService {
         return mapper.casteEntityToObject(caste,CasteResponse.class);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public CasteResponse getCasteDetailsByTitle(String title){
+        Caste caste = casteRepository.findByTitleAndActive(title,true);
+        log.info("Entity is ",caste);
+        if(caste == null){
+            CasteResponse casteResponse = new CasteResponse();
+            casteResponse.setError("Error");
+            casteResponse.setError_description("Caste not found");
+            return casteResponse;
+        }else{
+            return mapper.casteEntityToObject(caste,CasteResponse.class);
+        }
+    }
+
     @Transactional
     public CasteResponse insertCasteDetails(CasteRequest casteRequest){
         Caste caste = mapper.casteObjectToEntity(casteRequest,Caste.class);

@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.caste.CasteResponse;
 import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
+import com.sericulture.masterdata.model.dto.CasteDTO;
 import com.sericulture.masterdata.service.CasteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -148,4 +149,23 @@ public class CasteController {
         return ResponseEntity.ok(rw);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-by-title")
+    public ResponseEntity<?> getByTitle(
+            @RequestBody final CasteDTO casteDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(CasteResponse.class);
+
+        rw.setContent(casteService.getCasteDetailsByTitle(casteDTO.getCaste()));
+        return ResponseEntity.ok(rw);
+    }
 }
