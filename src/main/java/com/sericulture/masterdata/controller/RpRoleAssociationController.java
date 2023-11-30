@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/rpRoleAssociation")
+@RequestMapping("/v1/rp-role-association")
 public class RpRoleAssociationController {
     @Autowired
     RpRoleAssociationService rpRoleAssociationService;
