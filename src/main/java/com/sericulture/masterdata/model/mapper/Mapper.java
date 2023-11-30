@@ -27,6 +27,7 @@ import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
+import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
@@ -747,6 +748,27 @@ public class Mapper {
         log.info("Value of mapper is:", mapper, rpRoleAssociationRequest);
         return (T) mapper.map(rpRoleAssociationRequest, claaz);
     }
+
+    /**
+     * Maps rpRolePermission Entity to rpRolePermission Response Object
+     * @param rpRolePermissionEntity
+     * @param <T>
+     */
+    public <T> T rpRolePermissionEntityToObject(RpRolePermission rpRolePermissionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rpRolePermissionEntity);
+        return (T) mapper.map(rpRolePermissionEntity, claaz);
+    }
+
+    /**
+     * Maps rpRoleAssociation Object to rpRoleAssociation Response Object
+     * @param rpRolePermissionRequest
+     * @param <T>
+     */
+    public <T> T rpRolePermissionObjectToEntity(RpRolePermissionRequest rpRolePermissionRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, rpRolePermissionRequest);
+        return (T) mapper.map(rpRolePermissionRequest, claaz);
+    }
+
     /**
      * Maps SC Program Entity SC Program Response Object
      * @param scProgramEntity
