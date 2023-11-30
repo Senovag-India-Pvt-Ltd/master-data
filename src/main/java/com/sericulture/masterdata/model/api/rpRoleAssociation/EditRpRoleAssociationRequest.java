@@ -20,4 +20,6 @@ public class EditRpRoleAssociationRequest extends RequestBody {
     @Schema(name = "rpRolePermissionId", example = "1")
     Long rpRolePermissionId;
 
+    @Schema(name = "value", example = "1")
+    Long value;
 }

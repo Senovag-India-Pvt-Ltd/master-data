@@ -7,6 +7,7 @@ import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootResponse;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.EditRpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationResponse;
+import com.sericulture.masterdata.model.api.rpRoleAssociation.SaveRoleAssociationRequest;
 import com.sericulture.masterdata.service.RpPageRootService;
 import com.sericulture.masterdata.service.RpRoleAssociationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -151,5 +152,22 @@ public class RpRoleAssociationController {
         return ResponseEntity.ok(rw);
     }
 
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/save-multiple")
+    public ResponseEntity<?> saveMultipleRpRoleAssociationDetails(
+            @RequestBody final SaveRoleAssociationRequest saveRoleAssociationRequest
+    ) {
+        ResponseWrapper<RpRoleAssociationResponse> rw = ResponseWrapper.createWrapper(RpRoleAssociationResponse.class);
+        rw.setContent(rpRoleAssociationService.saveMultipleRpRoleAssociationDetails(saveRoleAssociationRequest));
+        return ResponseEntity.ok(rw);
+    }
 }

@@ -26,4 +26,6 @@ public class RpRoleAssociation extends BaseEntity implements Serializable {
     @Column(name = "rp_role_permission_id")
     private Long rpRolePermissionId;
 
+    @Column(name = "value")
+    private Long value;
 }

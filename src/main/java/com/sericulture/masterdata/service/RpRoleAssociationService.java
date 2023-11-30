@@ -3,6 +3,7 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.EditRpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationResponse;
+import com.sericulture.masterdata.model.api.rpRoleAssociation.SaveRoleAssociationRequest;
 import com.sericulture.masterdata.model.entity.RpRoleAssociation;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -42,8 +43,8 @@ public class RpRoleAssociationService {
 //    }
 
     @Transactional
-    public RpRoleAssociationResponse insertRpRoleAssociationDetails(RpRoleAssociationRequest rpRoleAssociationRequest){
-        RpRoleAssociation rpRoleAssociation = mapper.rpRoleAssociationObjectToEntity(rpRoleAssociationRequest,RpRoleAssociation.class);
+    public RpRoleAssociationResponse insertRpRoleAssociationDetails(RpRoleAssociationRequest rpRoleAssociationRequest) {
+        RpRoleAssociation rpRoleAssociation = mapper.rpRoleAssociationObjectToEntity(rpRoleAssociationRequest, RpRoleAssociation.class);
         validator.validate(rpRoleAssociation);
 //        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
 //        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
@@ -56,12 +57,12 @@ public class RpRoleAssociationService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getPaginatedRpRoleAssociationDetails(final Pageable pageable){
-        return convertToMapResponse(rpRoleAssociationRepository.findByActiveOrderByRpRoleAssociationIdAsc( true, pageable));
+    public Map<String, Object> getPaginatedRpRoleAssociationDetails(final Pageable pageable) {
+        return convertToMapResponse(rpRoleAssociationRepository.findByActiveOrderByRpRoleAssociationIdAsc(true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllByActive(boolean isActive){
+    public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(rpRoleAssociationRepository.findByActive(isActive));
     }
 
@@ -69,8 +70,8 @@ public class RpRoleAssociationService {
         Map<String, Object> response = new HashMap<>();
 
         List<RpRoleAssociationResponse> rpRoleAssociationResponses = activeRpRoleAssociations.getContent().stream()
-                .map(rpRoleAssociation -> mapper.rpRoleAssociationEntityToObject(rpRoleAssociation,RpRoleAssociationResponse.class)).collect(Collectors.toList());
-        response.put("rpRoleAssociation",rpRoleAssociationResponses);
+                .map(rpRoleAssociation -> mapper.rpRoleAssociationEntityToObject(rpRoleAssociation, RpRoleAssociationResponse.class)).collect(Collectors.toList());
+        response.put("rpRoleAssociation", rpRoleAssociationResponses);
         response.put("currentPage", activeRpRoleAssociations.getNumber());
         response.put("totalItems", activeRpRoleAssociations.getTotalElements());
         response.put("totalPages", activeRpRoleAssociations.getTotalPages());
@@ -82,8 +83,8 @@ public class RpRoleAssociationService {
         Map<String, Object> response = new HashMap<>();
 
         List<RpRoleAssociationResponse> rpRoleAssociationResponses = activeRpRoleAssociations.stream()
-                .map(rpRoleAssociation -> mapper.rpRoleAssociationEntityToObject(rpRoleAssociation,RpRoleAssociationResponse.class)).collect(Collectors.toList());
-        response.put("rpRoleAssociation",activeRpRoleAssociations);
+                .map(rpRoleAssociation -> mapper.rpRoleAssociationEntityToObject(rpRoleAssociation, RpRoleAssociationResponse.class)).collect(Collectors.toList());
+        response.put("rpRoleAssociation", activeRpRoleAssociations);
         return response;
     }
 
@@ -99,32 +100,45 @@ public class RpRoleAssociationService {
     }
 
     @Transactional
-    public RpRoleAssociationResponse getById(int id){
-        RpRoleAssociation rpRoleAssociation = rpRoleAssociationRepository.findByRpRoleAssociationIdAndActive(id,true);
-        if(rpRoleAssociation == null){
+    public RpRoleAssociationResponse getById(int id) {
+        RpRoleAssociation rpRoleAssociation = rpRoleAssociationRepository.findByRpRoleAssociationIdAndActive(id, true);
+        if (rpRoleAssociation == null) {
             throw new ValidationException("Invalid Id");
         }
-        log.info("Entity is ",rpRoleAssociation);
-        return mapper.rpRoleAssociationEntityToObject(rpRoleAssociation,RpRoleAssociationResponse.class);
+        log.info("Entity is ", rpRoleAssociation);
+        return mapper.rpRoleAssociationEntityToObject(rpRoleAssociation, RpRoleAssociationResponse.class);
     }
 
     @Transactional
-    public RpRoleAssociationResponse updateRpRoleAssociationDetails(EditRpRoleAssociationRequest rpRoleAssociationRequest){
+    public RpRoleAssociationResponse updateRpRoleAssociationDetails(EditRpRoleAssociationRequest rpRoleAssociationRequest) {
 //        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
 //        if(rpPageRootList.size()>0){
 //            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
 //        }
 
-        RpRoleAssociation rpRoleAssociation = rpRoleAssociationRepository.findByRpRoleAssociationIdAndActiveIn(rpRoleAssociationRequest.getRpRoleAssociationId(), Set.of(true,false));
-        if(Objects.nonNull(rpRoleAssociation)){
+        RpRoleAssociation rpRoleAssociation = rpRoleAssociationRepository.findByRpRoleAssociationIdAndActiveIn(rpRoleAssociationRequest.getRpRoleAssociationId(), Set.of(true, false));
+        if (Objects.nonNull(rpRoleAssociation)) {
             rpRoleAssociation.setRoleId(rpRoleAssociationRequest.getRoleId());
+            rpRoleAssociation.setValue(rpRoleAssociationRequest.getValue());
             rpRoleAssociation.setRpRolePermissionId(rpRoleAssociationRequest.getRpRolePermissionId());
             rpRoleAssociation.setActive(true);
-        }else{
+        } else {
             throw new ValidationException("Error occurred while fetching Rp Role Association");
         }
         return mapper.rpRoleAssociationEntityToObject(rpRoleAssociationRepository.save(rpRoleAssociation), RpRoleAssociationResponse.class);
     }
 
-
+    @Transactional
+    public RpRoleAssociationResponse saveMultipleRpRoleAssociationDetails(SaveRoleAssociationRequest saveRoleAssociationRequest) {
+        RpRoleAssociationResponse rpRoleAssociationResponse = new RpRoleAssociationResponse();
+        for (int i = 0; i < saveRoleAssociationRequest.getValues().size(); i++) {
+            RpRoleAssociation rpRoleAssociation = new RpRoleAssociation();
+            rpRoleAssociation.setRoleId(saveRoleAssociationRequest.getRoleId());
+            rpRoleAssociation.setRpRolePermissionId(saveRoleAssociationRequest.getRpRolePermissionId());
+            rpRoleAssociation.setValue(saveRoleAssociationRequest.getValues().get(i));
+            rpRoleAssociationRepository.save(rpRoleAssociation);
+        }
+        rpRoleAssociationResponse.setSuccess(true);
+        return rpRoleAssociationResponse;
+    }
 }
