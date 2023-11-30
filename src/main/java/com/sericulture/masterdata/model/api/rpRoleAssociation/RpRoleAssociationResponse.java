@@ -18,6 +18,6 @@ public class RpRoleAssociationResponse {
     @Schema(name = "roleId", example = "1")
     int roleId;
 
-    @Schema(name = "rpPagePermission", example = "1")
-    int rpPagePermission;
+    @Schema(name = "rpRolePermissionId", example = "1")
+    int rpRolePermissionId;
 }

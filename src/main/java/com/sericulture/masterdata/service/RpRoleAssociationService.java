@@ -118,7 +118,7 @@ public class RpRoleAssociationService {
         RpRoleAssociation rpRoleAssociation = rpRoleAssociationRepository.findByRpRoleAssociationIdAndActiveIn(rpRoleAssociationRequest.getRpRoleAssociationId(), Set.of(true,false));
         if(Objects.nonNull(rpRoleAssociation)){
             rpRoleAssociation.setRoleId(rpRoleAssociationRequest.getRoleId());
-            rpRoleAssociation.setRpPagePermission(rpRoleAssociationRequest.getRpPagePermission());
+            rpRoleAssociation.setRpRolePermissionId(rpRoleAssociationRequest.getRpRolePermissionId());
             rpRoleAssociation.setActive(true);
         }else{
             throw new ValidationException("Error occurred while fetching Rp Role Association");

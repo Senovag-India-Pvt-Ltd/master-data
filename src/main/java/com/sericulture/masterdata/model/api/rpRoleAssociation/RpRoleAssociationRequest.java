@@ -14,6 +14,6 @@ public class RpRoleAssociationRequest extends RequestBody {
     @Schema(name = "roleId", example = "1", required = true)
     Long roleId;
 
-    @Schema(name = "rpPagePermission", example = "1", required = true)
-    Long rpPagePermission;
+    @Schema(name = "rpRolePermissionId", example = "1", required = true)
+    Long rpRolePermissionId;
 }
