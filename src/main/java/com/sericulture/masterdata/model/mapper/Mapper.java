@@ -4,6 +4,7 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
@@ -842,5 +843,25 @@ public class Mapper {
     public <T> T vendorMasterObjectToEntity(VendorMasterRequest vendorMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, vendorMasterRequest);
         return (T) mapper.map(vendorMasterRequest, claaz);
+    }
+
+    /**
+     * Maps Designation Entity to Designation  Response Object
+     * @param designationEntity
+     * @param <T>
+     */
+    public <T> T designationEntityToObject(Designation designationEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,designationEntity );
+        return (T) mapper.map(designationEntity, claaz);
+    }
+
+    /**
+     * Maps Designation  Object to Designation  Response Object
+     * @param designationRequest
+     * @param <T>
+     */
+    public <T> T designationObjectToEntity(DesignationRequest designationRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, designationRequest);
+        return (T) mapper.map(designationRequest, claaz);
     }
 }
