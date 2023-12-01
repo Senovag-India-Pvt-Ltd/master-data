@@ -41,6 +41,6 @@ public class EditUserMasterRequest extends RequestBody {
     @Schema(name = "roleId", example = "1")
     Long roleId;
 
-    @Schema(name = "marketId", example = "1")
-    Long marketId;
+    @Schema(name = "marketMasterId", example = "1")
+    Long marketMasterId;
 }

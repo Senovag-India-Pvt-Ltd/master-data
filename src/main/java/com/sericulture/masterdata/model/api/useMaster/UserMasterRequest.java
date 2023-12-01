@@ -26,18 +26,18 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "emailID", example = "12S", required = true)
     String emailID;
 
-    @Schema(name = "stateId", example = "1")
+    @Schema(name = "stateId", example = "1", required = true)
     Long stateId;
 
-    @Schema(name = "districtId", example = "1")
+    @Schema(name = "districtId", example = "1", required = true)
     Long districtId;
 
-    @Schema(name = "talukId", example = "1")
+    @Schema(name = "talukId", example = "1", required = true)
     Long talukId;
 
-    @Schema(name = "roleId", example = "1")
+    @Schema(name = "roleId", example = "1", required = true)
     Long roleId;
 
-    @Schema(name = "marketId", example = "1")
-    Long marketId;
+    @Schema(name = "marketMasterId", example = "1")
+    Long marketMasterId;
 }

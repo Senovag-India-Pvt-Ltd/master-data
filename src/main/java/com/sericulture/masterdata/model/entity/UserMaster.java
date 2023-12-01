@@ -56,5 +56,5 @@ public class UserMaster extends BaseEntity implements Serializable {
     private Long roleId;
 
     @Column(name = "market_id")
-    private Long marketId;
+    private Long marketMasterId;
 }

@@ -12,36 +12,51 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserMasterResponse {
 
-    @Schema(name = "userMasterId", example = "1", required = true)
+    @Schema(name = "userMasterId", example = "1")
     int userMasterId;
 
-    @Schema(name = "firstName", example = "Shraddha", required = true)
+    @Schema(name = "firstName", example = "Shraddha")
     String firstName;
 
-    @Schema(name = "middleName", example = "Nagaraja", required = true)
+    @Schema(name = "middleName", example = "Nagaraja")
     String middleName;
 
-    @Schema(name = "lastName", example = "Kharvi", required = true)
+    @Schema(name = "lastName", example = "Kharvi")
     String lastName;
 
-    @Schema(name = "password", example = "12345", required = true)
+    @Schema(name = "password", example = "12345")
     String password;
 
-    @Schema(name = "emailID", example = "12S", required = true)
+    @Schema(name = "emailID", example = "12S")
     String emailID;
 
-    @Schema(name = "stateId", example = "1", required = true)
+    @Schema(name = "stateId", example = "1")
     int stateId;
 
-    @Schema(name = "districtId", example = "1", required = true)
+    @Schema(name = "districtId", example = "1")
     int districtId;
 
-    @Schema(name = "talukId", example = "1", required = true)
+    @Schema(name = "talukId", example = "1")
     int talukId;
 
-    @Schema(name = "roleId", example = "1", required = true)
+    @Schema(name = "roleId", example = "1")
     int roleId;
 
-    @Schema(name = "marketId", example = "1", required = true)
-    int marketId;
+    @Schema(name = "marketMasterId", example = "1")
+    int marketMasterId;
+
+    @Schema(name = "stateName", example = "Karnataka")
+    String stateName;
+
+    @Schema(name = "districtId", example = "Udupi")
+    String districtName;
+
+    @Schema(name = "talukName", example = "Kundapura")
+    String talukName;
+
+    @Schema(name = "roleName", example = "Role name 5")
+    String roleName;
+
+    @Schema(name = "marketMasterName", example = "Kaveri")
+    String marketMasterName;
 }

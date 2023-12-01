@@ -42,10 +42,7 @@ import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterReq
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
-import com.sericulture.masterdata.model.dto.DistrictDTO;
-import com.sericulture.masterdata.model.dto.HobliDTO;
-import com.sericulture.masterdata.model.dto.TalukDTO;
-import com.sericulture.masterdata.model.dto.VillageDTO;
+import com.sericulture.masterdata.model.dto.*;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -876,6 +873,16 @@ public class Mapper {
     public <T> T userMasterEntityToObject(UserMaster userMasterEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper,userMasterEntity );
         return (T) mapper.map(userMasterEntity, claaz);
+    }
+
+    /**
+     * Maps UserMasterDTO to UserMaster Response Object
+     * @param userMasterDTO
+     * @param <T>
+     */
+    public <T> T userMasterDTOToObject(UserMasterDTO userMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userMasterDTO);
+        return (T) mapper.map(userMasterDTO, claaz);
     }
 
     /**

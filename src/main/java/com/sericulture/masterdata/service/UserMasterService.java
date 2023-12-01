@@ -3,6 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.useMaster.EditUserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.UserMasterDTO;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -88,6 +91,33 @@ public class UserMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedUserMasterDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(userMasterRepository.getByActiveOrderByUserMasterIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<UserMasterDTO> activeUserMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<UserMasterResponse> userMasterResponses = activeUserMasters.getContent().stream()
+                .map(userMaster -> mapper.userMasterDTOToObject(userMaster,UserMasterResponse.class)).collect(Collectors.toList());
+        response.put("userMaster",userMasterResponses);
+        response.put("currentPage", activeUserMasters.getNumber());
+        response.put("totalItems", activeUserMasters.getTotalElements());
+        response.put("totalPages", activeUserMasters.getTotalPages());
+        return response;
+    }
+
+    @Transactional
+    public UserMasterResponse getByIdJoin(int id){
+        UserMasterDTO userMasterDTO = userMasterRepository.getByUserMasterIdAndActive(id,true);
+        if(userMasterDTO == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ", userMasterDTO);
+        return mapper.userMasterDTOToObject(userMasterDTO, UserMasterResponse.class);
+    }
+
     @Transactional
     public void deleteUserMasterDetails(long id) {
         UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(id, true);
@@ -128,7 +158,7 @@ public class UserMasterService {
             userMaster.setDistrictId(userMasterRequest.getDistrictId());
             userMaster.setTalukId(userMasterRequest.getTalukId());
             userMaster.setRoleId(userMasterRequest.getRoleId());
-            userMaster.setMarketId(userMasterRequest.getMarketId());
+            userMaster.setMarketMasterId(userMasterRequest.getMarketMasterId());
             userMaster.setActive(true);
         }else{
             throw new ValidationException("Error occurred while fetching Rp Role Permission");
