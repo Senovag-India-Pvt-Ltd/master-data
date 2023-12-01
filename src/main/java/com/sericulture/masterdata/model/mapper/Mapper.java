@@ -38,6 +38,7 @@ import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
+import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
@@ -865,4 +866,25 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, vendorMasterRequest);
         return (T) mapper.map(vendorMasterRequest, claaz);
     }
+
+    /**
+     * Maps userMaster Entity to userMaster  Response Object
+     * @param userMasterEntity
+     * @param <T>
+     */
+    public <T> T userMasterEntityToObject(UserMaster userMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,userMasterEntity );
+        return (T) mapper.map(userMasterEntity, claaz);
+    }
+
+    /**
+     * Maps userMaster  Object to userMaster  Response Object
+     * @param userMasterRequest
+     * @param <T>
+     */
+    public <T> T userMasterObjectToEntity(UserMasterRequest userMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userMasterRequest);
+        return (T) mapper.map(userMasterRequest, claaz);
+    }
+
 }
