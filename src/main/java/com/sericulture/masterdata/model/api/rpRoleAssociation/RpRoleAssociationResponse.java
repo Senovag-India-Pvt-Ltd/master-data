@@ -20,4 +20,10 @@ public class RpRoleAssociationResponse {
 
     @Schema(name = "rpRolePermissionId", example = "1")
     int rpRolePermissionId;
+
+    @Schema(name = "value", example = "1")
+    Long value;
+
+    @Schema(name = "success", example = "1")
+    Boolean success;
 }
