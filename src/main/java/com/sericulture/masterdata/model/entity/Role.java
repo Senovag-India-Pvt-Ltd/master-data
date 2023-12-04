@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Entity(name="role_master")
+@Entity(name = "role_master")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

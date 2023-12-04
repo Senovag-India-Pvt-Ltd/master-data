@@ -28,6 +28,7 @@ import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
+import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
@@ -38,12 +39,10 @@ import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
+import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
-import com.sericulture.masterdata.model.dto.DistrictDTO;
-import com.sericulture.masterdata.model.dto.HobliDTO;
-import com.sericulture.masterdata.model.dto.TalukDTO;
-import com.sericulture.masterdata.model.dto.VillageDTO;
+import com.sericulture.masterdata.model.dto.*;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 //import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -748,6 +747,27 @@ public class Mapper {
         log.info("Value of mapper is:", mapper, rpRoleAssociationRequest);
         return (T) mapper.map(rpRoleAssociationRequest, claaz);
     }
+
+    /**
+     * Maps rpRolePermission Entity to rpRolePermission Response Object
+     * @param rpRolePermissionEntity
+     * @param <T>
+     */
+    public <T> T rpRolePermissionEntityToObject(RpRolePermission rpRolePermissionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rpRolePermissionEntity);
+        return (T) mapper.map(rpRolePermissionEntity, claaz);
+    }
+
+    /**
+     * Maps rpRoleAssociation Object to rpRoleAssociation Response Object
+     * @param rpRolePermissionRequest
+     * @param <T>
+     */
+    public <T> T rpRolePermissionObjectToEntity(RpRolePermissionRequest rpRolePermissionRequest, Class<T> claaz) {
+        log.info("Value of mapper is:", mapper, rpRolePermissionRequest);
+        return (T) mapper.map(rpRolePermissionRequest, claaz);
+    }
+
     /**
      * Maps SC Program Entity SC Program Response Object
      * @param scProgramEntity
@@ -844,6 +864,37 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, vendorMasterRequest);
         return (T) mapper.map(vendorMasterRequest, claaz);
     }
+
+    /**
+     * Maps userMaster Entity to userMaster  Response Object
+     * @param userMasterEntity
+     * @param <T>
+     */
+    public <T> T userMasterEntityToObject(UserMaster userMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,userMasterEntity );
+        return (T) mapper.map(userMasterEntity, claaz);
+    }
+
+    /**
+     * Maps UserMasterDTO to UserMaster Response Object
+     * @param userMasterDTO
+     * @param <T>
+     */
+    public <T> T userMasterDTOToObject(UserMasterDTO userMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userMasterDTO);
+        return (T) mapper.map(userMasterDTO, claaz);
+    }
+
+    /**
+     * Maps userMaster  Object to userMaster  Response Object
+     * @param userMasterRequest
+     * @param <T>
+     */
+    public <T> T userMasterObjectToEntity(UserMasterRequest userMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userMasterRequest);
+        return (T) mapper.map(userMasterRequest, claaz);
+    }
+
 
     /**
      * Maps Designation Entity to Designation  Response Object
