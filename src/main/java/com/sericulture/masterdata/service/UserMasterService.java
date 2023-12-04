@@ -166,5 +166,14 @@ public class UserMasterService {
         return mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public UserMasterResponse getByUserNameAndPassword(String username, String password){
+        UserMaster userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username, password,true);
+        if(userMaster == null){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ", userMaster);
+        return mapper.userMasterEntityToObject(userMaster, UserMasterResponse.class);
+    }
 
 }

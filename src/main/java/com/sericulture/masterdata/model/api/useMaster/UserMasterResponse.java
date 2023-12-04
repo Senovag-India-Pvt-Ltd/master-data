@@ -59,4 +59,10 @@ public class UserMasterResponse {
 
     @Schema(name = "marketMasterName", example = "Kaveri")
     String marketMasterName;
+
+    @Schema(name = "username", example = "test")
+    String username;
+
+    @Schema(name = "designationId", example = "1")
+    Long designationId;
 }

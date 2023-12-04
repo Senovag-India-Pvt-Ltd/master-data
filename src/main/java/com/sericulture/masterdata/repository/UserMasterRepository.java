@@ -25,6 +25,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
 
     public List<UserMaster> findByActive(boolean isActive);
 
+    public UserMaster findByUsernameAndPasswordAndActive(String username, String password, boolean isActive);
+
     @Query("select new com.sericulture.masterdata.model.dto.UserMasterDTO(" +
             " userMaster.userMasterId," +
             " userMaster.firstName," +
@@ -41,7 +43,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " district.districtName," +
             " taluk.talukName," +
             " role.roleName," +
-            " marketMaster.marketMasterName" +
+            " marketMaster.marketMasterName," +
+            " userMaster.username," +
+            " userMaster.designationId" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -75,7 +79,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " district.districtName," +
             " taluk.talukName," +
             " role.roleName," +
-            " marketMaster.marketMasterName" +
+            " marketMaster.marketMasterName," +
+            " userMaster.username," +
+            " userMaster.designationId" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +

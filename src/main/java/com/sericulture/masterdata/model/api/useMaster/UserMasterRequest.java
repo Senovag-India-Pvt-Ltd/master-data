@@ -40,4 +40,10 @@ public class UserMasterRequest extends RequestBody {
 
     @Schema(name = "marketMasterId", example = "1")
     Long marketMasterId;
+
+    @Schema(name = "username", example = "test")
+    String username;
+
+    @Schema(name = "designationId", example = "1")
+    Long designationId;
 }

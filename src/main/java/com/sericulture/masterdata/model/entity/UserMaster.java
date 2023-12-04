@@ -57,4 +57,10 @@ public class UserMaster extends BaseEntity implements Serializable {
 
     @Column(name = "market_id")
     private Long marketMasterId;
+
+    @Column(name = "username", unique = true)
+    private String username;
+
+    @Column(name = "designationId")
+    private Long designationId;
 }

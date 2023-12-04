@@ -21,6 +21,8 @@ public class UserMasterDTO {
     private String talukName;
     private String roleName;
     private String marketMasterName;
+    private String username;
+    private Long designationId;
 
     // Constructors (default and the one you've specified)
     public UserMasterDTO() {}
@@ -41,7 +43,9 @@ public class UserMasterDTO {
             String districtName,
             String talukName,
             String roleName,
-            String marketMasterName
+            String marketMasterName,
+            String username,
+            Long designationId
     ) {
         // Initialize your fields here
         this.userMasterId = userMasterId;
@@ -60,5 +64,7 @@ public class UserMasterDTO {
         this.talukName = talukName;
         this.roleName = roleName;
         this.marketMasterName = marketMasterName;
+        this.username = username;
+        this.designationId = designationId;
     }
 }
