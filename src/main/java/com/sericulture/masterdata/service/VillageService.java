@@ -41,26 +41,40 @@ public class VillageService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public VillageResponse getVillageDetails(String villageName){
+        VillageResponse villageResponse = new VillageResponse();
         Village village = null;
         if(village==null){
             village = villageRepository.findByVillageNameAndActive(villageName,true);
+            villageResponse = mapper.villageEntityToObject(village,VillageResponse.class);
+            villageResponse.setError(false);
+        }else{
+            villageResponse.setError(true);
+            villageResponse.setError_description("Village not found");
         }
         log.info("Entity is ",village);
-        return mapper.villageEntityToObject(village,VillageResponse.class);
+        return villageResponse;
     }
 
     @Transactional
     public VillageResponse insertVillageDetails(VillageRequest villageRequest){
+        VillageResponse villageResponse = new VillageResponse();
         Village village = mapper.villageObjectToEntity(villageRequest,Village.class);
         validator.validate(village);
         List<Village> villageList = villageRepository.findByVillageName(villageRequest.getVillageName());
         if(!villageList.isEmpty() && villageList.stream().filter(Village::getActive).findAny().isPresent()){
-            throw new ValidationException("Village name already exist");
+           // throw new ValidationException("Village name already exist");
+            villageResponse.setError(true);
+            villageResponse.setError_description("Village name already exist");
         }
-        if(!villageList.isEmpty() && villageList.stream().filter(Predicate.not(Village::getActive)).findAny().isPresent()){
-            throw new ValidationException("Village name already exist with inactive state");
+        else if(!villageList.isEmpty() && villageList.stream().filter(Predicate.not(Village::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            villageResponse.setError(true);
+            villageResponse.setError_description("Village name already exist with inactive state");
+        }else {
+            villageResponse = mapper.villageEntityToObject(villageRepository.save(village), VillageResponse.class);
+            villageResponse.setError(false);
         }
-        return mapper.villageEntityToObject(villageRepository.save(village),VillageResponse.class);
+        return villageResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -113,43 +127,67 @@ public class VillageService {
     }
 
     @Transactional
-    public void deleteVillageDetails(long id) {
+    public VillageResponse deleteVillageDetails(long id) {
+        VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageIdAndActive(id, true);
         if (Objects.nonNull(village)) {
             village.setActive(false);
-            villageRepository.save(village);
+            //villageRepository.save(village);
+            villageResponse = mapper.villageEntityToObject(villageRepository.save(village), VillageResponse.class);
+            villageResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            villageResponse.setError(true);
+            villageResponse.setError_description("Invalid Id");
+           // throw new ValidationException("Invalid Id");
         }
+        return villageResponse;
     }
 
     @Transactional
     public VillageResponse getById(int id){
+        VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageIdAndActive(id,true);
         if(village == null){
-            throw new ValidationException("Invalid Id");
+            //throw new ValidationException("Invalid Id");
+            villageResponse.setError(true);
+            villageResponse.setError_description("Invalid id");
+        }else{
+            villageResponse =  mapper.villageEntityToObject(village,VillageResponse.class);
+            villageResponse.setError(false);
         }
         log.info("Entity is ",village);
-        return mapper.villageEntityToObject(village,VillageResponse.class);
+        return villageResponse;
     }
 
     @Transactional
-    public VillageResponse getByIdJoin(int id){
-        VillageDTO villageDTO = villageRepository.getByVillageIdAndActive(id,true);
-        if(villageDTO == null){
-            throw new ValidationException("Invalid Id");
+    public VillageResponse getByIdJoin(int id) {
+        VillageResponse villageResponse = new VillageResponse();
+        VillageDTO villageDTO = villageRepository.getByVillageIdAndActive(id, true);
+        if (villageDTO == null) {
+           // throw new ValidationException("Invalid Id");
+            villageResponse.setError(true);
+            villageResponse.setError_description("Invalid id");
+        } else {
+            villageResponse = mapper.villageDTOToObject(villageDTO, VillageResponse.class);
+            villageResponse.setError(false);
         }
         log.info("Entity is ", villageDTO);
-        return mapper.villageDTOToObject(villageDTO, VillageResponse.class);
+        return villageResponse;
     }
         @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getVillageByHobliId(Long talukId){
-        List<Village> villageList = villageRepository.findByHobliIdAndActive(talukId,true);
+    public Map<String,Object> getVillageByHobliId(Long hobliId){
+        Map<String, Object> response = new HashMap<>();
+        List<Village> villageList = villageRepository.findByHobliIdAndActive(hobliId,true);
         if(villageList.isEmpty()){
-            throw new ValidationException("Invalid Id");
+//            throw new ValidationException("Invalid Id");
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            log.info("Entity is ", villageList);
+            response = convertListToMapResponse(villageList);
+            return response;
         }
-        log.info("Entity is ",villageList);
-        return convertListToMapResponse(villageList);
     }
 
     private Map<String, Object> convertListToMapResponse(List<Village> villageList) {
@@ -163,32 +201,47 @@ public class VillageService {
 
     @Transactional
     public VillageResponse updateVillageDetails(EditVillageRequest villageRequest){
+        VillageResponse villageResponse = new VillageResponse();
         List<Village> villageList = villageRepository.findByVillageName(villageRequest.getVillageName());
         if(villageList.size()>0){
-            throw new ValidationException("Village already exists, duplicates are not allowed.");
-        }
+            villageResponse.setError(true);
+            villageResponse.setError_description("Village already exists, duplicates are not allowed.");
+           // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        }else {
 
-        Village village = villageRepository.findByVillageIdAndActiveIn(villageRequest.getVillageId(), Set.of(true,false));
-        if(Objects.nonNull(village)){
-            village.setStateId(villageRequest.getStateId());
-            village.setVillageName(villageRequest.getVillageName());
-            village.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching village");
+            Village village = villageRepository.findByVillageIdAndActiveIn(villageRequest.getVillageId(), Set.of(true, false));
+            if (Objects.nonNull(village)) {
+                village.setStateId(villageRequest.getStateId());
+                village.setDistrictId(villageRequest.getStateId());
+                village.setTalukId(villageRequest.getStateId());
+                village.setHobliId(villageRequest.getStateId());
+                village.setVillageName(villageRequest.getVillageName());
+                village.setActive(true);
+                Village village1 = villageRepository.save(village);
+                villageResponse = mapper.villageEntityToObject(village1, VillageResponse.class);
+                villageResponse.setError(false);
+            } else {
+                villageResponse.setError(true);
+                villageResponse.setError_description("Error occurred while fetching village");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.villageEntityToObject(villageRepository.save(village),VillageResponse.class);
+        return villageResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public VillageResponse getDetailsByVillageName(String villageName) {
+        VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageNameAndActive(villageName, true);
         if (village == null) {
-            VillageResponse villageResponse = new VillageResponse();
-            villageResponse.setError("Error");
+            villageResponse.setError(true);
             villageResponse.setError_description("Village not found");
             return villageResponse;
         } else {
-            return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true), VillageResponse.class);
+            villageResponse = mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true), VillageResponse.class);
+            villageResponse.setError(false);
+            return villageResponse;
+            // return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true), VillageResponse.class);
         }
     }
 }

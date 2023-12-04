@@ -107,8 +107,9 @@ public class VillageController {
     public ResponseEntity<?> deleteVillageDetails(
             @PathVariable final Integer id
     ) {
-        villageService.deleteVillageDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper<VillageResponse> rw = ResponseWrapper.createWrapper(VillageResponse.class);
+        rw.setContent(villageService.deleteVillageDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
