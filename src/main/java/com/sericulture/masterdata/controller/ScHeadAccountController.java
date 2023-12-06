@@ -109,8 +109,9 @@ public class ScHeadAccountController {
     public ResponseEntity<?> deleteScHeadAccountDetails(
             @PathVariable final Integer id
     ) {
-        scHeadAccountService.deleteScHeadAccountDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scHeadAccountService.deleteScHeadAccountDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

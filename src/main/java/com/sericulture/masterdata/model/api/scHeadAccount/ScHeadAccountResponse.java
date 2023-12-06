@@ -17,4 +17,10 @@ public class ScHeadAccountResponse {
 
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ")
     String scHeadAccountName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

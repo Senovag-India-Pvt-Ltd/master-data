@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.scHeadAccount.EditScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.ScHeadAccount;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScHeadAccountRepository;
@@ -33,26 +35,39 @@ public class ScHeadAccountService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ScHeadAccountResponse getScHeadAccountDetails(String scHeadAccountName){
+        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccount scHeadAccount = null;
         if(scHeadAccount==null){
             scHeadAccount = scHeadAccountRepository.findByScHeadAccountNameAndActive(scHeadAccountName,true);
+            scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccount, ScHeadAccountResponse.class);
+            scHeadAccountResponse.setError(false);
+        }else{
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("ScHeadAccount not found");
         }
         log.info("Entity is ",scHeadAccount);
-        return mapper.scHeadAccountEntityToObject(scHeadAccount,ScHeadAccountResponse.class);
+        return scHeadAccountResponse;
     }
 
     @Transactional
     public ScHeadAccountResponse insertScHeadAccountDetails(ScHeadAccountRequest scHeadAccountRequest){
+        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccount scHeadAccount = mapper.scHeadAccountObjectToEntity(scHeadAccountRequest,ScHeadAccount.class);
         validator.validate(scHeadAccount);
         List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
         if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(ScHeadAccount::getActive).findAny().isPresent()){
-            throw new ValidationException("ScHeadAccount name already exist");
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("ScHeadAccount name already exist");
         }
-        if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(Predicate.not(ScHeadAccount::getActive)).findAny().isPresent()){
-            throw new ValidationException("ScHeadAccount name already exist with inactive state");
+        else if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(Predicate.not(ScHeadAccount::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("ScHeadAccount name already exist with inactive state");
+        }else {
+            scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccountRepository.save(scHeadAccount), ScHeadAccountResponse.class);
+            scHeadAccountResponse.setError(false);
         }
-        return mapper.scHeadAccountEntityToObject(scHeadAccountRepository.save(scHeadAccount),ScHeadAccountResponse.class);
+        return scHeadAccountResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -88,40 +103,59 @@ public class ScHeadAccountService {
     }
 
     @Transactional
-    public void deleteScHeadAccountDetails(long id) {
+    public ScHeadAccountResponse deleteScHeadAccountDetails(long id) {
+        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccount scHeadAccount = scHeadAccountRepository.findByScHeadAccountIdAndActive(id, true);
         if (Objects.nonNull(scHeadAccount)) {
             scHeadAccount.setActive(false);
-            scHeadAccountRepository.save(scHeadAccount);
+            scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccountRepository.save(scHeadAccount), ScHeadAccountResponse.class);
+            scHeadAccountResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return scHeadAccountResponse;
     }
 
     @Transactional
     public ScHeadAccountResponse getById(int id){
+        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccount scHeadAccount = scHeadAccountRepository.findByScHeadAccountIdAndActive(id,true);
         if(scHeadAccount == null){
-            throw new ValidationException("Invalid Id");
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("Invalid id");
+        }else{
+            scHeadAccountResponse =  mapper.scHeadAccountEntityToObject(scHeadAccount,ScHeadAccountResponse.class);
+            scHeadAccountResponse.setError(false);
         }
         log.info("Entity is ",scHeadAccount);
-        return mapper.scHeadAccountEntityToObject(scHeadAccount,ScHeadAccountResponse.class);
+        return scHeadAccountResponse;
     }
 
     @Transactional
-    public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest){
+    public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
+        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
-        if(scHeadAccountList.size()>0){
-            throw new ValidationException("ScHeadAccount already exists with this name, duplicates are not allowed.");
-        }
+        if (scHeadAccountList.size() > 0) {
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("ScHeadAccount already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        ScHeadAccount scHeadAccount = scHeadAccountRepository.findByScHeadAccountIdAndActiveIn(scHeadAccountRequest.getScHeadAccountId(), Set.of(true,false));
-        if(Objects.nonNull(scHeadAccount)){
-            scHeadAccount.setScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
-            scHeadAccount.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Head Account");
+            ScHeadAccount scHeadAccount = scHeadAccountRepository.findByScHeadAccountIdAndActiveIn(scHeadAccountRequest.getScHeadAccountId(), Set.of(true, false));
+            if (Objects.nonNull(scHeadAccount)) {
+                scHeadAccount.setScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
+                scHeadAccount.setActive(true);
+                ScHeadAccount scHeadAccount1 = scHeadAccountRepository.save(scHeadAccount);
+                scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccount1, ScHeadAccountResponse.class);
+                scHeadAccountResponse.setError(false);
+            } else {
+                scHeadAccountResponse.setError(true);
+                scHeadAccountResponse.setError_description("Error occurred while fetching ScHeadAccount");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.scHeadAccountEntityToObject(scHeadAccountRepository.save(scHeadAccount),ScHeadAccountResponse.class);
+        return scHeadAccountResponse;
     }
 }
