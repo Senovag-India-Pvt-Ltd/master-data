@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.state.EditStateRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.state.StateResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.State;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.StateRepository;
@@ -34,26 +36,38 @@ public class StateService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public StateResponse getStateDetails(String stateName){
+        StateResponse stateResponse = new StateResponse();
         State state = null;
         if(state==null){
             state = stateRepository.findByStateNameAndActive(stateName,true);
+            stateResponse = mapper.stateEntityToObject(state,StateResponse.class);
+            stateResponse.setError(false);
+        }else{
+            stateResponse.setError(true);
+            stateResponse.setError_description("State not found");
         }
         log.info("Entity is ",state);
-        return mapper.stateEntityToObject(state,StateResponse.class);
+        return stateResponse;
     }
 
     @Transactional
     public StateResponse insertStateDetails(StateRequest stateRequest){
+        StateResponse stateResponse = new StateResponse();
         State state = mapper.stateObjectToEntity(stateRequest,State.class);
         validator.validate(state);
         List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
         if(!stateList.isEmpty() && stateList.stream().filter(State::getActive).findAny().isPresent()){
-            throw new ValidationException("State name already exist");
+            stateResponse.setError(true);
+            stateResponse.setError_description("State name already exist");
         }
-        if(!stateList.isEmpty() && stateList.stream().filter(Predicate.not(State::getActive)).findAny().isPresent()){
-            throw new ValidationException("State name already exist with inactive state");
+        else if(!stateList.isEmpty() && stateList.stream().filter(Predicate.not(State::getActive)).findAny().isPresent()){
+            stateResponse.setError(true);
+            stateResponse.setError_description("State name already exist with inactive state");
+        }else {
+            stateResponse = mapper.stateEntityToObject(stateRepository.save(state), StateResponse.class);
+            stateResponse.setError(false);
         }
-        return mapper.stateEntityToObject(stateRepository.save(state),StateResponse.class);
+        return stateResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -89,41 +103,63 @@ public class StateService {
     }
 
     @Transactional
-    public void deleteStateDetails(long id) {
-        State state = stateRepository.findByStateIdAndActive(id, true);
+    public StateResponse deleteStateDetails(long id) {
+
+            StateResponse stateResponse = new StateResponse();
+            State state = stateRepository.findByStateIdAndActive(id, true);
         if (Objects.nonNull(state)) {
-            state.setActive(false);
-            stateRepository.save(state);
+            stateResponse = mapper.stateEntityToObject(stateRepository.save(state), StateResponse.class);
+            stateResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            stateResponse.setError(true);
+            stateResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+            return stateResponse;
     }
 
     @Transactional
     public StateResponse getById(int id){
-        State state = stateRepository.findByStateIdAndActive(id,true);
+            StateResponse stateResponse = new StateResponse();
+            State state = stateRepository.findByStateIdAndActive(id,true);
         if(state == null){
-            throw new ValidationException("Invalid Id");
+            stateResponse.setError(true);
+            stateResponse.setError_description("Invalid id");
+        }else{
+            stateResponse =  mapper.stateEntityToObject(state,StateResponse.class);
+            stateResponse.setError(false);
         }
-        log.info("Entity is ",state);
-        return mapper.stateEntityToObject(state,StateResponse.class);
+            log.info("Entity is ",state);
+            return stateResponse;
     }
 
     @Transactional
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
+
+            StateResponse stateResponse = new StateResponse();
         List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
         if(stateList.size()>0){
-            throw new ValidationException("state already exists with this name, duplicates are not allowed.");
-        }
+            stateResponse.setError(true);
+            stateResponse.setError_description("State already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        }else {
 
-        State state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
+
+            State state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
         if(Objects.nonNull(state)){
             state.setStateName(stateRequest.getStateName());
             state.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
+            State state1 = stateRepository.save(state);
+            stateResponse = mapper.stateEntityToObject(state1, StateResponse.class);
+            stateResponse.setError(false);
+        } else {
+            stateResponse.setError(true);
+            stateResponse.setError_description("Error occurred while fetching state");
+            // throw new ValidationException("Error occurred while fetching village");
         }
-        return mapper.stateEntityToObject(stateRepository.save(state),StateResponse.class);
+        }
+            return stateResponse;
     }
+
 
 }
