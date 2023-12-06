@@ -106,8 +106,9 @@ public class UserMasterController {
     public ResponseEntity<?> deleteUserMasterDetails(
             @PathVariable final Integer id
     ) {
-        userMasterService.deleteUserMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(userMasterService.deleteUserMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
