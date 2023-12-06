@@ -104,8 +104,9 @@ public class VendorMasterController {
     public ResponseEntity<?> deleteVendorMasterDetails(
             @PathVariable final Integer id
     ) {
-        vendorMasterService.deleteVendorMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(vendorMasterService.deleteVendorMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
