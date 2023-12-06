@@ -105,8 +105,9 @@ public class MachineTypeMasterController {
     public ResponseEntity<?> deleteMachineTypeMasterDetails(
             @PathVariable final Integer id
     ) {
-        machineTypeMasterService.deleteMachineTypeMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(machineTypeMasterService.deleteMachineTypeMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

@@ -1,11 +1,14 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterResponse;
 import com.sericulture.masterdata.model.api.mulberryVariety.EditMulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyResponse;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.MulberryVariety;
 import com.sericulture.masterdata.model.entity.PlantationType;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MulberryVarietyRepository;
@@ -36,26 +39,39 @@ public class MulberryVarietyService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MulberryVarietyResponse getMulberryVarietyDetails(String mulberryVarietyName){
+        MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = null;
         if(mulberryVariety==null){
             mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyNameAndActive(mulberryVarietyName,true);
+            mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVariety, MulberryVarietyResponse.class);
+            mulberryVarietyResponse.setError(false);
+        }else{
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("MulberryVariety not found");
         }
         log.info("Entity is ",mulberryVariety);
-        return mapper.mulberryVarietyEntityToObject(mulberryVariety,MulberryVarietyResponse.class);
+        return mulberryVarietyResponse;
     }
 
     @Transactional
     public MulberryVarietyResponse insertMulberryVarietyDetails(MulberryVarietyRequest mulberryVarietyRequest){
+        MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = mapper.mulberryVarietyObjectToEntity(mulberryVarietyRequest,MulberryVariety.class);
         validator.validate(mulberryVariety);
         List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
         if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(MulberryVariety::getActive).findAny().isPresent()){
-            throw new ValidationException("MulberryVariety name already exist");
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("MulberryVariety name already exist");
         }
-        if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(Predicate.not(MulberryVariety::getActive)).findAny().isPresent()){
-            throw new ValidationException("MulberryVariety name already exist with inactive state");
+        else if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(Predicate.not(MulberryVariety::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("MulberryVariety name already exist with inactive state");
+        }else {
+            mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVarietyRepository.save(mulberryVariety), MulberryVarietyResponse.class);
+            mulberryVarietyResponse.setError(false);
         }
-        return mapper.mulberryVarietyEntityToObject(mulberryVarietyRepository.save(mulberryVariety),MulberryVarietyResponse.class);
+        return mulberryVarietyResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -91,41 +107,60 @@ public class MulberryVarietyService {
     }
 
     @Transactional
-    public void deleteMulberryVarietyDetails(long id) {
+    public MulberryVarietyResponse deleteMulberryVarietyDetails(long id) {
+        MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActive(id, true);
         if (Objects.nonNull(mulberryVariety)) {
             mulberryVariety.setActive(false);
-            mulberryVarietyRepository.save(mulberryVariety);
+            mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVarietyRepository.save(mulberryVariety), MulberryVarietyResponse.class);
+            mulberryVarietyResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return mulberryVarietyResponse;
     }
 
     @Transactional
     public MulberryVarietyResponse getById(int id){
+        MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActive(id,true);
         if(mulberryVariety == null){
-            throw new ValidationException("Invalid Id");
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("Invalid id");
+        }else{
+            mulberryVarietyResponse =  mapper.mulberryVarietyEntityToObject(mulberryVariety,MulberryVarietyResponse.class);
+            mulberryVarietyResponse.setError(false);
         }
         log.info("Entity is ",mulberryVariety);
-        return mapper.mulberryVarietyEntityToObject(mulberryVariety,MulberryVarietyResponse.class);
+        return mulberryVarietyResponse;
     }
 
     @Transactional
     public MulberryVarietyResponse updateMulberryVarietyDetails(EditMulberryVarietyRequest mulberryVarietyRequest){
+        MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
         if(mulberryVarietyList.size()>0){
-            throw new ValidationException("MulberryVariety already exists with this name, duplicates are not allowed.");
-        }
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("MulberryVariety already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        }else {
 
-        MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActiveIn(mulberryVarietyRequest.getMulberryVarietyId(), Set.of(true,false));
-        if(Objects.nonNull(mulberryVariety)){
-            mulberryVariety.setMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
-            mulberryVariety.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching mulberryVariety");
+            MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActiveIn(mulberryVarietyRequest.getMulberryVarietyId(), Set.of(true,false));
+            if(Objects.nonNull(mulberryVariety)){
+                mulberryVariety.setMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
+                mulberryVariety.setActive(true);
+                MulberryVariety mulberryVariety1 = mulberryVarietyRepository.save(mulberryVariety);
+                mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVariety1, MulberryVarietyResponse.class);
+                mulberryVarietyResponse.setError(false);
+            } else {
+                mulberryVarietyResponse.setError(true);
+                mulberryVarietyResponse.setError_description("Error occurred while fetching mulberryVariety");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.mulberryVarietyEntityToObject(mulberryVarietyRepository.save(mulberryVariety),MulberryVarietyResponse.class);
+        return mulberryVarietyResponse;
     }
 
 }

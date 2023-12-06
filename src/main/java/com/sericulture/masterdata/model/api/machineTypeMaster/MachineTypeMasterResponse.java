@@ -17,4 +17,10 @@ public class MachineTypeMasterResponse {
 
     @Schema(name = "machineTypeName", example = "Machine type 1")
     String machineTypeName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

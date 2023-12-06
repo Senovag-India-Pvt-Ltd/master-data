@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.mulberrySource.EditMulberrySourceReq
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceResponse;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.MulberrySource;
 import com.sericulture.masterdata.model.entity.MulberryVariety;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MulberrySourceRepository;
@@ -36,26 +38,39 @@ public class MulberrySourceService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MulberrySourceResponse getMulberrySourceDetails(String mulberrySourceName){
+        MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
         MulberrySource mulberrySource = null;
         if(mulberrySource==null){
             mulberrySource = mulberrySourceRepository.findByMulberrySourceNameAndActive(mulberrySourceName,true);
+            mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySource, MulberrySourceResponse.class);
+            mulberrySourceResponse.setError(false);
+        }else{
+            mulberrySourceResponse.setError(true);
+            mulberrySourceResponse.setError_description("MulberrySource not found");
         }
         log.info("Entity is ",mulberrySource);
-        return mapper.mulberrySourceEntityToObject(mulberrySource,MulberrySourceResponse.class);
+        return mulberrySourceResponse;
     }
 
     @Transactional
     public MulberrySourceResponse insertMulberrySourceDetails(MulberrySourceRequest mulberrySourceRequest){
+        MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
         MulberrySource mulberrySource = mapper.mulberrySourceObjectToEntity(mulberrySourceRequest,MulberrySource.class);
         validator.validate(mulberrySource);
         List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
         if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(MulberrySource::getActive).findAny().isPresent()){
-            throw new ValidationException("MulberrySource name already exist");
+            mulberrySourceResponse.setError(true);
+            mulberrySourceResponse.setError_description("MulberrySource name already exist");
         }
-        if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(Predicate.not(MulberrySource::getActive)).findAny().isPresent()){
-            throw new ValidationException("MulberrySource name already exist with inactive state");
+        else if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(Predicate.not(MulberrySource::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            mulberrySourceResponse.setError(true);
+            mulberrySourceResponse.setError_description("MulberrySource name already exist with inactive state");
+        }else {
+            mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySourceRepository.save(mulberrySource), MulberrySourceResponse.class);
+            mulberrySourceResponse.setError(false);
         }
-        return mapper.mulberrySourceEntityToObject(mulberrySourceRepository.save(mulberrySource),MulberrySourceResponse.class);
+        return mulberrySourceResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -91,41 +106,59 @@ public class MulberrySourceService {
     }
 
     @Transactional
-    public void deleteMulberrySourceDetails(long id) {
+    public MulberrySourceResponse deleteMulberrySourceDetails(long id) {
+        MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
         MulberrySource mulberrySource = mulberrySourceRepository.findByMulberrySourceIdAndActive(id, true);
         if (Objects.nonNull(mulberrySource)) {
             mulberrySource.setActive(false);
-            mulberrySourceRepository.save(mulberrySource);
+            mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySourceRepository.save(mulberrySource), MulberrySourceResponse.class);
+            mulberrySourceResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            mulberrySourceResponse.setError(true);
+            mulberrySourceResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return mulberrySourceResponse;
     }
 
     @Transactional
     public MulberrySourceResponse getById(int id){
+        MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
         MulberrySource mulberrySource = mulberrySourceRepository.findByMulberrySourceIdAndActive(id,true);
         if(mulberrySource == null){
-            throw new ValidationException("Invalid Id");
+            mulberrySourceResponse.setError(true);
+            mulberrySourceResponse.setError_description("Invalid id");
+        }else{
+            mulberrySourceResponse =  mapper.mulberrySourceEntityToObject(mulberrySource,MulberrySourceResponse.class);
+            mulberrySourceResponse.setError(false);
         }
         log.info("Entity is ",mulberrySource);
-        return mapper.mulberrySourceEntityToObject(mulberrySource,MulberrySourceResponse.class);
+        return mulberrySourceResponse;
     }
 
     @Transactional
-    public MulberrySourceResponse updateMulberrySourceDetails(EditMulberrySourceRequest mulberrySourceRequest){
+    public MulberrySourceResponse updateMulberrySourceDetails(EditMulberrySourceRequest mulberrySourceRequest) {
+        MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
         List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
-        if(mulberrySourceList.size()>0){
-            throw new ValidationException("MulberrySource already exists with this name, duplicates are not allowed.");
-        }
+        if (mulberrySourceList.size() > 0) {
+            mulberrySourceResponse.setError(true);
+            mulberrySourceResponse.setError_description("MulberrySource already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        MulberrySource mulberrySource = mulberrySourceRepository.findByMulberrySourceIdAndActiveIn(mulberrySourceRequest.getMulberrySourceId(), Set.of(true,false));
-        if(Objects.nonNull(mulberrySource)){
-            mulberrySource.setMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
-            mulberrySource.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching mulberrySource");
+            MulberrySource mulberrySource = mulberrySourceRepository.findByMulberrySourceIdAndActiveIn(mulberrySourceRequest.getMulberrySourceId(), Set.of(true, false));
+            if (Objects.nonNull(mulberrySource)) {
+                mulberrySource.setMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
+                mulberrySource.setActive(true);
+                MulberrySource mulberrySource1 = mulberrySourceRepository.save(mulberrySource);
+                mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySource1, MulberrySourceResponse.class);
+                mulberrySourceResponse.setError(false);
+            } else {
+                mulberrySourceResponse.setError(true);
+                mulberrySourceResponse.setError_description("Error occurred while fetching MulberrySource");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.mulberrySourceEntityToObject(mulberrySourceRepository.save(mulberrySource),MulberrySourceResponse.class);
+        return mulberrySourceResponse;
     }
-
 }

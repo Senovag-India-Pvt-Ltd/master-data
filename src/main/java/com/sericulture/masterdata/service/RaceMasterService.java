@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.raceMaster.EditRaceMasterRequest;
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.RaceMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RaceMasterRepository;
@@ -34,26 +36,39 @@ public class RaceMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RaceMasterResponse getRaceMasterDetails(String raceMasterName){
+        RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         RaceMaster raceMaster = null;
         if(raceMaster==null){
             raceMaster = raceMasterRepository.findByRaceMasterNameAndActive(raceMasterName,true);
+            raceMasterResponse = mapper.raceMasterEntityToObject(raceMaster, RaceMasterResponse.class);
+            raceMasterResponse.setError(false);
+        }else{
+            raceMasterResponse.setError(true);
+            raceMasterResponse.setError_description("Race not found");
         }
         log.info("Entity is ",raceMaster);
-        return mapper.raceMasterEntityToObject(raceMaster,RaceMasterResponse.class);
+        return raceMasterResponse;
     }
 
     @Transactional
     public RaceMasterResponse insertRaceMasterDetails(RaceMasterRequest raceMasterRequest){
+        RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         RaceMaster raceMaster = mapper.raceMasterObjectToEntity(raceMasterRequest,RaceMaster.class);
         validator.validate(raceMaster);
         List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterName(raceMasterRequest.getRaceMasterName());
         if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(RaceMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("Race name already exist");
+            raceMasterResponse.setError(true);
+            raceMasterResponse.setError_description("Race name already exist");
         }
-        if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(Predicate.not(RaceMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("Race name already exist with inactive state");
+        else if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(Predicate.not(RaceMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            raceMasterResponse.setError(true);
+            raceMasterResponse.setError_description("Race name already exist with inactive state");
+        }else {
+            raceMasterResponse = mapper.raceMasterEntityToObject(raceMasterRepository.save(raceMaster), RaceMasterResponse.class);
+            raceMasterResponse.setError(false);
         }
-        return mapper.raceMasterEntityToObject(raceMasterRepository.save(raceMaster),RaceMasterResponse.class);
+        return raceMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -89,14 +104,19 @@ public class RaceMasterService {
     }
 
     @Transactional
-    public void deleteRaceMasterDetails(long id) {
+    public RaceMasterResponse deleteRaceMasterDetails(long id) {
+        RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActive(id, true);
         if (Objects.nonNull(raceMaster)) {
             raceMaster.setActive(false);
-            raceMasterRepository.save(raceMaster);
+            raceMasterResponse = mapper.raceMasterEntityToObject(raceMasterRepository.save(raceMaster), RaceMasterResponse.class);
+            raceMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            raceMasterResponse.setError(true);
+            raceMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return raceMasterResponse;
     }
 
     @Transactional
@@ -110,19 +130,28 @@ public class RaceMasterService {
     }
 
     @Transactional
-    public RaceMasterResponse updateRaceMasterDetails(EditRaceMasterRequest raceMasterRequest){
+    public RaceMasterResponse updateRaceMasterDetails(EditRaceMasterRequest raceMasterRequest) {
+        RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterName(raceMasterRequest.getRaceMasterName());
-        if(raceMasterList.size()>0){
-            throw new ValidationException("race already exists with this name, duplicates are not allowed.");
-        }
+        if (raceMasterList.size() > 0) {
+            raceMasterResponse.setError(true);
+            raceMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActiveIn(raceMasterRequest.getRaceMasterId(), Set.of(true,false));
-        if(Objects.nonNull(raceMaster)){
-            raceMaster.setRaceMasterName(raceMasterRequest.getRaceMasterName());
-            raceMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
+            RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActiveIn(raceMasterRequest.getRaceMasterId(), Set.of(true, false));
+            if (Objects.nonNull(raceMaster)) {
+                raceMaster.setRaceMasterName(raceMasterRequest.getRaceMasterName());
+                raceMaster.setActive(true);
+                RaceMaster raceMaster1 = raceMasterRepository.save(raceMaster);
+                raceMasterResponse = mapper.raceMasterEntityToObject(raceMaster1, RaceMasterResponse.class);
+                raceMasterResponse.setError(false);
+            } else {
+                raceMasterResponse.setError(true);
+                raceMasterResponse.setError_description("Error occurred while fetching Race");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.raceMasterEntityToObject(raceMasterRepository.save(raceMaster),RaceMasterResponse.class);
+        return raceMasterResponse;
     }
 }

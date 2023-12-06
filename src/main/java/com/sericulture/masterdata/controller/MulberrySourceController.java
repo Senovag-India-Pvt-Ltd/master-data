@@ -105,8 +105,9 @@ public class MulberrySourceController {
     public ResponseEntity<?> deleteMulberrySourceDetails(
             @PathVariable final Integer id
     ) {
-        mulberrySourceService.deleteMulberrySourceDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(mulberrySourceService.deleteMulberrySourceDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

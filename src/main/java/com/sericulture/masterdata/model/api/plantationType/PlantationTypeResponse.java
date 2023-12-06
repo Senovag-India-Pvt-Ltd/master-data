@@ -16,4 +16,10 @@ public class PlantationTypeResponse {
 
     @Schema(name = "plantationTypeName", example = "Mulberry Silk")
     String plantationTypeName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

@@ -104,8 +104,9 @@ public class MarketMasterController {
     public ResponseEntity<?> deleteMarketMasterDetails(
             @PathVariable final Integer id
     ) {
-        marketMasterService.deleteMarketMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(marketMasterService.deleteMarketMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

@@ -104,8 +104,9 @@ public class PlantationTypeController {
     public ResponseEntity<?> deletePlantationTypeDetails(
             @PathVariable final Integer id
     ) {
-        plantationTypeService.deletePlantationTypeDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(plantationTypeService.deletePlantationTypeDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

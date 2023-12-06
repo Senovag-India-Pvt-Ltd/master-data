@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.marketMaster.EditMarketMasterRequest
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.MarketMaster;
 import com.sericulture.masterdata.model.entity.MulberrySource;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MarketMasterRepository;
@@ -36,26 +38,39 @@ public class MarketMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MarketMasterResponse getMarketMasterDetails(String marketMasterName){
+        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = null;
         if(marketMaster==null){
             marketMaster = marketMasterRepository.findByMarketMasterNameAndActive(marketMasterName,true);
+            marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster, MarketMasterResponse.class);
+            marketMasterResponse.setError(false);
+        }else{
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("MarketMaster not found");
         }
-        log.info("Entity is ",marketMasterName);
-        return mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class);
+        log.info("Entity is ",marketMaster);
+        return marketMasterResponse;
     }
 
     @Transactional
     public MarketMasterResponse insertMarketMasterDetails(MarketMasterRequest marketMasterRequest){
+        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = mapper.marketMasterObjectToEntity(marketMasterRequest,MarketMaster.class);
         validator.validate(marketMaster);
         List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterName(marketMasterRequest.getMarketMasterName());
         if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(MarketMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("Market name already exist");
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Market name already exist");
         }
-        if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(Predicate.not(MarketMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("Market name already exist with inactive state");
+        else if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(Predicate.not(MarketMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Market name already exist with inactive state");
+        }else {
+            marketMasterResponse = mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster), MarketMasterResponse.class);
+            marketMasterResponse.setError(false);
         }
-        return mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster),MarketMasterResponse.class);
+        return marketMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,41 +105,59 @@ public class MarketMasterService {
     }
 
     @Transactional
-    public void deleteMarketMasterDetails(long id) {
+    public MarketMasterResponse deleteMarketMasterDetails(long id) {
+        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActive(id, true);
         if (Objects.nonNull(marketMaster)) {
             marketMaster.setActive(false);
-            marketMasterRepository.save(marketMaster);
+            marketMasterResponse = mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster), MarketMasterResponse.class);
+            marketMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return marketMasterResponse;
     }
 
     @Transactional
     public MarketMasterResponse getById(int id){
+        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActive(id,true);
         if(marketMaster == null){
-            throw new ValidationException("Invalid Id");
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Invalid id");
+        }else{
+            marketMasterResponse =  mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class);
+            marketMasterResponse.setError(false);
         }
         log.info("Entity is ",marketMaster);
-        return mapper.marketMasterEntityToObject(marketMaster,MarketMasterResponse.class);
+        return marketMasterResponse;
     }
 
     @Transactional
-    public MarketMasterResponse updateMarketMasterDetails(EditMarketMasterRequest marketMasterRequest){
+    public MarketMasterResponse updateMarketMasterDetails(EditMarketMasterRequest marketMasterRequest) {
+        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterName(marketMasterRequest.getMarketMasterName());
-        if(marketMasterList.size()>0){
-            throw new ValidationException("Market  already exists, duplicates are not allowed.");
-        }
+        if (marketMasterList.size() > 0) {
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Market already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true,false));
-        if(Objects.nonNull(marketMaster)){
-            marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
-            marketMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching village");
+            MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
+            if (Objects.nonNull(marketMaster)) {
+                marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
+                marketMaster.setActive(true);
+                MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
+                marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
+                marketMasterResponse.setError(false);
+            } else {
+                marketMasterResponse.setError(true);
+                marketMasterResponse.setError_description("Error occurred while fetching market");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster),MarketMasterResponse.class);
+        return marketMasterResponse;
     }
-
 }

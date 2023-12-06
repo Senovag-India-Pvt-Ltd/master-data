@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.machineTypeMaster.EditMachineTypeMas
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterResponse;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.MachineTypeMaster;
 import com.sericulture.masterdata.model.entity.MarketMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MachineTypeMasterRepository;
@@ -36,26 +38,39 @@ public class MachineTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MachineTypeMasterResponse getMachineTypeMasterDetails(String machineTypeMasterName){
+        MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = null;
         if(machineTypeMaster==null){
             machineTypeMaster = machineTypeMasterRepository.findByMachineTypeNameAndActive(machineTypeMasterName,true);
+            machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMaster, MachineTypeMasterResponse.class);
+            machineTypeMasterResponse.setError(false);
+        }else{
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("MachineType not found");
         }
         log.info("Entity is ",machineTypeMaster);
-        return mapper.machineTypeEntityToObject(machineTypeMaster,MachineTypeMasterResponse.class);
+        return machineTypeMasterResponse;
     }
 
     @Transactional
     public MachineTypeMasterResponse insertMachineTypeMasterDetails(MachineTypeMasterRequest machineTypeMasterRequest){
+        MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = mapper.machineTypeObjectToEntity(machineTypeMasterRequest,MachineTypeMaster.class);
         validator.validate(machineTypeMaster);
         List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
         if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(MachineTypeMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("MachineType name already exist");
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("MachineType name already exist");
         }
-        if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(Predicate.not(MachineTypeMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("MachineType name already exist with inactive state");
+        else if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(Predicate.not(MachineTypeMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("MachineType name already exist with inactive state");
+        }else {
+            machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMasterRepository.save(machineTypeMaster), MachineTypeMasterResponse.class);
+            machineTypeMasterResponse.setError(false);
         }
-        return mapper.machineTypeEntityToObject(machineTypeMasterRepository.save(machineTypeMaster),MachineTypeMasterResponse.class);
+        return machineTypeMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -91,41 +106,59 @@ public class MachineTypeMasterService {
     }
 
     @Transactional
-    public void deleteMachineTypeMasterDetails(long id) {
+    public MachineTypeMasterResponse deleteMachineTypeMasterDetails(long id) {
+        MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeIdAndActive(id, true);
         if (Objects.nonNull(machineTypeMaster)) {
             machineTypeMaster.setActive(false);
-            machineTypeMasterRepository.save(machineTypeMaster);
+            machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMasterRepository.save(machineTypeMaster), MachineTypeMasterResponse.class);
+            machineTypeMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return machineTypeMasterResponse;
     }
 
     @Transactional
     public MachineTypeMasterResponse getById(int id){
+        MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeIdAndActive(id,true);
         if(machineTypeMaster == null){
-            throw new ValidationException("Invalid Id");
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("Invalid id");
+        }else{
+            machineTypeMasterResponse =  mapper.machineTypeEntityToObject(machineTypeMaster,MachineTypeMasterResponse.class);
+            machineTypeMasterResponse.setError(false);
         }
         log.info("Entity is ",machineTypeMaster);
-        return mapper.machineTypeEntityToObject(machineTypeMaster,MachineTypeMasterResponse.class);
+        return machineTypeMasterResponse;
     }
 
     @Transactional
-    public MachineTypeMasterResponse updateMachineTypeMasterDetails(EditMachineTypeMasterRequest machineTypeMasterRequest){
+    public MachineTypeMasterResponse updateMachineTypeMasterDetails(EditMachineTypeMasterRequest machineTypeMasterRequest) {
+        MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
-        if(machineTypeMasterList.size()>0){
-            throw new ValidationException("MachineType already exists with this name, duplicates are not allowed.");
-        }
+        if (machineTypeMasterList.size() > 0) {
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("MachineType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeIdAndActiveIn(machineTypeMasterRequest.getMachineTypeId(), Set.of(true,false));
-        if(Objects.nonNull(machineTypeMaster)){
-            machineTypeMaster.setMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
-            machineTypeMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching machineType");
+            MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeIdAndActiveIn(machineTypeMasterRequest.getMachineTypeId(), Set.of(true, false));
+            if (Objects.nonNull(machineTypeMaster)) {
+                machineTypeMaster.setMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
+                machineTypeMaster.setActive(true);
+                MachineTypeMaster machineTypeMaster1 = machineTypeMasterRepository.save(machineTypeMaster);
+                machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMaster, MachineTypeMasterResponse.class);
+                machineTypeMasterResponse.setError(false);
+            } else {
+                machineTypeMasterResponse.setError(true);
+                machineTypeMasterResponse.setError_description("Error occurred while fetching machineType");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.machineTypeEntityToObject(machineTypeMasterRepository.save(machineTypeMaster),MachineTypeMasterResponse.class);
+        return machineTypeMasterResponse;
     }
-
 }

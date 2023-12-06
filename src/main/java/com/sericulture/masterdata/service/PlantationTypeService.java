@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.plantationType.EditPlantationTypeReq
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeResponse;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.PlantationType;
 import com.sericulture.masterdata.model.entity.SoilType;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.PlantationTypeRepository;
@@ -35,26 +37,39 @@ public class PlantationTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public PlantationTypeResponse getPlantationTypeDetails(String plantationTypeName){
+        PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         PlantationType plantationType = null;
         if(plantationType==null){
             plantationType = plantationTypeRepository.findByPlantationTypeNameAndActive(plantationTypeName,true);
+            plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationType, PlantationTypeResponse.class);
+            plantationTypeResponse.setError(false);
+        }else{
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("PlantationType not found");
         }
         log.info("Entity is ",plantationType);
-        return mapper.plantationTypeEntityToObject(plantationType,PlantationTypeResponse.class);
+        return plantationTypeResponse;
     }
 
     @Transactional
     public PlantationTypeResponse insertPlantationTypeDetails(PlantationTypeRequest plantationTypeRequest){
+        PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         PlantationType plantationType = mapper.plantationTypeObjectToEntity(plantationTypeRequest,PlantationType.class);
         validator.validate(plantationType);
         List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
         if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(PlantationType::getActive).findAny().isPresent()){
-            throw new ValidationException("PlantationType name already exist");
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("PlantationType name already exist");
         }
-        if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(Predicate.not(PlantationType::getActive)).findAny().isPresent()){
-            throw new ValidationException("PlantationType name already exist with inactive state");
+        else if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(Predicate.not(PlantationType::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("PlantationType name already exist with inactive state");
+        }else {
+            plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationTypeRepository.save(plantationType), PlantationTypeResponse.class);
+            plantationTypeResponse.setError(false);
         }
-        return mapper.plantationTypeEntityToObject(plantationTypeRepository.save(plantationType),PlantationTypeResponse.class);
+        return plantationTypeResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,41 +105,59 @@ public class PlantationTypeService {
     }
 
     @Transactional
-    public void deletePlantationTypeDetails(long id) {
+    public PlantationTypeResponse deletePlantationTypeDetails(long id) {
+        PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         PlantationType plantationType = plantationTypeRepository.findByPlantationTypeIdAndActive(id, true);
         if (Objects.nonNull(plantationType)) {
             plantationType.setActive(false);
-            plantationTypeRepository.save(plantationType);
+            plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationTypeRepository.save(plantationType), PlantationTypeResponse.class);
+            plantationTypeResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return plantationTypeResponse;
     }
 
     @Transactional
     public PlantationTypeResponse getById(int id){
+        PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         PlantationType plantationType = plantationTypeRepository.findByPlantationTypeIdAndActive(id,true);
         if(plantationType == null){
-            throw new ValidationException("Invalid Id");
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("Invalid id");
+        }else{
+            plantationTypeResponse =  mapper.plantationTypeEntityToObject(plantationType,PlantationTypeResponse.class);
+            plantationTypeResponse.setError(false);
         }
         log.info("Entity is ",plantationType);
-        return mapper.plantationTypeEntityToObject(plantationType,PlantationTypeResponse.class);
+        return plantationTypeResponse;
     }
 
     @Transactional
-    public PlantationTypeResponse updatePlantationTypeDetails(EditPlantationTypeRequest plantationTypeRequest){
+    public PlantationTypeResponse updatePlantationTypeDetails(EditPlantationTypeRequest plantationTypeRequest) {
+        PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
-        if(plantationTypeList.size()>0){
-            throw new ValidationException("PlantationType already exists with this name, duplicates are not allowed.");
-        }
+        if (plantationTypeList.size() > 0) {
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("PlantationType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        PlantationType plantationType = plantationTypeRepository.findByPlantationTypeIdAndActiveIn(plantationTypeRequest.getPlantationTypeId(), Set.of(true,false));
-        if(Objects.nonNull(plantationType)){
-            plantationType.setPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
-            plantationType.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching plantation type");
+            PlantationType plantationType = plantationTypeRepository.findByPlantationTypeIdAndActiveIn(plantationTypeRequest.getPlantationTypeId(), Set.of(true, false));
+            if (Objects.nonNull(plantationType)) {
+                plantationType.setPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
+                plantationType.setActive(true);
+                PlantationType plantationType1 = plantationTypeRepository.save(plantationType);
+                plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationType1, PlantationTypeResponse.class);
+                plantationTypeResponse.setError(false);
+            } else {
+                plantationTypeResponse.setError(true);
+                plantationTypeResponse.setError_description("Error occurred while fetching plantationType");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.plantationTypeEntityToObject(plantationTypeRepository.save(plantationType),PlantationTypeResponse.class);
+        return plantationTypeResponse;
     }
-
 }

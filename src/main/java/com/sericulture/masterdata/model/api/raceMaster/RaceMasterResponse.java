@@ -18,4 +18,10 @@ public class RaceMasterResponse {
 
     @Schema(name = "raceMasterName", example = "raceName 1")
     String raceMasterName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

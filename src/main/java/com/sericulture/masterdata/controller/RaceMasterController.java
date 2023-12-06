@@ -104,8 +104,9 @@ public class RaceMasterController {
     public ResponseEntity<?> deleteRaceMasterDetails(
             @PathVariable final Integer id
     ) {
-        raceMasterService.deleteRaceMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(raceMasterService.deleteRaceMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

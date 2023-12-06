@@ -104,8 +104,9 @@ public class MulberryVarietyController {
     public ResponseEntity<?> deleteMulberryVarietyDetails(
             @PathVariable final Integer id
     ) {
-        mulberryVarietyService.deleteMulberryVarietyDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(mulberryVarietyService.deleteMulberryVarietyDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
