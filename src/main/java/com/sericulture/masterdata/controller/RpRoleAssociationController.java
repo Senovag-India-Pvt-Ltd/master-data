@@ -110,8 +110,10 @@ public class RpRoleAssociationController {
     public ResponseEntity<?> deleteRpRoleAssociationDetails(
             @PathVariable final Integer id
     ) {
-        rpRoleAssociationService.deleteRpRoleAssociationDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(RpRoleAssociationResponse.class);
+
+        rw.setContent(rpRoleAssociationService.deleteRpRoleAssociationDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
