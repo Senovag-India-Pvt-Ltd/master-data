@@ -104,8 +104,10 @@ public class ReasonBidRejectMasterController {
     public ResponseEntity<?> deleteReasonBidRejectMasterDetails(
             @PathVariable final Integer id
     ) {
-        reasonBidRejectMasterService.deleteReasonBidRejectMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ReasonBidRejectMasterResponse.class);
+
+        rw.setContent(reasonBidRejectMasterService.deleteReasonBidRejectMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

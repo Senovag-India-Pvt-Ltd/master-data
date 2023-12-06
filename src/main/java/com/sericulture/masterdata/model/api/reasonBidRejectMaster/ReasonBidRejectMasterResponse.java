@@ -17,4 +17,10 @@ public class ReasonBidRejectMasterResponse {
 
     @Schema(name = "reasonBidRejectName", example = "reasonBidRejectName 1")
     String reasonBidRejectName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

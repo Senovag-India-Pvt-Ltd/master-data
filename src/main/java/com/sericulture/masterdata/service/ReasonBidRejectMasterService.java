@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.reasonBidRejectMaster.EditReasonBidR
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterResponse;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.ReasonBidRejectMaster;
 import com.sericulture.masterdata.model.entity.ReasonLotRejectMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReasonBidRejectMasterRepository;
@@ -35,26 +37,39 @@ public class ReasonBidRejectMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ReasonBidRejectMasterResponse getReasonBidRejectMasterDetails(String reasonBidRejectMasterName){
+        ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
        ReasonBidRejectMaster reasonBidRejectMaster = null;
         if(reasonBidRejectMaster==null){
             reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectNameAndActive(reasonBidRejectMasterName,true);
+            reasonBidRejectMasterResponse = mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster, ReasonBidRejectMasterResponse.class);
+            reasonBidRejectMasterResponse.setError(false);
+        }else{
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("ReasonBidReject not found");
         }
         log.info("Entity is ",reasonBidRejectMaster);
-        return mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster,ReasonBidRejectMasterResponse.class);
+        return reasonBidRejectMasterResponse;
     }
 
     @Transactional
     public ReasonBidRejectMasterResponse insertReasonBidRejectMasterDetails(ReasonBidRejectMasterRequest reasonBidRejectMasterRequest){
+        ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
         ReasonBidRejectMaster reasonBidRejectMaster = mapper.reasonBidRejectObjectToEntity(reasonBidRejectMasterRequest,ReasonBidRejectMaster.class);
         validator.validate(reasonBidRejectMaster);
         List<ReasonBidRejectMaster> reasonBidRejectMasterList = reasonBidRejectMasterRepository.findByReasonBidRejectName(reasonBidRejectMasterRequest.getReasonBidRejectName());
         if(!reasonBidRejectMasterList.isEmpty() && reasonBidRejectMasterList.stream().filter(ReasonBidRejectMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("ReasonBidReject name already exist");
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster name already exist");
         }
-        if(!reasonBidRejectMasterList.isEmpty() && reasonBidRejectMasterList.stream().filter(Predicate.not(ReasonBidRejectMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("ReasonBidReject name already exist with inactive state");
+        else if(!reasonBidRejectMasterList.isEmpty() && reasonBidRejectMasterList.stream().filter(Predicate.not(ReasonBidRejectMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster name already exist with inactive state");
+        }else {
+            reasonBidRejectMasterResponse = mapper.reasonBidRejectEntityToObject(reasonBidRejectMasterRepository.save(reasonBidRejectMaster), ReasonBidRejectMasterResponse.class);
+            reasonBidRejectMasterResponse.setError(false);
         }
-        return mapper.reasonBidRejectEntityToObject(reasonBidRejectMasterRepository.save(reasonBidRejectMaster),ReasonBidRejectMasterResponse.class);
+        return reasonBidRejectMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,42 +105,60 @@ public class ReasonBidRejectMasterService {
     }
 
     @Transactional
-    public void deleteReasonBidRejectMasterDetails(long id) {
+    public ReasonBidRejectMasterResponse deleteReasonBidRejectMasterDetails(long id) {
+        ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
         ReasonBidRejectMaster reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectIdAndActive(id, true);
         if (Objects.nonNull(reasonBidRejectMaster)) {
             reasonBidRejectMaster.setActive(false);
-            reasonBidRejectMasterRepository.save(reasonBidRejectMaster);
+            reasonBidRejectMasterResponse = mapper.reasonBidRejectEntityToObject(reasonBidRejectMasterRepository.save(reasonBidRejectMaster), ReasonBidRejectMasterResponse.class);
+            reasonBidRejectMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return reasonBidRejectMasterResponse;
     }
 
     @Transactional
     public ReasonBidRejectMasterResponse getById(int id){
+        ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
         ReasonBidRejectMaster reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectIdAndActive(id,true);
         if(reasonBidRejectMaster == null){
-            throw new ValidationException("Invalid Id");
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("Invalid id");
+        }else{
+            reasonBidRejectMasterResponse =  mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster,ReasonBidRejectMasterResponse.class);
+            reasonBidRejectMasterResponse.setError(false);
         }
         log.info("Entity is ",reasonBidRejectMaster);
-        return mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster,ReasonBidRejectMasterResponse.class);
+        return reasonBidRejectMasterResponse;
     }
 
     @Transactional
-    public ReasonBidRejectMasterResponse updateReasonBidRejectMasterDetails(EditReasonBidRejectMasterRequest reasonBidRejectMasterRequest){
+    public ReasonBidRejectMasterResponse updateReasonBidRejectMasterDetails(EditReasonBidRejectMasterRequest reasonBidRejectMasterRequest) {
+        ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
         List<ReasonBidRejectMaster> reasonBidRejectMasterList = reasonBidRejectMasterRepository.findByReasonBidRejectName(reasonBidRejectMasterRequest.getReasonBidRejectName());
-        if(reasonBidRejectMasterList.size()>0){
-            throw new ValidationException("ReasonBidReject already exists with this name, duplicates are not allowed.");
-        }
+        if (reasonBidRejectMasterList.size() > 0) {
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        ReasonBidRejectMaster reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectIdAndActiveIn(reasonBidRejectMasterRequest.getReasonBidRejectId(), Set.of(true,false));
-        if(Objects.nonNull(reasonBidRejectMaster)){
-            reasonBidRejectMaster.setReasonBidRejectName(reasonBidRejectMasterRequest.getReasonBidRejectName());
-            reasonBidRejectMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching reasonLotReject");
+            ReasonBidRejectMaster reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectIdAndActiveIn(reasonBidRejectMasterRequest.getReasonBidRejectId(), Set.of(true, false));
+            if (Objects.nonNull(reasonBidRejectMaster)) {
+                reasonBidRejectMaster.setReasonBidRejectName(reasonBidRejectMasterRequest.getReasonBidRejectName());
+                reasonBidRejectMaster.setActive(true);
+                ReasonBidRejectMaster reasonBidRejectMaster1 = reasonBidRejectMasterRepository.save(reasonBidRejectMaster);
+                reasonBidRejectMasterResponse = mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster1, ReasonBidRejectMasterResponse.class);
+                reasonBidRejectMasterResponse.setError(false);
+            } else {
+                reasonBidRejectMasterResponse.setError(true);
+                reasonBidRejectMasterResponse.setError_description("Error occurred while fetching reasonBidRejectMaster");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.reasonBidRejectEntityToObject(reasonBidRejectMasterRepository.save(reasonBidRejectMaster),ReasonBidRejectMasterResponse.class);
+        return reasonBidRejectMasterResponse;
     }
-
 
 }
