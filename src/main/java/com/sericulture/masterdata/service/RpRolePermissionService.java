@@ -6,8 +6,10 @@ import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationR
 import com.sericulture.masterdata.model.api.rpRolePermission.EditRpRolePermissionRequest;
 import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionRequest;
 import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.RpRoleAssociation;
 import com.sericulture.masterdata.model.entity.RpRolePermission;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RpRoleAssociationRepository;
@@ -48,8 +50,9 @@ public class RpRolePermissionService {
 //    }
 
     @Transactional
-    public RpRolePermissionResponse insertRpRolePermissionResponseDetails(RpRolePermissionRequest rpRolePermissionRequest){
-        RpRolePermission rpRolePermission = mapper.rpRolePermissionObjectToEntity(rpRolePermissionRequest,RpRolePermission.class);
+    public RpRolePermissionResponse insertRpRolePermissionResponseDetails(RpRolePermissionRequest rpRolePermissionRequest) {
+        RpRolePermissionResponse rpRolePermissionResponse = new RpRolePermissionResponse();
+        RpRolePermission rpRolePermission = mapper.rpRolePermissionObjectToEntity(rpRolePermissionRequest, RpRolePermission.class);
         validator.validate(rpRolePermission);
 //        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
 //        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
@@ -58,16 +61,17 @@ public class RpRolePermissionService {
 //        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
 //            throw new ValidationException("RpPageRoot name already exist with inactive state");
 //        }
-        return mapper.rpRolePermissionEntityToObject(rpRolePermissionRepository.save(rpRolePermission), RpRolePermissionResponse.class);
+//        return mapper.rpRolePermissionEntityToObject(rpRolePermissionRepository.save(rpRolePermission), RpRolePermissionResponse.class);
+        return rpRolePermissionResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getPaginatedRpRolePermissionDetails(final Pageable pageable){
-        return convertToMapResponse(rpRolePermissionRepository.findByActiveOrderByRpRolePermissionIdAsc( true, pageable));
+    public Map<String, Object> getPaginatedRpRolePermissionDetails(final Pageable pageable) {
+        return convertToMapResponse(rpRolePermissionRepository.findByActiveOrderByRpRolePermissionIdAsc(true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllByActive(boolean isActive){
+    public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(rpRolePermissionRepository.findByActive(isActive));
     }
 
@@ -75,8 +79,8 @@ public class RpRolePermissionService {
         Map<String, Object> response = new HashMap<>();
 
         List<RpRolePermissionResponse> rpRolePermissionResponses = activeRpRolePermissions.getContent().stream()
-                .map(rpRolePermission -> mapper.rpRolePermissionEntityToObject(rpRolePermission,RpRolePermissionResponse.class)).collect(Collectors.toList());
-        response.put("rpRolePermission",rpRolePermissionResponses);
+                .map(rpRolePermission -> mapper.rpRolePermissionEntityToObject(rpRolePermission, RpRolePermissionResponse.class)).collect(Collectors.toList());
+        response.put("rpRolePermission", rpRolePermissionResponses);
         response.put("currentPage", activeRpRolePermissions.getNumber());
         response.put("totalItems", activeRpRolePermissions.getTotalElements());
         response.put("totalPages", activeRpRolePermissions.getTotalPages());
@@ -88,49 +92,65 @@ public class RpRolePermissionService {
         Map<String, Object> response = new HashMap<>();
 
         List<RpRolePermissionResponse> rpRolePermissionResponses = activeRpRolePermissions.stream()
-                .map(rpRolePermission -> mapper.rpRolePermissionEntityToObject(rpRolePermission,RpRolePermissionResponse.class)).collect(Collectors.toList());
-        response.put("rpRolePermission",activeRpRolePermissions);
+                .map(rpRolePermission -> mapper.rpRolePermissionEntityToObject(rpRolePermission, RpRolePermissionResponse.class)).collect(Collectors.toList());
+        response.put("rpRolePermission", activeRpRolePermissions);
         return response;
     }
 
     @Transactional
-    public void deleteRpRolePermissionDetails(long id) {
+    public RpRolePermissionResponse deleteRpRolePermissionDetails(long id) {
+        RpRolePermissionResponse rpRolePermissionResponse = new RpRolePermissionResponse();
         RpRolePermission rpRolePermission = rpRolePermissionRepository.findByRpRolePermissionIdAndActive(id, true);
         if (Objects.nonNull(rpRolePermission)) {
             rpRolePermission.setActive(false);
-            rpRolePermissionRepository.save(rpRolePermission);
+            rpRolePermissionResponse = mapper.rpRolePermissionEntityToObject(rpRolePermissionRepository.save(rpRolePermission), RpRolePermissionResponse.class);
+            rpRolePermissionResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            rpRolePermissionResponse.setError(true);
+            rpRolePermissionResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return rpRolePermissionResponse;
     }
 
     @Transactional
-    public RpRolePermissionResponse getById(int id){
-        RpRolePermission rpRolePermission = rpRolePermissionRepository.findByRpRolePermissionIdAndActive(id,true);
-        if(rpRolePermission == null){
-            throw new ValidationException("Invalid Id");
+    public RpRolePermissionResponse getById(int id) {
+        RpRolePermissionResponse rpRolePermissionResponse = new RpRolePermissionResponse();
+        RpRolePermission rpRolePermission = rpRolePermissionRepository.findByRpRolePermissionIdAndActive(id, true);
+        if (rpRolePermission == null) {
+            rpRolePermissionResponse.setError(true);
+            rpRolePermissionResponse.setError_description("Invalid id");
+        } else {
+            rpRolePermissionResponse = mapper.rpRolePermissionEntityToObject(rpRolePermission, RpRolePermissionResponse.class);
+            rpRolePermissionResponse.setError(false);
         }
-        log.info("Entity is ",rpRolePermission);
-        return mapper.rpRolePermissionEntityToObject(rpRolePermission,RpRolePermissionResponse.class);
+        log.info("Entity is ", rpRolePermission);
+        return rpRolePermissionResponse;
     }
 
     @Transactional
-    public RpRolePermissionResponse updateRpRolePermissionDetails(EditRpRolePermissionRequest rpRolePermissionRequest){
+    public RpRolePermissionResponse updateRpRolePermissionDetails(EditRpRolePermissionRequest rpRolePermissionRequest) {
+        RpRolePermissionResponse rpRolePermissionResponse = new RpRolePermissionResponse();
 //        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
 //        if(rpPageRootList.size()>0){
 //            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
 //        }
 
-        RpRolePermission rpRolePermission = rpRolePermissionRepository.findByRpRolePermissionIdAndActiveIn(rpRolePermissionRequest.getRpRolePermissionId(), Set.of(true,false));
-        if(Objects.nonNull(rpRolePermission)){
-            rpRolePermission.setType(rpRolePermissionRequest.getType());
-            rpRolePermission.setValue(rpRolePermissionRequest.getValue());
-            rpRolePermission.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Rp Role Permission");
-        }
-        return mapper.rpRolePermissionEntityToObject(rpRolePermissionRepository.save(rpRolePermission), RpRolePermissionResponse.class);
-    }
+            RpRolePermission rpRolePermission = rpRolePermissionRepository.findByRpRolePermissionIdAndActiveIn(rpRolePermissionRequest.getRpRolePermissionId(), Set.of(true, false));
+            if (Objects.nonNull(rpRolePermission)) {
+                rpRolePermission.setType(rpRolePermissionRequest.getType());
+                rpRolePermission.setValue(rpRolePermissionRequest.getValue());
+                rpRolePermission.setActive(true);
+                RpRolePermission rpRolePermission1 = rpRolePermissionRepository.save(rpRolePermission);
+                rpRolePermissionResponse = mapper.rpRolePermissionEntityToObject(rpRolePermission1, RpRolePermissionResponse.class);
+                rpRolePermissionResponse.setError(false);
+            } else {
+                rpRolePermissionResponse.setError(true);
+                rpRolePermissionResponse.setError_description("Error occurred while fetching rpRolePermission");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
 
+        return rpRolePermissionResponse;
+    }
 
 }

@@ -17,4 +17,10 @@ public class SourceMasterResponse {
 
     @Schema(name = "sourceMasterName", example = "sourceName 1")
     String sourceMasterName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

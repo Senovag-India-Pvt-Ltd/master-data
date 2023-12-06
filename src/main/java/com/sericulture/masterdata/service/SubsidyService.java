@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.subsidy.EditSubsidyRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.Subsidy;
 import com.sericulture.masterdata.model.entity.Taluk;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.SubsidyRepository;
@@ -35,26 +37,39 @@ public class SubsidyService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SubsidyResponse getSubsidyDetails(String subsidyName){
+        SubsidyResponse subsidyResponse = new SubsidyResponse();
         Subsidy subsidy = null;
         if(subsidy==null){
             subsidy = subsidyRepository.findBySubsidyNameAndActive(subsidyName,true);
+            subsidyResponse = mapper.subsidyEntityToObject(subsidy, SubsidyResponse.class);
+            subsidyResponse.setError(false);
+        }else{
+            subsidyResponse.setError(true);
+            subsidyResponse.setError_description("Subsidy not found");
         }
         log.info("Entity is ",subsidy);
-        return mapper.subsidyEntityToObject(subsidy,SubsidyResponse.class);
+        return subsidyResponse;
     }
 
     @Transactional
     public SubsidyResponse insertSubsidyDetails(SubsidyRequest subsidyRequest){
+        SubsidyResponse subsidyResponse = new SubsidyResponse();
         Subsidy subsidy = mapper.subsidyObjectToEntity(subsidyRequest,Subsidy.class);
         validator.validate(subsidy);
         List<Subsidy> subsidyList = subsidyRepository.findBySubsidyName(subsidyRequest.getSubsidyName());
         if(!subsidyList.isEmpty() && subsidyList.stream().filter(Subsidy::getActive).findAny().isPresent()){
-            throw new ValidationException("Subsidy name already exist");
+            subsidyResponse.setError(true);
+            subsidyResponse.setError_description("Subsidy name already exist");
         }
-        if(!subsidyList.isEmpty() && subsidyList.stream().filter(Predicate.not(Subsidy::getActive)).findAny().isPresent()){
-            throw new ValidationException("Subsidy name already exist with inactive state");
+        else if(!subsidyList.isEmpty() && subsidyList.stream().filter(Predicate.not(Subsidy::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            subsidyResponse.setError(true);
+            subsidyResponse.setError_description("Subsidy name already exist with inactive state");
+        }else {
+            subsidyResponse = mapper.subsidyEntityToObject(subsidyRepository.save(subsidy), SubsidyResponse.class);
+            subsidyResponse.setError(false);
         }
-        return mapper.subsidyEntityToObject(subsidyRepository.save(subsidy),SubsidyResponse.class);
+        return subsidyResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -91,40 +106,60 @@ public class SubsidyService {
 
 
     @Transactional
-    public void deleteSubsidyDetails(long id) {
+    public SubsidyResponse deleteSubsidyDetails(long id) {
+        SubsidyResponse subsidyResponse = new SubsidyResponse();
         Subsidy subsidy = subsidyRepository.findBySubsidyIdAndActive(id, true);
         if (Objects.nonNull(subsidy)) {
             subsidy.setActive(false);
-            subsidyRepository.save(subsidy);
+            subsidyResponse = mapper.subsidyEntityToObject(subsidyRepository.save(subsidy), SubsidyResponse.class);
+            subsidyResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            subsidyResponse.setError(true);
+            subsidyResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return subsidyResponse;
     }
 
     @Transactional
     public SubsidyResponse getById(int id){
+        SubsidyResponse subsidyResponse = new SubsidyResponse();
         Subsidy subsidy = subsidyRepository.findBySubsidyIdAndActive(id,true);
         if(subsidy == null){
-            throw new ValidationException("Invalid Id");
+            subsidyResponse.setError(true);
+            subsidyResponse.setError_description("Invalid id");
+        }else{
+            subsidyResponse =  mapper.subsidyEntityToObject(subsidy,SubsidyResponse.class);
+            subsidyResponse.setError(false);
         }
         log.info("Entity is ",subsidy);
-        return mapper.subsidyEntityToObject(subsidy,SubsidyResponse.class);
+        return subsidyResponse;
     }
 
     @Transactional
-    public SubsidyResponse updateSubsidyDetails(EditSubsidyRequest subsidyRequest){
+    public SubsidyResponse updateSubsidyDetails(EditSubsidyRequest subsidyRequest) {
+        SubsidyResponse subsidyResponse = new SubsidyResponse();
         List<Subsidy> subsidyList = subsidyRepository.findBySubsidyName(subsidyRequest.getSubsidyName());
-        if(subsidyList.size()>0){
-            throw new ValidationException("Subsidy already exists with this name, duplicates are not allowed.");
-        }
+        if (subsidyList.size() > 0) {
+            subsidyResponse.setError(true);
+            subsidyResponse.setError_description("Subsidy already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        Subsidy subsidy = subsidyRepository.findBySubsidyIdAndActiveIn(subsidyRequest.getSubsidyId(), Set.of(true,false));
-        if(Objects.nonNull(subsidy)){
-            subsidy.setSubsidyName(subsidyRequest.getSubsidyName());
-            subsidy.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching machineType");
+            Subsidy subsidy = subsidyRepository.findBySubsidyIdAndActiveIn(subsidyRequest.getSubsidyId(), Set.of(true, false));
+            if (Objects.nonNull(subsidy)) {
+                subsidy.setSubsidyName(subsidyRequest.getSubsidyName());
+                subsidy.setActive(true);
+                Subsidy subsidy1 = subsidyRepository.save(subsidy);
+                subsidyResponse = mapper.subsidyEntityToObject(subsidy1, SubsidyResponse.class);
+                subsidyResponse.setError(false);
+            } else {
+                subsidyResponse.setError(true);
+                subsidyResponse.setError_description("Error occurred while fetching subsidy");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.subsidyEntityToObject(subsidyRepository.save(subsidy),SubsidyResponse.class);
+        return subsidyResponse;
     }
+
 }

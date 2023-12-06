@@ -18,4 +18,10 @@ public class TraderTypeMasterResponse  {
 
     @Schema(name="traderTypeMasterName", example = "trader type 1")
     String traderTypeMasterName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

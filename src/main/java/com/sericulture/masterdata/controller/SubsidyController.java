@@ -104,8 +104,9 @@ public class SubsidyController {
     public ResponseEntity<?> deleteSubsidyDetails(
             @PathVariable final Integer id
     ) {
-        subsidyService.deleteSubsidyDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(subsidyService.deleteSubsidyDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

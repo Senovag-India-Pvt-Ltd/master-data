@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.soilType.EditSoilTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeResponse;
 import com.sericulture.masterdata.model.api.state.StateResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.SoilType;
 import com.sericulture.masterdata.model.entity.State;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.SoilTypeRepository;
@@ -35,26 +37,39 @@ public class SoilTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SoilTypeResponse getSoilTypeDetails(String soilTypeName){
+        SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         SoilType soilType = null;
         if(soilType==null){
             soilType = soilTypeRepository.findBySoilTypeNameAndActive(soilTypeName,true);
+            soilTypeResponse = mapper.soilTypeEntityToObject(soilType, SoilTypeResponse.class);
+            soilTypeResponse.setError(false);
+        }else{
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("SoilType not found");
         }
         log.info("Entity is ",soilType);
-        return mapper.soilTypeEntityToObject(soilType,SoilTypeResponse.class);
+        return soilTypeResponse;
     }
 
     @Transactional
     public SoilTypeResponse insertSoilTypeDetails(SoilTypeRequest soilTypeRequest){
+        SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         SoilType soilType = mapper.soilTypeObjectToEntity(soilTypeRequest,SoilType.class);
         validator.validate(soilType);
         List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeName(soilTypeRequest.getSoilTypeName());
         if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(SoilType::getActive).findAny().isPresent()){
-            throw new ValidationException("SoilType name already exist");
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("SoilType name already exist");
         }
-        if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(Predicate.not(SoilType::getActive)).findAny().isPresent()){
-            throw new ValidationException("SoilType name already exist with inactive state");
+        else if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(Predicate.not(SoilType::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("SoilType name already exist with inactive state");
+        }else {
+            soilTypeResponse = mapper.soilTypeEntityToObject(soilTypeRepository.save(soilType), SoilTypeResponse.class);
+            soilTypeResponse.setError(false);
         }
-        return mapper.soilTypeEntityToObject(soilTypeRepository.save(soilType), SoilTypeResponse.class);
+        return soilTypeResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,38 +105,59 @@ public class SoilTypeService {
     }
 
     @Transactional
-    public void deleteSoilTypeDetails(long id) {
+    public SoilTypeResponse deleteSoilTypeDetails(long id) {
+        SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         SoilType soilType = soilTypeRepository.findBySoilTypeIdAndActive(id, true);
         if (Objects.nonNull(soilType)) {
             soilType.setActive(false);
-            soilTypeRepository.save(soilType);
+            soilTypeResponse = mapper.soilTypeEntityToObject(soilTypeRepository.save(soilType), SoilTypeResponse.class);
+            soilTypeResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return soilTypeResponse;
     }
 
     @Transactional
     public SoilTypeResponse getById(int id){
+        SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         SoilType soilType = soilTypeRepository.findBySoilTypeIdAndActive(id,true);
         if(soilType == null){
-            throw new ValidationException("Invalid Id");
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("Invalid id");
+        }else{
+            soilTypeResponse =  mapper.soilTypeEntityToObject(soilType,SoilTypeResponse.class);
+            soilTypeResponse.setError(false);
         }
         log.info("Entity is ",soilType);
-        return mapper.soilTypeEntityToObject(soilType,SoilTypeResponse.class);
+        return soilTypeResponse;
     }
 
     @Transactional
-    public SoilTypeResponse updateSoilTypeDetails(EditSoilTypeRequest soilTypeRequest){
+    public SoilTypeResponse updateSoilTypeDetails(EditSoilTypeRequest soilTypeRequest) {
+        SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeName(soilTypeRequest.getSoilTypeName());
-        if(soilTypeList.size()>0){
-            throw new ValidationException("Soil Type already exists, duplicates are not allowed.");
-        }
+        if (soilTypeList.size() > 0) {
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("SoilType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        SoilType soilType = soilTypeRepository.findBySoilTypeIdAndActiveIn(soilTypeRequest.getSoilTypeId(), Set.of(true,false));
-        if(Objects.nonNull(soilType)){
-            soilType.setSoilTypeName(soilTypeRequest.getSoilTypeName());
-            soilType.setActive(true);
+            SoilType soilType = soilTypeRepository.findBySoilTypeIdAndActiveIn(soilTypeRequest.getSoilTypeId(), Set.of(true, false));
+            if (Objects.nonNull(soilType)) {
+                soilType.setSoilTypeName(soilTypeRequest.getSoilTypeName());
+                soilType.setActive(true);
+                SoilType soilType1 = soilTypeRepository.save(soilType);
+                soilTypeResponse = mapper.soilTypeEntityToObject(soilType1, SoilTypeResponse.class);
+                soilTypeResponse.setError(false);
+            } else {
+                soilTypeResponse.setError(true);
+                soilTypeResponse.setError_description("Error occurred while fetching SoilType");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.soilTypeEntityToObject(soilTypeRepository.save(soilType),SoilTypeResponse.class);
+        return soilTypeResponse;
     }
 }

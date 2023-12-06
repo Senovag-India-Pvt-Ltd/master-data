@@ -51,39 +51,49 @@ public class TalukService {
     CustomValidator validator;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TalukResponse getTalukDetails(String talukName){
+    public TalukResponse getTalukDetails(String talukName) {
+        TalukResponse talukResponse = new TalukResponse();
         Taluk taluk = null;
-        if(taluk==null){
-            taluk = talukRepository.findByTalukNameAndActive(talukName,true);
+        if (taluk == null) {
+            taluk = talukRepository.findByTalukNameAndActive(talukName, true);
+            talukResponse = mapper.talukEntityToObject(taluk, TalukResponse.class);
+            talukResponse.setError(false);
+        } else {
+            talukResponse.setError(true);
+            talukResponse.setError_description("Taluk not found");
         }
-        log.info("Entity is ",taluk);
-        return mapper.talukEntityToObject(taluk,TalukResponse.class);
+        log.info("Entity is ", taluk);
+        return talukResponse;
     }
 
     @Transactional
-    public TalukResponse insertTalukDetails(TalukRequest talukRequest){
-        Taluk taluk = mapper.talukObjectToEntity(talukRequest,Taluk.class);
+    public TalukResponse insertTalukDetails(TalukRequest talukRequest) {
+        TalukResponse talukResponse = new TalukResponse();
+        Taluk taluk = mapper.talukObjectToEntity(talukRequest, Taluk.class);
         validator.validate(taluk);
         List<Taluk> talukList = talukRepository.findByTalukName(talukRequest.getTalukName());
-        if(!talukList.isEmpty() && talukList.stream().filter(Taluk::getActive).findAny().isPresent()){
-            throw new ValidationException("Taluk name already exist with this state");
+        if (!talukList.isEmpty() && talukList.stream().filter(Taluk::getActive).findAny().isPresent()) {
+//            throw new ValidationException("Taluk name already exist with this state");
+            talukResponse.setError(true);
+            talukResponse.setError_description("Taluk name already exist");
+        } else if (!talukList.isEmpty() && talukList.stream().filter(Predicate.not(Taluk::getActive)).findAny().isPresent()) {
+            //throw new ValidationException("Village name already exist with inactive state");
+            talukResponse.setError(true);
+            talukResponse.setError_description("Taluk name already exist with inactive state");
+        } else {
+            talukResponse = mapper.talukEntityToObject(talukRepository.save(taluk), TalukResponse.class);
+            talukResponse.setError(false);
         }
-        if(!talukList.isEmpty() && talukList.stream().filter(Predicate.not(Taluk::getActive)).findAny().isPresent()){
-            throw new ValidationException("Taluk name already exist with inactive taluk with this state");
-        }
-        //Hard coded values, please remove once it is corrected
-//        taluk.setDistrictId(1L);
-//        taluk.setStateId(1L);
-        return mapper.talukEntityToObject(talukRepository.save(taluk),TalukResponse.class);
+        return talukResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getPaginatedTalukDetails(final Pageable pageable){
-        return convertToMapResponse(talukRepository.findByActiveOrderByTalukIdAsc( true, pageable));
+    public Map<String, Object> getPaginatedTalukDetails(final Pageable pageable) {
+        return convertToMapResponse(talukRepository.findByActiveOrderByTalukIdAsc(true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllByActive(boolean isActive){
+    public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(talukRepository.findByActive(isActive));
     }
 
@@ -91,8 +101,8 @@ public class TalukService {
         Map<String, Object> response = new HashMap<>();
 
         List<TalukResponse> talukResponses = activeTaluks.getContent().stream()
-                .map(taluk -> mapper.talukEntityToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
-        response.put("taluk",talukResponses);
+                .map(taluk -> mapper.talukEntityToObject(taluk, TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk", talukResponses);
         response.put("currentPage", activeTaluks.getNumber());
         response.put("totalItems", activeTaluks.getTotalElements());
         response.put("totalPages", activeTaluks.getTotalPages());
@@ -104,14 +114,14 @@ public class TalukService {
         Map<String, Object> response = new HashMap<>();
 
         List<TalukResponse> talukResponses = activeTaluks.stream()
-                .map(taluk -> mapper.talukEntityToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
-        response.put("taluk",talukResponses);
+                .map(taluk -> mapper.talukEntityToObject(taluk, TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk", talukResponses);
         return response;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getPaginatedTalukDetailsWithJoin(final Pageable pageable){
-        return convertDTOToMapResponse(talukRepository.getByActiveOrderByTalukIdAsc( true, pageable));
+    public Map<String, Object> getPaginatedTalukDetailsWithJoin(final Pageable pageable) {
+        return convertDTOToMapResponse(talukRepository.getByActiveOrderByTalukIdAsc(true, pageable));
     }
 
 
@@ -119,8 +129,8 @@ public class TalukService {
         Map<String, Object> response = new HashMap<>();
 
         List<TalukResponse> talukResponses = activeTaluks.getContent().stream()
-                .map(taluk -> mapper.talukDTOToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
-        response.put("taluk",talukResponses);
+                .map(taluk -> mapper.talukDTOToObject(taluk, TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk", talukResponses);
         response.put("currentPage", activeTaluks.getNumber());
         response.put("totalItems", activeTaluks.getTotalElements());
         response.put("totalPages", activeTaluks.getTotalPages());
@@ -128,72 +138,103 @@ public class TalukService {
     }
 
     @Transactional
-    public void deleteTalukDetails(long id) {
+    public TalukResponse deleteTalukDetails(long id) {
+        TalukResponse talukResponse = new TalukResponse();
         Taluk taluk = talukRepository.findByTalukIdAndActive(id, true);
         if (Objects.nonNull(taluk)) {
             taluk.setActive(false);
-            talukRepository.save(taluk);
+//            talukRepository.save(taluk);
+            talukResponse = mapper.talukEntityToObject(talukRepository.save(taluk), TalukResponse.class);
+            talukResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            talukResponse.setError(true);
+            talukResponse.setError_description("Invalid Id");
+//            throw new ValidationException("Invalid Id");
         }
+        return talukResponse;
     }
 
     @Transactional
-    public TalukResponse getById(int id){
-        Taluk taluk = talukRepository.findByTalukIdAndActive(id,true);
-        if(taluk == null){
-            throw new ValidationException("Invalid Id");
+    public TalukResponse getById(int id) {
+        TalukResponse talukResponse = new TalukResponse();
+        Taluk taluk = talukRepository.findByTalukIdAndActive(id, true);
+        if (taluk == null) {
+//            throw new ValidationException("Invalid Id");
+            talukResponse.setError(true);
+            talukResponse.setError_description("Invalid id");
+        } else {
+            talukResponse = mapper.talukEntityToObject(taluk, TalukResponse.class);
+            talukResponse.setError(false);
         }
-        log.info("Entity is ",taluk);
-        return mapper.talukEntityToObject(taluk,TalukResponse.class);
+        log.info("Entity is ", taluk);
+        return talukResponse;
     }
 
     @Transactional
-    public TalukResponse getByIdJoin(int id){
-        TalukDTO talukDTO = talukRepository.getByTalukIdAndActive(id,true);
-        if(talukDTO == null){
-            throw new ValidationException("Invalid Id");
+    public TalukResponse getByIdJoin(int id) {
+        TalukResponse talukResponse = new TalukResponse();
+        TalukDTO talukDTO = talukRepository.getByTalukIdAndActive(id, true);
+        if (talukDTO == null) {
+//            throw new ValidationException("Invalid Id");
+            talukResponse.setError(true);
+            talukResponse.setError_description("Invalid id");
+        } else {
+            talukResponse = mapper.talukDTOToObject(talukDTO, TalukResponse.class);
+            talukResponse.setError(false);
         }
         log.info("Entity is ", talukDTO);
-        return mapper.talukDTOToObject(talukDTO, TalukResponse.class);
+        return talukResponse;
     }
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getTalukByDistrictId(Long districtId){
-        List<Taluk> talukList = talukRepository.findByDistrictIdAndActive(districtId,true);
-        if(talukList.isEmpty()){
-            throw new ValidationException("Invalid Id");
+    public Map<String, Object> getTalukByDistrictId(Long districtId) {
+        Map<String, Object> response = new HashMap<>();
+        List<Taluk> talukList = talukRepository.findByDistrictIdAndActive(districtId, true);
+        if (talukList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            return response;
+        } else {
+            log.info("Entity is ", talukList);
+            response = convertListToMapResponse(talukList);
+            return response;
+
         }
-        log.info("Entity is ",talukList);
-        return convertListToMapResponse(talukList);
+
     }
 
     private Map<String, Object> convertListToMapResponse(List<Taluk> talukList) {
         Map<String, Object> response = new HashMap<>();
         List<TalukResponse> talukResponses = talukList.stream()
-                .map(taluk -> mapper.talukEntityToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
-        response.put("taluk",talukResponses);
+                .map(taluk -> mapper.talukEntityToObject(taluk, TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk", talukResponses);
         response.put("totalItems", talukList.size());
         return response;
     }
 
     @Transactional
-    public TalukResponse updateTalukDetails(EditTalukRequest talukRequest){
+    public TalukResponse updateTalukDetails(EditTalukRequest talukRequest) {
+        TalukResponse talukResponse = new TalukResponse();
         List<Taluk> talukList = talukRepository.findByTalukName(talukRequest.getTalukName());
-        if(talukList.size()>0){
-            throw new ValidationException("Taluk already exists with this state, duplicates are not allowed.");
+        if (talukList.size() > 0) {
+            talukResponse.setError(true);
+            talukResponse.setError_description("Taluk already exists, duplicates are not allowed.");
+        } else {
+            Taluk taluk = talukRepository.findByTalukIdAndActiveIn(talukRequest.getTalukId(), Set.of(true, false));
+            if (Objects.nonNull(taluk)) {
+                taluk.setStateId(talukRequest.getStateId());
+                taluk.setDistrictId(talukRequest.getDistrictId());
+                taluk.setTalukId(talukRequest.getTalukId());
+                taluk.setTalukName(talukRequest.getTalukName());
+                Taluk updatedTaluk = talukRepository.save(taluk);
+                talukResponse = mapper.talukEntityToObject(updatedTaluk, TalukResponse.class);
+                talukResponse.setError(false);
+            } else {
+                talukResponse.setError(true);
+                talukResponse.setError_description("Error occurred while fetching taluk");
+            }
         }
-
-        Taluk taluk = talukRepository.findByTalukIdAndActiveIn(talukRequest.getTalukId(), Set.of(true,false));
-        if(Objects.nonNull(taluk)){
-            taluk.setStateId(talukRequest.getStateId());
-            taluk.setDistrictId(talukRequest.getDistrictId());
-            taluk.setTalukId(talukRequest.getTalukId());
-            taluk.setTalukName(talukRequest.getTalukName());
-            taluk.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching taluk");
-        }
-        return mapper.talukEntityToObject(talukRepository.save(taluk),TalukResponse.class);
+        return talukResponse;
     }
-
 }

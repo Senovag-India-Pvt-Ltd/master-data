@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.scProgram.EditScProgramRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.ScProgram;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScProgramRepository;
@@ -33,26 +35,39 @@ public class ScProgramService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ScProgramResponse getScProgramDetails(String scProgramName){
+        ScProgramResponse scProgramResponse = new ScProgramResponse();
         ScProgram scProgram = null;
         if(scProgram==null){
             scProgram = scProgramRepository.findByScProgramNameAndActive(scProgramName,true);
+            scProgramResponse = mapper.scProgramEntityToObject(scProgram, ScProgramResponse.class);
+            scProgramResponse.setError(false);
+        }else{
+            scProgramResponse.setError(true);
+            scProgramResponse.setError_description("ScProgram not found");
         }
         log.info("Entity is ",scProgram);
-        return mapper.scProgramEntityToObject(scProgram,ScProgramResponse.class);
+        return scProgramResponse;
     }
 
     @Transactional
     public ScProgramResponse insertScProgramDetails(ScProgramRequest scProgramRequest){
+        ScProgramResponse scProgramResponse = new ScProgramResponse();
         ScProgram scProgram = mapper.scProgramObjectToEntity(scProgramRequest,ScProgram.class);
         validator.validate(scProgram);
         List<ScProgram> scProgramList = scProgramRepository.findByScProgramName(scProgramRequest.getScProgramName());
         if(!scProgramList.isEmpty() && scProgramList.stream().filter(ScProgram::getActive).findAny().isPresent()){
-            throw new ValidationException("ScProgram name already exist");
+            scProgramResponse.setError(true);
+            scProgramResponse.setError_description("ScProgram name already exist");
         }
-        if(!scProgramList.isEmpty() && scProgramList.stream().filter(Predicate.not(ScProgram::getActive)).findAny().isPresent()){
-            throw new ValidationException("ScProgram name already exist with inactive state");
+        else if(!scProgramList.isEmpty() && scProgramList.stream().filter(Predicate.not(ScProgram::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            scProgramResponse.setError(true);
+            scProgramResponse.setError_description("ScProgram name already exist with inactive state");
+        }else {
+            scProgramResponse = mapper.scProgramEntityToObject(scProgramRepository.save(scProgram), ScProgramResponse.class);
+            scProgramResponse.setError(false);
         }
-        return mapper.scProgramEntityToObject(scProgramRepository.save(scProgram),ScProgramResponse.class);
+        return scProgramResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -88,40 +103,59 @@ public class ScProgramService {
     }
 
     @Transactional
-    public void deleteScProgramDetails(long id) {
+    public ScProgramResponse deleteScProgramDetails(long id) {
+        ScProgramResponse scProgramResponse = new ScProgramResponse();
         ScProgram scProgram = scProgramRepository.findByScProgramIdAndActive(id, true);
         if (Objects.nonNull(scProgram)) {
             scProgram.setActive(false);
-            scProgramRepository.save(scProgram);
+            scProgramResponse = mapper.scProgramEntityToObject(scProgramRepository.save(scProgram), ScProgramResponse.class);
+            scProgramResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            scProgramResponse.setError(true);
+            scProgramResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return scProgramResponse;
     }
 
     @Transactional
     public ScProgramResponse getById(int id){
+        ScProgramResponse scProgramResponse = new ScProgramResponse();
         ScProgram scProgram = scProgramRepository.findByScProgramIdAndActive(id,true);
         if(scProgram == null){
-            throw new ValidationException("Invalid Id");
+            scProgramResponse.setError(true);
+            scProgramResponse.setError_description("Invalid id");
+        }else{
+            scProgramResponse =  mapper.scProgramEntityToObject(scProgram,ScProgramResponse.class);
+            scProgramResponse.setError(false);
         }
         log.info("Entity is ",scProgram);
-        return mapper.scProgramEntityToObject(scProgram,ScProgramResponse.class);
+        return scProgramResponse;
     }
 
     @Transactional
-    public ScProgramResponse updateScProgramDetails(EditScProgramRequest scProgramRequest){
+    public ScProgramResponse updateScProgramDetails(EditScProgramRequest scProgramRequest) {
+        ScProgramResponse scProgramResponse = new ScProgramResponse();
         List<ScProgram> scProgramList = scProgramRepository.findByScProgramName(scProgramRequest.getScProgramName());
-        if(scProgramList.size()>0){
-            throw new ValidationException("ScProgram already exists with this name, duplicates are not allowed.");
-        }
+        if (scProgramList.size() > 0) {
+            scProgramResponse.setError(true);
+            scProgramResponse.setError_description("ScProgram already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        ScProgram scProgram = scProgramRepository.findByScProgramIdAndActiveIn(scProgramRequest.getScProgramId(), Set.of(true,false));
-        if(Objects.nonNull(scProgram)){
-            scProgram.setScProgramName(scProgramRequest.getScProgramName());
-            scProgram.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Program");
+            ScProgram scProgram = scProgramRepository.findByScProgramIdAndActiveIn(scProgramRequest.getScProgramId(), Set.of(true, false));
+            if (Objects.nonNull(scProgram)) {
+                scProgram.setScProgramName(scProgramRequest.getScProgramName());
+                scProgram.setActive(true);
+                ScProgram scProgram1 = scProgramRepository.save(scProgram);
+                scProgramResponse = mapper.scProgramEntityToObject(scProgram1, ScProgramResponse.class);
+                scProgramResponse.setError(false);
+            } else {
+                scProgramResponse.setError(true);
+                scProgramResponse.setError_description("Error occurred while fetching ScProgram");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.scProgramEntityToObject(scProgramRepository.save(scProgram),ScProgramResponse.class);
+        return scProgramResponse;
     }
 }

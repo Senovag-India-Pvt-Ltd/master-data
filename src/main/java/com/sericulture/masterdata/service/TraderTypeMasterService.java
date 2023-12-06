@@ -35,26 +35,39 @@ public class TraderTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public TraderTypeMasterResponse getTraderTypeMasterDetails(String traderTypeMasterName){
+        TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = null;
         if(traderTypeMaster==null){
             traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterNameAndActive(traderTypeMasterName,true);
+            traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMaster,TraderTypeMasterResponse.class);
+            traderTypeMasterResponse.setError(false);
+        }else{
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("Trader Type not found");
         }
         log.info("Entity is ",traderTypeMaster);
-        return mapper.traderTypeMasterEntityToObject(traderTypeMaster,TraderTypeMasterResponse.class);
+        return traderTypeMasterResponse;
     }
 
     @Transactional
     public TraderTypeMasterResponse insertTraderTypeMasterDetails(TraderTypeMasterRequest traderTypeMasterRequest){
+        TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = mapper.traderTypeMasterObjectToEntity(traderTypeMasterRequest,TraderTypeMaster.class);
         validator.validate(traderTypeMaster);
         List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
         if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(TraderTypeMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("TraderType name already exist");
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("TraderType name already exist");
         }
-        if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(Predicate.not(TraderTypeMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("TraderType name already exist with inactive state");
+        else if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(Predicate.not(TraderTypeMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("TraderType name already exist with inactive state");
+        }else {
+            traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMasterRepository.save(traderTypeMaster), TraderTypeMasterResponse.class);
+            traderTypeMasterResponse.setError(false);
         }
-        return mapper.traderTypeMasterEntityToObject(traderTypeMasterRepository.save(traderTypeMaster),TraderTypeMasterResponse.class);
+        return traderTypeMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,41 +103,60 @@ public class TraderTypeMasterService {
     }
 
     @Transactional
-    public void deleteTraderTypeMasterDetails(long id) {
+    public TraderTypeMasterResponse deleteTraderTypeMasterDetails(long id) {
+        TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActive(id, true);
         if (Objects.nonNull(traderTypeMaster)) {
             traderTypeMaster.setActive(false);
-            traderTypeMasterRepository.save(traderTypeMaster);
+            traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMasterRepository.save(traderTypeMaster), TraderTypeMasterResponse.class);
+            traderTypeMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return traderTypeMasterResponse;
     }
 
     @Transactional
     public TraderTypeMasterResponse getById(int id){
+        TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActive(id,true);
         if(traderTypeMaster == null){
-            throw new ValidationException("Invalid Id");
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("Invalid id");
+        }else{
+            traderTypeMasterResponse =  mapper.traderTypeMasterEntityToObject(traderTypeMaster,TraderTypeMasterResponse.class);
+            traderTypeMasterResponse.setError(false);
         }
         log.info("Entity is ",traderTypeMaster);
-        return mapper.traderTypeMasterEntityToObject(traderTypeMaster,TraderTypeMasterResponse.class);
+        return traderTypeMasterResponse;
     }
 
     @Transactional
     public TraderTypeMasterResponse updateTraderTypeMasterDetails(EditTraderTypeMasterRequest traderTypeMasterRequest){
+        TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
         if(traderTypeMasterList.size()>0){
-            throw new ValidationException("Trader already exists with this name, duplicates are not allowed.");
-        }
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("TraderType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        }else {
 
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActiveIn(traderTypeMasterRequest.getTraderTypeMasterId(), Set.of(true,false));
         if(Objects.nonNull(traderTypeMaster)){
             traderTypeMaster.setTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
             traderTypeMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
+            TraderTypeMaster traderTypeMaster1 = traderTypeMasterRepository.save(traderTypeMaster);
+            traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMaster1, TraderTypeMasterResponse.class);
+            traderTypeMasterResponse.setError(false);
+        } else {
+            traderTypeMasterResponse.setError(true);
+            traderTypeMasterResponse.setError_description("Error occurred while fetching Trader Type");
+            // throw new ValidationException("Error occurred while fetching village");
         }
-        return mapper.traderTypeMasterEntityToObject(traderTypeMasterRepository.save(traderTypeMaster),TraderTypeMasterResponse.class);
+        }
+        return traderTypeMasterResponse;
     }
 
 }

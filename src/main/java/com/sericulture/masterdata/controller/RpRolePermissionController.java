@@ -109,8 +109,9 @@ public class RpRolePermissionController {
     public ResponseEntity<?> deleteRpRolePermissionDetails(
             @PathVariable final Integer id
     ) {
-        rpRolePermissionService.deleteRpRolePermissionDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(rpRolePermissionService.deleteRpRolePermissionDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

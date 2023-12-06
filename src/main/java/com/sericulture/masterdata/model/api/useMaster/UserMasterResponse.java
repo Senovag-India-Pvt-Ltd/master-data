@@ -65,4 +65,10 @@ public class UserMasterResponse {
 
     @Schema(name = "designationId", example = "1")
     Long designationId;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

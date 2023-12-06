@@ -17,4 +17,10 @@ public class SilkWormVarietyResponse {
 
     @Schema(name = "silkWormVarietyName", example = "Bombyx Mori")
     String silkWormVarietyName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

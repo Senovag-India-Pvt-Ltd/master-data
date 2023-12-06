@@ -6,8 +6,10 @@ import com.sericulture.masterdata.model.api.state.StateResponse;
 import com.sericulture.masterdata.model.api.vendorMaster.EditVendorMasterRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.State;
 import com.sericulture.masterdata.model.entity.VendorMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.StateRepository;
@@ -39,26 +41,39 @@ public class VendorMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public VendorMasterResponse getVendorMasterDetails(String vendorMasterName){
+        VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
         VendorMaster vendorMaster = null;
         if(vendorMaster==null){
             vendorMaster = vendorMasterRepository.findByVendorMasterNameAndActive(vendorMasterName,true);
+            vendorMasterResponse = mapper.vendorMasterEntityToObject(vendorMaster,VendorMasterResponse.class);
+            vendorMasterResponse.setError(false);
+        }else{
+            vendorMasterResponse.setError(true);
+            vendorMasterResponse.setError_description("VendorMaster not found");
         }
-        log.info("Entity is ",vendorMasterName);
-        return mapper.vendorMasterEntityToObject(vendorMaster,VendorMasterResponse.class);
+        log.info("Entity is ",vendorMaster);
+        return vendorMasterResponse;
     }
 
     @Transactional
     public VendorMasterResponse insertVendorMasterDetails(VendorMasterRequest vendorMasterRequest){
+        VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
         VendorMaster vendorMaster = mapper.vendorMasterObjectToEntity(vendorMasterRequest,VendorMaster.class);
         validator.validate(vendorMaster);
         List<VendorMaster> vendorMasterList = vendorMasterRepository.findByVendorMasterName(vendorMasterRequest.getVendorMasterName());
         if(!vendorMasterList.isEmpty() && vendorMasterList.stream().filter(VendorMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("Vendor name already exist");
+            vendorMasterResponse.setError(true);
+            vendorMasterResponse.setError_description("VendorMaster name already exist");
         }
-        if(!vendorMasterList.isEmpty() && vendorMasterList.stream().filter(Predicate.not(VendorMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("Vendor name already exist with inactive state");
+        else if(!vendorMasterList.isEmpty() && vendorMasterList.stream().filter(Predicate.not(VendorMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            vendorMasterResponse.setError(true);
+            vendorMasterResponse.setError_description("VendorMaster name already exist with inactive state");
+        }else {
+            vendorMasterResponse = mapper.vendorMasterEntityToObject(vendorMasterRepository.save(vendorMaster), VendorMasterResponse.class);
+            vendorMasterResponse.setError(false);
         }
-        return mapper.vendorMasterEntityToObject(vendorMasterRepository.save(vendorMaster),VendorMasterResponse.class);
+        return vendorMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -94,41 +109,59 @@ public class VendorMasterService {
     }
 
     @Transactional
-    public void deleteVendorMasterDetails(long id) {
+    public VendorMasterResponse deleteVendorMasterDetails(long id) {
+        VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
         VendorMaster vendorMaster = vendorMasterRepository.findByVendorMasterIdAndActive(id, true);
         if (Objects.nonNull(vendorMaster)) {
             vendorMaster.setActive(false);
-            vendorMasterRepository.save(vendorMaster);
+            vendorMasterResponse = mapper.vendorMasterEntityToObject(vendorMasterRepository.save(vendorMaster), VendorMasterResponse.class);
+            vendorMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            vendorMasterResponse.setError(true);
+            vendorMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return vendorMasterResponse;
     }
 
     @Transactional
     public VendorMasterResponse getById(int id){
+        VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
         VendorMaster vendorMaster = vendorMasterRepository.findByVendorMasterIdAndActive(id,true);
         if(vendorMaster == null){
-            throw new ValidationException("Invalid Id");
+            //throw new ValidationException("Invalid Id");
+            vendorMasterResponse.setError(true);
+            vendorMasterResponse.setError_description("Invalid id");
+        }else{
+            vendorMasterResponse =  mapper.vendorMasterEntityToObject(vendorMaster,VendorMasterResponse.class);
+            vendorMasterResponse.setError(false);
         }
         log.info("Entity is ",vendorMaster);
-        return mapper.vendorMasterEntityToObject(vendorMaster,VendorMasterResponse.class);
+        return vendorMasterResponse;
     }
 
     @Transactional
-    public VendorMasterResponse updateVendorMasterDetails(EditVendorMasterRequest vendorMasterRequest){
+    public VendorMasterResponse updateVendorMasterDetails(EditVendorMasterRequest vendorMasterRequest) {
+        VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
         List<VendorMaster> vendorMasterList = vendorMasterRepository.findByVendorMasterName(vendorMasterRequest.getVendorMasterName());
-        if(vendorMasterList.size()>0){
-            throw new ValidationException("Vendors already exists with this name, duplicates are not allowed.");
+        if (vendorMasterList.size() > 0) {
+            vendorMasterResponse.setError(true);
+            vendorMasterResponse.setError_description("VendorMaster already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
+            VendorMaster vendorMaster = vendorMasterRepository.findByVendorMasterIdAndActiveIn(vendorMasterRequest.getVendorMasterId(), Set.of(true, false));
+            if (Objects.nonNull(vendorMaster)) {
+                vendorMaster.setVendorMasterName(vendorMasterRequest.getVendorMasterName());
+                vendorMaster.setActive(true);
+                VendorMaster vendorMaster1 = vendorMasterRepository.save(vendorMaster);
+                vendorMasterResponse = mapper.vendorMasterEntityToObject(vendorMaster1, VendorMasterResponse.class);
+                vendorMasterResponse.setError(false);
+            } else {
+                vendorMasterResponse.setError(true);
+                vendorMasterResponse.setError_description("Error occurred while fetching VendorMaster");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-
-        VendorMaster vendorMaster = vendorMasterRepository.findByVendorMasterIdAndActiveIn(vendorMasterRequest.getVendorMasterId(), Set.of(true,false));
-        if(Objects.nonNull(vendorMaster)){
-            vendorMaster.setVendorMasterName(vendorMasterRequest.getVendorMasterName());
-            vendorMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
-        }
-        return mapper.vendorMasterEntityToObject(vendorMasterRepository.save(vendorMaster),VendorMasterResponse.class);
+        return vendorMasterResponse;
     }
-
 }

@@ -7,6 +7,7 @@ import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.UserMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.UserMasterRepository;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,8 +47,48 @@ public class UserMasterService {
 //        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
 //    }
 
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public UserMasterResponse getByUserNameAndPassword(String username, String password){
+//        UserMasterResponse userMasterResponse = new UserMasterResponse();
+////        UserMaster userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username, password,true);
+//        UserMaster userMaster = null;
+//        if(userMaster == null){
+//
+//            userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username,password,true);
+//            userMasterResponse = mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+//            userMasterResponse.setError(false);
+//        }else{
+//            userMasterResponse.setError(true);
+//            userMasterResponse.setError_description("User not found");
+//        }
+//        log.info("Entity is ",userMaster);
+//        return userMasterResponse;
+//    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public UserMasterResponse getByUserNameAndPassword(String username, String password) {
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+
+        // Instead of setting userMaster to null, directly query the repository
+        UserMaster userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username, password, true);
+
+        if (userMaster != null) {
+            // User found, map to response
+            userMasterResponse = mapper.userMasterEntityToObject(userMaster, UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        } else {
+            // User not found
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("User not found");
+        }
+
+        log.info("Entity is {}", userMaster);
+        return userMasterResponse;
+    }
+
+
     @Transactional
     public UserMasterResponse insertUserMasterDetails(UserMasterRequest userMasterRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster = mapper.userMasterObjectToEntity(userMasterRequest,UserMaster.class);
         validator.validate(userMaster);
 //        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
@@ -56,7 +98,8 @@ public class UserMasterService {
 //        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
 //            throw new ValidationException("RpPageRoot name already exist with inactive state");
 //        }
-        return mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+
+        return userMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -119,28 +162,39 @@ public class UserMasterService {
     }
 
     @Transactional
-    public void deleteUserMasterDetails(long id) {
+    public UserMasterResponse deleteUserMasterDetails(long id) {
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(id, true);
         if (Objects.nonNull(userMaster)) {
             userMaster.setActive(false);
-            userMasterRepository.save(userMaster);
+            userMasterResponse = mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+            userMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return userMasterResponse;
     }
 
     @Transactional
     public UserMasterResponse getById(int id){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(id,true);
         if(userMaster == null){
-            throw new ValidationException("Invalid Id");
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Invalid id");
+        }else{
+            userMasterResponse =  mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+            userMasterResponse.setError(false);
         }
         log.info("Entity is ",userMaster);
-        return mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+        return userMasterResponse;
     }
 
     @Transactional
     public UserMasterResponse updateUserMasterDetails(EditUserMasterRequest userMasterRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
 //        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
 //        if(rpPageRootList.size()>0){
 //            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
@@ -160,20 +214,17 @@ public class UserMasterService {
             userMaster.setRoleId(userMasterRequest.getRoleId());
             userMaster.setMarketMasterId(userMasterRequest.getMarketMasterId());
             userMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Rp Role Permission");
+            UserMaster userMaster1 = userMasterRepository.save(userMaster);
+            userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        } else {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Error occurred while fetching userMaster");
+            // throw new ValidationException("Error occurred while fetching village");
         }
-        return mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+
+        return userMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public UserMasterResponse getByUserNameAndPassword(String username, String password){
-        UserMaster userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username, password,true);
-        if(userMaster == null){
-            throw new ValidationException("Invalid Id");
-        }
-        log.info("Entity is ", userMaster);
-        return mapper.userMasterEntityToObject(userMaster, UserMasterResponse.class);
-    }
 
 }

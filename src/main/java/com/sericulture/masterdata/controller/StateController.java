@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.state.EditStateRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.state.StateResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.service.StateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -105,8 +106,9 @@ public class StateController {
     public ResponseEntity<?> deleteStateDetails(
             @PathVariable final Integer id
     ) {
-        stateService.deleteStateDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper<StateResponse> rw = ResponseWrapper.createWrapper(StateResponse.class);
+        rw.setContent(stateService.deleteStateDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

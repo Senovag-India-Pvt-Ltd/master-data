@@ -107,8 +107,9 @@ public class ScProgramController {
     public ResponseEntity<?> deleteScProgramDetails(
             @PathVariable final Integer id
     ) {
-        scProgramService.deleteScProgramDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scProgramService.deleteScProgramDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

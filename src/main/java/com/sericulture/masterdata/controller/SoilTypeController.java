@@ -105,8 +105,10 @@ public class SoilTypeController {
     public ResponseEntity<?> deleteSoilTypeDetails(
             @PathVariable final Integer id
     ) {
-        soilTypeService.deleteSoilTypeDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(SoilTypeResponse.class);
+
+        rw.setContent(soilTypeService.deleteSoilTypeDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

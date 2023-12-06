@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.sourceMaster.EditSourceMasterRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.SourceMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.SourceMasterRepository;
@@ -33,26 +35,39 @@ public class SourceMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SourceMasterResponse getSourceMasterDetails(String sourceMasterName){
+        SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
         SourceMaster sourceMaster = null;
         if(sourceMaster==null){
             sourceMaster = sourceMasterRepository.findBySourceMasterNameAndActive(sourceMasterName,true);
+            sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMaster, SourceMasterResponse.class);
+            sourceMasterResponse.setError(false);
+        }else{
+            sourceMasterResponse.setError(true);
+            sourceMasterResponse.setError_description("Source not found");
         }
         log.info("Entity is ",sourceMaster);
-        return mapper.sourceMasterEntityToObject(sourceMaster,SourceMasterResponse.class);
+        return sourceMasterResponse;
     }
 
     @Transactional
     public SourceMasterResponse insertSourceMasterDetails(SourceMasterRequest sourceMasterRequest){
+        SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
         SourceMaster sourceMaster = mapper.sourceMasterObjectToEntity(sourceMasterRequest,SourceMaster.class);
         validator.validate(sourceMaster);
         List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterName(sourceMasterRequest.getSourceMasterName());
         if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(SourceMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("Source name already exist");
+            sourceMasterResponse.setError(true);
+            sourceMasterResponse.setError_description("Source name already exist");
         }
-        if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(Predicate.not(SourceMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("Source name already exist with inactive state");
+        else if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(Predicate.not(SourceMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            sourceMasterResponse.setError(true);
+            sourceMasterResponse.setError_description("Source name already exist with inactive state");
+        }else {
+            sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMasterRepository.save(sourceMaster), SourceMasterResponse.class);
+            sourceMasterResponse.setError(false);
         }
-        return mapper.sourceMasterEntityToObject(sourceMasterRepository.save(sourceMaster),SourceMasterResponse.class);
+        return sourceMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -88,40 +103,58 @@ public class SourceMasterService {
     }
 
     @Transactional
-    public void deleteSourceMasterDetails(long id) {
+    public SourceMasterResponse deleteSourceMasterDetails(long id) {
+        SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
         SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterIdAndActive(id, true);
         if (Objects.nonNull(sourceMaster)) {
             sourceMaster.setActive(false);
-            sourceMasterRepository.save(sourceMaster);
+            sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMasterRepository.save(sourceMaster), SourceMasterResponse.class);
+            sourceMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            sourceMasterResponse.setError(true);
+            sourceMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return sourceMasterResponse;
     }
 
     @Transactional
     public SourceMasterResponse getById(int id){
+        SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
         SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterIdAndActive(id,true);
         if(sourceMaster == null){
-            throw new ValidationException("Invalid Id");
+            sourceMasterResponse.setError(true);
+            sourceMasterResponse.setError_description("Invalid id");
+        }else{
+            sourceMasterResponse =  mapper.sourceMasterEntityToObject(sourceMaster,SourceMasterResponse.class);
+            sourceMasterResponse.setError(false);
         }
         log.info("Entity is ",sourceMaster);
-        return mapper.sourceMasterEntityToObject(sourceMaster,SourceMasterResponse.class);
+        return sourceMasterResponse;
     }
 
     @Transactional
     public SourceMasterResponse updateSourceMasterDetails(EditSourceMasterRequest sourceMasterRequest){
-        List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterName(sourceMasterRequest.getSourceMasterName());
-        if(sourceMasterList.size()>0){
-            throw new ValidationException("Source already exists with this name, duplicates are not allowed.");
-        }
-
-        SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterIdAndActiveIn(sourceMasterRequest.getSourceMasterId(), Set.of(true,false));
-        if(Objects.nonNull(sourceMaster)){
-            sourceMaster.setSourceMasterName(sourceMasterRequest.getSourceMasterName());
-            sourceMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
-        }
-        return mapper.sourceMasterEntityToObject(sourceMasterRepository.save(sourceMaster),SourceMasterResponse.class);
+            SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
+            List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterName(sourceMasterRequest.getSourceMasterName());
+            if(sourceMasterList.size()>0){
+                sourceMasterResponse.setError(true);
+                sourceMasterResponse.setError_description("Source already exists, duplicates are not allowed.");
+                // throw new ValidationException("Village already exists, duplicates are not allowed.");
+            }else {
+            SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterIdAndActiveIn(sourceMasterRequest.getSourceMasterId(), Set.of(true,false));
+            if(Objects.nonNull(sourceMaster)){
+                sourceMaster.setSourceMasterName(sourceMasterRequest.getSourceMasterName());
+                sourceMaster.setActive(true);
+                SourceMaster sourceMaster1 = sourceMasterRepository.save(sourceMaster);
+                sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMaster1, SourceMasterResponse.class);
+                sourceMasterResponse.setError(false);
+            } else {
+                sourceMasterResponse.setError(true);
+                sourceMasterResponse.setError_description("Error occurred while fetching Source");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
+            }
+            return sourceMasterResponse;
     }
 }
