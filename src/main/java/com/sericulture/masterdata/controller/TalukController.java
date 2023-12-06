@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditTalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.service.TalukService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -108,8 +109,9 @@ public class TalukController {
     public ResponseEntity<?> deleteTalukDetails(
             @PathVariable final Integer id
     ) {
-        talukService.deleteTalukDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper<TalukResponse> rw = ResponseWrapper.createWrapper(TalukResponse.class);
+        rw.setContent(talukService.deleteTalukDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
