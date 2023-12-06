@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.roofType.EditRoofTypeRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeResponse;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.RoofType;
 import com.sericulture.masterdata.model.entity.SilkWormVariety;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RoofTypeRepository;
@@ -35,26 +37,39 @@ public class RoofTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RoofTypeResponse getRoofTypeDetails(String roofTypeName){
+        RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = null;
         if(roofType==null){
             roofType = roofTypeRepository.findByRoofTypeNameAndActive(roofTypeName,true);
+            roofTypeResponse = mapper.roofTypeEntityToObject(roofType, RoofTypeResponse.class);
+            roofTypeResponse.setError(false);
+        }else{
+            roofTypeResponse.setError(true);
+            roofTypeResponse.setError_description("RoofType not found");
         }
         log.info("Entity is ",roofType);
-        return mapper.roofTypeEntityToObject(roofType,RoofTypeResponse.class);
+        return roofTypeResponse;
     }
 
     @Transactional
     public RoofTypeResponse insertRoofTypeDetails(RoofTypeRequest roofTypeRequest){
+        RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = mapper.roofTypeObjectToEntity(roofTypeRequest,RoofType.class);
         validator.validate(roofType);
         List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeName(roofTypeRequest.getRoofTypeName());
         if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(RoofType::getActive).findAny().isPresent()){
-            throw new ValidationException("RoofType name already exist");
+            roofTypeResponse.setError(true);
+            roofTypeResponse.setError_description("RoofType name already exist");
         }
-        if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(Predicate.not(RoofType::getActive)).findAny().isPresent()){
-            throw new ValidationException("RoofType name already exist with inactive state");
+        else if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(Predicate.not(RoofType::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            roofTypeResponse.setError(true);
+            roofTypeResponse.setError_description("RoofType name already exist with inactive state");
+        }else {
+            roofTypeResponse = mapper.roofTypeEntityToObject(roofTypeRepository.save(roofType), RoofTypeResponse.class);
+            roofTypeResponse.setError(false);
         }
-        return mapper.roofTypeEntityToObject(roofTypeRepository.save(roofType),RoofTypeResponse.class);
+        return roofTypeResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,40 +105,59 @@ public class RoofTypeService {
     }
 
     @Transactional
-    public void deleteRoofTypeDetails(long id) {
+    public RoofTypeResponse deleteRoofTypeDetails(long id) {
+        RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActive(id, true);
         if (Objects.nonNull(roofType)) {
             roofType.setActive(false);
-            roofTypeRepository.save(roofType);
+            roofTypeResponse = mapper.roofTypeEntityToObject(roofTypeRepository.save(roofType), RoofTypeResponse.class);
+            roofTypeResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            roofTypeResponse.setError(true);
+            roofTypeResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return roofTypeResponse;
     }
 
     @Transactional
     public RoofTypeResponse getById(int id){
+        RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActive(id,true);
         if(roofType == null){
-            throw new ValidationException("Invalid Id");
+            roofTypeResponse.setError(true);
+            roofTypeResponse.setError_description("Invalid id");
+        }else{
+            roofTypeResponse =  mapper.roofTypeEntityToObject(roofType,RoofTypeResponse.class);
+            roofTypeResponse.setError(false);
         }
         log.info("Entity is ",roofType);
-        return mapper.roofTypeEntityToObject(roofType,RoofTypeResponse.class);
+        return roofTypeResponse;
     }
 
     @Transactional
-    public RoofTypeResponse updateRoofTypeDetails(EditRoofTypeRequest roofTypeRequest){
+    public RoofTypeResponse updateRoofTypeDetails(EditRoofTypeRequest roofTypeRequest) {
+        RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeName(roofTypeRequest.getRoofTypeName());
-        if(roofTypeList.size()>0){
-            throw new ValidationException("RoofType already exists with this name, duplicates are not allowed.");
-        }
+        if (roofTypeList.size() > 0) {
+            roofTypeResponse.setError(true);
+            roofTypeResponse.setError_description("RoofType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActiveIn(roofTypeRequest.getRoofTypeId(), Set.of(true,false));
-        if(Objects.nonNull(roofType)){
-            roofType.setRoofTypeName(roofTypeRequest.getRoofTypeName());
-            roofType.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching roof type");
+            RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActiveIn(roofTypeRequest.getRoofTypeId(), Set.of(true, false));
+            if (Objects.nonNull(roofType)) {
+                roofType.setRoofTypeName(roofTypeRequest.getRoofTypeName());
+                roofType.setActive(true);
+                RoofType roofType1 = roofTypeRepository.save(roofType);
+                roofTypeResponse = mapper.roofTypeEntityToObject(roofType1, RoofTypeResponse.class);
+                roofTypeResponse.setError(false);
+            } else {
+                roofTypeResponse.setError(true);
+                roofTypeResponse.setError_description("Error occurred while fetching RoofType");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.roofTypeEntityToObject(roofTypeRepository.save(roofType),RoofTypeResponse.class);
+        return roofTypeResponse;
     }
 }

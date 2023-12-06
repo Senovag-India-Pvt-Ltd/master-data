@@ -105,8 +105,9 @@ public class ReasonLotRejectMasterController {
     public ResponseEntity<?> deleteReasonLotRejectMasterDetails(
             @PathVariable final Integer id
     ) {
-        reasonLotRejectMasterService.deleteReasonLotRejectMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(reasonLotRejectMasterService.deleteReasonLotRejectMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

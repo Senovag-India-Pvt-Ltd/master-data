@@ -104,8 +104,9 @@ public class RoleController {
     public ResponseEntity<?> deleteRoleDetails(
             @PathVariable final Integer id
     ) {
-        roleService.deleteRoleDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(roleService.deleteRoleDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

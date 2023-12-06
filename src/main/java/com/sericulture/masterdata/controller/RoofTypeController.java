@@ -104,8 +104,9 @@ public class RoofTypeController {
     public ResponseEntity<?> deleteRoofTypeDetails(
             @PathVariable final Integer id
     ) {
-        roofTypeService.deleteRoofTypeDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(roofTypeService.deleteRoofTypeDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

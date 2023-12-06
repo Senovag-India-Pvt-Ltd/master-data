@@ -7,9 +7,11 @@ import com.sericulture.masterdata.model.api.role.RoleResponse;
 import com.sericulture.masterdata.model.api.state.EditStateRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.state.StateResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.Relationship;
 import com.sericulture.masterdata.model.entity.Role;
 import com.sericulture.masterdata.model.entity.State;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RelationshipRepository;
@@ -41,26 +43,39 @@ public class RelationshipService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RelationshipResponse getRelationshipDetails(String relationshipName){
+        RelationshipResponse relationshipResponse = new RelationshipResponse();
         Relationship relationship = null;
         if(relationship==null){
             relationship = relationshipRepository.findByRelationshipNameAndActive(relationshipName,true);
+            relationshipResponse = mapper.relationshipEntityToObject(relationship, RelationshipResponse.class);
+            relationshipResponse.setError(false);
+        }else{
+            relationshipResponse.setError(true);
+            relationshipResponse.setError_description("Relationship not found");
         }
         log.info("Entity is ",relationship);
-        return mapper.relationshipEntityToObject(relationship,RelationshipResponse.class);
+        return relationshipResponse;
     }
 
     @Transactional
     public RelationshipResponse insertRelationshipDetails(RelationshipRequest relationshipRequest){
+        RelationshipResponse relationshipResponse = new RelationshipResponse();
         Relationship relationship = mapper.relationshipObjectToEntity(relationshipRequest,Relationship.class);
         validator.validate(relationship);
         List<Relationship> relationshipList = relationshipRepository.findByRelationshipName(relationshipRequest.getRelationshipName());
         if(!relationshipList.isEmpty() && relationshipList.stream().filter(Relationship::getActive).findAny().isPresent()){
-            throw new ValidationException("Relationship name already exist");
+            relationshipResponse.setError(true);
+            relationshipResponse.setError_description("Relationship name already exist");
         }
-        if(!relationshipList.isEmpty() && relationshipList.stream().filter(Predicate.not(Relationship::getActive)).findAny().isPresent()){
-            throw new ValidationException("Relationship name already exist with inactive state");
+        else if(!relationshipList.isEmpty() && relationshipList.stream().filter(Predicate.not(Relationship::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            relationshipResponse.setError(true);
+            relationshipResponse.setError_description("Relationship name already exist with inactive state");
+        }else {
+            relationshipResponse = mapper.relationshipEntityToObject(relationshipRepository.save(relationship), RelationshipResponse.class);
+            relationshipResponse.setError(false);
         }
-        return mapper.relationshipEntityToObject(relationshipRepository.save(relationship),RelationshipResponse.class);
+        return relationshipResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -95,39 +110,59 @@ public class RelationshipService {
     }
 
     @Transactional
-    public void deleteRelationshipDetails(long id) {
+    public RelationshipResponse deleteRelationshipDetails(long id) {
+        RelationshipResponse relationshipResponse = new RelationshipResponse();
         Relationship relationship = relationshipRepository.findByRelationshipIdAndActive(id, true);
         if (Objects.nonNull(relationship)) {
             relationship.setActive(false);
-            relationshipRepository.save(relationship);
+            relationshipResponse = mapper.relationshipEntityToObject(relationshipRepository.save(relationship), RelationshipResponse.class);
+            relationshipResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            relationshipResponse.setError(true);
+            relationshipResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return relationshipResponse;
     }
 
     @Transactional
     public RelationshipResponse getById(int id){
+        RelationshipResponse relationshipResponse = new RelationshipResponse();
         Relationship relationship = relationshipRepository.findByRelationshipIdAndActive(id,true);
         if(relationship == null){
-            throw new ValidationException("Invalid Id");
+            relationshipResponse.setError(true);
+            relationshipResponse.setError_description("Invalid id");
+        }else{
+            relationshipResponse =  mapper.relationshipEntityToObject(relationship,RelationshipResponse.class);
+            relationshipResponse.setError(false);
         }
         log.info("Entity is ",relationship);
-        return mapper.relationshipEntityToObject(relationship,RelationshipResponse.class);
+        return relationshipResponse;
     }
 
     @Transactional
-    public RelationshipResponse updateRelationshipDetails(EditRelationshipRequest relationshipRequest){
+    public RelationshipResponse updateRelationshipDetails(EditRelationshipRequest relationshipRequest) {
+        RelationshipResponse relationshipResponse = new RelationshipResponse();
         List<Relationship> relationshipList = relationshipRepository.findByRelationshipName(relationshipRequest.getRelationshipName());
-        if(relationshipList.size()>0){
-            throw new ValidationException("relationship already exists for the given code and title, duplicates are not allowed.");
-        }
+        if (relationshipList.size() > 0) {
+            relationshipResponse.setError(true);
+            relationshipResponse.setError_description("Relationship already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        Relationship relationship = relationshipRepository.findByRelationshipIdAndActiveIn(relationshipRequest.getRelationshipId(), Set.of(true,false));
-        if(Objects.nonNull(relationship)){
-            relationship.setRelationshipName(relationshipRequest.getRelationshipName());
-            relationship.setActive(true);
+            Relationship relationship = relationshipRepository.findByRelationshipIdAndActiveIn(relationshipRequest.getRelationshipId(), Set.of(true, false));
+            if (Objects.nonNull(relationship)) {
+                relationship.setRelationshipName(relationshipRequest.getRelationshipName());
+                relationship.setActive(true);
+                Relationship relationship1 = relationshipRepository.save(relationship);
+                relationshipResponse = mapper.relationshipEntityToObject(relationship1, RelationshipResponse.class);
+                relationshipResponse.setError(false);
+            } else {
+                relationshipResponse.setError(true);
+                relationshipResponse.setError_description("Error occurred while fetching relationship");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.relationshipEntityToObject(relationshipRepository.save(relationship),RelationshipResponse.class);
+        return relationshipResponse;
     }
-
 }

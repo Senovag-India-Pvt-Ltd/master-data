@@ -18,4 +18,10 @@ public class RelationshipResponse {
     @Schema(name = "relationshipName", example = "Father")
     String relationshipName;
 
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
+
 }

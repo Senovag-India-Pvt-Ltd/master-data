@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.rpPagePermission.EditRpPagePermissionRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.RpPagePermission;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RpPagePermissionRepository;
@@ -33,6 +35,7 @@ public class RpPagePermissionService {
 
     @Transactional
     public RpPagePermissionResponse insertRpPagePermissionDetails(RpPagePermissionRequest rpPagePermissionRequest){
+        RpPagePermissionResponse rpPagePermissionResponse = new RpPagePermissionResponse();
         RpPagePermission rpPagePermission = mapper.rpPagePermissionObjectToEntity(rpPagePermissionRequest,RpPagePermission.class);
         validator.validate(rpPagePermission);
 //        List<RpPagePermission> rpPagePermissionList = rpPagePermissionRepository.findByRpPagePermissionName(rpPagePermissionRequest.getRpPagePermissionName());
@@ -42,7 +45,7 @@ public class RpPagePermissionService {
 //        if(!rpPagePermissionList.isEmpty() && rpPagePermissionList.stream().filter(Predicate.not(RpPagePermission::getActive)).findAny().isPresent()){
 //            throw new ValidationException("RpPagePermission name already exist with inactive state");
 //        }
-        return mapper.rpPagePermissionEntityToObject(rpPagePermissionRepository.save(rpPagePermission),RpPagePermissionResponse.class);
+        return rpPagePermissionResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -78,44 +81,61 @@ public class RpPagePermissionService {
     }
 
     @Transactional
-    public void deleteRpPagePermissionDetails(long id) {
+    public RpPagePermissionResponse deleteRpPagePermissionDetails(long id) {
+        RpPagePermissionResponse rpPagePermissionResponse = new RpPagePermissionResponse();
         RpPagePermission rpPagePermission = rpPagePermissionRepository.findByRpPagePermissionIdAndActive(id, true);
         if (Objects.nonNull(rpPagePermission)) {
             rpPagePermission.setActive(false);
-            rpPagePermissionRepository.save(rpPagePermission);
+            rpPagePermissionResponse = mapper.rpPagePermissionEntityToObject(rpPagePermissionRepository.save(rpPagePermission), RpPagePermissionResponse.class);
+            rpPagePermissionResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            rpPagePermissionResponse.setError(true);
+            rpPagePermissionResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return rpPagePermissionResponse;
     }
 
     @Transactional
     public RpPagePermissionResponse getById(int id){
+        RpPagePermissionResponse rpPagePermissionResponse = new RpPagePermissionResponse();
         RpPagePermission rpPagePermission = rpPagePermissionRepository.findByRpPagePermissionIdAndActive(id,true);
         if(rpPagePermission == null){
-            throw new ValidationException("Invalid Id");
+            rpPagePermissionResponse.setError(true);
+            rpPagePermissionResponse.setError_description("Invalid id");
+        }else{
+            rpPagePermissionResponse =  mapper.rpPagePermissionEntityToObject(rpPagePermission,RpPagePermissionResponse.class);
+            rpPagePermissionResponse.setError(false);
         }
         log.info("Entity is ",rpPagePermission);
-        return mapper.rpPagePermissionEntityToObject(rpPagePermission,RpPagePermissionResponse.class);
+        return rpPagePermissionResponse;
     }
 
     @Transactional
-    public RpPagePermissionResponse updateRpPagePermissionDetails(EditRpPagePermissionRequest rpPagePermissionRequest){
+    public RpPagePermissionResponse updateRpPagePermissionDetails(EditRpPagePermissionRequest rpPagePermissionRequest) {
+        RpPagePermissionResponse rpPagePermissionResponse = new RpPagePermissionResponse();
 //        List<RpPagePermission> rpPagePermissionList = rpPagePermissionRepository.findByRpPagePermissionName(rpPagePermissionRequest.getRpPagePermissionName());
 //        if(rpPagePermissionList.size()>0){
 //            throw new ValidationException("RpPagePermission already exists with this name, duplicates are not allowed.");
 //        }
 
-        RpPagePermission rpPagePermission = rpPagePermissionRepository.findByRpPagePermissionIdAndActiveIn(rpPagePermissionRequest.getRpPagePermissionId(), Set.of(true,false));
-        if(Objects.nonNull(rpPagePermission)){
+        RpPagePermission rpPagePermission = rpPagePermissionRepository.findByRpPagePermissionIdAndActiveIn(rpPagePermissionRequest.getRpPagePermissionId(), Set.of(true, false));
+        if (Objects.nonNull(rpPagePermission)) {
             rpPagePermission.setRoot(rpPagePermissionRequest.getRoot());
             rpPagePermission.setParent(rpPagePermissionRequest.getParent());
             rpPagePermission.setPageName(rpPagePermissionRequest.getPageName());
             rpPagePermission.setRoute(rpPagePermissionRequest.getRoute());
             rpPagePermission.setIsPage(rpPagePermissionRequest.getIsPage());
             rpPagePermission.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching roof type");
+            RpPagePermission rpPagePermission1 = rpPagePermissionRepository.save(rpPagePermission);
+            rpPagePermissionResponse = mapper.rpPagePermissionEntityToObject(rpPagePermission1, RpPagePermissionResponse.class);
+            rpPagePermissionResponse.setError(false);
+        } else {
+            rpPagePermissionResponse.setError(true);
+            rpPagePermissionResponse.setError_description("Error occurred while fetching rpPagePermission");
+            // throw new ValidationException("Error occurred while fetching village");
         }
-        return mapper.rpPagePermissionEntityToObject(rpPagePermissionRepository.save(rpPagePermission),RpPagePermissionResponse.class);
+
+        return rpPagePermissionResponse;
     }
 }

@@ -16,4 +16,10 @@ public class RoofTypeResponse {
 
     @Schema(name = "roofTypeName", example = "Hip Roof")
     String roofTypeName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

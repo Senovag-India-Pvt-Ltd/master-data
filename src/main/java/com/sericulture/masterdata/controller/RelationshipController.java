@@ -104,8 +104,9 @@ public class RelationshipController {
     public ResponseEntity<?> deleteRelationshipDetails(
             @PathVariable final Integer id
     ) {
-        relationshipService.deleteRelationshipDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(relationshipService.deleteRelationshipDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

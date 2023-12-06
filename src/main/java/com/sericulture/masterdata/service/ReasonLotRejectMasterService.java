@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.reasonLotRejectMaster.EditReasonLotR
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterResponse;
 import com.sericulture.masterdata.model.api.relationship.RelationshipResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.ReasonLotRejectMaster;
 import com.sericulture.masterdata.model.entity.Relationship;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReasonLotRejectMasterRepository;
@@ -36,26 +38,39 @@ public class ReasonLotRejectMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ReasonLotRejectMasterResponse getReasonLotRejectMasterDetails(String reasonLotRejectMasterName){
+        ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
         ReasonLotRejectMaster reasonLotRejectMaster = null;
         if(reasonLotRejectMaster==null){
             reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectNameAndActive(reasonLotRejectMasterName,true);
+            reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster, ReasonLotRejectMasterResponse.class);
+            reasonLotRejectMasterResponse.setError(false);
+        }else{
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("Village not found");
         }
         log.info("Entity is ",reasonLotRejectMaster);
-        return mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster,ReasonLotRejectMasterResponse.class);
+        return reasonLotRejectMasterResponse;
     }
 
     @Transactional
     public ReasonLotRejectMasterResponse insertReasonLotRejectMasterDetails(ReasonLotRejectMasterRequest reasonLotRejectMasterRequest){
+        ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
         ReasonLotRejectMaster reasonLotRejectMaster = mapper.reasonLotRejectObjectToEntity(reasonLotRejectMasterRequest,ReasonLotRejectMaster.class);
         validator.validate(reasonLotRejectMaster);
         List<ReasonLotRejectMaster> reasonLotRejectMasterList = reasonLotRejectMasterRepository.findByReasonLotRejectName(reasonLotRejectMasterRequest.getReasonLotRejectName());
         if(!reasonLotRejectMasterList.isEmpty() && reasonLotRejectMasterList.stream().filter(ReasonLotRejectMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("ReasonLotReject name already exist");
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("ReasonLotReject name already exist");
         }
-        if(!reasonLotRejectMasterList.isEmpty() && reasonLotRejectMasterList.stream().filter(Predicate.not(ReasonLotRejectMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("ReasonLotReject name already exist with inactive state");
+        else if(!reasonLotRejectMasterList.isEmpty() && reasonLotRejectMasterList.stream().filter(Predicate.not(ReasonLotRejectMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("ReasonLotReject name already exist with inactive state");
+        }else {
+            reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMasterRepository.save(reasonLotRejectMaster), ReasonLotRejectMasterResponse.class);
+            reasonLotRejectMasterResponse.setError(false);
         }
-        return mapper.reasonLotRejectEntityToObject(reasonLotRejectMasterRepository.save(reasonLotRejectMaster),ReasonLotRejectMasterResponse.class);
+        return reasonLotRejectMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -92,41 +107,60 @@ public class ReasonLotRejectMasterService {
     }
 
     @Transactional
-    public void deleteReasonLotRejectMasterDetails(long id) {
+    public ReasonLotRejectMasterResponse deleteReasonLotRejectMasterDetails(long id) {
+        ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
         ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectIdAndActive(id, true);
         if (Objects.nonNull(reasonLotRejectMaster)) {
             reasonLotRejectMaster.setActive(false);
-            reasonLotRejectMasterRepository.save(reasonLotRejectMaster);
+            reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMasterRepository.save(reasonLotRejectMaster), ReasonLotRejectMasterResponse.class);
+            reasonLotRejectMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return reasonLotRejectMasterResponse;
     }
 
     @Transactional
     public ReasonLotRejectMasterResponse getById(int id){
+        ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
         ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectIdAndActive(id,true);
         if(reasonLotRejectMaster == null){
-            throw new ValidationException("Invalid Id");
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("Invalid id");
+        }else{
+            reasonLotRejectMasterResponse =  mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster,ReasonLotRejectMasterResponse.class);
+            reasonLotRejectMasterResponse.setError(false);
         }
         log.info("Entity is ",reasonLotRejectMaster);
-        return mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster,ReasonLotRejectMasterResponse.class);
+        return reasonLotRejectMasterResponse;
     }
 
     @Transactional
-    public ReasonLotRejectMasterResponse updateReasonLotRejectMasterDetails(EditReasonLotRejectMasterRequest reasonLotRejectMasterRequest){
+    public ReasonLotRejectMasterResponse updateReasonLotRejectMasterDetails(EditReasonLotRejectMasterRequest reasonLotRejectMasterRequest) {
+        ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
         List<ReasonLotRejectMaster> reasonLotRejectMasterList = reasonLotRejectMasterRepository.findByReasonLotRejectName(reasonLotRejectMasterRequest.getReasonLotRejectName());
-        if(reasonLotRejectMasterList.size()>0){
-            throw new ValidationException("ReasonLotReject already exists with this name, duplicates are not allowed.");
-        }
+        if (reasonLotRejectMasterList.size() > 0) {
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("ReasonLotRejectMaster already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectIdAndActiveIn(reasonLotRejectMasterRequest.getReasonLotRejectId(), Set.of(true,false));
-        if(Objects.nonNull(reasonLotRejectMaster)){
-            reasonLotRejectMaster.setReasonLotRejectName(reasonLotRejectMasterRequest.getReasonLotRejectName());
-            reasonLotRejectMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching reasonLotReject");
+            ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectIdAndActiveIn(reasonLotRejectMasterRequest.getReasonLotRejectId(), Set.of(true, false));
+            if (Objects.nonNull(reasonLotRejectMaster)) {
+                reasonLotRejectMaster.setReasonLotRejectName(reasonLotRejectMasterRequest.getReasonLotRejectName());
+                reasonLotRejectMaster.setActive(true);
+                ReasonLotRejectMaster reasonLotRejectMaster1 = reasonLotRejectMasterRepository.save(reasonLotRejectMaster);
+                reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster1, ReasonLotRejectMasterResponse.class);
+                reasonLotRejectMasterResponse.setError(false);
+            } else {
+                reasonLotRejectMasterResponse.setError(true);
+                reasonLotRejectMasterResponse.setError_description("Error occurred while fetching reasonLotRejectMaster");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.reasonLotRejectEntityToObject(reasonLotRejectMasterRepository.save(reasonLotRejectMaster),ReasonLotRejectMasterResponse.class);
+        return reasonLotRejectMasterResponse;
     }
 
 }

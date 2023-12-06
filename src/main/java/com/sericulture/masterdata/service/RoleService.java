@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.role.EditRoleRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.role.RoleResponse;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.Role;
 import com.sericulture.masterdata.model.entity.RoofType;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RoleRepository;
@@ -35,26 +37,39 @@ public class RoleService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RoleResponse getRoleDetails(String roleName){
+        RoleResponse roleResponse = new RoleResponse();
         Role role = null;
         if(role==null){
             role = roleRepository.findByRoleNameAndActive(roleName,true);
+            roleResponse = mapper.roleEntityToObject(role, RoleResponse.class);
+            roleResponse.setError(false);
+        }else{
+            roleResponse.setError(true);
+            roleResponse.setError_description("Role not found");
         }
         log.info("Entity is ",role);
-        return mapper.roleEntityToObject(role,RoleResponse.class);
+        return roleResponse;
     }
 
     @Transactional
     public RoleResponse insertRoleDetails(RoleRequest roleRequest){
+        RoleResponse roleResponse = new RoleResponse();
         Role role = mapper.roleObjectToEntity(roleRequest,Role.class);
         validator.validate(role);
         List<Role> roleList = roleRepository.findByRoleName(roleRequest.getRoleName());
         if(!roleList.isEmpty() && roleList.stream().filter(Role::getActive).findAny().isPresent()){
-            throw new ValidationException("Role name already exist");
+            roleResponse.setError(true);
+            roleResponse.setError_description("Role name already exist");
         }
-        if(!roleList.isEmpty() && roleList.stream().filter(Predicate.not(Role::getActive)).findAny().isPresent()){
-            throw new ValidationException("State name already exist with inactive state");
+        else if(!roleList.isEmpty() && roleList.stream().filter(Predicate.not(Role::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            roleResponse.setError(true);
+            roleResponse.setError_description("Role name already exist with inactive state");
+        }else {
+            roleResponse = mapper.roleEntityToObject(roleRepository.save(role), RoleResponse.class);
+            roleResponse.setError(false);
         }
-        return mapper.roleEntityToObject(roleRepository.save(role),RoleResponse.class);
+        return roleResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,41 +105,59 @@ public class RoleService {
     }
 
     @Transactional
-    public void deleteRoleDetails(long id) {
+    public RoleResponse deleteRoleDetails(long id) {
+        RoleResponse roleResponse = new RoleResponse();
         Role role = roleRepository.findByRoleIdAndActive(id, true);
         if (Objects.nonNull(role)) {
             role.setActive(false);
-            roleRepository.save(role);
+            roleResponse = mapper.roleEntityToObject(roleRepository.save(role), RoleResponse.class);
+            roleResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            roleResponse.setError(true);
+            roleResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return roleResponse;
     }
 
     @Transactional
     public RoleResponse getById(int id){
+        RoleResponse roleResponse = new RoleResponse();
         Role role = roleRepository.findByRoleIdAndActive(id,true);
         if(role == null){
-            throw new ValidationException("Invalid Id");
+            roleResponse.setError(true);
+            roleResponse.setError_description("Invalid id");
+        }else{
+            roleResponse =  mapper.roleEntityToObject(role,RoleResponse.class);
+            roleResponse.setError(false);
         }
         log.info("Entity is ",role);
-        return mapper.roleEntityToObject(role,RoleResponse.class);
+        return roleResponse;
     }
 
     @Transactional
-    public RoleResponse updateRoleDetails(EditRoleRequest roleRequest){
+    public RoleResponse updateRoleDetails(EditRoleRequest roleRequest) {
+        RoleResponse roleResponse = new RoleResponse();
         List<Role> roleList = roleRepository.findByRoleName(roleRequest.getRoleName());
-        if(roleList.size()>0){
-            throw new ValidationException("role already exists with this name, duplicates are not allowed.");
-        }
+        if (roleList.size() > 0) {
+            roleResponse.setError(true);
+            roleResponse.setError_description("Role already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        Role role = roleRepository.findByRoleIdAndActiveIn(roleRequest.getRoleId(), Set.of(true,false));
-        if(Objects.nonNull(role)){
-            role.setRoleName(roleRequest.getRoleName());
-            role.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
+            Role role = roleRepository.findByRoleIdAndActiveIn(roleRequest.getRoleId(), Set.of(true, false));
+            if (Objects.nonNull(role)) {
+                role.setRoleName(roleRequest.getRoleName());
+                role.setActive(true);
+                Role role1 = roleRepository.save(role);
+                roleResponse = mapper.roleEntityToObject(role1, RoleResponse.class);
+                roleResponse.setError(false);
+            } else {
+                roleResponse.setError(true);
+                roleResponse.setError_description("Error occurred while fetching Role");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.roleEntityToObject(roleRepository.save(role),RoleResponse.class);
+        return roleResponse;
     }
-
 }

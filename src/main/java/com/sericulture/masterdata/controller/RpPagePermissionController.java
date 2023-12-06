@@ -104,8 +104,9 @@ public class RpPagePermissionController {
     public ResponseEntity<?> deleteRpPagePermissionDetails(
             @PathVariable final Integer id
     ) {
-        rpPagePermissionService.deleteRpPagePermissionDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(rpPagePermissionService.deleteRpPagePermissionDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
