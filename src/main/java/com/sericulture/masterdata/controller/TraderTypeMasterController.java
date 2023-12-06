@@ -104,8 +104,9 @@ public class TraderTypeMasterController {
     public ResponseEntity<?> deleteTraderTypeMasterDetails(
             @PathVariable final Integer id
     ) {
-        traderTypeMasterService.deleteTraderTypeMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(traderTypeMasterService.deleteTraderTypeMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
