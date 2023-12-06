@@ -13,13 +13,13 @@ import lombok.*;
 public class RpRoleAssociationResponse {
 
     @Schema(name = "rpRoleAssociationId", example = "1")
-    int rpRoleAssociationId;
+    Long rpRoleAssociationId;
 
     @Schema(name = "roleId", example = "1")
-    int roleId;
+    Long roleId;
 
     @Schema(name = "rpRolePermissionId", example = "1")
-    int rpRolePermissionId;
+    Long rpRolePermissionId;
 
     @Schema(name = "value", example = "1")
     Long value;

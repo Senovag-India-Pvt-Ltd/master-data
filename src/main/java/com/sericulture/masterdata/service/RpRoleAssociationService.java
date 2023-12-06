@@ -131,6 +131,12 @@ public class RpRoleAssociationService {
     @Transactional
     public RpRoleAssociationResponse saveMultipleRpRoleAssociationDetails(SaveRoleAssociationRequest saveRoleAssociationRequest) {
         RpRoleAssociationResponse rpRoleAssociationResponse = new RpRoleAssociationResponse();
+        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRoleIdAndRpRolePermissionIdAndActive(saveRoleAssociationRequest.getRoleId(), saveRoleAssociationRequest.getRpRolePermissionId(), true);
+        if(rpRoleAssociationList.size()>0){
+            for(RpRoleAssociation rpRoleAssociation: rpRoleAssociationList){
+                rpRoleAssociationRepository.deleteById(rpRoleAssociation.getRpRoleAssociationId());
+            }
+        }
         for (int i = 0; i < saveRoleAssociationRequest.getValues().size(); i++) {
             RpRoleAssociation rpRoleAssociation = new RpRoleAssociation();
             rpRoleAssociation.setRoleId(saveRoleAssociationRequest.getRoleId());
