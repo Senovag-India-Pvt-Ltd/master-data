@@ -104,8 +104,9 @@ public class SourceMasterController {
     public ResponseEntity<?> deleteSourceMasterDetails(
             @PathVariable final Integer id
     ) {
-        sourceMasterService.deleteSourceMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(sourceMasterService.deleteSourceMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
