@@ -8,6 +8,7 @@ import com.sericulture.masterdata.model.api.rpRoleAssociation.EditRpRoleAssociat
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationResponse;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.SaveRoleAssociationRequest;
+import com.sericulture.masterdata.model.dto.RpRoleAssociationDTO;
 import com.sericulture.masterdata.service.RpPageRootService;
 import com.sericulture.masterdata.service.RpRoleAssociationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -168,6 +169,25 @@ public class RpRoleAssociationController {
     ) {
         ResponseWrapper<RpRoleAssociationResponse> rw = ResponseWrapper.createWrapper(RpRoleAssociationResponse.class);
         rw.setContent(rpRoleAssociationService.saveMultipleRpRoleAssociationDetails(saveRoleAssociationRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-by-role-id-and-rp-page-permission-id")
+    public ResponseEntity<?> getByRoleIdAndRpPermissionId(
+            @RequestBody final RpRoleAssociationDTO rpRoleAssociationDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(rpRoleAssociationService.getByRoleIdAndRpRolePermissionId(rpRoleAssociationDTO.getRoleId(), rpRoleAssociationDTO.getRpRolePermissionId()));
         return ResponseEntity.ok(rw);
     }
 }

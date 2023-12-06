@@ -141,4 +141,27 @@ public class RpRoleAssociationService {
         rpRoleAssociationResponse.setSuccess(true);
         return rpRoleAssociationResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByRoleIdAndRpRolePermissionId(Long roleId, Long rolePermissionId) {
+        Map<String, Object> response = new HashMap<>();
+        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRoleIdAndRpRolePermissionIdAndActive(roleId, rolePermissionId, true);
+        if(rpRoleAssociationList.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", rpRoleAssociationList);
+            response = convertListToMapResponse(rpRoleAssociationList);
+        }
+        return response;
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<RpRoleAssociation> rpRoleAssociationList) {
+        Map<String, Object> response = new HashMap<>();
+        List<RpRoleAssociationResponse> rpRoleAssociationResponses = rpRoleAssociationList.stream()
+                .map(rpRoleAssociation -> mapper.rpRoleAssociationEntityToObject(rpRoleAssociation,RpRoleAssociationResponse.class)).collect(Collectors.toList());
+        response.put("rpRoleAssociation",rpRoleAssociationResponses);
+        response.put("totalItems", rpRoleAssociationList.size());
+        return response;
+    }
 }

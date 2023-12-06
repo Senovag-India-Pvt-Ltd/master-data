@@ -22,4 +22,6 @@ public interface RpRoleAssociationRepository extends PagingAndSortingRepository<
     public RpRoleAssociation findByRpRoleAssociationIdAndActiveIn(@Param("rpRoleAssociationId") long rpRoleAssociationId, @Param("active") Set<Boolean> active);
 
     public List<RpRoleAssociation> findByActive(boolean isActive);
+
+    public  List<RpRoleAssociation> findByRoleIdAndRpRolePermissionIdAndActive(Long roleId, Long rolePermissionId, boolean isActive);
 }
