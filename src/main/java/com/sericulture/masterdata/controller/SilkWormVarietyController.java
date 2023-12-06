@@ -105,8 +105,10 @@ public class SilkWormVarietyController {
     public ResponseEntity<?> deleteSilkWormVarietyDetails(
             @PathVariable final Integer id
     ) {
-        silkWormVarietyService.deleteSilkWormVarietyDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(SilkWormVarietyResponse.class);
+
+        rw.setContent(silkWormVarietyService.deleteSilkWormVarietyDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
