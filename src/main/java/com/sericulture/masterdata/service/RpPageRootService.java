@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.rpPageRoot.EditRpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.RpPageRoot;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.RpPageRootRepository;
@@ -33,26 +35,39 @@ public class RpPageRootService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RpPageRootResponse getRpPageRootDetails(String rpPageRootName){
+        RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
         RpPageRoot rpPageRoot = null;
         if(rpPageRoot==null){
             rpPageRoot = rpPageRootRepository.findByRpPageRootNameAndActive(rpPageRootName,true);
+            rpPageRootResponse = mapper.rpPageRootEntityToObject(rpPageRoot, RpPageRootResponse.class);
+            rpPageRootResponse.setError(false);
+        }else{
+            rpPageRootResponse.setError(true);
+            rpPageRootResponse.setError_description("RpPageRoot not found");
         }
         log.info("Entity is ",rpPageRoot);
-        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
+        return rpPageRootResponse;
     }
 
     @Transactional
     public RpPageRootResponse insertRpPageRootDetails(RpPageRootRequest rpPageRootRequest){
+        RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
         RpPageRoot rpPageRoot = mapper.rpPageRootObjectToEntity(rpPageRootRequest,RpPageRoot.class);
         validator.validate(rpPageRoot);
         List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
         if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
-            throw new ValidationException("RpPageRoot name already exist");
+            rpPageRootResponse.setError(true);
+            rpPageRootResponse.setError_description("RpPageRoot name already exist");
         }
-        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
-            throw new ValidationException("RpPageRoot name already exist with inactive state");
+        else if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            rpPageRootResponse.setError(true);
+            rpPageRootResponse.setError_description("RpPageRoot name already exist with inactive state");
+        }else {
+            rpPageRootResponse = mapper.rpPageRootEntityToObject(rpPageRootRepository.save(rpPageRoot), RpPageRootResponse.class);
+            rpPageRootResponse.setError(false);
         }
-        return mapper.rpPageRootEntityToObject(rpPageRootRepository.save(rpPageRoot),RpPageRootResponse.class);
+        return rpPageRootResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -88,40 +103,59 @@ public class RpPageRootService {
     }
 
     @Transactional
-    public void deleteRpPageRootDetails(long id) {
+    public RpPageRootResponse deleteRpPageRootDetails(long id) {
+        RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
         RpPageRoot rpPageRoot = rpPageRootRepository.findByRpPageRootIdAndActive(id, true);
         if (Objects.nonNull(rpPageRoot)) {
             rpPageRoot.setActive(false);
-            rpPageRootRepository.save(rpPageRoot);
+            rpPageRootResponse = mapper.rpPageRootEntityToObject(rpPageRootRepository.save(rpPageRoot), RpPageRootResponse.class);
+            rpPageRootResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            rpPageRootResponse.setError(true);
+            rpPageRootResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return rpPageRootResponse;
     }
 
     @Transactional
     public RpPageRootResponse getById(int id){
+        RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
         RpPageRoot rpPageRoot = rpPageRootRepository.findByRpPageRootIdAndActive(id,true);
         if(rpPageRoot == null){
-            throw new ValidationException("Invalid Id");
+            rpPageRootResponse.setError(true);
+            rpPageRootResponse.setError_description("Invalid id");
+        }else{
+            rpPageRootResponse =  mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
+            rpPageRootResponse.setError(false);
         }
         log.info("Entity is ",rpPageRoot);
-        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
+        return rpPageRootResponse;
     }
 
     @Transactional
-    public RpPageRootResponse updateRpPageRootDetails(EditRpPageRootRequest rpPageRootRequest){
+    public RpPageRootResponse updateRpPageRootDetails(EditRpPageRootRequest rpPageRootRequest) {
+        RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
         List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
-        if(rpPageRootList.size()>0){
-            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
-        }
+        if (rpPageRootList.size() > 0) {
+            rpPageRootResponse.setError(true);
+            rpPageRootResponse.setError_description("RpPageRoot already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        RpPageRoot rpPageRoot = rpPageRootRepository.findByRpPageRootIdAndActiveIn(rpPageRootRequest.getRpPageRootId(), Set.of(true,false));
-        if(Objects.nonNull(rpPageRoot)){
-            rpPageRoot.setRpPageRootName(rpPageRootRequest.getRpPageRootName());
-            rpPageRoot.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Page root");
+            RpPageRoot rpPageRoot = rpPageRootRepository.findByRpPageRootIdAndActiveIn(rpPageRootRequest.getRpPageRootId(), Set.of(true, false));
+            if (Objects.nonNull(rpPageRoot)) {
+                rpPageRoot.setRpPageRootName(rpPageRootRequest.getRpPageRootName());
+                rpPageRoot.setActive(true);
+                RpPageRoot rpPageRoot1 = rpPageRootRepository.save(rpPageRoot);
+                rpPageRootResponse = mapper.rpPageRootEntityToObject(rpPageRoot1, RpPageRootResponse.class);
+                rpPageRootResponse.setError(false);
+            } else {
+                rpPageRootResponse.setError(true);
+                rpPageRootResponse.setError_description("Error occurred while fetching RpPageRoot");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.rpPageRootEntityToObject(rpPageRootRepository.save(rpPageRoot),RpPageRootResponse.class);
+        return rpPageRootResponse;
     }
 }

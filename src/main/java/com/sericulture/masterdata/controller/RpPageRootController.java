@@ -109,8 +109,10 @@ public class RpPageRootController {
     public ResponseEntity<?> deleteRpPageRootDetails(
             @PathVariable final Integer id
     ) {
-        rpPageRootService.deleteRpPageRootDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(RpPageRootResponse.class);
+
+        rw.setContent(rpPageRootService.deleteRpPageRootDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
