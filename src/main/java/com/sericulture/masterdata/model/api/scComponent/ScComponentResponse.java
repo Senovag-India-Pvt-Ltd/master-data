@@ -17,4 +17,10 @@ public class ScComponentResponse {
 
     @Schema(name = "scComponentName", example = "scComponentName 1 ")
     String scComponentName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

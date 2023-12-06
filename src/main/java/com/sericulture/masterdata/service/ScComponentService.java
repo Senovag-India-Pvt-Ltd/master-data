@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.scComponent.EditScComponentRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.ScComponent;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScComponentRepository;
@@ -33,26 +35,39 @@ public class ScComponentService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ScComponentResponse getScComponentDetails(String scComponentName){
+        ScComponentResponse scComponentResponse = new ScComponentResponse();
         ScComponent scComponent = null;
         if(scComponent==null){
             scComponent = scComponentRepository.findByScComponentNameAndActive(scComponentName,true);
+            scComponentResponse = mapper.scComponentEntityToObject(scComponent, ScComponentResponse.class);
+            scComponentResponse.setError(false);
+        }else{
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("ScComponent not found");
         }
         log.info("Entity is ",scComponent);
-        return mapper.scComponentEntityToObject(scComponent,ScComponentResponse.class);
+        return scComponentResponse;
     }
 
     @Transactional
     public ScComponentResponse insertScComponentDetails(ScComponentRequest scComponentRequest){
+        ScComponentResponse scComponentResponse = new ScComponentResponse();
         ScComponent scComponent = mapper.scComponentObjectToEntity(scComponentRequest,ScComponent.class);
         validator.validate(scComponent);
         List<ScComponent> scComponentList = scComponentRepository.findByScComponentName(scComponentRequest.getScComponentName());
         if(!scComponentList.isEmpty() && scComponentList.stream().filter(ScComponent::getActive).findAny().isPresent()){
-            throw new ValidationException("ScComponent name already exist");
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("ScComponent name already exist");
         }
-        if(!scComponentList.isEmpty() && scComponentList.stream().filter(Predicate.not(ScComponent::getActive)).findAny().isPresent()){
-            throw new ValidationException("ScComponent name already exist with inactive state");
+        else if(!scComponentList.isEmpty() && scComponentList.stream().filter(Predicate.not(ScComponent::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("ScComponent name already exist with inactive state");
+        }else {
+            scComponentResponse = mapper.scComponentEntityToObject(scComponentRepository.save(scComponent), ScComponentResponse.class);
+            scComponentResponse.setError(false);
         }
-        return mapper.scComponentEntityToObject(scComponentRepository.save(scComponent),ScComponentResponse.class);
+        return scComponentResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -88,40 +103,59 @@ public class ScComponentService {
     }
 
     @Transactional
-    public void deleteScComponentDetails(long id) {
+    public ScComponentResponse deleteScComponentDetails(long id) {
+        ScComponentResponse scComponentResponse = new ScComponentResponse();
         ScComponent scComponent = scComponentRepository.findByScComponentIdAndActive(id, true);
         if (Objects.nonNull(scComponent)) {
             scComponent.setActive(false);
-            scComponentRepository.save(scComponent);
+            scComponentResponse = mapper.scComponentEntityToObject(scComponentRepository.save(scComponent), ScComponentResponse.class);
+            scComponentResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return scComponentResponse;
     }
 
     @Transactional
     public ScComponentResponse getById(int id){
+        ScComponentResponse scComponentResponse = new ScComponentResponse();
         ScComponent scComponent = scComponentRepository.findByScComponentIdAndActive(id,true);
         if(scComponent == null){
-            throw new ValidationException("Invalid Id");
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("Invalid id");
+        }else{
+            scComponentResponse =  mapper.scComponentEntityToObject(scComponent,ScComponentResponse.class);
+            scComponentResponse.setError(false);
         }
         log.info("Entity is ",scComponent);
-        return mapper.scComponentEntityToObject(scComponent,ScComponentResponse.class);
+        return scComponentResponse;
     }
 
     @Transactional
-    public ScComponentResponse updateScComponentDetails(EditScComponentRequest scComponentRequest){
+    public ScComponentResponse updateScComponentDetails(EditScComponentRequest scComponentRequest) {
+        ScComponentResponse scComponentResponse = new ScComponentResponse();
         List<ScComponent> scComponentList = scComponentRepository.findByScComponentName(scComponentRequest.getScComponentName());
-        if(scComponentList.size()>0){
-            throw new ValidationException("ScComponent already exists with this name, duplicates are not allowed.");
-        }
+        if (scComponentList.size() > 0) {
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("ScComponent already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        ScComponent scComponent = scComponentRepository.findByScComponentIdAndActiveIn(scComponentRequest.getScComponentId(), Set.of(true,false));
-        if(Objects.nonNull(scComponent)){
-            scComponent.setScComponentName(scComponentRequest.getScComponentName());
-            scComponent.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Component");
+            ScComponent scComponent = scComponentRepository.findByScComponentIdAndActiveIn(scComponentRequest.getScComponentId(), Set.of(true, false));
+            if (Objects.nonNull(scComponent)) {
+                scComponent.setScComponentName(scComponentRequest.getScComponentName());
+                scComponent.setActive(true);
+                ScComponent scComponent1 = scComponentRepository.save(scComponent);
+                scComponentResponse = mapper.scComponentEntityToObject(scComponent1, ScComponentResponse.class);
+                scComponentResponse.setError(false);
+            } else {
+                scComponentResponse.setError(true);
+                scComponentResponse.setError_description("Error occurred while fetching ScComponent");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.scComponentEntityToObject(scComponentRepository.save(scComponent),ScComponentResponse.class);
+        return scComponentResponse;
     }
 }

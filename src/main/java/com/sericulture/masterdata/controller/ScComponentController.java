@@ -105,8 +105,9 @@ public class ScComponentController {
     public ResponseEntity<?> deleteScComponentDetails(
             @PathVariable final Integer id
     ) {
-        scComponentService.deleteScComponentDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scComponentService.deleteScComponentDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
