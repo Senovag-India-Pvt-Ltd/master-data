@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.irrigationType.EditIrrigationTypeRequest;
 import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeRequest;
 import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.IrrigationType;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.IrrigationTypeRepository;
@@ -33,26 +35,39 @@ public class IrrigationTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public IrrigationTypeResponse getIrrigationTypeDetails(String irrigationTypeName){
+        IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
         IrrigationType irrigationType = null;
         if(irrigationType==null){
             irrigationType = irrigationTypeRepository.findByIrrigationTypeNameAndActive(irrigationTypeName,true);
+            irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationType, IrrigationTypeResponse.class);
+            irrigationTypeResponse.setError(false);
+        }else{
+            irrigationTypeResponse.setError(true);
+            irrigationTypeResponse.setError_description("IrrigationType not found");
         }
         log.info("Entity is ",irrigationType);
-        return mapper.irrigationTypeEntityToObject(irrigationType,IrrigationTypeResponse.class);
+        return irrigationTypeResponse;
     }
 
     @Transactional
     public IrrigationTypeResponse insertIrrigationTypeDetails(IrrigationTypeRequest irrigationTypeRequest){
+        IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
         IrrigationType irrigationType = mapper.irrigationTypeObjectToEntity(irrigationTypeRequest,IrrigationType.class);
         validator.validate(irrigationType);
         List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
         if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(IrrigationType::getActive).findAny().isPresent()){
-            throw new ValidationException("IrrigationType name already exist");
+            irrigationTypeResponse.setError(true);
+            irrigationTypeResponse.setError_description("IrrigationType name already exist");
         }
-        if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(Predicate.not(IrrigationType::getActive)).findAny().isPresent()){
-            throw new ValidationException("IrrigationType name already exist with inactive state");
+        else if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(Predicate.not(IrrigationType::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            irrigationTypeResponse.setError(true);
+            irrigationTypeResponse.setError_description("IrrigationType name already exist with inactive state");
+        }else {
+            irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationTypeRepository.save(irrigationType), IrrigationTypeResponse.class);
+            irrigationTypeResponse.setError(false);
         }
-        return mapper.irrigationTypeEntityToObject(irrigationTypeRepository.save(irrigationType), IrrigationTypeResponse.class);
+        return irrigationTypeResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -88,14 +103,19 @@ public class IrrigationTypeService {
     }
 
     @Transactional
-    public void deleteIrrigationTypeDetails(long id) {
+    public IrrigationTypeResponse deleteIrrigationTypeDetails(long id) {
+        IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
         IrrigationType irrigationType = irrigationTypeRepository.findByIrrigationTypeIdAndActive(id, true);
         if (Objects.nonNull(irrigationType)) {
             irrigationType.setActive(false);
-            irrigationTypeRepository.save(irrigationType);
+            irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationTypeRepository.save(irrigationType), IrrigationTypeResponse.class);
+            irrigationTypeResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            irrigationTypeResponse.setError(true);
+            irrigationTypeResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return irrigationTypeResponse;
     }
 
     @Transactional
@@ -109,17 +129,28 @@ public class IrrigationTypeService {
     }
 
     @Transactional
-    public IrrigationTypeResponse updateIrrigationTypeDetails(EditIrrigationTypeRequest irrigationTypeRequest){
+    public IrrigationTypeResponse updateIrrigationTypeDetails(EditIrrigationTypeRequest irrigationTypeRequest) {
+        IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
         List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
-        if(irrigationTypeList.size()>0){
-            throw new ValidationException("irrigationType already exists for the given code and title, duplicates are not allowed.");
-        }
+        if (irrigationTypeList.size() > 0) {
+            irrigationTypeResponse.setError(true);
+            irrigationTypeResponse.setError_description("IrrigationType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        IrrigationType irrigationType = irrigationTypeRepository.findByIrrigationTypeIdAndActiveIn(irrigationTypeRequest.getIrrigationTypeId(), Set.of(true,false));
-        if(Objects.nonNull(irrigationType)){
-            irrigationType.setIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
-            irrigationType.setActive(true);
+            IrrigationType irrigationType = irrigationTypeRepository.findByIrrigationTypeIdAndActiveIn(irrigationTypeRequest.getIrrigationTypeId(), Set.of(true, false));
+            if (Objects.nonNull(irrigationType)) {
+                irrigationType.setIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
+                irrigationType.setActive(true);
+                IrrigationType irrigationType1 = irrigationTypeRepository.save(irrigationType);
+                irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationType1, IrrigationTypeResponse.class);
+                irrigationTypeResponse.setError(false);
+            } else {
+                irrigationTypeResponse.setError(true);
+                irrigationTypeResponse.setError_description("Error occurred while fetching irrigationType");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.irrigationTypeEntityToObject(irrigationTypeRepository.save(irrigationType),IrrigationTypeResponse.class);
+        return irrigationTypeResponse;
     }
 }

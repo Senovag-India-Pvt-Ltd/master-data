@@ -5,9 +5,11 @@ import com.sericulture.masterdata.model.api.godown.EditGodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownResponse;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Godown;
 import com.sericulture.masterdata.model.entity.Hobli;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.GodownRepository;
@@ -38,26 +40,39 @@ public class GodownService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public GodownResponse getGodownDetails(String godownName){
+        GodownResponse godownResponse = new GodownResponse();
         Godown godown = null;
         if(godown==null){
             godown = godownRepository.findByGodownNameAndActive(godownName,true);
+            godownResponse = mapper.godownEntityToObject(godown, GodownResponse.class);
+            godownResponse.setError(false);
+        }else{
+            godownResponse.setError(true);
+            godownResponse.setError_description("Godown not found");
         }
         log.info("Entity is ",godown);
-        return mapper.godownEntityToObject(godown,GodownResponse.class);
+        return godownResponse;
     }
 
     @Transactional
     public GodownResponse insertGodownDetails(GodownRequest godownRequest){
+        GodownResponse godownResponse = new GodownResponse();
         Godown godown = mapper.godownObjectToEntity(godownRequest,Godown.class);
         validator.validate(godown);
         List<Godown> godownList = godownRepository.findByGodownName(godownRequest.getGodownName());
         if(!godownList.isEmpty() && godownList.stream().filter(Godown::getActive).findAny().isPresent()){
-            throw new ValidationException("Godown name already exist");
+            godownResponse.setError(true);
+            godownResponse.setError_description("Godown name already exist");
         }
-        if(!godownList.isEmpty() && godownList.stream().filter(Predicate.not(Godown::getActive)).findAny().isPresent()){
-            throw new ValidationException("Godown name already exist with inactive state");
+        else if(!godownList.isEmpty() && godownList.stream().filter(Predicate.not(Godown::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            godownResponse.setError(true);
+            godownResponse.setError_description("Godown name already exist with inactive state");
+        }else {
+            godownResponse = mapper.godownEntityToObject(godownRepository.save(godown), GodownResponse.class);
+            godownResponse.setError(false);
         }
-        return mapper.godownEntityToObject(godownRepository.save(godown),GodownResponse.class);
+        return godownResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -93,34 +108,49 @@ public class GodownService {
     }
 
     @Transactional
-    public void deleteGodownDetails(long id) {
+    public GodownResponse deleteGodownDetails(long id) {
+        GodownResponse godownResponse = new GodownResponse();
         Godown godown = godownRepository.findByGodownIdAndActive(id, true);
         if (Objects.nonNull(godown)) {
             godown.setActive(false);
-            godownRepository.save(godown);
+            godownResponse = mapper.godownEntityToObject(godownRepository.save(godown), GodownResponse.class);
+            godownResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            godownResponse.setError(true);
+            godownResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return godownResponse;
     }
 
     @Transactional
     public GodownResponse getById(int id){
+        GodownResponse godownResponse = new GodownResponse();
         Godown godown = godownRepository.findByGodownIdAndActive(id,true);
         if(godown == null){
-            throw new ValidationException("Invalid Id");
+            godownResponse.setError(true);
+            godownResponse.setError_description("Invalid id");
+        }else{
+            godownResponse =  mapper.godownEntityToObject(godown,GodownResponse.class);
+            godownResponse.setError(false);
         }
         log.info("Entity is ",godown);
-        return mapper.godownEntityToObject(godown,GodownResponse.class);
+        return godownResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByMarketMasterId(int marketMasterId){
+        Map<String, Object> response = new HashMap<>();
         List<Godown> godownList = godownRepository.findByMarketMasterIdAndActive(marketMasterId,true);
         if(godownList.isEmpty()){
-            throw new ValidationException("Invalid Id");
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            log.info("Entity is ", godownList);
+            response = convertListToMapResponse(godownList);
+            return response;
         }
-        log.info("Entity is ",godownList);
-        return convertListToMapResponse(godownList);
     }
 
     private Map<String, Object> convertListToMapResponse(List<Godown> godownList) {
@@ -134,21 +164,29 @@ public class GodownService {
 
 
     @Transactional
-    public GodownResponse updateGodownDetails(EditGodownRequest godownRequest){
+    public GodownResponse updateGodownDetails(EditGodownRequest godownRequest) {
+        GodownResponse godownResponse = new GodownResponse();
         List<Godown> godownList = godownRepository.findByGodownName(godownRequest.getGodownName());
-        if(godownList.size()>0){
-            throw new ValidationException("Godown already exists with this name, duplicates are not allowed.");
-        }
+        if (godownList.size() > 0) {
+            godownResponse.setError(true);
+            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        Godown godown = godownRepository.findByGodownIdAndActiveIn(godownRequest.getGodownId(), Set.of(true,false));
-        if(Objects.nonNull(godown)){
-            godown.setGodownName(godownRequest.getGodownName());
-            godown.setMarketMasterId(godownRequest.getMarketMasterId());
-            godown.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching godown");
+            Godown godown = godownRepository.findByGodownIdAndActiveIn(godownRequest.getGodownId(), Set.of(true, false));
+            if (Objects.nonNull(godown)) {
+                godown.setGodownName(godownRequest.getGodownName());
+                godown.setMarketMasterId(godownRequest.getMarketMasterId());
+                godown.setActive(true);
+                Godown godown1 = godownRepository.save(godown);
+                godownResponse = mapper.godownEntityToObject(godown1, GodownResponse.class);
+                godownResponse.setError(false);
+            } else {
+                godownResponse.setError(true);
+                godownResponse.setError_description("Error occurred while fetching Godown");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.godownEntityToObject(godownRepository.save(godown),GodownResponse.class);
+        return godownResponse;
     }
-
 }

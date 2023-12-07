@@ -105,8 +105,9 @@ public class DesignationController {
     public ResponseEntity<?> deleteDesignationDetails(
             @PathVariable final Integer id
     ) {
-        designationService.deleteDesignationDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(designationService.deleteDesignationDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

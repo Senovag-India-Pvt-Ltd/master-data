@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.landOwnership.EditLandOwnershipReque
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.LandOwnership;
 import com.sericulture.masterdata.model.entity.MarketMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.LandOwnershipRepository;
@@ -35,26 +37,39 @@ public class LandOwnershipService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public LandOwnershipResponse getLandOwnershipDetails(String landOwnershipName){
+        LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = null;
         if(landOwnership==null){
             landOwnership = landOwnershipRepository.findByLandOwnershipNameAndActive(landOwnershipName,true);
+            landOwnershipResponse = mapper.landOwnershipEntityToObject(landOwnership, LandOwnershipResponse.class);
+            landOwnershipResponse.setError(false);
+        }else{
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("LandOwnership not found");
         }
         log.info("Entity is ",landOwnership);
-        return mapper.landOwnershipEntityToObject(landOwnership,LandOwnershipResponse.class);
+        return landOwnershipResponse;
     }
 
     @Transactional
     public LandOwnershipResponse insertLandOwnershipDetails(LandOwnershipRequest landOwnershipRequest){
+        LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = mapper.landOwnershipObjectToEntity(landOwnershipRequest,LandOwnership.class);
         validator.validate(landOwnership);
         List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
         if(!landOwnershipList.isEmpty() && landOwnershipList.stream().filter(LandOwnership::getActive).findAny().isPresent()){
-            throw new ValidationException("LandOwnership name already exist");
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("LandOwnership name already exist");
         }
-        if(!landOwnershipList.isEmpty() && landOwnershipList.stream().filter(Predicate.not(LandOwnership::getActive)).findAny().isPresent()){
-            throw new ValidationException("LandOwnership name already exist with inactive state");
+        else if(!landOwnershipList.isEmpty() && landOwnershipList.stream().filter(Predicate.not(LandOwnership::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("LandOwnership name already exist with inactive state");
+        }else {
+            landOwnershipResponse = mapper.landOwnershipEntityToObject(landOwnershipRepository.save(landOwnership), LandOwnershipResponse.class);
+            landOwnershipResponse.setError(false);
         }
-        return mapper.landOwnershipEntityToObject(landOwnershipRepository.save(landOwnership), LandOwnershipResponse.class);
+        return landOwnershipResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,38 +105,59 @@ public class LandOwnershipService {
     }
 
     @Transactional
-    public void deleteLandOwnershipDetails(long id) {
+    public LandOwnershipResponse deleteLandOwnershipDetails(long id) {
+        LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipIdAndActive(id, true);
         if (Objects.nonNull(landOwnership)) {
             landOwnership.setActive(false);
-            landOwnershipRepository.save(landOwnership);
+            landOwnershipResponse = mapper.landOwnershipEntityToObject(landOwnershipRepository.save(landOwnership), LandOwnershipResponse.class);
+            landOwnershipResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return landOwnershipResponse;
     }
 
     @Transactional
     public LandOwnershipResponse getById(int id){
+        LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipIdAndActive(id,true);
         if(landOwnership == null){
-            throw new ValidationException("Invalid Id");
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("Invalid id");
+        }else{
+            landOwnershipResponse =  mapper.landOwnershipEntityToObject(landOwnership,LandOwnershipResponse.class);
+            landOwnershipResponse.setError(false);
         }
         log.info("Entity is ",landOwnership);
-        return mapper.landOwnershipEntityToObject(landOwnership,LandOwnershipResponse.class);
+        return landOwnershipResponse;
     }
 
     @Transactional
-    public LandOwnershipResponse updateLandOwnershipDetails(EditLandOwnershipRequest landOwnershipRequest){
+    public LandOwnershipResponse updateLandOwnershipDetails(EditLandOwnershipRequest landOwnershipRequest) {
+        LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
-        if(landOwnershipList.size()>0){
-            throw new ValidationException("landOwnership already exists for the given code and title, duplicates are not allowed.");
-        }
+        if (landOwnershipList.size() > 0) {
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("LandOwnership already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipIdAndActiveIn(landOwnershipRequest.getLandOwnershipId(), Set.of(true,false));
-        if(Objects.nonNull(landOwnership)){
-            landOwnership.setLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
-            landOwnership.setActive(true);
+            LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipIdAndActiveIn(landOwnershipRequest.getLandOwnershipId(), Set.of(true, false));
+            if (Objects.nonNull(landOwnership)) {
+                landOwnership.setLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
+                landOwnership.setActive(true);
+                LandOwnership landOwnership1 = landOwnershipRepository.save(landOwnership);
+                landOwnershipResponse = mapper.landOwnershipEntityToObject(landOwnership1, LandOwnershipResponse.class);
+                landOwnershipResponse.setError(false);
+            } else {
+                landOwnershipResponse.setError(true);
+                landOwnershipResponse.setError_description("Error occurred while fetching landOwnership");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.landOwnershipEntityToObject(landOwnershipRepository.save(landOwnership),LandOwnershipResponse.class);
+        return landOwnershipResponse;
     }
 }

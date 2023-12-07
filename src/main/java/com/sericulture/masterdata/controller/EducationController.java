@@ -110,8 +110,9 @@ public class EducationController {
     public ResponseEntity<?> deleteEducationDetails(
             @PathVariable final Integer id
     ) {
-        educationService.deleteEducationDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(educationService.deleteEducationDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

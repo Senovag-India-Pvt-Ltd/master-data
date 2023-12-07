@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.irrigationSource.EditIrrigationSourc
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceResponse;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.IrrigationSource;
 import com.sericulture.masterdata.model.entity.LandOwnership;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.IrrigationSourceRepository;
@@ -35,26 +37,39 @@ public class IrrigationSourceService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public IrrigationSourceResponse getIrrigationSourceDetails(String irrigationSourceName){
+        IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = null;
         if(irrigationSource==null){
             irrigationSource = irrigationSourceRepository.findByIrrigationSourceNameAndActive(irrigationSourceName,true);
+            irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSource, IrrigationSourceResponse.class);
+            irrigationSourceResponse.setError(false);
+        }else{
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("IrrigationSource not found");
         }
         log.info("Entity is ",irrigationSource);
-        return mapper.irrigationSourceEntityToObject(irrigationSource,IrrigationSourceResponse.class);
+        return irrigationSourceResponse;
     }
 
     @Transactional
     public IrrigationSourceResponse insertIrrigationSourceDetails(IrrigationSourceRequest irrigationSourceRequest){
+        IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = mapper.irrigationSourceObjectToEntity(irrigationSourceRequest,IrrigationSource.class);
         validator.validate(irrigationSource);
         List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
         if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(IrrigationSource::getActive).findAny().isPresent()){
-            throw new ValidationException("IrrigationSource name already exist");
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("IrrigationSource name already exist");
         }
-        if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(Predicate.not(IrrigationSource::getActive)).findAny().isPresent()){
-            throw new ValidationException("IrrigationSource name already exist with inactive state");
+        else if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(Predicate.not(IrrigationSource::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("Village name already exist with inactive state");
+        }else {
+            irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSourceRepository.save(irrigationSource), IrrigationSourceResponse.class);
+            irrigationSourceResponse.setError(false);
         }
-        return mapper.irrigationSourceEntityToObject(irrigationSourceRepository.save(irrigationSource), IrrigationSourceResponse.class);
+        return irrigationSourceResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -90,41 +105,61 @@ public class IrrigationSourceService {
     }
 
     @Transactional
-    public void deleteIrrigationSourceDetails(long id) {
+    public IrrigationSourceResponse deleteIrrigationSourceDetails(long id) {
+        IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActive(id, true);
         if (Objects.nonNull(irrigationSource)) {
             irrigationSource.setActive(false);
-            irrigationSourceRepository.save(irrigationSource);
+            irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSourceRepository.save(irrigationSource), IrrigationSourceResponse.class);
+            irrigationSourceResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return irrigationSourceResponse;
     }
 
     @Transactional
     public IrrigationSourceResponse getById(int id){
+        IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActive(id,true);
         if(irrigationSource == null){
-            throw new ValidationException("Invalid Id");
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("Invalid id");
+        }else{
+            irrigationSourceResponse =  mapper.irrigationSourceEntityToObject(irrigationSource,IrrigationSourceResponse.class);
+            irrigationSourceResponse.setError(false);
         }
         log.info("Entity is ",irrigationSource);
-        return mapper.irrigationSourceEntityToObject(irrigationSource,IrrigationSourceResponse.class);
+        return irrigationSourceResponse;
     }
 
     @Transactional
-    public IrrigationSourceResponse updateIrrigationSourceDetails(EditIrrigationSourceRequest irrigationSourceRequest){
+    public IrrigationSourceResponse updateIrrigationSourceDetails(EditIrrigationSourceRequest irrigationSourceRequest) {
+        IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
-        if(irrigationSourceList.size()>0){
-            throw new ValidationException("irrigationSource already exists for the given code and title, duplicates are not allowed.");
-        }
+        if (irrigationSourceList.size() > 0) {
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("IrrigationSource already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActiveIn(irrigationSourceRequest.getIrrigationSourceId(), Set.of(true,false));
-        if(Objects.nonNull(irrigationSource)){
-            irrigationSource.setIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
-            irrigationSource.setActive(true);
+            IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActiveIn(irrigationSourceRequest.getIrrigationSourceId(), Set.of(true, false));
+            if (Objects.nonNull(irrigationSource)) {
+                irrigationSource.setIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
+                irrigationSource.setActive(true);
+                IrrigationSource irrigationSource1 = irrigationSourceRepository.save(irrigationSource);
+                irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSource1, IrrigationSourceResponse.class);
+                irrigationSourceResponse.setError(false);
+            } else {
+                irrigationSourceResponse.setError(true);
+                irrigationSourceResponse.setError_description("Error occurred while fetching irrigationSource");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.irrigationSourceEntityToObject(irrigationSourceRepository.save(irrigationSource),IrrigationSourceResponse.class);
+        return irrigationSourceResponse;
     }
-
 }
 
 

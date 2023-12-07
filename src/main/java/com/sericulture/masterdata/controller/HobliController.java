@@ -106,8 +106,9 @@ public class HobliController {
     public ResponseEntity<?> deleteHobliDetails(
             @PathVariable final Integer id
     ) {
-        hobliService.deleteHobliDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(hobliService.deleteHobliDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

@@ -107,8 +107,9 @@ public class BinMasterController {
     public ResponseEntity<?> deleteBinMasterDetails(
             @PathVariable final Integer id
     ) {
-        binMasterService.deleteBinMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(binMasterService.deleteBinMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

@@ -23,4 +23,10 @@ public class DistrictResponse {
 
     @Schema(name = "stateName", example = "Karnataka")
     String stateName;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

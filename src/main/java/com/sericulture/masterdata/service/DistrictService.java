@@ -10,6 +10,7 @@ import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.entity.District;
@@ -50,30 +51,39 @@ public class DistrictService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public DistrictResponse getDistrictDetails(String districtName){
+        DistrictResponse districtResponse = new DistrictResponse();
         District district = null;
         if(district==null){
             district = districtRepository.findByDistrictNameAndActive(districtName,true);
+            districtResponse = mapper.districtEntityToObject(district, DistrictResponse.class);
+            districtResponse.setError(false);
+        }else{
+            districtResponse.setError(true);
+            districtResponse.setError_description("district not found");
         }
         log.info("Entity is ",district);
-        return mapper.districtEntityToObject(district,DistrictResponse.class);
+        return districtResponse;
     }
 
     @Transactional
     public DistrictResponse insertDistrictDetails(DistrictRequest districtRequest){
+        DistrictResponse districtResponse = new DistrictResponse();
         District district = mapper.districtObjectToEntity(districtRequest,District.class);
         validator.validate(district);
         List<District> districtList = districtRepository.findByDistrictNameAndStateId(districtRequest.getDistrictName(), districtRequest.getStateId());
         if(!districtList.isEmpty() && districtList.stream().filter(District::getActive).findAny().isPresent()){
-            throw new ValidationException("District name already exist with this state");
+            districtResponse.setError(true);
+            districtResponse.setError_description("District name already exist");
         }
-        if(!districtList.isEmpty() && districtList.stream().filter(Predicate.not(District::getActive)).findAny().isPresent()){
-            throw new ValidationException("District name already exist with inactive district with this state");
+        else if(!districtList.isEmpty() && districtList.stream().filter(Predicate.not(District::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            districtResponse.setError(true);
+            districtResponse.setError_description("District name already exist with inactive state");
+        }else {
+            districtResponse = mapper.districtEntityToObject(districtRepository.save(district), DistrictResponse.class);
+            districtResponse.setError(false);
         }
-        State state = stateRepository.findByStateIdAndActive(district.getStateId(), true);
-        if(state == null){
-            throw new ValidationException("State does not exist.");
-        }
-        return mapper.districtEntityToObject(districtRepository.save(district),DistrictResponse.class);
+        return districtResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -126,34 +136,49 @@ public class DistrictService {
     }
 
     @Transactional
-    public void deleteDistrictDetails(long id) {
+    public DistrictResponse deleteDistrictDetails(long id) {
+        DistrictResponse districtResponse = new DistrictResponse();
         District district = districtRepository.findByDistrictIdAndActive(id, true);
         if (Objects.nonNull(district)) {
             district.setActive(false);
-            districtRepository.save(district);
+            districtResponse = mapper.districtEntityToObject(districtRepository.save(district), DistrictResponse.class);
+            districtResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            districtResponse.setError(true);
+            districtResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return districtResponse;
     }
 
     @Transactional
     public DistrictResponse getById(int id){
+        DistrictResponse districtResponse = new DistrictResponse();
         District district = districtRepository.findByDistrictIdAndActive(id,true);
         if(district == null){
-            throw new ValidationException("Invalid Id");
+            districtResponse.setError(true);
+            districtResponse.setError_description("Invalid id");
+        }else{
+            districtResponse =  mapper.districtEntityToObject(district,DistrictResponse.class);
+            districtResponse.setError(false);
         }
         log.info("Entity is ",district);
-        return mapper.districtEntityToObject(district,DistrictResponse.class);
+        return districtResponse;
     }
 
     @Transactional
     public DistrictResponse getByIdJoin(int id){
+        DistrictResponse districtResponse = new DistrictResponse();
         DistrictDTO districtDTO = districtRepository.getByDistrictIdAndActive(id,true);
         if(districtDTO == null){
-            throw new ValidationException("Invalid Id");
+            districtResponse.setError(true);
+            districtResponse.setError_description("Invalid id");
+        } else {
+            districtResponse = mapper.districtDTOToObject(districtDTO, DistrictResponse.class);
+            districtResponse.setError(false);
         }
         log.info("Entity is ", districtDTO);
-        return mapper.districtDTOToObject(districtDTO, DistrictResponse.class);
+        return districtResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -176,25 +201,36 @@ public class DistrictService {
     }
 
     @Transactional
-    public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest){
+    public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest) {
+        DistrictResponse districtResponse = new DistrictResponse();
         List<District> districtList = districtRepository.findByDistrictName(districtRequest.getDistrictName());
-        if(districtList.size()>0){
-            throw new ValidationException("District already exists with this state, duplicates are not allowed.");
-        }
+        if (districtList.size() > 0) {
+            districtResponse.setError(true);
+            districtResponse.setError_description("District already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        District district = districtRepository.findByDistrictIdAndActiveIn(districtRequest.getDistrictId(), Set.of(true,false));
-        State state = stateRepository.findByStateIdAndActive(districtRequest.getStateId(), true);
-        if(state == null){
-            throw new ValidationException("State does not exist.");
+            District district = districtRepository.findByDistrictIdAndActiveIn(districtRequest.getDistrictId(), Set.of(true, false));
+            State state = stateRepository.findByStateIdAndActive(districtRequest.getStateId(), true);
+            if (state == null) {
+                districtResponse.setError(true);
+                districtResponse.setError_description("State does not exist.");
+            } else {
+                if (Objects.nonNull(district)) {
+                    district.setStateId(districtRequest.getStateId());
+                    district.setDistrictName(districtRequest.getDistrictName());
+                    district.setActive(true);
+                    District district1 = districtRepository.save(district);
+                    districtResponse = mapper.districtEntityToObject(district1, DistrictResponse.class);
+                    districtResponse.setError(false);
+                } else {
+                    districtResponse.setError(true);
+                    districtResponse.setError_description("Error occurred while fetching District");
+                    // throw new ValidationException("Error occurred while fetching village");
+                }
+            }
+
         }
-        if(Objects.nonNull(district)){
-            district.setStateId(districtRequest.getStateId());
-            district.setDistrictName(districtRequest.getDistrictName());
-            district.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching district");
-        }
-        return mapper.districtEntityToObject(districtRepository.save(district),DistrictResponse.class);
+        return districtResponse;
     }
-
 }

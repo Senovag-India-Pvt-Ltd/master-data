@@ -4,9 +4,11 @@ import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterResponse;
 import com.sericulture.masterdata.model.api.binMaster.EditBinMasterRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.BinMaster;
 import com.sericulture.masterdata.model.entity.Hobli;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.BinCounterMasterRepository;
@@ -40,30 +42,39 @@ public class BinMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public BinMasterResponse getBinMasterDetails(String binNumber){
+        BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = null;
         if(binMaster==null){
             binMaster = binMasterRepository.findByBinNumberAndActive(binNumber,true);
+            binMasterResponse = mapper.binMasterEntityToObject(binMaster, BinMasterResponse.class);
+            binMasterResponse.setError(false);
+        }else{
+            binMasterResponse.setError(true);
+            binMasterResponse.setError_description("bin not found");
         }
         log.info("Entity is ",binMaster);
-        return mapper.binMasterEntityToObject(binMaster,BinMasterResponse.class);
+        return binMasterResponse;
     }
 
     @Transactional
     public BinMasterResponse insertBinMasterDetails(BinMasterRequest binMasterRequest){
+        BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = mapper.binMasterObjectToEntity(binMasterRequest,BinMaster.class);
         validator.validate(binMaster);
         List<BinMaster> binMasterList = binMasterRepository.findByBinNumberAndBinCounterMasterId(binMasterRequest.getBinNumber(), binMasterRequest.getBinCounterMasterId());
         if(!binMasterList.isEmpty() && binMasterList.stream().filter(BinMaster::getActive).findAny().isPresent()){
-            throw new ValidationException("Bin  name already exist with this state");
+            binMasterResponse.setError(true);
+            binMasterResponse.setError_description("BinMaster name already exist");
         }
-        if(!binMasterList.isEmpty() && binMasterList.stream().filter(Predicate.not(BinMaster::getActive)).findAny().isPresent()){
-            throw new ValidationException("Bin name already exist with inactive district with this state");
+        else if(!binMasterList.isEmpty() && binMasterList.stream().filter(Predicate.not(BinMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            binMasterResponse.setError(true);
+            binMasterResponse.setError_description("BinMaster name already exist with inactive state");
+        }else {
+            binMasterResponse = mapper.binMasterEntityToObject(binMasterRepository.save(binMaster), BinMasterResponse.class);
+            binMasterResponse.setError(false);
         }
-        BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(binMaster.getBinCounterMasterId(), true);
-        if(binCounterMaster == null){
-            throw new ValidationException("BinCounter does not exist.");
-        }
-        return mapper.binMasterEntityToObject(binMasterRepository.save(binMaster),BinMasterResponse.class);
+        return binMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -98,34 +109,50 @@ public class BinMasterService {
     }
 
     @Transactional
-    public void deleteBinMasterDetails(long id) {
+    public BinMasterResponse deleteBinMasterDetails(long id) {
+        BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = binMasterRepository.findByBinMasterIdAndActive(id, true);
         if (Objects.nonNull(binMaster)) {
             binMaster.setActive(false);
-            binMasterRepository.save(binMaster);
+            binMasterResponse = mapper.binMasterEntityToObject(binMasterRepository.save(binMaster), BinMasterResponse.class);
+            binMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            binMasterResponse.setError(true);
+            binMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return binMasterResponse;
     }
 
     @Transactional
     public BinMasterResponse getById(int id){
+        BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = binMasterRepository.findByBinMasterIdAndActive(id,true);
         if(binMaster == null){
-            throw new ValidationException("Invalid Id");
+            binMasterResponse.setError(true);
+            binMasterResponse.setError_description("Invalid id");
+        }else{
+            binMasterResponse =  mapper.binMasterEntityToObject(binMaster,BinMasterResponse.class);
+            binMasterResponse.setError(false);
         }
         log.info("Entity is ",binMaster);
-        return mapper.binMasterEntityToObject(binMaster,BinMasterResponse.class);
+        return binMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getBinMasterAndBinCounterMasterId(Long binCounterMasterId){
-        List<BinMaster> binMasterList = binMasterRepository.findByBinCounterMasterIdAndActive(binCounterMasterId,true);
-        if(binMasterList.isEmpty()){
-            throw new ValidationException("Invalid Id");
+    public Map<String,Object> getBinMasterAndBinCounterMasterId(Long binCounterMasterId) {
+//        BinMasterResponse binMasterResponse = new BinMasterResponse();
+        Map<String, Object> response = new HashMap<>();
+        List<BinMaster> binMasterList = binMasterRepository.findByBinCounterMasterIdAndActive(binCounterMasterId, true);
+        if (binMasterList.isEmpty()) {
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            return response;
+        } else {
+            log.info("Entity is ", binMasterList);
+            response = convertListToMapResponse(binMasterList);
+            return response;
         }
-        log.info("Entity is ",binMasterList);
-        return convertListToMapResponse(binMasterList);
     }
 
     private Map<String, Object> convertListToMapResponse(List<BinMaster> binMasterList) {
@@ -138,24 +165,33 @@ public class BinMasterService {
     }
 
     @Transactional
-    public BinMasterResponse updateBinMasterDetails(EditBinMasterRequest binMasterRequest){
+    public BinMasterResponse updateBinMasterDetails(EditBinMasterRequest binMasterRequest) {
+        BinMasterResponse binMasterResponse = new BinMasterResponse();
         List<BinMaster> binMasterList = binMasterRepository.findByBinNumber(binMasterRequest.getBinNumber());
-        if(binMasterList.size()>0){
-            throw new ValidationException("Bin already exists with this state, duplicates are not allowed.");
-        }
+        if (binMasterList.size() > 0) {
+            binMasterResponse.setError(true);
+            binMasterResponse.setError_description("Bin already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        BinMaster binMaster = binMasterRepository.findByBinMasterIdAndActiveIn(binMasterRequest.getBinMasterId(), Set.of(true,false));
-        BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(binMasterRequest.getBinCounterMasterId(), true);
-        if(binCounterMaster == null){
-            throw new ValidationException("BinCounter does not exist.");
+            BinMaster binMaster = binMasterRepository.findByBinMasterIdAndActiveIn(binMasterRequest.getBinMasterId(), Set.of(true, false));
+            BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(binMasterRequest.getBinCounterMasterId(), true);
+            if (binCounterMaster == null) {
+                throw new ValidationException("BinCounter does not exist.");
+            }
+            if (Objects.nonNull(binMaster)) {
+                binMaster.setBinCounterMasterId(binMasterRequest.getBinCounterMasterId());
+                binMaster.setBinNumber(binMasterRequest.getBinNumber());
+                binMaster.setActive(true);
+                BinMaster binMaster1 = binMasterRepository.save(binMaster);
+                binMasterResponse = mapper.binMasterEntityToObject(binMaster1, BinMasterResponse.class);
+                binMasterResponse.setError(false);
+            } else {
+                binMasterResponse.setError(true);
+                binMasterResponse.setError_description("Error occurred while fetching Bin");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        if(Objects.nonNull(binMaster)){
-            binMaster.setBinCounterMasterId(binMasterRequest.getBinCounterMasterId());
-            binMaster.setBinNumber(binMasterRequest.getBinNumber());
-            binMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching bin");
-        }
-        return mapper.binMasterEntityToObject(binMasterRepository.save(binMaster),BinMasterResponse.class);
+        return binMasterResponse;
     }
 }

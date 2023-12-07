@@ -147,8 +147,9 @@ public class BinCounterMasterController {
     public ResponseEntity<?> deleteBinCounterMasterDetails(
             @PathVariable final Integer id
     ) {
-        binCounterMasterService.deleteBinCounterMasterDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(binCounterMasterService.deleteBinCounterMasterDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

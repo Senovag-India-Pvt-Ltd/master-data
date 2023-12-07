@@ -5,8 +5,10 @@ import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRes
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterWithBinMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.EditBinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
 import com.sericulture.masterdata.model.entity.BinMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.BinCounterMasterRepository;
@@ -40,6 +42,7 @@ public class BinCounterMasterService {
 
     @Transactional
     public BinCounterMasterResponse insertBinCounterMasterDetails(BinCounterMasterRequest binCounterMasterRequest){
+        BinCounterMasterResponse binCounterMasterResponse = new BinCounterMasterResponse();
         BinCounterMaster binCounterMaster = mapper.binCounterMasterObjectToEntity(binCounterMasterRequest,BinCounterMaster.class);
         validator.validate(binCounterMaster);
 //        List<BinCounterMaster> binCounterMasterList = binCounterMasterRepository.findByBinCounterMasterName(binCounterMasterRequest.getB());
@@ -49,7 +52,7 @@ public class BinCounterMasterService {
 //        if(!binCounterMasterList.isEmpty() && binCounterMasterList.stream().filter(Predicate.not(BinCounterMaster::getActive)).findAny().isPresent()){
 //            throw new ValidationException("BinCounterMaster name already exist with inactive state");
 //        }
-        return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster), BinCounterMasterResponse.class);
+        return binCounterMasterResponse;
     }
 
     @Transactional
@@ -139,48 +142,64 @@ public class BinCounterMasterService {
     }
 
     @Transactional
-    public void deleteBinCounterMasterDetails(long id) {
+    public BinCounterMasterResponse deleteBinCounterMasterDetails(long id) {
+        BinCounterMasterResponse binCounterMasterResponse = new BinCounterMasterResponse();
         BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(id, true);
         if (Objects.nonNull(binCounterMaster)) {
             binCounterMaster.setActive(false);
-            binCounterMasterRepository.save(binCounterMaster);
+            binCounterMasterResponse = mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster), BinCounterMasterResponse.class);
+            binCounterMasterResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            binCounterMasterResponse.setError(true);
+            binCounterMasterResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return binCounterMasterResponse;
     }
 
     @Transactional
     public BinCounterMasterResponse getById(int id){
+        BinCounterMasterResponse binCounterMasterResponse = new BinCounterMasterResponse();
         BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(id,true);
         if(binCounterMaster == null){
-            throw new ValidationException("Invalid Id");
+            binCounterMasterResponse.setError(true);
+            binCounterMasterResponse.setError_description("Invalid id");
+        }else{
+            binCounterMasterResponse =  mapper.binCounterMasterEntityToObject(binCounterMaster,BinCounterMasterResponse.class);
+            binCounterMasterResponse.setError(false);
         }
         log.info("Entity is ",binCounterMaster);
-        return mapper.binCounterMasterEntityToObject(binCounterMaster,BinCounterMasterResponse.class);
+        return binCounterMasterResponse;
     }
 
     @Transactional
     public BinCounterMasterResponse updateBinCounterMasterDetails(EditBinCounterMasterRequest binCounterMasterRequest){
+        BinCounterMasterResponse binCounterMasterResponse = new BinCounterMasterResponse();
 //        List<BinCounterMaster> binCounterMasterList = binCounterMasterRepository.findByCounterMasterName(binCounterMasterRequest.getBinCounterMasterName());
 //        if(binCounterMasterList.size()>0){
 //            throw new ValidationException("Market  already exists, duplicates are not allowed.");
 //        }
 
-        BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActiveIn(binCounterMasterRequest.getBinCounterMasterId(), Set.of(true,false));
-        if(Objects.nonNull(binCounterMaster)){
-            binCounterMaster.setSmallBinStart(binCounterMasterRequest.getSmallBinStart());
-            binCounterMaster.setSmallBinEnd(binCounterMasterRequest.getSmallBinEnd());
-            binCounterMaster.setBigBinStart(binCounterMasterRequest.getBigBinStart());
-            binCounterMaster.setBigBinEnd(binCounterMasterRequest.getBigBinEnd());
-            binCounterMaster.setMarketId(binCounterMasterRequest.getMarketId());
-            binCounterMaster.setGodownId(binCounterMasterRequest.getGodownId());
-            binCounterMaster.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching Bin Counter Master");
-        }
-        return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster),BinCounterMasterResponse.class);
+            BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActiveIn(binCounterMasterRequest.getBinCounterMasterId(), Set.of(true,false));
+            if(Objects.nonNull(binCounterMaster)){
+                binCounterMaster.setSmallBinStart(binCounterMasterRequest.getSmallBinStart());
+                binCounterMaster.setSmallBinEnd(binCounterMasterRequest.getSmallBinEnd());
+                binCounterMaster.setBigBinStart(binCounterMasterRequest.getBigBinStart());
+                binCounterMaster.setBigBinEnd(binCounterMasterRequest.getBigBinEnd());
+                binCounterMaster.setMarketId(binCounterMasterRequest.getMarketId());
+                binCounterMaster.setGodownId(binCounterMasterRequest.getGodownId());
+                binCounterMaster.setActive(true);
+                BinCounterMaster binCounterMaster1 = binCounterMasterRepository.save(binCounterMaster);
+                binCounterMasterResponse = mapper.binCounterMasterEntityToObject(binCounterMaster1, BinCounterMasterResponse.class);
+                binCounterMasterResponse.setError(false);
+            } else {
+                binCounterMasterResponse.setError(true);
+                binCounterMasterResponse.setError_description("Error occurred while fetching binCounter");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
+
+        return binCounterMasterResponse;
+
     }
-
-
 
 }

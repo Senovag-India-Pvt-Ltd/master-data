@@ -104,8 +104,9 @@ public class LandOwnershipController {
     public ResponseEntity<?> deleteLandOwnershipDetails(
             @PathVariable final Integer id
     ) {
-        landOwnershipService.deleteLandOwnershipDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(LandOwnershipResponse.class);
+        rw.setContent(landOwnershipService.deleteLandOwnershipDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

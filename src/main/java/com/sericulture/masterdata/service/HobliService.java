@@ -3,8 +3,10 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.hobli.EditHobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.entity.Hobli;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.HobliRepository;
@@ -35,26 +37,39 @@ public class HobliService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HobliResponse getHobliDetails(String hobliName){
+        HobliResponse hobliResponse = new HobliResponse();
         Hobli hobli = null;
         if(hobli==null){
             hobli = hobliRepository.findByHobliNameAndActive(hobliName,true);
+            hobliResponse = mapper.hobliEntityToObject(hobli, HobliResponse.class);
+            hobliResponse.setError(false);
+        }else{
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Hobli not found");
         }
         log.info("Entity is ",hobli);
-        return mapper.hobliEntityToObject(hobli,HobliResponse.class);
+        return hobliResponse;
     }
 
     @Transactional
     public HobliResponse insertHobliDetails(HobliRequest hobliRequest){
+        HobliResponse hobliResponse = new HobliResponse();
         Hobli hobli = mapper.hobliObjectToEntity(hobliRequest,Hobli.class);
         validator.validate(hobli);
         List<Hobli> hobliList = hobliRepository.findByHobliNameAndTalukId(hobliRequest.getHobliName(), hobliRequest.getTalukId());
         if(!hobliList.isEmpty() && hobliList.stream().filter(Hobli::getActive).findAny().isPresent()){
-            throw new ValidationException("Hobli name already exist");
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Hobli name already exist");
         }
-        if(!hobliList.isEmpty() && hobliList.stream().filter(Predicate.not(Hobli::getActive)).findAny().isPresent()){
-            throw new ValidationException("Hobli name already exist with inactive state");
+        else if(!hobliList.isEmpty() && hobliList.stream().filter(Predicate.not(Hobli::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Hobli name already exist with inactive state");
+        }else {
+            hobliResponse = mapper.hobliEntityToObject(hobliRepository.save(hobli), HobliResponse.class);
+            hobliResponse.setError(false);
         }
-        return mapper.hobliEntityToObject(hobliRepository.save(hobli),HobliResponse.class);
+        return hobliResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -105,43 +120,63 @@ public class HobliService {
     }
 
     @Transactional
-    public void deleteHobliDetails(long id) {
+    public HobliResponse deleteHobliDetails(long id) {
+        HobliResponse hobliResponse = new HobliResponse();
         Hobli hobli = hobliRepository.findByHobliIdAndActive(id, true);
         if (Objects.nonNull(hobli)) {
             hobli.setActive(false);
-            hobliRepository.save(hobli);
+            hobliResponse = mapper.hobliEntityToObject(hobliRepository.save(hobli), HobliResponse.class);
+            hobliResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return hobliResponse;
     }
 
     @Transactional
     public HobliResponse getById(int id){
+        HobliResponse hobliResponse = new HobliResponse();
         Hobli hobli = hobliRepository.findByHobliIdAndActive(id,true);
         if(hobli == null){
-            throw new ValidationException("Invalid Id");
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Invalid id");
+        }else{
+            hobliResponse =  mapper.hobliEntityToObject(hobli,HobliResponse.class);
+            hobliResponse.setError(false);
         }
         log.info("Entity is ",hobli);
-        return mapper.hobliEntityToObject(hobli,HobliResponse.class);
+        return hobliResponse;
     }
 
     @Transactional
     public HobliResponse getByIdJoin(int id){
+        HobliResponse hobliResponse = new HobliResponse();
         HobliDTO hobliDTO = hobliRepository.getByHobliIdAndActive(id,true);
         if(hobliDTO == null){
-            throw new ValidationException("Invalid Id");
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Invalid id");
+        } else {
+            hobliResponse = mapper.hobliDTOToObject(hobliDTO, HobliResponse.class);
+            hobliResponse.setError(false);
         }
         log.info("Entity is ", hobliDTO);
-        return mapper.hobliDTOToObject(hobliDTO, HobliResponse.class);
+        return hobliResponse;
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getHobliByTalukId(Long talukId){
+        Map<String, Object> response = new HashMap<>();
         List<Hobli> hobliList = hobliRepository.findByTalukIdAndActive(talukId,true);
         if(hobliList.isEmpty()){
-            throw new ValidationException("Invalid Id");
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            log.info("Entity is ", hobliList);
+            response = convertListToMapResponse(hobliList);
+            return response;
         }
-        log.info("Entity is ",hobliList);
-        return convertListToMapResponse(hobliList);
     }
 
     private Map<String, Object> convertListToMapResponse(List<Hobli> hobliList) {
@@ -154,20 +189,28 @@ public class HobliService {
     }
 
     @Transactional
-    public HobliResponse updateHobliDetails(EditHobliRequest hobliRequest){
+    public HobliResponse updateHobliDetails(EditHobliRequest hobliRequest) {
+        HobliResponse hobliResponse = new HobliResponse();
         List<Hobli> hobliList = hobliRepository.findByHobliName(hobliRequest.getHobliName());
-        if(hobliList.size()>0){
-            throw new ValidationException("Hobli already exists, duplicates are not allowed.");
+        if (hobliList.size() > 0) {
+            hobliResponse.setError(true);
+            hobliResponse.setError_description("Hobli already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
+            Hobli hobli = hobliRepository.findByHobliIdAndActiveIn(hobliRequest.getHobliId(), Set.of(true, false));
+            if (Objects.nonNull(hobli)) {
+                hobli.setStateId(hobliRequest.getStateId());
+                hobli.setHobliName(hobliRequest.getHobliName());
+                hobli.setActive(true);
+                Hobli hobli1 = hobliRepository.save(hobli);
+                hobliResponse = mapper.hobliEntityToObject(hobli1, HobliResponse.class);
+                hobliResponse.setError(false);
+            } else {
+                hobliResponse.setError(true);
+                hobliResponse.setError_description("Error occurred while fetching hobli");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        Hobli hobli = hobliRepository.findByHobliIdAndActiveIn(hobliRequest.getHobliId(), Set.of(true,false));
-        if(Objects.nonNull(hobli)){
-            hobli.setStateId(hobliRequest.getStateId());
-            hobli.setHobliName(hobliRequest.getHobliName());
-            hobli.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching hobli");
-        }
-        return mapper.hobliEntityToObject(hobliRepository.save(hobli),HobliResponse.class);
+        return hobliResponse;
     }
-
 }

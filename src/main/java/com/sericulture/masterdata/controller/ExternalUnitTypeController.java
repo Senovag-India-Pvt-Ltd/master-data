@@ -104,8 +104,9 @@ public class ExternalUnitTypeController {
     public ResponseEntity<?> deleteExternalUnitTypeDetails(
             @PathVariable final Integer id
     ) {
-        externalUnitTypeService.deleteExternalUnitTypeDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(externalUnitTypeService.deleteExternalUnitTypeDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

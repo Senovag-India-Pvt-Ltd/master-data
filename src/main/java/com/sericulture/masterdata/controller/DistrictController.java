@@ -105,8 +105,9 @@ public class DistrictController {
     public ResponseEntity<?> deleteDistrictDetails(
             @PathVariable final Integer id
     ) {
-        districtService.deleteDistrictDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(districtService.deleteDistrictDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

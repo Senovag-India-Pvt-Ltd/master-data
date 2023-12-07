@@ -5,8 +5,10 @@ import com.sericulture.masterdata.model.api.landCategory.EditLandCategoryRequest
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryResponse;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.LandCategory;
 import com.sericulture.masterdata.model.entity.LandOwnership;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.LandCategoryRepository;
@@ -36,26 +38,39 @@ public class LandCategoryService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public LandCategoryResponse getLandCategoryDetails(String landCategoryName){
+        LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = null;
         if(landCategory==null){
             landCategory = landCategoryRepository.findByLandCategoryNameAndActive(landCategoryName,true);
+            landCategoryResponse = mapper.landCategoryEntityToObject(landCategory, LandCategoryResponse.class);
+            landCategoryResponse.setError(false);
+        }else{
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("LandCategory not found");
         }
         log.info("Entity is ",landCategory);
-        return mapper.landCategoryEntityToObject(landCategory,LandCategoryResponse.class);
+        return landCategoryResponse;
     }
 
     @Transactional
     public LandCategoryResponse insertLandCategoryDetails(LandCategoryRequest landCategoryRequest){
+        LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = mapper.landCategoryObjectToEntity(landCategoryRequest,LandCategory.class);
         validator.validate(landCategory);
         List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryName(landCategoryRequest.getLandCategoryName());
         if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(LandCategory::getActive).findAny().isPresent()){
-            throw new ValidationException("Land Category name already exist");
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("landCategory name already exist");
         }
-        if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(Predicate.not(LandCategory::getActive)).findAny().isPresent()){
-            throw new ValidationException("Land Category name already exist with inactive state");
+        else if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(Predicate.not(LandCategory::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("landCategory name already exist with inactive state");
+        }else {
+            landCategoryResponse = mapper.landCategoryEntityToObject(landCategoryRepository.save(landCategory), LandCategoryResponse.class);
+            landCategoryResponse.setError(false);
         }
-        return mapper.landCategoryEntityToObject(landCategoryRepository.save(landCategory),LandCategoryResponse.class);
+        return landCategoryResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -91,41 +106,59 @@ public class LandCategoryService {
     }
 
     @Transactional
-    public void deleteLandCategoryDetails(long id) {
+    public LandCategoryResponse deleteLandCategoryDetails(long id) {
+        LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = landCategoryRepository.findByIdAndActive(id, true);
         if (Objects.nonNull(landCategory)) {
             landCategory.setActive(false);
-            landCategoryRepository.save(landCategory);
+            landCategoryResponse = mapper.landCategoryEntityToObject(landCategoryRepository.save(landCategory), LandCategoryResponse.class);
+            landCategoryResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return landCategoryResponse;
     }
 
     @Transactional
     public LandCategoryResponse getById(int id){
+        LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = landCategoryRepository.findByIdAndActive(id,true);
         if(landCategory == null){
-            throw new ValidationException("Invalid Id");
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("Invalid id");
+        }else{
+            landCategoryResponse =  mapper.landCategoryEntityToObject(landCategory,LandCategoryResponse.class);
+            landCategoryResponse.setError(false);
         }
         log.info("Entity is ",landCategory);
-        return mapper.landCategoryEntityToObject(landCategory,LandCategoryResponse.class);
+        return landCategoryResponse;
     }
 
     @Transactional
-    public LandCategoryResponse updateLandCategoryDetails(EditLandCategoryRequest landCategoryRequest){
+    public LandCategoryResponse updateLandCategoryDetails(EditLandCategoryRequest landCategoryRequest) {
+        LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryName(landCategoryRequest.getLandCategoryName());
-        if(landCategoryList.size()>0){
-            throw new ValidationException("land Category already exists with this name, duplicates are not allowed.");
-        }
+        if (landCategoryList.size() > 0) {
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("LandCategory already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        LandCategory landCategory = landCategoryRepository.findByIdAndActiveIn(landCategoryRequest.getId(), Set.of(true,false));
-        if(Objects.nonNull(landCategory)){
-            landCategory.setLandCategoryName(landCategoryRequest.getLandCategoryName());
-            landCategory.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
+            LandCategory landCategory = landCategoryRepository.findByIdAndActiveIn(landCategoryRequest.getId(), Set.of(true, false));
+            if (Objects.nonNull(landCategory)) {
+                landCategory.setLandCategoryName(landCategoryRequest.getLandCategoryName());
+                landCategory.setActive(true);
+                LandCategory landCategory1 = landCategoryRepository.save(landCategory);
+                landCategoryResponse = mapper.landCategoryEntityToObject(landCategory1, LandCategoryResponse.class);
+                landCategoryResponse.setError(false);
+            } else{
+                landCategoryResponse.setError(true);
+                landCategoryResponse.setError_description("Error occurred while fetching landCategory");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.landCategoryEntityToObject(landCategoryRepository.save(landCategory),LandCategoryResponse.class);
+        return landCategoryResponse;
     }
-
 }

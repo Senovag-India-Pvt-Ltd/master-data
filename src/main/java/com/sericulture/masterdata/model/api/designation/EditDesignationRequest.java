@@ -16,4 +16,6 @@ public class EditDesignationRequest extends RequestBody {
 
     @Schema(name = "name", example = "Admin", required = true)
     String name;
+
+
 }

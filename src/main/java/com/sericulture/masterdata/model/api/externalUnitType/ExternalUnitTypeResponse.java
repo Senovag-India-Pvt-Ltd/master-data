@@ -17,4 +17,10 @@ public class ExternalUnitTypeResponse {
     @Schema(name = "externalUnitTypeName", example = "external unit type 1")
     String externalUnitTypeName;
 
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
+
 }

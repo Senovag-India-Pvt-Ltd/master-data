@@ -31,4 +31,10 @@ public class BinCounterMasterResponse {
 
     @Schema(name = "bigBinEnd", example = "5")
     int bigBinEnd;
+
+    @Schema(name = "error", example = "true")
+    Boolean error;
+
+    @Schema(name = "error_description", example = "Username or password is incorrect")
+    String error_description;
 }

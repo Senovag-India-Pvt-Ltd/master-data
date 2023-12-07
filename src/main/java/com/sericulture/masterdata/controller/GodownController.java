@@ -104,8 +104,9 @@ public class GodownController {
     public ResponseEntity<?> deleteGodownDetails(
             @PathVariable final Integer id
     ) {
-        godownService.deleteGodownDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(godownService.deleteGodownDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

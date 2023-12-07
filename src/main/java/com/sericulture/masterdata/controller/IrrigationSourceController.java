@@ -104,8 +104,9 @@ public class IrrigationSourceController {
     public ResponseEntity<?> deleteIrrigationSourceDetails(
             @PathVariable final Integer id
     ) {
-        irrigationSourceService.deleteIrrigationSourceDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(irrigationSourceService.deleteIrrigationSourceDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

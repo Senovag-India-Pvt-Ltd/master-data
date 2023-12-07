@@ -3,7 +3,9 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.designation.EditDesignationRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.Designation;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.DesignationRepository;
@@ -34,16 +36,23 @@ public class DesignationService {
 
     @Transactional
     public DesignationResponse insertDesignationDetails(DesignationRequest designationRequest){
+        DesignationResponse designationResponse = new DesignationResponse();
         Designation designation = mapper.designationObjectToEntity(designationRequest,Designation.class);
         validator.validate(designation);
         List<Designation> designationList = designationRepository.findByName(designationRequest.getName());
         if(!designationList.isEmpty() && designationList.stream().filter(Designation::getActive).findAny().isPresent()){
-            throw new ValidationException("Designation name already exist");
+            designationResponse.setError(true);
+            designationResponse.setError_description("Designation name already exist");
         }
-        if(!designationList.isEmpty() && designationList.stream().filter(Predicate.not(Designation::getActive)).findAny().isPresent()){
-            throw new ValidationException("Designation name already exist with inactive designation");
+        else if(!designationList.isEmpty() && designationList.stream().filter(Predicate.not(Designation::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            designationResponse.setError(true);
+            designationResponse.setError_description("Designation name already exist with inactive state");
+        }else {
+            designationResponse = mapper.designationEntityToObject(designationRepository.save(designation), DesignationResponse.class);
+            designationResponse.setError(false);
         }
-        return mapper.designationEntityToObject(designationRepository.save(designation),DesignationResponse.class);
+        return designationResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -79,41 +88,59 @@ public class DesignationService {
     }
 
     @Transactional
-    public void deleteDesignationDetails(long id) {
+    public DesignationResponse deleteDesignationDetails(long id) {
+        DesignationResponse designationResponse = new DesignationResponse();
         Designation designation = designationRepository.findByDesignationIdAndActive(id, true);
         if (Objects.nonNull(designation)) {
             designation.setActive(false);
-            designationRepository.save(designation);
+            designationResponse = mapper.designationEntityToObject(designationRepository.save(designation), DesignationResponse.class);
+            designationResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            designationResponse.setError(true);
+            designationResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return designationResponse;
     }
 
     @Transactional
     public DesignationResponse getById(int id){
+        DesignationResponse designationResponse = new DesignationResponse();
         Designation designation = designationRepository.findByDesignationIdAndActive(id,true);
         if(designation == null){
-            throw new ValidationException("Invalid Id");
+            designationResponse.setError(true);
+            designationResponse.setError_description("Invalid id");
+        }else{
+            designationResponse =  mapper.designationEntityToObject(designation,DesignationResponse.class);
+            designationResponse.setError(false);
         }
         log.info("Entity is ",designation);
-        return mapper.designationEntityToObject(designation,DesignationResponse.class);
+        return designationResponse;
     }
 
     @Transactional
-    public DesignationResponse updateDesignationDetails(EditDesignationRequest designationRequest){
+    public DesignationResponse updateDesignationDetails(EditDesignationRequest designationRequest) {
+        DesignationResponse designationResponse = new DesignationResponse();
         List<Designation> designationList = designationRepository.findByName(designationRequest.getName());
-        if(designationList.size()>0){
-            throw new ValidationException("designation already exists with this name, duplicates are not allowed.");
-        }
+        if (designationList.size() > 0) {
+            designationResponse.setError(true);
+            designationResponse.setError_description("Designation already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        Designation designation = designationRepository.findByDesignationIdAndActiveIn(designationRequest.getDesignationId(), Set.of(true,false));
-        if(Objects.nonNull(designation)){
-            designation.setName(designationRequest.getName());
-            designation.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching designation");
+            Designation designation = designationRepository.findByDesignationIdAndActiveIn(designationRequest.getDesignationId(), Set.of(true, false));
+            if (Objects.nonNull(designation)) {
+                designation.setName(designationRequest.getName());
+                designation.setActive(true);
+                Designation designation1 = designationRepository.save(designation);
+                designationResponse = mapper.designationEntityToObject(designation1, DesignationResponse.class);
+                designationResponse.setError(false);
+            } else {
+                designationResponse.setError(true);
+                designationResponse.setError_description("Error occurred while fetching Designation");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.designationEntityToObject(designationRepository.save(designation),DesignationResponse.class);
+        return designationResponse;
     }
-
 }

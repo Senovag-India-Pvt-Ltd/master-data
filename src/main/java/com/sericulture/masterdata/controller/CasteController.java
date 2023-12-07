@@ -106,8 +106,9 @@ public class CasteController {
     public ResponseEntity<?> deleteCasteDetails(
             @PathVariable final Integer id
     ) {
-        casteService.deleteCasteDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(casteService.deleteCasteDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {

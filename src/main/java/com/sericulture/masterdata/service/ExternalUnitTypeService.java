@@ -7,9 +7,11 @@ import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.traderTypeMaster.EditTraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.ExternalUnitType;
 import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.entity.TraderTypeMaster;
+import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.EducationRepository;
@@ -41,26 +43,39 @@ public class ExternalUnitTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ExternalUnitTypeResponse getExternalUnitTypeDetails(String externalUnitTypeName){
+        ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = null;
         if(externalUnitType==null){
             externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeNameAndActive(externalUnitTypeName,true);
+            externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitType, ExternalUnitTypeResponse.class);
+            externalUnitTypeResponse.setError(false);
+        }else{
+            externalUnitTypeResponse.setError(true);
+            externalUnitTypeResponse.setError_description("ExternalUnitType not found");
         }
         log.info("Entity is ",externalUnitType);
-        return mapper.externalUnitTypeEntityToObject(externalUnitType,ExternalUnitTypeResponse.class);
+        return externalUnitTypeResponse;
     }
 
     @Transactional
     public ExternalUnitTypeResponse insertExternalUnitTypeDetails(ExternalUnitTypeRequest externalUnitTypeRequest){
+        ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = mapper.externalUnitTypeObjectToEntity(externalUnitTypeRequest,ExternalUnitType.class);
         validator.validate(externalUnitType);
         List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
         if(!externalUnitTypeList.isEmpty() && externalUnitTypeList.stream().filter(ExternalUnitType::getActive).findAny().isPresent()){
-            throw new ValidationException("External Unit Type name already exist");
+            externalUnitTypeResponse.setError(true);
+            externalUnitTypeResponse.setError_description("ExternalUnitType name already exist");
         }
-        if(!externalUnitTypeList.isEmpty() && externalUnitTypeList.stream().filter(Predicate.not(ExternalUnitType::getActive)).findAny().isPresent()){
-            throw new ValidationException("External Unit Type name already exist with inactive state");
+        else if(!externalUnitTypeList.isEmpty() && externalUnitTypeList.stream().filter(Predicate.not(ExternalUnitType::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            externalUnitTypeResponse.setError(true);
+            externalUnitTypeResponse.setError_description("ExternalUnitType name already exist with inactive state");
+        }else {
+            externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitTypeRepository.save(externalUnitType), ExternalUnitTypeResponse.class);
+            externalUnitTypeResponse.setError(false);
         }
-        return mapper.externalUnitTypeEntityToObject(externalUnitTypeRepository.save(externalUnitType),ExternalUnitTypeResponse.class);
+        return externalUnitTypeResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -96,41 +111,59 @@ public class ExternalUnitTypeService {
     }
 
     @Transactional
-    public void deleteExternalUnitTypeDetails(long id) {
+    public ExternalUnitTypeResponse deleteExternalUnitTypeDetails(long id) {
+        ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActive(id, true);
         if (Objects.nonNull(externalUnitType)) {
             externalUnitType.setActive(false);
-            externalUnitTypeRepository.save(externalUnitType);
+            externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitTypeRepository.save(externalUnitType), ExternalUnitTypeResponse.class);
+            externalUnitTypeResponse.setError(false);
         } else {
-            throw new ValidationException("Invalid Id");
+            externalUnitTypeResponse.setError(true);
+            externalUnitTypeResponse.setError_description("Invalid Id");
+            // throw new ValidationException("Invalid Id");
         }
+        return externalUnitTypeResponse;
     }
 
     @Transactional
     public ExternalUnitTypeResponse getById(int id){
+        ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActive(id,true);
         if(externalUnitType == null){
-            throw new ValidationException("Invalid Id");
+            externalUnitTypeResponse.setError(true);
+            externalUnitTypeResponse.setError_description("Invalid id");
+        }else{
+            externalUnitTypeResponse =  mapper.externalUnitTypeEntityToObject(externalUnitType,ExternalUnitTypeResponse.class);
+            externalUnitTypeResponse.setError(false);
         }
         log.info("Entity is ",externalUnitType);
-        return mapper.externalUnitTypeEntityToObject(externalUnitType,ExternalUnitTypeResponse.class);
+        return externalUnitTypeResponse;
     }
 
     @Transactional
-    public ExternalUnitTypeResponse updateExternalUnitTypeDetails(EditExternalUnitTypeRequest externalUnitTypeRequest){
+    public ExternalUnitTypeResponse updateExternalUnitTypeDetails(EditExternalUnitTypeRequest externalUnitTypeRequest) {
+        ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
-        if(externalUnitTypeList.size()>0){
-            throw new ValidationException("External Unit Type already exists with this name, duplicates are not allowed.");
-        }
+        if (externalUnitTypeList.size() > 0) {
+            externalUnitTypeResponse.setError(true);
+            externalUnitTypeResponse.setError_description("ExternalUnitType already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
-        ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActiveIn(externalUnitTypeRequest.getExternalUnitTypeId(), Set.of(true,false));
-        if(Objects.nonNull(externalUnitType)){
-            externalUnitType.setExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
-            externalUnitType.setActive(true);
-        }else{
-            throw new ValidationException("Error occurred while fetching state");
+            ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActiveIn(externalUnitTypeRequest.getExternalUnitTypeId(), Set.of(true, false));
+            if (Objects.nonNull(externalUnitType)) {
+                externalUnitType.setExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
+                externalUnitType.setActive(true);
+                ExternalUnitType externalUnitType1 = externalUnitTypeRepository.save(externalUnitType);
+                externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitType1, ExternalUnitTypeResponse.class);
+                externalUnitTypeResponse.setError(false);
+            } else {
+                externalUnitTypeResponse.setError(true);
+                externalUnitTypeResponse.setError_description("Error occurred while fetching ExternalUnitType");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
         }
-        return mapper.externalUnitTypeEntityToObject(externalUnitTypeRepository.save(externalUnitType),ExternalUnitTypeResponse.class);
+        return externalUnitTypeResponse;
     }
-
 }

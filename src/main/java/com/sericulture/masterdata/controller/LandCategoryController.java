@@ -105,8 +105,9 @@ public class LandCategoryController {
     public ResponseEntity<?> deleteStateDetails(
             @PathVariable final Integer id
     ) {
-        landCategoryService.deleteLandCategoryDetails(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(landCategoryService.deleteLandCategoryDetails(id));
+        return ResponseEntity.ok(rw);
     }
 
     @ApiResponses(value = {
