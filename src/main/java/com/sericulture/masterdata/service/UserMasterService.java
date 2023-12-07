@@ -99,7 +99,7 @@ public class UserMasterService {
 //            throw new ValidationException("RpPageRoot name already exist with inactive state");
 //        }
 
-        return userMasterResponse;
+        return mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

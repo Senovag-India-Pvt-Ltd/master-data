@@ -45,7 +45,7 @@ public class RpPagePermissionService {
 //        if(!rpPagePermissionList.isEmpty() && rpPagePermissionList.stream().filter(Predicate.not(RpPagePermission::getActive)).findAny().isPresent()){
 //            throw new ValidationException("RpPagePermission name already exist with inactive state");
 //        }
-        return rpPagePermissionResponse;
+        return mapper.rpPagePermissionEntityToObject(rpPagePermissionRepository.save(rpPagePermission),RpPagePermissionResponse.class);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

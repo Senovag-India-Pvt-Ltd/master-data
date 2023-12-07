@@ -52,7 +52,7 @@ public class BinCounterMasterService {
 //        if(!binCounterMasterList.isEmpty() && binCounterMasterList.stream().filter(Predicate.not(BinCounterMaster::getActive)).findAny().isPresent()){
 //            throw new ValidationException("BinCounterMaster name already exist with inactive state");
 //        }
-        return binCounterMasterResponse;
+        return mapper.binCounterMasterEntityToObject(binCounterMasterRepository.save(binCounterMaster),BinCounterMasterResponse.class);
     }
 
     @Transactional

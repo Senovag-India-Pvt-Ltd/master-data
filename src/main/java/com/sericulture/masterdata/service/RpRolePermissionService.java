@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionResponse;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.EditRpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationResponse;
@@ -62,7 +63,8 @@ public class RpRolePermissionService {
 //            throw new ValidationException("RpPageRoot name already exist with inactive state");
 //        }
 //        return mapper.rpRolePermissionEntityToObject(rpRolePermissionRepository.save(rpRolePermission), RpRolePermissionResponse.class);
-        return rpRolePermissionResponse;
+        return mapper.rpRolePermissionEntityToObject(rpRolePermissionRepository.save(rpRolePermission), RpRolePermissionResponse.class);
+
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
