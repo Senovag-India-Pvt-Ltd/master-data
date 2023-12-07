@@ -153,12 +153,21 @@ public class UserMasterService {
 
     @Transactional
     public UserMasterResponse getByIdJoin(int id){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMasterDTO userMasterDTO = userMasterRepository.getByUserMasterIdAndActive(id,true);
         if(userMasterDTO == null){
-            throw new ValidationException("Invalid Id");
+//            throw new ValidationException("Invalid Id");
+//        }
+//        log.info("Entity is ", userMasterDTO);
+//        return mapper.userMasterDTOToObject(userMasterDTO, UserMasterResponse.class);
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Invalid id");
+        }else{
+            userMasterResponse =  mapper.userMasterDTOToObject(userMasterDTO,UserMasterResponse.class);
+            userMasterResponse.setError(false);
         }
-        log.info("Entity is ", userMasterDTO);
-        return mapper.userMasterDTOToObject(userMasterDTO, UserMasterResponse.class);
+        log.info("Entity is ",userMasterDTO);
+        return userMasterResponse;
     }
 
     @Transactional
