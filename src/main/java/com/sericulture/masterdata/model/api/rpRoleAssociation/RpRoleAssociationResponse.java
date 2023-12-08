@@ -24,6 +24,9 @@ public class RpRoleAssociationResponse {
     @Schema(name = "value", example = "1")
     Long value;
 
+    @Schema(name = "mapCode", example = "mapCode value")
+    String mapCode;
+
     @Schema(name = "success", example = "1")
     Boolean success;
 

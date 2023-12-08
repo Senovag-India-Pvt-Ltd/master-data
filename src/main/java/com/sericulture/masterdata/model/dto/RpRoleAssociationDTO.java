@@ -13,4 +13,6 @@ public class RpRoleAssociationDTO {
     private Long roleId;
     private Long rpRolePermissionId;
     private Long value;
+
+    private String mapCode;
 }

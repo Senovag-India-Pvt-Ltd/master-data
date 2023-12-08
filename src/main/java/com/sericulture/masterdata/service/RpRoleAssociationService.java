@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationR
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationResponse;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.SaveRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.RpRoleAssociationDTO;
 import com.sericulture.masterdata.model.entity.RpRoleAssociation;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -184,6 +185,20 @@ public class RpRoleAssociationService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByRoleId(Long roleId) {
+        Map<String, Object> response = new HashMap<>();
+        List<RpRoleAssociationDTO> rpRoleAssociationDTOS = rpRoleAssociationRepository.getByRoleIdAndActive(roleId,true);
+        if(rpRoleAssociationDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", rpRoleAssociationDTOS);
+            response = convertDTOToMapResponse(rpRoleAssociationDTOS);
+        }
+        return response;
+    }
+
     private Map<String, Object> convertListToMapResponse(List<RpRoleAssociation> rpRoleAssociationList) {
         Map<String, Object> response = new HashMap<>();
         List<RpRoleAssociationResponse> rpRoleAssociationResponses = rpRoleAssociationList.stream()
@@ -192,4 +207,14 @@ public class RpRoleAssociationService {
         response.put("totalItems", rpRoleAssociationList.size());
         return response;
     }
+
+    private Map<String, Object> convertDTOToMapResponse(List<RpRoleAssociationDTO> rpRoleAssociationDTOS) {
+        Map<String, Object> response = new HashMap<>();
+        List<RpRoleAssociationResponse> rpRoleAssociationResponses = rpRoleAssociationDTOS.stream()
+                .map(rpRoleAssociationDTO -> mapper.rpRoleAssociationDTOToObject(rpRoleAssociationDTO,RpRoleAssociationResponse.class)).collect(Collectors.toList());
+        response.put("rpRoleAssociation",rpRoleAssociationResponses);
+        response.put("totalItems", rpRoleAssociationDTOS.size());
+        return response;
+    }
+
 }

@@ -740,6 +740,16 @@ public class Mapper {
     }
 
     /**
+     * Maps rpRoleAssociation DTO to rpRoleAssociation Response Object
+     * @param rpRoleAssociationDTO
+     * @param <T>
+     */
+    public <T> T rpRoleAssociationDTOToObject(RpRoleAssociationDTO rpRoleAssociationDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rpRoleAssociationDTO);
+        return (T) mapper.map(rpRoleAssociationDTO, claaz);
+    }
+
+    /**
      * Maps rpRoleAssociation Object to rpRoleAssociation Response Object
      * @param rpRoleAssociationRequest
      * @param <T>
