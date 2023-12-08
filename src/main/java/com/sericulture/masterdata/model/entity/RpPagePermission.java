@@ -35,4 +35,7 @@ public class RpPagePermission extends BaseEntity implements Serializable {
 
     @Column(name = "is_page", columnDefinition = "TINYINT")
     private Boolean isPage;
+
+    @Column(name = "map_code")
+    private String mapCode;
 }

@@ -126,6 +126,7 @@ public class RpPagePermissionService {
             rpPagePermission.setPageName(rpPagePermissionRequest.getPageName());
             rpPagePermission.setRoute(rpPagePermissionRequest.getRoute());
             rpPagePermission.setIsPage(rpPagePermissionRequest.getIsPage());
+            rpPagePermission.setMapCode(rpPagePermissionRequest.getMapCode());
             rpPagePermission.setActive(true);
             RpPagePermission rpPagePermission1 = rpPagePermissionRepository.save(rpPagePermission);
             rpPagePermissionResponse = mapper.rpPagePermissionEntityToObject(rpPagePermission1, RpPagePermissionResponse.class);

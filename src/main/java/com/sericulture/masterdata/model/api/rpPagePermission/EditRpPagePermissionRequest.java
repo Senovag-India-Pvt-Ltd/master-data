@@ -27,4 +27,7 @@ public class EditRpPagePermissionRequest extends RequestBody {
 
     @Schema(name = "isPage", example = "0")
     private Boolean isPage;
+
+    @Schema(name = "mapCode", example = "farmerregistration")
+    String mapCode;
 }
