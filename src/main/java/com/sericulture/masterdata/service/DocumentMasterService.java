@@ -110,6 +110,7 @@ public class DocumentMasterService {
         DocumentMasterResponse documentMasterResponse = new DocumentMasterResponse();
         DocumentMaster documentMaster = documentMasterRepository.findByDocumentMasterIdAndActive(id, true);
         if (Objects.nonNull(documentMaster)) {
+            documentMaster.setActive(false);
             documentMasterResponse = mapper.documentMasterEntityToObject(documentMasterRepository.save(documentMaster), DocumentMasterResponse.class);
             documentMasterResponse.setError(false);
         } else {

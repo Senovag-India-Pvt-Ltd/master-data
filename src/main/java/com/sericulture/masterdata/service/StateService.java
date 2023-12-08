@@ -108,6 +108,7 @@ public class StateService {
             StateResponse stateResponse = new StateResponse();
             State state = stateRepository.findByStateIdAndActive(id, true);
         if (Objects.nonNull(state)) {
+            state.setActive(false);
             stateResponse = mapper.stateEntityToObject(stateRepository.save(state), StateResponse.class);
             stateResponse.setError(false);
         } else {
