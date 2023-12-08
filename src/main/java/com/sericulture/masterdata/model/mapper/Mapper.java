@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
+import com.sericulture.masterdata.model.api.documentMaster.DocumentMasterRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
@@ -914,5 +915,25 @@ public class Mapper {
     public <T> T designationObjectToEntity(DesignationRequest designationRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, designationRequest);
         return (T) mapper.map(designationRequest, claaz);
+    }
+
+    /**
+     * Maps Document Entity to Document  Response Object
+     * @param documentMasterEntity
+     * @param <T>
+     */
+    public <T> T documentMasterEntityToObject(DocumentMaster documentMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,documentMasterEntity );
+        return (T) mapper.map(documentMasterEntity, claaz);
+    }
+
+    /**
+     * Maps Document  Object to Document  Response Object
+     * @param documentMasterRequest
+     * @param <T>
+     */
+    public <T> T documentMasterObjectToEntity(DocumentMasterRequest documentMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, documentMasterRequest);
+        return (T) mapper.map(documentMasterRequest, claaz);
     }
 }
