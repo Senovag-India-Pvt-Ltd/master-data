@@ -49,4 +49,7 @@ public class EditUserMasterRequest extends RequestBody {
 
     @Schema(name = "designationId", example = "1")
     Long designationId;
+
+    @Schema(name = "phoneNumber", example = "9988776655")
+    private String phoneNumber;
 }

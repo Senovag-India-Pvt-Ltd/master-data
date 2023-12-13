@@ -222,6 +222,7 @@ public class UserMasterService {
             userMaster.setTalukId(userMasterRequest.getTalukId());
             userMaster.setRoleId(userMasterRequest.getRoleId());
             userMaster.setMarketMasterId(userMasterRequest.getMarketMasterId());
+            userMaster.setPhoneNumber(userMaster.getPhoneNumber());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);

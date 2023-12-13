@@ -45,7 +45,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " role.roleName," +
             " marketMaster.marketMasterName," +
             " userMaster.username," +
-            " userMaster.designationId" +
+            " userMaster.designationId," +
+            " userMaster.phoneNumber" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -81,7 +82,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " role.roleName," +
             " marketMaster.marketMasterName," +
             " userMaster.username," +
-            " userMaster.designationId" +
+            " userMaster.designationId," +
+            " userMaster.phoneNumber" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +

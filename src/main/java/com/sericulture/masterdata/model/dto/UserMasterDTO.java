@@ -24,6 +24,7 @@ public class UserMasterDTO {
     private String username;
     private Long designationId;
 
+    private String phoneNumber;
     // Constructors (default and the one you've specified)
     public UserMasterDTO() {}
 
@@ -45,7 +46,8 @@ public class UserMasterDTO {
             String roleName,
             String marketMasterName,
             String username,
-            Long designationId
+            Long designationId,
+            String phoneNumber
     ) {
         // Initialize your fields here
         this.userMasterId = userMasterId;
@@ -66,5 +68,6 @@ public class UserMasterDTO {
         this.marketMasterName = marketMasterName;
         this.username = username;
         this.designationId = designationId;
+        this.phoneNumber = phoneNumber;
     }
 }

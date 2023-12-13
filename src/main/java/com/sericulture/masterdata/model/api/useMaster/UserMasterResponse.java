@@ -66,6 +66,9 @@ public class UserMasterResponse {
     @Schema(name = "designationId", example = "1")
     Long designationId;
 
+    @Schema(name = "phoneNumber", example = "9988776655")
+    private String phoneNumber;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
