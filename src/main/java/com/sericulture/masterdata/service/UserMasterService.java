@@ -1,17 +1,20 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.useMaster.EditUserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
+import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.UserMasterRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +38,12 @@ public class UserMasterService {
 
     @Autowired
     CustomValidator validator;
+
+    @Autowired
+    GovtSMSServiceController govtSMSServiceController;
+
+    @Autowired
+    OtpService otpService;
 
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -236,5 +245,46 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
+    @Transactional
+    public UserMasterResponse generateOtpByUserName(UserMasterDTO userMasterDTO){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUsernameAndActive(userMasterDTO.getUsername(),true);
+        if(userMaster == null){
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Invalid id");
+        }else{
+            GovtSmsServiceDTO govtSmsServiceDTO = new GovtSmsServiceDTO();
+            govtSmsServiceDTO.setUsername("Mobile_1-COMDOS");
+            govtSmsServiceDTO.setPassword("COMDOS@1234");
+            govtSmsServiceDTO.setMessage("Generate and store otp");
+            govtSmsServiceDTO.setSenderId("COMDOS");
+            govtSmsServiceDTO.setMobileNumber(userMaster.getPhoneNumber());
+            govtSmsServiceDTO.setSecureKey("046bdec5-4bba-69b3-k4e4-01d6b555c9cv");
+            govtSmsServiceDTO.setTemplateid("1107170082061011792");
+            govtSmsServiceDTO.setUserId(userMaster.getUserMasterId().toString());
 
+            govtSMSServiceController.sendOtpSMS(govtSmsServiceDTO);
+            userMasterResponse =  mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        }
+        log.info("Entity is ",userMaster);
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse verifyOtp(UserMasterDTO userMasterDTO){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUsernameAndActive(userMasterDTO.getUsername(),true);
+        if(userMaster == null){
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Invalid id");
+        }else{
+            Boolean otpVerificationStatus = otpService.verifyOtp(userMaster.getUserMasterId().toString(), userMasterDTO.getEnteredOtpByUser());
+            userMasterResponse = mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+            userMasterResponse.setOtpVerified(otpVerificationStatus);
+            userMasterResponse.setError(false);
+        }
+        log.info("Entity is ",userMaster);
+        return userMasterResponse;
+    }
 }

@@ -25,6 +25,8 @@ public class UserMasterDTO {
     private Long designationId;
 
     private String phoneNumber;
+
+    private String enteredOtpByUser; //User entered otp for verification
     // Constructors (default and the one you've specified)
     public UserMasterDTO() {}
 

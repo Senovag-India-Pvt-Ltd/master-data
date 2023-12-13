@@ -99,4 +99,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "where userMaster.active = :isActive AND userMaster.userMasterId = :id"
     )
     public UserMasterDTO getByUserMasterIdAndActive(long id, boolean isActive);
+
+    public UserMaster findByUsernameAndActive(String userName, boolean isActive);
+
 }

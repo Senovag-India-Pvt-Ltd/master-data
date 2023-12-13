@@ -69,6 +69,9 @@ public class UserMasterResponse {
     @Schema(name = "phoneNumber", example = "9988776655")
     private String phoneNumber;
 
+    @Schema(name = "otpVerified", example = "true")
+    Boolean otpVerified;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
