@@ -194,10 +194,12 @@ public class TalukService {
 //            throw new ValidationException("Invalid Id");
             response.put("error", "Error");
             response.put("error_description", "Invalid id");
+            response.put("success", false);
             return response;
         } else {
             log.info("Entity is ", talukList);
             response = convertListToMapResponse(talukList);
+            response.put("success", true);
             return response;
 
         }
