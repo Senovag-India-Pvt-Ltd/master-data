@@ -35,6 +35,10 @@ public class MarketMasterResponse {
     @Schema(name = "talukId", example = "1")
     Integer talukId;
 
+
+    @Schema(name = "marketTypeMasterId", example = "1")
+    Integer marketTypeMasterId;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

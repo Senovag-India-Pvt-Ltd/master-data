@@ -148,6 +148,7 @@ public class MarketMasterService {
             MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketMaster)) {
                 marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
+                marketMaster.setMarketTypeMasterId(marketMaster.getMarketTypeMasterId());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);

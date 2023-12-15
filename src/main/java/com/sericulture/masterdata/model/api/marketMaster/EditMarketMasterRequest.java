@@ -34,4 +34,7 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "talukId", example = "1")
     Integer talukId;
 
+    @Schema(name = "marketTypeMasterId", example = "1")
+    Integer marketTypeMasterId;
+
 }

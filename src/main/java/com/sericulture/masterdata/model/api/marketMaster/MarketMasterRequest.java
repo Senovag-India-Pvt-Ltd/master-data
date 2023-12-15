@@ -33,4 +33,6 @@ public class MarketMasterRequest extends RequestBody {
     Long talukId;
 
 
+    @Schema(name = "marketTypeMasterId", example = "1")
+    Long marketTypeMasterId;
 }
