@@ -16,6 +16,7 @@ import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeRequest
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
+import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
@@ -945,5 +946,24 @@ public class Mapper {
     public <T> T documentMasterObjectToEntity(DocumentMasterRequest documentMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, documentMasterRequest);
         return (T) mapper.map(documentMasterRequest, claaz);
+    }
+    /**
+     * Maps MarketType Entity to Document  Response Object
+     * @param marketTypeMasterEntity
+     * @param <T>
+     */
+    public <T> T marketTypeMasterEntityToObject(MarketTypeMaster marketTypeMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,marketTypeMasterEntity );
+        return (T) mapper.map(marketTypeMasterEntity, claaz);
+    }
+
+    /**
+     * Maps MarketType  Object to Document  Response Object
+     * @param marketTypeMasterRequest
+     * @param <T>
+     */
+    public <T> T marketTypeMasterObjectToEntity(MarketTypeMasterRequest marketTypeMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, marketTypeMasterRequest);
+        return (T) mapper.map(marketTypeMasterRequest, claaz);
     }
 }
