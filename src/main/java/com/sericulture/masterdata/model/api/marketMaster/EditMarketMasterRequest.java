@@ -4,6 +4,8 @@ import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.time.LocalTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,6 +35,30 @@ public class EditMarketMasterRequest extends RequestBody {
 
     @Schema(name = "talukId", example = "1")
     Integer talukId;
+
+    @Schema(name = "issueBidSlipStartTime", example = "1")
+    LocalTime issueBidSlipStartTime;
+
+    @Schema(name = "issueBidSlipEndTime", example = "1")
+    LocalTime issueBidSlipEndTime;
+
+    @Schema(name = "auction1StartTime", example = "1")
+    LocalTime auction1StartTime;
+
+    @Schema(name = "auction2StartTime", example = "1")
+    LocalTime auction2StartTime;
+
+    @Schema(name = "auction3StartTime", example = "1")
+    LocalTime auction3StartTime;
+
+    @Schema(name = "auction1EndTime", example = "1")
+    LocalTime auction1EndTime;
+
+    @Schema(name = "auction2EndTime", example = "1")
+    LocalTime auction2EndTime;
+
+    @Schema(name = "auction3EndTime", example = "1")
+    LocalTime auction3EndTime;
 
     @Schema(name = "marketTypeMasterId", example = "1")
     Integer marketTypeMasterId;
