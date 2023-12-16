@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "godown_master")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,7 +18,7 @@ public class Godown extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "godown_seq")
     @SequenceGenerator(name = "godown_seq", sequenceName = "godown_seq", allocationSize = 1)
-    @Column(name = "godown_id")
+    @Column(name = "godown_master_id")
     private Long godownId;
 
 
@@ -26,6 +26,6 @@ public class Godown extends BaseEntity implements Serializable {
     @Column(name = "godown_name", unique = true)
     private String godownName;
 
-    @Column(name = "market_master_id")
+    @Column(name = "market_id")
     private Long marketMasterId;
 }
