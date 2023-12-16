@@ -149,6 +149,14 @@ public class MarketMasterService {
             if (Objects.nonNull(marketMaster)) {
                 marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
                 marketMaster.setMarketTypeMasterId(marketMaster.getMarketTypeMasterId());
+                marketMaster.setIssueBidSlipStartTime(marketMaster.getIssueBidSlipStartTime());
+                marketMaster.setIssueBidSlipEndTime(marketMaster.getIssueBidSlipEndTime());
+                marketMaster.setAuction1StartTime(marketMaster.getAuction1StartTime());
+                marketMaster.setAuction2StartTime(marketMaster.getAuction2StartTime());
+                marketMaster.setAuction3StartTime(marketMaster.getAuction3StartTime());
+                marketMaster.setAuction1EndTime(marketMaster.getAuction1EndTime());
+                marketMaster.setAuction2EndTime(marketMaster.getAuction2EndTime());
+                marketMaster.setAuction3EndTime(marketMaster.getAuction3EndTime());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
