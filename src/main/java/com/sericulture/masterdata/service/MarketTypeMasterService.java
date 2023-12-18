@@ -154,12 +154,12 @@ public class MarketTypeMasterService {
     @Transactional
     public MarketTypeMasterResponse updateMarketTypeMasterDetails(EditMarketTypeMasterRequest marketTypeMasterRequest){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
-        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterName(marketTypeMasterRequest.getMarketTypeMasterName());
-        if(marketTypeMasterList.size()>0){
-            marketTypeMasterResponse.setError(true);
-            marketTypeMasterResponse.setError_description("Market Type already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        }else {
+//        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterName(marketTypeMasterRequest.getMarketTypeMasterName());
+//        if(marketTypeMasterList.size()>0){
+//            marketTypeMasterResponse.setError(true);
+//            marketTypeMasterResponse.setError_description("Market Type already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        }else {
 
             MarketTypeMaster marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterIdAndActiveIn(marketTypeMasterRequest.getMarketTypeMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketTypeMaster)) {
@@ -176,7 +176,7 @@ public class MarketTypeMasterService {
                 marketTypeMasterResponse.setError_description("Error occurred while fetching marketType");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
+
         return marketTypeMasterResponse;
     }
 
