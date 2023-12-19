@@ -978,6 +978,16 @@ public class Mapper {
     }
 
     /**
+     * Maps CrateMasterDTO to CrateMaster Response Object
+     * @param crateMasterDTO
+     * @param <T>
+     */
+    public <T> T crateMasterDTOToObject(CrateMasterDTO crateMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, crateMasterDTO);
+        return (T) mapper.map(crateMasterDTO, claaz);
+    }
+
+    /**
      * Maps MarketType  Object to Document  Response Object
      * @param crateMasterRequest
      * @param <T>

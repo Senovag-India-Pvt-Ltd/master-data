@@ -27,6 +27,15 @@ public class CrateMasterResponse {
     @Schema(name = "approxWeightPerCrate", example = "2")
     Integer approxWeightPerCrate;
 
+    @Schema(name = "raceMasterName", example = "Kasaba")
+    String raceMasterName;
+
+    @Schema(name="marketMasterName", example = "Udupi")
+    String marketMasterName;
+
+    @Schema(name="godownName", example = "kundapurr")
+    String godownName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

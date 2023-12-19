@@ -4,9 +4,12 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.crateMaster.CrateMasterRequest;
 import com.sericulture.masterdata.model.api.crateMaster.CrateMasterResponse;
 import com.sericulture.masterdata.model.api.crateMaster.EditCrateMasterRequest;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.rpPagePermission.EditRpPagePermissionRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionResponse;
+import com.sericulture.masterdata.model.dto.CrateMasterDTO;
+import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.entity.CrateMaster;
 import com.sericulture.masterdata.model.entity.RpPagePermission;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -83,6 +86,24 @@ public class CrateMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedCrateMasterDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(crateMasterRepository.getByActiveOrderByCrateMasterIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<CrateMasterDTO> activeCrateMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<CrateMasterResponse> crateMasterResponses = activeCrateMasters.getContent().stream()
+                .map(crateMaster -> mapper.crateMasterDTOToObject(crateMaster,CrateMasterResponse.class)).collect(Collectors.toList());
+        response.put("crateMaster",crateMasterResponses);
+        response.put("currentPage", activeCrateMasters.getNumber());
+        response.put("totalItems", activeCrateMasters.getTotalElements());
+        response.put("totalPages", activeCrateMasters.getTotalPages());
+        return response;
+    }
+
+
     @Transactional
     public CrateMasterResponse deleteCrateMasterDetails(long id) {
         CrateMasterResponse crateMasterResponse = new CrateMasterResponse();
@@ -113,6 +134,21 @@ public class CrateMasterService {
             crateMasterResponse.setError(false);
         }
         log.info("Entity is ",crateMaster);
+        return crateMasterResponse;
+    }
+
+    @Transactional
+    public CrateMasterResponse getByIdJoin(int id){
+        CrateMasterResponse crateMasterResponse = new CrateMasterResponse();
+        CrateMasterDTO crateMasterDTO = crateMasterRepository.getByCrateMasterIdAndActive(id,true);
+        if(crateMasterDTO == null){
+            crateMasterResponse.setError(true);
+            crateMasterResponse.setError_description("Invalid id");
+        } else {
+            crateMasterResponse = mapper.crateMasterDTOToObject(crateMasterDTO, CrateMasterResponse.class);
+            crateMasterResponse.setError(false);
+        }
+        log.info("Entity is ", crateMasterDTO);
         return crateMasterResponse;
     }
 
