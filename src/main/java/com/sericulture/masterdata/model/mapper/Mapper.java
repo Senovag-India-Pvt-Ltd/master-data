@@ -4,6 +4,7 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.crateMaster.CrateMasterRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.documentMaster.DocumentMasterRequest;
@@ -965,5 +966,24 @@ public class Mapper {
     public <T> T marketTypeMasterObjectToEntity(MarketTypeMasterRequest marketTypeMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, marketTypeMasterRequest);
         return (T) mapper.map(marketTypeMasterRequest, claaz);
+    }
+    /**
+     * Maps CrateMaster Entity to Document  Response Object
+     * @param crateMasterEntity
+     * @param <T>
+     */
+    public <T> T crateMasterEntityToObject(CrateMaster crateMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,crateMasterEntity );
+        return (T) mapper.map(crateMasterEntity, claaz);
+    }
+
+    /**
+     * Maps MarketType  Object to Document  Response Object
+     * @param crateMasterRequest
+     * @param <T>
+     */
+    public <T> T crateMasterObjectToEntity(CrateMasterRequest crateMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, crateMasterRequest);
+        return (T) mapper.map(crateMasterRequest, claaz);
     }
 }
