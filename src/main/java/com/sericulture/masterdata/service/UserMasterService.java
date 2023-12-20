@@ -2,16 +2,19 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.useMaster.EditUserMasterRequest;
+import com.sericulture.masterdata.model.api.useMaster.SaveReelerUserRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
+import com.sericulture.masterdata.model.entity.Reeler;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
+import com.sericulture.masterdata.repository.ReelerRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
@@ -45,6 +48,9 @@ public class UserMasterService {
 
     @Autowired
     OtpService otpService;
+
+    @Autowired
+    ReelerRepository reelerRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -293,6 +299,52 @@ public class UserMasterService {
             userMasterResponse.setError(false);
         }
         log.info("Entity is ",userMaster);
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse saveReelerUser(SaveReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        Reeler reeler = reelerRepository.findByReelerIdAndIsActivatedAndActive(saveReelerUserRequest.getReelerId(), 0, true);
+        if (reeler == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Error occurred while fetching reeler");
+        }else {
+            UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
+            if (userMaster == null) {
+                UserMaster userMaster1 = new UserMaster();
+                userMaster1.setUsername(saveReelerUserRequest.getUsername());
+                userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+                userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+                userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
+                userMaster1.setRoleId(saveReelerUserRequest.getRoleId());
+                userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+                userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
+                userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
+                userMaster1.setUserType(2); //For reeler
+                userMaster1.setUserTypeId(reeler.getReelerId());
+                userMaster1.setFirstName(reeler.getReelerName());
+                userMaster1.setStateId(reeler.getStateId());
+                userMaster1.setDistrictId(reeler.getDistrictId());
+                userMaster1.setTalukId(reeler.getTalukId());
+                userMaster1.setActive(true);
+
+                //Save reeler user
+                UserMaster userMaster2 = userMasterRepository.save(userMaster1);
+                userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+
+                //Activate reeler
+                reeler.setIsActivated(1); //activated
+                reeler.setActive(true);
+                reelerRepository.save(reeler);
+
+                userMasterResponse.setError(false);
+            } else {
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("Username already exist");
+            }
+        }
+
         return userMasterResponse;
     }
 }

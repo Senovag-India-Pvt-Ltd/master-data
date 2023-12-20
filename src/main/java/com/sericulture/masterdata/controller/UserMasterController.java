@@ -2,6 +2,7 @@ package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.useMaster.EditUserMasterRequest;
+import com.sericulture.masterdata.model.api.useMaster.SaveReelerUserRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
@@ -290,6 +291,25 @@ public class UserMasterController {
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
         rw.setContent(userMasterService.getLoginDetails(userMasterDTO.getUsername(), userMasterDTO.getPassword()));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/save-reeler-user")
+    public ResponseEntity<?> saveReelerUser(
+            @RequestBody final SaveReelerUserRequest saveReelerUserRequest
+    ) {
+        ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+        rw.setContent(userMasterService.saveReelerUser(saveReelerUserRequest));
         return ResponseEntity.ok(rw);
     }
 }
