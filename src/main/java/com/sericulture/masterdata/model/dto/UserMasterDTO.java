@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
@@ -26,6 +27,12 @@ public class UserMasterDTO {
 
     private String phoneNumber;
 
+    private int userType;
+
+    private Long userTypeId;
+
+    private String deviceId;
+
     private String enteredOtpByUser; //User entered otp for verification
     // Constructors (default and the one you've specified)
     public UserMasterDTO() {}
@@ -49,7 +56,10 @@ public class UserMasterDTO {
             String marketMasterName,
             String username,
             Long designationId,
-            String phoneNumber
+            String phoneNumber,
+            int userType,
+            Long userTypeId,
+            String deviceId
     ) {
         // Initialize your fields here
         this.userMasterId = userMasterId;
@@ -71,5 +81,8 @@ public class UserMasterDTO {
         this.username = username;
         this.designationId = designationId;
         this.phoneNumber = phoneNumber;
+        this.userType = userType;
+        this.userTypeId = userTypeId;
+        this.deviceId = deviceId;
     }
 }

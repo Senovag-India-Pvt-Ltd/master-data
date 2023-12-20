@@ -66,4 +66,13 @@ public class UserMaster extends BaseEntity implements Serializable {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "user_type")
+    private int userType;
+
+    @Column(name = "user_type_id")
+    private Long userTypeId;
+
+    @Column(name = "device_id")
+    private String deviceId;
 }

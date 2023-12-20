@@ -18,6 +18,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,8 @@ public class UserMasterService {
     @Autowired
     OtpService otpService;
 
+    @Autowired
+    private PasswordEncoder encoder;
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
 //    public RpPageRootResponse getRpPageRootDetails(String rpPageRootName){
@@ -56,23 +59,25 @@ public class UserMasterService {
 //        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
 //    }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public UserMasterResponse getByUserNameAndPassword(String username, String password){
-//        UserMasterResponse userMasterResponse = new UserMasterResponse();
-////        UserMaster userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username, password,true);
-//        UserMaster userMaster = null;
-//        if(userMaster == null){
-//
-//            userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username,password,true);
-//            userMasterResponse = mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
-//            userMasterResponse.setError(false);
-//        }else{
-//            userMasterResponse.setError(true);
-//            userMasterResponse.setError_description("User not found");
-//        }
-//        log.info("Entity is ",userMaster);
-//        return userMasterResponse;
-//    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public UserMasterResponse getLoginDetails(String username, String password){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster1 = userMasterRepository.findByUsername(username);
+        if(userMaster1 == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("User not found");
+        }else {
+            if (!encoder.matches(password,userMaster1.getPassword())) {
+                 userMasterResponse.setError(true);
+                 userMasterResponse.setError_description("Wrong password, please try again!");
+            }else {
+                userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
+                userMasterResponse.setError(false);
+            }
+        }
+        log.info("Entity is ",userMaster1);
+        return userMasterResponse;
+    }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getByUserNameAndPassword(String username, String password) {
         UserMasterResponse userMasterResponse = new UserMasterResponse();
@@ -232,6 +237,9 @@ public class UserMasterService {
             userMaster.setRoleId(userMasterRequest.getRoleId());
             userMaster.setMarketMasterId(userMasterRequest.getMarketMasterId());
             userMaster.setPhoneNumber(userMaster.getPhoneNumber());
+            userMaster.setUserType(userMaster.getUserType());
+            userMaster.setUserTypeId(userMaster.getUserTypeId());
+            userMaster.setDeviceId(userMaster.getDeviceId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);

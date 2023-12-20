@@ -48,5 +48,14 @@ public class UserMasterRequest extends RequestBody {
     Long designationId;
 
     @Schema(name = "phoneNumber", example = "9988776655")
-    private String phoneNumber;
+    String phoneNumber;
+
+    @Schema(name = "userType", example = "1")
+    int userType;
+
+    @Schema(name = "userTypeId", example = "1")
+    Long userTypeId;
+
+    @Schema(name = "deviceId", example = "998s3gf6478776655")
+    String deviceId;
 }
