@@ -11,20 +11,27 @@ import lombok.*;
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BinMasterResponse {
-    @Schema(name="binMasterId", example = "1")
+
+    @Schema(name = "binMasterId", example = "1")
     int binMasterId;
 
     @Schema(name = "binCounterMasterId", example = "1")
     int binCounterMasterId;
 
-    @Schema(name = "type", example = "1")
-    int type;
+    @Schema(name = "godownId", example = "1")
+    int godownId;
+
+    @Schema(name = "marketId", example = "1")
+    int marketId;
 
     @Schema(name = "binNumber", example = "12S")
-    String binNumber;
+    int binNumber;
 
-    @Schema(name = "status", example = "1")
-    int status;
+    @Schema(name = "type", example = "Small")
+    String type;
+
+    @Schema(name = "status", example = "Big")
+    String status;
 
     @Schema(name = "error", example = "true")
     Boolean error;

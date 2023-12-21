@@ -18,7 +18,7 @@ public class BinCounterMaster extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bin_counter_master_seq")
     @SequenceGenerator(name = "bin_counter_master_seq", sequenceName = "bin_counter_master_seq", allocationSize = 1)
     @Column(name = "bin_counter_master_id")
-    private Long binCounterMasterId;
+    private int binCounterMasterId;
 
     @Column(name = "market_Id")
     private Long marketId;

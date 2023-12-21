@@ -14,11 +14,15 @@ import java.util.Set;
 
 @Repository
 public interface BinMasterRepository extends PagingAndSortingRepository<BinMaster,Long> {
-    public List<BinMaster> findByBinNumber(String binNumber);
+    public List<BinMaster> findByBinNumber(int binNumber);
 
-    public List<BinMaster> findByBinNumberAndBinCounterMasterId(String binNumber, long binCounterMasterId);
+    public List<BinMaster> findByGodownIdAndMarketIdAndActive(int godownId,int marketId,boolean isActive);
 
-    public BinMaster findByBinNumberAndActive(String binNumber,boolean isActive);
+    public List<BinMaster> findByBinNumberAndBinCounterMasterId(int binNumber, int binCounterMasterId);
+
+    public BinMaster findByBinNumberAndActive(int binNumber,boolean isActive);
+
+    public BinMaster findByGodownIdAndMarketIdAndTypeAndBinNumberAndActive(int marketId, int godownId, String type, int binNumber, boolean isActive);
 
     public Page<BinMaster> findByActiveOrderByBinMasterIdAsc(boolean isActive, final Pageable pageable);
 
@@ -26,7 +30,7 @@ public interface BinMasterRepository extends PagingAndSortingRepository<BinMaste
 
     public BinMaster findByBinMasterIdAndActive(long id, boolean isActive);
 
-    public List<BinMaster> findByBinCounterMasterIdAndActive(long binCounterMasterId, boolean isActive);
+    public List<BinMaster> findByBinCounterMasterIdAndActive(int binCounterMasterId, boolean isActive);
 
     public BinMaster findByBinMasterIdAndActiveIn(@Param("binMasterId") long binMasterId, @Param("active") Set<Boolean> active);
 

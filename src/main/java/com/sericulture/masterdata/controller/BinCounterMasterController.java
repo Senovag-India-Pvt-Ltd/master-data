@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.controller;
 
+//import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterResponse;
@@ -45,7 +46,7 @@ public class BinCounterMasterController {
     @PostMapping("/binMasterDetails")
     public void saveBinMasterDetails(@RequestBody Map<String, Object> payload) {
         List<Map<String, Object>> binMasterDetails = (List<Map<String, Object>>) payload.get("binMasterDetails");
-        Long binCounterMasterId = (Long) payload.get("binCounterMasterId");
+        Integer binCounterMasterId = (Integer) payload.get("binCounterMasterId");
         binCounterMasterService.saveBinMasterDetails(binCounterMasterId, binMasterDetails);
     }
 

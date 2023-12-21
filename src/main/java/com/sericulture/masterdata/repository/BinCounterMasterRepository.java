@@ -17,9 +17,9 @@ public interface BinCounterMasterRepository extends PagingAndSortingRepository<B
 
     public BinCounterMaster save(BinCounterMaster binCounterMaster);
 
-    public BinCounterMaster findByBinCounterMasterIdAndActive(long binCounterMasterId, boolean isActive);
+    public BinCounterMaster findByBinCounterMasterIdAndActive(int binCounterMasterId, boolean isActive);
 
-    public BinCounterMaster findByBinCounterMasterIdAndActiveIn(@Param("binCounterMasterId") long binCounterMasterId, @Param("active") Set<Boolean> active);
+    public BinCounterMaster findByBinCounterMasterIdAndActiveIn(@Param("binCounterMasterId") int binCounterMasterId, @Param("active") Set<Boolean> active);
 
     public List<BinCounterMaster> findByActive(boolean isActive);
 }

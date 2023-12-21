@@ -11,6 +11,9 @@ import lombok.*;
 @EqualsAndHashCode
 public class BinCounterMasterRequest extends RequestBody {
 
+    @Schema(name = "binCounterMasterId", example = "1", required=true)
+    Integer binCounterMasterId;
+
     @Schema(name = "marketId", example = "1", required=true)
     Long marketId;
 

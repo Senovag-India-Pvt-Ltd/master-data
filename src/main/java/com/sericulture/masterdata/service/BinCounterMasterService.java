@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
+//import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterResponse;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterResponse;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterWithBinMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.EditBinCounterMasterRequest;
@@ -97,19 +98,19 @@ public class BinCounterMasterService {
 }
 
     @Transactional
-    public void saveBinMasterDetails(Long binCounterMasterId, List<Map<String, Object>> binDetails) {
-    for (Map<String, Object> binDetail : binDetails) {
-        BinMasterRequest binMasterRequest = new BinMasterRequest();
-        binMasterRequest.setBinCounterMasterId(binCounterMasterId);
-        binMasterRequest.setType(((Number) binDetail.get("type")).longValue());
-        binMasterRequest.setBinNumber((String) binDetail.get("binNumber"));
-        if (binDetail.containsKey("status")) {
-            binMasterRequest.setStatus(((Number) binDetail.get("status")).longValue());
+    public void saveBinMasterDetails(Integer binCounterMasterId, List<Map<String, Object>> binDetails) {
+        for (Map<String, Object> binDetail : binDetails) {
+            BinMasterRequest binMasterRequest = new BinMasterRequest();
+            binMasterRequest.setBinCounterMasterId(binCounterMasterId);
+            binMasterRequest.setType(String.valueOf(((Number) binDetail.get("type")).intValue()));
+            binMasterRequest.setBinNumber((Integer) binDetail.get("binNumber"));
+            if (binDetail.containsKey("status")) {
+                binMasterRequest.setStatus(String.valueOf(((Number) binDetail.get("type")).intValue()));
+            }
+            // Save the binMaster details using a repository or data access layer
+            // binMasterRepository.save(binMasterRequest);
         }
-        // Save the binMaster details using a repository or data access layer
-        // binMasterRepository.save(binMasterRequest);
     }
-}
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedBinCounterMasterDetails(final Pageable pageable){
@@ -142,7 +143,7 @@ public class BinCounterMasterService {
     }
 
     @Transactional
-    public BinCounterMasterResponse deleteBinCounterMasterDetails(long id) {
+    public BinCounterMasterResponse deleteBinCounterMasterDetails(int id) {
         BinCounterMasterResponse binCounterMasterResponse = new BinCounterMasterResponse();
         BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(id, true);
         if (Objects.nonNull(binCounterMaster)) {

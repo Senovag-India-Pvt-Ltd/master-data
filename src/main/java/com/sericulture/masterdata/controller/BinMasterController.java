@@ -4,8 +4,12 @@ import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterResponse;
 import com.sericulture.masterdata.model.api.binMaster.EditBinMasterRequest;
+import com.sericulture.masterdata.model.api.binMaster.UpdateBinMasterStatusRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
+import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
+import com.sericulture.masterdata.model.dto.UserMasterDTO;
+import com.sericulture.masterdata.model.entity.BinMaster;
 import com.sericulture.masterdata.service.BinMasterService;
 import com.sericulture.masterdata.service.DistrictService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -132,6 +136,80 @@ public class BinMasterController {
     }
 
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/update-status")
+    public ResponseEntity<?> updateBinStatus(
+            @RequestBody final UpdateBinMasterStatusRequest editBinMasterRequest
+    ) {
+        ResponseWrapper<BinMasterResponse> rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
+
+        // Update Small Bin Status
+        // Get binMaster for smallBin
+        BinMaster smallBinMaster = binMasterService.getByMarketGodownTypeBinNumber(editBinMasterRequest.getMarketId(), editBinMasterRequest.getGodownId(), "small", editBinMasterRequest.getSmallBinNumber());
+        // Change status
+        smallBinMaster.setStatus("available");
+        // Save
+        rw.setContent(binMasterService.updateBinStatus(smallBinMaster));
+
+
+        // update Big Bin Status
+        // Get binMaster for BigBin
+        // Change status
+        // Save
+        BinMaster retResBinMaster = binMasterService.getByMarketGodownTypeBinNumber(editBinMasterRequest.getMarketId(), editBinMasterRequest.getGodownId(), "big", editBinMasterRequest.getBigBinNumber());
+        // Change status
+        if (retResBinMaster != null) {
+            // Change status
+            retResBinMaster.setStatus("unavailable");
+            // Save
+            rw.setContent(binMasterService.updateBinStatus(retResBinMaster));
+        }
+
+
+        return ResponseEntity.ok(rw);
+    }
+
+//    @PostMapping("/update-status")
+//    public ResponseEntity<?> updateBinStatus(
+//            @RequestBody final UpdateBinMasterStatusRequest editBinMasterRequest
+//    ) {
+//        ResponseWrapper<BinMasterResponse> rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
+//
+//        // Update Small Bin Status
+//        BinMaster smallBinMaster = binMasterService.getByMarketGodownTypeBinNumber(editBinMasterRequest.getMarketId(), editBinMasterRequest.getGodownId(), "small", editBinMasterRequest.getSmallBinNumber());
+//        if (smallBinMaster != null) {
+//            smallBinMaster.setStatus("available");
+//            rw.setContent(binMasterService.updateBinStatus(smallBinMaster));
+//        } else {
+//            rw.se("Small BinMaster not found for the specified criteria.");
+//            rw.setStatusCode(HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(rw.getStatusCode()).body(rw);
+//        }
+//
+//
+//        // Update Big Bin Status
+//        BinMaster retResBinMaster = binMasterService.getByMarketGodownTypeBinNumber(editBinMasterRequest.getMarketId(), editBinMasterRequest.getGodownId(), "big", editBinMasterRequest.getBigBinNumber());
+//        if (retResBinMaster != null) {
+//            retResBinMaster.setStatus("unavailable");
+//            rw.setContent(binMasterService.updateBinStatus(retResBinMaster));
+//        } else {
+//            binMasterService.("Big BinMaster not found for the specified criteria.");
+//            rw.setStatusCode(HttpStatus.NOT_FOUND.value()); // or any appropriate status code
+//        }
+//
+//        return ResponseEntity.ok(rw);
+//    }
+
+
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -162,10 +240,29 @@ public class BinMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     public ResponseEntity<?> getByBinCounterMasterId(
-            @PathVariable final Long binCounterMasterId
+            @PathVariable final int binCounterMasterId
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(binMasterService.getBinMasterAndBinCounterMasterId(binCounterMasterId));
+        return ResponseEntity.ok(rw);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-by-godownId-and-marketId")
+    public ResponseEntity<?> getByGodownIdAndMarketId(
+            @RequestBody final BinMasterRequest binMasterRequest
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
+
+        rw.setContent(binMasterService.getByGodownIdAndMarketId(binMasterRequest.getGodownId(), binMasterRequest.getMarketId()));
         return ResponseEntity.ok(rw);
     }
 }

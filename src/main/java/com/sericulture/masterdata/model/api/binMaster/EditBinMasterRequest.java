@@ -11,17 +11,23 @@ import lombok.*;
 @EqualsAndHashCode
 public class EditBinMasterRequest extends RequestBody {
     @Schema(name="binMasterId", example = "1")
-    Long binMasterId;
+    Integer binMasterId;
 
-    @Schema(name = "binCounterMasterId", example = "1")
-    Long binCounterMasterId;
+    @Schema(name="binCounterMasterId", example = "1")
+    Integer binCounterMasterId;
 
-    @Schema(name = "type", example = "1")
-    Long type;
+    @Schema(name="marketId", example = "1")
+    Integer marketId;
 
-    @Schema(name = "binNumber", example = "12S",required=true)
-    String binNumber;
+    @Schema(name="godownId", example = "1")
+    Integer godownId;
 
-    @Schema(name = "status", example = "1")
-    Long status;
+    @Schema(name = "binNumber", example = "12S")
+    Integer binNumber;
+
+    @Schema(name = "type", example = "small",required=true)
+    String type;
+
+    @Schema(name = "status", example = "available",required=true)
+    String status;
 }

@@ -10,15 +10,22 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class BinMasterRequest extends RequestBody {
-    @Schema(name = "binCounterMasterId", example = "1", required = true)
-    Long binCounterMasterId;
 
-    @Schema(name = "type", example = "1", required = true)
-    Long type;
+    @Schema(name = "binCounterMasterId", example = "1", required = true)
+    Integer binCounterMasterId;
+
+    @Schema(name = "marketId", example = "1", required = true)
+    Integer marketId;
+
+    @Schema(name = "godownId", example = "1", required = true)
+    Integer godownId;
 
     @Schema(name = "binNumber", example = "12S", required = true)
-    String binNumber;
+    Integer binNumber;
+
+    @Schema(name = "type", example = "1", required = true)
+    String type;
 
     @Schema(name = "status", example = "1", required = true)
-    Long status;
+    String status;
 }
