@@ -95,8 +95,11 @@ public class BinMasterService {
     public BinMasterResponse insertBinMasterDetails(BinMasterRequest binMasterRequest){
         BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = mapper.binMasterObjectToEntity(binMasterRequest,BinMaster.class);
+
+
+
         validator.validate(binMaster);
-        List<BinMaster> binMasterList = binMasterRepository.findByBinNumberAndBinCounterMasterId(binMasterRequest.getBinNumber(), binMasterRequest.getBinCounterMasterId());
+        List<BinMaster> binMasterList = binMasterRepository.findByGodownIdAndMarketIdAndActive(binMasterRequest.getGodownId(), binMasterRequest.getMarketId(),true);
         if(binMasterList.isEmpty() && binMasterList.stream().filter(BinMaster::getActive).findAny().isPresent()){
             binMasterResponse.setError(true);
             binMasterResponse.setError_description("BinMaster name already exist");
@@ -177,7 +180,7 @@ public class BinMasterService {
     @Transactional
     public BinMaster getByMarketGodownTypeBinNumber(int marketId, int godownId, String type, int binNumber){
         BinMasterResponse binMasterResponse = new BinMasterResponse();
-        BinMaster binMaster = binMasterRepository.findByGodownIdAndMarketIdAndTypeAndBinNumberAndActive(marketId, godownId, type, binNumber, true);
+        BinMaster binMaster = binMasterRepository.findByGodownIdAndMarketIdAndTypeAndBinNumberAndActive(godownId,marketId,type, binNumber, true);
         return binMaster;
 //        if(binMaster == null){
 //            binMasterResponse.setError(true);

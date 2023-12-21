@@ -154,10 +154,13 @@ public class BinMasterController {
         // Update Small Bin Status
         // Get binMaster for smallBin
         BinMaster smallBinMaster = binMasterService.getByMarketGodownTypeBinNumber(editBinMasterRequest.getMarketId(), editBinMasterRequest.getGodownId(), "small", editBinMasterRequest.getSmallBinNumber());
-        // Change status
-        smallBinMaster.setStatus("available");
-        // Save
-        rw.setContent(binMasterService.updateBinStatus(smallBinMaster));
+        if (smallBinMaster != null) {
+            // Change status
+            smallBinMaster.setStatus("available");
+
+            // Save
+            rw.setContent(binMasterService.updateBinStatus(smallBinMaster));
+        }
 
 
         // update Big Bin Status
