@@ -21,6 +21,9 @@ public class GodownResponse {
     @Schema(name="marketMasterId", example = "1")
     int marketMasterId;
 
+    @Schema(name="marketMasterName", example = "1")
+    String marketMasterName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -451,6 +451,16 @@ public class Mapper {
     }
 
     /**
+     * Maps Godown DTO to godown Response Object
+     * @param godownDTO
+     * @param <T>
+     */
+    public <T> T godownDTOToObject(GodownDTO godownDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, godownDTO);
+        return (T) mapper.map(godownDTO, claaz);
+    }
+
+    /**
      * Maps Godown Object to Godown Response Entity
      * @param godownRequest
      * @param <T>
@@ -588,7 +598,18 @@ public class Mapper {
             return (T) mapper.map(marketMasterEntity, claaz);
         }
 
-        /**
+    /**
+     * Maps rpRoleAssociation DTO to rpRoleAssociation Response Object
+     * @param marketMasterDTO
+     * @param <T>
+     */
+    public <T> T marketMasterDTOToObject(MarketMasterDTO marketMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, marketMasterDTO);
+        return (T) mapper.map(marketMasterDTO, claaz);
+    }
+
+
+    /**
          * Maps MarketMaster  Object to MarketMaster  Response Object
          * @param marketMasterRequest
          * @param <T>

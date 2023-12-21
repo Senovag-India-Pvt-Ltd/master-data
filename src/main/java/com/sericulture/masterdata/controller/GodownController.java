@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.godown.EditGodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownResponse;
+import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.service.GodownService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -148,6 +149,26 @@ public class GodownController {
         return ResponseEntity.ok(rw);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-join/{id}")
+    public ResponseEntity<?> getByIdJoin(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(GodownResponse.class);
+
+        rw.setContent(godownService.getByIdJoin(id));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/get-by-market-master-id/{marketMasterId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
@@ -164,6 +185,29 @@ public class GodownController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(godownService.getByMarketMasterId(marketMasterId));
+        return ResponseEntity.ok(rw);
+    }
+    @GetMapping("/list-with-join")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"godown\":[{\"id\":10,\"godownName\":\"\",\"godownId\":1,},{\"id\":11,\"godownName\":\"Shimoga\",\"godownId\":1,},{\"id\":13,\"godownName\":\"Hubli\",\"godownId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getPaginatedListWithJoin(
+            @RequestParam(defaultValue = "0") final Integer pageNumber,
+            @RequestParam(defaultValue = "5") final Integer size
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(godownService.getPaginatedGodownDetailsWithJoin(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 }

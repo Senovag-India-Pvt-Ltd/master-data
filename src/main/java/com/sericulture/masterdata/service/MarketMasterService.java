@@ -5,6 +5,8 @@ import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.MarketMasterDTO;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.MarketMaster;
 import com.sericulture.masterdata.model.entity.MulberrySource;
 import com.sericulture.masterdata.model.entity.Village;
@@ -104,6 +106,23 @@ public class MarketMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedMarketMasterDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(marketMasterRepository.getByActiveOrderByMarketMasterIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<MarketMasterDTO> activeMarketMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<MarketMasterResponse> marketMasterResponses = activeMarketMasters.getContent().stream()
+                .map(marketMaster -> mapper.marketMasterDTOToObject(marketMaster,MarketMasterResponse.class)).collect(Collectors.toList());
+        response.put("marketMaster",marketMasterResponses);
+        response.put("currentPage", activeMarketMasters.getNumber());
+        response.put("totalItems", activeMarketMasters.getTotalElements());
+        response.put("totalPages", activeMarketMasters.getTotalPages());
+        return response;
+    }
+
     @Transactional
     public MarketMasterResponse deleteMarketMasterDetails(long id) {
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
@@ -132,6 +151,22 @@ public class MarketMasterService {
             marketMasterResponse.setError(false);
         }
         log.info("Entity is ",marketMaster);
+        return marketMasterResponse;
+    }
+
+    @Transactional
+    public MarketMasterResponse getByIdJoin(int id) {
+        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
+        MarketMasterDTO marketMasterDTO = marketMasterRepository.getByMarketMasterIdAndActive(id, true);
+        if (marketMasterDTO == null) {
+            // throw new ValidationException("Invalid Id");
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Invalid id");
+        } else {
+            marketMasterResponse = mapper.marketMasterDTOToObject(marketMasterDTO, MarketMasterResponse.class);
+            marketMasterResponse.setError(false);
+        }
+        log.info("Entity is ", marketMasterDTO);
         return marketMasterResponse;
     }
 

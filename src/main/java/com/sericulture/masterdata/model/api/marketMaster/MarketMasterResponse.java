@@ -23,7 +23,7 @@ public class MarketMasterResponse {
     String marketMasterAddress;
 
     @Schema(name = "boxWeight", example = "10")
-    Integer boxWeight;
+    Long boxWeight;
 
     @Schema(name = "lotWeight", example = "5")
     Long lotWeight;
@@ -32,10 +32,10 @@ public class MarketMasterResponse {
     Long stateId;
 
     @Schema(name = "districtId", example = "1")
-    Integer districtId;
+    Long districtId;
 
     @Schema(name = "talukId", example = "1")
-    Integer talukId;
+    Long talukId;
 
     @Schema(name = "issueBidSlipStartTime", example = "1")
     LocalTime issueBidSlipStartTime;
@@ -63,7 +63,19 @@ public class MarketMasterResponse {
 
 
     @Schema(name = "marketTypeMasterId", example = "1")
-    Integer marketTypeMasterId;
+    Long marketTypeMasterId;
+
+    @Schema(name = "stateName", example = "1")
+    String stateName;
+
+    @Schema(name = "districtName", example = "1")
+    String districtName;
+
+    @Schema(name = "marketTypeMasterId", example = "1")
+    String talukName;
+
+    @Schema(name = "marketTypeMasterName", example = "1")
+    String marketTypeMasterName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

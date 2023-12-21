@@ -6,6 +6,9 @@ import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.godown.GodownResponse;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+//import com.sericulture.masterdata.model.dto.GodownDTO;
+import com.sericulture.masterdata.model.dto.GodownDTO;
+import com.sericulture.masterdata.model.dto.HobliDTO;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Godown;
 import com.sericulture.masterdata.model.entity.Hobli;
@@ -107,6 +110,23 @@ public class GodownService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedGodownDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(godownRepository.getByActiveOrderByGodownIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<GodownDTO> activeGodowns) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<GodownResponse> godownResponses = activeGodowns.getContent().stream()
+                .map(godown -> mapper.godownDTOToObject(godown,GodownResponse.class)).collect(Collectors.toList());
+        response.put("godown",godownResponses);
+        response.put("currentPage", activeGodowns.getNumber());
+        response.put("totalItems", activeGodowns.getTotalElements());
+        response.put("totalPages", activeGodowns.getTotalPages());
+        return response;
+    }
+
     @Transactional
     public GodownResponse deleteGodownDetails(long id) {
         GodownResponse godownResponse = new GodownResponse();
@@ -135,6 +155,21 @@ public class GodownService {
             godownResponse.setError(false);
         }
         log.info("Entity is ",godown);
+        return godownResponse;
+    }
+
+    @Transactional
+    public GodownResponse getByIdJoin(int id){
+        GodownResponse godownResponse = new GodownResponse();
+        GodownDTO godownDTO = godownRepository.getByGodownIdAndActive(id,true);
+        if(godownDTO == null){
+            godownResponse.setError(true);
+            godownResponse.setError_description("Invalid id");
+        } else {
+            godownResponse = mapper.godownDTOToObject(godownDTO, GodownResponse.class);
+            godownResponse.setError(false);
+        }
+        log.info("Entity is ", godownDTO);
         return godownResponse;
     }
 

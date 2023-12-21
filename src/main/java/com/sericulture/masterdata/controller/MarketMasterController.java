@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.marketMaster.EditMarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.service.MarketMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -89,6 +90,29 @@ public class MarketMasterController {
         rw.setContent(marketMasterService.getPaginatedMarketMasterDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
+    @GetMapping("/list-with-join")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"marketMaster\":[{\"id\":10,\"marketMasterName\":\"\",\"marketMasterId\":1,},{\"id\":11,\"marketMasterName\":\"Shimoga\",\"marketMasterId\":1,},{\"id\":13,\"marketMasterName\":\"Hubli\",\"marketMasterId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getPaginatedListWithJoin(
+            @RequestParam(defaultValue = "0") final Integer pageNumber,
+            @RequestParam(defaultValue = "5") final Integer size
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(marketMasterService.getPaginatedMarketMasterDetailsWithJoin(PageRequest.of(pageNumber, size)));
+        return ResponseEntity.ok(rw);
+    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - deleted successfully"),
@@ -145,6 +169,25 @@ public class MarketMasterController {
         ResponseWrapper rw = ResponseWrapper.createWrapper(MarketMasterResponse.class);
 
         rw.setContent(marketMasterService.getById(id));
+        return ResponseEntity.ok(rw);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-join/{id}")
+    public ResponseEntity<?> getByIdJoin(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(MarketMasterResponse.class);
+
+        rw.setContent(marketMasterService.getByIdJoin(id));
         return ResponseEntity.ok(rw);
     }
 
