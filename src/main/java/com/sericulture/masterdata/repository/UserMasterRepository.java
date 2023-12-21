@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.entity.UserMaster;
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +21,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
     public UserMaster save(UserMaster userMaster);
 
     public UserMaster findByUserMasterIdAndActive(long userMasterId, boolean isActive);
+
+    UserMaster findByUsername(String username);
 
     public UserMaster findByUserMasterIdAndActiveIn(@Param("userMasterId") long userMasterId, @Param("active") Set<Boolean> active);
 
@@ -46,7 +49,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " marketMaster.marketMasterName," +
             " userMaster.username," +
             " userMaster.designationId," +
-            " userMaster.phoneNumber" +
+            " userMaster.phoneNumber," +
+            " userMaster.userType," +
+            " userMaster.userTypeId," +
+            " userMaster.deviceId" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -83,7 +89,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " marketMaster.marketMasterName," +
             " userMaster.username," +
             " userMaster.designationId," +
-            " userMaster.phoneNumber" +
+            " userMaster.phoneNumber," +
+            " userMaster.userType," +
+            " userMaster.userTypeId," +
+            " userMaster.deviceId" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +

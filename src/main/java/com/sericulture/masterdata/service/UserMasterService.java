@@ -2,22 +2,26 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.useMaster.EditUserMasterRequest;
+import com.sericulture.masterdata.model.api.useMaster.SaveReelerUserRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
+import com.sericulture.masterdata.model.entity.Reeler;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
+import com.sericulture.masterdata.repository.ReelerRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +49,11 @@ public class UserMasterService {
     @Autowired
     OtpService otpService;
 
+    @Autowired
+    ReelerRepository reelerRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
 //    public RpPageRootResponse getRpPageRootDetails(String rpPageRootName){
@@ -56,23 +65,25 @@ public class UserMasterService {
 //        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
 //    }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public UserMasterResponse getByUserNameAndPassword(String username, String password){
-//        UserMasterResponse userMasterResponse = new UserMasterResponse();
-////        UserMaster userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username, password,true);
-//        UserMaster userMaster = null;
-//        if(userMaster == null){
-//
-//            userMaster = userMasterRepository.findByUsernameAndPasswordAndActive(username,password,true);
-//            userMasterResponse = mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
-//            userMasterResponse.setError(false);
-//        }else{
-//            userMasterResponse.setError(true);
-//            userMasterResponse.setError_description("User not found");
-//        }
-//        log.info("Entity is ",userMaster);
-//        return userMasterResponse;
-//    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public UserMasterResponse getLoginDetails(String username, String password){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster1 = userMasterRepository.findByUsername(username);
+        if(userMaster1 == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("User not found");
+        }else {
+            if (!encoder.matches(password,userMaster1.getPassword())) {
+                 userMasterResponse.setError(true);
+                 userMasterResponse.setError_description("Wrong password, please try again!");
+            }else {
+                userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
+                userMasterResponse.setError(false);
+            }
+        }
+        log.info("Entity is ",userMaster1);
+        return userMasterResponse;
+    }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getByUserNameAndPassword(String username, String password) {
         UserMasterResponse userMasterResponse = new UserMasterResponse();
@@ -232,6 +243,9 @@ public class UserMasterService {
             userMaster.setRoleId(userMasterRequest.getRoleId());
             userMaster.setMarketMasterId(userMasterRequest.getMarketMasterId());
             userMaster.setPhoneNumber(userMaster.getPhoneNumber());
+            userMaster.setUserType(userMaster.getUserType());
+            userMaster.setUserTypeId(userMaster.getUserTypeId());
+            userMaster.setDeviceId(userMaster.getDeviceId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
@@ -285,6 +299,52 @@ public class UserMasterService {
             userMasterResponse.setError(false);
         }
         log.info("Entity is ",userMaster);
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse saveReelerUser(SaveReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        Reeler reeler = reelerRepository.findByReelerIdAndIsActivatedAndActive(saveReelerUserRequest.getReelerId(), 0, true);
+        if (reeler == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Error occurred while fetching reeler");
+        }else {
+            UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
+            if (userMaster == null) {
+                UserMaster userMaster1 = new UserMaster();
+                userMaster1.setUsername(saveReelerUserRequest.getUsername());
+                userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+                userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+                userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
+                userMaster1.setRoleId(saveReelerUserRequest.getRoleId());
+                userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+                userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
+                userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
+                userMaster1.setUserType(2); //For reeler
+                userMaster1.setUserTypeId(reeler.getReelerId());
+                userMaster1.setFirstName(reeler.getReelerName());
+                userMaster1.setStateId(reeler.getStateId());
+                userMaster1.setDistrictId(reeler.getDistrictId());
+                userMaster1.setTalukId(reeler.getTalukId());
+                userMaster1.setActive(true);
+
+                //Save reeler user
+                UserMaster userMaster2 = userMasterRepository.save(userMaster1);
+                userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+
+                //Activate reeler
+                reeler.setIsActivated(1); //activated
+                reeler.setActive(true);
+                reelerRepository.save(reeler);
+
+                userMasterResponse.setError(false);
+            } else {
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("Username already exist");
+            }
+        }
+
         return userMasterResponse;
     }
 }
