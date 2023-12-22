@@ -156,7 +156,7 @@ public class BinMasterController {
         BinMaster smallBinMaster = binMasterService.getByMarketGodownTypeBinNumber(editBinMasterRequest.getMarketId(), editBinMasterRequest.getGodownId(), "small", editBinMasterRequest.getSmallBinNumber());
         if (smallBinMaster != null) {
             // Change status
-            smallBinMaster.setStatus("available");
+            smallBinMaster.setStatus(editBinMasterRequest.getSmallBinStatus());
 
             // Save
             rw.setContent(binMasterService.updateBinStatus(smallBinMaster));
@@ -171,7 +171,7 @@ public class BinMasterController {
         // Change status
         if (retResBinMaster != null) {
             // Change status
-            retResBinMaster.setStatus("unavailable");
+            retResBinMaster.setStatus(editBinMasterRequest.getBigBinStatus());
             // Save
             rw.setContent(binMasterService.updateBinStatus(retResBinMaster));
         }
