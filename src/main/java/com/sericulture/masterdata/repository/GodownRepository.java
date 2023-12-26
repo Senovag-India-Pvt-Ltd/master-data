@@ -40,7 +40,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
             ") \n" +
             "from godown_master godown\n" +
             "left join market_master marketMaster\n" +
-            "on godown.marketMasterId = godown.marketMasterId " +
+            "on godown.marketMasterId = marketMaster.marketMasterId " +
             "where godown.active = :isActive " +
             "ORDER BY godown.godownId ASC"
     )
