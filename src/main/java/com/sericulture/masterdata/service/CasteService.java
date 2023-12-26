@@ -3,12 +3,11 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.caste.CasteResponse;
 import com.sericulture.masterdata.model.api.caste.EditCasteRequest;
+import com.sericulture.masterdata.model.api.designation.DesignationRequest;
+import com.sericulture.masterdata.model.api.designation.DesignationResponse;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
-import com.sericulture.masterdata.model.entity.Caste;
-import com.sericulture.masterdata.model.entity.Hobli;
-import com.sericulture.masterdata.model.entity.State;
-import com.sericulture.masterdata.model.entity.Village;
+import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.CasteRepository;
@@ -91,33 +90,82 @@ public class CasteService {
 //        }
 //        return casteResponse;
 //    }
-@Transactional
-public CasteResponse insertCasteDetails(CasteRequest casteRequest) {
-    CasteResponse casteResponse = new CasteResponse();
-    Caste caste = mapper.casteObjectToEntity(casteRequest, Caste.class);
-    validator.validate(caste);
+//@Transactional
+//public CasteResponse insertCasteDetails(CasteRequest casteRequest) {
+//    CasteResponse casteResponse = new CasteResponse();
+//    Caste caste = mapper.casteObjectToEntity(casteRequest, Caste.class);
+//    validator.validate(caste);
+//
+//    // Check for existing castes with the same code
+//    Caste existingCaste = casteRepository.findByCodeAndActive(caste.getCode(), true);
+//
+//    if (existingCaste != null) {
+//        casteResponse.setError(true);
+//        casteResponse.setError_description("Caste with the same code already exists");
+//    } else {
+//        try {
+//            // Save the new caste
+//            Caste savedCaste = casteRepository.save(caste);
+//            casteResponse = mapper.casteEntityToObject(savedCaste, CasteResponse.class);
+//            casteResponse.setError(false);
+//        } catch (Exception e) {
+//            casteResponse.setError(true);
+//            casteResponse.setError_description("Error occurred while saving caste details");
+//            log.error("Error occurred while saving caste details", e);
+//        }
+//    }
+//
+//    return casteResponse;
+//}
 
-    // Check for existing castes with the same code
-    Caste existingCaste = casteRepository.findByCodeAndActive(caste.getCode(), true);
+//    @Transactional
+//    public CasteResponse insertCasteDetails(CasteRequest casteRequest) {
+//        CasteResponse casteResponse = new CasteResponse();
+//        Caste caste = mapper.casteObjectToEntity(casteRequest, Caste.class);
+//        validator.validate(caste);
+//
+//        // Check for existing castes with the same code
+//        Caste existingCaste = casteRepository.findByTitle(caste.getTitle());
+//
+//        if (existingCaste != null) {
+//            casteResponse.setError(true);
+//            casteResponse.setError_description("Caste with the same code already exists");
+//        } else {
+//            try {
+//                // Save the new caste
+//                Caste savedCaste = casteRepository.save(caste);
+//                casteResponse = mapper.casteEntityToObject(savedCaste, CasteResponse.class);
+//                casteResponse.setError(false);
+//            } catch (Exception e) {
+//                casteResponse.setError(true);
+//                casteResponse.setError_description("Error occurred while saving caste details");
+//                log.error("Error occurred while saving caste details", e);
+//            }
+//        }
+//
+//        return casteResponse;
+//    }
 
-    if (existingCaste != null) {
-        casteResponse.setError(true);
-        casteResponse.setError_description("Caste with the same code already exists");
-    } else {
-        try {
-            // Save the new caste
-            Caste savedCaste = casteRepository.save(caste);
-            casteResponse = mapper.casteEntityToObject(savedCaste, CasteResponse.class);
-            casteResponse.setError(false);
-        } catch (Exception e) {
+    @Transactional
+    public CasteResponse insertCasteDetails(CasteRequest casteRequest){
+        CasteResponse casteResponse = new CasteResponse();
+        Caste caste = mapper.casteObjectToEntity(casteRequest,Caste.class);
+        validator.validate(caste);
+        List<Caste> casteList = casteRepository.findByTitle(casteRequest.getTitle());
+        if(!casteList.isEmpty() && casteList.stream().filter(Caste::getActive).findAny().isPresent()){
             casteResponse.setError(true);
-            casteResponse.setError_description("Error occurred while saving caste details");
-            log.error("Error occurred while saving caste details", e);
+            casteResponse.setError_description("Caste name already exist");
         }
+        else if(!casteList.isEmpty() && casteList.stream().filter(Predicate.not(Caste::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            casteResponse.setError(true);
+            casteResponse.setError_description("Caste name already exist with inactive state");
+        }else {
+            casteResponse = mapper.casteEntityToObject(casteRepository.save(caste), CasteResponse.class);
+            casteResponse.setError(false);
+        }
+        return casteResponse;
     }
-
-    return casteResponse;
-}
 
 
 
