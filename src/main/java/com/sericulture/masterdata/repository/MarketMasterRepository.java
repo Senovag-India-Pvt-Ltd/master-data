@@ -60,7 +60,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "left join Taluk taluk\n" +
             "on marketMaster.talukId = taluk.talukId " +
             "left join MarketTypeMaster marketTypeMaster\n" +
-            "on marketTypeMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
+            "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
             "where marketMaster.active = :isActive " +
             "ORDER BY marketMaster.marketMasterId ASC"
     )
