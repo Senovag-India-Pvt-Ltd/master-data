@@ -66,6 +66,9 @@ public class UserMasterResponse {
     @Schema(name = "designationId", example = "1")
     Long designationId;
 
+    @Schema(name = "name", example = "1")
+    String name;
+
     @Schema(name = "phoneNumber", example = "9988776655")
     String phoneNumber;
 
