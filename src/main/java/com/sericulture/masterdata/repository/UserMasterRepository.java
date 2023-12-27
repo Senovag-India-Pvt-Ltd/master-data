@@ -49,6 +49,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " marketMaster.marketMasterName," +
             " userMaster.username," +
             " userMaster.designationId," +
+            " designation.name," +
             " userMaster.phoneNumber," +
             " userMaster.userType," +
             " userMaster.userTypeId," +
@@ -65,6 +66,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.roleId = role.roleId " +
             "left join market_master marketMaster\n" +
             "on userMaster.marketMasterId = marketMaster.marketMasterId " +
+            "left join Designation designation\n" +
+            "on userMaster.designationId = designation.designationId " +
             "where userMaster.active = :isActive " +
             "ORDER BY userMaster.userMasterId ASC"
     )
@@ -89,6 +92,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " marketMaster.marketMasterName," +
             " userMaster.username," +
             " userMaster.designationId," +
+            " designation.name," +
             " userMaster.phoneNumber," +
             " userMaster.userType," +
             " userMaster.userTypeId," +
@@ -105,6 +109,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.roleId = role.roleId " +
             "left join market_master marketMaster\n" +
             "on userMaster.marketMasterId = marketMaster.marketMasterId " +
+            "left join Designation designation\n" +
+            "on userMaster.designationId = designation.designationId " +
             "where userMaster.active = :isActive AND userMaster.userMasterId = :id"
     )
     public UserMasterDTO getByUserMasterIdAndActive(long id, boolean isActive);

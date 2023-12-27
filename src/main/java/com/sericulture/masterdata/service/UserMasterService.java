@@ -243,10 +243,11 @@ public class UserMasterService {
             userMaster.setTalukId(userMasterRequest.getTalukId());
             userMaster.setRoleId(userMasterRequest.getRoleId());
             userMaster.setMarketMasterId(userMasterRequest.getMarketMasterId());
-            userMaster.setPhoneNumber(userMaster.getPhoneNumber());
-            userMaster.setUserType(userMaster.getUserType());
-            userMaster.setUserTypeId(userMaster.getUserTypeId());
-            userMaster.setDeviceId(userMaster.getDeviceId());
+            userMaster.setPhoneNumber(userMasterRequest.getPhoneNumber());
+            userMaster.setDesignationId(userMasterRequest.getDesignationId());
+            userMaster.setUserType(userMasterRequest.getUserType());
+            userMaster.setUserTypeId(userMasterRequest.getUserTypeId());
+            userMaster.setDeviceId(userMasterRequest.getDeviceId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);

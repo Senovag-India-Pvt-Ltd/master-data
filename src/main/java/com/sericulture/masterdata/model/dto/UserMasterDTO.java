@@ -24,6 +24,7 @@ public class UserMasterDTO {
     private String marketMasterName;
     private String username;
     private Long designationId;
+    private String name;
 
     private String phoneNumber;
 
@@ -56,6 +57,7 @@ public class UserMasterDTO {
             String marketMasterName,
             String username,
             Long designationId,
+            String name,
             String phoneNumber,
             int userType,
             Long userTypeId,
@@ -80,6 +82,7 @@ public class UserMasterDTO {
         this.marketMasterName = marketMasterName;
         this.username = username;
         this.designationId = designationId;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.userType = userType;
         this.userTypeId = userTypeId;
