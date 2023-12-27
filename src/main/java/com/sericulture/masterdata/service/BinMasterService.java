@@ -316,8 +316,8 @@ public class BinMasterService {
         BinMasterResponse binMasterResponse = new BinMasterResponse();
 
         BinMaster resBinMaster = binMasterRepository.findByGodownIdAndMarketIdAndTypeAndBinNumberAndActive(
-                binMasterRequest.getMarketId(),
                 binMasterRequest.getGodownId(),
+                binMasterRequest.getMarketId(),
                 binMasterRequest.getType(),
                 binMasterRequest.getBinNumber(),
                 true

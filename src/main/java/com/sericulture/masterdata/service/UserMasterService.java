@@ -109,6 +109,7 @@ public class UserMasterService {
     @Transactional
     public UserMasterResponse insertUserMasterDetails(UserMasterRequest userMasterRequest){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
+        userMasterRequest.setPassword(encoder.encode(userMasterRequest.getPassword()));
         UserMaster userMaster = mapper.userMasterObjectToEntity(userMasterRequest,UserMaster.class);
         validator.validate(userMaster);
 //        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
