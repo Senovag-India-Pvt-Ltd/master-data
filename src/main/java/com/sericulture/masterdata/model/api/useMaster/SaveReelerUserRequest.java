@@ -36,4 +36,7 @@ public class SaveReelerUserRequest extends RequestBody {
 
     @Schema(name = "deviceId", example = "998s3gf6478776655")
     String deviceId;
+
+    @Schema(name = "walletAmount", example = "1200.00")
+    Double walletAMount;
 }

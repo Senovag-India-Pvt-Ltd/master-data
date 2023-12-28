@@ -337,6 +337,9 @@ public class UserMasterService {
 
                 //Activate reeler
                 reeler.setIsActivated(1); //activated
+                if(saveReelerUserRequest.getWalletAMount() > 0.0) {
+                    reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
+                }
                 reeler.setActive(true);
                 reelerRepository.save(reeler);
 
