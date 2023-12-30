@@ -340,6 +340,7 @@ public class UserMasterService {
                 if(saveReelerUserRequest.getWalletAMount() > 0.0) {
                     reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
                 }
+                reeler.setWalletAmount(500000.0);
                 reeler.setActive(true);
                 reelerRepository.save(reeler);
 
