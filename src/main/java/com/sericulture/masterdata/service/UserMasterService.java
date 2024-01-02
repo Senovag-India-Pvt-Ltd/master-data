@@ -337,10 +337,15 @@ public class UserMasterService {
 
                 //Activate reeler
                 reeler.setIsActivated(1); //activated
-//                if(saveReelerUserRequest.getWalletAMount() > 0.0) {
-//                    reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
-//                }
-                reeler.setWalletAmount(500000.0);
+                if(saveReelerUserRequest.getWalletAMount() == null){
+                    reeler.setWalletAmount(0.0);
+                }else {
+                    if (saveReelerUserRequest.getWalletAMount() > 0.0) {
+                        reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
+                    } else {
+                        reeler.setWalletAmount(0.0);
+                    }
+                }
                 reeler.setActive(true);
                 reelerRepository.save(reeler);
 
