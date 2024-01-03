@@ -59,4 +59,17 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     public District findByDistrictIdAndActiveIn(@Param("districtId") long districtId, @Param("active") Set<Boolean> active);
 
     public List<District> findByActive(boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
+            " district.districtId," +
+            " district.districtName," +
+            " district.stateId," +
+            " state.stateName" +
+            ") \n" +
+            "from District district\n" +
+            "left join State state\n" +
+            "on district.stateId = state.stateId " +
+            "where district.active = :isActive AND district.districtName LIKE :searchText"
+    )
+    public List<DistrictDTO> searchByDistrictNameAndActive(String searchText, boolean isActive);
 }

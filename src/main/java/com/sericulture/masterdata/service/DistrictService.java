@@ -200,6 +200,24 @@ public class DistrictService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> searchByName(String searchText){
+        if(searchText != null && !searchText.equals("")){
+            searchText = "%" + searchText + "%";
+        }
+        List<DistrictDTO> districtList = districtRepository.searchByDistrictNameAndActive(searchText,true);
+        return convertDTOToMapResponse(districtList);
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(List<DistrictDTO> districtList) {
+        Map<String, Object> response = new HashMap<>();
+        List<DistrictResponse> districtResponses = districtList.stream()
+                .map(district -> mapper.districtDTOToObject(district,DistrictResponse.class)).collect(Collectors.toList());
+        response.put("district",districtResponses);
+        response.put("totalItems", districtList.size());
+        return response;
+    }
+
     @Transactional
     public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest) {
         DistrictResponse districtResponse = new DistrictResponse();
