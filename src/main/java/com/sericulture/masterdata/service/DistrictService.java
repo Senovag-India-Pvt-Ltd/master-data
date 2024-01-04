@@ -269,10 +269,10 @@ public class DistrictService {
             searchWithSortRequest.setSortOrder("asc");
         }
         if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
-            searchWithSortRequest.setSearchText("0");
+            searchWithSortRequest.setPageNumber("0");
         }
         if(searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")){
-            searchWithSortRequest.setSearchText("5");
+            searchWithSortRequest.setPageSize("5");
         }
         Sort sort;
         if(searchWithSortRequest.getSortOrder().equals("asc")){
