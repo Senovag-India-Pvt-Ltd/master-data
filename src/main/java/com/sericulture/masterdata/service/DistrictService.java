@@ -266,7 +266,7 @@ public class DistrictService {
             searchWithSortRequest.setSortColumn("districtName");
         }
         if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
-            searchWithSortRequest.setSortColumn("asc");
+            searchWithSortRequest.setSortOrder("asc");
         }
         if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
             searchWithSortRequest.setSearchText("0");
