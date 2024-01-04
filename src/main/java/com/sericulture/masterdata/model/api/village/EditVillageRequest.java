@@ -14,16 +14,16 @@ public class EditVillageRequest extends RequestBody {
     Long stateId;
 
     @Schema(name = "districtId", example = "1")
-    Integer districtId;
+    Long districtId;
 
     @Schema(name = "talukId", example = "1")
-    Integer talukId;
+    Long talukId;
 
     @Schema(name = "hobliId", example = "1")
-    Integer hobliId;
+    Long hobliId;
 
     @Schema(name = "villageId", example = "1")
-    Integer villageId;
+    Long villageId;
 
     @Schema(name = "villageName", example = "Hodala", required = true)
     String villageName;

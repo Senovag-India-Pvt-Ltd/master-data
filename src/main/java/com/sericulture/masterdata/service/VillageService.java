@@ -212,9 +212,9 @@ public class VillageService {
             Village village = villageRepository.findByVillageIdAndActiveIn(villageRequest.getVillageId(), Set.of(true, false));
             if (Objects.nonNull(village)) {
                 village.setStateId(villageRequest.getStateId());
-                village.setDistrictId(villageRequest.getStateId());
-                village.setTalukId(villageRequest.getStateId());
-                village.setHobliId(villageRequest.getStateId());
+                village.setDistrictId(villageRequest.getDistrictId());
+                village.setTalukId(villageRequest.getTalukId());
+                village.setHobliId(villageRequest.getHobliId());
                 village.setVillageName(villageRequest.getVillageName());
                 village.setActive(true);
                 Village village1 = villageRepository.save(village);
