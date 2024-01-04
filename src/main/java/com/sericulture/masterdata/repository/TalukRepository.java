@@ -1,4 +1,5 @@
 package com.sericulture.masterdata.repository;
+import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.Taluk;
 import org.springframework.data.domain.Page;
@@ -71,4 +72,24 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
     public Taluk findByTalukIdAndActiveIn(@Param("talukId") long talukId, @Param("active") Set<Boolean> active);
 
     public List<Taluk> findByActive(boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
+            " taluk.talukId," +
+            " taluk.talukName," +
+            " taluk.stateId," +
+            " taluk.districtId," +
+            " state.stateName," +
+            " district.districtName" +
+            ") \n" +
+            "from Taluk taluk\n" +
+            "left join State state\n" +
+            "on taluk.stateId = state.stateId " +
+            "left join District district\n" +
+            "on taluk.districtId = district.districtId " +
+            "where taluk.active = :isActive AND " +
+            "(:joinColumn = 'taluk.talukName' AND taluk.talukName LIKE :searchText) OR " +
+            "(:joinColumn = 'district.districtName' AND district.districtName LIKE :searchText) OR " +
+            "(:joinColumn = 'state.stateName' AND state.stateName LIKE :searchText)"
+    )
+    public Page<TalukDTO> getSortedTaluks(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }

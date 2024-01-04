@@ -2,6 +2,7 @@ package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
 
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditTalukRequest;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -219,4 +220,22 @@ public class TalukController {
         return ResponseEntity.ok(rw);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/search")
+    public ResponseEntity<?> search(
+            @RequestBody final SearchWithSortRequest searchWithSortRequest
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(talukService.searchByColumnAndSort(searchWithSortRequest));
+        return ResponseEntity.ok(rw);
+    }
 }
