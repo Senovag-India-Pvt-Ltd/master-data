@@ -85,4 +85,34 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     public Village findByVillageIdAndActiveIn(@Param("villageId") long villageId, @Param("active") Set<Boolean> active);
 
     public List<Village> findByActive(boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
+            " village.villageId," +
+            " village.villageName," +
+            " village.stateId," +
+            " village.districtId," +
+            " village.talukId," +
+            " village.hobliId," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName," +
+            " hobli.hobliName" +
+            ") \n" +
+            "from Village village\n" +
+            "left join State state\n" +
+            "on village.stateId = state.stateId " +
+            "left join District district\n" +
+            "on village.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on village.talukId = taluk.talukId " +
+            "left join Hobli hobli\n" +
+            "on village.hobliId = hobli.hobliId " +
+            "where village.active = :isActive AND " +
+            "(:joinColumn = 'village.villageName' AND village.villageName LIKE :searchText) OR " +
+            "(:joinColumn = 'state.stateName' AND state.stateName LIKE :searchText) OR " +
+            "(:joinColumn = 'district.districtName' AND district.districtName LIKE :searchText) OR " +
+            "(:joinColumn = 'taluk.talukName' AND taluk.talukName LIKE :searchText) OR " +
+            "(:joinColumn = 'hobli.hobliName' AND hobli.hobliName LIKE :searchText)"
+    )
+    public Page<VillageDTO> getSortedVillages(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }

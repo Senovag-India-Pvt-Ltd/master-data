@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.MarketMasterDTO;
+import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.MarketMaster;
 import org.springframework.data.domain.Page;
@@ -101,4 +102,42 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "where marketMaster.active = :isActive AND marketMaster.marketMasterId = :id "
     )
     public MarketMasterDTO getByMarketMasterIdAndActive(@Param("id") long id, @Param("isActive") boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
+            " marketMaster.marketMasterId," +
+            " marketMaster.marketMasterName," +
+            " marketMaster.marketMasterAddress," +
+            " marketMaster.boxWeight," +
+            " marketMaster.lotWeight," +
+            " marketMaster.stateId," +
+            " marketMaster.districtId," +
+            " marketMaster.talukId," +
+            " marketMaster.issueBidSlipStartTime," +
+            " marketMaster.issueBidSlipEndTime," +
+            " marketMaster.auction1StartTime," +
+            " marketMaster.auction2StartTime," +
+            " marketMaster.auction3StartTime," +
+            " marketMaster.auction1EndTime," +
+            " marketMaster.auction2EndTime," +
+            " marketMaster.auction3EndTime," +
+            " marketMaster.marketTypeMasterId," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName," +
+            " marketTypeMaster.marketTypeMasterName" +
+            ") \n" +
+            "from market_master marketMaster\n" +
+            "left join State state\n" +
+            "on marketMaster.stateId = state.stateId " +
+            "left join District district\n" +
+            "on marketMaster.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on marketMaster.talukId = taluk.talukId " +
+            "left join MarketTypeMaster marketTypeMaster\n" +
+            "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
+            "where marketMaster.active = :isActive AND " +
+            "(:joinColumn = 'marketMaster.marketMasterName' AND marketMaster.marketMasterName LIKE :searchText) OR " +
+            "(:joinColumn = 'marketTypeMaster.marketTypeMasterName' AND marketTypeMaster.marketTypeMasterName LIKE :searchText)"
+    )
+    public Page<MarketMasterDTO> getSortedMarkets(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }

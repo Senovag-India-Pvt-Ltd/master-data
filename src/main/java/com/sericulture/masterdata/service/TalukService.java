@@ -278,8 +278,8 @@ public class TalukService {
         Map<String, Object> response = new HashMap<>();
 
         List<TalukResponse> talukResponses = activeTaluks.getContent().stream()
-                .map(district -> mapper.talukDTOToObject(district,TalukResponse.class)).collect(Collectors.toList());
-        response.put("district",talukResponses);
+                .map(taluk -> mapper.talukDTOToObject(taluk,TalukResponse.class)).collect(Collectors.toList());
+        response.put("taluk",talukResponses);
         response.put("currentPage", activeTaluks.getNumber());
         response.put("totalItems", activeTaluks.getTotalElements());
         response.put("totalPages", activeTaluks.getTotalPages());
