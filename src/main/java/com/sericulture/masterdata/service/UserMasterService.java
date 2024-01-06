@@ -1,10 +1,7 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
-import com.sericulture.masterdata.model.api.useMaster.EditUserMasterRequest;
-import com.sericulture.masterdata.model.api.useMaster.SaveReelerUserRequest;
-import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
-import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
+import com.sericulture.masterdata.model.api.useMaster.*;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
@@ -356,6 +353,25 @@ public class UserMasterService {
             }
         }
 
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse changePassword(UserMasterChangePasswordRequest userMasterChangePasswordRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(userMasterChangePasswordRequest.getUserMasterId(),true);
+        if(userMaster == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Invalid id");
+        }else if(!encoder.matches(userMasterChangePasswordRequest.getCurrentPassword(),userMaster.getPassword())) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Current password is incorrect");
+        }else{
+            userMasterResponse.setError(false);
+            userMaster.setPassword(encoder.encode(userMasterChangePasswordRequest.getNewPassword()));
+            userMasterResponse = mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+        }
+        log.info("Entity is ",userMaster);
         return userMasterResponse;
     }
 }
