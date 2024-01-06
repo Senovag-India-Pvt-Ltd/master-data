@@ -3,6 +3,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.GodownDTO;
 import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.entity.Godown;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,4 +59,19 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
             "where godown.active = :isActive AND godown.godownId = :id "
     )
     public GodownDTO getByGodownIdAndActive(long id, boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
+            " godown.godownId," +
+            " godown.godownName," +
+            " godown.marketMasterId," +
+            " marketMaster.marketMasterName" +
+            ") \n" +
+            "from godown_master godown\n" +
+            "left join market_master marketMaster\n" +
+            "on godown.marketMasterId = marketMaster.marketMasterId " +
+            "where godown.active = :isActive AND " +
+            "(:joinColumn = 'godown.godownName' AND godown.godownName LIKE :searchText) OR " +
+            "(:joinColumn = 'marketMaster.marketMasterName' AND marketMaster.marketMasterName LIKE :searchText)"
+    )
+    public Page<GodownDTO> getSortedGodowns(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }

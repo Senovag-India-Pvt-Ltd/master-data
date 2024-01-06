@@ -1,10 +1,13 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hobli.EditHobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.Hobli;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -13,7 +16,9 @@ import com.sericulture.masterdata.repository.HobliRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -212,5 +217,48 @@ public class HobliService {
             }
         }
         return hobliResponse;
+    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
+        if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
+            searchWithSortRequest.setSearchText("%%");
+        }else{
+            searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
+        }
+        if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
+            searchWithSortRequest.setSortColumn("hobliName");
+        }
+        if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
+            searchWithSortRequest.setSortOrder("asc");
+        }
+        if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
+            searchWithSortRequest.setPageNumber("0");
+        }
+        if(searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")){
+            searchWithSortRequest.setPageSize("5");
+        }
+        Sort sort;
+        if(searchWithSortRequest.getSortOrder().equals("asc")){
+            sort = Sort.by(Sort.Direction.ASC, searchWithSortRequest.getSortColumn());
+        }else{
+            sort = Sort.by(Sort.Direction.DESC, searchWithSortRequest.getSortColumn());
+        }
+        Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
+        Page<HobliDTO> hobliDTOS = hobliRepository.getSortedHoblis(searchWithSortRequest.getJoinColumn(),searchWithSortRequest.getSearchText(),true, pageable);
+        log.info("Entity is ",hobliDTOS);
+        return convertPageableDTOToMapResponse(hobliDTOS);
+    }
+
+    private Map<String, Object> convertPageableDTOToMapResponse(final Page<HobliDTO> activeHoblis) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<HobliResponse> hobliResponses = activeHoblis.getContent().stream()
+                .map(hobli -> mapper.hobliDTOToObject(hobli,HobliResponse.class)).collect(Collectors.toList());
+        response.put("hobli",hobliResponses);
+        response.put("currentPage", activeHoblis.getNumber());
+        response.put("totalItems", activeHoblis.getTotalElements());
+        response.put("totalPages", activeHoblis.getTotalPages());
+
+        return response;
     }
 }

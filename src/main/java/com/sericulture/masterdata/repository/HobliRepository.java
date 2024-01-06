@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.HobliDTO;
+import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.entity.Hobli;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -75,4 +76,29 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     public Hobli findByHobliIdAndActiveIn(@Param("hobliId") long hobliId, @Param("active") Set<Boolean> active);
 
     public List<Hobli> findByActive(boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
+            " hobli.hobliId," +
+            " hobli.hobliName," +
+            " hobli.stateId," +
+            " hobli.districtId," +
+            " hobli.talukId," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName" +
+            ") \n" +
+            "from Hobli hobli\n" +
+            "left join State state\n" +
+            "on hobli.stateId = state.stateId " +
+            "left join District district\n" +
+            "on hobli.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on hobli.talukId = taluk.talukId " +
+            "where hobli.active = :isActive AND " +
+            "(:joinColumn = 'hobli.hobliName' AND hobli.hobliName LIKE :searchText) OR " +
+            "(:joinColumn = 'state.stateName' AND state.stateName LIKE :searchText) OR " +
+            "(:joinColumn = 'district.districtName' AND district.districtName LIKE :searchText) OR " +
+            "(:joinColumn = 'taluk.talukName' AND taluk.talukName LIKE :searchText)"
+    )
+    public Page<HobliDTO> getSortedHoblis(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }
