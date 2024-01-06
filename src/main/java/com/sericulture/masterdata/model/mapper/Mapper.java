@@ -43,6 +43,7 @@ import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
+import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.dto.*;
@@ -1016,5 +1017,36 @@ public class Mapper {
     public <T> T crateMasterObjectToEntity(CrateMasterRequest crateMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, crateMasterRequest);
         return (T) mapper.map(crateMasterRequest, claaz);
+    }
+
+    /**
+     * Maps UserPreference Entity to UserPreference  Response Object
+     * @param userPreferenceEntity
+     * @param <T>
+     */
+    public <T> T userPreferenceEntityToObject(UserPreference userPreferenceEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,userPreferenceEntity );
+        return (T) mapper.map(userPreferenceEntity, claaz);
+    }
+
+    /**
+     * Maps rpRoleAssociation DTO to rpRoleAssociation Response Object
+     * @param userPreferenceDTO
+     * @param <T>
+     */
+    public <T> T userPreferenceDTOToObject(UserPreferenceDTO userPreferenceDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userPreferenceDTO);
+        return (T) mapper.map(userPreferenceDTO, claaz);
+    }
+
+
+    /**
+     * Maps userPreference  Object to userPreference Response Object
+     * @param userPreferenceRequest
+     * @param <T>
+     */
+    public <T> T userPreferenceObjectToEntity(UserPreferenceRequest userPreferenceRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userPreferenceRequest);
+        return (T) mapper.map(userPreferenceRequest, claaz);
     }
 }
