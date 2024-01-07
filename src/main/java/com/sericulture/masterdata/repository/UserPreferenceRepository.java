@@ -29,7 +29,7 @@ public interface UserPreferenceRepository extends PagingAndSortingRepository<Use
 
     public List<UserPreference> findByActive(boolean isActive);
 
-//    public UserPreference findByUserMasterIdAndGodownIdAndActive(Long userMasterId, Long godownId, boolean isActive);
+    public UserPreference findByUserMasterIdAndActive(long userMasterId, boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.UserPreferenceDTO(" +
             " userPreference.userPreferenceId," +
