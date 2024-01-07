@@ -284,8 +284,8 @@ public class VillageService {
         Map<String, Object> response = new HashMap<>();
 
         List<VillageResponse> villageResponses = activeVillages.getContent().stream()
-                .map(hobli -> mapper.villageDTOToObject(hobli,VillageResponse.class)).collect(Collectors.toList());
-        response.put("hobli",villageResponses);
+                .map(village -> mapper.villageDTOToObject(village,VillageResponse.class)).collect(Collectors.toList());
+        response.put("village",villageResponses);
         response.put("currentPage", activeVillages.getNumber());
         response.put("totalItems", activeVillages.getTotalElements());
         response.put("totalPages", activeVillages.getTotalPages());
