@@ -46,6 +46,7 @@ import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
+import com.sericulture.masterdata.model.api.workingInstitution.WorkingInstitutionRequest;
 import com.sericulture.masterdata.model.dto.*;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -1048,5 +1049,25 @@ public class Mapper {
     public <T> T userPreferenceObjectToEntity(UserPreferenceRequest userPreferenceRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, userPreferenceRequest);
         return (T) mapper.map(userPreferenceRequest, claaz);
+    }
+
+    /**
+     * Maps Working Institution Entity to Working Institution Response Object
+     * @param workingInstitutionEntity
+     * @param <T>
+     */
+    public <T> T workingInstitutionEntityToObject(WorkingInstitution workingInstitutionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, workingInstitutionEntity);
+        return (T) mapper.map(workingInstitutionEntity, claaz);
+    }
+
+    /**
+     * Maps Working Institution Entity to Working Institution Response Object
+     * @param workingInstitutionRequest
+     * @param <T>
+     */
+    public <T> T workingInstitutionObjectToEntity(WorkingInstitutionRequest workingInstitutionRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, workingInstitutionRequest);
+        return (T) mapper.map(workingInstitutionRequest, claaz);
     }
 }
