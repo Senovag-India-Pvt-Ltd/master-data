@@ -60,7 +60,28 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "auction3EndTime", example = "1")
     LocalTime auction3EndTime;
 
+    @Schema(name = "auctionAcceptance1StartTime", example = "00:00:00")
+    LocalTime auctionAcceptance1StartTime;
+
+    @Schema(name = "auctionAcceptance2StartTime", example = "00:00:00")
+    LocalTime auctionAcceptance2StartTime;
+
+    @Schema(name = "auctionAcceptance3StartTime", example = "00:00:00")
+    LocalTime auctionAcceptance3StartTime;
+
+    @Schema(name = "auctionAcceptance1EndTime", example = "00:00:00")
+    LocalTime auctionAcceptance1EndTime;
+
+    @Schema(name = "auctionAcceptance2EndTime", example = "00:00:00")
+    LocalTime auctionAcceptance2EndTime;
+
+    @Schema(name = "auctionAcceptance3EndTime", example = "00:00:00")
+    LocalTime auctionAcceptance3EndTime;
+
+    @Schema(name = "serialNumberPrefix", example = "KLR")
+    String serialNumberPrefix;
+
     @Schema(name = "marketTypeMasterId", example = "1")
-    Integer marketTypeMasterId;
+    Long marketTypeMasterId;
 
 }
