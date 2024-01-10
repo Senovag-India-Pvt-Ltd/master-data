@@ -41,6 +41,7 @@ import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyReque
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
+import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
@@ -1087,7 +1088,7 @@ public class Mapper {
      * @param trCourseMasterRequest
      * @param <T>
      */
-    public <T> T trCourseMasterObjectToEntity(TrProgramMasterRequest trCourseMasterRequest, Class<T> claaz) {
+    public <T> T trCourseMasterObjectToEntity(TrCourseMasterRequest trCourseMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, trCourseMasterRequest);
         return (T) mapper.map(trCourseMasterRequest, claaz);
     }

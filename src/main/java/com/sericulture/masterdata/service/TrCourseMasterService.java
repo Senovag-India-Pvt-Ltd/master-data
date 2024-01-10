@@ -51,7 +51,7 @@ public class TrCourseMasterService {
             trCourseMasterResponse.setError(false);
         }else{
             trCourseMasterResponse.setError(true);
-            trCourseMasterResponse.setError_description("State not found");
+            trCourseMasterResponse.setError_description("Tr Course not found");
         }
         log.info("Entity is ",trCourseMaster);
         return trCourseMasterResponse;
