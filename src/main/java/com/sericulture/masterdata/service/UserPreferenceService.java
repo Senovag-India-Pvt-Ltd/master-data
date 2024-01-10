@@ -177,31 +177,69 @@ public class UserPreferenceService {
         return userPreferenceResponse;
     }
 
-    @Transactional
-    public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest){
-        UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
-//        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
-//        if(rpPageRootList.size()>0){
-//            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
+//    @Transactional
+//    public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest){
+//        UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
+////        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
+////        if(rpPageRootList.size()>0){
+////            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
+////        }
+//
+//        UserPreference userPreference = userPreferenceRepository.findByUserPreferenceIdAndActiveIn(userPreferenceRequest.getUserPreferenceId(), Set.of(true,false));
+//        if(Objects.nonNull(userPreference)){
+//            userPreference.setUserPreferenceId(userPreferenceRequest.getUserPreferenceId());
+//            userPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
+//            userPreference.setGodownId(userPreferenceRequest.getGodownId());
+//            userPreference.setActive(true);
+//            UserPreference userPreference1 = userPreferenceRepository.save(userPreference);
+//            userPreferenceResponse = mapper.userPreferenceEntityToObject(userPreference1, UserPreferenceResponse.class);
+//            userPreferenceResponse.setError(false);
+//        } else {
+//            userPreferenceResponse.setError(true);
+//            userPreferenceResponse.setError_description("Error occurred while fetching userMaster");
+//            // throw new ValidationException("Error occurred while fetching village");
 //        }
+//
+//        return userPreferenceResponse;
+//    }
 
-        UserPreference userPreference = userPreferenceRepository.findByUserPreferenceIdAndActiveIn(userPreferenceRequest.getUserPreferenceId(), Set.of(true,false));
-        if(Objects.nonNull(userPreference)){
-            userPreference.setUserPreferenceId(userPreferenceRequest.getUserPreferenceId());
-            userPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
-            userPreference.setGodownId(userPreferenceRequest.getGodownId());
-            userPreference.setActive(true);
-            UserPreference userPreference1 = userPreferenceRepository.save(userPreference);
-            userPreferenceResponse = mapper.userPreferenceEntityToObject(userPreference1, UserPreferenceResponse.class);
-            userPreferenceResponse.setError(false);
+    @Transactional
+    public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest) {
+        UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
+
+        if (userPreferenceRequest.getUserMasterId() != null) {
+            // Update existing record
+            UserPreference userPreference = userPreferenceRepository.findByUserMasterIdAndActive(
+                    userPreferenceRequest.getUserMasterId(), true);
+
+            if (Objects.nonNull(userPreference)) {
+                userPreference.setGodownId(userPreferenceRequest.getGodownId());
+                // Other fields to update if needed
+                userPreference.setActive(true);
+
+                UserPreference updatedUserPreference = userPreferenceRepository.save(userPreference);
+                userPreferenceResponse = mapper.userPreferenceEntityToObject(updatedUserPreference, UserPreferenceResponse.class);
+                userPreferenceResponse.setError(false);
+            } else {
+                userPreferenceResponse.setError(true);
+                userPreferenceResponse.setError_description("Error occurred while fetching userPreference");
+            }
         } else {
-            userPreferenceResponse.setError(true);
-            userPreferenceResponse.setError_description("Error occurred while fetching userMaster");
-            // throw new ValidationException("Error occurred while fetching village");
+            // Create a new record
+            UserPreference newUserPreference = new UserPreference();
+            newUserPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
+            newUserPreference.setGodownId(userPreferenceRequest.getGodownId());
+            // Set other fields from the payload if needed
+            newUserPreference.setActive(true);
+
+            UserPreference savedUserPreference = userPreferenceRepository.save(newUserPreference);
+            userPreferenceResponse = mapper.userPreferenceEntityToObject(savedUserPreference, UserPreferenceResponse.class);
+            userPreferenceResponse.setError(false);
         }
 
         return userPreferenceResponse;
     }
+
 
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)

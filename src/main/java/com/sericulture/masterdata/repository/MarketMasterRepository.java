@@ -47,6 +47,13 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auction1EndTime," +
             " marketMaster.auction2EndTime," +
             " marketMaster.auction3EndTime," +
+            " marketMaster.auctionAcceptance1StartTime," +
+            " marketMaster.auctionAcceptance2StartTime," +
+            " marketMaster.auctionAcceptance3StartTime," +
+            " marketMaster.auctionAcceptance1EndTime," +
+            " marketMaster.auctionAcceptance2EndTime," +
+            " marketMaster.auctionAcceptance3EndTime," +
+            " marketMaster.serialNumberPrefix," +
             " marketMaster.marketTypeMasterId," +
             " state.stateName," +
             " district.districtName," +
@@ -84,6 +91,13 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auction1EndTime," +
             " marketMaster.auction2EndTime," +
             " marketMaster.auction3EndTime," +
+            " marketMaster.auctionAcceptance1StartTime," +
+            " marketMaster.auctionAcceptance2StartTime," +
+            " marketMaster.auctionAcceptance3StartTime," +
+            " marketMaster.auctionAcceptance1EndTime," +
+            " marketMaster.auctionAcceptance2EndTime," +
+            " marketMaster.auctionAcceptance3EndTime," +
+            " marketMaster.serialNumberPrefix," +
             " marketMaster.marketTypeMasterId," +
             " state.stateName," +
             " district.districtName," +
@@ -120,6 +134,13 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auction1EndTime," +
             " marketMaster.auction2EndTime," +
             " marketMaster.auction3EndTime," +
+            " marketMaster.auctionAcceptance1StartTime," +
+            " marketMaster.auctionAcceptance2StartTime," +
+            " marketMaster.auctionAcceptance3StartTime," +
+            " marketMaster.auctionAcceptance1EndTime," +
+            " marketMaster.auctionAcceptance2EndTime," +
+            " marketMaster.auctionAcceptance3EndTime," +
+            " marketMaster.serialNumberPrefix," +
             " marketMaster.marketTypeMasterId," +
             " state.stateName," +
             " district.districtName," +

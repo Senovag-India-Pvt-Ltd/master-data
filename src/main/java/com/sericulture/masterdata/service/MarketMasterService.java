@@ -188,15 +188,19 @@ public class MarketMasterService {
             MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketMaster)) {
                 marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
-                marketMaster.setMarketTypeMasterId(marketMaster.getMarketTypeMasterId());
-                marketMaster.setIssueBidSlipStartTime(marketMaster.getIssueBidSlipStartTime());
-                marketMaster.setIssueBidSlipEndTime(marketMaster.getIssueBidSlipEndTime());
-                marketMaster.setAuction1StartTime(marketMaster.getAuction1StartTime());
-                marketMaster.setAuction2StartTime(marketMaster.getAuction2StartTime());
-                marketMaster.setAuction3StartTime(marketMaster.getAuction3StartTime());
-                marketMaster.setAuction1EndTime(marketMaster.getAuction1EndTime());
-                marketMaster.setAuction2EndTime(marketMaster.getAuction2EndTime());
-                marketMaster.setAuction3EndTime(marketMaster.getAuction3EndTime());
+                marketMaster.setMarketTypeMasterId(marketMasterRequest.getMarketTypeMasterId());
+                marketMaster.setIssueBidSlipStartTime(marketMasterRequest.getIssueBidSlipStartTime());
+                marketMaster.setIssueBidSlipEndTime(marketMasterRequest.getIssueBidSlipEndTime());
+                marketMaster.setAuction1StartTime(marketMasterRequest.getAuction1StartTime());
+                marketMaster.setAuction2StartTime(marketMasterRequest.getAuction2StartTime());
+                marketMaster.setAuction3StartTime(marketMasterRequest.getAuction3StartTime());
+                marketMaster.setAuction1EndTime(marketMasterRequest.getAuction1EndTime());
+                marketMaster.setAuction2EndTime(marketMasterRequest.getAuction2EndTime());
+                marketMaster.setAuction3EndTime(marketMasterRequest.getAuction3EndTime());
+                marketMaster.setAuctionAcceptance1StartTime(marketMasterRequest.getAuctionAcceptance1StartTime());
+                marketMaster.setAuctionAcceptance2StartTime(marketMasterRequest.getAuctionAcceptance2StartTime());
+                marketMaster.setAuctionAcceptance3StartTime(marketMasterRequest.getAuctionAcceptance3StartTime());
+                marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);

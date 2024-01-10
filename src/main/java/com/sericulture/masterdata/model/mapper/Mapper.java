@@ -41,11 +41,14 @@ import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyReque
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
+import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
+import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
+import com.sericulture.masterdata.model.api.workingInstitution.WorkingInstitutionRequest;
 import com.sericulture.masterdata.model.dto.*;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -1048,5 +1051,65 @@ public class Mapper {
     public <T> T userPreferenceObjectToEntity(UserPreferenceRequest userPreferenceRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, userPreferenceRequest);
         return (T) mapper.map(userPreferenceRequest, claaz);
+    }
+
+    /**
+     * Maps Working Institution Entity to Working Institution Response Object
+     * @param workingInstitutionEntity
+     * @param <T>
+     */
+    public <T> T workingInstitutionEntityToObject(WorkingInstitution workingInstitutionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, workingInstitutionEntity);
+        return (T) mapper.map(workingInstitutionEntity, claaz);
+    }
+
+    /**
+     * Maps Working Institution Entity to Working Institution Response Object
+     * @param workingInstitutionRequest
+     * @param <T>
+     */
+    public <T> T workingInstitutionObjectToEntity(WorkingInstitutionRequest workingInstitutionRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, workingInstitutionRequest);
+        return (T) mapper.map(workingInstitutionRequest, claaz);
+    }
+    /**
+     * Maps trCourseMaster Entity to trCourseMaster  Response Object
+     * @param trCourseMasterEntity
+     * @param <T>
+     */
+    public <T> T trCourseMasterEntityToObject(TrCourseMaster trCourseMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trCourseMasterEntity);
+        return (T) mapper.map(trCourseMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trCourseMaster Object to trCourseMaster  Response Object
+     * @param trCourseMasterRequest
+     * @param <T>
+     */
+    public <T> T trCourseMasterObjectToEntity(TrCourseMasterRequest trCourseMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trCourseMasterRequest);
+        return (T) mapper.map(trCourseMasterRequest, claaz);
+    }
+    /**
+     * Maps trProgramMaster Entity to trProgramMaster Response Object
+     * @param trProgramMasterEntity
+     * @param <T>
+     */
+    public <T> T trProgramMasterEntityToObject(TrProgramMaster trProgramMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trProgramMasterEntity);
+        return (T) mapper.map(trProgramMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trProgramMaster Object to trProgramMaster  Response Object
+     * @param trProgramMasterRequest
+     * @param <T>
+     */
+    public <T> T trProgramMasterObjectToEntity(TrProgramMasterRequest trProgramMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trProgramMasterRequest);
+        return (T) mapper.map(trProgramMasterRequest, claaz);
     }
 }
