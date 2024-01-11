@@ -113,15 +113,20 @@ public class UserMasterService {
         userMasterRequest.setPassword(encoder.encode(userMasterRequest.getPassword()));
         UserMaster userMaster = mapper.userMasterObjectToEntity(userMasterRequest,UserMaster.class);
         validator.validate(userMaster);
-//        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
-//        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
-//            throw new ValidationException("RpPageRoot name already exist");
-//        }
-//        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
-//            throw new ValidationException("RpPageRoot name already exist with inactive state");
-//        }
+        UserMaster userMasterList = userMasterRepository.findByUsername(userMasterRequest.getUsername());
+        if (userMasterList != null && userMasterList .getActive()) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Username already exists");
+        } else if (userMasterList != null && !userMasterList.getActive()) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Username already exists with inactive state");
+        } else {
+            userMasterResponse = mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        }
 
-        return mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+
+        return userMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
