@@ -19,6 +19,12 @@ public class RaceMasterResponse {
     @Schema(name = "raceMasterName", example = "raceName 1")
     String raceMasterName;
 
+    @Schema(name = "marketMasterId", example = "1")
+    int marketMasterId;
+
+    @Schema(name = "marketMasterName", example = "raceName 1")
+    String marketMasterName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

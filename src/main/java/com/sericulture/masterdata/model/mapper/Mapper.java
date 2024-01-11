@@ -709,6 +709,16 @@ public class Mapper {
     }
 
     /**
+     * Maps RaceMasterDTO to RaceMaster Response Object
+     * @param raceMasterDTO
+     * @param <T>
+     */
+    public <T> T raceMasterDTOToObject(RaceMasterDTO raceMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, raceMasterDTO);
+        return (T) mapper.map(raceMasterDTO, claaz);
+    }
+
+    /**
      * Maps Race Object to Race Response Object
      * @param raceMasterRequest
      * @param <T>
