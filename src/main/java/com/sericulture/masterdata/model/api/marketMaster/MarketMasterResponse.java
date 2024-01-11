@@ -98,6 +98,9 @@ public class MarketMasterResponse {
     @Schema(name = "marketTypeMasterName", example = "1")
     String marketTypeMasterName;
 
+    @Schema(name = "reelerMinimumBalance", example = "1")
+    Long reelerMinimumBalance;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

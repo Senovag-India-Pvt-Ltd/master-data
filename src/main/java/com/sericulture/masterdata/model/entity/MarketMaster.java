@@ -99,4 +99,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
 
     @Column(name = "market_type_master_id")
     private Long marketTypeMasterId;
+
+    @Column(name = "releer_minimum_balance")
+    private Long reelerMinimumBalance;
 }

@@ -35,6 +35,7 @@ public class MarketMasterDTO {
     private String districtName;
     private String talukName;
     private String marketTypeMasterName;
+    private Long reelerMinimumBalance;
 
     public MarketMasterDTO() {
 
@@ -68,7 +69,10 @@ public class MarketMasterDTO {
         String stateName,
         String districtName,
         String talukName,
-        String marketTypeMasterName) {
+        String marketTypeMasterName,
+        Long reelerMinimumBalance
+
+            ) {
         this.marketMasterId = marketMasterId;
         this.marketMasterName = marketMasterName;
         this.marketMasterAddress = marketMasterAddress;
@@ -97,6 +101,7 @@ public class MarketMasterDTO {
         this.districtName = districtName;
         this.talukName = talukName;
         this.marketTypeMasterName = marketTypeMasterName;
+        this.reelerMinimumBalance = reelerMinimumBalance;
 
     }
 }
