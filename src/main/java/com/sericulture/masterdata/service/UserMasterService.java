@@ -254,6 +254,7 @@ public class UserMasterService {
             userMaster.setUserType(userMasterRequest.getUserType());
             userMaster.setUserTypeId(userMasterRequest.getUserTypeId());
             userMaster.setDeviceId(userMasterRequest.getDeviceId());
+            userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);

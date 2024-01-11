@@ -61,4 +61,7 @@ public class EditUserMasterRequest extends RequestBody {
 
     @Schema(name = "deviceId", example = "998s3gf6478776655")
     String deviceId;
+
+    @Schema(name = "workingInstitutionId", example = "1")
+    Long workingInstitutionId;
 }

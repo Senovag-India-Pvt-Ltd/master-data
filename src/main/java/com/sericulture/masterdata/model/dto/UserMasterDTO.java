@@ -34,6 +34,10 @@ public class UserMasterDTO {
 
     private String deviceId;
 
+    private Long workingInstitutionId;
+
+    private String workingInstitutionName;
+
     private String enteredOtpByUser; //User entered otp for verification
     // Constructors (default and the one you've specified)
     public UserMasterDTO() {}
@@ -61,7 +65,9 @@ public class UserMasterDTO {
             String phoneNumber,
             int userType,
             Long userTypeId,
-            String deviceId
+            String deviceId,
+            Long workingInstitutionId,
+            String workingInstitutionName
     ) {
         // Initialize your fields here
         this.userMasterId = userMasterId;
@@ -87,5 +93,7 @@ public class UserMasterDTO {
         this.userType = userType;
         this.userTypeId = userTypeId;
         this.deviceId = deviceId;
+        this.workingInstitutionId = workingInstitutionId;
+        this.workingInstitutionName = workingInstitutionName;
     }
 }
