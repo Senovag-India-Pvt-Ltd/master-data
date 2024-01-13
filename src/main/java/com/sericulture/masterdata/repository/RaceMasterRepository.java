@@ -28,6 +28,8 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
 
     public RaceMaster save(RaceMaster raceMaster);
 
+    List<RaceMaster> findByRaceMasterNameAndMarketMasterId(String godownName, long marketMasterId);
+
     public RaceMaster findByRaceMasterIdAndActive(long id, boolean isActive);
 
     public RaceMaster findByRaceMasterIdAndActiveIn(@Param("raceMasterId") long raceMasterId, @Param("active") Set<Boolean> active);

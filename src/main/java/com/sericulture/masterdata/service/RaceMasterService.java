@@ -62,7 +62,7 @@ public class RaceMasterService {
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         RaceMaster raceMaster = mapper.raceMasterObjectToEntity(raceMasterRequest,RaceMaster.class);
         validator.validate(raceMaster);
-        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterName(raceMasterRequest.getRaceMasterName());
+        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterNameAndMarketMasterId(raceMasterRequest.getRaceMasterName(),raceMasterRequest.getMarketMasterId());
         if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(RaceMaster::getActive).findAny().isPresent()){
             raceMasterResponse.setError(true);
             raceMasterResponse.setError_description("Race name already exist");
