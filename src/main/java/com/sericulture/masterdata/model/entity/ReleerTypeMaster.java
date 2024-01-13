@@ -26,4 +26,7 @@ public class ReleerTypeMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "releerTypeMaster name should be more than 1 characters.")
     @Column(name = "releer_type_master_name", unique = true)
     private String releerTypeMasterName;
+
+    @Column(name = "no_of_device_allowed")
+    private Long noOfDeviceAllowed;
 }

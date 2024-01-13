@@ -18,6 +18,9 @@ public class ReleerTypeMasterResponse {
     @Schema(name = "releerTypeMasterName", example = "Karnataka", required = true)
     String releerTypeMasterName;
 
+    @Schema(name = "noOfDeviceAllowed", example = "3")
+    private Long noOfDeviceAllowed;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

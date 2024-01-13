@@ -90,6 +90,12 @@ public class UserMasterResponse {
     @Schema(name = "workingInstitutionName", example = "Government")
     String workingInstitutionName;
 
+    @Schema(name = "currentReelerUsers", example = "1")
+    int currentReelerUsers;
+
+    @Schema(name = "maxReelerUsers", example = "1")
+    Long maxReelerUsers;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

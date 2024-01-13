@@ -150,6 +150,7 @@ public class ReleerTypeMasterService {
             ReleerTypeMaster releerTypeMaster = releerTypeMasterRepository.findByReleerTypeMasterIdAndActiveIn(releerTypeMasterRequest.getReleerTypeMasterId(), Set.of(true,false));
             if(Objects.nonNull(releerTypeMaster)){
                 releerTypeMaster.setReleerTypeMasterName(releerTypeMasterRequest.getReleerTypeMasterName());
+                releerTypeMaster.setNoOfDeviceAllowed(releerTypeMasterRequest.getNoOfDeviceAllowed());
                 releerTypeMaster.setActive(true);
                 ReleerTypeMaster releerTypeMaster1 = releerTypeMasterRepository.save(releerTypeMaster);
                 releerTypeMasterResponse = mapper.releerTypeMasterEntityToObject(releerTypeMaster1, ReleerTypeMasterResponse.class);
