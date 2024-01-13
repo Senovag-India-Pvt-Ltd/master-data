@@ -458,4 +458,9 @@ public class UserMasterService {
 
         return response;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllReelerUsers(boolean isActive, long reelerId){
+        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId));
+    }
 }

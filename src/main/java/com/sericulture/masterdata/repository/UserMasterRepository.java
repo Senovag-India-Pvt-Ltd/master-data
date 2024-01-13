@@ -25,6 +25,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
 
     UserMaster findByUsername(String username);
 
+    public List<UserMaster> findByActiveAndUserTypeId(boolean isActive, long userTypeId);
+
     public UserMaster findByUserMasterIdAndActiveIn(@Param("userMasterId") long userMasterId, @Param("active") Set<Boolean> active);
 
     public List<UserMaster> findByActive(boolean isActive);
