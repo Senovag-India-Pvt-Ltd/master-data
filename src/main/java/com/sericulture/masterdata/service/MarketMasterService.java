@@ -178,12 +178,12 @@ public class MarketMasterService {
     @Transactional
     public MarketMasterResponse updateMarketMasterDetails(EditMarketMasterRequest marketMasterRequest) {
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
-        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterName(marketMasterRequest.getMarketMasterName());
-        if (marketMasterList.size() > 0) {
-            marketMasterResponse.setError(true);
-            marketMasterResponse.setError_description("Market already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+//        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterName(marketMasterRequest.getMarketMasterName());
+//        if (marketMasterList.size() > 0) {
+//            marketMasterResponse.setError(true);
+//            marketMasterResponse.setError_description("Market already exists, duplicates are not allowed.");
+//             throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
 
             MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketMaster)) {
@@ -201,6 +201,7 @@ public class MarketMasterService {
                 marketMaster.setAuctionAcceptance2StartTime(marketMasterRequest.getAuctionAcceptance2StartTime());
                 marketMaster.setAuctionAcceptance3StartTime(marketMasterRequest.getAuctionAcceptance3StartTime());
                 marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
+                marketMaster.setReelerMinimumBalance(marketMasterRequest.getReelerMinimumBalance());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
@@ -210,7 +211,6 @@ public class MarketMasterService {
                 marketMasterResponse.setError_description("Error occurred while fetching market");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
         return marketMasterResponse;
     }
 

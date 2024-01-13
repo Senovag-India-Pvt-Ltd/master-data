@@ -113,15 +113,20 @@ public class UserMasterService {
         userMasterRequest.setPassword(encoder.encode(userMasterRequest.getPassword()));
         UserMaster userMaster = mapper.userMasterObjectToEntity(userMasterRequest,UserMaster.class);
         validator.validate(userMaster);
-//        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
-//        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
-//            throw new ValidationException("RpPageRoot name already exist");
-//        }
-//        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
-//            throw new ValidationException("RpPageRoot name already exist with inactive state");
-//        }
+        UserMaster userMasterList = userMasterRepository.findByUsername(userMasterRequest.getUsername());
+        if (userMasterList != null && userMasterList .getActive()) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Username already exists");
+        } else if (userMasterList != null && !userMasterList.getActive()) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Username already exists with inactive state");
+        } else {
+            userMasterResponse = mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        }
 
-        return mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
+
+        return userMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -249,6 +254,7 @@ public class UserMasterService {
             userMaster.setUserType(userMasterRequest.getUserType());
             userMaster.setUserTypeId(userMasterRequest.getUserTypeId());
             userMaster.setDeviceId(userMasterRequest.getDeviceId());
+            userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
@@ -269,6 +275,36 @@ public class UserMasterService {
         if(userMaster == null){
             userMasterResponse.setError(true);
             userMasterResponse.setError_description("Invalid id");
+        }else{
+            GovtSmsServiceDTO govtSmsServiceDTO = new GovtSmsServiceDTO();
+            govtSmsServiceDTO.setUsername("Mobile_1-COMDOS");
+            govtSmsServiceDTO.setPassword("COMDOS@1234");
+            govtSmsServiceDTO.setMessage("Generate and store otp");
+            govtSmsServiceDTO.setSenderId("COMDOS");
+            govtSmsServiceDTO.setMobileNumber(userMaster.getPhoneNumber());
+            govtSmsServiceDTO.setSecureKey("046bdec5-4bba-69b3-k4e4-01d6b555c9cv");
+            govtSmsServiceDTO.setTemplateid("1107170082061011792");
+            govtSmsServiceDTO.setUserId(userMaster.getUserMasterId().toString());
+
+            govtSMSServiceController.sendOtpSMS(govtSmsServiceDTO);
+            userMasterResponse =  mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        }
+        log.info("Entity is ",userMaster);
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse generateOtpByUserNameAndPassword(UserMasterDTO userMasterDTO){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUsernameAndActive(userMasterDTO.getUsername(), true);
+
+        if(userMaster == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Please check username");
+        }else if(!encoder.matches(userMasterDTO.getPassword(),userMaster.getPassword())) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Please check password");
         }else{
             GovtSmsServiceDTO govtSmsServiceDTO = new GovtSmsServiceDTO();
             govtSmsServiceDTO.setUsername("Mobile_1-COMDOS");
