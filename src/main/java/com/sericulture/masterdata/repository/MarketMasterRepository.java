@@ -58,7 +58,8 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
-            " marketTypeMaster.marketTypeMasterName" +
+            " marketTypeMaster.marketTypeMasterName," +
+            " marketMaster.reelerMinimumBalance" +
             ") \n" +
             "from market_master marketMaster\n" +
             "left join State state\n" +
@@ -102,7 +103,8 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
-            " marketTypeMaster.marketTypeMasterName" +
+            " marketTypeMaster.marketTypeMasterName," +
+            " marketMaster.reelerMinimumBalance" +
             ") \n" +
             "from market_master marketMaster\n" +
             "left join State state\n" +
@@ -145,7 +147,8 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
-            " marketTypeMaster.marketTypeMasterName" +
+            " marketTypeMaster.marketTypeMasterName," +
+            " marketMaster.reelerMinimumBalance" +
             ") \n" +
             "from market_master marketMaster\n" +
             "left join State state\n" +

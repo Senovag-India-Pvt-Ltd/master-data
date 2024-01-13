@@ -1,5 +1,4 @@
-package com.sericulture.masterdata.model.api.raceMaster;
-
+package com.sericulture.masterdata.model.api.releerTypeMaster;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,19 +10,13 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RaceMasterResponse {
 
-    @Schema(name="raceMasterId", example = "1")
-    int raceMasterId;
+public class ReleerTypeMasterResponse {
+    @Schema(name = "releerTypeMasterId", example = "1")
+    int releerTypeMasterId;
 
-    @Schema(name = "raceMasterName", example = "raceName 1")
-    String raceMasterName;
-
-    @Schema(name = "marketMasterId", example = "1")
-    int marketMasterId;
-
-    @Schema(name = "marketMasterName", example = "raceName 1")
-    String marketMasterName;
+    @Schema(name = "releerTypeMasterName", example = "Karnataka", required = true)
+    String releerTypeMasterName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

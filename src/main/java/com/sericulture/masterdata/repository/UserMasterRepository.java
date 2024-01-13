@@ -54,7 +54,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.phoneNumber," +
             " userMaster.userType," +
             " userMaster.userTypeId," +
-            " userMaster.deviceId" +
+            " userMaster.deviceId," +
+            " userMaster.workingInstitutionId," +
+            " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -69,6 +71,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.marketMasterId = marketMaster.marketMasterId " +
             "left join Designation designation\n" +
             "on userMaster.designationId = designation.designationId " +
+            "left join WorkingInstitution workingInstitution\n" +
+            "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
             "where userMaster.active = :isActive " +
             "ORDER BY userMaster.userMasterId ASC"
     )
@@ -97,7 +101,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.phoneNumber," +
             " userMaster.userType," +
             " userMaster.userTypeId," +
-            " userMaster.deviceId" +
+            " userMaster.deviceId," +
+            " userMaster.workingInstitutionId," +
+            " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -112,6 +118,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.marketMasterId = marketMaster.marketMasterId " +
             "left join Designation designation\n" +
             "on userMaster.designationId = designation.designationId " +
+            "left join WorkingInstitution workingInstitution\n" +
+            "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
             "where userMaster.active = :isActive AND userMaster.userMasterId = :id"
     )
     public UserMasterDTO getByUserMasterIdAndActive(long id, boolean isActive);
@@ -141,7 +149,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.phoneNumber," +
             " userMaster.userType," +
             " userMaster.userTypeId," +
-            " userMaster.deviceId" +
+            " userMaster.deviceId," +
+            " userMaster.workingInstitutionId," +
+            " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -156,6 +166,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.marketMasterId = marketMaster.marketMasterId " +
             "left join Designation designation\n" +
             "on userMaster.designationId = designation.designationId " +
+            "left join WorkingInstitution workingInstitution\n" +
+            "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
             "where userMaster.active = :isActive AND " +
             "(:joinColumn = 'userMaster.username' AND userMaster.username LIKE :searchText) OR " +
             "(:joinColumn = 'userMaster.phoneNumber' AND userMaster.phoneNumber LIKE :searchText)"

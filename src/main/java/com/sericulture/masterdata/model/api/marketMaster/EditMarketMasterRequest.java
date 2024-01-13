@@ -84,4 +84,7 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "marketTypeMasterId", example = "1")
     Long marketTypeMasterId;
 
+    @Schema(name = "reelerMinimumBalance", example = "1")
+    Long reelerMinimumBalance;
+
 }

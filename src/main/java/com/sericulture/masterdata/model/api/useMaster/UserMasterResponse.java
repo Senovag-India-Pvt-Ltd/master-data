@@ -84,6 +84,12 @@ public class UserMasterResponse {
     @Schema(name = "deviceId", example = "998s3gf6478776655")
     String deviceId;
 
+    @Schema(name = "workingInstitutionId", example = "1")
+    int workingInstitutionId;
+
+    @Schema(name = "workingInstitutionName", example = "Government")
+    String workingInstitutionName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

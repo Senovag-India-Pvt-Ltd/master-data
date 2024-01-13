@@ -14,4 +14,7 @@ public class RaceMasterRequest extends RequestBody {
 
     @Schema(name = "raceMasterName", example = "raceName 1", required = true)
     String raceMasterName;
+
+    @Schema(name = "marketMasterId", example = "1")
+    Long marketMasterId;
 }
