@@ -200,6 +200,9 @@ public class MarketMasterService {
                 marketMaster.setAuctionAcceptance1StartTime(marketMasterRequest.getAuctionAcceptance1StartTime());
                 marketMaster.setAuctionAcceptance2StartTime(marketMasterRequest.getAuctionAcceptance2StartTime());
                 marketMaster.setAuctionAcceptance3StartTime(marketMasterRequest.getAuctionAcceptance3StartTime());
+                marketMaster.setAuctionAcceptance1EndTime(marketMasterRequest.getAuctionAcceptance1EndTime());
+                marketMaster.setAuctionAcceptance2EndTime(marketMasterRequest.getAuctionAcceptance2EndTime());
+                marketMaster.setAuctionAcceptance3EndTime(marketMasterRequest.getAuctionAcceptance3EndTime());
                 marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
                 marketMaster.setReelerMinimumBalance(marketMasterRequest.getReelerMinimumBalance());
                 marketMaster.setActive(true);
