@@ -75,7 +75,7 @@ public class GodownService {
         GodownResponse godownResponse = new GodownResponse();
         Godown godown = mapper.godownObjectToEntity(godownRequest,Godown.class);
         validator.validate(godown);
-        List<Godown> godownList = godownRepository.findByGodownName(godownRequest.getGodownName());
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(), godownRequest.getMarketMasterId());
         if(!godownList.isEmpty() && godownList.stream().filter(Godown::getActive).findAny().isPresent()){
             godownResponse.setError(true);
             godownResponse.setError_description("Godown name already exist");
