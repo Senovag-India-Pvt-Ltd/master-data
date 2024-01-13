@@ -367,4 +367,27 @@ public class UserMasterController {
         rw.setContent(userMasterService.changePassword(userMasterChangePasswordRequest));
         return ResponseEntity.ok(rw);
     }
+
+    @PostMapping("/get-reeler-users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"userMaster\":[{\"id\":10,\"userMasterId\":\"\"},{\"id\":11,\"userMasterId\":\" 1\"},{\"id\":13,\"userMasterId\":\"2\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getReelerUsers(
+            @RequestBody final UserMasterDTO userMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(userMasterService.getAllReelerUsers(true, userMasterDTO.getUserTypeId()));
+        return ResponseEntity.ok(rw);
+    }
 }
