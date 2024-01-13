@@ -27,6 +27,7 @@ import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejec
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
+import com.sericulture.masterdata.model.api.releerTypeMaster.ReleerTypeMasterRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
@@ -1112,4 +1113,26 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, trProgramMasterRequest);
         return (T) mapper.map(trProgramMasterRequest, claaz);
     }
+
+    /**
+     * Maps releerTypeMaster Entity to releerTypeMaster Response Object
+     * @param releerTypeMasterEntity
+     * @param <T>
+     */
+    public <T> T releerTypeMasterEntityToObject(ReleerTypeMaster releerTypeMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,releerTypeMasterEntity);
+        return (T) mapper.map(releerTypeMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps releerTypeMaster Object to releerTypeMaster  Response Object
+     * @param releerTypeMasterRequest
+     * @param <T>
+     */
+    public <T> T releerTypeMasterObjectToEntity(ReleerTypeMasterRequest releerTypeMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, releerTypeMasterRequest);
+        return (T) mapper.map(releerTypeMasterRequest, claaz);
+    }
+
 }
