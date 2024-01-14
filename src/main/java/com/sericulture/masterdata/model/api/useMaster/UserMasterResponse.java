@@ -24,9 +24,6 @@ public class UserMasterResponse {
     @Schema(name = "lastName", example = "Kharvi")
     String lastName;
 
-    @Schema(name = "password", example = "12345")
-    String password;
-
     @Schema(name = "emailID", example = "12S")
     String emailID;
 
