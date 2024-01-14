@@ -3,22 +3,16 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.useMaster.*;
-import com.sericulture.masterdata.model.api.village.VillageResponse;
-import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
-import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
 import com.sericulture.masterdata.model.entity.Reeler;
-import com.sericulture.masterdata.model.entity.ReleerTypeMaster;
+import com.sericulture.masterdata.model.entity.ReelerTypeMaster;
 import com.sericulture.masterdata.model.entity.UserMaster;
-import com.sericulture.masterdata.model.entity.Village;
-import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReelerRepository;
-import com.sericulture.masterdata.repository.ReleerTypeMasterRepository;
+import com.sericulture.masterdata.repository.ReelerTypeMasterRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +24,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,7 +49,7 @@ public class UserMasterService {
     ReelerRepository reelerRepository;
 
     @Autowired
-    ReleerTypeMasterRepository releerTypeMasterRepository;
+    ReelerTypeMasterRepository reelerTypeMasterRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -356,15 +349,15 @@ public class UserMasterService {
         }else {
             UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
             if (userMaster == null) {
-                ReleerTypeMaster releerTypeMaster = releerTypeMasterRepository.findByReleerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
-                if(releerTypeMaster == null){
+                ReelerTypeMaster reelerTypeMaster = reelerTypeMasterRepository.findByReelerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
+                if(reelerTypeMaster == null){
                     userMasterResponse.setError(true);
                     userMasterResponse.setError_description("ReelerType not found");
                 }else{
-                    userMasterResponse.setMaxReelerUsers(releerTypeMaster.getNoOfDeviceAllowed());
+                    userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
                     List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getReelerId());
                     userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
-                    if(currentReelerUsers.size()<releerTypeMaster.getNoOfDeviceAllowed()) {
+                    if(currentReelerUsers.size()<reelerTypeMaster.getNoOfDeviceAllowed()) {
                         UserMaster userMaster1 = new UserMaster();
                         userMaster1.setUsername(saveReelerUserRequest.getUsername());
                         userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
@@ -491,12 +484,12 @@ public class UserMasterService {
             userMasterResponse.setError(true);
             userMasterResponse.setError_description("Reeler not found");
         }else{
-            ReleerTypeMaster releerTypeMaster = releerTypeMasterRepository.findByReleerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
-            if(releerTypeMaster == null){
+            ReelerTypeMaster reelerTypeMaster = reelerTypeMasterRepository.findByReelerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
+            if(reelerTypeMaster == null){
                 userMasterResponse.setError(true);
                 userMasterResponse.setError_description("ReelerType not found");
             }else{
-                userMasterResponse.setMaxReelerUsers(releerTypeMaster.getNoOfDeviceAllowed());
+                userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
                 List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId);
                 userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
                 userMasterResponse.setError(false);

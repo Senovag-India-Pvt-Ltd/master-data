@@ -1,14 +1,10 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
-import com.sericulture.masterdata.model.api.releerTypeMaster.EditReleerTypeMasterRequest;
-import com.sericulture.masterdata.model.api.releerTypeMaster.ReleerTypeMasterRequest;
-import com.sericulture.masterdata.model.api.releerTypeMaster.ReleerTypeMasterResponse;
-import com.sericulture.masterdata.model.api.trCourseMaster.EditTrCourseMasterRequest;
-import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
-import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterResponse;
-import com.sericulture.masterdata.service.ReleerTypeMasterService;
-import com.sericulture.masterdata.service.TrCourseMasterService;
+import com.sericulture.masterdata.model.api.reelerTypeMaster.EditReelerTypeMasterRequest;
+import com.sericulture.masterdata.model.api.reelerTypeMaster.ReelerTypeMasterRequest;
+import com.sericulture.masterdata.model.api.reelerTypeMaster.ReelerTypeMasterResponse;
+import com.sericulture.masterdata.service.ReelerTypeMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("v1/releerTypeMaster")
+@RequestMapping("v1/reelerTypeMaster")
 
-public class ReleerTypeMasterController {
+public class ReelerTypeMasterController {
     @Autowired
-    ReleerTypeMasterService releerTypeMasterService ;
+    ReelerTypeMasterService reelerTypeMasterService ;
 
     @Operation(summary = "Insert Releer Type Master Details", description = "Creates Releer Type Master Details in to DB")
     @ApiResponses(value = {
@@ -40,10 +36,10 @@ public class ReleerTypeMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addReleerTypeMasterDetails(@RequestBody ReleerTypeMasterRequest releerTypeMasterRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ReleerTypeMasterResponse.class);
+    public ResponseEntity<?> addReleerTypeMasterDetails(@RequestBody ReelerTypeMasterRequest reelerTypeMasterRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ReelerTypeMasterResponse.class);
 
-        rw.setContent(releerTypeMasterService.insertReleerTypeMasterDetails(releerTypeMasterRequest));
+        rw.setContent(reelerTypeMasterService.insertReelerTypeMasterDetails(reelerTypeMasterRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -52,7 +48,7 @@ public class ReleerTypeMasterController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"releerTypeMaster\":[{\"id\":10,\"releerTypeMasterName\":\"\"},{\"id\":11,\"releerTypeMasterName\":\"Karnataka\"},{\"id\":13,\"releerTypeMasterName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"reelerTypeMaster\":[{\"id\":10,\"reelerTypeMasterName\":\"\"},{\"id\":11,\"reelerTypeMasterName\":\"Karnataka\"},{\"id\":13,\"reelerTypeMasterName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -66,7 +62,7 @@ public class ReleerTypeMasterController {
             @RequestParam(defaultValue = "true") boolean isActive
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(releerTypeMasterService.getAllByActive(isActive));
+        rw.setContent(reelerTypeMasterService.getAllByActive(isActive));
         return ResponseEntity.ok(rw);
     }
 
@@ -75,7 +71,7 @@ public class ReleerTypeMasterController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"releerTypeMaster\":[{\"id\":10,\"releerTypeMasterName\":\"\"},{\"id\":11,\"releerTypeMasterName\":\"Karnataka\"},{\"id\":13,\"treleerTypeMasterName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"reelerTypeMaster\":[{\"id\":10,\"reelerTypeMasterName\":\"\"},{\"id\":11,\"reelerTypeMasterName\":\"Karnataka\"},{\"id\":13,\"reelerTypeMasterName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -90,7 +86,7 @@ public class ReleerTypeMasterController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(releerTypeMasterService.getPaginatedReleerTypeMasterDetails(PageRequest.of(pageNumber,size)));
+        rw.setContent(reelerTypeMasterService.getPaginatedReelerTypeMasterDetails(PageRequest.of(pageNumber,size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -105,11 +101,11 @@ public class ReleerTypeMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteReleerTypeMasterDetails(
+    public ResponseEntity<?> deleteReelerTypeMasterDetails(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper<ReleerTypeMasterResponse> rw = ResponseWrapper.createWrapper(ReleerTypeMasterResponse.class);
-        rw.setContent(releerTypeMasterService.deleteRelerTypeMasterDetails(id));
+        ResponseWrapper<ReelerTypeMasterResponse> rw = ResponseWrapper.createWrapper(ReelerTypeMasterResponse.class);
+        rw.setContent(reelerTypeMasterService.deleteReelerTypeMasterDetails(id));
         return ResponseEntity.ok(rw);
     }
 
@@ -124,11 +120,11 @@ public class ReleerTypeMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editReleerTypeMasterDetails(
-            @RequestBody final EditReleerTypeMasterRequest editReleerTypeMasterRequest
+    public ResponseEntity<?> editReelerTypeMasterDetails(
+            @RequestBody final EditReelerTypeMasterRequest editReelerTypeMasterRequest
     ) {
-        ResponseWrapper<ReleerTypeMasterResponse> rw = ResponseWrapper.createWrapper(ReleerTypeMasterResponse.class);
-        rw.setContent(releerTypeMasterService.updateReleerTypeMastersDetails(editReleerTypeMasterRequest));
+        ResponseWrapper<ReelerTypeMasterResponse> rw = ResponseWrapper.createWrapper(ReelerTypeMasterResponse.class);
+        rw.setContent(reelerTypeMasterService.updateReelerTypeMastersDetails(editReelerTypeMasterRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -146,9 +142,9 @@ public class ReleerTypeMasterController {
     public ResponseEntity<?> getById(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ReleerTypeMasterResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ReelerTypeMasterResponse.class);
 
-        rw.setContent(releerTypeMasterService.getById(id));
+        rw.setContent(reelerTypeMasterService.getById(id));
         return ResponseEntity.ok(rw);
     }
 

@@ -9,23 +9,23 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Entity(name = "releer_type_master_master")
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 
-public class ReleerTypeMaster extends BaseEntity implements Serializable {
+public class ReelerTypeMaster extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "releer_type_master_seq")
     @SequenceGenerator(name = "releer_type_master_seq", sequenceName = "releer_type_master_seq", allocationSize = 1)
-    @Column(name = "releer_type_master_id")
-    private Long releerTypeMasterId;
+    @Column(name = "reeler_type_master_id")
+    private Long reelerTypeMasterId;
 
 
-    @Size(min = 2, max = 250, message = "releerTypeMaster name should be more than 1 characters.")
-    @Column(name = "releer_type_master_name", unique = true)
-    private String releerTypeMasterName;
+    @Size(min = 2, max = 250, message = "reelerTypeMaster name should be more than 1 characters.")
+    @Column(name = "reeler_type_master_name", unique = true)
+    private String reelerTypeMasterName;
 
     @Column(name = "no_of_device_allowed")
     private Long noOfDeviceAllowed;

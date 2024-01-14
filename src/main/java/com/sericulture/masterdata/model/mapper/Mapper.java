@@ -27,7 +27,7 @@ import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejec
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
-import com.sericulture.masterdata.model.api.releerTypeMaster.ReleerTypeMasterRequest;
+import com.sericulture.masterdata.model.api.reelerTypeMaster.ReelerTypeMasterRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
@@ -1125,24 +1125,24 @@ public class Mapper {
     }
 
     /**
-     * Maps releerTypeMaster Entity to releerTypeMaster Response Object
-     * @param releerTypeMasterEntity
+     * Maps reelerTypeMaster Entity to reelerTypeMaster Response Object
+     * @param reelerTypeMasterEntity
      * @param <T>
      */
-    public <T> T releerTypeMasterEntityToObject(ReleerTypeMaster releerTypeMasterEntity, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper,releerTypeMasterEntity);
-        return (T) mapper.map(releerTypeMasterEntity, claaz);
+    public <T> T reelerTypeMasterEntityToObject(ReelerTypeMaster reelerTypeMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,reelerTypeMasterEntity);
+        return (T) mapper.map(reelerTypeMasterEntity, claaz);
     }
 
 
     /**
-     * Maps releerTypeMaster Object to releerTypeMaster  Response Object
-     * @param releerTypeMasterRequest
+     * Maps reelerTypeMaster Object to releerTypeMaster  Response Object
+     * @param reelerTypeMasterRequest
      * @param <T>
      */
-    public <T> T releerTypeMasterObjectToEntity(ReleerTypeMasterRequest releerTypeMasterRequest, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, releerTypeMasterRequest);
-        return (T) mapper.map(releerTypeMasterRequest, claaz);
+    public <T> T reelerTypeMasterObjectToEntity(ReelerTypeMasterRequest reelerTypeMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, reelerTypeMasterRequest);
+        return (T) mapper.map(reelerTypeMasterRequest, claaz);
     }
 
 }
