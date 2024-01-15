@@ -54,11 +54,11 @@ public class ReelerTypeMasterService {
         List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository.findByReelerTypeMasterName(reelerTypeMasterRequest.getReelerTypeMasterName());
         if(!reelerTypeMasterList.isEmpty() && reelerTypeMasterList.stream(). filter(ReelerTypeMaster::getActive).findAny().isPresent()){
             reelerTypeMasterResponse.setError(true);
-            reelerTypeMasterResponse.setError_description("Reeler Type Master name already exist");
+            reelerTypeMasterResponse.setError_description("Reeler Type name already exist");
         }
         else if(!reelerTypeMasterList.isEmpty() && reelerTypeMasterList.stream().filter(Predicate.not(ReelerTypeMaster::getActive)).findAny().isPresent()){
             reelerTypeMasterResponse.setError(true);
-            reelerTypeMasterResponse.setError_description("Reeler Type Master name already exist with inactive state");
+            reelerTypeMasterResponse.setError_description("Reeler Type name already exist with inactive state");
         }else {
             reelerTypeMasterResponse = mapper.reelerTypeMasterEntityToObject(reelerTypeMasterRepository.save(reelerTypeMaster), ReelerTypeMasterResponse.class);
             reelerTypeMasterResponse.setError(false);
