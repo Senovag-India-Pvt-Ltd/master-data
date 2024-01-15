@@ -80,7 +80,7 @@ public class RelationshipService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRelationshipDetails(final Pageable pageable){
-        return convertToMapResponse(relationshipRepository.findByActiveOrderByRelationshipIdAsc( true, pageable));
+        return convertToMapResponse(relationshipRepository.findByActiveOrderByRelationshipNameAsc( true, pageable));
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){

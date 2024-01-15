@@ -75,7 +75,7 @@ public class MulberrySourceService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMulberrySourceDetails(final Pageable pageable){
-        return convertToMapResponse(mulberrySourceRepository.findByActiveOrderByMulberrySourceIdAsc( true, pageable));
+        return convertToMapResponse(mulberrySourceRepository.findByActiveOrderByMulberrySourceNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

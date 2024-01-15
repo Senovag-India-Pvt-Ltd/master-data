@@ -16,7 +16,7 @@ public interface ReelerTypeMasterRepository extends PagingAndSortingRepository<R
 
     public ReelerTypeMaster findByReelerTypeMasterNameAndActive(String reelerTypeMasterName, boolean isActive);
 
-    public Page<ReelerTypeMaster> findByActiveOrderByReelerTypeMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<ReelerTypeMaster> findByActiveOrderByReelerTypeMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public ReelerTypeMaster save(ReelerTypeMaster reelerTypeMaster);
 

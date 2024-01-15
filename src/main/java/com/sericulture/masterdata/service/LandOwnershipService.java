@@ -74,7 +74,7 @@ public class LandOwnershipService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedLandOwnershipDetails(final Pageable pageable){
-        return convertToMapResponse(landOwnershipRepository.findByActiveOrderByLandOwnershipIdAsc( true, pageable));
+        return convertToMapResponse(landOwnershipRepository.findByActiveOrderByLandOwnershipNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

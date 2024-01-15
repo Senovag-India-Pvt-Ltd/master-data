@@ -92,7 +92,7 @@ public class CasteService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedCasteDetails(final Pageable pageable){
-        return convertToMapResponse(casteRepository.findByActiveOrderByIdAsc( true, pageable));
+        return convertToMapResponse(casteRepository.findByActiveOrderByTitleAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

@@ -17,7 +17,7 @@ public interface SoilTypeRepository extends PagingAndSortingRepository<SoilType,
 
     public SoilType findBySoilTypeNameAndActive(String soilTypeName,boolean isActive);
 
-    public Page<SoilType> findByActiveOrderBySoilTypeIdAsc(boolean isActive, final Pageable pageable);
+    public Page<SoilType> findByActiveOrderBySoilTypeNameAsc(boolean isActive, final Pageable pageable);
 
     public SoilType save(SoilType soilType);
 

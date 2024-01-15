@@ -26,5 +26,5 @@ public interface MarketTypeMasterRepository extends PagingAndSortingRepository<M
 
     public MarketTypeMaster findByMarketTypeMasterIdAndActiveIn(@Param("marketTypeMasterId") long marketTypeMasterId, @Param("active") Set<Boolean> active);
 
-    public List<MarketTypeMaster> findByActive(boolean isActive);
+    public List<MarketTypeMaster> findByActiveOrderByMarketTypeMasterNameAsc(boolean isActive);
 }

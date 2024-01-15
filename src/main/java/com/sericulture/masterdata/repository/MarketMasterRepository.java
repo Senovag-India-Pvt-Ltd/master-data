@@ -28,7 +28,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
 
     public MarketMaster findByMarketMasterIdAndActiveIn(@Param("marketMasterId") long marketMasterId, @Param("active") Set<Boolean> active);
 
-    public List<MarketMaster> findByActive(boolean isActive);
+    public List<MarketMaster> findByActiveOrderByMarketMasterNameAsc(boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
@@ -71,7 +71,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "left join MarketTypeMaster marketTypeMaster\n" +
             "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
             "where marketMaster.active = :isActive " +
-            "ORDER BY marketMaster.marketMasterId ASC"
+            "ORDER BY marketMaster.marketMasterName ASC"
     )
     Page<MarketMasterDTO> getByActiveOrderByMarketMasterIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 

@@ -57,12 +57,12 @@ public class DesignationService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDesignationDetails(final Pageable pageable){
-        return convertToMapResponse(designationRepository.findByActiveOrderByDesignationIdAsc( true, pageable));
+        return convertToMapResponse(designationRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(designationRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(designationRepository.findByActiveOrderByNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<Designation> activeDesignations) {

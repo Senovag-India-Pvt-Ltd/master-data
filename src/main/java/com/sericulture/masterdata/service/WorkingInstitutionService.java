@@ -69,12 +69,12 @@ public class WorkingInstitutionService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedWorkingInstitutionDetails(final Pageable pageable){
-        return convertToMapResponse(workingInstitutionRepository.findByActiveOrderByWorkingInstitutionIdAsc( true, pageable));
+        return convertToMapResponse(workingInstitutionRepository.findByActiveOrderByWorkingInstitutionNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(workingInstitutionRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(workingInstitutionRepository.findByActiveOrderByWorkingInstitutionNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<WorkingInstitution> activeWorkingInstitutions) {

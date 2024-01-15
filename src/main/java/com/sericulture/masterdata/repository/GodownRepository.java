@@ -44,7 +44,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
             "left join market_master marketMaster\n" +
             "on godown.marketMasterId = marketMaster.marketMasterId " +
             "where godown.active = :isActive " +
-            "ORDER BY godown.godownId ASC"
+            "ORDER BY godown.godownName ASC"
     )
     Page<GodownDTO> getByActiveOrderByGodownIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 

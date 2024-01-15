@@ -16,7 +16,7 @@ public interface ReasonLotRejectMasterRepository extends PagingAndSortingReposit
 
     public ReasonLotRejectMaster findByReasonLotRejectNameAndActive(String reasonLotRejectName,boolean isActive);
 
-    public Page<ReasonLotRejectMaster> findByActiveOrderByReasonLotRejectIdAsc(boolean isActive, final Pageable pageable);
+    public Page<ReasonLotRejectMaster> findByActiveOrderByReasonLotRejectNameAsc(boolean isActive, final Pageable pageable);
 
     public ReasonLotRejectMaster save(ReasonLotRejectMaster reasonLotReject);
 
@@ -24,5 +24,5 @@ public interface ReasonLotRejectMasterRepository extends PagingAndSortingReposit
 
     public ReasonLotRejectMaster findByReasonLotRejectIdAndActiveIn(@Param("reasonLotRejectId") long reasonLotRejectId, @Param("active") Set<Boolean> active);
 
-    public List<ReasonLotRejectMaster> findByActive(boolean isActive);
+    public List<ReasonLotRejectMaster> findByActiveOrderByReasonLotRejectNameAsc(boolean isActive);
 }

@@ -186,7 +186,7 @@ public class DistrictService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getDistrictByStateId(Long stateId){
-        List<District> districtList = districtRepository.findByStateIdAndActive(stateId,true);
+        List<District> districtList = districtRepository.findByStateIdAndActiveOrderByDistrictName(stateId,true);
         if(districtList.isEmpty()){
             throw new ValidationException("Invalid Id");
         }

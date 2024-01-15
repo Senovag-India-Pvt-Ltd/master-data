@@ -16,7 +16,7 @@ public interface PlantationTypeRepository extends PagingAndSortingRepository<Pla
 
     public PlantationType findByPlantationTypeNameAndActive(String plantationTypeName,boolean isActive);
 
-    public Page<PlantationType> findByActiveOrderByPlantationTypeIdAsc(boolean isActive, final Pageable pageable);
+    public Page<PlantationType> findByActiveOrderByPlantationTypeNameAsc(boolean isActive, final Pageable pageable);
 
     public PlantationType save(PlantationType plantationType);
 

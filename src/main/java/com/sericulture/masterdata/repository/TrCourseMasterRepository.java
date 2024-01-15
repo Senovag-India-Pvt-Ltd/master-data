@@ -19,7 +19,7 @@ public interface TrCourseMasterRepository extends PagingAndSortingRepository<TrC
 
     public TrCourseMaster findByTrCourseMasterNameAndActive(String trCourseMasterName,boolean isActive);
 
-    public Page<TrCourseMaster> findByActiveOrderByTrCourseMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<TrCourseMaster> findByActiveOrderByTrCourseMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public TrCourseMaster save(TrCourseMaster trCourseMaster);
 

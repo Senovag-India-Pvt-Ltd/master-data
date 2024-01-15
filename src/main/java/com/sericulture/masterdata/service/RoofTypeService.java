@@ -74,7 +74,7 @@ public class RoofTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRoofTypeDetails(final Pageable pageable){
-        return convertToMapResponse(roofTypeRepository.findByActiveOrderByRoofTypeIdAsc( true, pageable));
+        return convertToMapResponse(roofTypeRepository.findByActiveOrderByRoofTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

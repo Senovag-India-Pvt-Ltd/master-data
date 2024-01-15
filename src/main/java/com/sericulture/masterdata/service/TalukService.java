@@ -192,7 +192,7 @@ public class TalukService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getTalukByDistrictId(Long districtId) {
         Map<String, Object> response = new HashMap<>();
-        List<Taluk> talukList = talukRepository.findByDistrictIdAndActive(districtId, true);
+        List<Taluk> talukList = talukRepository.findByDistrictIdAndActiveOrderByTalukNameAsc(districtId, true);
         if (talukList.isEmpty()) {
 //            throw new ValidationException("Invalid Id");
             response.put("error", "Error");

@@ -16,7 +16,7 @@ public interface RoofTypeRepository extends PagingAndSortingRepository<RoofType,
 
     public RoofType findByRoofTypeNameAndActive(String roofTypeName,boolean isActive);
 
-    public Page<RoofType> findByActiveOrderByRoofTypeIdAsc(boolean isActive, final Pageable pageable);
+    public Page<RoofType> findByActiveOrderByRoofTypeNameAsc(boolean isActive, final Pageable pageable);
 
     public RoofType save(RoofType roofType);
 

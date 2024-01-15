@@ -23,7 +23,7 @@ public interface CasteRepository extends PagingAndSortingRepository<Caste, Long>
     public Caste findByTitleAndActive(String title,boolean isActive);
 
 
-    public Page<Caste> findByActiveOrderByIdAsc(boolean isActive, final Pageable pageable);
+    public Page<Caste> findByActiveOrderByTitleAsc(boolean isActive, final Pageable pageable);
 
     public Caste save(Caste caste);
 

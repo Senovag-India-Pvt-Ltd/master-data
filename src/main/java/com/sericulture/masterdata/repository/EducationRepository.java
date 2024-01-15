@@ -20,7 +20,7 @@ public interface EducationRepository extends PagingAndSortingRepository<Educatio
 
     public List<Education> findByNameAndActiveIn(@Param("name") String name, @Param("active") Set<Boolean> active);
     public Education findByIdAndActiveIn(@Param("id") long id, @Param("active") Set<Boolean> active);
-    Page<Education> findByActiveOrderByIdAsc(boolean isActive, final Pageable pageable);
+    Page<Education> findByActiveOrderByNameAsc(boolean isActive, final Pageable pageable);
 
     public Education save(Education education);
 

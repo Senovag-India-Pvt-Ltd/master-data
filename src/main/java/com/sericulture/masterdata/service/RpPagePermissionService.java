@@ -55,7 +55,7 @@ public class RpPagePermissionService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(rpPagePermissionRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(rpPagePermissionRepository.findByActiveOrderByPageNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<RpPagePermission> activeRpPagePermissions) {

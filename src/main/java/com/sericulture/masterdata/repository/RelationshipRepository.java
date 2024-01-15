@@ -17,7 +17,7 @@ public interface RelationshipRepository extends PagingAndSortingRepository<Relat
 
         public Relationship findByRelationshipNameAndActive(String relationshipName,boolean isActive);
 
-        public Page<Relationship> findByActiveOrderByRelationshipIdAsc(boolean isActive, final Pageable pageable);
+        public Page<Relationship> findByActiveOrderByRelationshipNameAsc(boolean isActive, final Pageable pageable);
 
         public Relationship save(Relationship relationship);
 

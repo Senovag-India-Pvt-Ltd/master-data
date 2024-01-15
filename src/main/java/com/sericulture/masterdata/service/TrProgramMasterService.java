@@ -73,7 +73,7 @@ public class TrProgramMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrProgramMasterDetails(final Pageable pageable){
-        return convertToMapResponse(trProgramMasterRepository.findByActiveOrderByTrProgramMasterIdAsc( true, pageable));
+        return convertToMapResponse(trProgramMasterRepository.findByActiveOrderByTrProgramMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

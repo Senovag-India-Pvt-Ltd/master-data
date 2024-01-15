@@ -80,7 +80,7 @@ public class ExternalUnitTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedExternalUnitTypeDetails(final Pageable pageable){
-        return convertToMapResponse(externalUnitTypeRepository.findByActiveOrderByExternalUnitTypeIdAsc( true, pageable));
+        return convertToMapResponse(externalUnitTypeRepository.findByActiveOrderByExternalUnitTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

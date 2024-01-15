@@ -74,7 +74,7 @@ public class PlantationTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedPlantationTypeDetails(final Pageable pageable){
-        return convertToMapResponse(plantationTypeRepository.findByActiveOrderByPlantationTypeIdAsc( true, pageable));
+        return convertToMapResponse(plantationTypeRepository.findByActiveOrderByPlantationTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

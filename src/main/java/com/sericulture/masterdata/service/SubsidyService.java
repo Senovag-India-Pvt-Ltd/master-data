@@ -74,7 +74,7 @@ public class SubsidyService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSubsidyDetails(final Pageable pageable){
-        return convertToMapResponse(subsidyRepository.findByActiveOrderBySubsidyIdAsc( true, pageable));
+        return convertToMapResponse(subsidyRepository.findByActiveOrderBySubsidyNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

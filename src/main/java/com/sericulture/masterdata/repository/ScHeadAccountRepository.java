@@ -17,7 +17,7 @@ public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHe
 
     public ScHeadAccount findByScHeadAccountNameAndActive(String scHeadAccountName,boolean isActive);
 
-    public Page<ScHeadAccount> findByActiveOrderByScHeadAccountIdAsc(boolean isActive, final Pageable pageable);
+    public Page<ScHeadAccount> findByActiveOrderByScHeadAccountNameAsc(boolean isActive, final Pageable pageable);
 
     public ScHeadAccount save(ScHeadAccount scHeadAccount);
 

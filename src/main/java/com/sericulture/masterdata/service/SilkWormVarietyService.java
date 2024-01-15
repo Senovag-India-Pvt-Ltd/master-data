@@ -75,7 +75,7 @@ public class SilkWormVarietyService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSilkWormVarietyDetails(final Pageable pageable){
-        return convertToMapResponse(silkWormVarietyRepository.findByActiveOrderBySilkWormVarietyIdAsc( true, pageable));
+        return convertToMapResponse(silkWormVarietyRepository.findByActiveOrderBySilkWormVarietyNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

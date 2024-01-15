@@ -72,12 +72,12 @@ public class StateService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedStateDetails(final Pageable pageable){
-        return convertToMapResponse(stateRepository.findByActiveOrderByStateIdAsc( true, pageable));
+        return convertToMapResponse(stateRepository.findByActiveOrderByStateNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(stateRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(stateRepository.findByActiveOrderByStateNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<State> activeStates) {

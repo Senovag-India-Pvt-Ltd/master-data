@@ -76,7 +76,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
             "where userMaster.active = :isActive " +
-            "ORDER BY userMaster.userMasterId ASC"
+            "ORDER BY userMaster.username ASC"
     )
     Page<UserMasterDTO> getByActiveOrderByUserMasterIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 

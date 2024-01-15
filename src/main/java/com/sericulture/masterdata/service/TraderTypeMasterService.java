@@ -72,12 +72,12 @@ public class TraderTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTraderTypeMasterDetails(final Pageable pageable){
-        return convertToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterIdAsc( true, pageable));
+        return convertToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(traderTypeMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<TraderTypeMaster> activeTraderTypeMasters) {

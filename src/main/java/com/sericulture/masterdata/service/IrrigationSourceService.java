@@ -74,7 +74,7 @@ public class IrrigationSourceService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedIrrigationSourceDetails(final Pageable pageable){
-        return convertToMapResponse(irrigationSourceRepository.findByActiveOrderByIrrigationSourceIdAsc( true, pageable));
+        return convertToMapResponse(irrigationSourceRepository.findByActiveOrderByIrrigationSourceNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

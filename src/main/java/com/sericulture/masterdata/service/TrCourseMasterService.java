@@ -79,7 +79,7 @@ public class TrCourseMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrCourseMasterDetails(final Pageable pageable){
-        return convertToMapResponse(trCourseMasterRepository.findByActiveOrderByTrCourseMasterIdAsc( true, pageable));
+        return convertToMapResponse(trCourseMasterRepository.findByActiveOrderByTrCourseMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

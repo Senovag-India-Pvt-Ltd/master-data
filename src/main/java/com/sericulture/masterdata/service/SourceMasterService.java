@@ -72,7 +72,7 @@ public class SourceMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSourceMasterDetails(final Pageable pageable){
-        return convertToMapResponse(sourceMasterRepository.findByActiveOrderBySourceMasterIdAsc( true, pageable));
+        return convertToMapResponse(sourceMasterRepository.findByActiveOrderBySourceMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

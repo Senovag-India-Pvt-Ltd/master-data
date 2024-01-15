@@ -16,7 +16,7 @@ public interface SilkWormVarietyRepository extends PagingAndSortingRepository<Si
 
     public SilkWormVariety findBySilkWormVarietyNameAndActive(String silkWormVarietyName,boolean isActive);
 
-    public Page<SilkWormVariety> findByActiveOrderBySilkWormVarietyIdAsc(boolean isActive, final Pageable pageable);
+    public Page<SilkWormVariety> findByActiveOrderBySilkWormVarietyNameAsc(boolean isActive, final Pageable pageable);
 
     public SilkWormVariety save(SilkWormVariety silkWormVariety);
 

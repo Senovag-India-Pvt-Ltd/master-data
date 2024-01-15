@@ -16,7 +16,7 @@ public interface LandOwnershipRepository extends PagingAndSortingRepository<Land
 
     public LandOwnership findByLandOwnershipNameAndActive(String landOwnershipName,boolean isActive);
 
-    public Page<LandOwnership> findByActiveOrderByLandOwnershipIdAsc(boolean isActive, final Pageable pageable);
+    public Page<LandOwnership> findByActiveOrderByLandOwnershipNameAsc(boolean isActive, final Pageable pageable);
 
     public LandOwnership save(LandOwnership landOwnership);
 

@@ -17,7 +17,7 @@ public interface SourceMasterRepository extends PagingAndSortingRepository<Sourc
 
     public SourceMaster findBySourceMasterNameAndActive(String sourceMasterName,boolean isActive);
 
-    public Page<SourceMaster> findByActiveOrderBySourceMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<SourceMaster> findByActiveOrderBySourceMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public SourceMaster save(SourceMaster sourceMaster);
 

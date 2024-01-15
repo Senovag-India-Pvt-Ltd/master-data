@@ -71,7 +71,7 @@ public class EducationService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedEducationDetails(final Pageable pageable) {
-        return convertToMapResponse(educationRepository.findByActiveOrderByIdAsc( true, pageable));
+        return convertToMapResponse(educationRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

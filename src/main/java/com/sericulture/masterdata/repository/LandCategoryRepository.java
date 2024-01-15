@@ -14,7 +14,7 @@ public interface LandCategoryRepository extends PagingAndSortingRepository<LandC
 
     public LandCategory findByLandCategoryNameAndActive(String landCategoryName,boolean isActive);
 
-    public Page<LandCategory> findByActiveOrderByIdAsc(boolean isActive, final Pageable pageable);
+    public Page<LandCategory> findByActiveOrderByLandCategoryNameAsc(boolean isActive, final Pageable pageable);
 
     public LandCategory save(LandCategory landCategory);
 

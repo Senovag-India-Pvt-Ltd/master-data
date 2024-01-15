@@ -85,7 +85,7 @@ public class RaceMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(raceMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(raceMasterRepository.findByActiveOrderByRaceMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<RaceMaster> activeRaces) {

@@ -18,7 +18,7 @@ public interface TraderTypeMasterRepository extends PagingAndSortingRepository<T
 
     public TraderTypeMaster findByTraderTypeMasterNameAndActive(String traderTypeMasterName,boolean isActive);
 
-    public Page<TraderTypeMaster> findByActiveOrderByTraderTypeMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<TraderTypeMaster> findByActiveOrderByTraderTypeMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public TraderTypeMaster save(TraderTypeMaster state);
 
@@ -26,5 +26,5 @@ public interface TraderTypeMasterRepository extends PagingAndSortingRepository<T
 
     public TraderTypeMaster findByTraderTypeMasterIdAndActiveIn(@Param("traderTypeMasterId") long traderTypeMasterId, @Param("active") Set<Boolean> active);
 
-    public List<TraderTypeMaster> findByActive(boolean isActive);
+    public List<TraderTypeMaster> findByActiveOrderByTraderTypeMasterNameAsc(boolean isActive);
 }

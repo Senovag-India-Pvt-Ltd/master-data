@@ -74,7 +74,7 @@ public class SoilTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSoilTypeDetails(final Pageable pageable){
-        return convertToMapResponse(soilTypeRepository.findByActiveOrderBySoilTypeIdAsc( true, pageable));
+        return convertToMapResponse(soilTypeRepository.findByActiveOrderBySoilTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

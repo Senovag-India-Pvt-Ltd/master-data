@@ -75,12 +75,12 @@ public class ReasonLotRejectMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedReasonLotRejectMasterDetails(final Pageable pageable){
-        return convertToMapResponse(reasonLotRejectMasterRepository.findByActiveOrderByReasonLotRejectIdAsc( true, pageable));
+        return convertToMapResponse(reasonLotRejectMasterRepository.findByActiveOrderByReasonLotRejectNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(reasonLotRejectMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(reasonLotRejectMasterRepository.findByActiveOrderByReasonLotRejectNameAsc(isActive));
     }
 
 

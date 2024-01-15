@@ -72,7 +72,7 @@ public class ScProgramService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScProgramDetails(final Pageable pageable){
-        return convertToMapResponse(scProgramRepository.findByActiveOrderByScProgramIdAsc( true, pageable));
+        return convertToMapResponse(scProgramRepository.findByActiveOrderByScProgramNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

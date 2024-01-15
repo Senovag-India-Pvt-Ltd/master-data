@@ -24,5 +24,5 @@ public interface ReasonBidRejectMasterRepository extends PagingAndSortingReposit
 
     public ReasonBidRejectMaster findByReasonBidRejectIdAndActiveIn(@Param("reasonBidRejectId") long reasonLotRejectId, @Param("active") Set<Boolean> active);
 
-    public List<ReasonBidRejectMaster> findByActive(boolean isActive);
+    public List<ReasonBidRejectMaster> findByActiveOrderByReasonBidRejectNameAsc(boolean isActive);
 }

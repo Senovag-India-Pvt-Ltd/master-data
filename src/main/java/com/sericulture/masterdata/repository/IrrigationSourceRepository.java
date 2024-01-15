@@ -17,7 +17,7 @@ public interface IrrigationSourceRepository extends PagingAndSortingRepository<I
 
     public IrrigationSource findByIrrigationSourceNameAndActive(String irrigationSourceName,boolean isActive);
 
-    public Page<IrrigationSource> findByActiveOrderByIrrigationSourceIdAsc(boolean isActive, final Pageable pageable);
+    public Page<IrrigationSource> findByActiveOrderByIrrigationSourceNameAsc(boolean isActive, final Pageable pageable);
 
     public IrrigationSource save(IrrigationSource irrigationSource);
 

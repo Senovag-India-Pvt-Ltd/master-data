@@ -78,7 +78,7 @@ public class VendorMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedVendorMasterDetails(final Pageable pageable){
-        return convertToMapResponse(vendorMasterRepository.findByActiveOrderByVendorMasterIdAsc( true, pageable));
+        return convertToMapResponse(vendorMasterRepository.findByActiveOrderByVendorMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

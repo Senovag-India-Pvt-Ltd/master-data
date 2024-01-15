@@ -18,7 +18,7 @@ public interface TrProgramMasterRespository extends PagingAndSortingRepository<T
 
     public TrProgramMaster findByTrProgramMasterNameAndActive(String trProgramMasterName,boolean isActive);
 
-    public Page<TrProgramMaster> findByActiveOrderByTrProgramMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<TrProgramMaster> findByActiveOrderByTrProgramMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public TrProgramMaster save(TrProgramMaster trProgramMaster);
 

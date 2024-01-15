@@ -86,7 +86,7 @@ public class MarketMasterService {
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(marketMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(marketMasterRepository.findByActiveOrderByMarketMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<MarketMaster> activeMarketMasters) {

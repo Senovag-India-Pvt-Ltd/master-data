@@ -44,7 +44,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             "left join Hobli hobli\n" +
             "on village.hobliId = hobli.hobliId " +
             "where village.active = :isActive " +
-            "ORDER BY village.villageId ASC"
+            "ORDER BY village.villageName ASC"
     )
     Page<VillageDTO> getByActiveOrderByVillageIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 

@@ -18,7 +18,7 @@ public interface ExternalUnitTypeRepository extends PagingAndSortingRepository<E
 
     public ExternalUnitType findByExternalUnitTypeNameAndActive(String externalUnitTypeName,boolean isActive);
 
-    public Page<ExternalUnitType> findByActiveOrderByExternalUnitTypeIdAsc(boolean isActive, final Pageable pageable);
+    public Page<ExternalUnitType> findByActiveOrderByExternalUnitTypeNameAsc(boolean isActive, final Pageable pageable);
 
     public ExternalUnitType save(ExternalUnitType externalUnitType);
 

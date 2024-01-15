@@ -75,12 +75,12 @@ public class MachineTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMachineTypeMasterDetails(final Pageable pageable){
-        return convertToMapResponse(machineTypeMasterRepository.findByActiveOrderByMachineTypeIdAsc( true, pageable));
+        return convertToMapResponse(machineTypeMasterRepository.findByActiveOrderByMachineTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(machineTypeMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(machineTypeMasterRepository.findByActiveOrderByMachineTypeNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<MachineTypeMaster> activeMachineTypeMasters) {

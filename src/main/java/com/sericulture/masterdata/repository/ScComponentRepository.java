@@ -16,7 +16,7 @@ public interface ScComponentRepository extends PagingAndSortingRepository<ScComp
 
     public ScComponent findByScComponentNameAndActive(String scComponentName,boolean isActive);
 
-    public Page<ScComponent> findByActiveOrderByScComponentIdAsc(boolean isActive, final Pageable pageable);
+    public Page<ScComponent> findByActiveOrderByScComponentNameAsc(boolean isActive, final Pageable pageable);
 
     public ScComponent save(ScComponent scComponent);
 

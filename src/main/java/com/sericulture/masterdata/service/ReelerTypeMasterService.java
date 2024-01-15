@@ -68,7 +68,7 @@ public class ReelerTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedReelerTypeMasterDetails(final Pageable pageable){
-        return convertToMapResponse(reelerTypeMasterRepository.findByActiveOrderByReelerTypeMasterIdAsc(true, pageable));
+        return convertToMapResponse(reelerTypeMasterRepository.findByActiveOrderByReelerTypeMasterNameAsc(true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

@@ -16,7 +16,7 @@ public interface MulberrySourceRepository extends PagingAndSortingRepository<Mul
 
     public MulberrySource findByMulberrySourceNameAndActive(String mulberrySourceName,boolean isActive);
 
-    public Page<MulberrySource> findByActiveOrderByMulberrySourceIdAsc(boolean isActive, final Pageable pageable);
+    public Page<MulberrySource> findByActiveOrderByMulberrySourceNameAsc(boolean isActive, final Pageable pageable);
 
     public MulberrySource save(MulberrySource mulberrySource);
 

@@ -16,7 +16,7 @@ public interface MulberryVarietyRepository extends PagingAndSortingRepository<Mu
 
     public MulberryVariety findByMulberryVarietyNameAndActive(String mulberryVarietyName,boolean isActive);
 
-    public Page<MulberryVariety> findByActiveOrderByMulberryVarietyIdAsc(boolean isActive, final Pageable pageable);
+    public Page<MulberryVariety> findByActiveOrderByMulberryVarietyNameAsc(boolean isActive, final Pageable pageable);
 
     public MulberryVariety save(MulberryVariety mulberryVariety);
 
