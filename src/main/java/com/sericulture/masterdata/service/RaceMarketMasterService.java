@@ -6,10 +6,12 @@ import com.sericulture.masterdata.model.api.crateMaster.EditCrateMasterRequest;
 import com.sericulture.masterdata.model.api.raceMarketMaster.EditRaceMarketMasterRequest;
 import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterRequest;
 import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterResponse;
+import com.sericulture.masterdata.model.api.raceMaster.RaceMasterResponse;
 import com.sericulture.masterdata.model.dto.CrateMasterDTO;
 import com.sericulture.masterdata.model.dto.RaceMarketMasterDTO;
 import com.sericulture.masterdata.model.entity.CrateMaster;
 import com.sericulture.masterdata.model.entity.RaceMarketMaster;
+import com.sericulture.masterdata.model.entity.RaceMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.CrateMasterRepository;
 import com.sericulture.masterdata.repository.RaceMarketMasterRepository;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -42,14 +45,20 @@ public class RaceMarketMasterService {
         RaceMarketMasterResponse raceMarketMasterResponse = new RaceMarketMasterResponse();
         RaceMarketMaster raceMarketMaster = mapper.raceMarketMasterObjectToEntity(raceMarketMasterRequest, RaceMarketMaster.class);
         validator.validate(raceMarketMaster);
-//        List<RpPagePermission> rpPagePermissionList = rpPagePermissionRepository.findByRpPagePermissionName(rpPagePermissionRequest.getRpPagePermissionName());
-//        if(!rpPagePermissionList.isEmpty() && rpPagePermissionList.stream().filter(RpPagePermission::getActive).findAny().isPresent()){
-//            throw new ValidationException("RpPagePermission name already exist");
-//        }
-//        if(!rpPagePermissionList.isEmpty() && rpPagePermissionList.stream().filter(Predicate.not(RpPagePermission::getActive)).findAny().isPresent()){
-//            throw new ValidationException("RpPagePermission name already exist with inactive state");
-//        }
-        return mapper.raceMarketMasterEntityToObject(raceMarketMasterRepository.save(raceMarketMaster), RaceMarketMasterResponse.class);
+        List<RaceMarketMaster> raceMarketMasterList = raceMarketMasterRepository.findByMarketMasterIdAndRaceMasterId(raceMarketMasterRequest.getMarketMasterId(),raceMarketMasterRequest.getRaceMasterId());
+        if(!raceMarketMasterList.isEmpty() && raceMarketMasterList.stream().filter(RaceMarketMaster::getActive).findAny().isPresent()){
+            raceMarketMasterResponse.setError(true);
+            raceMarketMasterResponse.setError_description("Race name already exist");
+        }
+        else if(!raceMarketMasterList.isEmpty() && raceMarketMasterList.stream().filter(Predicate.not(RaceMarketMaster::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            raceMarketMasterResponse.setError(true);
+            raceMarketMasterResponse.setError_description("Race name already exist with inactive state");
+        }else {
+            raceMarketMasterResponse = mapper.raceMarketMasterEntityToObject(raceMarketMasterRepository.save(raceMarketMaster), RaceMarketMasterResponse.class);
+            raceMarketMasterResponse.setError(false);
+        }
+        return raceMarketMasterResponse;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -153,25 +162,28 @@ public class RaceMarketMasterService {
     @Transactional
     public RaceMarketMasterResponse updateRaceMarketMasterDetails(EditRaceMarketMasterRequest raceMarketMasterRequest) {
         RaceMarketMasterResponse raceMarketMasterResponse = new RaceMarketMasterResponse();
-//        List<RpPagePermission> rpPagePermissionList = rpPagePermissionRepository.findByRpPagePermissionName(rpPagePermissionRequest.getRpPagePermissionName());
-//        if(rpPagePermissionList.size()>0){
-//            throw new ValidationException("RpPagePermission already exists with this name, duplicates are not allowed.");
-//        }
-
-        RaceMarketMaster raceMarketMaster  = raceMarketMasterRepository.findByRaceMarketMasterIdAndActiveIn(raceMarketMasterRequest.getRaceMarketMasterId(), Set.of(true, false));
-        if (Objects.nonNull(raceMarketMaster)) {
-            raceMarketMaster.setMarketMasterId(raceMarketMasterRequest.getMarketMasterId());
-            raceMarketMaster.setRaceMasterId(raceMarketMasterRequest.getRaceMasterId());
-            raceMarketMaster.setActive(true);
-            RaceMarketMaster raceMarketMaster1 = raceMarketMasterRepository.save(raceMarketMaster);
-            raceMarketMasterResponse = mapper.raceMarketMasterEntityToObject(raceMarketMaster1, RaceMarketMasterResponse.class);
-            raceMarketMasterResponse.setError(false);
-        } else {
+        List<RaceMarketMaster> raceMarketMasterList = raceMarketMasterRepository.findByMarketMasterIdAndRaceMasterId(raceMarketMasterRequest.getMarketMasterId(), raceMarketMasterRequest.getRaceMasterId());
+        if (raceMarketMasterList.size() > 0) {
             raceMarketMasterResponse.setError(true);
-            raceMarketMasterResponse.setError_description("Error occurred while fetching Crate");
-            // throw new ValidationException("Error occurred while fetching village");
-        }
+            raceMarketMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        } else {
 
+            RaceMarketMaster raceMarketMaster = raceMarketMasterRepository.findByRaceMarketMasterIdAndActiveIn(raceMarketMasterRequest.getRaceMarketMasterId(), Set.of(true, false));
+            if (Objects.nonNull(raceMarketMaster)) {
+                raceMarketMaster.setMarketMasterId(raceMarketMasterRequest.getMarketMasterId());
+                raceMarketMaster.setRaceMasterId(raceMarketMasterRequest.getRaceMasterId());
+                raceMarketMaster.setActive(true);
+                RaceMarketMaster raceMarketMaster1 = raceMarketMasterRepository.save(raceMarketMaster);
+                raceMarketMasterResponse = mapper.raceMarketMasterEntityToObject(raceMarketMaster1, RaceMarketMasterResponse.class);
+                raceMarketMasterResponse.setError(false);
+            } else {
+                raceMarketMasterResponse.setError(true);
+                raceMarketMasterResponse.setError_description("Error occurred while fetching Crate");
+                // throw new ValidationException("Error occurred while fetching village");
+            }
+
+        }
         return raceMarketMasterResponse;
     }
 }
