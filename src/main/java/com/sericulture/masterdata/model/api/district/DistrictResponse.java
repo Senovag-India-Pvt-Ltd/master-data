@@ -24,6 +24,9 @@ public class DistrictResponse {
     @Schema(name = "stateName", example = "Karnataka")
     String stateName;
 
+    @Schema(name = "districtNameInKannada",  example = "ಭಾಷೆ")
+    String districtNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

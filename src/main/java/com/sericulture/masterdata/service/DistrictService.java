@@ -232,14 +232,15 @@ public class DistrictService {
         } else {
 
             District district = districtRepository.findByDistrictIdAndActiveIn(districtRequest.getDistrictId(), Set.of(true, false));
-            State state = stateRepository.findByStateIdAndActive(districtRequest.getStateId(), true);
-            if (state == null) {
-                districtResponse.setError(true);
-                districtResponse.setError_description("State does not exist.");
-            } else {
+//            State state = stateRepository.findByStateIdAndActive(districtRequest.getStateId(), true);
+//            if (state == null) {
+//                districtResponse.setError(true);
+//                districtResponse.setError_description("State does not exist.");
+//            } else {
                 if (Objects.nonNull(district)) {
                     district.setStateId(districtRequest.getStateId());
                     district.setDistrictName(districtRequest.getDistrictName());
+                    district.setDistrictNameInKannada(districtRequest.getDistrictNameInKannada());
                     district.setActive(true);
                     District district1 = districtRepository.save(district);
                     districtResponse = mapper.districtEntityToObject(district1, DistrictResponse.class);
@@ -251,7 +252,6 @@ public class DistrictService {
                 }
             }
 
-        }
         return districtResponse;
     }
 

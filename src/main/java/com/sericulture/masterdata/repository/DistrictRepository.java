@@ -26,6 +26,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
    @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
            " district.districtId," +
            " district.districtName," +
+           " district.districtNameInKannada," +
            " district.stateId," +
            " state.stateName" +
            ") \n" +
@@ -44,6 +45,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
@@ -63,6 +65,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
@@ -76,6 +79,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
