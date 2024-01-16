@@ -146,6 +146,7 @@ public class TraderTypeMasterService {
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActiveIn(traderTypeMasterRequest.getTraderTypeMasterId(), Set.of(true,false));
         if(Objects.nonNull(traderTypeMaster)){
             traderTypeMaster.setTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
+            traderTypeMaster.setTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeNameInKannada());
             traderTypeMaster.setActive(true);
             TraderTypeMaster traderTypeMaster1 = traderTypeMasterRepository.save(traderTypeMaster);
             traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMaster1, TraderTypeMasterResponse.class);

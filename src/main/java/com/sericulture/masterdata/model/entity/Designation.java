@@ -26,4 +26,7 @@ public class Designation extends BaseEntity implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "designation_name_in_kannada")
+    private String designationNameInKannada;
+
 }

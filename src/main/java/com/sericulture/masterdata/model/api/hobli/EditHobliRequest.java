@@ -24,4 +24,7 @@ public class EditHobliRequest extends RequestBody {
 
     @Schema(name = "hobliName", example = "Kasaba", required = true)
     String hobliName;
+
+    @Schema(name = "hobliNameInKannada",  example = "ಭಾಷೆ")
+    String hobliNameInKannada;
 }

@@ -25,6 +25,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
             " village.villageId," +
             " village.villageName," +
+            " village.villageNameInKannada," +
             " village.stateId," +
             " village.districtId," +
             " village.talukId," +
@@ -51,6 +52,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
             " village.villageId," +
             " village.villageName," +
+            " village.villageNameInKannada," +
             " village.stateId," +
             " village.districtId," +
             " village.talukId," +
@@ -89,6 +91,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
             " village.villageId," +
             " village.villageName," +
+            " village.villageNameInKannada," +
             " village.stateId," +
             " village.districtId," +
             " village.talukId," +

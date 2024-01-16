@@ -30,6 +30,9 @@ public class TalukResponse {
     @Schema(name = "talukName", example = "Thirthahalli")
     String talukName;
 
+    @Schema(name = "talukNameInKannada",  example = "ಭಾಷೆ")
+    String talukNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

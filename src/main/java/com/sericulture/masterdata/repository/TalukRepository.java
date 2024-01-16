@@ -23,6 +23,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
             " taluk.talukId," +
             " taluk.talukName," +
+            " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
             " state.stateName," +
@@ -41,6 +42,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
             " taluk.talukId," +
             " taluk.talukName," +
+            " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
             " state.stateName," +
@@ -76,6 +78,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
             " taluk.talukId," +
             " taluk.talukName," +
+            " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
             " state.stateName," +

@@ -6,6 +6,7 @@ import lombok.Data;
 public class VillageDTO {
     private Long villageId;
     private String villageName;
+    private String villageNameInKannada;
     private Long stateId;
     private Long districtId;
     private Long talukId;

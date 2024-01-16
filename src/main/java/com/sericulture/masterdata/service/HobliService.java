@@ -206,6 +206,7 @@ public class HobliService {
             if (Objects.nonNull(hobli)) {
                 hobli.setStateId(hobliRequest.getStateId());
                 hobli.setHobliName(hobliRequest.getHobliName());
+                hobli.setHobliNameInKannada(hobliRequest.getHobliNameInKannada());
                 hobli.setActive(true);
                 Hobli hobli1 = hobliRepository.save(hobli);
                 hobliResponse = mapper.hobliEntityToObject(hobli1, HobliResponse.class);

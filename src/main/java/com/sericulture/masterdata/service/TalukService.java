@@ -232,6 +232,7 @@ public class TalukService {
                 taluk.setDistrictId(talukRequest.getDistrictId());
                 taluk.setTalukId(talukRequest.getTalukId());
                 taluk.setTalukName(talukRequest.getTalukName());
+                taluk.setTalukNameInKannada(talukRequest.getTalukNameInKannada());
                 Taluk updatedTaluk = talukRepository.save(taluk);
                 talukResponse = mapper.talukEntityToObject(updatedTaluk, TalukResponse.class);
                 talukResponse.setError(false);

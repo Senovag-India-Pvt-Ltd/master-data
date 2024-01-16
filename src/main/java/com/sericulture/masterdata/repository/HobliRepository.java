@@ -30,6 +30,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
+            " hobli.hobliNameInKannada," +
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
@@ -52,6 +53,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
+            " hobli.hobliNameInKannada," +
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
@@ -80,6 +82,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
+            " hobli.hobliNameInKannada," +
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +

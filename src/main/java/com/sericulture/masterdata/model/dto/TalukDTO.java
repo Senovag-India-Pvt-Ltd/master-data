@@ -7,6 +7,7 @@ import lombok.Data;
 public class TalukDTO {
     private Long talukId;
     private String talukName;
+    private String talukNameInKannada;
     private Long stateId;
     private Long districtId;
     private String stateName;
@@ -15,9 +16,10 @@ public class TalukDTO {
     public TalukDTO(){
 
     }
-    public TalukDTO(Long talukId,String talukName,Long stateId,Long districtId,String stateName,String districtName) {
+    public TalukDTO(Long talukId,String talukName,String talukNameInKannada,Long stateId,Long districtId,String stateName,String districtName) {
         this.talukId = talukId;
         this.talukName = talukName;
+        this.talukNameInKannada = talukNameInKannada;
         this.stateId = stateId;
         this.districtId = districtId;
         this.stateName = stateName;

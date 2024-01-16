@@ -146,6 +146,7 @@ public class WorkingInstitutionService {
             WorkingInstitution workingInstitution = workingInstitutionRepository.findByWorkingInstitutionIdAndActiveIn(workingInstitutionRequest.getWorkingInstitutionId(), Set.of(true,false));
             if(Objects.nonNull(workingInstitution)){
                 workingInstitution.setWorkingInstitutionName(workingInstitutionRequest.getWorkingInstitutionName());
+                workingInstitution.setWorkingInstitutionNameInKannada(workingInstitutionRequest.getWorkingInstitutionNameInKannada());
                 workingInstitution.setActive(true);
                 WorkingInstitution workingInstitution1 = workingInstitutionRepository.save(workingInstitution);
                 workingInstitutionResponse = mapper.workingInstitutionEntityToObject(workingInstitution1, WorkingInstitutionResponse.class);

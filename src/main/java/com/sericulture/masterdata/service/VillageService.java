@@ -221,6 +221,7 @@ public class VillageService {
                 village.setTalukId(villageRequest.getTalukId());
                 village.setHobliId(villageRequest.getHobliId());
                 village.setVillageName(villageRequest.getVillageName());
+                village.setVillageNameInKannada(villageRequest.getVillageNameInKannada());
                 village.setActive(true);
                 Village village1 = villageRepository.save(village);
                 villageResponse = mapper.villageEntityToObject(village1, VillageResponse.class);
