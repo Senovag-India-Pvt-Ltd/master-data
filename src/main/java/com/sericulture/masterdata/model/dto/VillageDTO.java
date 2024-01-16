@@ -20,9 +20,10 @@ public class VillageDTO {
 
     }
 
-    public VillageDTO(Long villageId,String villageName, Long stateId, Long districtId, Long talukId,Long hobliId, String stateName, String districtName, String talukName, String hobliName) {
+    public VillageDTO(Long villageId,String villageName,String villageNameInKannada, Long stateId, Long districtId, Long talukId,Long hobliId, String stateName, String districtName, String talukName, String hobliName) {
         this.villageId = villageId;
         this.villageName = villageName;
+        this.villageNameInKannada = villageNameInKannada;
         this.stateId = stateId;
         this.districtId = districtId;
         this.talukId = talukId;
