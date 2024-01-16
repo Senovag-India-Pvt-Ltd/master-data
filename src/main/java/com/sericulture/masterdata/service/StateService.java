@@ -149,6 +149,7 @@ public class StateService {
             State state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
         if(Objects.nonNull(state)){
             state.setStateName(stateRequest.getStateName());
+            state.setStateNameInKannada(stateRequest.getStateNameInKannada());
             state.setActive(true);
             State state1 = stateRepository.save(state);
             stateResponse = mapper.stateEntityToObject(state1, StateResponse.class);

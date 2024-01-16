@@ -18,6 +18,9 @@ public class StateResponse {
     @Schema(name = "stateName", example = "Karnataka")
     String stateName;
 
+    @Schema(name = "stateNameInKannada",  example = "ಭಾಷೆ")
+    String stateNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
