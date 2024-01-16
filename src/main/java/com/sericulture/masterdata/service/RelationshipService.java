@@ -153,6 +153,7 @@ public class RelationshipService {
             Relationship relationship = relationshipRepository.findByRelationshipIdAndActiveIn(relationshipRequest.getRelationshipId(), Set.of(true, false));
             if (Objects.nonNull(relationship)) {
                 relationship.setRelationshipName(relationshipRequest.getRelationshipName());
+                relationship.setRelationshipNameInKannada(relationshipRequest.getRelationshipNameInKannada());
                 relationship.setActive(true);
                 Relationship relationship1 = relationshipRepository.save(relationship);
                 relationshipResponse = mapper.relationshipEntityToObject(relationship1, RelationshipResponse.class);

@@ -15,4 +15,7 @@ public class EditRelationshipRequest extends RequestBody {
 
     @Schema(name = "relationshipName", example = "Father", required = true)
     String relationshipName;
+
+    @Schema(name = "relationshipNameInKannada", example = "ಭಾಷೆ")
+    String relationshipNameInKannada;
 }
