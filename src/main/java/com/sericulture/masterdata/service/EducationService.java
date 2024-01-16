@@ -148,6 +148,7 @@ public class EducationService {
         Education education = educationRepository.findByIdAndActiveIn(educationRequest.getId(), Set.of(true,false));
         if (Objects.nonNull(education)) {
             education.setName(educationRequest.getName());
+            education.setEducationNameInKannada(educationRequest.getEducationNameInKannada());
             education.setActive(true);
             Education education1 = educationRepository.save(education);
             educationResponse = mapper.educationEntityToObject(education1, EducationResponse.class);
