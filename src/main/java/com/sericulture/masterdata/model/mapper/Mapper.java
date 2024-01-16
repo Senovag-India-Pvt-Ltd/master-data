@@ -21,6 +21,7 @@ import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterReq
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
+import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterRequest;
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
@@ -1144,5 +1145,38 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, reelerTypeMasterRequest);
         return (T) mapper.map(reelerTypeMasterRequest, claaz);
     }
+
+    /**
+     * Maps raceMarketMaster Entity to raceMarketMaster Response Object
+     * @param raceMarketMasterEntity
+     * @param <T>
+     */
+    public <T> T raceMarketMasterEntityToObject(RaceMarketMaster raceMarketMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,raceMarketMasterEntity);
+        return (T) mapper.map(raceMarketMasterEntity, claaz);
+    }
+
+    /**
+     * Maps raceMarketMasterDTO to raceMarketMaster Response Object
+     * @param raceMarketMasterDTO
+     * @param <T>
+     */
+    public <T> T raceMarketMasterDTOToObject(RaceMarketMasterDTO raceMarketMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, raceMarketMasterDTO);
+        return (T) mapper.map(raceMarketMasterDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps raceMarketMaster Object to raceMarketMaster  Response Object
+     * @param raceMarketMasterRequest
+     * @param <T>
+     */
+    public <T> T raceMarketMasterObjectToEntity(RaceMarketMasterRequest raceMarketMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, raceMarketMasterRequest);
+        return (T) mapper.map(raceMarketMasterRequest, claaz);
+    }
+
 
 }

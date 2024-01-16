@@ -196,7 +196,7 @@ public class RaceMasterService {
     @Transactional
     public RaceMasterResponse updateRaceMasterDetails(EditRaceMasterRequest raceMasterRequest) {
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
-        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterName(raceMasterRequest.getRaceMasterName());
+        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterNameAndMarketMasterId(raceMasterRequest.getRaceMasterName(),raceMasterRequest.getMarketMasterId());
         if (raceMasterList.size() > 0) {
             raceMasterResponse.setError(true);
             raceMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
