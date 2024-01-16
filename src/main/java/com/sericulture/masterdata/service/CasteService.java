@@ -167,6 +167,7 @@ public class CasteService {
             if(Objects.nonNull(caste)){
                 caste.setCode(casteRequest.getCode());
                 caste.setTitle(casteRequest.getTitle());
+                caste.setNameInKannada(casteRequest.getNameInKannada());
                 caste.setActive(true);
                 Caste caste1 = casteRepository.save(caste);
                 casteResponse = mapper.casteEntityToObject(caste1, CasteResponse.class);

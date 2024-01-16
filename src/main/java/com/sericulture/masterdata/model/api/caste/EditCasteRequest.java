@@ -19,4 +19,7 @@ public class EditCasteRequest extends RequestBody {
     
     @Schema(name = "code", example = "123", required = true)
     String code;
+
+    @Schema(name = "nameInKannada", example = "ಭಾಷೆ")
+    String nameInKannada;
 }
