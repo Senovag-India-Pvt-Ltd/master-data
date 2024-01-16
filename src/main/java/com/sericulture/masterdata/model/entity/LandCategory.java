@@ -25,4 +25,7 @@ public class LandCategory extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Land Category name should be more than 1 characters.")
     @Column(name = "land_category_name", unique = true)
     private String landCategoryName;
+
+    @Column(name = "land_category_name_in_kannada")
+    private String landCategoryNameInKannada;
 }

@@ -141,6 +141,7 @@ public class IrrigationTypeService {
             IrrigationType irrigationType = irrigationTypeRepository.findByIrrigationTypeIdAndActiveIn(irrigationTypeRequest.getIrrigationTypeId(), Set.of(true, false));
             if (Objects.nonNull(irrigationType)) {
                 irrigationType.setIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
+                irrigationType.setIrrigationTypeNameInKannada(irrigationTypeRequest.getIrrigationTypeNameInKannada());
                 irrigationType.setActive(true);
                 IrrigationType irrigationType1 = irrigationTypeRepository.save(irrigationType);
                 irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationType1, IrrigationTypeResponse.class);

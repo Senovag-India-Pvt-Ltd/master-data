@@ -13,4 +13,7 @@ public class IrrigationTypeRequest extends RequestBody {
 
     @Schema(name = "irrigationTypeName", example = "Flood", required = true)
     String irrigationTypeName;
+
+    @Schema(name = "irrigationTypeNameInKannada",  example = "ಭಾಷೆ")
+    String irrigationTypeNameInKannada;
 }

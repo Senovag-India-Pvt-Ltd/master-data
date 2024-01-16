@@ -150,6 +150,7 @@ public class MulberryVarietyService {
             MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActiveIn(mulberryVarietyRequest.getMulberryVarietyId(), Set.of(true,false));
             if(Objects.nonNull(mulberryVariety)){
                 mulberryVariety.setMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
+                mulberryVariety.setMulberryVarietyNameInKannada(mulberryVarietyRequest.getMulberryVarietyNameInKannada());
                 mulberryVariety.setActive(true);
                 MulberryVariety mulberryVariety1 = mulberryVarietyRepository.save(mulberryVariety);
                 mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVariety1, MulberryVarietyResponse.class);

@@ -148,6 +148,7 @@ public class RoofTypeService {
             RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActiveIn(roofTypeRequest.getRoofTypeId(), Set.of(true, false));
             if (Objects.nonNull(roofType)) {
                 roofType.setRoofTypeName(roofTypeRequest.getRoofTypeName());
+                roofType.setRoofTypeNameInKannada(roofTypeRequest.getRoofTypeNameInKannada());
                 roofType.setActive(true);
                 RoofType roofType1 = roofTypeRepository.save(roofType);
                 roofTypeResponse = mapper.roofTypeEntityToObject(roofType1, RoofTypeResponse.class);

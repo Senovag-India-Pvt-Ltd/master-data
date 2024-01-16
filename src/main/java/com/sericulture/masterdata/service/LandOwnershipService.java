@@ -148,6 +148,7 @@ public class LandOwnershipService {
             LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipIdAndActiveIn(landOwnershipRequest.getLandOwnershipId(), Set.of(true, false));
             if (Objects.nonNull(landOwnership)) {
                 landOwnership.setLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
+                landOwnership.setLandOwnershipNameInKannada(landOwnershipRequest.getLandOwnershipNameInKannada());
                 landOwnership.setActive(true);
                 LandOwnership landOwnership1 = landOwnershipRepository.save(landOwnership);
                 landOwnershipResponse = mapper.landOwnershipEntityToObject(landOwnership1, LandOwnershipResponse.class);

@@ -149,6 +149,7 @@ public class SubsidyService {
             Subsidy subsidy = subsidyRepository.findBySubsidyIdAndActiveIn(subsidyRequest.getSubsidyId(), Set.of(true, false));
             if (Objects.nonNull(subsidy)) {
                 subsidy.setSubsidyName(subsidyRequest.getSubsidyName());
+                subsidy.setSubsidyNameInKannada(subsidyRequest.getSubsidyNameInKannada());
                 subsidy.setActive(true);
                 Subsidy subsidy1 = subsidyRepository.save(subsidy);
                 subsidyResponse = mapper.subsidyEntityToObject(subsidy1, SubsidyResponse.class);

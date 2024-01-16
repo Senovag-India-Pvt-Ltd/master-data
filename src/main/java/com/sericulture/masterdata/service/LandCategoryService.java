@@ -149,6 +149,7 @@ public class LandCategoryService {
             LandCategory landCategory = landCategoryRepository.findByIdAndActiveIn(landCategoryRequest.getId(), Set.of(true, false));
             if (Objects.nonNull(landCategory)) {
                 landCategory.setLandCategoryName(landCategoryRequest.getLandCategoryName());
+                landCategory.setLandCategoryNameInKannada(landCategoryRequest.getLandCategoryNameInKannada());
                 landCategory.setActive(true);
                 LandCategory landCategory1 = landCategoryRepository.save(landCategory);
                 landCategoryResponse = mapper.landCategoryEntityToObject(landCategory1, LandCategoryResponse.class);

@@ -164,6 +164,7 @@ public class MarketTypeMasterService {
             MarketTypeMaster marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterIdAndActiveIn(marketTypeMasterRequest.getMarketTypeMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketTypeMaster)) {
                 marketTypeMaster.setMarketTypeMasterName(marketTypeMasterRequest.getMarketTypeMasterName());
+                marketTypeMaster.setMarketTypeNameInKannada(marketTypeMasterRequest.getMarketTypeNameInKannada());
                 marketTypeMaster.setReelerFee(marketTypeMasterRequest.getReelerFee());
                 marketTypeMaster.setFarmerFee(marketTypeMasterRequest.getFarmerFee());
                 marketTypeMaster.setTraderFee(marketTypeMasterRequest.getTraderFee());

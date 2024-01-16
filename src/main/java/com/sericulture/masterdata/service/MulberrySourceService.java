@@ -149,6 +149,7 @@ public class MulberrySourceService {
             MulberrySource mulberrySource = mulberrySourceRepository.findByMulberrySourceIdAndActiveIn(mulberrySourceRequest.getMulberrySourceId(), Set.of(true, false));
             if (Objects.nonNull(mulberrySource)) {
                 mulberrySource.setMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
+                mulberrySource.setMulberrySourceNameInKannada(mulberrySourceRequest.getMulberrySourceNameInKannada());
                 mulberrySource.setActive(true);
                 MulberrySource mulberrySource1 = mulberrySourceRepository.save(mulberrySource);
                 mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySource1, MulberrySourceResponse.class);

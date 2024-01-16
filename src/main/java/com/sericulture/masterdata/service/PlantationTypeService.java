@@ -148,6 +148,7 @@ public class PlantationTypeService {
             PlantationType plantationType = plantationTypeRepository.findByPlantationTypeIdAndActiveIn(plantationTypeRequest.getPlantationTypeId(), Set.of(true, false));
             if (Objects.nonNull(plantationType)) {
                 plantationType.setPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
+                plantationType.setPlantationTypeNameInKannada(plantationTypeRequest.getPlantationTypeNameInKannada());
                 plantationType.setActive(true);
                 PlantationType plantationType1 = plantationTypeRepository.save(plantationType);
                 plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationType1, PlantationTypeResponse.class);

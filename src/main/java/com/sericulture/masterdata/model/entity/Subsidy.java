@@ -25,4 +25,7 @@ public class Subsidy extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Subsidy name should be more than 1 characters.")
     @Column(name = " subsidy_name", unique = true)
     private String subsidyName;
+
+    @Column(name = "subsidy_name_in_kannada")
+    private String subsidyNameInKannada;
 }

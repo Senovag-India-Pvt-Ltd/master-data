@@ -25,4 +25,7 @@ public class PlantationType extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Plantation Type variety name should be more than 1 characters.")
     @Column(name = " plantation_type_name", unique = true)
     private String plantationTypeName;
+
+    @Column(name = "plantation_type_name_in_kannada")
+    private String plantationTypeNameInKannada;
 }

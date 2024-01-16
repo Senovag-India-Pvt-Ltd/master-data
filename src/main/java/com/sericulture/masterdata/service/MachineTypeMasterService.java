@@ -149,6 +149,7 @@ public class MachineTypeMasterService {
             MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeIdAndActiveIn(machineTypeMasterRequest.getMachineTypeId(), Set.of(true, false));
             if (Objects.nonNull(machineTypeMaster)) {
                 machineTypeMaster.setMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
+                machineTypeMaster.setMachineTypeNameInKannada(machineTypeMasterRequest.getMachineTypeNameInKannada());
                 machineTypeMaster.setActive(true);
                 MachineTypeMaster machineTypeMaster1 = machineTypeMasterRepository.save(machineTypeMaster);
                 machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMaster, MachineTypeMasterResponse.class);

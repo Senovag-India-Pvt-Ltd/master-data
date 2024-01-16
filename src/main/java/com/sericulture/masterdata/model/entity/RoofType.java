@@ -24,4 +24,7 @@ public class RoofType extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Roof Type name should be more than 1 characters.")
     @Column(name = " roof_type_name", unique = true)
     private String roofTypeName;
+
+    @Column(name = "roof_type_name_in_kannada")
+    private String roofTypeNameInKannada;
 }

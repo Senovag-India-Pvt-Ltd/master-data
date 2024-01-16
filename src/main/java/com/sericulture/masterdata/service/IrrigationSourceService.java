@@ -148,6 +148,7 @@ public class IrrigationSourceService {
             IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActiveIn(irrigationSourceRequest.getIrrigationSourceId(), Set.of(true, false));
             if (Objects.nonNull(irrigationSource)) {
                 irrigationSource.setIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
+                irrigationSource.setIrrigationSourceNameInKannada(irrigationSourceRequest.getIrrigationSourceNameInKannada());
                 irrigationSource.setActive(true);
                 IrrigationSource irrigationSource1 = irrigationSourceRepository.save(irrigationSource);
                 irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSource1, IrrigationSourceResponse.class);

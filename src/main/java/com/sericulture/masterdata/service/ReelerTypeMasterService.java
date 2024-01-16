@@ -145,6 +145,7 @@ public class ReelerTypeMasterService {
             ReelerTypeMaster reelerTypeMaster = reelerTypeMasterRepository.findByReelerTypeMasterIdAndActiveIn(reelerTypeMasterRequest.getReelerTypeMasterId(), Set.of(true,false));
             if(Objects.nonNull(reelerTypeMaster)){
                 reelerTypeMaster.setReelerTypeMasterName(reelerTypeMasterRequest.getReelerTypeMasterName());
+                reelerTypeMaster.setReelerTypeNameInKannada(reelerTypeMasterRequest.getReelerTypeNameInKannada());
                 reelerTypeMaster.setNoOfDeviceAllowed(reelerTypeMasterRequest.getNoOfDeviceAllowed());
                 reelerTypeMaster.setActive(true);
                 ReelerTypeMaster releerTypeMaster1= reelerTypeMasterRepository.save(reelerTypeMaster);

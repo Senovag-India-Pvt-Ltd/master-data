@@ -148,6 +148,7 @@ public class SoilTypeService {
             SoilType soilType = soilTypeRepository.findBySoilTypeIdAndActiveIn(soilTypeRequest.getSoilTypeId(), Set.of(true, false));
             if (Objects.nonNull(soilType)) {
                 soilType.setSoilTypeName(soilTypeRequest.getSoilTypeName());
+                soilType.setSoilTypeNameInKannada(soilTypeRequest.getSoilTypeNameInKannada());
                 soilType.setActive(true);
                 SoilType soilType1 = soilTypeRepository.save(soilType);
                 soilTypeResponse = mapper.soilTypeEntityToObject(soilType1, SoilTypeResponse.class);

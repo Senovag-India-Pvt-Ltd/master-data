@@ -15,6 +15,9 @@ public class IrrigationSourceResponse {
     @Schema(name = "irrigationSourceName", example = "Rainfall")
     String irrigationSourceName;
 
+    @Schema(name = "irrigationSourceNameInKannada",  example = "ಭಾಷೆ")
+    String irrigationSourceNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

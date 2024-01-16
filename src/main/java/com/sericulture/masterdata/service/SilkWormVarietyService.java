@@ -149,6 +149,7 @@ public class SilkWormVarietyService {
             SilkWormVariety silkWormVariety = silkWormVarietyRepository.findBySilkWormVarietyIdAndActiveIn(silkWormVarietyRequest.getSilkWormVarietyId(), Set.of(true, false));
             if (Objects.nonNull(silkWormVariety)) {
                 silkWormVariety.setSilkWormVarietyName(silkWormVarietyRequest.getSilkWormVarietyName());
+                silkWormVariety.setSilkWormVarietyNameInKannada(silkWormVarietyRequest.getSilkWormVarietyNameInKannada());
                 silkWormVariety.setActive(true);
                 SilkWormVariety silkWormVariety1 = silkWormVarietyRepository.save(silkWormVariety);
                 silkWormVarietyResponse = mapper.silkWormVarietyEntityToObject(silkWormVariety1, SilkWormVarietyResponse.class);

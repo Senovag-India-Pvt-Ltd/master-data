@@ -19,6 +19,9 @@ public class EditMarketTypeMasterRequest extends RequestBody {
     @Schema(name = "marketTypeMasterName", example = "Commercial Market", required = true)
     String marketTypeMasterName;
 
+    @Schema(name = "marketTypeNameInKannada",  example = "ಭಾಷೆ")
+    String marketTypeNameInKannada;
+
     @Schema(name = "reelerFee", example = "2.4")
     BigDecimal reelerFee;
 

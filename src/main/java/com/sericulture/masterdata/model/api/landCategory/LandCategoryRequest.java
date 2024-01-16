@@ -12,4 +12,8 @@ import lombok.*;
 public class LandCategoryRequest extends RequestBody {
     @Schema(name = "landCategoryName", example = "SF", required = true)
     String landCategoryName;
+
+    @Schema(name = "landCategoryNameInKannada",  example = "ಭಾಷೆ")
+    String landCategoryNameInKannada;
+
 }
