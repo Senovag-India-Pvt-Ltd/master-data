@@ -44,6 +44,8 @@ import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
+import com.sericulture.masterdata.model.api.trGroupMaster.TrGroupMasterRequest;
+import com.sericulture.masterdata.model.api.trInstitutionMaster.TrInstitutionMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
@@ -1178,5 +1180,48 @@ public class Mapper {
         return (T) mapper.map(raceMarketMasterRequest, claaz);
     }
 
+
+
+    /**
+     * Maps trInstitutionMaster Entity to trInstitutionMaster Response Object
+     * @param trInstitutionMasterEntity
+     * @param <T>
+     */
+    public <T> T trInstitutionMasterEntityToObject(TrInstitutionMaster trInstitutionMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trInstitutionMasterEntity);
+        return (T) mapper.map(trInstitutionMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trInstitutionMaster Object to trInstitutionMaster  Response Object
+     * @param trInstitutionMasterRequest
+     * @param <T>
+     */
+    public <T> T trInstitutionMasterObjectToEntity(TrInstitutionMasterRequest trInstitutionMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trInstitutionMasterRequest);
+        return (T) mapper.map(trInstitutionMasterRequest, claaz);
+    }
+
+    /**
+     * Maps trGroupMaster Entity to trGroupMaster Response Object
+     * @param trGroupMasterEntity
+     * @param <T>
+     */
+    public <T> T trGroupMasterEntityToObject(TrGroupMaster trGroupMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trGroupMasterEntity);
+        return (T) mapper.map(trGroupMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trGroupMaster Object to trGroupMaster  Response Object
+     * @param trGroupMasterRequest
+     * @param <T>
+     */
+    public <T> T trGroupMasterObjectToEntity(TrGroupMasterRequest trGroupMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trGroupMasterRequest);
+        return (T) mapper.map(trGroupMasterRequest, claaz);
+    }
 
 }
