@@ -56,7 +56,7 @@ public class LandOwnershipService {
         LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = mapper.landOwnershipObjectToEntity(landOwnershipRequest,LandOwnership.class);
         validator.validate(landOwnership);
-        List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
+        List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipNameAndLandOwnershipNameInKannada(landOwnershipRequest.getLandOwnershipName(),landOwnershipRequest.getLandOwnershipNameInKannada());
         if(!landOwnershipList.isEmpty() && landOwnershipList.stream().filter(LandOwnership::getActive).findAny().isPresent()){
             landOwnershipResponse.setError(true);
             landOwnershipResponse.setError_description("LandOwnership name already exist");
@@ -138,7 +138,7 @@ public class LandOwnershipService {
     @Transactional
     public LandOwnershipResponse updateLandOwnershipDetails(EditLandOwnershipRequest landOwnershipRequest) {
         LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
-        List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipName(landOwnershipRequest.getLandOwnershipName());
+        List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipNameAndLandOwnershipNameInKannada(landOwnershipRequest.getLandOwnershipName(),landOwnershipRequest.getLandOwnershipNameInKannada());
         if (landOwnershipList.size() > 0) {
             landOwnershipResponse.setError(true);
             landOwnershipResponse.setError_description("LandOwnership already exists, duplicates are not allowed.");

@@ -74,7 +74,7 @@ public class TalukService {
         TalukResponse talukResponse = new TalukResponse();
         Taluk taluk = mapper.talukObjectToEntity(talukRequest, Taluk.class);
         validator.validate(taluk);
-        List<Taluk> talukList = talukRepository.findByTalukName(talukRequest.getTalukName());
+        List<Taluk> talukList = talukRepository.findByTalukNameAndTalukNameInKannada(talukRequest.getTalukName(), talukRequest.getTalukNameInKannada());
         if (!talukList.isEmpty() && talukList.stream().filter(Taluk::getActive).findAny().isPresent()) {
 //            throw new ValidationException("Taluk name already exist with this state");
             talukResponse.setError(true);
@@ -221,7 +221,7 @@ public class TalukService {
     @Transactional
     public TalukResponse updateTalukDetails(EditTalukRequest talukRequest) {
         TalukResponse talukResponse = new TalukResponse();
-        List<Taluk> talukList = talukRepository.findByTalukName(talukRequest.getTalukName());
+        List<Taluk> talukList = talukRepository.findByTalukNameAndTalukNameInKannada(talukRequest.getTalukName(),talukRequest.getTalukNameInKannada());
         if (talukList.size() > 0) {
             talukResponse.setError(true);
             talukResponse.setError_description("Taluk already exists, duplicates are not allowed.");

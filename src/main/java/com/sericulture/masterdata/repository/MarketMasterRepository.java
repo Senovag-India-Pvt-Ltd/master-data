@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Repository
 public interface MarketMasterRepository extends PagingAndSortingRepository<MarketMaster, Long> {
-    public List<MarketMaster> findByMarketMasterName(String marketMasterName);
+    public List<MarketMaster> findByMarketMasterNameAndMarketNameInKannada(String marketMasterName,String marketNameInKannada);
 
     public MarketMaster findByMarketMasterNameAndActive(String marketMasterName,boolean isActive);
 
@@ -33,6 +33,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
             " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
@@ -78,6 +79,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
             " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
@@ -122,6 +124,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
             " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +

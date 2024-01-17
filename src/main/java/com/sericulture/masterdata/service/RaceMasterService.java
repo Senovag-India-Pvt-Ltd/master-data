@@ -206,6 +206,7 @@ public class RaceMasterService {
             RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActiveIn(raceMasterRequest.getRaceMasterId(), Set.of(true, false));
             if (Objects.nonNull(raceMaster)) {
                 raceMaster.setRaceMasterName(raceMasterRequest.getRaceMasterName());
+                raceMaster.setRaceNameInKannada(raceMasterRequest.getRaceNameInKannada());
                 raceMaster.setMarketMasterId(raceMasterRequest.getMarketMasterId());
                 raceMaster.setActive(true);
                 RaceMaster raceMaster1 = raceMasterRepository.save(raceMaster);

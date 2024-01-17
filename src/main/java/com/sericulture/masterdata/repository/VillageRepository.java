@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 @Repository
 public interface VillageRepository extends PagingAndSortingRepository<Village, Long> {
-    public List<Village> findByVillageName(String villageName);
+    public List<Village> findByVillageNameAndVillageNameInKannada(String villageName,String villageNameInKannada);
 
     public List<Village> findByVillageNameAndStateId(String villageName, long stateId);
 

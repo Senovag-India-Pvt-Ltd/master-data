@@ -20,6 +20,9 @@ public class MarketMasterResponse {
     @Schema(name = "marketMasterName", example = "Kaveri")
     String marketMasterName;
 
+    @Schema(name = "marketNameInKannada",  example = "ಭಾಷೆ")
+    String marketNameInKannada;
+
     @Schema(name = "marketMasterAddress", example = "Udupi")
     String marketMasterAddress;
 

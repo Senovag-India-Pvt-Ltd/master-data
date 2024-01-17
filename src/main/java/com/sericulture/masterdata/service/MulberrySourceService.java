@@ -57,7 +57,7 @@ public class MulberrySourceService {
         MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
         MulberrySource mulberrySource = mapper.mulberrySourceObjectToEntity(mulberrySourceRequest,MulberrySource.class);
         validator.validate(mulberrySource);
-        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
+        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceNameAndMulberrySourceNameInKannada(mulberrySourceRequest.getMulberrySourceName(),mulberrySourceRequest.getMulberrySourceNameInKannada());
         if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(MulberrySource::getActive).findAny().isPresent()){
             mulberrySourceResponse.setError(true);
             mulberrySourceResponse.setError_description("MulberrySource name already exist");
@@ -139,7 +139,7 @@ public class MulberrySourceService {
     @Transactional
     public MulberrySourceResponse updateMulberrySourceDetails(EditMulberrySourceRequest mulberrySourceRequest) {
         MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
-        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceName(mulberrySourceRequest.getMulberrySourceName());
+        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceNameAndMulberrySourceNameInKannada(mulberrySourceRequest.getMulberrySourceName(),mulberrySourceRequest.getMulberrySourceNameInKannada());
         if (mulberrySourceList.size() > 0) {
             mulberrySourceResponse.setError(true);
             mulberrySourceResponse.setError_description("MulberrySource already exists, duplicates are not allowed.");

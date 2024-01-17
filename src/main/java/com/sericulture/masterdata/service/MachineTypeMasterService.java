@@ -57,7 +57,7 @@ public class MachineTypeMasterService {
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = mapper.machineTypeObjectToEntity(machineTypeMasterRequest,MachineTypeMaster.class);
         validator.validate(machineTypeMaster);
-        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
+        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeNameAndMachineTypeNameInKannada(machineTypeMasterRequest.getMachineTypeName(),machineTypeMasterRequest.getMachineTypeNameInKannada());
         if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(MachineTypeMaster::getActive).findAny().isPresent()){
             machineTypeMasterResponse.setError(true);
             machineTypeMasterResponse.setError_description("MachineType name already exist");
@@ -139,7 +139,7 @@ public class MachineTypeMasterService {
     @Transactional
     public MachineTypeMasterResponse updateMachineTypeMasterDetails(EditMachineTypeMasterRequest machineTypeMasterRequest) {
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
-        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeName(machineTypeMasterRequest.getMachineTypeName());
+        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeNameAndMachineTypeNameInKannada(machineTypeMasterRequest.getMachineTypeName(),machineTypeMasterRequest.getMachineTypeNameInKannada());
         if (machineTypeMasterList.size() > 0) {
             machineTypeMasterResponse.setError(true);
             machineTypeMasterResponse.setError_description("MachineType already exists, duplicates are not allowed.");

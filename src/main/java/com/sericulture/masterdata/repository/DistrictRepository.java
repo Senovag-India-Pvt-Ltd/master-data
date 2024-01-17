@@ -15,6 +15,8 @@ import java.util.Set;
 
 @Repository
 public interface DistrictRepository extends PagingAndSortingRepository<District, Long> {
+    public List<District> findByDistrictNameAndDistrictNameInKannada(String districtName,String districtNameInKannada);
+
     public List<District> findByDistrictName(String districtName);
 
     public List<District> findByDistrictNameAndStateId(String districtName, long stateId);

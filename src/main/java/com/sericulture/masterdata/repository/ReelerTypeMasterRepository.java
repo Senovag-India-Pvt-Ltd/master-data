@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface ReelerTypeMasterRepository extends PagingAndSortingRepository<ReelerTypeMaster, Long> {
-    public List<ReelerTypeMaster> findByReelerTypeMasterName(String reelerTypeMasterName);
+    public List<ReelerTypeMaster> findByReelerTypeMasterNameAndReelerTypeNameInKannada(String reelerTypeMasterName,String reelerTypeNameInKannada);
 
     public ReelerTypeMaster findByReelerTypeMasterNameAndActive(String reelerTypeMasterName, boolean isActive);
 

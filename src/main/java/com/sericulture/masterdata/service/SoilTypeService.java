@@ -56,7 +56,7 @@ public class SoilTypeService {
         SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         SoilType soilType = mapper.soilTypeObjectToEntity(soilTypeRequest,SoilType.class);
         validator.validate(soilType);
-        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeName(soilTypeRequest.getSoilTypeName());
+        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeNameAndSoilTypeNameInKannada(soilTypeRequest.getSoilTypeName(),soilTypeRequest.getSoilTypeNameInKannada());
         if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(SoilType::getActive).findAny().isPresent()){
             soilTypeResponse.setError(true);
             soilTypeResponse.setError_description("SoilType name already exist");
@@ -138,7 +138,7 @@ public class SoilTypeService {
     @Transactional
     public SoilTypeResponse updateSoilTypeDetails(EditSoilTypeRequest soilTypeRequest) {
         SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
-        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeName(soilTypeRequest.getSoilTypeName());
+        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeNameAndSoilTypeNameInKannada(soilTypeRequest.getSoilTypeName(), soilTypeRequest.getSoilTypeNameInKannada());
         if (soilTypeList.size() > 0) {
             soilTypeResponse.setError(true);
             soilTypeResponse.setError_description("SoilType already exists, duplicates are not allowed.");

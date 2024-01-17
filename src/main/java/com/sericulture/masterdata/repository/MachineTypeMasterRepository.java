@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface MachineTypeMasterRepository extends PagingAndSortingRepository<MachineTypeMaster, Long> {
-    public List<MachineTypeMaster> findByMachineTypeName(String machineTypeName);
+    public List<MachineTypeMaster> findByMachineTypeNameAndMachineTypeNameInKannada(String machineTypeName,String machineTypeNameInKannada);
 
     public MachineTypeMaster findByMachineTypeNameAndActive(String machineTypeName,boolean isActive);
 

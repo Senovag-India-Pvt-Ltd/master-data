@@ -51,7 +51,7 @@ public class ReelerTypeMasterService {
         ReelerTypeMasterResponse reelerTypeMasterResponse = new ReelerTypeMasterResponse();
         ReelerTypeMaster reelerTypeMaster = mapper.reelerTypeMasterObjectToEntity(reelerTypeMasterRequest, ReelerTypeMaster.class);
         validator.validate(reelerTypeMaster);
-        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository.findByReelerTypeMasterName(reelerTypeMasterRequest.getReelerTypeMasterName());
+        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository.findByReelerTypeMasterNameAndReelerTypeNameInKannada(reelerTypeMasterRequest.getReelerTypeMasterName(), reelerTypeMasterRequest.getReelerTypeNameInKannada());
         if(!reelerTypeMasterList.isEmpty() && reelerTypeMasterList.stream(). filter(ReelerTypeMaster::getActive).findAny().isPresent()){
             reelerTypeMasterResponse.setError(true);
             reelerTypeMasterResponse.setError_description("Reeler Type name already exist");
@@ -134,7 +134,7 @@ public class ReelerTypeMasterService {
     public ReelerTypeMasterResponse updateReelerTypeMastersDetails(EditReelerTypeMasterRequest reelerTypeMasterRequest){
 
         ReelerTypeMasterResponse reelerTypeMasterResponse  = new ReelerTypeMasterResponse();
-        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository. findByReelerTypeMasterName(reelerTypeMasterRequest.getReelerTypeMasterName());
+        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository. findByReelerTypeMasterNameAndReelerTypeNameInKannada(reelerTypeMasterRequest.getReelerTypeMasterName(),reelerTypeMasterRequest.getReelerTypeNameInKannada());
         if(reelerTypeMasterList.size()>0){
             reelerTypeMasterResponse.setError(true);
             reelerTypeMasterResponse.setError_description("Reeler Type , duplicates are not allowed.");

@@ -37,6 +37,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
             " godown.godownId," +
             " godown.godownName," +
+            " godown.godownNameInKannada," +
             " godown.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -51,6 +52,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
             " godown.godownId," +
             " godown.godownName," +
+            " godown.godownNameInKannada," +
             " godown.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -64,6 +66,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
             " godown.godownId," +
             " godown.godownName," +
+            " godown.godownNameInKannada," +
             " godown.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +

@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface SoilTypeRepository extends PagingAndSortingRepository<SoilType,Long> {
-    public List<SoilType> findBySoilTypeName(String soilTypeName);
+    public List<SoilType> findBySoilTypeNameAndSoilTypeNameInKannada(String soilTypeName,String soilTypeNameInKannada);
 
     public SoilType findBySoilTypeNameAndActive(String soilTypeName,boolean isActive);
 

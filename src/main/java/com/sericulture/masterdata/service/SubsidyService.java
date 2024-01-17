@@ -56,7 +56,7 @@ public class SubsidyService {
         SubsidyResponse subsidyResponse = new SubsidyResponse();
         Subsidy subsidy = mapper.subsidyObjectToEntity(subsidyRequest,Subsidy.class);
         validator.validate(subsidy);
-        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyName(subsidyRequest.getSubsidyName());
+        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyNameAndSubsidyNameInKannada(subsidyRequest.getSubsidyName(), subsidyRequest.getSubsidyNameInKannada());
         if(!subsidyList.isEmpty() && subsidyList.stream().filter(Subsidy::getActive).findAny().isPresent()){
             subsidyResponse.setError(true);
             subsidyResponse.setError_description("Subsidy name already exist");
@@ -139,7 +139,7 @@ public class SubsidyService {
     @Transactional
     public SubsidyResponse updateSubsidyDetails(EditSubsidyRequest subsidyRequest) {
         SubsidyResponse subsidyResponse = new SubsidyResponse();
-        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyName(subsidyRequest.getSubsidyName());
+        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyNameAndSubsidyNameInKannada(subsidyRequest.getSubsidyName(),subsidyRequest.getSubsidyNameInKannada());
         if (subsidyList.size() > 0) {
             subsidyResponse.setError(true);
             subsidyResponse.setError_description("Subsidy already exists, duplicates are not allowed.");

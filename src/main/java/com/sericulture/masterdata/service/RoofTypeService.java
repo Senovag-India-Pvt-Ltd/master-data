@@ -56,7 +56,7 @@ public class RoofTypeService {
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = mapper.roofTypeObjectToEntity(roofTypeRequest,RoofType.class);
         validator.validate(roofType);
-        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeName(roofTypeRequest.getRoofTypeName());
+        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannada(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada());
         if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(RoofType::getActive).findAny().isPresent()){
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType name already exist");
@@ -138,7 +138,7 @@ public class RoofTypeService {
     @Transactional
     public RoofTypeResponse updateRoofTypeDetails(EditRoofTypeRequest roofTypeRequest) {
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
-        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeName(roofTypeRequest.getRoofTypeName());
+        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannada(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada());
         if (roofTypeList.size() > 0) {
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType already exists, duplicates are not allowed.");

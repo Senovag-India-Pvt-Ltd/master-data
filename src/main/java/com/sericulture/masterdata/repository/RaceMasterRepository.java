@@ -39,6 +39,7 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
     @Query("select new com.sericulture.masterdata.model.dto.RaceMasterDTO(" +
             " raceMaster.raceMasterId," +
             " raceMaster.raceMasterName," +
+            " raceMaster.raceNameInKannada," +
             " raceMaster.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -52,6 +53,7 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
     @Query("select new com.sericulture.masterdata.model.dto.RaceMasterDTO(" +
             " raceMaster.raceMasterId," +
             " raceMaster.raceMasterName," +
+            " raceMaster.raceNameInKannada," +
             " raceMaster.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -66,6 +68,7 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
     @Query("select new com.sericulture.masterdata.model.dto.RaceMasterDTO(" +
             " raceMaster.raceMasterId," +
             " raceMaster.raceMasterName," +
+            " raceMaster.raceNameInKannada," +
             " raceMaster.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +

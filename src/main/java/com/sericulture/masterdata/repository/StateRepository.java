@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface StateRepository extends PagingAndSortingRepository<State, Long> {
-    public List<State> findByStateName(String stateName);
+    public List<State> findByStateNameAndStateNameInKannada(String stateName,String stateNameInKannada);
 
     public State findByStateNameAndActive(String stateName,boolean isActive);
 

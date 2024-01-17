@@ -18,6 +18,9 @@ public class GodownResponse {
     @Schema(name = "godownName", example = "Godown 1")
     String godownName;
 
+    @Schema(name = "godownNameInKannada",  example = "ಭಾಷೆ")
+    String godownNameInKannada;
+
     @Schema(name="marketMasterId", example = "1")
     int marketMasterId;
 

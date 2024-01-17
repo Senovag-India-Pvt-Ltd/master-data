@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class RaceMasterDTO {
     private Long raceMasterId;
     private String raceMasterName;
+    private String raceNameInKannada;
     private Long marketMasterId;
     private String marketMasterName;
 }

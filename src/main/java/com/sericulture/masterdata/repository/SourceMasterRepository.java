@@ -15,6 +15,8 @@ import java.util.Set;
 public interface SourceMasterRepository extends PagingAndSortingRepository<SourceMaster, Long> {
     public List<SourceMaster> findBySourceMasterName(String sourceMasterName);
 
+    public List<SourceMaster> findBySourceMasterNameAndSourceNameInKannada(String sourceMasterName,String sourceNameInKannada);
+
     public SourceMaster findBySourceMasterNameAndActive(String sourceMasterName,boolean isActive);
 
     public Page<SourceMaster> findByActiveOrderBySourceMasterNameAsc(boolean isActive, final Pageable pageable);

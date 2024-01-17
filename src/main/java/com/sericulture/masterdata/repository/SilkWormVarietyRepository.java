@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface SilkWormVarietyRepository extends PagingAndSortingRepository<SilkWormVariety, Long> {
-    public List<SilkWormVariety> findBySilkWormVarietyName(String silkWormVarietyName);
+    public List<SilkWormVariety> findBySilkWormVarietyNameAndSilkWormVarietyNameInKannada(String silkWormVarietyName, String silkWormVarietyNameInKannada);
 
     public SilkWormVariety findBySilkWormVarietyNameAndActive(String silkWormVarietyName,boolean isActive);
 

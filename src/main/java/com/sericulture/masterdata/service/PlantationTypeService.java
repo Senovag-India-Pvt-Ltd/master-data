@@ -56,7 +56,7 @@ public class PlantationTypeService {
         PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         PlantationType plantationType = mapper.plantationTypeObjectToEntity(plantationTypeRequest,PlantationType.class);
         validator.validate(plantationType);
-        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
+        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeNameAndPlantationTypeNameInKannada(plantationTypeRequest.getPlantationTypeName(), plantationTypeRequest.getPlantationTypeNameInKannada());
         if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(PlantationType::getActive).findAny().isPresent()){
             plantationTypeResponse.setError(true);
             plantationTypeResponse.setError_description("PlantationType name already exist");
@@ -138,7 +138,7 @@ public class PlantationTypeService {
     @Transactional
     public PlantationTypeResponse updatePlantationTypeDetails(EditPlantationTypeRequest plantationTypeRequest) {
         PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
-        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeName(plantationTypeRequest.getPlantationTypeName());
+        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeNameAndPlantationTypeNameInKannada(plantationTypeRequest.getPlantationTypeName(), plantationTypeRequest.getPlantationTypeNameInKannada());
         if (plantationTypeList.size() > 0) {
             plantationTypeResponse.setError(true);
             plantationTypeResponse.setError_description("PlantationType already exists, duplicates are not allowed.");

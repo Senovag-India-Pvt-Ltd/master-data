@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface LandCategoryRepository extends PagingAndSortingRepository<LandCategory, Long> {
-    public List<LandCategory> findByLandCategoryName(String landCategoryName);
+    public List<LandCategory> findByLandCategoryNameAndLandCategoryNameInKannada(String landCategoryName,String landCategoryNameInKannada);
 
     public LandCategory findByLandCategoryNameAndActive(String landCategoryName,boolean isActive);
 

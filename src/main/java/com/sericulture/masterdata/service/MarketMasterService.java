@@ -64,7 +64,7 @@ public class MarketMasterService {
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = mapper.marketMasterObjectToEntity(marketMasterRequest,MarketMaster.class);
         validator.validate(marketMaster);
-        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterName(marketMasterRequest.getMarketMasterName());
+        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterNameAndMarketNameInKannada(marketMasterRequest.getMarketMasterName(), marketMasterRequest.getMarketNameInKannada());
         if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(MarketMaster::getActive).findAny().isPresent()){
             marketMasterResponse.setError(true);
             marketMasterResponse.setError_description("Market name already exist");
@@ -188,6 +188,7 @@ public class MarketMasterService {
             MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketMaster)) {
                 marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
+                marketMaster.setMarketNameInKannada(marketMasterRequest.getMarketNameInKannada());
                 marketMaster.setMarketTypeMasterId(marketMasterRequest.getMarketTypeMasterId());
                 marketMaster.setIssueBidSlipStartTime(marketMasterRequest.getIssueBidSlipStartTime());
                 marketMaster.setIssueBidSlipEndTime(marketMasterRequest.getIssueBidSlipEndTime());

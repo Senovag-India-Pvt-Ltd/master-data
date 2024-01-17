@@ -55,7 +55,7 @@ public class StateService {
         StateResponse stateResponse = new StateResponse();
         State state = mapper.stateObjectToEntity(stateRequest,State.class);
         validator.validate(state);
-        List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
+        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannada(stateRequest.getStateName(),stateRequest.getStateNameInKannada());
         if(!stateList.isEmpty() && stateList.stream().filter(State::getActive).findAny().isPresent()){
             stateResponse.setError(true);
             stateResponse.setError_description("State name already exist");
@@ -138,7 +138,7 @@ public class StateService {
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
 
             StateResponse stateResponse = new StateResponse();
-        List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
+        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannada(stateRequest.getStateName(),stateRequest.getStateNameInKannada());
         if(stateList.size()>0){
             stateResponse.setError(true);
             stateResponse.setError_description("State already exists, duplicates are not allowed.");
