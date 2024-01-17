@@ -17,6 +17,9 @@ public class DesignationResponse extends RequestBody {
     @Schema(name = "name", example = "Admin", required = true)
     String name;
 
+    @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
+    String designationNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

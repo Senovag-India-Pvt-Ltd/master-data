@@ -12,4 +12,7 @@ import lombok.*;
 public class PlantationTypeRequest extends RequestBody {
     @Schema(name = "plantationTypeName", example = "Mulberry Silk", required = true)
     String plantationTypeName;
+
+    @Schema(name = "plantationTypeNameInKannada",  example = "ಭಾಷೆ")
+    String plantationTypeNameInKannada;
 }

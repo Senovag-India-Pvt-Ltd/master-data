@@ -14,4 +14,7 @@ public class TraderTypeMasterRequest extends RequestBody {
 
     @Schema(name = "traderTypeMasterName", example = "trader type 1", required = true)
     String traderTypeMasterName;
+
+    @Schema(name = "traderTypeNameInKannada",  example = "ಭಾಷೆ")
+    String traderTypeNameInKannada;
 }

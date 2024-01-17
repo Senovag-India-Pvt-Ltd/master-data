@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface IrrigationTypeRepository extends PagingAndSortingRepository<IrrigationType, Long> {
-    public List<IrrigationType> findByIrrigationTypeName(String irrigationTypeName);
+    public List<IrrigationType> findByIrrigationTypeNameAndIrrigationTypeNameInKannada(String irrigationTypeName,String irrigationTypeNameInKannada);
 
     public IrrigationType findByIrrigationTypeNameAndActive(String irrigationTypeName,boolean isActive);
 

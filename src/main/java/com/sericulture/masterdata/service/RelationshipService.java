@@ -62,7 +62,7 @@ public class RelationshipService {
         RelationshipResponse relationshipResponse = new RelationshipResponse();
         Relationship relationship = mapper.relationshipObjectToEntity(relationshipRequest,Relationship.class);
         validator.validate(relationship);
-        List<Relationship> relationshipList = relationshipRepository.findByRelationshipName(relationshipRequest.getRelationshipName());
+        List<Relationship> relationshipList = relationshipRepository.findByRelationshipNameAndRelationshipNameInKannada(relationshipRequest.getRelationshipName(), relationshipRequest.getRelationshipNameInKannada());
         if(!relationshipList.isEmpty() && relationshipList.stream().filter(Relationship::getActive).findAny().isPresent()){
             relationshipResponse.setError(true);
             relationshipResponse.setError_description("Relationship name already exist");
@@ -143,7 +143,7 @@ public class RelationshipService {
     @Transactional
     public RelationshipResponse updateRelationshipDetails(EditRelationshipRequest relationshipRequest) {
         RelationshipResponse relationshipResponse = new RelationshipResponse();
-        List<Relationship> relationshipList = relationshipRepository.findByRelationshipName(relationshipRequest.getRelationshipName());
+        List<Relationship> relationshipList = relationshipRepository.findByRelationshipNameAndRelationshipNameInKannada(relationshipRequest.getRelationshipName(), relationshipRequest.getRelationshipNameInKannada());
         if (relationshipList.size() > 0) {
             relationshipResponse.setError(true);
             relationshipResponse.setError_description("Relationship already exists, duplicates are not allowed.");
@@ -153,6 +153,7 @@ public class RelationshipService {
             Relationship relationship = relationshipRepository.findByRelationshipIdAndActiveIn(relationshipRequest.getRelationshipId(), Set.of(true, false));
             if (Objects.nonNull(relationship)) {
                 relationship.setRelationshipName(relationshipRequest.getRelationshipName());
+                relationship.setRelationshipNameInKannada(relationshipRequest.getRelationshipNameInKannada());
                 relationship.setActive(true);
                 Relationship relationship1 = relationshipRepository.save(relationship);
                 relationshipResponse = mapper.relationshipEntityToObject(relationship1, RelationshipResponse.class);

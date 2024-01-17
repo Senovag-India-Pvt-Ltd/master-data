@@ -214,7 +214,7 @@ public class GodownService {
     @Transactional
     public GodownResponse updateGodownDetails(EditGodownRequest godownRequest) {
         GodownResponse godownResponse = new GodownResponse();
-        List<Godown> godownList = godownRepository.findByGodownName(godownRequest.getGodownName());
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(),godownRequest.getMarketMasterId());
         if (godownList.size() > 0) {
             godownResponse.setError(true);
             godownResponse.setError_description("Godown already exists, duplicates are not allowed.");
@@ -224,6 +224,7 @@ public class GodownService {
             Godown godown = godownRepository.findByGodownIdAndActiveIn(godownRequest.getGodownId(), Set.of(true, false));
             if (Objects.nonNull(godown)) {
                 godown.setGodownName(godownRequest.getGodownName());
+                godown.setGodownNameInKannada(godownRequest.getGodownNameInKannada());
                 godown.setMarketMasterId(godownRequest.getMarketMasterId());
                 godown.setActive(true);
                 Godown godown1 = godownRepository.save(godown);

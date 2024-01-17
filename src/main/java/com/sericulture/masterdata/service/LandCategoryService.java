@@ -57,7 +57,7 @@ public class LandCategoryService {
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = mapper.landCategoryObjectToEntity(landCategoryRequest,LandCategory.class);
         validator.validate(landCategory);
-        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryName(landCategoryRequest.getLandCategoryName());
+        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryNameAndLandCategoryNameInKannada(landCategoryRequest.getLandCategoryName(),landCategoryRequest.getLandCategoryNameInKannada());
         if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(LandCategory::getActive).findAny().isPresent()){
             landCategoryResponse.setError(true);
             landCategoryResponse.setError_description("landCategory name already exist");
@@ -139,7 +139,7 @@ public class LandCategoryService {
     @Transactional
     public LandCategoryResponse updateLandCategoryDetails(EditLandCategoryRequest landCategoryRequest) {
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
-        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryName(landCategoryRequest.getLandCategoryName());
+        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryNameAndLandCategoryNameInKannada(landCategoryRequest.getLandCategoryName(),landCategoryRequest.getLandCategoryNameInKannada());
         if (landCategoryList.size() > 0) {
             landCategoryResponse.setError(true);
             landCategoryResponse.setError_description("LandCategory already exists, duplicates are not allowed.");
@@ -149,6 +149,7 @@ public class LandCategoryService {
             LandCategory landCategory = landCategoryRepository.findByIdAndActiveIn(landCategoryRequest.getId(), Set.of(true, false));
             if (Objects.nonNull(landCategory)) {
                 landCategory.setLandCategoryName(landCategoryRequest.getLandCategoryName());
+                landCategory.setLandCategoryNameInKannada(landCategoryRequest.getLandCategoryNameInKannada());
                 landCategory.setActive(true);
                 LandCategory landCategory1 = landCategoryRepository.save(landCategory);
                 landCategoryResponse = mapper.landCategoryEntityToObject(landCategory1, LandCategoryResponse.class);

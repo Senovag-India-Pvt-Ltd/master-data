@@ -15,6 +15,8 @@ import java.util.Set;
 
 @Repository
 public interface DistrictRepository extends PagingAndSortingRepository<District, Long> {
+    public List<District> findByDistrictNameAndDistrictNameInKannada(String districtName,String districtNameInKannada);
+
     public List<District> findByDistrictName(String districtName);
 
     public List<District> findByDistrictNameAndStateId(String districtName, long stateId);
@@ -26,6 +28,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
    @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
            " district.districtId," +
            " district.districtName," +
+           " district.districtNameInKannada," +
            " district.stateId," +
            " state.stateName" +
            ") \n" +
@@ -44,6 +47,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
@@ -63,6 +67,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
@@ -76,6 +81,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +

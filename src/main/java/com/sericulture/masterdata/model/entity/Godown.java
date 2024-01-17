@@ -28,4 +28,7 @@ public class Godown extends BaseEntity implements Serializable {
 
     @Column(name = "market_id")
     private Long marketMasterId;
+
+    @Column(name = "godown_name_in_kannada")
+    private String godownNameInKannada;
 }

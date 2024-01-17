@@ -54,7 +54,7 @@ public class IrrigationTypeService {
         IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
         IrrigationType irrigationType = mapper.irrigationTypeObjectToEntity(irrigationTypeRequest,IrrigationType.class);
         validator.validate(irrigationType);
-        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
+        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeNameAndIrrigationTypeNameInKannada(irrigationTypeRequest.getIrrigationTypeName(),irrigationTypeRequest.getIrrigationTypeNameInKannada());
         if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(IrrigationType::getActive).findAny().isPresent()){
             irrigationTypeResponse.setError(true);
             irrigationTypeResponse.setError_description("IrrigationType name already exist");
@@ -131,7 +131,7 @@ public class IrrigationTypeService {
     @Transactional
     public IrrigationTypeResponse updateIrrigationTypeDetails(EditIrrigationTypeRequest irrigationTypeRequest) {
         IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
-        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
+        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeNameAndIrrigationTypeNameInKannada(irrigationTypeRequest.getIrrigationTypeName(),irrigationTypeRequest.getIrrigationTypeNameInKannada());
         if (irrigationTypeList.size() > 0) {
             irrigationTypeResponse.setError(true);
             irrigationTypeResponse.setError_description("IrrigationType already exists, duplicates are not allowed.");
@@ -141,6 +141,7 @@ public class IrrigationTypeService {
             IrrigationType irrigationType = irrigationTypeRepository.findByIrrigationTypeIdAndActiveIn(irrigationTypeRequest.getIrrigationTypeId(), Set.of(true, false));
             if (Objects.nonNull(irrigationType)) {
                 irrigationType.setIrrigationTypeName(irrigationTypeRequest.getIrrigationTypeName());
+                irrigationType.setIrrigationTypeNameInKannada(irrigationTypeRequest.getIrrigationTypeNameInKannada());
                 irrigationType.setActive(true);
                 IrrigationType irrigationType1 = irrigationTypeRepository.save(irrigationType);
                 irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationType1, IrrigationTypeResponse.class);

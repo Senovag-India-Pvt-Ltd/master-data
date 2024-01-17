@@ -13,4 +13,7 @@ public class MulberrySourceRequest extends RequestBody {
 
     @Schema(name = "mulberrySourceName", example = "Mulberry source 1", required = true)
     String mulberrySourceName;
+
+    @Schema(name = "mulberrySourceNameInKannada",  example = "ಭಾಷೆ")
+    String mulberrySourceNameInKannada;
 }

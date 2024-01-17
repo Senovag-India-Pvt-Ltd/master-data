@@ -26,4 +26,7 @@ public class WorkingInstitution extends BaseEntity implements Serializable {
     @Column(name = "name", unique = true)
     private String workingInstitutionName;
 
+    @Column(name = "working_institution_name_in_kannada")
+    private String workingInstitutionNameInKannada;
+
 }

@@ -18,6 +18,9 @@ public class ReelerTypeMasterResponse {
     @Schema(name = "reelerTypeMasterName", example = "Karnataka", required = true)
     String reelerTypeMasterName;
 
+    @Schema(name = "reelerTypeNameInKannada",  example = "ಭಾಷೆ")
+    String reelerTypeNameInKannada;
+
     @Schema(name = "noOfDeviceAllowed", example = "3")
     private Long noOfDeviceAllowed;
 

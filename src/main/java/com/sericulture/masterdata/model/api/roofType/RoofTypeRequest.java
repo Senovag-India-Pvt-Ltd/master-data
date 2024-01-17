@@ -12,4 +12,7 @@ import lombok.*;
 public class RoofTypeRequest extends RequestBody {
     @Schema(name = "roofTypeName", example = "Hip Roof", required = true)
     String roofTypeName;
+
+    @Schema(name = "roofTypeNameInKannada",  example = "ಭಾಷೆ")
+    String roofTypeNameInKannada;
 }

@@ -18,4 +18,7 @@ public class EditDistrictRequest extends RequestBody {
 
     @Schema(name = "districtName", example = "Shimoga", required = true)
     String districtName;
+
+    @Schema(name = "districtNameInKannada",  example = "ಭಾಷೆ")
+    String districtNameInKannada;
 }

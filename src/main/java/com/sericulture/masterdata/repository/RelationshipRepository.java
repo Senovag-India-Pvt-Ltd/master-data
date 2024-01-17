@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface RelationshipRepository extends PagingAndSortingRepository<Relationship, Long> {
-        public List<Relationship> findByRelationshipName(String relationshipName);
+        public List<Relationship> findByRelationshipNameAndRelationshipNameInKannada(String relationshipName,String relationshipNameInKannada);
 
         public Relationship findByRelationshipNameAndActive(String relationshipName,boolean isActive);
 

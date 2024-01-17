@@ -72,7 +72,7 @@ public class CasteService {
         CasteResponse casteResponse = new CasteResponse();
         Caste caste = mapper.casteObjectToEntity(casteRequest,Caste.class);
         validator.validate(caste);
-        List<Caste> casteList = casteRepository.findByTitle(casteRequest.getTitle());
+        List<Caste> casteList = casteRepository.findByTitleAndNameInKannada(casteRequest.getTitle(),casteRequest.getNameInKannada());
         if(!casteList.isEmpty() && casteList.stream().filter(Caste::getActive).findAny().isPresent()){
             casteResponse.setError(true);
             casteResponse.setError_description("Caste name already exist");
@@ -156,17 +156,18 @@ public class CasteService {
     @Transactional
     public CasteResponse updateCasteDetails(EditCasteRequest casteRequest){
         CasteResponse casteResponse = new CasteResponse();
-        Caste caste = casteRepository.findByCodeAndTitle(casteRequest.getCode(),casteRequest.getTitle());
-        if(caste!=null){
+        List<Caste> casteList = casteRepository.findByTitleAndNameInKannada(casteRequest.getTitle(),casteRequest.getNameInKannada());
+        if (casteList.size() > 0) {
             casteResponse.setError(true);
             casteResponse.setError_description("Caste already exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        }else {
+        } else {
 
-             caste = casteRepository.findByIdAndActiveIn(casteRequest.getId(), Set.of(true,false));
+            Caste caste = casteRepository.findByIdAndActiveIn(casteRequest.getId(), Set.of(true, false));
             if(Objects.nonNull(caste)){
                 caste.setCode(casteRequest.getCode());
                 caste.setTitle(casteRequest.getTitle());
+                caste.setNameInKannada(casteRequest.getNameInKannada());
                 caste.setActive(true);
                 Caste caste1 = casteRepository.save(caste);
                 casteResponse = mapper.casteEntityToObject(caste1, CasteResponse.class);

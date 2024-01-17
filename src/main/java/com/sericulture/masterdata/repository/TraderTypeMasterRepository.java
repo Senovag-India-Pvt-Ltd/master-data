@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface TraderTypeMasterRepository extends PagingAndSortingRepository<TraderTypeMaster,Long> {
-    public List<TraderTypeMaster> findByTraderTypeMasterName(String traderTypeMasterName);
+    public List<TraderTypeMaster> findByTraderTypeMasterNameAndTraderTypeNameInKannada(String traderTypeMasterName,String traderTypeNameInKannada);
 
     public TraderTypeMaster findByTraderTypeMasterNameAndActive(String traderTypeMasterName,boolean isActive);
 

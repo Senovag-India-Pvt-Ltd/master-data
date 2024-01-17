@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface WorkingInstitutionRepository extends PagingAndSortingRepository<WorkingInstitution,Long> {
-    public List<WorkingInstitution> findByWorkingInstitutionName(String workingInstitutionName);
+    public List<WorkingInstitution> findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(String workingInstitutionName,String workingInstitutionNameInKannada);
 
     public WorkingInstitution findByWorkingInstitutionNameAndActive(String workingInstitutionName,boolean isActive);
 

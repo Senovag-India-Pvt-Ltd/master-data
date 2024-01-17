@@ -21,4 +21,7 @@ public class EditTalukRequest extends RequestBody {
 
     @Schema(name = "talukName", example = "Thirthahalli", required = true)
     String talukName;
+
+    @Schema(name = "talukNameInKannada",  example = "ಭಾಷೆ")
+    String talukNameInKannada;
 }

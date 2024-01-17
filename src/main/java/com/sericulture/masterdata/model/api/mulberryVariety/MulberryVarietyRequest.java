@@ -13,4 +13,7 @@ public class MulberryVarietyRequest extends RequestBody {
 
     @Schema(name = "mulberryVarietyName", example = "Mulberry variety 1", required = true)
     String mulberryVarietyName;
+
+    @Schema(name = "mulberryVarietyNameInKannada",  example = "ಭಾಷೆ")
+    String mulberryVarietyNameInKannada;
 }

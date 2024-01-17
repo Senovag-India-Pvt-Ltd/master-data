@@ -58,7 +58,7 @@ public class MulberryVarietyService {
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = mapper.mulberryVarietyObjectToEntity(mulberryVarietyRequest,MulberryVariety.class);
         validator.validate(mulberryVariety);
-        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
+        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyNameAndMulberryVarietyNameInKannada(mulberryVarietyRequest.getMulberryVarietyName(),mulberryVarietyRequest.getMulberryVarietyNameInKannada());
         if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(MulberryVariety::getActive).findAny().isPresent()){
             mulberryVarietyResponse.setError(true);
             mulberryVarietyResponse.setError_description("MulberryVariety name already exist");
@@ -140,7 +140,7 @@ public class MulberryVarietyService {
     @Transactional
     public MulberryVarietyResponse updateMulberryVarietyDetails(EditMulberryVarietyRequest mulberryVarietyRequest){
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
-        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
+        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyNameAndMulberryVarietyNameInKannada(mulberryVarietyRequest.getMulberryVarietyName(),mulberryVarietyRequest.getMulberryVarietyNameInKannada());
         if(mulberryVarietyList.size()>0){
             mulberryVarietyResponse.setError(true);
             mulberryVarietyResponse.setError_description("MulberryVariety already exists, duplicates are not allowed.");
@@ -150,6 +150,7 @@ public class MulberryVarietyService {
             MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActiveIn(mulberryVarietyRequest.getMulberryVarietyId(), Set.of(true,false));
             if(Objects.nonNull(mulberryVariety)){
                 mulberryVariety.setMulberryVarietyName(mulberryVarietyRequest.getMulberryVarietyName());
+                mulberryVariety.setMulberryVarietyNameInKannada(mulberryVarietyRequest.getMulberryVarietyNameInKannada());
                 mulberryVariety.setActive(true);
                 MulberryVariety mulberryVariety1 = mulberryVarietyRepository.save(mulberryVariety);
                 mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVariety1, MulberryVarietyResponse.class);

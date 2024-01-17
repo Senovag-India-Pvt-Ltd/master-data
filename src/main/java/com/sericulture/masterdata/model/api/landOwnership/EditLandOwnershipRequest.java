@@ -15,4 +15,7 @@ public class EditLandOwnershipRequest extends RequestBody {
 
     @Schema(name = "landOwnershipName", example = "Individual", required = true)
     String landOwnershipName;
+
+    @Schema(name = "landOwnershipNameInKannada",  example = "ಭಾಷೆ")
+    String landOwnershipNameInKannada;
 }

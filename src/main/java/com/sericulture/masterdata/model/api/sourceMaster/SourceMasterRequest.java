@@ -13,4 +13,7 @@ public class SourceMasterRequest extends RequestBody {
 
     @Schema(name = "sourceMasterName", example = "sourceName 1", required = true)
     String sourceMasterName;
+
+    @Schema(name = "sourceNameInKannada",  example = "ಭಾಷೆ")
+    String sourceNameInKannada;
 }

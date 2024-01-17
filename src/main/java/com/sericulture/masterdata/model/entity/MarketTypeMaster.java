@@ -35,4 +35,7 @@ public class MarketTypeMaster extends BaseEntity implements Serializable {
 
     @Column(name = "trader_fee")
     private BigDecimal traderFee;
+
+    @Column(name = "market_type_name_in_kannada")
+    private String marketTypeNameInKannada;
 }

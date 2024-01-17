@@ -18,6 +18,9 @@ public class SilkWormVarietyResponse {
     @Schema(name = "silkWormVarietyName", example = "Bombyx Mori")
     String silkWormVarietyName;
 
+    @Schema(name = "silkWormVarietyNameInKannada",  example = "ಭಾಷೆ")
+    String silkWormVarietyNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

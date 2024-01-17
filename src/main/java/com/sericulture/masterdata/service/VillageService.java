@@ -65,7 +65,7 @@ public class VillageService {
         VillageResponse villageResponse = new VillageResponse();
         Village village = mapper.villageObjectToEntity(villageRequest,Village.class);
         validator.validate(village);
-        List<Village> villageList = villageRepository.findByVillageName(villageRequest.getVillageName());
+        List<Village> villageList = villageRepository.findByVillageNameAndVillageNameInKannada(villageRequest.getVillageName(), villageRequest.getVillageNameInKannada());
         if(!villageList.isEmpty() && villageList.stream().filter(Village::getActive).findAny().isPresent()){
            // throw new ValidationException("Village name already exist");
             villageResponse.setError(true);
@@ -207,7 +207,7 @@ public class VillageService {
     @Transactional
     public VillageResponse updateVillageDetails(EditVillageRequest villageRequest){
         VillageResponse villageResponse = new VillageResponse();
-        List<Village> villageList = villageRepository.findByVillageName(villageRequest.getVillageName());
+        List<Village> villageList = villageRepository.findByVillageNameAndVillageNameInKannada(villageRequest.getVillageName(), villageRequest.getVillageNameInKannada());
         if(villageList.size()>0){
             villageResponse.setError(true);
             villageResponse.setError_description("Village already exists, duplicates are not allowed.");
@@ -221,6 +221,7 @@ public class VillageService {
                 village.setTalukId(villageRequest.getTalukId());
                 village.setHobliId(villageRequest.getHobliId());
                 village.setVillageName(villageRequest.getVillageName());
+                village.setVillageNameInKannada(villageRequest.getVillageNameInKannada());
                 village.setActive(true);
                 Village village1 = villageRepository.save(village);
                 villageResponse = mapper.villageEntityToObject(village1, VillageResponse.class);

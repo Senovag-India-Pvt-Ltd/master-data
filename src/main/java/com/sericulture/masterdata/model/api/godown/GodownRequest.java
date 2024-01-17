@@ -14,6 +14,9 @@ public class GodownRequest extends RequestBody {
     @Schema(name = "godownName", example = "Godown 1", required = true)
     String godownName;
 
+    @Schema(name = "godownNameInKannada",  example = "ಭಾಷೆ")
+    String godownNameInKannada;
+
     @Schema(name = "marketMasterId", example = "1", required = true)
     Long marketMasterId;
 }

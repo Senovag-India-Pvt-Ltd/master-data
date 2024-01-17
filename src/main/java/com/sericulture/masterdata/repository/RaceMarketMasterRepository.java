@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.dto.CrateMasterDTO;
 import com.sericulture.masterdata.model.dto.RaceMarketMasterDTO;
 import com.sericulture.masterdata.model.entity.CrateMaster;
 import com.sericulture.masterdata.model.entity.RaceMarketMaster;
+import com.sericulture.masterdata.model.entity.RaceMaster;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,8 @@ import java.util.Set;
 @Repository
 public interface RaceMarketMasterRepository extends PagingAndSortingRepository<RaceMarketMaster, Long> {
     public Page<RaceMarketMaster> findByActiveOrderByRaceMarketMasterIdAsc(boolean isActive, final Pageable pageable);
+
+    List<RaceMarketMaster> findByMarketMasterIdAndRaceMasterId(long marketMasterId, long raceMasterId);
 
     public RaceMarketMaster save(RaceMarketMaster raceMarketMaster);
 

@@ -17,6 +17,9 @@ public class SubsidyResponse {
     @Schema(name = "subsidyName", example = "Subsidy 1")
     String subsidyName;
 
+    @Schema(name = "subsidyNameInKannada",  example = "ಭಾಷೆ")
+    String subsidyNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface DesignationRepository extends PagingAndSortingRepository<Designation, Long> {
-    public List<Designation> findByName(String name);
+    public List<Designation> findByNameAndDesignationNameInKannada(String name,String designationNameInKannada);
 
     public Designation findByNameAndActive(String name,boolean isActive);
 

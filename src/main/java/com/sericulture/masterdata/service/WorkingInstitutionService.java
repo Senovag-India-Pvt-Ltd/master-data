@@ -52,7 +52,7 @@ public class WorkingInstitutionService {
         WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
         WorkingInstitution workingInstitution = mapper.workingInstitutionObjectToEntity(workingInstitutionRequest,WorkingInstitution.class);
         validator.validate(workingInstitution);
-        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionName(workingInstitutionRequest.getWorkingInstitutionName());
+        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(workingInstitutionRequest.getWorkingInstitutionName(),workingInstitutionRequest.getWorkingInstitutionNameInKannada());
         if(!workingInstitutionList.isEmpty() && workingInstitutionList.stream().filter(WorkingInstitution::getActive).findAny().isPresent()){
             workingInstitutionResponse.setError(true);
             workingInstitutionResponse.setError_description("Working Institution name already exist");
@@ -135,7 +135,7 @@ public class WorkingInstitutionService {
     public WorkingInstitutionResponse updateWorkingInstitutionDetails(EditWorkingInstitutionRequest workingInstitutionRequest){
 
         WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
-        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionName(workingInstitutionRequest.getWorkingInstitutionName());
+        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(workingInstitutionRequest.getWorkingInstitutionName(), workingInstitutionRequest.getWorkingInstitutionNameInKannada());
         if(workingInstitutionList.size()>0){
             workingInstitutionResponse.setError(true);
             workingInstitutionResponse.setError_description("Working Institution already exists, duplicates are not allowed.");
@@ -146,6 +146,7 @@ public class WorkingInstitutionService {
             WorkingInstitution workingInstitution = workingInstitutionRepository.findByWorkingInstitutionIdAndActiveIn(workingInstitutionRequest.getWorkingInstitutionId(), Set.of(true,false));
             if(Objects.nonNull(workingInstitution)){
                 workingInstitution.setWorkingInstitutionName(workingInstitutionRequest.getWorkingInstitutionName());
+                workingInstitution.setWorkingInstitutionNameInKannada(workingInstitutionRequest.getWorkingInstitutionNameInKannada());
                 workingInstitution.setActive(true);
                 WorkingInstitution workingInstitution1 = workingInstitutionRepository.save(workingInstitution);
                 workingInstitutionResponse = mapper.workingInstitutionEntityToObject(workingInstitution1, WorkingInstitutionResponse.class);

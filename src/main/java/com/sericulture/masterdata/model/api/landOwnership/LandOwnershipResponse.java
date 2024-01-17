@@ -15,6 +15,9 @@ public class LandOwnershipResponse {
     @Schema(name = "landOwnershipName", example = "Individual")
     String landOwnershipName;
 
+    @Schema(name = "landOwnershipNameInKannada",  example = "ಭಾಷೆ")
+    String landOwnershipNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

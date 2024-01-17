@@ -12,4 +12,7 @@ import lombok.*;
 public class IrrigationSourceRequest extends RequestBody {
     @Schema(name = "irrigationSourceName", example = "Rainfall", required = true)
     String irrigationSourceName;
+
+    @Schema(name = "irrigationSourceNameInKannada",  example = "ಭಾಷೆ")
+    String irrigationSourceNameInKannada;
 }

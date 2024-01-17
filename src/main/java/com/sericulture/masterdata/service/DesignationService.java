@@ -39,7 +39,7 @@ public class DesignationService {
         DesignationResponse designationResponse = new DesignationResponse();
         Designation designation = mapper.designationObjectToEntity(designationRequest,Designation.class);
         validator.validate(designation);
-        List<Designation> designationList = designationRepository.findByName(designationRequest.getName());
+        List<Designation> designationList = designationRepository.findByNameAndDesignationNameInKannada(designationRequest.getName(),designationRequest.getDesignationNameInKannada());
         if(!designationList.isEmpty() && designationList.stream().filter(Designation::getActive).findAny().isPresent()){
             designationResponse.setError(true);
             designationResponse.setError_description("Designation name already exist");
@@ -121,7 +121,7 @@ public class DesignationService {
     @Transactional
     public DesignationResponse updateDesignationDetails(EditDesignationRequest designationRequest) {
         DesignationResponse designationResponse = new DesignationResponse();
-        List<Designation> designationList = designationRepository.findByName(designationRequest.getName());
+        List<Designation> designationList = designationRepository.findByNameAndDesignationNameInKannada(designationRequest.getName(),designationRequest.getDesignationNameInKannada());
         if (designationList.size() > 0) {
             designationResponse.setError(true);
             designationResponse.setError_description("Designation already exists, duplicates are not allowed.");
@@ -131,6 +131,7 @@ public class DesignationService {
             Designation designation = designationRepository.findByDesignationIdAndActiveIn(designationRequest.getDesignationId(), Set.of(true, false));
             if (Objects.nonNull(designation)) {
                 designation.setName(designationRequest.getName());
+                designation.setDesignationNameInKannada(designationRequest.getDesignationNameInKannada());
                 designation.setActive(true);
                 Designation designation1 = designationRepository.save(designation);
                 designationResponse = mapper.designationEntityToObject(designation1, DesignationResponse.class);

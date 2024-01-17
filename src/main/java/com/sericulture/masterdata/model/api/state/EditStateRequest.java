@@ -15,4 +15,7 @@ public class EditStateRequest extends RequestBody {
 
     @Schema(name = "stateName", example = "Karnataka", required = true)
     String stateName;
+
+    @Schema(name = "stateNameInKannada",  example = "ಭಾಷೆ")
+    String stateNameInKannada;
 }

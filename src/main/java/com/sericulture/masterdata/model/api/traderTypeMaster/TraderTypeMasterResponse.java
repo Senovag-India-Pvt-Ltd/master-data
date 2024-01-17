@@ -19,6 +19,9 @@ public class TraderTypeMasterResponse  {
     @Schema(name="traderTypeMasterName", example = "trader type 1")
     String traderTypeMasterName;
 
+    @Schema(name = "traderTypeNameInKannada",  example = "ಭಾಷೆ")
+    String traderTypeNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

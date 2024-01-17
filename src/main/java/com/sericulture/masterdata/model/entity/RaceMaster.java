@@ -25,4 +25,7 @@ public class RaceMaster extends BaseEntity implements Serializable {
 
     @Column(name = "market_master_id")
     private Long marketMasterId;
+
+    @Column(name = "race_name_in_kannada")
+    private String raceNameInKannada;
 }

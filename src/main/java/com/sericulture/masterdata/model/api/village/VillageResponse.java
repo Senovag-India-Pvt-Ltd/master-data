@@ -42,6 +42,9 @@ public class VillageResponse {
     @Schema(name = "villageName", example = "Hodala")
     String villageName;
 
+    @Schema(name = "villageNameInKannada",  example = "ಭಾಷೆ")
+    String villageNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

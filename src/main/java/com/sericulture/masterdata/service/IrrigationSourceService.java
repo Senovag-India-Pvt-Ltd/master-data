@@ -56,7 +56,7 @@ public class IrrigationSourceService {
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = mapper.irrigationSourceObjectToEntity(irrigationSourceRequest,IrrigationSource.class);
         validator.validate(irrigationSource);
-        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
+        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceNameAndIrrigationSourceNameInKannada(irrigationSourceRequest.getIrrigationSourceName(),irrigationSourceRequest.getIrrigationSourceNameInKannada());
         if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(IrrigationSource::getActive).findAny().isPresent()){
             irrigationSourceResponse.setError(true);
             irrigationSourceResponse.setError_description("IrrigationSource name already exist");
@@ -138,7 +138,7 @@ public class IrrigationSourceService {
     @Transactional
     public IrrigationSourceResponse updateIrrigationSourceDetails(EditIrrigationSourceRequest irrigationSourceRequest) {
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
-        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
+        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceNameAndIrrigationSourceNameInKannada(irrigationSourceRequest.getIrrigationSourceName(),irrigationSourceRequest.getIrrigationSourceNameInKannada());
         if (irrigationSourceList.size() > 0) {
             irrigationSourceResponse.setError(true);
             irrigationSourceResponse.setError_description("IrrigationSource already exists, duplicates are not allowed.");
@@ -148,6 +148,7 @@ public class IrrigationSourceService {
             IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActiveIn(irrigationSourceRequest.getIrrigationSourceId(), Set.of(true, false));
             if (Objects.nonNull(irrigationSource)) {
                 irrigationSource.setIrrigationSourceName(irrigationSourceRequest.getIrrigationSourceName());
+                irrigationSource.setIrrigationSourceNameInKannada(irrigationSourceRequest.getIrrigationSourceNameInKannada());
                 irrigationSource.setActive(true);
                 IrrigationSource irrigationSource1 = irrigationSourceRepository.save(irrigationSource);
                 irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSource1, IrrigationSourceResponse.class);

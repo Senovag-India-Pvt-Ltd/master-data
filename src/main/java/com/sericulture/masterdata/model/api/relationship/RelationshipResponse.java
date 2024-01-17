@@ -18,6 +18,9 @@ public class RelationshipResponse {
     @Schema(name = "relationshipName", example = "Father")
     String relationshipName;
 
+    @Schema(name = "relationshipNameInKannada", example = "ಭಾಷೆ")
+    String relationshipNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

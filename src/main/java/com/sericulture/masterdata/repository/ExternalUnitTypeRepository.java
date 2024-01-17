@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface ExternalUnitTypeRepository extends PagingAndSortingRepository<ExternalUnitType,Long> {
-    public List<ExternalUnitType> findByExternalUnitTypeName(String externalUnitTypeName);
+    public List<ExternalUnitType> findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(String externalUnitTypeName,String externalUnitTypeNameInKannada);
 
     public ExternalUnitType findByExternalUnitTypeNameAndActive(String externalUnitTypeName,boolean isActive);
 

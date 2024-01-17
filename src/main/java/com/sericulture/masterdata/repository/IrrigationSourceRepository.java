@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface IrrigationSourceRepository extends PagingAndSortingRepository<IrrigationSource,Long> {
-    public List<IrrigationSource> findByIrrigationSourceName(String irrigationSourceName);
+    public List<IrrigationSource> findByIrrigationSourceNameAndIrrigationSourceNameInKannada(String irrigationSourceName,String irrigationSourceNameInKannada);
 
     public IrrigationSource findByIrrigationSourceNameAndActive(String irrigationSourceName,boolean isActive);
 

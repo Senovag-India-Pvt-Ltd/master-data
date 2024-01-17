@@ -16,6 +16,9 @@ public class MarketMasterRequest extends RequestBody {
     @Schema(name = "marketMasterName", example = "Kaveri", required = true)
     String marketMasterName;
 
+    @Schema(name = "marketNameInKannada",  example = "ಭಾಷೆ")
+    String marketNameInKannada;
+
     @Schema(name = "marketMasterAddress", example = "Udupi", required = true)
     String marketMasterAddress;
 

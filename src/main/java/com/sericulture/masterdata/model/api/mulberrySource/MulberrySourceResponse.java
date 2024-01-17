@@ -18,6 +18,9 @@ public class MulberrySourceResponse {
     @Schema(name = "mulberrySourceName", example = "Mulberry source 1")
     String mulberrySourceName;
 
+    @Schema(name = "mulberrySourceNameInKannada",  example = "ಭಾಷೆ")
+    String mulberrySourceNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
