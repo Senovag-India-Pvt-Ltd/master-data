@@ -215,11 +215,11 @@ public class GodownService {
     public GodownResponse updateGodownDetails(EditGodownRequest godownRequest) {
         GodownResponse godownResponse = new GodownResponse();
         List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(),godownRequest.getMarketMasterId());
-        if (godownList.size() > 0) {
-            godownResponse.setError(true);
-            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+//        if (godownList.size() > 0) {
+//            godownResponse.setError(true);
+//            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
 
             Godown godown = godownRepository.findByGodownIdAndActiveIn(godownRequest.getGodownId(), Set.of(true, false));
             if (Objects.nonNull(godown)) {
@@ -235,7 +235,7 @@ public class GodownService {
                 godownResponse.setError_description("Error occurred while fetching Godown");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
+
         return godownResponse;
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)

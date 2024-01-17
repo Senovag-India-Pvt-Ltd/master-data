@@ -196,12 +196,12 @@ public class RaceMasterService {
     @Transactional
     public RaceMasterResponse updateRaceMasterDetails(EditRaceMasterRequest raceMasterRequest) {
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
-        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterNameAndMarketMasterId(raceMasterRequest.getRaceMasterName(),raceMasterRequest.getMarketMasterId());
-        if (raceMasterList.size() > 0) {
-            raceMasterResponse.setError(true);
-            raceMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+//        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterNameAndMarketMasterId(raceMasterRequest.getRaceMasterName(),raceMasterRequest.getMarketMasterId());
+//        if (raceMasterList.size() > 0) {
+//            raceMasterResponse.setError(true);
+//            raceMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
 
             RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActiveIn(raceMasterRequest.getRaceMasterId(), Set.of(true, false));
             if (Objects.nonNull(raceMaster)) {
@@ -217,7 +217,6 @@ public class RaceMasterService {
                 raceMasterResponse.setError_description("Error occurred while fetching Race");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
         return raceMasterResponse;
     }
 
