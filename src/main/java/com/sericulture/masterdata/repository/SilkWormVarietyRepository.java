@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface SilkWormVarietyRepository extends PagingAndSortingRepository<SilkWormVariety, Long> {
-    public List<SilkWormVariety> findBySilkWormVarietyName(String silkWormVarietyName);
+    public List<SilkWormVariety> findBySilkWormVarietyNameAndSilkWormVarietyNameInKannada(String silkWormVarietyName, String silkWormVarietyNameInKannada);
 
     public SilkWormVariety findBySilkWormVarietyNameAndActive(String silkWormVarietyName,boolean isActive);
 
-    public Page<SilkWormVariety> findByActiveOrderBySilkWormVarietyIdAsc(boolean isActive, final Pageable pageable);
+    public Page<SilkWormVariety> findByActiveOrderBySilkWormVarietyNameAsc(boolean isActive, final Pageable pageable);
 
     public SilkWormVariety save(SilkWormVariety silkWormVariety);
 

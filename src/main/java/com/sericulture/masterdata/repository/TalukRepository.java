@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long> {
-    public List<Taluk> findByTalukName(String talukName);
+    public List<Taluk> findByTalukNameAndTalukNameInKannada(String talukName,String talukNameInKannada);
 
     public List<Taluk> findByTalukNameAndDistrictId(String talukName, long districtId);
 
@@ -23,6 +23,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
             " taluk.talukId," +
             " taluk.talukName," +
+            " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
             " state.stateName," +
@@ -34,13 +35,14 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             "left join District district\n" +
             "on taluk.districtId = district.districtId " +
             "where taluk.active = :isActive " +
-            "ORDER BY taluk.talukId ASC"
+            "ORDER BY taluk.talukName ASC"
     )
     Page<TalukDTO> getByActiveOrderByTalukIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
             " taluk.talukId," +
             " taluk.talukName," +
+            " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
             " state.stateName," +
@@ -64,7 +66,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
 
     public List<Taluk> findByTalukNameAndTalukId(String name, long talukId);
 
-    public List<Taluk> findByDistrictIdAndActive(long districtId, boolean isActive);
+    public List<Taluk> findByDistrictIdAndActiveOrderByTalukNameAsc(long districtId, boolean isActive);
 
    // public Page<Taluk> findByDistrictIdAndActive(long districtId, boolean isActive, final Pageable pageable);
 
@@ -76,6 +78,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
             " taluk.talukId," +
             " taluk.talukName," +
+            " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
             " state.stateName," +

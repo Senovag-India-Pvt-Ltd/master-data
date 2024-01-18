@@ -20,6 +20,9 @@ public class EducationResponse extends BaseResponse {
     @Schema(name = "code", example = "BE")
     String code;
 
+    @Schema(name = "educationNameInKannada", example = "ಭಾಷೆ")
+    String educationNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

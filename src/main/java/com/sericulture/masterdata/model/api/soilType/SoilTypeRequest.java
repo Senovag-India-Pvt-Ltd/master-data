@@ -12,4 +12,7 @@ import lombok.*;
 public class SoilTypeRequest extends RequestBody {
     @Schema(name = "soilTypeName", example = "Red Soil", required = true)
     String soilTypeName;
+
+    @Schema(name = "soilTypeNameInKannada",  example = "ಭಾಷೆ")
+    String soilTypeNameInKannada;
 }

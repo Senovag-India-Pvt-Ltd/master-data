@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface DesignationRepository extends PagingAndSortingRepository<Designation, Long> {
-    public List<Designation> findByName(String name);
+    public List<Designation> findByNameAndDesignationNameInKannada(String name,String designationNameInKannada);
 
     public Designation findByNameAndActive(String name,boolean isActive);
 
-    public Page<Designation> findByActiveOrderByDesignationIdAsc(boolean isActive, final Pageable pageable);
+    public Page<Designation> findByActiveOrderByNameAsc(boolean isActive, final Pageable pageable);
 
     public Designation save(Designation designation);
 
@@ -24,6 +24,6 @@ public interface DesignationRepository extends PagingAndSortingRepository<Design
 
     public Designation findByDesignationIdAndActiveIn(@Param("designationId") long designationId, @Param("active") Set<Boolean> active);
 
-    public List<Designation> findByActive(boolean isActive);
+    public List<Designation> findByActiveOrderByNameAsc(boolean isActive);
 }
 

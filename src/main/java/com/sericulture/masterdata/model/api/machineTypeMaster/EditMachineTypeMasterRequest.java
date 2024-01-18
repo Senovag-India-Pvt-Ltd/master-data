@@ -16,4 +16,7 @@ public class EditMachineTypeMasterRequest extends RequestBody {
 
     @Schema(name = "machineTypeName", example = "Machine type name 1", required = true)
     String machineTypeName;
+
+    @Schema(name = "machineTypeNameInKannada",  example = "ಭಾಷೆ")
+    String machineTypeNameInKannada;
 }

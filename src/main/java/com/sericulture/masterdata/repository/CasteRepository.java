@@ -16,14 +16,14 @@ public interface CasteRepository extends PagingAndSortingRepository<Caste, Long>
 
     public List<Caste> findByCode(String code);
 
-    public List<Caste> findByTitle(String title);
+    public List<Caste> findByTitleAndNameInKannada(String title, String nameInKannada);
 
     public Caste findByCodeAndActive(String code,boolean isActive);
 
     public Caste findByTitleAndActive(String title,boolean isActive);
 
 
-    public Page<Caste> findByActiveOrderByIdAsc(boolean isActive, final Pageable pageable);
+    public Page<Caste> findByActiveOrderByTitleAsc(boolean isActive, final Pageable pageable);
 
     public Caste save(Caste caste);
 

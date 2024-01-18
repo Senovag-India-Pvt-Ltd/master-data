@@ -58,7 +58,7 @@ public class MarketTypeMasterService {
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
         MarketTypeMaster marketTypeMaster = mapper.marketTypeMasterObjectToEntity(marketTypeMasterRequest,MarketTypeMaster.class);
         validator.validate(marketTypeMaster);
-        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterName(marketTypeMasterRequest.getMarketTypeMasterName());
+        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterNameAndMarketTypeNameInKannada(marketTypeMasterRequest.getMarketTypeMasterName(),marketTypeMasterRequest.getMarketTypeNameInKannada());
         if(!marketTypeMasterList.isEmpty() && marketTypeMasterList.stream().filter(MarketTypeMaster::getActive).findAny().isPresent()){
             // throw new ValidationException("Village name already exist");
             marketTypeMasterResponse.setError(true);
@@ -82,7 +82,7 @@ public class MarketTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(marketTypeMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(marketTypeMasterRepository.findByActiveOrderByMarketTypeMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<MarketTypeMaster> activeMarketTypeMasters) {
@@ -154,16 +154,17 @@ public class MarketTypeMasterService {
     @Transactional
     public MarketTypeMasterResponse updateMarketTypeMasterDetails(EditMarketTypeMasterRequest marketTypeMasterRequest){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
-//        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterName(marketTypeMasterRequest.getMarketTypeMasterName());
-//        if(marketTypeMasterList.size()>0){
-//            marketTypeMasterResponse.setError(true);
-//            marketTypeMasterResponse.setError_description("Market Type already exists, duplicates are not allowed.");
-//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-//        }else {
+        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterNameAndMarketTypeNameInKannada(marketTypeMasterRequest.getMarketTypeMasterName(),marketTypeMasterRequest.getMarketTypeNameInKannada());
+        if(marketTypeMasterList.size()>0){
+            marketTypeMasterResponse.setError(true);
+            marketTypeMasterResponse.setError_description("Market Type already exists, duplicates are not allowed.");
+            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+        }else {
 
             MarketTypeMaster marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterIdAndActiveIn(marketTypeMasterRequest.getMarketTypeMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketTypeMaster)) {
                 marketTypeMaster.setMarketTypeMasterName(marketTypeMasterRequest.getMarketTypeMasterName());
+                marketTypeMaster.setMarketTypeNameInKannada(marketTypeMasterRequest.getMarketTypeNameInKannada());
                 marketTypeMaster.setReelerFee(marketTypeMasterRequest.getReelerFee());
                 marketTypeMaster.setFarmerFee(marketTypeMasterRequest.getFarmerFee());
                 marketTypeMaster.setTraderFee(marketTypeMasterRequest.getTraderFee());
@@ -176,6 +177,7 @@ public class MarketTypeMasterService {
                 marketTypeMasterResponse.setError_description("Error occurred while fetching marketType");
                 // throw new ValidationException("Error occurred while fetching village");
             }
+        }
 
         return marketTypeMasterResponse;
     }

@@ -17,6 +17,9 @@ public class RoofTypeResponse {
     @Schema(name = "roofTypeName", example = "Hip Roof")
     String roofTypeName;
 
+    @Schema(name = "roofTypeNameInKannada",  example = "ಭಾಷೆ")
+    String roofTypeNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface MulberrySourceRepository extends PagingAndSortingRepository<MulberrySource, Long> {
-    public List<MulberrySource> findByMulberrySourceName(String mulberrySourceName);
+    public List<MulberrySource> findByMulberrySourceNameAndMulberrySourceNameInKannada(String mulberrySourceName,String mulberrySourceNameInKannada);
 
     public MulberrySource findByMulberrySourceNameAndActive(String mulberrySourceName,boolean isActive);
 
-    public Page<MulberrySource> findByActiveOrderByMulberrySourceIdAsc(boolean isActive, final Pageable pageable);
+    public Page<MulberrySource> findByActiveOrderByMulberrySourceNameAsc(boolean isActive, final Pageable pageable);
 
     public MulberrySource save(MulberrySource mulberrySource);
 

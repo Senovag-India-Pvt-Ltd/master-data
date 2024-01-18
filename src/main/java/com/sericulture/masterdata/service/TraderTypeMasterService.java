@@ -54,7 +54,7 @@ public class TraderTypeMasterService {
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = mapper.traderTypeMasterObjectToEntity(traderTypeMasterRequest,TraderTypeMaster.class);
         validator.validate(traderTypeMaster);
-        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
+        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterNameAndTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
         if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(TraderTypeMaster::getActive).findAny().isPresent()){
             traderTypeMasterResponse.setError(true);
             traderTypeMasterResponse.setError_description("TraderType name already exist");
@@ -72,12 +72,12 @@ public class TraderTypeMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTraderTypeMasterDetails(final Pageable pageable){
-        return convertToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterIdAsc( true, pageable));
+        return convertToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(traderTypeMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<TraderTypeMaster> activeTraderTypeMasters) {
@@ -136,7 +136,7 @@ public class TraderTypeMasterService {
     @Transactional
     public TraderTypeMasterResponse updateTraderTypeMasterDetails(EditTraderTypeMasterRequest traderTypeMasterRequest){
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
-        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
+        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterNameAndTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
         if(traderTypeMasterList.size()>0){
             traderTypeMasterResponse.setError(true);
             traderTypeMasterResponse.setError_description("TraderType already exists, duplicates are not allowed.");
@@ -146,6 +146,7 @@ public class TraderTypeMasterService {
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActiveIn(traderTypeMasterRequest.getTraderTypeMasterId(), Set.of(true,false));
         if(Objects.nonNull(traderTypeMaster)){
             traderTypeMaster.setTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
+            traderTypeMaster.setTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeNameInKannada());
             traderTypeMaster.setActive(true);
             TraderTypeMaster traderTypeMaster1 = traderTypeMasterRepository.save(traderTypeMaster);
             traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMaster1, TraderTypeMasterResponse.class);

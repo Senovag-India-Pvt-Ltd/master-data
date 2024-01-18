@@ -17,6 +17,9 @@ public class MulberryVarietyResponse {
     @Schema(name = "mulberryVarietyName", example = "Mulberry variety 1")
     String mulberryVarietyName;
 
+    @Schema(name = "mulberryVarietyNameInKannada",  example = "ಭಾಷೆ")
+    String mulberryVarietyNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

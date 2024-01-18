@@ -17,6 +17,9 @@ public class PlantationTypeResponse {
     @Schema(name = "plantationTypeName", example = "Mulberry Silk")
     String plantationTypeName;
 
+    @Schema(name = "plantationTypeNameInKannada",  example = "ಭಾಷೆ")
+    String plantationTypeNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

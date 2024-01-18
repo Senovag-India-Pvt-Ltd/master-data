@@ -56,7 +56,7 @@ public class RoofTypeService {
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = mapper.roofTypeObjectToEntity(roofTypeRequest,RoofType.class);
         validator.validate(roofType);
-        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeName(roofTypeRequest.getRoofTypeName());
+        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannada(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada());
         if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(RoofType::getActive).findAny().isPresent()){
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType name already exist");
@@ -74,7 +74,7 @@ public class RoofTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRoofTypeDetails(final Pageable pageable){
-        return convertToMapResponse(roofTypeRepository.findByActiveOrderByRoofTypeIdAsc( true, pageable));
+        return convertToMapResponse(roofTypeRepository.findByActiveOrderByRoofTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -138,7 +138,7 @@ public class RoofTypeService {
     @Transactional
     public RoofTypeResponse updateRoofTypeDetails(EditRoofTypeRequest roofTypeRequest) {
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
-        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeName(roofTypeRequest.getRoofTypeName());
+        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannada(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada());
         if (roofTypeList.size() > 0) {
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType already exists, duplicates are not allowed.");
@@ -148,6 +148,7 @@ public class RoofTypeService {
             RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActiveIn(roofTypeRequest.getRoofTypeId(), Set.of(true, false));
             if (Objects.nonNull(roofType)) {
                 roofType.setRoofTypeName(roofTypeRequest.getRoofTypeName());
+                roofType.setRoofTypeNameInKannada(roofTypeRequest.getRoofTypeNameInKannada());
                 roofType.setActive(true);
                 RoofType roofType1 = roofTypeRepository.save(roofType);
                 roofTypeResponse = mapper.roofTypeEntityToObject(roofType1, RoofTypeResponse.class);

@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.BinCounterMaster;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Education;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,13 @@ public interface EducationRepository extends PagingAndSortingRepository<Educatio
 
     public Education findByCode(String code);
 
+    public List<Education> findByNameAndEducationNameInKannada(String name, String educationNameInKannada);
+
     public Education findByIdAndActive(long id, boolean isActive);
 
     public List<Education> findByNameAndActiveIn(@Param("name") String name, @Param("active") Set<Boolean> active);
     public Education findByIdAndActiveIn(@Param("id") long id, @Param("active") Set<Boolean> active);
-    Page<Education> findByActiveOrderByIdAsc(boolean isActive, final Pageable pageable);
+    Page<Education> findByActiveOrderByNameAsc(boolean isActive, final Pageable pageable);
 
     public Education save(Education education);
 

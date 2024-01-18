@@ -18,6 +18,9 @@ public class LandCategoryResponse {
     @Schema(name = "landCategoryName", example = "SF")
     String landCategoryName;
 
+    @Schema(name = "landCategoryNameInKannada",  example = "ಭಾಷೆ")
+    String landCategoryNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -17,7 +17,7 @@ public interface VendorMasterRepository extends PagingAndSortingRepository<Vendo
 
     public VendorMaster findByVendorMasterNameAndActive(String vendorMasterName,boolean isActive);
 
-    public Page<VendorMaster> findByActiveOrderByVendorMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<VendorMaster> findByActiveOrderByVendorMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public VendorMaster save(VendorMaster vendorMaster);
 

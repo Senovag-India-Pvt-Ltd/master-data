@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface SubsidyRepository extends PagingAndSortingRepository<Subsidy, Long> {
-    public List<Subsidy> findBySubsidyName(String subsidyName);
+    public List<Subsidy> findBySubsidyNameAndSubsidyNameInKannada(String subsidyName,String subsidyNameInKannada);
 
     public Subsidy findBySubsidyNameAndActive(String subsidyName,boolean isActive);
 
-    public Page<Subsidy> findByActiveOrderBySubsidyIdAsc(boolean isActive, final Pageable pageable);
+    public Page<Subsidy> findByActiveOrderBySubsidyNameAsc(boolean isActive, final Pageable pageable);
 
     public Subsidy save(Subsidy subsidy);
 

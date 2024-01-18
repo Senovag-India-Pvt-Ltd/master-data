@@ -15,4 +15,7 @@ public class EditExternalUnitTypeRequest extends RequestBody {
 
     @Schema(name = "externalUnitTypeName", example = "external unit type 1", required = true)
     String externalUnitTypeName;
+
+    @Schema(name = "externalUnitTypeNameInKannada",  example = "ಭಾಷೆ")
+    String externalUnitTypeNameInKannada;
 }

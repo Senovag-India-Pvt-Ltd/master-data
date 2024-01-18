@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface WorkingInstitutionRepository extends PagingAndSortingRepository<WorkingInstitution,Long> {
-    public List<WorkingInstitution> findByWorkingInstitutionName(String workingInstitutionName);
+    public List<WorkingInstitution> findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(String workingInstitutionName,String workingInstitutionNameInKannada);
 
     public WorkingInstitution findByWorkingInstitutionNameAndActive(String workingInstitutionName,boolean isActive);
 
-    public Page<WorkingInstitution> findByActiveOrderByWorkingInstitutionIdAsc(boolean isActive, final Pageable pageable);
+    public Page<WorkingInstitution> findByActiveOrderByWorkingInstitutionNameAsc(boolean isActive, final Pageable pageable);
 
     public WorkingInstitution save(WorkingInstitution workingInstitution);
 
@@ -24,5 +24,5 @@ public interface WorkingInstitutionRepository extends PagingAndSortingRepository
 
     public WorkingInstitution findByWorkingInstitutionIdAndActiveIn(@Param("workingInstitutionId") long workingInstitutionId, @Param("active") Set<Boolean> active);
 
-    public List<WorkingInstitution> findByActive(boolean isActive);
+    public List<WorkingInstitution> findByActiveOrderByWorkingInstitutionNameAsc(boolean isActive);
 }

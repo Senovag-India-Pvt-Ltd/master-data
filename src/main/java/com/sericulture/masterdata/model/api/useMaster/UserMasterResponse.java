@@ -24,9 +24,6 @@ public class UserMasterResponse {
     @Schema(name = "lastName", example = "Kharvi")
     String lastName;
 
-    @Schema(name = "password", example = "12345")
-    String password;
-
     @Schema(name = "emailID", example = "12S")
     String emailID;
 
@@ -89,6 +86,12 @@ public class UserMasterResponse {
 
     @Schema(name = "workingInstitutionName", example = "Government")
     String workingInstitutionName;
+
+    @Schema(name = "currentReelerUsers", example = "1")
+    int currentReelerUsers;
+
+    @Schema(name = "maxReelerUsers", example = "1")
+    Long maxReelerUsers;
 
     @Schema(name = "error", example = "true")
     Boolean error;

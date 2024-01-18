@@ -15,6 +15,8 @@ import java.util.Set;
 
 @Repository
 public interface DistrictRepository extends PagingAndSortingRepository<District, Long> {
+    public List<District> findByDistrictNameAndDistrictNameInKannada(String districtName,String districtNameInKannada);
+
     public List<District> findByDistrictName(String districtName);
 
     public List<District> findByDistrictNameAndStateId(String districtName, long stateId);
@@ -26,6 +28,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
    @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
            " district.districtId," +
            " district.districtName," +
+           " district.districtNameInKannada," +
            " district.stateId," +
            " state.stateName" +
            ") \n" +
@@ -33,7 +36,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
            "left join State state\n" +
            "on district.stateId = state.stateId " +
            "where district.active = :isActive " +
-           "ORDER BY district.districtId ASC"
+           "ORDER BY district.districtName ASC"
    )
    Page<DistrictDTO> getByActiveOrderByDistrictIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
@@ -44,6 +47,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
@@ -54,7 +58,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     )
     public DistrictDTO getByDistrictIdAndActive(long id, boolean isActive);
 
-    public List<District> findByStateIdAndActive(long stateId, boolean isActive);
+    public List<District> findByStateIdAndActiveOrderByDistrictName(long stateId, boolean isActive);
 
     public District findByDistrictIdAndActiveIn(@Param("districtId") long districtId, @Param("active") Set<Boolean> active);
 
@@ -63,6 +67,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +
@@ -76,6 +81,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
     @Query("select new com.sericulture.masterdata.model.dto.DistrictDTO(" +
             " district.districtId," +
             " district.districtName," +
+            " district.districtNameInKannada," +
             " district.stateId," +
             " state.stateName" +
             ") \n" +

@@ -21,12 +21,14 @@ import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterReq
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
+import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterRequest;
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
+import com.sericulture.masterdata.model.api.reelerTypeMaster.ReelerTypeMasterRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
@@ -42,6 +44,8 @@ import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
+import com.sericulture.masterdata.model.api.trGroupMaster.TrGroupMasterRequest;
+import com.sericulture.masterdata.model.api.trInstitutionMaster.TrInstitutionMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
@@ -1122,4 +1126,102 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, trProgramMasterRequest);
         return (T) mapper.map(trProgramMasterRequest, claaz);
     }
+
+    /**
+     * Maps reelerTypeMaster Entity to reelerTypeMaster Response Object
+     * @param reelerTypeMasterEntity
+     * @param <T>
+     */
+    public <T> T reelerTypeMasterEntityToObject(ReelerTypeMaster reelerTypeMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,reelerTypeMasterEntity);
+        return (T) mapper.map(reelerTypeMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps reelerTypeMaster Object to releerTypeMaster  Response Object
+     * @param reelerTypeMasterRequest
+     * @param <T>
+     */
+    public <T> T reelerTypeMasterObjectToEntity(ReelerTypeMasterRequest reelerTypeMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, reelerTypeMasterRequest);
+        return (T) mapper.map(reelerTypeMasterRequest, claaz);
+    }
+
+    /**
+     * Maps raceMarketMaster Entity to raceMarketMaster Response Object
+     * @param raceMarketMasterEntity
+     * @param <T>
+     */
+    public <T> T raceMarketMasterEntityToObject(RaceMarketMaster raceMarketMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,raceMarketMasterEntity);
+        return (T) mapper.map(raceMarketMasterEntity, claaz);
+    }
+
+    /**
+     * Maps raceMarketMasterDTO to raceMarketMaster Response Object
+     * @param raceMarketMasterDTO
+     * @param <T>
+     */
+    public <T> T raceMarketMasterDTOToObject(RaceMarketMasterDTO raceMarketMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, raceMarketMasterDTO);
+        return (T) mapper.map(raceMarketMasterDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps raceMarketMaster Object to raceMarketMaster  Response Object
+     * @param raceMarketMasterRequest
+     * @param <T>
+     */
+    public <T> T raceMarketMasterObjectToEntity(RaceMarketMasterRequest raceMarketMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, raceMarketMasterRequest);
+        return (T) mapper.map(raceMarketMasterRequest, claaz);
+    }
+
+
+
+    /**
+     * Maps trInstitutionMaster Entity to trInstitutionMaster Response Object
+     * @param trInstitutionMasterEntity
+     * @param <T>
+     */
+    public <T> T trInstitutionMasterEntityToObject(TrInstitutionMaster trInstitutionMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trInstitutionMasterEntity);
+        return (T) mapper.map(trInstitutionMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trInstitutionMaster Object to trInstitutionMaster  Response Object
+     * @param trInstitutionMasterRequest
+     * @param <T>
+     */
+    public <T> T trInstitutionMasterObjectToEntity(TrInstitutionMasterRequest trInstitutionMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trInstitutionMasterRequest);
+        return (T) mapper.map(trInstitutionMasterRequest, claaz);
+    }
+
+    /**
+     * Maps trGroupMaster Entity to trGroupMaster Response Object
+     * @param trGroupMasterEntity
+     * @param <T>
+     */
+    public <T> T trGroupMasterEntityToObject(TrGroupMaster trGroupMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trGroupMasterEntity);
+        return (T) mapper.map(trGroupMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trGroupMaster Object to trGroupMaster  Response Object
+     * @param trGroupMasterRequest
+     * @param <T>
+     */
+    public <T> T trGroupMasterObjectToEntity(TrGroupMasterRequest trGroupMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trGroupMasterRequest);
+        return (T) mapper.map(trGroupMasterRequest, claaz);
+    }
+
 }

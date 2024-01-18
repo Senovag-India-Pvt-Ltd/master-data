@@ -18,6 +18,9 @@ public class MachineTypeMasterResponse {
     @Schema(name = "machineTypeName", example = "Machine type 1")
     String machineTypeName;
 
+    @Schema(name = "machineTypeNameInKannada",  example = "ಭಾಷೆ")
+    String machineTypeNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

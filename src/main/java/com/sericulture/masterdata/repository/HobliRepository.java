@@ -15,6 +15,8 @@ import java.util.Set;
 
 @Repository
 public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long> {
+    public List<Hobli> findByHobliNameAndHobliNameInKannada(String hobliName,String hobliNameInKannada);
+
     public List<Hobli> findByHobliName(String hobliName);
 
     public List<Hobli> findByHobliNameAndTalukId(String hobliName, long talukId);
@@ -30,6 +32,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
+            " hobli.hobliNameInKannada," +
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
@@ -52,6 +55,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
+            " hobli.hobliNameInKannada," +
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
@@ -80,6 +84,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
     @Query("select new com.sericulture.masterdata.model.dto.HobliDTO(" +
             " hobli.hobliId," +
             " hobli.hobliName," +
+            " hobli.hobliNameInKannada," +
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +

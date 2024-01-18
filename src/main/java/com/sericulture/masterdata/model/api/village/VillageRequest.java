@@ -24,4 +24,7 @@ public class VillageRequest extends RequestBody {
 
     @Schema(name = "villageName", example = "Hodala", required = true)
     String villageName;
+
+    @Schema(name = "villageNameInKannada",  example = "ಭಾಷೆ")
+    String villageNameInKannada;
 }

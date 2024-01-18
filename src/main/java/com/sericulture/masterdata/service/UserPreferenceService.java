@@ -10,10 +10,7 @@ import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRespons
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.UserPreferenceDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
-import com.sericulture.masterdata.model.entity.Reeler;
-import com.sericulture.masterdata.model.entity.State;
-import com.sericulture.masterdata.model.entity.UserMaster;
-import com.sericulture.masterdata.model.entity.UserPreference;
+import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReelerRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
@@ -206,39 +203,69 @@ public class UserPreferenceService {
     @Transactional
     public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest) {
         UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
+        UserPreference userPreference = userPreferenceRepository.findByUserMasterIdAndActive(
+                userPreferenceRequest.getUserMasterId(), true);
+        if (Objects.nonNull(userPreference)){
+            userPreference.setGodownId(userPreferenceRequest.getGodownId());
+            // Other fields to update if needed
+            userPreference.setActive(true);
 
-        if (userPreferenceRequest.getUserMasterId() != null) {
-            // Update existing record
-            UserPreference userPreference = userPreferenceRepository.findByUserMasterIdAndActive(
-                    userPreferenceRequest.getUserMasterId(), true);
-
-            if (Objects.nonNull(userPreference)) {
-                userPreference.setGodownId(userPreferenceRequest.getGodownId());
-                // Other fields to update if needed
-                userPreference.setActive(true);
-
-                UserPreference updatedUserPreference = userPreferenceRepository.save(userPreference);
-                userPreferenceResponse = mapper.userPreferenceEntityToObject(updatedUserPreference, UserPreferenceResponse.class);
-                userPreferenceResponse.setError(false);
-            } else {
-                userPreferenceResponse.setError(true);
-                userPreferenceResponse.setError_description("Error occurred while fetching userPreference");
-            }
-        } else {
-            // Create a new record
+            UserPreference updatedUserPreference = userPreferenceRepository.save(userPreference);
+            userPreferenceResponse = mapper.userPreferenceEntityToObject(updatedUserPreference, UserPreferenceResponse.class);
+            userPreferenceResponse.setError(false);
+        }else if(userPreference==null){
             UserPreference newUserPreference = new UserPreference();
             newUserPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
             newUserPreference.setGodownId(userPreferenceRequest.getGodownId());
-            // Set other fields from the payload if needed
             newUserPreference.setActive(true);
-
             UserPreference savedUserPreference = userPreferenceRepository.save(newUserPreference);
             userPreferenceResponse = mapper.userPreferenceEntityToObject(savedUserPreference, UserPreferenceResponse.class);
             userPreferenceResponse.setError(false);
-        }
-
+        }else {
+                userPreferenceResponse.setError(true);
+                userPreferenceResponse.setError_description("Error occurred while fetching userPreference");
+            }
         return userPreferenceResponse;
     }
+
+
+//    @Transactional
+//    public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest) {
+//        UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
+//
+//
+//        if (userPreferenceRequest.getUserMasterId() != null) {
+//            // Update existing record
+//            UserPreference userPreference = userPreferenceRepository.findByUserMasterIdAndActive(
+//                    userPreferenceRequest.getUserMasterId(), true);
+//
+//            if (Objects.nonNull(userPreference)) {
+//                userPreference.setGodownId(userPreferenceRequest.getGodownId());
+//                // Other fields to update if needed
+//                userPreference.setActive(true);
+//
+//                UserPreference updatedUserPreference = userPreferenceRepository.save(userPreference);
+//                userPreferenceResponse = mapper.userPreferenceEntityToObject(updatedUserPreference, UserPreferenceResponse.class);
+//                userPreferenceResponse.setError(false);
+//            } else {
+//                userPreferenceResponse.setError(true);
+//                userPreferenceResponse.setError_description("Error occurred while fetching userPreference");
+//            }
+//        } else {
+//            // Create a new record
+//            UserPreference newUserPreference = new UserPreference();
+//            newUserPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
+//            newUserPreference.setGodownId(userPreferenceRequest.getGodownId());
+//            // Set other fields from the payload if needed
+//            newUserPreference.setActive(true);
+//
+//            UserPreference savedUserPreference = userPreferenceRepository.save(newUserPreference);
+//            userPreferenceResponse = mapper.userPreferenceEntityToObject(savedUserPreference, UserPreferenceResponse.class);
+//            userPreferenceResponse.setError(false);
+//        }
+//
+//        return userPreferenceResponse;
+//    }
 
 
 

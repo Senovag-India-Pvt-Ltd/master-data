@@ -62,7 +62,7 @@ public class ExternalUnitTypeService {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = mapper.externalUnitTypeObjectToEntity(externalUnitTypeRequest,ExternalUnitType.class);
         validator.validate(externalUnitType);
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
         if(!externalUnitTypeList.isEmpty() && externalUnitTypeList.stream().filter(ExternalUnitType::getActive).findAny().isPresent()){
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType name already exist");
@@ -80,7 +80,7 @@ public class ExternalUnitTypeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedExternalUnitTypeDetails(final Pageable pageable){
-        return convertToMapResponse(externalUnitTypeRepository.findByActiveOrderByExternalUnitTypeIdAsc( true, pageable));
+        return convertToMapResponse(externalUnitTypeRepository.findByActiveOrderByExternalUnitTypeNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -144,7 +144,7 @@ public class ExternalUnitTypeService {
     @Transactional
     public ExternalUnitTypeResponse updateExternalUnitTypeDetails(EditExternalUnitTypeRequest externalUnitTypeRequest) {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
         if (externalUnitTypeList.size() > 0) {
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType already exists, duplicates are not allowed.");
@@ -154,6 +154,7 @@ public class ExternalUnitTypeService {
             ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActiveIn(externalUnitTypeRequest.getExternalUnitTypeId(), Set.of(true, false));
             if (Objects.nonNull(externalUnitType)) {
                 externalUnitType.setExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
+                externalUnitType.setExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
                 externalUnitType.setActive(true);
                 ExternalUnitType externalUnitType1 = externalUnitTypeRepository.save(externalUnitType);
                 externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitType1, ExternalUnitTypeResponse.class);

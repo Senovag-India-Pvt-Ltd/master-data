@@ -28,15 +28,18 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
 
     public RaceMaster save(RaceMaster raceMaster);
 
+    List<RaceMaster> findByRaceMasterNameAndMarketMasterId(String raceMasterName, long marketMasterId);
+
     public RaceMaster findByRaceMasterIdAndActive(long id, boolean isActive);
 
     public RaceMaster findByRaceMasterIdAndActiveIn(@Param("raceMasterId") long raceMasterId, @Param("active") Set<Boolean> active);
 
-    public List<RaceMaster> findByActive(boolean isActive);
+    public List<RaceMaster> findByActiveOrderByRaceMasterNameAsc(boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.RaceMasterDTO(" +
             " raceMaster.raceMasterId," +
             " raceMaster.raceMasterName," +
+            " raceMaster.raceNameInKannada," +
             " raceMaster.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -50,6 +53,7 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
     @Query("select new com.sericulture.masterdata.model.dto.RaceMasterDTO(" +
             " raceMaster.raceMasterId," +
             " raceMaster.raceMasterName," +
+            " raceMaster.raceNameInKannada," +
             " raceMaster.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -57,13 +61,14 @@ public interface RaceMasterRepository extends PagingAndSortingRepository<RaceMas
             "left join market_master marketMaster\n" +
             "on raceMaster.marketMasterId = marketMaster.marketMasterId " +
             "where raceMaster.active = :isActive " +
-            "ORDER BY raceMaster.raceMasterId ASC"
+            "ORDER BY raceMaster.raceMasterName ASC"
     )
     Page<RaceMasterDTO> getByActiveOrderByRaceMasterIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
     @Query("select new com.sericulture.masterdata.model.dto.RaceMasterDTO(" +
             " raceMaster.raceMasterId," +
             " raceMaster.raceMasterName," +
+            " raceMaster.raceNameInKannada," +
             " raceMaster.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +

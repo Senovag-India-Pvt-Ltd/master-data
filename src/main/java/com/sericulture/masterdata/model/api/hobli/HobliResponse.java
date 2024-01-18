@@ -36,6 +36,9 @@ public class HobliResponse {
     @Schema(name = "hobliName", example = "Kasaba")
     String hobliName;
 
+    @Schema(name = "hobliNameInKannada",  example = "ಭಾಷೆ")
+    String hobliNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

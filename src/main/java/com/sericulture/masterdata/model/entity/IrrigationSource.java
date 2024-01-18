@@ -25,4 +25,7 @@ public class IrrigationSource extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "IrrigationSource name should be more than 1 characters.")
     @Column(name = "irrigation_source_Name", unique = true)
     private String irrigationSourceName;
+
+    @Column(name = "irrigation_source_name_in_kannada")
+    private String irrigationSourceNameInKannada;
 }

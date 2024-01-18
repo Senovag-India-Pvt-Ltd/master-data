@@ -13,4 +13,7 @@ public class WorkingInstitutionRequest extends RequestBody {
 
     @Schema(name = "workingInstitutionName", example = "Karnataka", required = true)
     String workingInstitutionName;
+
+    @Schema(name = "workingInstitutionNameInKannada",  example = "ಭಾಷೆ")
+    String workingInstitutionNameInKannada;
 }

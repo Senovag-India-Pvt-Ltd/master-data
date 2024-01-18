@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface PlantationTypeRepository extends PagingAndSortingRepository<PlantationType, Long> {
-    public List<PlantationType> findByPlantationTypeName(String plantationTypeName);
+    public List<PlantationType> findByPlantationTypeNameAndPlantationTypeNameInKannada(String plantationTypeName,String plantationTypeNameInKannada);
 
     public PlantationType findByPlantationTypeNameAndActive(String plantationTypeName,boolean isActive);
 
-    public Page<PlantationType> findByActiveOrderByPlantationTypeIdAsc(boolean isActive, final Pageable pageable);
+    public Page<PlantationType> findByActiveOrderByPlantationTypeNameAsc(boolean isActive, final Pageable pageable);
 
     public PlantationType save(PlantationType plantationType);
 

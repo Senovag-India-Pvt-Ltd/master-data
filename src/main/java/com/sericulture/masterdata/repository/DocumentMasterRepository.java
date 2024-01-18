@@ -18,7 +18,7 @@ public interface DocumentMasterRepository extends PagingAndSortingRepository<Doc
 
     public DocumentMaster findByDocumentMasterNameAndActive(String documentMasterName,boolean isActive);
 
-    public Page<DocumentMaster> findByActiveOrderByDocumentMasterIdAsc(boolean isActive, final Pageable pageable);
+    public Page<DocumentMaster> findByActiveOrderByDocumentMasterNameAsc(boolean isActive, final Pageable pageable);
 
     public DocumentMaster save(DocumentMaster documentMaster);
 

@@ -3,20 +3,16 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.useMaster.*;
-import com.sericulture.masterdata.model.api.village.VillageResponse;
-import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
-import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
 import com.sericulture.masterdata.model.entity.Reeler;
+import com.sericulture.masterdata.model.entity.ReelerTypeMaster;
 import com.sericulture.masterdata.model.entity.UserMaster;
-import com.sericulture.masterdata.model.entity.Village;
-import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ReelerRepository;
+import com.sericulture.masterdata.repository.ReelerTypeMasterRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +24,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,6 +47,9 @@ public class UserMasterService {
 
     @Autowired
     ReelerRepository reelerRepository;
+
+    @Autowired
+    ReelerTypeMasterRepository reelerTypeMasterRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -344,49 +342,63 @@ public class UserMasterService {
     @Transactional
     public UserMasterResponse saveReelerUser(SaveReelerUserRequest saveReelerUserRequest){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
-        Reeler reeler = reelerRepository.findByReelerIdAndIsActivatedAndActive(saveReelerUserRequest.getReelerId(), 0, true);
+        Reeler reeler = reelerRepository.findByReelerIdAndActive(saveReelerUserRequest.getReelerId(),  true);
         if (reeler == null) {
             userMasterResponse.setError(true);
             userMasterResponse.setError_description("Error occurred while fetching reeler");
         }else {
             UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
             if (userMaster == null) {
-                UserMaster userMaster1 = new UserMaster();
-                userMaster1.setUsername(saveReelerUserRequest.getUsername());
-                userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
-                userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
-                userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
-                userMaster1.setRoleId(saveReelerUserRequest.getRoleId());
-                userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
-                userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
-                userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
-                userMaster1.setUserType(2); //For reeler
-                userMaster1.setUserTypeId(reeler.getReelerId());
-                userMaster1.setFirstName(reeler.getReelerName());
-                userMaster1.setStateId(reeler.getStateId());
-                userMaster1.setDistrictId(reeler.getDistrictId());
-                userMaster1.setTalukId(reeler.getTalukId());
-                userMaster1.setActive(true);
+                ReelerTypeMaster reelerTypeMaster = reelerTypeMasterRepository.findByReelerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
+                if(reelerTypeMaster == null){
+                    userMasterResponse.setError(true);
+                    userMasterResponse.setError_description("ReelerType not found");
+                }else{
+                    userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
+                    List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getReelerId());
+                    userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
+                    if(currentReelerUsers.size()<reelerTypeMaster.getNoOfDeviceAllowed()) {
+                        UserMaster userMaster1 = new UserMaster();
+                        userMaster1.setUsername(saveReelerUserRequest.getUsername());
+                        userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+                        userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+                        userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
+                        userMaster1.setRoleId(saveReelerUserRequest.getRoleId());
+                        userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+                        userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
+                        userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
+                        userMaster1.setUserType(2); //For reeler
+                        userMaster1.setUserTypeId(reeler.getReelerId());
+                        userMaster1.setFirstName(reeler.getReelerName());
+                        userMaster1.setStateId(reeler.getStateId());
+                        userMaster1.setDistrictId(reeler.getDistrictId());
+                        userMaster1.setTalukId(reeler.getTalukId());
+                        userMaster1.setActive(true);
 
-                //Save reeler user
-                UserMaster userMaster2 = userMasterRepository.save(userMaster1);
-                userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+                        //Save reeler user
+                        UserMaster userMaster2 = userMasterRepository.save(userMaster1);
+                        userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
 
-                //Activate reeler
-                reeler.setIsActivated(1); //activated
-                if(saveReelerUserRequest.getWalletAMount() == null){
-                    reeler.setWalletAmount(0.0);
-                }else {
-                    if (saveReelerUserRequest.getWalletAMount() > 0.0) {
-                        reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
-                    } else {
-                        reeler.setWalletAmount(0.0);
+                        //Activate reeler
+                        reeler.setIsActivated(1); //activated
+                        if (saveReelerUserRequest.getWalletAMount() == null) {
+                            reeler.setWalletAmount(0.0);
+                        } else {
+                            if (saveReelerUserRequest.getWalletAMount() > 0.0) {
+                                reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
+                            } else {
+                                reeler.setWalletAmount(0.0);
+                            }
+                        }
+                        reeler.setActive(true);
+                        reelerRepository.save(reeler);
+
+                        userMasterResponse.setError(false);
+                    }else{
+                        userMasterResponse.setError(true);
+                        userMasterResponse.setError_description("Max number of users already configured");
                     }
                 }
-                reeler.setActive(true);
-                reelerRepository.save(reeler);
-
-                userMasterResponse.setError(false);
             } else {
                 userMasterResponse.setError(true);
                 userMasterResponse.setError_description("Username already exist");
@@ -457,5 +469,32 @@ public class UserMasterService {
         response.put("totalPages", activeUsers.getTotalPages());
 
         return response;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllReelerUsers(boolean isActive, long reelerId){
+        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId));
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public UserMasterResponse getConfigureUserDetailsForReeler(boolean isActive, long reelerId){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        Reeler reeler = reelerRepository.findByReelerIdAndActive(reelerId, true);
+        if(reeler == null){
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Reeler not found");
+        }else{
+            ReelerTypeMaster reelerTypeMaster = reelerTypeMasterRepository.findByReelerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
+            if(reelerTypeMaster == null){
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("ReelerType not found");
+            }else{
+                userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
+                List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId);
+                userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
+                userMasterResponse.setError(false);
+            }
+        }
+        return userMasterResponse;
     }
 }

@@ -20,5 +20,5 @@ public interface RpPagePermissionRepository extends PagingAndSortingRepository<R
 
     public RpPagePermission findByRpPagePermissionIdAndActiveIn(@Param("rpPagePermissionId") long stateId, @Param("active") Set<Boolean> active);
 
-    public List<RpPagePermission> findByActive(boolean isActive);
+    public List<RpPagePermission> findByActiveOrderByPageNameAsc(boolean isActive);
 }

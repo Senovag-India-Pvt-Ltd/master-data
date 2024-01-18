@@ -18,6 +18,9 @@ public class WorkingInstitutionResponse {
     @Schema(name = "workingInstituitonName", example = "Karnataka", required = true)
     String workingInstitutionName;
 
+    @Schema(name = "workingInstitutionNameInKannada",  example = "ಭಾಷೆ")
+    String workingInstitutionNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -55,7 +55,7 @@ public class StateService {
         StateResponse stateResponse = new StateResponse();
         State state = mapper.stateObjectToEntity(stateRequest,State.class);
         validator.validate(state);
-        List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
+        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannada(stateRequest.getStateName(),stateRequest.getStateNameInKannada());
         if(!stateList.isEmpty() && stateList.stream().filter(State::getActive).findAny().isPresent()){
             stateResponse.setError(true);
             stateResponse.setError_description("State name already exist");
@@ -72,12 +72,12 @@ public class StateService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedStateDetails(final Pageable pageable){
-        return convertToMapResponse(stateRepository.findByActiveOrderByStateIdAsc( true, pageable));
+        return convertToMapResponse(stateRepository.findByActiveOrderByStateNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(stateRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(stateRepository.findByActiveOrderByStateNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<State> activeStates) {
@@ -138,7 +138,7 @@ public class StateService {
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
 
             StateResponse stateResponse = new StateResponse();
-        List<State> stateList = stateRepository.findByStateName(stateRequest.getStateName());
+        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannada(stateRequest.getStateName(),stateRequest.getStateNameInKannada());
         if(stateList.size()>0){
             stateResponse.setError(true);
             stateResponse.setError_description("State already exists, duplicates are not allowed.");
@@ -149,6 +149,7 @@ public class StateService {
             State state = stateRepository.findByStateIdAndActiveIn(stateRequest.getStateId(), Set.of(true,false));
         if(Objects.nonNull(state)){
             state.setStateName(stateRequest.getStateName());
+            state.setStateNameInKannada(stateRequest.getStateNameInKannada());
             state.setActive(true);
             State state1 = stateRepository.save(state);
             stateResponse = mapper.stateEntityToObject(state1, StateResponse.class);

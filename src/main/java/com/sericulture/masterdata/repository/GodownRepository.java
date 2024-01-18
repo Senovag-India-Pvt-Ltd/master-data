@@ -31,11 +31,13 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
 
     public Godown findByGodownIdAndActiveIn(@Param("godownId") long godownId, @Param("active") Set<Boolean> active);
 
+    List<Godown> findByGodownNameAndMarketMasterId(String godownName, long marketMasterId);
     public List<Godown> findByActive(boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
             " godown.godownId," +
             " godown.godownName," +
+            " godown.godownNameInKannada," +
             " godown.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -43,13 +45,14 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
             "left join market_master marketMaster\n" +
             "on godown.marketMasterId = marketMaster.marketMasterId " +
             "where godown.active = :isActive " +
-            "ORDER BY godown.godownId ASC"
+            "ORDER BY godown.godownName ASC"
     )
     Page<GodownDTO> getByActiveOrderByGodownIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
             " godown.godownId," +
             " godown.godownName," +
+            " godown.godownNameInKannada," +
             " godown.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +
@@ -63,6 +66,7 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +
             " godown.godownId," +
             " godown.godownName," +
+            " godown.godownNameInKannada," +
             " godown.marketMasterId," +
             " marketMaster.marketMasterName" +
             ") \n" +

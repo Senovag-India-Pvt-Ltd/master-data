@@ -64,7 +64,7 @@ public class MarketMasterService {
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = mapper.marketMasterObjectToEntity(marketMasterRequest,MarketMaster.class);
         validator.validate(marketMaster);
-        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterName(marketMasterRequest.getMarketMasterName());
+        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterNameAndMarketNameInKannada(marketMasterRequest.getMarketMasterName(), marketMasterRequest.getMarketNameInKannada());
         if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(MarketMaster::getActive).findAny().isPresent()){
             marketMasterResponse.setError(true);
             marketMasterResponse.setError_description("Market name already exist");
@@ -86,7 +86,7 @@ public class MarketMasterService {
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(marketMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(marketMasterRepository.findByActiveOrderByMarketMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<MarketMaster> activeMarketMasters) {
@@ -188,6 +188,7 @@ public class MarketMasterService {
             MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketMaster)) {
                 marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
+                marketMaster.setMarketNameInKannada(marketMasterRequest.getMarketNameInKannada());
                 marketMaster.setMarketTypeMasterId(marketMasterRequest.getMarketTypeMasterId());
                 marketMaster.setIssueBidSlipStartTime(marketMasterRequest.getIssueBidSlipStartTime());
                 marketMaster.setIssueBidSlipEndTime(marketMasterRequest.getIssueBidSlipEndTime());
@@ -200,6 +201,9 @@ public class MarketMasterService {
                 marketMaster.setAuctionAcceptance1StartTime(marketMasterRequest.getAuctionAcceptance1StartTime());
                 marketMaster.setAuctionAcceptance2StartTime(marketMasterRequest.getAuctionAcceptance2StartTime());
                 marketMaster.setAuctionAcceptance3StartTime(marketMasterRequest.getAuctionAcceptance3StartTime());
+                marketMaster.setAuctionAcceptance1EndTime(marketMasterRequest.getAuctionAcceptance1EndTime());
+                marketMaster.setAuctionAcceptance2EndTime(marketMasterRequest.getAuctionAcceptance2EndTime());
+                marketMaster.setAuctionAcceptance3EndTime(marketMasterRequest.getAuctionAcceptance3EndTime());
                 marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
                 marketMaster.setReelerMinimumBalance(marketMasterRequest.getReelerMinimumBalance());
                 marketMaster.setActive(true);

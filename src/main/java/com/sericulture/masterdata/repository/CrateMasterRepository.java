@@ -47,7 +47,7 @@ public interface CrateMasterRepository extends PagingAndSortingRepository<CrateM
             "left join godown_master godown\n" +
             "on crateMaster.godownId = godown.godownId " +
             "where crateMaster.active = :isActive " +
-            "ORDER BY crateMaster.crateMasterId ASC"
+            "ORDER BY marketMaster.marketMasterName ASC"
     )
     Page<CrateMasterDTO> getByActiveOrderByCrateMasterIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 

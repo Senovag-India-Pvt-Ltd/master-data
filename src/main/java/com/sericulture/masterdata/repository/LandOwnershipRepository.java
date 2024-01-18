@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface LandOwnershipRepository extends PagingAndSortingRepository<LandOwnership,Long> {
-    public List<LandOwnership> findByLandOwnershipName(String landOwnershipName);
+    public List<LandOwnership> findByLandOwnershipNameAndLandOwnershipNameInKannada(String landOwnershipName,String landOwnershipNameInKannada);
 
     public LandOwnership findByLandOwnershipNameAndActive(String landOwnershipName,boolean isActive);
 
-    public Page<LandOwnership> findByActiveOrderByLandOwnershipIdAsc(boolean isActive, final Pageable pageable);
+    public Page<LandOwnership> findByActiveOrderByLandOwnershipNameAsc(boolean isActive, final Pageable pageable);
 
     public LandOwnership save(LandOwnership landOwnership);
 

@@ -74,12 +74,12 @@ public class RoleService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRoleDetails(final Pageable pageable){
-        return convertToMapResponse(roleRepository.findByActiveOrderByRoleIdAsc( true, pageable));
+        return convertToMapResponse(roleRepository.findByActiveOrderByRoleNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(roleRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(roleRepository.findByActiveOrderByRoleNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<Role> activeRoles) {

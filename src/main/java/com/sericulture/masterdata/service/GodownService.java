@@ -75,7 +75,7 @@ public class GodownService {
         GodownResponse godownResponse = new GodownResponse();
         Godown godown = mapper.godownObjectToEntity(godownRequest,Godown.class);
         validator.validate(godown);
-        List<Godown> godownList = godownRepository.findByGodownName(godownRequest.getGodownName());
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(), godownRequest.getMarketMasterId());
         if(!godownList.isEmpty() && godownList.stream().filter(Godown::getActive).findAny().isPresent()){
             godownResponse.setError(true);
             godownResponse.setError_description("Godown name already exist");
@@ -214,16 +214,17 @@ public class GodownService {
     @Transactional
     public GodownResponse updateGodownDetails(EditGodownRequest godownRequest) {
         GodownResponse godownResponse = new GodownResponse();
-        List<Godown> godownList = godownRepository.findByGodownName(godownRequest.getGodownName());
-        if (godownList.size() > 0) {
-            godownResponse.setError(true);
-            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(),godownRequest.getMarketMasterId());
+//        if (godownList.size() > 0) {
+//            godownResponse.setError(true);
+//            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
 
             Godown godown = godownRepository.findByGodownIdAndActiveIn(godownRequest.getGodownId(), Set.of(true, false));
             if (Objects.nonNull(godown)) {
                 godown.setGodownName(godownRequest.getGodownName());
+                godown.setGodownNameInKannada(godownRequest.getGodownNameInKannada());
                 godown.setMarketMasterId(godownRequest.getMarketMasterId());
                 godown.setActive(true);
                 Godown godown1 = godownRepository.save(godown);
@@ -234,7 +235,7 @@ public class GodownService {
                 godownResponse.setError_description("Error occurred while fetching Godown");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
+
         return godownResponse;
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)

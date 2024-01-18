@@ -12,4 +12,7 @@ import lombok.*;
 public class SubsidyRequest extends RequestBody {
     @Schema(name = "subsidyName", example = "Subsidy 1", required = true)
     String subsidyName;
+
+    @Schema(name = "subsidyNameInKannada",  example = "ಭಾಷೆ")
+    String subsidyNameInKannada;
 }

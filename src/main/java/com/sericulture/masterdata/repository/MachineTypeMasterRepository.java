@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface MachineTypeMasterRepository extends PagingAndSortingRepository<MachineTypeMaster, Long> {
-    public List<MachineTypeMaster> findByMachineTypeName(String machineTypeName);
+    public List<MachineTypeMaster> findByMachineTypeNameAndMachineTypeNameInKannada(String machineTypeName,String machineTypeNameInKannada);
 
     public MachineTypeMaster findByMachineTypeNameAndActive(String machineTypeName,boolean isActive);
 
-    public Page<MachineTypeMaster> findByActiveOrderByMachineTypeIdAsc(boolean isActive, final Pageable pageable);
+    public Page<MachineTypeMaster> findByActiveOrderByMachineTypeNameAsc(boolean isActive, final Pageable pageable);
 
     public MachineTypeMaster save(MachineTypeMaster machineType);
 
@@ -24,5 +24,5 @@ public interface MachineTypeMasterRepository extends PagingAndSortingRepository<
 
     public MachineTypeMaster findByMachineTypeIdAndActiveIn(@Param("machineTypeId") long machineTypeId, @Param("active") Set<Boolean> active);
 
-    public List<MachineTypeMaster> findByActive(boolean isActive);
+    public List<MachineTypeMaster> findByActiveOrderByMachineTypeNameAsc(boolean isActive);
 }

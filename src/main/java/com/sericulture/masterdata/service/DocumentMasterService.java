@@ -74,7 +74,7 @@ public class DocumentMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDocumentMasterDetails(final Pageable pageable){
-        return convertToMapResponse(documentMasterRepository.findByActiveOrderByDocumentMasterIdAsc( true, pageable));
+        return convertToMapResponse(documentMasterRepository.findByActiveOrderByDocumentMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

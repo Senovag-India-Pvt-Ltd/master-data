@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Repository
 public interface MarketMasterRepository extends PagingAndSortingRepository<MarketMaster, Long> {
-    public List<MarketMaster> findByMarketMasterName(String marketMasterName);
+    public List<MarketMaster> findByMarketMasterNameAndMarketNameInKannada(String marketMasterName,String marketNameInKannada);
 
     public MarketMaster findByMarketMasterNameAndActive(String marketMasterName,boolean isActive);
 
@@ -28,11 +28,12 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
 
     public MarketMaster findByMarketMasterIdAndActiveIn(@Param("marketMasterId") long marketMasterId, @Param("active") Set<Boolean> active);
 
-    public List<MarketMaster> findByActive(boolean isActive);
+    public List<MarketMaster> findByActiveOrderByMarketMasterNameAsc(boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
             " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
@@ -71,13 +72,14 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "left join MarketTypeMaster marketTypeMaster\n" +
             "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
             "where marketMaster.active = :isActive " +
-            "ORDER BY marketMaster.marketMasterId ASC"
+            "ORDER BY marketMaster.marketMasterName ASC"
     )
     Page<MarketMasterDTO> getByActiveOrderByMarketMasterIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
             " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
@@ -122,6 +124,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
     @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
             " marketMaster.marketMasterId," +
             " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +

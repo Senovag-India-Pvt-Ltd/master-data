@@ -9,6 +9,7 @@ public class MarketMasterDTO {
 
     private Long marketMasterId;
     private String marketMasterName;
+    private String marketNameInKannada;
     private String marketMasterAddress;
     private Long boxWeight;
     private Long lotWeight;
@@ -44,6 +45,7 @@ public class MarketMasterDTO {
             (
         Long marketMasterId,
         String marketMasterName,
+        String marketNameInKannada,
         String marketMasterAddress,
         Long boxWeight,
         Long lotWeight,
@@ -74,6 +76,7 @@ public class MarketMasterDTO {
 
             ) {
         this.marketMasterId = marketMasterId;
+        this.marketNameInKannada = marketNameInKannada;
         this.marketMasterName = marketMasterName;
         this.marketMasterAddress = marketMasterAddress;
         this.boxWeight = boxWeight;

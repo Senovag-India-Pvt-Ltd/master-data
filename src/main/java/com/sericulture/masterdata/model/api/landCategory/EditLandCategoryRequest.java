@@ -15,4 +15,7 @@ public class EditLandCategoryRequest extends RequestBody {
 
     @Schema(name = "landCategoryName", example = "SF", required = true)
     String landCategoryName;
+
+    @Schema(name = "landCategoryNameInKannada",  example = "ಭಾಷೆ")
+    String landCategoryNameInKannada;
 }

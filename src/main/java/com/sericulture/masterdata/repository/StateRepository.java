@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface StateRepository extends PagingAndSortingRepository<State, Long> {
-    public List<State> findByStateName(String stateName);
+    public List<State> findByStateNameAndStateNameInKannada(String stateName,String stateNameInKannada);
 
     public State findByStateNameAndActive(String stateName,boolean isActive);
 
-    public Page<State> findByActiveOrderByStateIdAsc(boolean isActive, final Pageable pageable);
+    public Page<State> findByActiveOrderByStateNameAsc(boolean isActive, final Pageable pageable);
 
     public State save(State state);
 
@@ -24,6 +24,6 @@ public interface StateRepository extends PagingAndSortingRepository<State, Long>
 
     public State findByStateIdAndActiveIn(@Param("stateId") long stateId, @Param("active") Set<Boolean> active);
 
-    public List<State> findByActive(boolean isActive);
+    public List<State> findByActiveOrderByStateNameAsc(boolean isActive);
 
 }

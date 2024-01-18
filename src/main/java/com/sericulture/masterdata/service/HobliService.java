@@ -196,7 +196,7 @@ public class HobliService {
     @Transactional
     public HobliResponse updateHobliDetails(EditHobliRequest hobliRequest) {
         HobliResponse hobliResponse = new HobliResponse();
-        List<Hobli> hobliList = hobliRepository.findByHobliName(hobliRequest.getHobliName());
+        List<Hobli> hobliList = hobliRepository.findByHobliNameAndHobliNameInKannada(hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada());
         if (hobliList.size() > 0) {
             hobliResponse.setError(true);
             hobliResponse.setError_description("Hobli already exists, duplicates are not allowed.");
@@ -206,6 +206,7 @@ public class HobliService {
             if (Objects.nonNull(hobli)) {
                 hobli.setStateId(hobliRequest.getStateId());
                 hobli.setHobliName(hobliRequest.getHobliName());
+                hobli.setHobliNameInKannada(hobliRequest.getHobliNameInKannada());
                 hobli.setActive(true);
                 Hobli hobli1 = hobliRepository.save(hobli);
                 hobliResponse = mapper.hobliEntityToObject(hobli1, HobliResponse.class);

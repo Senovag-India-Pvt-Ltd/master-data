@@ -54,7 +54,7 @@ public class SourceMasterService {
         SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
         SourceMaster sourceMaster = mapper.sourceMasterObjectToEntity(sourceMasterRequest,SourceMaster.class);
         validator.validate(sourceMaster);
-        List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterName(sourceMasterRequest.getSourceMasterName());
+        List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterNameAndSourceNameInKannada(sourceMasterRequest.getSourceMasterName(),sourceMasterRequest.getSourceNameInKannada());
         if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(SourceMaster::getActive).findAny().isPresent()){
             sourceMasterResponse.setError(true);
             sourceMasterResponse.setError_description("Source name already exist");
@@ -72,7 +72,7 @@ public class SourceMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSourceMasterDetails(final Pageable pageable){
-        return convertToMapResponse(sourceMasterRepository.findByActiveOrderBySourceMasterIdAsc( true, pageable));
+        return convertToMapResponse(sourceMasterRepository.findByActiveOrderBySourceMasterNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -136,7 +136,7 @@ public class SourceMasterService {
     @Transactional
     public SourceMasterResponse updateSourceMasterDetails(EditSourceMasterRequest sourceMasterRequest){
             SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
-            List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterName(sourceMasterRequest.getSourceMasterName());
+            List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterNameAndSourceNameInKannada(sourceMasterRequest.getSourceMasterName(),sourceMasterRequest.getSourceNameInKannada());
             if(sourceMasterList.size()>0){
                 sourceMasterResponse.setError(true);
                 sourceMasterResponse.setError_description("Source already exists, duplicates are not allowed.");
@@ -145,6 +145,7 @@ public class SourceMasterService {
             SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterIdAndActiveIn(sourceMasterRequest.getSourceMasterId(), Set.of(true,false));
             if(Objects.nonNull(sourceMaster)){
                 sourceMaster.setSourceMasterName(sourceMasterRequest.getSourceMasterName());
+                sourceMaster.setSourceNameInKannada(sourceMasterRequest.getSourceNameInKannada());
                 sourceMaster.setActive(true);
                 SourceMaster sourceMaster1 = sourceMasterRepository.save(sourceMaster);
                 sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMaster1, SourceMasterResponse.class);

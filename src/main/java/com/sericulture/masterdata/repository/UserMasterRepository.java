@@ -25,6 +25,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
 
     UserMaster findByUsername(String username);
 
+    public List<UserMaster> findByActiveAndUserTypeId(boolean isActive, long userTypeId);
+
     public UserMaster findByUserMasterIdAndActiveIn(@Param("userMasterId") long userMasterId, @Param("active") Set<Boolean> active);
 
     public List<UserMaster> findByActive(boolean isActive);
@@ -74,7 +76,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
             "where userMaster.active = :isActive " +
-            "ORDER BY userMaster.userMasterId ASC"
+            "ORDER BY userMaster.username ASC"
     )
     Page<UserMasterDTO> getByActiveOrderByUserMasterIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 

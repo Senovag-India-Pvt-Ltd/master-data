@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 @Repository
 public interface VillageRepository extends PagingAndSortingRepository<Village, Long> {
-    public List<Village> findByVillageName(String villageName);
+    public List<Village> findByVillageNameAndVillageNameInKannada(String villageName,String villageNameInKannada);
 
     public List<Village> findByVillageNameAndStateId(String villageName, long stateId);
 
@@ -25,6 +25,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
             " village.villageId," +
             " village.villageName," +
+            " village.villageNameInKannada," +
             " village.stateId," +
             " village.districtId," +
             " village.talukId," +
@@ -44,13 +45,14 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             "left join Hobli hobli\n" +
             "on village.hobliId = hobli.hobliId " +
             "where village.active = :isActive " +
-            "ORDER BY village.villageId ASC"
+            "ORDER BY village.villageName ASC"
     )
     Page<VillageDTO> getByActiveOrderByVillageIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
             " village.villageId," +
             " village.villageName," +
+            " village.villageNameInKannada," +
             " village.stateId," +
             " village.districtId," +
             " village.talukId," +
@@ -89,6 +91,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
             " village.villageId," +
             " village.villageName," +
+            " village.villageNameInKannada," +
             " village.stateId," +
             " village.districtId," +
             " village.talukId," +

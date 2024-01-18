@@ -52,7 +52,7 @@ public class EducationService {
         Education education = mapper.educationObjectToEntity(request, Education.class);
         //validating the class
         validator.validate(education);
-        List<Education> educations = educationRepository.findByNameAndActiveIn(education.getName(), Set.of(true,false));
+        List<Education> educations = educationRepository.findByNameAndEducationNameInKannada(education.getName(),education.getEducationNameInKannada());
         if(!educations.isEmpty() && educations.stream().filter(Education::getActive).findAny().isPresent()) {
             educationResponse.setError(true);
             educationResponse.setError_description("Education name already exist");
@@ -71,7 +71,7 @@ public class EducationService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedEducationDetails(final Pageable pageable) {
-        return convertToMapResponse(educationRepository.findByActiveOrderByIdAsc( true, pageable));
+        return convertToMapResponse(educationRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -138,7 +138,7 @@ public class EducationService {
     @Transactional
     public EducationResponse updateEducationDetails(EditEducationRequest educationRequest) {
         EducationResponse educationResponse = new EducationResponse();
-        List<Education> educations = educationRepository.findByNameAndActiveIn(educationRequest.getName(), Set.of(true,false));
+        List<Education> educations = educationRepository.findByNameAndEducationNameInKannada(educationRequest.getName(),educationRequest.getEducationNameInKannada());
         if(!educations.isEmpty()) {
             educationResponse.setError(true);
             educationResponse.setError_description("Education already exists, duplicates are not allowed.");
@@ -148,6 +148,7 @@ public class EducationService {
         Education education = educationRepository.findByIdAndActiveIn(educationRequest.getId(), Set.of(true,false));
         if (Objects.nonNull(education)) {
             education.setName(educationRequest.getName());
+            education.setEducationNameInKannada(educationRequest.getEducationNameInKannada());
             education.setActive(true);
             Education education1 = educationRepository.save(education);
             educationResponse = mapper.educationEntityToObject(education1, EducationResponse.class);

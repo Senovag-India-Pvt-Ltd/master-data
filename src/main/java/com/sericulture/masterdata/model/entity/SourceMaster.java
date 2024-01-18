@@ -25,4 +25,7 @@ public class SourceMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Source name should be more than 1 characters.")
     @Column(name = "source_name", unique = true)
     private String sourceMasterName;
+
+    @Column(name = "source_name_in_kannada")
+    private String sourceNameInKannada;
 }

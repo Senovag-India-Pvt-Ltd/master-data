@@ -6,6 +6,7 @@ import lombok.Data;
 public class HobliDTO {
     private Long hobliId;
     private String hobliName;
+    private String hobliNameInKannada;
     private Long stateId;
     private Long districtId;
     private Long talukId;
@@ -17,9 +18,10 @@ public class HobliDTO {
 
     }
 
-    public HobliDTO(Long hobliId, String hobliName, Long stateId, Long districtId, Long talukId, String stateName, String districtName, String talukName) {
+    public HobliDTO(Long hobliId, String hobliName, String hobliNameInKannada,Long stateId, Long districtId, Long talukId, String stateName, String districtName, String talukName) {
         this.hobliId = hobliId;
         this.hobliName = hobliName;
+        this.hobliNameInKannada = hobliNameInKannada;
         this.stateId = stateId;
         this.districtId = districtId;
         this.talukId = talukId;

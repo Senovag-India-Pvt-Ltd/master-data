@@ -17,7 +17,7 @@ public interface ScProgramRepository extends PagingAndSortingRepository<ScProgra
 
     public ScProgram findByScProgramNameAndActive(String scProgramName,boolean isActive);
 
-    public Page<ScProgram> findByActiveOrderByScProgramIdAsc(boolean isActive, final Pageable pageable);
+    public Page<ScProgram> findByActiveOrderByScProgramNameAsc(boolean isActive, final Pageable pageable);
 
     public ScProgram save(ScProgram scProgram);
 

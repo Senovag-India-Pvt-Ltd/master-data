@@ -14,7 +14,7 @@ import java.util.Set;
 @Repository
 public interface MarketTypeMasterRepository extends PagingAndSortingRepository<MarketTypeMaster, Long> {
 
-    public List<MarketTypeMaster> findByMarketTypeMasterName(String marketTypeMasterName);
+    public List<MarketTypeMaster> findByMarketTypeMasterNameAndMarketTypeNameInKannada(String marketTypeMasterName,String marketTypeNameInKannada);
 
     public MarketTypeMaster findByMarketTypeMasterNameAndActive(String marketTypeMasterName,boolean isActive);
 
@@ -26,5 +26,5 @@ public interface MarketTypeMasterRepository extends PagingAndSortingRepository<M
 
     public MarketTypeMaster findByMarketTypeMasterIdAndActiveIn(@Param("marketTypeMasterId") long marketTypeMasterId, @Param("active") Set<Boolean> active);
 
-    public List<MarketTypeMaster> findByActive(boolean isActive);
+    public List<MarketTypeMaster> findByActiveOrderByMarketTypeMasterNameAsc(boolean isActive);
 }

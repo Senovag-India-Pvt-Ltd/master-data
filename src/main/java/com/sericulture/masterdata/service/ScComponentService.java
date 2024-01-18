@@ -72,7 +72,7 @@ public class ScComponentService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScComponentDetails(final Pageable pageable){
-        return convertToMapResponse(scComponentRepository.findByActiveOrderByScComponentIdAsc( true, pageable));
+        return convertToMapResponse(scComponentRepository.findByActiveOrderByScComponentNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

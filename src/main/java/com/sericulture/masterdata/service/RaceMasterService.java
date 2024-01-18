@@ -62,7 +62,7 @@ public class RaceMasterService {
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         RaceMaster raceMaster = mapper.raceMasterObjectToEntity(raceMasterRequest,RaceMaster.class);
         validator.validate(raceMaster);
-        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterName(raceMasterRequest.getRaceMasterName());
+        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterNameAndMarketMasterId(raceMasterRequest.getRaceMasterName(),raceMasterRequest.getMarketMasterId());
         if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(RaceMaster::getActive).findAny().isPresent()){
             raceMasterResponse.setError(true);
             raceMasterResponse.setError_description("Race name already exist");
@@ -85,7 +85,7 @@ public class RaceMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(raceMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(raceMasterRepository.findByActiveOrderByRaceMasterNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<RaceMaster> activeRaces) {
@@ -196,16 +196,17 @@ public class RaceMasterService {
     @Transactional
     public RaceMasterResponse updateRaceMasterDetails(EditRaceMasterRequest raceMasterRequest) {
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
-        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterName(raceMasterRequest.getRaceMasterName());
-        if (raceMasterList.size() > 0) {
-            raceMasterResponse.setError(true);
-            raceMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+//        List<RaceMaster> raceMasterList = raceMasterRepository.findByRaceMasterNameAndMarketMasterId(raceMasterRequest.getRaceMasterName(),raceMasterRequest.getMarketMasterId());
+//        if (raceMasterList.size() > 0) {
+//            raceMasterResponse.setError(true);
+//            raceMasterResponse.setError_description("Race already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
 
             RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActiveIn(raceMasterRequest.getRaceMasterId(), Set.of(true, false));
             if (Objects.nonNull(raceMaster)) {
                 raceMaster.setRaceMasterName(raceMasterRequest.getRaceMasterName());
+                raceMaster.setRaceNameInKannada(raceMasterRequest.getRaceNameInKannada());
                 raceMaster.setMarketMasterId(raceMasterRequest.getMarketMasterId());
                 raceMaster.setActive(true);
                 RaceMaster raceMaster1 = raceMasterRepository.save(raceMaster);
@@ -216,7 +217,6 @@ public class RaceMasterService {
                 raceMasterResponse.setError_description("Error occurred while fetching Race");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
         return raceMasterResponse;
     }
 

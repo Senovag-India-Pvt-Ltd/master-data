@@ -18,6 +18,9 @@ public class SourceMasterResponse {
     @Schema(name = "sourceMasterName", example = "sourceName 1")
     String sourceMasterName;
 
+    @Schema(name = "sourceNameInKannada",  example = "ಭಾಷೆ")
+    String sourceNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

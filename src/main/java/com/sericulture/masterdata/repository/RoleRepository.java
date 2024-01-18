@@ -16,7 +16,7 @@ public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
 
     public Role findByRoleNameAndActive(String roleName,boolean isActive);
 
-    public Page<Role> findByActiveOrderByRoleIdAsc(boolean isActive, final Pageable pageable);
+    public Page<Role> findByActiveOrderByRoleNameAsc(boolean isActive, final Pageable pageable);
 
     public Role save(Role role);
 
@@ -24,5 +24,5 @@ public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
 
     public Role findByRoleIdAndActiveIn(@Param("roleId") long stateId, @Param("active") Set<Boolean> active);
 
-    public List<Role> findByActive(boolean isActive);
+    public List<Role> findByActiveOrderByRoleNameAsc(boolean isActive);
 }

@@ -4,22 +4,12 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
-import com.sericulture.masterdata.model.api.district.DistrictRequest;
-import com.sericulture.masterdata.model.api.district.DistrictResponse;
-import com.sericulture.masterdata.model.api.district.EditDistrictRequest;
-import com.sericulture.masterdata.model.api.district.DistrictRequest;
-import com.sericulture.masterdata.model.api.district.DistrictResponse;
-import com.sericulture.masterdata.model.api.hobli.HobliResponse;
-import com.sericulture.masterdata.model.api.taluk.TalukResponse;
-import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.DistrictDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
-import com.sericulture.masterdata.repository.DistrictRepository;
-import com.sericulture.masterdata.repository.DistrictRepository;
 import com.sericulture.masterdata.repository.DistrictRepository;
 import com.sericulture.masterdata.repository.StateRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -186,7 +176,7 @@ public class DistrictService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getDistrictByStateId(Long stateId){
-        List<District> districtList = districtRepository.findByStateIdAndActive(stateId,true);
+        List<District> districtList = districtRepository.findByStateIdAndActiveOrderByDistrictName(stateId,true);
         if(districtList.isEmpty()){
             throw new ValidationException("Invalid Id");
         }
@@ -224,7 +214,7 @@ public class DistrictService {
     @Transactional
     public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest) {
         DistrictResponse districtResponse = new DistrictResponse();
-        List<District> districtList = districtRepository.findByDistrictName(districtRequest.getDistrictName());
+        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannada(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada());
         if (districtList.size() > 0) {
             districtResponse.setError(true);
             districtResponse.setError_description("District already exists, duplicates are not allowed.");
@@ -232,14 +222,15 @@ public class DistrictService {
         } else {
 
             District district = districtRepository.findByDistrictIdAndActiveIn(districtRequest.getDistrictId(), Set.of(true, false));
-            State state = stateRepository.findByStateIdAndActive(districtRequest.getStateId(), true);
-            if (state == null) {
-                districtResponse.setError(true);
-                districtResponse.setError_description("State does not exist.");
-            } else {
+//            State state = stateRepository.findByStateIdAndActive(districtRequest.getStateId(), true);
+//            if (state == null) {
+//                districtResponse.setError(true);
+//                districtResponse.setError_description("State does not exist.");
+//            } else {
                 if (Objects.nonNull(district)) {
                     district.setStateId(districtRequest.getStateId());
                     district.setDistrictName(districtRequest.getDistrictName());
+                    district.setDistrictNameInKannada(districtRequest.getDistrictNameInKannada());
                     district.setActive(true);
                     District district1 = districtRepository.save(district);
                     districtResponse = mapper.districtEntityToObject(district1, DistrictResponse.class);
@@ -251,7 +242,6 @@ public class DistrictService {
                 }
             }
 
-        }
         return districtResponse;
     }
 

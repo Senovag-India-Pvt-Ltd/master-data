@@ -16,4 +16,7 @@ public class EditSilkWormVarietyRequest extends RequestBody {
 
     @Schema(name = "silkWormVarietyName", example = "Bombyx Mori", required = true)
     String silkWormVarietyName;
+
+    @Schema(name = "silkWormVarietyNameInKannada",  example = "ಭಾಷೆ")
+    String silkWormVarietyNameInKannada;
 }

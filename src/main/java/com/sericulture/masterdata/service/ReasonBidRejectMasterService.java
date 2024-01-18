@@ -79,7 +79,7 @@ public class ReasonBidRejectMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(reasonBidRejectMasterRepository.findByActive(isActive));
+        return convertListEntityToMapResponse(reasonBidRejectMasterRepository.findByActiveOrderByReasonBidRejectNameAsc(isActive));
     }
 
     private Map<String, Object> convertToMapResponse(final Page<ReasonBidRejectMaster> activeReasonBidRejectMasters) {

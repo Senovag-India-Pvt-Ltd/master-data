@@ -72,7 +72,7 @@ public class ScHeadAccountService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScHeadAccountDetails(final Pageable pageable){
-        return convertToMapResponse(scHeadAccountRepository.findByActiveOrderByScHeadAccountIdAsc( true, pageable));
+        return convertToMapResponse(scHeadAccountRepository.findByActiveOrderByScHeadAccountNameAsc( true, pageable));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
