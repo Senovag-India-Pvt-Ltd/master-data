@@ -15,7 +15,8 @@ public class UtilController {
     public String getCurrentTime() {
         // Return the current server time in a formatted string
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Set the desired timezone
+        sdf.setTimeZone(TimeZone.getTimeZone("IST")); // Set the desired timezone
+        // sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(new Date());
     }
 
