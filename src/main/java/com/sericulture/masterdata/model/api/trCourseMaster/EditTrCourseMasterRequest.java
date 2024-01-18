@@ -17,4 +17,7 @@ public class EditTrCourseMasterRequest extends RequestBody {
 
     @Schema(name = "trCourseMasterName", example = "Karnataka", required = true)
     String trCourseMasterName;
+
+    @Schema(name = "trCourseNameInKannada", example = "Karnataka", required = true)
+    String trCourseNameInKannada;
 }

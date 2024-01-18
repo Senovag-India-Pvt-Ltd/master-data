@@ -17,6 +17,9 @@ public class TrGroupMasterResponse {
     @Schema(name = "trGroupMasterName", example = "Karnataka")
     String trGroupMasterName;
 
+    @Schema(name = "trGroupNameInKannada", example = "Karnataka")
+    String trGroupNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

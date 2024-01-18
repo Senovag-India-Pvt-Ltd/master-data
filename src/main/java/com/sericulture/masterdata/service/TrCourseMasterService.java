@@ -62,7 +62,7 @@ public class TrCourseMasterService {
         TrCourseMasterResponse trCourseMasterResponse = new TrCourseMasterResponse();
         TrCourseMaster trCourseMaster = mapper.trCourseMasterObjectToEntity(trCourseMasterRequest,TrCourseMaster.class);
         validator.validate(trCourseMaster);
-        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterName(trCourseMasterRequest.getTrCourseMasterName());
+        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterNameAndTrCourseNameInKannada(trCourseMasterRequest.getTrCourseMasterName(), trCourseMasterRequest.getTrCourseNameInKannada());
         if(!trCourseMasterList.isEmpty() && trCourseMasterList.stream().filter(TrCourseMaster::getActive).findAny().isPresent()){
             trCourseMasterResponse.setError(true);
             trCourseMasterResponse.setError_description("Tr course name already exist");
@@ -145,10 +145,10 @@ public class TrCourseMasterService {
     public TrCourseMasterResponse updateTrCourseMastersDetails(EditTrCourseMasterRequest trCourseMasterRequest){
 
         TrCourseMasterResponse trCourseMasterResponse = new TrCourseMasterResponse();
-        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterName(trCourseMasterRequest.getTrCourseMasterName());
+        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterNameAndTrCourseNameInKannada(trCourseMasterRequest.getTrCourseMasterName(), trCourseMasterRequest.getTrCourseNameInKannada());
         if(trCourseMasterList.size()>0){
             trCourseMasterResponse.setError(true);
-            trCourseMasterResponse.setError_description("State already exists, duplicates are not allowed.");
+            trCourseMasterResponse.setError_description(" Training Course already exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         }else {
 
@@ -156,13 +156,14 @@ public class TrCourseMasterService {
             TrCourseMaster trCourseMaster= trCourseMasterRepository.findByTrCourseMasterIdAndActiveIn(trCourseMasterRequest.getTrCourseMasterId(), Set.of(true,false));
             if(Objects.nonNull(trCourseMaster)){
                 trCourseMaster.setTrCourseMasterName(trCourseMasterRequest.getTrCourseMasterName());
+                trCourseMaster.setTrCourseNameInKannada(trCourseMasterRequest.getTrCourseNameInKannada());
                 trCourseMaster.setActive(true);
                 TrCourseMaster trCourseMaster1 = trCourseMasterRepository.save(trCourseMaster);
                 trCourseMasterResponse = mapper.trCourseMasterEntityToObject(trCourseMaster1, TrCourseMasterResponse.class);
                 trCourseMasterResponse.setError(false);
             } else {
                 trCourseMasterResponse.setError(true);
-                trCourseMasterResponse.setError_description("Error occurred while fetching state");
+                trCourseMasterResponse.setError_description("Error occurred while fetching Training course");
                 // throw new ValidationException("Error occurred while fetching village");
             }
         }

@@ -1,4 +1,4 @@
-package com.sericulture.masterdata.model.api.trProgramMaster;
+package com.sericulture.masterdata.model.api.trModeMaster;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,16 +11,12 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TrProgramMasterResponse {
+public class TrModeMasterResponse {
+    @Schema(name="trModeMasterId", example = "1")
+    int trModeMasterId;
 
-    @Schema(name = "trProgramMasterId", example = "1")
-    Integer trProgramMasterId;
-
-    @Schema(name = "trProgramMasterName", example = "Karnataka", required = true)
-    String trProgramMasterName;
-
-    @Schema(name = "trProgramNameInKannada", example = "Karnataka", required = true)
-    String trProgramNameInKannada;
+    @Schema(name = "trModeMasterName", example = "Karnataka")
+    String trModeMasterName;
 
     @Schema(name = "error", example = "true")
     Boolean error;
@@ -28,5 +24,3 @@ public class TrProgramMasterResponse {
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
 }
-
-

@@ -56,7 +56,7 @@ public class TrProgramMasterService {
         TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
         TrProgramMaster trProgramMaster = mapper.trProgramMasterObjectToEntity(trProgramMasterRequest,TrProgramMaster.class);
         validator.validate(trProgramMaster);
-        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository.findByTrProgramMasterName(trProgramMasterRequest.getTrProgramMasterName());
+        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository.findByTrProgramMasterNameAndTrProgramNameInKannada(trProgramMasterRequest.getTrProgramMasterName(), trProgramMasterRequest.getTrProgramNameInKannada());
         if(!trProgramMasterList.isEmpty() && trProgramMasterList.stream().filter( TrProgramMaster::getActive).findAny().isPresent()){
             trProgramMasterResponse.setError(true);
             trProgramMasterResponse.setError_description("Tr Program name already exist");
@@ -139,7 +139,7 @@ public class TrProgramMasterService {
     public TrProgramMasterResponse updateTrProgramMastersDetails(EditTrProgramMasterRequest  trProgramMasterRequest){
 
         TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
-        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository. findByTrProgramMasterName(trProgramMasterRequest.getTrProgramMasterName());
+        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository. findByTrProgramMasterNameAndTrProgramNameInKannada(trProgramMasterRequest.getTrProgramMasterName(), trProgramMasterRequest.getTrProgramNameInKannada());
         if(trProgramMasterList.size()>0){
             trProgramMasterResponse.setError(true);
             trProgramMasterResponse.setError_description("Program already exists, duplicates are not allowed.");
@@ -150,6 +150,7 @@ public class TrProgramMasterService {
             TrProgramMaster trProgramMaster = trProgramMasterRepository.findByTrProgramMasterIdAndActiveIn(trProgramMasterRequest.getTrProgramMasterId(), Set.of(true,false));
             if(Objects.nonNull(trProgramMaster)){
                 trProgramMaster.setTrProgramMasterName( trProgramMasterRequest.getTrProgramMasterName());
+                trProgramMaster.setTrProgramNameInKannada( trProgramMasterRequest.getTrProgramNameInKannada());
                 trProgramMaster.setActive(true);
                 TrProgramMaster trProgramMaster1= trProgramMasterRepository.save(trProgramMaster);
                 trProgramMasterResponse = mapper.trProgramMasterEntityToObject(trProgramMaster1, TrProgramMasterResponse.class);

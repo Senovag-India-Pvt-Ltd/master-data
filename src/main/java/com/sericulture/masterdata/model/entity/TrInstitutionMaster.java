@@ -27,4 +27,8 @@ public class TrInstitutionMaster extends BaseEntity implements Serializable {
     @Column(name = "TR_INSTITUTION_MASTER_NAME", unique = true)
     private String trInstitutionMasterName;
 
+    @Column(name = "TR_INSTITUTION_NAME_IN_KANNADA", unique = true)
+    private String trInstitutionNameInKannada;
+
+
 }

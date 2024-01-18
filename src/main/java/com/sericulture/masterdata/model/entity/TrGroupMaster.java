@@ -24,4 +24,7 @@ public class TrGroupMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Tr Group Master name should be more than 1 characters.")
     @Column(name = "TR_GROUP_MASTER_NAME", unique = true)
     private String trGroupMasterName;
+
+    @Column(name = "TR_GROUP_NAME_IN_KANNADA", unique = true)
+    private String trGroupNameInKannada;
 }

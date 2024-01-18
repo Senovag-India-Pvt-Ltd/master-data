@@ -58,7 +58,7 @@ public class TrInstitutionMasterService {
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
         TrInstitutionMaster trInstitutionMaster = mapper.trInstitutionMasterObjectToEntity(trInstitutionMasterRequest,TrInstitutionMaster.class);
         validator.validate(trInstitutionMaster);
-        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterName(trInstitutionMasterRequest.getTrInstitutionMasterName());
+        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndTrInstitutionNameInKannada(trInstitutionMasterRequest.getTrInstitutionMasterName(), trInstitutionMasterRequest.getTrInstitutionNameInKannada());
         if(!trInstitutionMasterList.isEmpty() && trInstitutionMasterList.stream().filter(TrInstitutionMaster::getActive).findAny().isPresent()){
             trInstitutionMasterResponse.setError(true);
             trInstitutionMasterResponse.setError_description("TrInstitutionMaster name already exist");
@@ -141,7 +141,7 @@ public class TrInstitutionMasterService {
     public TrInstitutionMasterResponse updateTrInstitutionMasterDetails(EditTrInstitutionMasterRequest trInstitutionMasterRequest){
 
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
-        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterName(trInstitutionMasterRequest.getTrInstitutionMasterName());
+        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndTrInstitutionNameInKannada(trInstitutionMasterRequest.getTrInstitutionMasterName(), trInstitutionMasterRequest.getTrInstitutionNameInKannada());
         if(trInstitutionMasterList.size()>0){
             trInstitutionMasterResponse.setError(true);
             trInstitutionMasterResponse.setError_description("TrInstitutionMaster already exists, duplicates are not allowed.");
@@ -152,6 +152,7 @@ public class TrInstitutionMasterService {
             TrInstitutionMaster trInstitutionMaster= trInstitutionMasterRepository.findByTrInstitutionMasterIdAndActiveIn(trInstitutionMasterRequest.getTrInstitutionMasterId(), Set.of(true,false));
             if(Objects.nonNull(trInstitutionMaster)){
                 trInstitutionMaster.setTrInstitutionMasterName(trInstitutionMasterRequest.getTrInstitutionMasterName());
+                trInstitutionMaster.setTrInstitutionNameInKannada(trInstitutionMasterRequest.getTrInstitutionNameInKannada());
                 trInstitutionMaster.setActive(true);
                 TrInstitutionMaster trInstitutionMaster1 = trInstitutionMasterRepository.save(trInstitutionMaster);
                 trInstitutionMasterResponse = mapper.trInstitutionMasterEntityToObject(trInstitutionMaster1, TrInstitutionMasterResponse.class);

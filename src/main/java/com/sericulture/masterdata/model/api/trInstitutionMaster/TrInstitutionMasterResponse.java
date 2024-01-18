@@ -19,6 +19,9 @@ public class TrInstitutionMasterResponse {
     @Schema(name = "trInstitutionMasterName", example = "Karnataka")
     String trInstitutionMasterName;
 
+    @Schema(name = "trInstitutionNameInKannada", example = "Karnataka")
+    String trInstitutionNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

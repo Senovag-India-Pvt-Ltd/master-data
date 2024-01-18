@@ -16,4 +16,7 @@ public class EditTrGroupMasterRequest extends RequestBody {
 
     @Schema(name = "trGroupMasterName", example = "Karnataka", required = true)
     String trGroupMasterName;
+
+    @Schema(name = "trGroupNameInKannada", example = "Karnataka", required = true)
+    String trGroupNameInKannada;
 }

@@ -58,7 +58,7 @@ public class TrGroupMasterService {
         TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
         TrGroupMaster trGroupMaster = mapper.trGroupMasterObjectToEntity(trGroupMasterRequest,TrGroupMaster.class);
         validator.validate(trGroupMaster);
-        List<TrGroupMaster> trGroupMasterList= trGroupMasterRepository.findByTrGroupMasterName(trGroupMasterRequest.getTrGroupMasterName());
+        List<TrGroupMaster> trGroupMasterList= trGroupMasterRepository.findByTrGroupMasterNameAndTrGroupNameInKannada(trGroupMasterRequest.getTrGroupMasterName(), trGroupMasterRequest.getTrGroupNameInKannada());
         if(!trGroupMasterList.isEmpty() && trGroupMasterList.stream().filter(TrGroupMaster::getActive).findAny().isPresent()){
             trGroupMasterResponse.setError(true);
             trGroupMasterResponse.setError_description("TrGroupMaster name already exist");
@@ -142,7 +142,7 @@ public class TrGroupMasterService {
     public TrGroupMasterResponse updateTrGroupMasterDetails(EditTrGroupMasterRequest trGroupMasterRequest){
 
         TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
-        List<TrGroupMaster> trGroupMasterList = trGroupMasterRepository.findByTrGroupMasterName(trGroupMasterRequest.getTrGroupMasterName());
+        List<TrGroupMaster> trGroupMasterList = trGroupMasterRepository.findByTrGroupMasterNameAndTrGroupNameInKannada(trGroupMasterRequest.getTrGroupMasterName(), trGroupMasterRequest.getTrGroupNameInKannada());
         if(trGroupMasterList.size()>0){
             trGroupMasterResponse.setError(true);
             trGroupMasterResponse.setError_description("TrGroupMaster already exists, duplicates are not allowed.");
@@ -153,6 +153,7 @@ public class TrGroupMasterService {
             TrGroupMaster trGroupMaster= trGroupMasterRepository.findByTrGroupMasterIdAndActiveIn(trGroupMasterRequest.getTrGroupMasterId(), Set.of(true,false));
             if(Objects.nonNull(trGroupMaster)){
                 trGroupMaster.setTrGroupMasterName(trGroupMasterRequest.getTrGroupMasterName());
+                trGroupMaster.setTrGroupNameInKannada(trGroupMasterRequest.getTrGroupNameInKannada());
                 trGroupMaster.setActive(true);
                 TrGroupMaster trGroupMaster1 = trGroupMasterRepository.save(trGroupMaster);
                 trGroupMasterResponse = mapper.trGroupMasterEntityToObject(trGroupMaster1, TrGroupMasterResponse.class);

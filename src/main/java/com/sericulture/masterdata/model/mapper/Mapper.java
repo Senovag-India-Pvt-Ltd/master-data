@@ -46,7 +46,9 @@ import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
 import com.sericulture.masterdata.model.api.trGroupMaster.TrGroupMasterRequest;
 import com.sericulture.masterdata.model.api.trInstitutionMaster.TrInstitutionMasterRequest;
+import com.sericulture.masterdata.model.api.trModeMaster.TrModeMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
+import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
@@ -1222,6 +1224,57 @@ public class Mapper {
     public <T> T trGroupMasterObjectToEntity(TrGroupMasterRequest trGroupMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, trGroupMasterRequest);
         return (T) mapper.map(trGroupMasterRequest, claaz);
+    }
+
+    /**
+     * Maps trModeMaster Entity to trModeMaster Response Object
+     * @param trModeMasterEntity
+     * @param <T>
+     */
+    public <T> T trModeMasterEntityToObject(TrModeMaster trModeMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trModeMasterEntity);
+        return (T) mapper.map(trModeMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trModeMaster Object to trModeMaster  Response Object
+     * @param trModeMasterRequest
+     * @param <T>
+     */
+    public <T> T trModeMasterObjectToEntity(TrModeMasterRequest trModeMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trModeMasterRequest);
+        return (T) mapper.map(trModeMasterRequest, claaz);
+    }
+
+    /**
+     * Maps trSchedule Entity to trSchedule Response Object
+     * @param trScheduleEntity
+     * @param <T>
+     */
+    public <T> T trScheduleEntityToObject(TrSchedule trScheduleEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trScheduleEntity);
+        return (T) mapper.map(trScheduleEntity, claaz);
+    }
+
+    /**
+     * Maps trScheduleDTO to trSchedule Response Object
+     * @param trScheduleDTO
+     * @param <T>
+     */
+    public <T> T trScheduleDTOToObject(TrScheduleDTO trScheduleDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trScheduleDTO);
+        return (T) mapper.map(trScheduleDTO, claaz);
+    }
+
+    /**
+     * Maps trSchedule Object to trSchedule  Response Object
+     * @param trScheduleRequest
+     * @param <T>
+     */
+    public <T> T trScheduleObjectToEntity(TrScheduleRequest trScheduleRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trScheduleRequest);
+        return (T) mapper.map(trScheduleRequest, claaz);
     }
 
 }

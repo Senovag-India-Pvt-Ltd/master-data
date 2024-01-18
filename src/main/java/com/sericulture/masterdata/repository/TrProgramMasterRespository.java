@@ -16,6 +16,8 @@ import java.util.Set;
 public interface TrProgramMasterRespository extends PagingAndSortingRepository<TrProgramMaster, Long> {
     public List<TrProgramMaster> findByTrProgramMasterName(String trProgramMasterName);
 
+    public List<TrProgramMaster> findByTrProgramMasterNameAndTrProgramNameInKannada(String trProgramMasterName,String trProgramNameInKannada);
+
     public TrProgramMaster findByTrProgramMasterNameAndActive(String trProgramMasterName,boolean isActive);
 
     public Page<TrProgramMaster> findByActiveOrderByTrProgramMasterNameAsc(boolean isActive, final Pageable pageable);

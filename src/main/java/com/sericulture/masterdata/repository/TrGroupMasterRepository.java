@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.TrCourseMaster;
 import com.sericulture.masterdata.model.entity.TrGroupMaster;
 import com.sericulture.masterdata.model.entity.TrInstitutionMaster;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import java.util.Set;
 @Repository
 public interface TrGroupMasterRepository extends PagingAndSortingRepository<TrGroupMaster, Long> {
     public List<TrGroupMaster> findByTrGroupMasterName(String trGroupMasterName);
+
+    public List<TrGroupMaster> findByTrGroupMasterNameAndTrGroupNameInKannada(String trGroupMasterName, String trGroupNameInKannada);
 
     public TrGroupMaster findByTrGroupMasterNameAndActive(String trGroupMasterName,boolean isActive);
 

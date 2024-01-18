@@ -25,4 +25,7 @@ public class TrCourseMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Course name should be more than 1 characters.")
     @Column(name = " tr_course_name", unique = true)
     private String trCourseMasterName;
+
+    @Column(name = " tr_course_name_in_kannada", unique = true)
+    private String trCourseNameInKannada;
 }

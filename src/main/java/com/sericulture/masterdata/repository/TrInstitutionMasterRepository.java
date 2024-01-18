@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.State;
+import com.sericulture.masterdata.model.entity.TrCourseMaster;
 import com.sericulture.masterdata.model.entity.TrInstitutionMaster;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,8 @@ import java.util.Set;
 @Repository
 public interface TrInstitutionMasterRepository extends PagingAndSortingRepository<TrInstitutionMaster, Long> {
     public List<TrInstitutionMaster> findByTrInstitutionMasterName(String trInstitutionMasterName);
+
+    public List<TrInstitutionMaster> findByTrInstitutionMasterNameAndTrInstitutionNameInKannada(String trInstitutionMasterName, String trInstitutionNameInKannada);
 
     public TrInstitutionMaster findByTrInstitutionMasterNameAndActive(String trInstitutionMasterName,boolean isActive);
 

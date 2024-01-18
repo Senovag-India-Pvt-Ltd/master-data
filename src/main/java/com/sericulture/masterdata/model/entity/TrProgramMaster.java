@@ -26,4 +26,7 @@ public class TrProgramMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Program name should be more than 1 characters.")
     @Column(name = " tr_program_name", unique = true)
     private String trProgramMasterName;
+
+    @Column(name = " tr_program_name_in_kannada", unique = true)
+    private String trProgramNameInKannada;
 }
