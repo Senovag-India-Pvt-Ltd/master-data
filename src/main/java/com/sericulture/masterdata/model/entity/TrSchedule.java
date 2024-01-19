@@ -54,9 +54,6 @@ public class TrSchedule extends BaseEntity implements Serializable {
     @Column(name = "TR_DATE_OF_COMPLETION")
     private Date trDateOfCompletion;
 
-
-
-
     @Size(min = 2, max = 250, message = "Tr Schedule name should be more than 1 characters.")
     @Column(name = "TR_NAME", unique = true)
     private String trName;
