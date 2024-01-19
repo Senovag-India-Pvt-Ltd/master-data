@@ -14,6 +14,6 @@ public class TrInstitutionMasterRequest extends RequestBody {
     @Schema(name = "trInstitutionMasterName", example = "Karnataka", required = true)
     String trInstitutionMasterName;
 
-    @Schema(name = "trInstitutionNameInKannada", example = "Karnataka", required = true)
+    @Schema(name = "trInstitutionNameInKannada", example = "ಕನ್ನಡ")
     String trInstitutionNameInKannada;
 }

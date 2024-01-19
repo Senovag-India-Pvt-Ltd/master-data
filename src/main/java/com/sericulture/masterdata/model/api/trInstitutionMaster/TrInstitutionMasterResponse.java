@@ -19,7 +19,7 @@ public class TrInstitutionMasterResponse {
     @Schema(name = "trInstitutionMasterName", example = "Karnataka")
     String trInstitutionMasterName;
 
-    @Schema(name = "trInstitutionNameInKannada", example = "Karnataka")
+    @Schema(name = "trInstitutionNameInKannada", example = "ಕನ್ನಡ")
     String trInstitutionNameInKannada;
 
     @Schema(name = "error", example = "true")
