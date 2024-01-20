@@ -47,8 +47,10 @@ import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest
 import com.sericulture.masterdata.model.api.trGroupMaster.TrGroupMasterRequest;
 import com.sericulture.masterdata.model.api.trInstitutionMaster.TrInstitutionMasterRequest;
 import com.sericulture.masterdata.model.api.trModeMaster.TrModeMasterRequest;
+import com.sericulture.masterdata.model.api.trOffice.TrOfficeRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
+import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
@@ -1276,5 +1278,57 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, trScheduleRequest);
         return (T) mapper.map(trScheduleRequest, claaz);
     }
+
+    /**
+     * Maps trOffice Entity to trOffice Response Object
+     * @param trOfficeEntity
+     * @param <T>
+     */
+    public <T> T trOfficeEntityToObject(TrOffice trOfficeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trOfficeEntity);
+        return (T) mapper.map(trOfficeEntity, claaz);
+    }
+
+
+    /**
+     * Maps trOffice Object to trOffice  Response Object
+     * @param trOfficeRequest
+     * @param <T>
+     */
+    public <T> T trOfficeObjectToEntity(TrOfficeRequest trOfficeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trOfficeRequest);
+        return (T) mapper.map(trOfficeRequest, claaz);
+    }
+
+    /**
+     * Maps trTraining Entity to trTraining Response Object
+     * @param trTrainingEntity
+     * @param <T>
+     */
+    public <T> T trTrainingEntityToObject(TrTraining trTrainingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trTrainingEntity);
+        return (T) mapper.map(trTrainingEntity, claaz);
+    }
+
+    /**
+     * Maps trTrainingDTO to trTraining Response Object
+     * @param trTrainingDTO
+     * @param <T>
+     */
+    public <T> T trTrainingDTOToObject(TrTrainingDTO trTrainingDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trTrainingDTO);
+        return (T) mapper.map(trTrainingDTO, claaz);
+    }
+
+    /**
+     * Maps trTraining Object to trTraining  Response Object
+     * @param trTrainingRequest
+     * @param <T>
+     */
+    public <T> T trTrainingObjectToEntity(TrTrainingRequest trTrainingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trTrainingRequest);
+        return (T) mapper.map(trTrainingRequest, claaz);
+    }
+
 
 }
