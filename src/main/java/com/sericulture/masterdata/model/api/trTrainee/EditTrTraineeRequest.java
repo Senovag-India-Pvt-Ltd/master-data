@@ -1,35 +1,32 @@
-package com.sericulture.masterdata.model.api.trTraining;
+package com.sericulture.masterdata.model.api.trTrainee;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Getter
-@Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TrTrainingResponse {
+public class EditTrTraineeRequest extends RequestBody {
 
     @Schema(name = "trTraineeId", example = "1")
-    Integer trTraineeId;
+    Long trTraineeId;
 
     @Schema(name = "trTraineeName", example = "Karnataka", required = true)
     String trTraineeName;
 
     @Schema(name = "designationId", example = "1")
-    Integer designationId;
+    Long designationId;
 
     @Schema(name = "trOfficeId", example = "1")
-    Integer trOfficeId;
+    Long trOfficeId;
 
     @Schema(name = "gender", example = "1")
-    Integer gender;
+    Long gender;
 
     @Schema(name = "mobileNumber", example = "Karnataka", required = true)
     String mobileNumber;
@@ -38,33 +35,28 @@ public class TrTrainingResponse {
     String place;
 
     @Schema(name = "stateId", example = "1")
-    Integer stateId;
+    Long stateId;
 
     @Schema(name = "districtId", example = "1")
-    Integer districtId;
+    Long districtId;
 
     @Schema(name = "talukId", example = "1")
-    Integer talukId;
+    Long talukId;
 
     @Schema(name = "hobliId", example = "1")
-    Integer hobliId;
+    Long hobliId;
 
     @Schema(name = "villageId", example = "1")
-    Integer villageId;
+    Long villageId;
 
     @Schema(name = "preTestScore", example = "1")
-    Integer preTestScore;
+    Long preTestScore;
 
     @Schema(name = "postTestScore", example = "1")
-    Integer postTestScore;
+    Long postTestScore;
 
     @Schema(name = "percentageImproved", example = "1")
     BigDecimal percentageImproved;
 
-    @Schema(name = "error", example = "true")
-    Boolean error;
 
-    @Schema(name = "error_description", example = "Username or password is incorrect")
-    String error_description;
 }
-

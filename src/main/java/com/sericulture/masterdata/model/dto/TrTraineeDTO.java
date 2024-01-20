@@ -4,10 +4,9 @@ package com.sericulture.masterdata.model.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.format.DecimalStyle;
 
 @Data
-public class TrTrainingDTO {
+public class TrTraineeDTO {
     private Long trTraineeId;
     private String trTraineeName;
     private Long designationId;
@@ -31,28 +30,28 @@ public class TrTrainingDTO {
     private String hobliName;
     private String villageName;
 
-    public TrTrainingDTO(Long trTraineeId,
-                         String trTraineeName,
-                         Long designationId,
-                         Long trOfficeId,
-                         Long gender,
-                         String mobileNumber,
-                         String place,
-                         Long stateId,
-                         Long districtId,
-                         Long talukId,
-                         Long hobliId,
-                         Long villageId,
-                         Long preTestScore,
-                         Long postTestScore,
-                         BigDecimal percentageImproved,
-                         String name,
-                         String trOfficeName,
-                         String stateName,
-                         String districtName,
-                         String talukName,
-                         String hobliName,
-                         String villageName){
+    public TrTraineeDTO(Long trTraineeId,
+                        String trTraineeName,
+                        Long designationId,
+                        Long trOfficeId,
+                        Long gender,
+                        String mobileNumber,
+                        String place,
+                        Long stateId,
+                        Long districtId,
+                        Long talukId,
+                        Long hobliId,
+                        Long villageId,
+                        Long preTestScore,
+                        Long postTestScore,
+                        BigDecimal percentageImproved,
+                        String name,
+                        String trOfficeName,
+                        String stateName,
+                        String districtName,
+                        String talukName,
+                        String hobliName,
+                        String villageName){
         this.trTraineeId=trTraineeId;
         this.trTraineeName=trTraineeName;
         this.designationId=designationId;

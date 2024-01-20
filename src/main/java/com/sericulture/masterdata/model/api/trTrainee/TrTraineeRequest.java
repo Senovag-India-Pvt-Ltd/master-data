@@ -1,11 +1,10 @@
-package com.sericulture.masterdata.model.api.trTraining;
+package com.sericulture.masterdata.model.api.trTrainee;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 
 @Getter
@@ -13,7 +12,7 @@ import java.text.DecimalFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class TrTrainingRequest extends RequestBody {
+public class TrTraineeRequest extends RequestBody {
 
     @Schema(name = "trTraineeName", example = "Karnataka", required = true)
     String trTraineeName;

@@ -2,14 +2,10 @@ package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
-import com.sericulture.masterdata.model.api.trSchedule.EditTrScheduleRequest;
-import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
-import com.sericulture.masterdata.model.api.trSchedule.TrScheduleResponse;
-import com.sericulture.masterdata.model.api.trTraining.EditTrTrainingRequest;
-import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
-import com.sericulture.masterdata.model.api.trTraining.TrTrainingResponse;
-import com.sericulture.masterdata.service.TrScheduleService;
-import com.sericulture.masterdata.service.TrTrainingService;
+import com.sericulture.masterdata.model.api.trTrainee.EditTrTraineeRequest;
+import com.sericulture.masterdata.model.api.trTrainee.TrTraineeRequest;
+import com.sericulture.masterdata.model.api.trTrainee.TrTraineeResponse;
+import com.sericulture.masterdata.service.TrTraineeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,28 +19,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/trTraining")
-public class TrTrainingController {
+@RequestMapping("/v1/trTrainee")
+public class TrTraineeController {
 
     @Autowired
-    TrTrainingService trTrainingService;
+    TrTraineeService trTraineeService;
 
-    @Operation(summary = "Insert TrTraining Details", description = "Creates TrTraining Details in to DB")
+    @Operation(summary = "Insert TrTrainee Details", description = "Creates TrTrainee Details in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
                             {
                                     @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"TrTraining name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"TrTrainee name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addTrTrainingDetails(@RequestBody TrTrainingRequest trTrainingRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTrainingResponse.class);
+    public ResponseEntity<?> addTrTraineeDetails(@RequestBody TrTraineeRequest trTraineeRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTraineeResponse.class);
 
-        rw.setContent(trTrainingService.insertTrTrainingDetails(trTrainingRequest));
+        rw.setContent(trTraineeService.insertTrTraineeDetails(trTraineeRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -53,7 +49,7 @@ public class TrTrainingController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"trTraining\":[{\"id\":10,\"trTraineeName\":\"\"},{\"id\":11,\"trTraineeName\":\"Karnataka\"},{\"id\":13,\"trTraineeName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"trTrainee\":[{\"id\":10,\"trTraineeName\":\"\"},{\"id\":11,\"trTraineeName\":\"Karnataka\"},{\"id\":13,\"trTraineeName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -67,7 +63,7 @@ public class TrTrainingController {
             @RequestParam(defaultValue = "true") boolean isActive
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(trTrainingService.getAllByActive(isActive));
+        rw.setContent(trTraineeService.getAllByActive(isActive));
         return ResponseEntity.ok(rw);
     }
 
@@ -76,7 +72,7 @@ public class TrTrainingController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"trTraining\":[{\"id\":10,\"trTraineeName\":\"\"},{\"id\":11,\"trTraineeName\":\"Karnataka\"},{\"id\":13,\"trTraineeName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"trTrainee\":[{\"id\":10,\"trTraineeName\":\"\"},{\"id\":11,\"trTraineeName\":\"Karnataka\"},{\"id\":13,\"trTraineeName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -91,7 +87,7 @@ public class TrTrainingController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(trTrainingService.getPaginatedTrTrainingDetails(PageRequest.of(pageNumber, size)));
+        rw.setContent(trTraineeService.getPaginatedTrTraineeDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -100,7 +96,7 @@ public class TrTrainingController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"trTraining\":[{\"id\":10,\"trTraineeName\":\"\",\"trTraineeId\":1,},{\"id\":11,\"trTraineeName\":\"Shimoga\",\"trTraineeId\":1,},{\"id\":13,\"trTraineeName\":\"Hubli\",\"trTraineeId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"trTrainee\":[{\"id\":10,\"trTraineeName\":\"\",\"trTraineeId\":1,},{\"id\":11,\"trTraineeName\":\"Shimoga\",\"trTraineeId\":1,},{\"id\":13,\"trTraineeName\":\"Hubli\",\"trTraineeId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -110,12 +106,12 @@ public class TrTrainingController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    public ResponseEntity<?> getPaginatedTrTrainingDetailsWithJoin(
+    public ResponseEntity<?> getPaginatedTrTraineeDetailsWithJoin(
             @RequestParam(defaultValue = "0") final Integer pageNumber,
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(trTrainingService.getPaginatedTrTrainingDetailsWithJoin(PageRequest.of(pageNumber, size)));
+        rw.setContent(trTraineeService.getPaginatedTrTraineeDetailsWithJoin(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -131,11 +127,11 @@ public class TrTrainingController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteTrTrainingDetails(
+    public ResponseEntity<?> deleteTrTraineeDetails(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper<TrTrainingResponse> rw = ResponseWrapper.createWrapper(TrTrainingResponse.class);
-        rw.setContent(trTrainingService.deleteTrTrainingDetails(id));
+        ResponseWrapper<TrTraineeResponse> rw = ResponseWrapper.createWrapper(TrTraineeResponse.class);
+        rw.setContent(trTraineeService.deleteTrTraineeDetails(id));
         return ResponseEntity.ok(rw);
     }
 
@@ -150,11 +146,11 @@ public class TrTrainingController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editTrTrainingDetails(
-            @RequestBody final EditTrTrainingRequest editTrTrainingRequest
+    public ResponseEntity<?> editTrTraineeDetails(
+            @RequestBody final EditTrTraineeRequest editTrTraineeRequest
     ) {
-        ResponseWrapper<TrTrainingResponse> rw = ResponseWrapper.createWrapper(TrTrainingResponse.class);
-        rw.setContent(trTrainingService.updateTrTrainingDetails(editTrTrainingRequest));
+        ResponseWrapper<TrTraineeResponse> rw = ResponseWrapper.createWrapper(TrTraineeResponse.class);
+        rw.setContent(trTraineeService.updateTrTraineeDetails(editTrTraineeRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -172,9 +168,9 @@ public class TrTrainingController {
     public ResponseEntity<?> getById(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTrainingResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTraineeResponse.class);
 
-        rw.setContent(trTrainingService.getById(id));
+        rw.setContent(trTraineeService.getById(id));
         return ResponseEntity.ok(rw);
     }
 
@@ -192,9 +188,9 @@ public class TrTrainingController {
     public ResponseEntity<?> getByIdJoin(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTrainingResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTraineeResponse.class);
 
-        rw.setContent(trTrainingService.getByIdJoin(id));
+        rw.setContent(trTraineeService.getByIdJoin(id));
         return ResponseEntity.ok(rw);
     }
     @ApiResponses(value = {
@@ -212,7 +208,7 @@ public class TrTrainingController {
             @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(trTrainingService.searchByColumnAndSort(searchWithSortRequest));
+        rw.setContent(trTraineeService.searchByColumnAndSort(searchWithSortRequest));
         return ResponseEntity.ok(rw);
     }
 
