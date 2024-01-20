@@ -52,6 +52,7 @@ import com.sericulture.masterdata.model.api.trOffice.TrOfficeRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
 import com.sericulture.masterdata.model.api.trTrainee.TrTraineeRequest;
+import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
@@ -1371,8 +1372,10 @@ public class Mapper {
         return (T) mapper.map(trTraineeDTO, claaz);
     }
 
+
+
     /**
-     * Maps trTraining Object to trTraining  Response Object
+     * Maps trTrainee Object to trTrainee  Response Object
      * @param trTraineeRequest
      * @param <T>
      */
@@ -1380,6 +1383,39 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, trTraineeRequest);
         return (T) mapper.map(trTraineeRequest, claaz);
     }
+
+    /**
+     * Maps trTraining Entity to trTraining Response Object
+     * @param trTrainingEntity
+     * @param <T>
+     */
+    public <T> T trTrainingEntityToObject(TrTraining trTrainingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trTrainingEntity);
+        return (T) mapper.map(trTrainingEntity, claaz);
+    }
+
+    /**
+     * Maps trTrainingDTO to trTraining Response Object
+     * @param trTrainingDTO
+     * @param <T>
+     */
+    public <T> T trTrainingDTOToObject(TrTrainingDTO trTrainingDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trTrainingDTO);
+        return (T) mapper.map(trTrainingDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps trTraining Object to trTraining Response Object
+     * @param trTrainingRequest
+     * @param <T>
+     */
+    public <T> T trTrainingObjectToEntity(TrTrainingRequest trTrainingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trTrainingRequest);
+        return (T) mapper.map(trTrainingRequest, claaz);
+    }
+
 
 
 }
