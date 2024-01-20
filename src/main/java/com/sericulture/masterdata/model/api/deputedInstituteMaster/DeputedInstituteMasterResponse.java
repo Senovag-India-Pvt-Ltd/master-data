@@ -1,9 +1,8 @@
-package com.sericulture.masterdata.model.api.trProgramMaster;
+package com.sericulture.masterdata.model.api.deputedInstituteMaster;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,16 +10,13 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TrProgramMasterResponse {
+public class DeputedInstituteMasterResponse {
 
-    @Schema(name = "trProgramMasterId", example = "1")
-    Integer trProgramMasterId;
+    @Schema(name = "deputedInstituteId", example = "1")
+    Integer deputedInstituteId;
 
-    @Schema(name = "trProgramMasterName", example = "Karnataka", required = true)
-    String trProgramMasterName;
-
-    @Schema(name = "trProgramNameInKannada", example = "ಕನ್ನಡ")
-    String trProgramNameInKannada;
+    @Schema(name = "deputedInstituteName", example = "external unit type 1", required = true)
+    String deputedInstituteName;
 
     @Schema(name = "error", example = "true")
     Boolean error;
@@ -28,5 +24,3 @@ public class TrProgramMasterResponse {
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
 }
-
-

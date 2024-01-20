@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterReq
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.crateMaster.CrateMasterRequest;
+import com.sericulture.masterdata.model.api.deputedInstituteMaster.DeputedInstituteMasterRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.documentMaster.DocumentMasterRequest;
@@ -52,6 +53,7 @@ import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterReque
 import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
 import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
+import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
@@ -1277,6 +1279,55 @@ public class Mapper {
     public <T> T trScheduleObjectToEntity(TrScheduleRequest trScheduleRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, trScheduleRequest);
         return (T) mapper.map(trScheduleRequest, claaz);
+    }
+    /**
+     * Maps DeputedInstituteMaster Entity to DeputedInstituteMaster Response Object
+     * @param deputedInstituteMasterEntity
+     * @param <T>
+     */
+    public <T> T deputedInstituteMasterEntityToObject(DeputedInstituteMaster deputedInstituteMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,deputedInstituteMasterEntity);
+        return (T) mapper.map(deputedInstituteMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps trModeMaster Object to trModeMaster  Response Object
+     * @param deputedInstituteMasterRequest
+     * @param <T>
+     */
+    public <T> T deputedInstituteMasterObjectToEntity(DeputedInstituteMasterRequest deputedInstituteMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, deputedInstituteMasterRequest);
+        return (T) mapper.map(deputedInstituteMasterRequest, claaz);
+    }
+    /**
+     * Maps trainingDeputationTracker Entity to trainingDeputationTracker Response Object
+     * @param trainingDeputationTrackerEntity
+     * @param <T>
+     */
+    public <T> T trainingDeputationTrackerEntityToObject(TrainingDeputationTracker trainingDeputationTrackerEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,trainingDeputationTrackerEntity);
+        return (T) mapper.map(trainingDeputationTrackerEntity, claaz);
+    }
+
+    /**
+     * Maps trainingDeputationTrackerDTO to trainingDeputationTracker Response Object
+     * @param trainingDeputationTrackerDTO
+     * @param <T>
+     */
+    public <T> T trainingDeputationTrackerDTOToObject(TrainingDeputationTrackerDTO trainingDeputationTrackerDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trainingDeputationTrackerDTO);
+        return (T) mapper.map(trainingDeputationTrackerDTO, claaz);
+    }
+
+    /**
+     * Maps trSchedule Object to trSchedule  Response Object
+     * @param trainingDeputationTrackerRequest
+     * @param <T>
+     */
+    public <T> T trainingDeputationTrackerObjectToEntity(TrainingDeputationTrackerRequest trainingDeputationTrackerRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, trainingDeputationTrackerRequest);
+        return (T) mapper.map(trainingDeputationTrackerRequest, claaz);
     }
 
     /**

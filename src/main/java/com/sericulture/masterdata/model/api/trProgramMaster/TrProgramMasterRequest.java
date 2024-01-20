@@ -14,6 +14,6 @@ public class TrProgramMasterRequest extends RequestBody {
     @Schema(name = "trProgramMasterName", example = "Karnataka", required = true)
     String trProgramMasterName;
 
-    @Schema(name = "trProgramNameInKannada", example = "Karnataka", required = true)
+    @Schema(name = "trProgramNameInKannada", example = "ಕನ್ನಡ")
     String trProgramNameInKannada;
 }
