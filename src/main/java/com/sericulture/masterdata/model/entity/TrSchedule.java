@@ -24,6 +24,12 @@ public class TrSchedule extends BaseEntity implements Serializable {
     @Column(name = "TR_SCHEDULE_ID")
     private Long trScheduleId;
 
+    @Column(name = "USER_MASTER_ID")
+    private Long userMasterId;
+
+    @Column(name = "TR_STAKEHOLDER_TYPE")
+    private Long trStakeholderType;
+
     @Column(name = "TR_INSTITUTION_MASTER_ID")
     private Long trInstitutionMasterId;
 
@@ -54,11 +60,10 @@ public class TrSchedule extends BaseEntity implements Serializable {
     @Column(name = "TR_DATE_OF_COMPLETION")
     private Date trDateOfCompletion;
 
-    @Size(min = 2, max = 250, message = "Tr Schedule name should be more than 1 characters.")
-    @Column(name = "TR_NAME", unique = true)
+    @Column(name = "TR_NAME")
     private String trName;
 
-    @Column(name = "TR_UPLOAD_PATH", unique = true)
+    @Column(name = "TR_UPLOAD_PATH")
     private String trUploadPath;
 
 }

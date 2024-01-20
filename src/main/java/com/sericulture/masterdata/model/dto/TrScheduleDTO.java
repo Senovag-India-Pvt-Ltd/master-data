@@ -7,6 +7,8 @@ import java.util.Date;
 @Data
 public class TrScheduleDTO {
     private Long trScheduleId;
+    private Long userMasterId;
+    private Long trStakeholderType;
     private Long trInstitutionMasterId;
     private Long trGroupMasterId;
     private Long trProgramMasterId;
@@ -19,6 +21,7 @@ public class TrScheduleDTO {
     private String trUploadPath;
     private Date trStartDate;
     private Date trDateOfCompletion;
+    private String username;
     private String trInstitutionMasterName;
     private String trProgramMasterName;
     private String trCourseMasterName;
@@ -29,6 +32,8 @@ public class TrScheduleDTO {
 
     public TrScheduleDTO(Long trScheduleId,
                          Long trInstitutionMasterId,
+                         Long userMasterId,
+                         Long trStakeholderType,
                          Long trGroupMasterId,
                          Long trProgramMasterId,
                          Long trCourseMasterId,
@@ -40,12 +45,15 @@ public class TrScheduleDTO {
                          String trUploadPath,
                          Date trStartDate,
                          Date trDateOfCompletion,
+                         String username,
                          String trInstitutionMasterName,
                          String trGroupMasterName,
                          String trProgramMasterName,
                          String trCourseMasterName,
                          String trModeMasterName){
         this.trScheduleId= trScheduleId;
+        this.userMasterId=userMasterId;
+        this.trStakeholderType=trStakeholderType;
         this.trInstitutionMasterId=trInstitutionMasterId;
         this.trGroupMasterId=trGroupMasterId;
         this.trProgramMasterId=trProgramMasterId;
@@ -58,6 +66,7 @@ public class TrScheduleDTO {
         this.trUploadPath=trUploadPath;
         this.trStartDate=trStartDate;
         this.trDateOfCompletion=trDateOfCompletion;
+        this.username=username;
         this.trInstitutionMasterName=trInstitutionMasterName;
         this.trGroupMasterName=trGroupMasterName;
         this.trProgramMasterName=trProgramMasterName;

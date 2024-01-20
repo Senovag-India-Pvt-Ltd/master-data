@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.trTrainee.EditTrTraineeRequest;
 import com.sericulture.masterdata.model.api.trTrainee.TrTraineeRequest;
 import com.sericulture.masterdata.model.api.trTrainee.TrTraineeResponse;
+import com.sericulture.masterdata.model.dto.TrScheduleDTO;
 import com.sericulture.masterdata.model.dto.TrTraineeDTO;
 import com.sericulture.masterdata.model.entity.TrTrainee;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -168,6 +169,29 @@ public class TrTraineeService {
         return trTraineeResponse;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByTrScheduleId(int TrScheduleId) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrTrainee> trTraineeList = trTraineeRepository.findByTrScheduleIdAndActive(TrScheduleId, true);
+        if (trTraineeList.isEmpty()) {
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            return response;
+        } else {
+            response = convertListToMapResponse(trTraineeList);
+            return response;
+//        return convertListToMapResponse(reelerList);
+        }
+    }
+    private Map<String, Object> convertListToMapResponse(List<TrTrainee> trTraineeList) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrTraineeResponse> trTraineeResponses = trTraineeList.stream()
+                .map(trTrainee -> mapper.trTraineeEntityToObject(trTrainee,TrTraineeResponse.class)).collect(Collectors.toList());
+        response.put("trTrainee",trTraineeResponses);
+        response.put("totalItems", trTraineeList.size());
+        return response;
+    }
+
     @Transactional
     public TrTraineeResponse getByIdJoin(int id) {
         TrTraineeResponse trTraineeResponse= new TrTraineeResponse();
@@ -199,6 +223,7 @@ public class TrTraineeService {
 
             TrTrainee trTrainee= trTraineeRepository.findByTrTraineeIdAndActiveIn(trTraineeRequest.getTrTraineeId(), Set.of(true,false));
             if(Objects.nonNull(trTrainee)){
+                trTrainee.setTrScheduleId(trTraineeRequest.getTrScheduleId());
                 trTrainee.setTrTraineeName(trTraineeRequest.getTrTraineeName());
                 trTrainee.setDesignationId(trTraineeRequest.getDesignationId());
                 trTrainee.setTrOfficeId(trTraineeRequest.getTrOfficeId());
@@ -268,6 +293,31 @@ public class TrTraineeService {
         response.put("totalItems", activeTrTrainees.getTotalElements());
         response.put("totalPages", activeTrTrainees.getTotalPages());
 
+        return response;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByTrScheduleIdJoin(int trScheduleId){
+        Map<String, Object> response = new HashMap<>();
+        List<TrTraineeDTO> trTraineeDTO = trTraineeRepository.getByTrScheduleIdAndActive(trScheduleId, true);
+        if(trTraineeDTO.isEmpty()){
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            response = convertListDTOToMapResponse(trTraineeDTO);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListDTOToMapResponse(List<TrTraineeDTO> trTraineeDTOList) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrTraineeResponse> trTraineeResponse = trTraineeDTOList.stream()
+                .map(trTraineeDTO -> mapper.trTraineeDTOToObject(trTraineeDTO, TrTraineeResponse.class)).collect(Collectors.toList());
+        response.put("trTrainee", trTraineeResponse);
+        response.put("totalItems", trTraineeDTOList.size());
         return response;
     }
 }

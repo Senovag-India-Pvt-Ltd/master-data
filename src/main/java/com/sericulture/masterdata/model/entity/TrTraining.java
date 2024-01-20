@@ -38,7 +38,6 @@ public class TrTraining extends BaseEntity implements Serializable {
     @Column(name = "TR_COURSE_MASTER_ID")
     private Long trCourseMasterId;
 
-
     @Column(name = "TR_TRAINING_DATE")
     private Date trTrainingDate;
 

@@ -16,6 +16,12 @@ public class EditTrScheduleRequest extends RequestBody {
     @Schema(name = "trScheduleId", example = "1")
     Long trScheduleId;
 
+    @Schema(name = "userMasterId", example = "1")
+    Long userMasterId;
+
+    @Schema(name = "trStakeholderType", example = "1")
+    Long trStakeholderType;
+
     @Schema(name = "trName", example = "Karnataka", required = true)
     String trName;
 

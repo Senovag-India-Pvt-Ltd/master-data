@@ -33,9 +33,12 @@ public interface TrTraineeRepository extends PagingAndSortingRepository<TrTraine
 
     public List<TrTrainee> findByActiveOrderByTrTraineeNameAsc(boolean isActive);
 
+    public List<TrTrainee> findByTrScheduleIdAndActive(long trScheduleId, boolean isActive);
+
 
     @Query("select new com.sericulture.masterdata.model.dto.TrTraineeDTO(" +
             " trTrainee.trTraineeId," +
+            " trTrainee.trScheduleId," +
             " trTrainee.trTraineeName," +
             " trTrainee.designationId," +
             " trTrainee.trOfficeId," +
@@ -81,6 +84,7 @@ public interface TrTraineeRepository extends PagingAndSortingRepository<TrTraine
 
     @Query("select new com.sericulture.masterdata.model.dto.TrTraineeDTO(" +
             " trTrainee.trTraineeId," +
+            " trTrainee.trScheduleId," +
             " trTrainee.trTraineeName," +
             " trTrainee.designationId," +
             " trTrainee.trOfficeId," +
@@ -125,6 +129,7 @@ public interface TrTraineeRepository extends PagingAndSortingRepository<TrTraine
 
     @Query("select new com.sericulture.masterdata.model.dto.TrTraineeDTO(" +
             " trTrainee.trTraineeId," +
+            " trTrainee.trScheduleId," +
             " trTrainee.trTraineeName," +
             " trTrainee.designationId," +
             " trTrainee.trOfficeId," +
@@ -168,4 +173,48 @@ public interface TrTraineeRepository extends PagingAndSortingRepository<TrTraine
             "(:joinColumn = 'trTrainee.mobileNumber' AND trTrainee.mobileNumber LIKE :searchText)"
     )
     public Page<TrTraineeDTO> getSortedTrTrainee(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
+
+    @Query("select new com.sericulture.masterdata.model.dto.TrTraineeDTO(" +
+            " trTrainee.trTraineeId," +
+            " trTrainee.trScheduleId," +
+            " trTrainee.trTraineeName," +
+            " trTrainee.designationId," +
+            " trTrainee.trOfficeId," +
+            " trTrainee.gender," +
+            " trTrainee.mobileNumber," +
+            " trTrainee.place," +
+            " trTrainee.stateId," +
+            " trTrainee.districtId," +
+            " trTrainee.talukId," +
+            " trTrainee.hobliId," +
+            " trTrainee.villageId," +
+            " trTrainee.preTestScore," +
+            " trTrainee.postTestScore," +
+            " trTrainee.percentageImproved," +
+            " designation.name," +
+            " trOffice.trOfficeName," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName," +
+            " hobli.hobliName," +
+            " village.villageName" +
+
+            ") \n" +
+            "from TrTrainee trTrainee\n" +
+            "left join Designation designation\n" +
+            "on trTrainee.designationId = designation.designationId " +
+            "left join TrOffice trOffice\n" +
+            "on trTrainee.trOfficeId = trOffice.trOfficeId " +
+            "left join State state\n" +
+            "on trTrainee.stateId= state.stateId " +
+            "left join District district\n" +
+            "on trTrainee.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on trTrainee.talukId = taluk.talukId " +
+            "left join Hobli hobli\n" +
+            "on trTrainee.hobliId = hobli.hobliId " +
+            "left join Village village\n" +
+            "on trTrainee.villageId = village.villageId " +
+            "where trTrainee.active = :isActive AND trTrainee.trScheduleId = :id")
+    public List <TrTraineeDTO> getByTrScheduleIdAndActive(@Param("id") long id, @Param("isActive") boolean isActive);
 }

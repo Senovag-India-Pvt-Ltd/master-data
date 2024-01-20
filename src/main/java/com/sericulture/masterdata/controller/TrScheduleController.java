@@ -6,9 +6,10 @@ import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
 import com.sericulture.masterdata.model.api.trModeMaster.EditTrModeMasterRequest;
 import com.sericulture.masterdata.model.api.trModeMaster.TrModeMasterRequest;
 import com.sericulture.masterdata.model.api.trModeMaster.TrModeMasterResponse;
-import com.sericulture.masterdata.model.api.trSchedule.EditTrScheduleRequest;
-import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
-import com.sericulture.masterdata.model.api.trSchedule.TrScheduleResponse;
+import com.sericulture.masterdata.model.api.trSchedule.*;
+import com.sericulture.masterdata.model.api.trTrainee.TrTraineeResponse;
+import com.sericulture.masterdata.model.dto.RpRoleAssociationDTO;
+import com.sericulture.masterdata.model.dto.TrScheduleDTO;
 import com.sericulture.masterdata.service.TrModeMasterService;
 import com.sericulture.masterdata.service.TrScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -214,6 +215,65 @@ public class TrScheduleController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(trScheduleService.searchByColumnAndSort(searchWithSortRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-by-user-master-id/{id}")
+    public ResponseEntity<?> getByUserMasterId(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TrTraineeResponse.class);
+
+        rw.setContent(trScheduleService.getByUserMasterId(id));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-by-user-master-id-join/{id}")
+    public ResponseEntity<?> getByUserMasterIdJoin(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TrScheduleResponse.class);
+
+        rw.setContent(trScheduleService.getByUserMasterIdJoin(id));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-by-user-master-id")
+    public ResponseEntity<?> getByUserMasterId(
+            @RequestBody final TrScheduleDTO trScheduleDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(trScheduleService.getByUserMasterId(trScheduleDTO.getUserMasterId()));
         return ResponseEntity.ok(rw);
     }
 

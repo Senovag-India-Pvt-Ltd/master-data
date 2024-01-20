@@ -13,6 +13,12 @@ import java.util.Date;
 @EqualsAndHashCode
 public class TrScheduleRequest extends RequestBody {
 
+    @Schema(name = "userMasterId", example = "1")
+    Long userMasterId;
+
+    @Schema(name = "trStakeholderType", example = "1")
+    Long trStakeholderType;
+
     @Schema(name = "trName", example = "Karnataka", required = true)
     String trName;
 

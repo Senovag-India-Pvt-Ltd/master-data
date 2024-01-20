@@ -2,16 +2,19 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationResponse;
 import com.sericulture.masterdata.model.api.trModeMaster.EditTrModeMasterRequest;
 import com.sericulture.masterdata.model.api.trModeMaster.TrModeMasterRequest;
 import com.sericulture.masterdata.model.api.trModeMaster.TrModeMasterResponse;
-import com.sericulture.masterdata.model.api.trSchedule.EditTrScheduleRequest;
-import com.sericulture.masterdata.model.api.trSchedule.TrScheduleRequest;
-import com.sericulture.masterdata.model.api.trSchedule.TrScheduleResponse;
+import com.sericulture.masterdata.model.api.trSchedule.*;
+import com.sericulture.masterdata.model.api.trTrainee.TrTraineeResponse;
 import com.sericulture.masterdata.model.dto.MarketMasterDTO;
+import com.sericulture.masterdata.model.dto.RpRoleAssociationDTO;
 import com.sericulture.masterdata.model.dto.TrScheduleDTO;
+import com.sericulture.masterdata.model.dto.TrTraineeDTO;
 import com.sericulture.masterdata.model.entity.TrModeMaster;
 import com.sericulture.masterdata.model.entity.TrSchedule;
+import com.sericulture.masterdata.model.entity.TrTrainee;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.TrModeMasterRepository;
 import com.sericulture.masterdata.repository.TrScheduleRepository;
@@ -178,6 +181,77 @@ public class TrScheduleService {
         return trScheduleResponse;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByUserMasterIdJoin(int userMasterId){
+        Map<String, Object> response = new HashMap<>();
+        List<TrScheduleDTO> trScheduleDTO = trScheduleRepository.getByUserMasterIdAndActive(userMasterId, true);
+        if(trScheduleDTO.isEmpty()){
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            response = convertListDTOToMapResponse(trScheduleDTO);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListDTOToMapResponse(List<TrScheduleDTO> trScheduleDTOList) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrScheduleResponse> trScheduleResponses = trScheduleDTOList.stream()
+                .map(trScheduleDTO -> mapper.trScheduleDTOToObject(trScheduleDTO, TrScheduleResponse.class)).collect(Collectors.toList());
+        response.put("trSchedule", trScheduleResponses);
+        response.put("totalItems", trScheduleDTOList.size());
+        return response;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByUserMasterId(Long userMasterId) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrScheduleDTO> trScheduleDTOS = trScheduleRepository.getByUserMasterIdAndActive(userMasterId,true);
+        if(trScheduleDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", trScheduleDTOS);
+            response = convertDTOToMapResponse(trScheduleDTOS);
+        }
+        return response;
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(List<TrScheduleDTO> trScheduleDTOS) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrScheduleResponse> trScheduleResponses = trScheduleDTOS.stream()
+                .map(trScheduleDTO -> mapper.trScheduleDTOToObject(trScheduleDTO,TrScheduleResponse.class)).collect(Collectors.toList());
+        response.put("trSchedule",trScheduleResponses);
+        response.put("totalItems", trScheduleDTOS.size());
+        return response;
+    }
+
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByUserMasterId(int UserMasterId) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrSchedule> trScheduleList = trScheduleRepository.findByUserMasterIdAndActive(UserMasterId, true);
+        if (trScheduleList.isEmpty()) {
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            return response;
+        } else {
+            response = convertListToMapResponse(trScheduleList);
+            return response;
+//        return convertListToMapResponse(reelerList);
+        }
+    }
+    private Map<String, Object> convertListToMapResponse(List<TrSchedule> trScheduleList) {
+        Map<String, Object> response = new HashMap<>();
+        List<TrScheduleResponse> trScheduleResponses = trScheduleList.stream()
+                .map(trSchedule -> mapper.trScheduleEntityToObject(trSchedule,TrScheduleResponse.class)).collect(Collectors.toList());
+        response.put("trSchedule",trScheduleResponses);
+        response.put("totalItems", trScheduleList.size());
+        return response;
+    }
 
     @Transactional
     public TrScheduleResponse updateTrScheduleDetails(EditTrScheduleRequest trScheduleRequest){
@@ -195,6 +269,8 @@ public class TrScheduleService {
             if(Objects.nonNull(trSchedule)){
                 trSchedule.setTrName(trScheduleRequest.getTrName());
                 trSchedule.setTrInstitutionMasterId(trScheduleRequest.getTrInstitutionMasterId());
+                trSchedule.setUserMasterId(trScheduleRequest.getUserMasterId());
+                trSchedule.setTrStakeholderType(trScheduleRequest.getTrStakeholderType());
                 trSchedule.setTrGroupMasterId(trScheduleRequest.getTrGroupMasterId());
                 trSchedule.setTrProgramMasterId(trScheduleRequest.getTrProgramMasterId());
                 trSchedule.setTrCourseMasterId(trScheduleRequest.getTrCourseMasterId());
@@ -227,7 +303,7 @@ public class TrScheduleService {
             searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
         }
         if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
-            searchWithSortRequest.setSortColumn("trName");
+            searchWithSortRequest.setSortColumn("userMaster.username");
         }
         if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
             searchWithSortRequest.setSortOrder("asc");
@@ -262,4 +338,5 @@ public class TrScheduleService {
 
         return response;
     }
+
 }

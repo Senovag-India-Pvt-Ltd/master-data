@@ -23,6 +23,9 @@ public class TrTrainee extends BaseEntity implements Serializable {
     @Column(name = "TR_TRAINEE_ID")
     private Long trTraineeId;
 
+    @Column(name = "TR_SCHEDULE_ID")
+    private Long trScheduleId;
+
     @Size(min = 2, max = 250, message = "Tr Trainee name should be more than 1 characters.")
     @Column(name = "TR_TRAINEE_NAME")
     private String trTraineeName;

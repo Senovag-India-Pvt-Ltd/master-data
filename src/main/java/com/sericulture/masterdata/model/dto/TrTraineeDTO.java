@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Data
 public class TrTraineeDTO {
     private Long trTraineeId;
+    private Long trScheduleId;
     private String trTraineeName;
     private Long designationId;
     private Long trOfficeId;
@@ -31,6 +32,7 @@ public class TrTraineeDTO {
     private String villageName;
 
     public TrTraineeDTO(Long trTraineeId,
+                        Long trScheduleId,
                         String trTraineeName,
                         Long designationId,
                         Long trOfficeId,
@@ -53,6 +55,7 @@ public class TrTraineeDTO {
                         String hobliName,
                         String villageName){
         this.trTraineeId=trTraineeId;
+        this.trScheduleId=trScheduleId;
         this.trTraineeName=trTraineeName;
         this.designationId=designationId;
         this.trOfficeId=trOfficeId;

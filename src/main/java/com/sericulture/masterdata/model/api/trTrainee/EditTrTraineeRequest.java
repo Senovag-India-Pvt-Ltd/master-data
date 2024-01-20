@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 public class EditTrTraineeRequest extends RequestBody {
 
+    @Schema(name = "trScheduleId", example = "1")
+    Long trScheduleId;
+
     @Schema(name = "trTraineeId", example = "1")
     Long trTraineeId;
 

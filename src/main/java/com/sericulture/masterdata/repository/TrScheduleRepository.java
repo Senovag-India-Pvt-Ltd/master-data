@@ -3,10 +3,8 @@ package com.sericulture.masterdata.repository;
 import com.sericulture.masterdata.model.dto.MarketMasterDTO;
 import com.sericulture.masterdata.model.dto.RaceMarketMasterDTO;
 import com.sericulture.masterdata.model.dto.TrScheduleDTO;
-import com.sericulture.masterdata.model.entity.RaceMarketMaster;
-import com.sericulture.masterdata.model.entity.TrCourseMaster;
-import com.sericulture.masterdata.model.entity.TrModeMaster;
-import com.sericulture.masterdata.model.entity.TrSchedule;
+import com.sericulture.masterdata.model.dto.TrTraineeDTO;
+import com.sericulture.masterdata.model.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -29,6 +27,10 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
     public TrSchedule save(TrSchedule trSchedule);
 
+//    public TrSchedule findByUserMasterIdAndActive(long userMasterId,boolean isActive);
+
+    public List<TrSchedule> findByUserMasterIdAndActive( long userMasterId,boolean isActive);
+
     public TrSchedule findByTrScheduleIdAndActive(long id, boolean isActive);
 
     public TrSchedule findByTrScheduleIdAndActiveIn(@Param("trScheduleId") long trScheduleId, @Param("active") Set<Boolean> active);
@@ -38,6 +40,8 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
     @Query("select new com.sericulture.masterdata.model.dto.TrScheduleDTO(" +
             " trSchedule.trScheduleId," +
+            " trSchedule.userMasterId," +
+            " trSchedule.trStakeholderType," +
             " trSchedule.trInstitutionMasterId," +
             " trSchedule.trGroupMasterId," +
             " trSchedule.trProgramMasterId," +
@@ -50,6 +54,7 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
             " trSchedule.trUploadPath," +
             " trSchedule.trStartDate," +
             " trSchedule.trDateOfCompletion," +
+            " userMaster.username," +
             " trInstitutionMaster.trInstitutionMasterName," +
             " trGroupMaster.trGroupMasterName," +
             " trProgramMaster.trProgramMasterName," +
@@ -58,6 +63,8 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
             ") \n" +
             "from TrSchedule trSchedule\n" +
+            "left join UserMaster userMaster\n" +
+            "on trSchedule.userMasterId = userMaster.userMasterId " +
             "left join TrInstitutionMaster trInstitutionMaster\n" +
             "on trSchedule.trInstitutionMasterId = trInstitutionMaster.trInstitutionMasterId " +
             "left join TrGroupMaster trGroupMaster\n" +
@@ -75,6 +82,8 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
     @Query("select new com.sericulture.masterdata.model.dto.TrScheduleDTO(" +
             " trSchedule.trScheduleId," +
+            " trSchedule.userMasterId," +
+            " trSchedule.trStakeholderType," +
             " trSchedule.trInstitutionMasterId," +
             " trSchedule.trGroupMasterId," +
             " trSchedule.trProgramMasterId," +
@@ -87,6 +96,7 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
             " trSchedule.trUploadPath," +
             " trSchedule.trStartDate," +
             " trSchedule.trDateOfCompletion," +
+            " userMaster.username," +
             " trInstitutionMaster.trInstitutionMasterName," +
             " trGroupMaster.trGroupMasterName," +
             " trProgramMaster.trProgramMasterName," +
@@ -95,6 +105,8 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
             ") \n" +
             "from TrSchedule trSchedule\n" +
+            "left join UserMaster userMaster\n" +
+            "on trSchedule.userMasterId = userMaster.userMasterId " +
             "left join TrInstitutionMaster trInstitutionMaster\n" +
             "on trSchedule.trInstitutionMasterId = trInstitutionMaster.trInstitutionMasterId " +
             "left join TrGroupMaster trGroupMaster\n" +
@@ -111,6 +123,8 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
     @Query("select new com.sericulture.masterdata.model.dto.TrScheduleDTO(" +
             " trSchedule.trScheduleId," +
+            " trSchedule.userMasterId," +
+            " trSchedule.trStakeholderType," +
             " trSchedule.trInstitutionMasterId," +
             " trSchedule.trGroupMasterId," +
             " trSchedule.trProgramMasterId," +
@@ -123,6 +137,7 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
             " trSchedule.trUploadPath," +
             " trSchedule.trStartDate," +
             " trSchedule.trDateOfCompletion," +
+            " userMaster.username," +
             " trInstitutionMaster.trInstitutionMasterName," +
             " trGroupMaster.trGroupMasterName," +
             " trProgramMaster.trProgramMasterName," +
@@ -131,6 +146,8 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
 
             ") \n" +
             "from TrSchedule trSchedule\n" +
+            "left join UserMaster userMaster\n" +
+            "on trSchedule.userMasterId = userMaster.userMasterId " +
             "left join TrInstitutionMaster trInstitutionMaster\n" +
             "on trSchedule.trInstitutionMasterId = trInstitutionMaster.trInstitutionMasterId " +
             "left join TrGroupMaster trGroupMaster\n" +
@@ -142,10 +159,51 @@ public interface TrScheduleRepository extends PagingAndSortingRepository<TrSched
             "left join TrModeMaster trModeMaster\n" +
             "on trSchedule.trModeMasterId = trModeMaster.trModeMasterId " +
             "where trSchedule.active = :isActive AND " +
-            "(:joinColumn = 'trSchedule.trName' AND trSchedule.trName LIKE :searchText) OR " +
+            "(:joinColumn = 'userMaster.username' AND userMaster.username LIKE :searchText) OR " +
             "(:joinColumn = 'trSchedule.trScheduleId' AND trSchedule.trScheduleId LIKE :searchText)"
     )
     public Page<TrScheduleDTO> getSortedTrSchedules(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
+
+
+    @Query("select new com.sericulture.masterdata.model.dto.TrScheduleDTO(" +
+            " trSchedule.trScheduleId," +
+            " trSchedule.userMasterId," +
+            " trSchedule.trStakeholderType," +
+            " trSchedule.trInstitutionMasterId," +
+            " trSchedule.trGroupMasterId," +
+            " trSchedule.trProgramMasterId," +
+            " trSchedule.trCourseMasterId," +
+            " trSchedule.trModeMasterId," +
+            " trSchedule.trDuration," +
+            " trSchedule.trPeriod," +
+            " trSchedule.trNoOfParticipant," +
+            " trSchedule.trName," +
+            " trSchedule.trUploadPath," +
+            " trSchedule.trStartDate," +
+            " trSchedule.trDateOfCompletion," +
+            " userMaster.username," +
+            " trInstitutionMaster.trInstitutionMasterName," +
+            " trGroupMaster.trGroupMasterName," +
+            " trProgramMaster.trProgramMasterName," +
+            " trCourseMaster.trCourseMasterName," +
+            " trModeMaster.trModeMasterName" +
+
+            ") \n" +
+            "from TrSchedule trSchedule\n" +
+            "left join UserMaster userMaster\n" +
+            "on trSchedule.userMasterId = userMaster.userMasterId " +
+            "left join TrInstitutionMaster trInstitutionMaster\n" +
+            "on trSchedule.trInstitutionMasterId = trInstitutionMaster.trInstitutionMasterId " +
+            "left join TrGroupMaster trGroupMaster\n" +
+            "on trSchedule.trGroupMasterId = trGroupMaster.trGroupMasterId " +
+            "left join TrProgramMaster trProgramMaster\n" +
+            "on trSchedule.trProgramMasterId = trProgramMaster.trProgramMasterId " +
+            "left join TrCourseMaster trCourseMaster\n" +
+            "on trSchedule.trCourseMasterId = trCourseMaster.trCourseMasterId " +
+            "left join TrModeMaster trModeMaster\n" +
+            "on trSchedule.trModeMasterId = trModeMaster.trModeMasterId " +
+            "where trSchedule.active = :isActive AND trSchedule.userMasterId = :id")
+    public List <TrScheduleDTO> getByUserMasterIdAndActive(@Param("id") long id, @Param("isActive") boolean isActive);
 }
 
 

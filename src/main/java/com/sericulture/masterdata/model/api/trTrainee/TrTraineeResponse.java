@@ -15,6 +15,9 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrTraineeResponse {
 
+    @Schema(name = "trScheduleId", example = "1")
+    Long trScheduleId;
+
     @Schema(name = "trTraineeId", example = "1")
     Integer trTraineeId;
 
