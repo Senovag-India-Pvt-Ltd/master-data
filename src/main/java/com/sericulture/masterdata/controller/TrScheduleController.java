@@ -238,25 +238,25 @@ public class TrScheduleController {
         return ResponseEntity.ok(rw);
     }
 
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok Response"),
-            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
-                    content =
-                            {
-                                    @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
-                            }),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
-    })
-    @GetMapping("/get-by-user-master-id-join/{id}")
-    public ResponseEntity<?> getByUserMasterIdJoin(
-            @PathVariable final Integer id
-    ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(TrScheduleResponse.class);
-
-        rw.setContent(trScheduleService.getByUserMasterIdJoin(id));
-        return ResponseEntity.ok(rw);
-    }
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Ok Response"),
+//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+//                    content =
+//                            {
+//                                    @Content(mediaType = "application/json", schema =
+//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+//                            }),
+//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+//    })
+//    @GetMapping("/get-by-user-master-id-join/{id}")
+//    public ResponseEntity<?> getByUserMasterIdJoin(
+//            @PathVariable final Integer id
+//    ) {
+//        ResponseWrapper rw = ResponseWrapper.createWrapper(TrScheduleResponse.class);
+//
+//        rw.setContent(trScheduleService.getByUserMasterIdJoin(id));
+//        return ResponseEntity.ok(rw);
+//    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),

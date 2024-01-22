@@ -221,7 +221,7 @@ public class TrTraineeController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-by-trSchedule-id/{id}")
+    @GetMapping("/get-by-tr-schedule-id/{id}")
     public ResponseEntity<?> getByTrScheduleId(
             @PathVariable final Integer id
     ) {
@@ -241,7 +241,7 @@ public class TrTraineeController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @GetMapping("/get-by-trSchedule-id-join/{id}")
+    @GetMapping("/get-by-tr-schedule-id-join/{id}")
     public ResponseEntity<?> getByTrScheduleIdJoin(
             @PathVariable final Integer id
     ) {

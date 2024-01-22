@@ -67,19 +67,19 @@ public class TrScheduleService {
         TrScheduleResponse trScheduleResponse = new TrScheduleResponse();
         TrSchedule trSchedule = mapper.trScheduleObjectToEntity(trScheduleRequest,TrSchedule.class);
         validator.validate(trSchedule);
-        List<TrSchedule> trScheduleList= trScheduleRepository.findByTrName(trScheduleRequest.getTrName());
-        if(!trScheduleList.isEmpty() && trScheduleList.stream().filter(TrSchedule::getActive).findAny().isPresent()){
-            trScheduleResponse.setError(true);
-            trScheduleResponse.setError_description("TrSchedule name already exist");
-        }
-        else if(!trScheduleList.isEmpty() && trScheduleList.stream().filter(Predicate.not(TrSchedule::getActive)).findAny().isPresent()){
-            trScheduleResponse.setError(true);
-            trScheduleResponse.setError_description("trSchedule name already exist with inactive state");
-        }else {
-            trScheduleResponse = mapper.trScheduleEntityToObject(trScheduleRepository.save(trSchedule), TrScheduleResponse.class);
-            trScheduleResponse.setError(false);
-        }
-        return trScheduleResponse;
+//        List<TrSchedule> trScheduleList= trScheduleRepository.findByTrName(trScheduleRequest.getTrName());
+//        if(!trScheduleList.isEmpty() && trScheduleList.stream().filter(TrSchedule::getActive).findAny().isPresent()){
+//            trScheduleResponse.setError(true);
+//            trScheduleResponse.setError_description("TrSchedule name already exist");
+//        }
+//        else if(!trScheduleList.isEmpty() && trScheduleList.stream().filter(Predicate.not(TrSchedule::getActive)).findAny().isPresent()){
+//            trScheduleResponse.setError(true);
+//            trScheduleResponse.setError_description("trSchedule name already exist with inactive state");
+//        }else {
+//            trScheduleResponse = mapper.trScheduleEntityToObject(trScheduleRepository.save(trSchedule), TrScheduleResponse.class);
+//            trScheduleResponse.setError(false);
+//        }
+        return mapper.trScheduleEntityToObject(trScheduleRepository.save(trSchedule), TrScheduleResponse.class);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -181,30 +181,30 @@ public class TrScheduleService {
         return trScheduleResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getByUserMasterIdJoin(int userMasterId){
-        Map<String, Object> response = new HashMap<>();
-        List<TrScheduleDTO> trScheduleDTO = trScheduleRepository.getByUserMasterIdAndActive(userMasterId, true);
-        if(trScheduleDTO.isEmpty()){
-            response.put("error","Error");
-            response.put("error_description","Invalid id");
-            return response;
-        }else {
-            response = convertListDTOToMapResponse(trScheduleDTO);
-            return response;
-
-        }
-
-    }
-
-    private Map<String, Object> convertListDTOToMapResponse(List<TrScheduleDTO> trScheduleDTOList) {
-        Map<String, Object> response = new HashMap<>();
-        List<TrScheduleResponse> trScheduleResponses = trScheduleDTOList.stream()
-                .map(trScheduleDTO -> mapper.trScheduleDTOToObject(trScheduleDTO, TrScheduleResponse.class)).collect(Collectors.toList());
-        response.put("trSchedule", trScheduleResponses);
-        response.put("totalItems", trScheduleDTOList.size());
-        return response;
-    }
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public Map<String,Object> getByUserMasterIdJoin(int userMasterId){
+//        Map<String, Object> response = new HashMap<>();
+//        List<TrScheduleDTO> trScheduleDTO = trScheduleRepository.getByUserMasterIdAndActive(userMasterId, true);
+//        if(trScheduleDTO.isEmpty()){
+//            response.put("error","Error");
+//            response.put("error_description","Invalid id");
+//            return response;
+//        }else {
+//            response = convertListDTOToMapResponse(trScheduleDTO);
+//            return response;
+//
+//        }
+//
+//    }
+//
+//    private Map<String, Object> convertListDTOToMapResponse(List<TrScheduleDTO> trScheduleDTOList) {
+//        Map<String, Object> response = new HashMap<>();
+//        List<TrScheduleResponse> trScheduleResponses = trScheduleDTOList.stream()
+//                .map(trScheduleDTO -> mapper.trScheduleDTOToObject(trScheduleDTO, TrScheduleResponse.class)).collect(Collectors.toList());
+//        response.put("trSchedule", trScheduleResponses);
+//        response.put("totalItems", trScheduleDTOList.size());
+//        return response;
+//    }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByUserMasterId(Long userMasterId) {
@@ -257,12 +257,12 @@ public class TrScheduleService {
     public TrScheduleResponse updateTrScheduleDetails(EditTrScheduleRequest trScheduleRequest){
 
         TrScheduleResponse trScheduleResponse = new TrScheduleResponse();
-        List<TrSchedule> trScheduleList = trScheduleRepository.findByTrName(trScheduleRequest.getTrName());
-        if(trScheduleList.size()>0){
-            trScheduleResponse.setError(true);
-            trScheduleResponse.setError_description("TrSchedule already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        }else {
+//        List<TrSchedule> trScheduleList = trScheduleRepository.findByTrName(trScheduleRequest.getTrName());
+//        if(trScheduleList.size()>0){
+//            trScheduleResponse.setError(true);
+//            trScheduleResponse.setError_description("TrSchedule already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        }else {
 
 
             TrSchedule trSchedule= trScheduleRepository.findByTrScheduleIdAndActiveIn(trScheduleRequest.getTrScheduleId(), Set.of(true,false));
@@ -291,7 +291,7 @@ public class TrScheduleService {
                 trScheduleResponse.setError_description("Error occurred while fetching state");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
+
         return trScheduleResponse;
     }
 
