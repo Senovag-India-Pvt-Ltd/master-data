@@ -13,8 +13,15 @@ import lombok.*;
 public class EditHdSubCategoryMasterRequest extends RequestBody {
 
     @Schema(name = "hdSubCategoryId", example = "1")
-    Integer hdSubCategoryId;
+    Long hdSubCategoryId;
 
     @Schema(name = "hdSubCategoryName", example = "Karnataka", required = true)
     String hdSubCategoryName;
+
+    @Schema(name = "hdCategoryId", example = "1")
+    Long hdCategoryId;
+
+    @Schema(name = "hdBoardCategoryId", example = "1")
+    Long hdBoardCategoryId;
+
 }

@@ -22,6 +22,9 @@ public class HdCategoryMaster extends  BaseEntity implements Serializable {
     @Column(name = "hd_category_id")
     private Long hdCategoryId;
 
+    @Column(name = "hd_board_category_id")
+    private Long hdBoardCategoryId;
+
     @Size(min = 2, max = 250, message = "Category Master name should be more than 1 characters.")
     @Column(name = "hd_category_name", unique = true)
     private String hdCategoryName;

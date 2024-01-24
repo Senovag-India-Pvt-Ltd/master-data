@@ -13,10 +13,22 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HdSubCategoryMasterResponse {
     @Schema(name = "hdSubCategoryId", example = "1")
-    Integer hdSubCategoryId;
+    Long hdSubCategoryId;
 
     @Schema(name = "hdSubCategoryName", example = "Karnataka", required = true)
     String hdSubCategoryName;
+
+    @Schema(name = "hdCategoryId", example = "1")
+    Long hdCategoryId;
+
+    @Schema(name = "hdCategoryName", example = "karnataka", required=true)
+    String hdCategoryName;
+
+    @Schema(name = "hdBoardCategoryId", example = "1")
+    Long hdBoardCategoryId;
+
+    @Schema(name = "hdBoardCategoryName", example = "Karnataka", required=true)
+    String hdBoardCategoryName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

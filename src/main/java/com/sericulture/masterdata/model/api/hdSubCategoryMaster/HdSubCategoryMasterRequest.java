@@ -13,4 +13,10 @@ import lombok.*;
 public class HdSubCategoryMasterRequest {
     @Schema(name = "hdSubCategoryName", example = "Karnataka", required = true)
     String hdSubCategoryName;
+
+    @Schema(name = "hdCategoryId", example = "1")
+    Long hdCategoryId;
+
+    @Schema(name = "hdBoardCategoryId", example = "1")
+    Long hdBoardCategoryId;
 }

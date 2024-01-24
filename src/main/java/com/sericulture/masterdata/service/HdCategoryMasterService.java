@@ -1,15 +1,22 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterResponse;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.EditHdCategoryMasterRequest;
+import com.sericulture.masterdata.model.api.raceMaster.RaceMasterResponse;
+import com.sericulture.masterdata.model.dto.HdCategoryMasterDTO;
+import com.sericulture.masterdata.model.dto.RaceMasterDTO;
 import com.sericulture.masterdata.model.entity.HdCategoryMaster;
+import com.sericulture.masterdata.model.entity.RaceMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.HdCategoryMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,6 +108,23 @@ public class HdCategoryMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedHdCategoryMasterDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(hdCategoryMasterRepository.getByActiveOrderByHdCategoryIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<HdCategoryMasterDTO> activeHdCategoryMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<HdCategoryMasterResponse> hdCategoryMasterResponses = activeHdCategoryMasters.getContent().stream()
+                .map(hdCategoryMaster -> mapper.hdCategoryMasterDTOToObject(hdCategoryMaster,HdCategoryMasterResponse.class)).collect(Collectors.toList());
+        response.put("hdCategoryMaster",hdCategoryMasterResponses);
+        response.put("currentPage", activeHdCategoryMasters.getNumber());
+        response.put("totalItems", activeHdCategoryMasters.getTotalElements());
+        response.put("totalPages", activeHdCategoryMasters.getTotalPages());
+        return response;
+    }
+
     @Transactional
     public HdCategoryMasterResponse deleteHdCategoryMasterDetails(long id) {
 
@@ -132,6 +156,47 @@ public class HdCategoryMasterService {
         log.info("Entity is ",hdCategoryMaster);
         return hdCategoryMasterResponse;
     }
+    @Transactional
+    public HdCategoryMasterResponse getByIdJoin(int id){
+        HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
+        HdCategoryMasterDTO hdCategoryMasterDTO = hdCategoryMasterRepository.getByHdCategoryIdAndActive(id,true);
+        if(hdCategoryMasterDTO == null){
+            hdCategoryMasterResponse.setError(true);
+            hdCategoryMasterResponse.setError_description("Invalid id");
+        } else {
+            hdCategoryMasterResponse = mapper.hdCategoryMasterDTOToObject(hdCategoryMasterDTO, HdCategoryMasterResponse.class);
+            hdCategoryMasterResponse.setError(false);
+        }
+        log.info("Entity is ", hdCategoryMasterDTO);
+        return hdCategoryMasterResponse;
+    }
+
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public Map<String,Object> getByHdBoardCategoryId(int hdBoardCategoryId){
+//        Map<String, Object> response = new HashMap<>();
+//        List<HdCategoryMaster> hdCategoryMasterList = hdCategoryMasterRepository.findByHdBoardCategoryIdAndActive(hdBoardCategoryId,true);
+//        if(hdCategoryMasterList.isEmpty()){
+//            response.put("error","Error");
+//            response.put("error_description","Invalid id");
+//            return response;
+//        }else {
+//            log.info("Entity is ", hdCategoryMasterList);
+//            response = convertListToMapResponse(hdCategoryMasterList);
+//            return response;
+//        }
+//    }
+
+    private Map<String, Object> convertListToMapResponse(List<HdCategoryMaster> hdCategoryMasterList) {
+        Map<String, Object> response = new HashMap<>();
+        List<HdCategoryMasterResponse> hdCategoryMasterResponses = hdCategoryMasterList.stream()
+                .map(hdCategoryMaster -> mapper.hdCategoryMasterEntityToObject(hdCategoryMaster,HdCategoryMasterResponse.class)).collect(Collectors.toList());
+        response.put("raceMaster",hdCategoryMasterResponses);
+        response.put("totalItems", hdCategoryMasterResponses.size());
+        return response;
+    }
+
+
+
 
     @Transactional
     public HdCategoryMasterResponse updateHdCategoryMasterDetails(EditHdCategoryMasterRequest hdCategoryMasterRequest){
@@ -148,6 +213,8 @@ public class HdCategoryMasterService {
             HdCategoryMaster hdCategoryMaster= hdCategoryMasterRepository.findByHdCategoryIdAndActiveIn(hdCategoryMasterRequest.getHdCategoryId(), Set.of(true,false));
             if(Objects.nonNull(hdCategoryMaster)){
                 hdCategoryMaster.setHdCategoryName(hdCategoryMasterRequest.getHdCategoryName());
+                hdCategoryMaster.setHdBoardCategoryId(hdCategoryMasterRequest.getHdBoardCategoryId());
+
                 hdCategoryMaster.setActive(true);
                 HdCategoryMaster hdCategoryMaster1 = hdCategoryMasterRepository.save(hdCategoryMaster);
                 hdCategoryMasterResponse = mapper.hdCategoryMasterEntityToObject(hdCategoryMaster1, HdCategoryMasterResponse.class);
@@ -159,5 +226,49 @@ public class HdCategoryMasterService {
             }
         }
         return hdCategoryMasterResponse;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
+        if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
+            searchWithSortRequest.setSearchText("%%");
+        }else{
+            searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
+        }
+        if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
+            searchWithSortRequest.setSortColumn("hdCategoryName");
+        }
+        if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
+            searchWithSortRequest.setSortOrder("asc");
+        }
+        if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
+            searchWithSortRequest.setPageNumber("0");
+        }
+        if(searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")){
+            searchWithSortRequest.setPageSize("5");
+        }
+        Sort sort;
+        if(searchWithSortRequest.getSortOrder().equals("asc")){
+            sort = Sort.by(Sort.Direction.ASC, searchWithSortRequest.getSortColumn());
+        }else{
+            sort = Sort.by(Sort.Direction.DESC, searchWithSortRequest.getSortColumn());
+        }
+        Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
+        Page<HdCategoryMasterDTO> hdCategoryMasterDTOS = hdCategoryMasterRepository.getSortedHdCategoryMasters(searchWithSortRequest.getJoinColumn(),searchWithSortRequest.getSearchText(),true, pageable);
+        log.info("Entity is ",hdCategoryMasterDTOS);
+        return convertPageableDTOToMapResponse(hdCategoryMasterDTOS);
+    }
+
+    private Map<String, Object> convertPageableDTOToMapResponse(final Page<HdCategoryMasterDTO> activeHdCategoryMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<HdCategoryMasterResponse> hdCategoryMasterResponses = activeHdCategoryMasters.getContent().stream()
+                .map(hdCategoryMaster -> mapper.hdCategoryMasterDTOToObject(hdCategoryMaster,HdCategoryMasterResponse.class)).collect(Collectors.toList());
+        response.put("hdCategoryMaster",hdCategoryMasterResponses);
+        response.put("currentPage", activeHdCategoryMasters.getNumber());
+        response.put("totalItems", activeHdCategoryMasters.getTotalElements());
+        response.put("totalPages", activeHdCategoryMasters.getTotalPages());
+
+        return response;
     }
 }

@@ -12,10 +12,16 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HdCategoryMasterResponse {
     @Schema(name = "hdCategoryId", example = "1")
-    Integer hdCategoryId;
+    Long hdCategoryId;
 
     @Schema(name = "hdCategoryName", example = "Karnataka", required = true)
     String hdCategoryName;
+
+    @Schema(name = "hdBoardCategoryId", example = "1")
+    Long hdBoardCategoryId;
+
+    @Schema(name = "hdBoardCategoryName", example = "Karnataka", required=true)
+    String hdBoardCategoryName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

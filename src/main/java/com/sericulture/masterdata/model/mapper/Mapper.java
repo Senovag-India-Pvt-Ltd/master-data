@@ -15,6 +15,7 @@ import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
+import com.sericulture.masterdata.model.api.hdModuleMaster.HdModuleMasterRequest;
 import com.sericulture.masterdata.model.api.hdSubCategoryMaster.HdSubCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
@@ -1429,6 +1430,17 @@ public class Mapper {
         return (T) mapper.map(hdCategoryMasterEntity, claaz);
     }
 
+    /**
+     * Maps hdCategoryMasterDTO to hdCategoryMaster Response Object
+     * @param hdCategoryMasterDTO
+     * @param <T>
+     */
+    public <T> T hdCategoryMasterDTOToObject(HdCategoryMasterDTO hdCategoryMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdCategoryMasterDTO);
+        return (T) mapper.map(hdCategoryMasterDTO, claaz);
+    }
+
+
 
     /**
      * Maps hdCategoryMaster Object to hdCategoryMaster  Response Object
@@ -1447,6 +1459,15 @@ public class Mapper {
     public <T> T hdSubCategoryMasterEntityToObject(HdSubCategoryMaster hdSubCategoryMasterEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper,hdSubCategoryMasterEntity);
         return (T) mapper.map(hdSubCategoryMasterEntity, claaz);
+    }
+    /**
+     * Maps hdSubCategoryMasterDTO to hdSubCategoryMaster Response Object
+     * @param hdSubCategoryMasterDTO
+     * @param <T>
+     */
+    public <T> T hdSubCategoryMasterDTOToObject(HdSubCategoryMasterDTO hdSubCategoryMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdSubCategoryMasterDTO);
+        return (T) mapper.map(hdSubCategoryMasterDTO, claaz);
     }
 
 
@@ -1478,6 +1499,26 @@ public class Mapper {
     public <T> T hdBoardCategoryMasterObjectToEntity(HdBoardCategoryMasterRequest hdBoardCategoryMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, hdBoardCategoryMasterRequest);
         return (T) mapper.map(hdBoardCategoryMasterRequest, claaz);
+    }
+    /**
+     * Maps hdModuleMaster Entity to hdModuleMaster Response Object
+     * @param hdModuleMasterEntity
+     * @param <T>
+     */
+    public <T> T hdModuleMasterEntityToObject(HdModuleMaster hdModuleMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,hdModuleMasterEntity);
+        return (T) mapper.map(hdModuleMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps hdModuleMaster Object to hdModuleMaster  Response Object
+     * @param hdModuleMasterRequest
+     * @param <T>
+     */
+    public <T> T hdModuleMasterObjectToEntity(HdModuleMasterRequest hdModuleMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdModuleMasterRequest);
+        return (T) mapper.map(hdModuleMasterRequest, claaz);
     }
 
 }

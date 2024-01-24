@@ -13,4 +13,7 @@ public class HdCategoryMasterRequest extends RequestBody {
     @Schema(name = "hdCategoryName", example = "Karnataka", required = true)
     String hdCategoryName;
 
+    @Schema(name = "hdBoardCategoryId", example = "1")
+    Long hdBoardCategoryId;
+
 }

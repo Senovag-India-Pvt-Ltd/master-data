@@ -1,9 +1,11 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterResponse;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.EditHdCategoryMasterRequest;
+import com.sericulture.masterdata.model.api.raceMaster.RaceMasterResponse;
 import com.sericulture.masterdata.service.HdCategoryMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -146,6 +148,87 @@ public class HdCategoryMasterController {
 
         rw.setContent(hdCategoryMasterService.getById(id));
         return ResponseEntity.ok(rw);
+
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-join/{id}")
+    public ResponseEntity<?> getByIdJoin(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(HdCategoryMasterResponse.class);
+
+        rw.setContent(hdCategoryMasterService.getByIdJoin(id));
+        return ResponseEntity.ok(rw);
+    }
+
+//    @GetMapping("/get-by-hd-category-id/{hdCategoryId}")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Ok Response"),
+//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+//                    content =
+//                            {
+//                                    @Content(mediaType = "application/json", schema =
+//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+//                            }),
+//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+//    })
+//    public ResponseEntity<?> getByHdCategoryId(
+//            @PathVariable final Integer hdCategoryId
+//    ) {
+//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+//        rw.setContent(hdCategoryMasterService.getHdCategoryMasterDetails(hdCategoryId));
+//        return ResponseEntity.ok(rw);
+//    }
+    @GetMapping("/list-with-join")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"hdCategoryMaster\":[{\"id\":10,\"hdCategoryMasterName\":\"\",\"hdCategoryId\":1,},{\"id\":11,\"hdCategoryMasterName\":\"Shimoga\",\"hdCategoryId\":1,},{\"id\":13,\"hdCategoryMasterName\":\"Hubli\",\"hdCategoryId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getPaginatedListWithJoin(
+            @RequestParam(defaultValue = "0") final Integer pageNumber,
+            @RequestParam(defaultValue = "5") final Integer size
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(hdCategoryMasterService.getPaginatedHdCategoryMasterDetailsWithJoin(PageRequest.of(pageNumber, size)));
+        return ResponseEntity.ok(rw);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/search")
+    public ResponseEntity<?> search(
+            @RequestBody final SearchWithSortRequest searchWithSortRequest
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(hdCategoryMasterService.searchByColumnAndSort(searchWithSortRequest));
+        return ResponseEntity.ok(rw);
+    }
+
 
 }
