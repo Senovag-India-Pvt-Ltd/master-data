@@ -4,6 +4,7 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.hdBoardCategoryMaster.HdBoardCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.crateMaster.CrateMasterRequest;
 import com.sericulture.masterdata.model.api.deputedInstituteMaster.DeputedInstituteMasterRequest;
@@ -1457,6 +1458,26 @@ public class Mapper {
     public <T> T hdSubCategoryMasterObjectToEntity(HdSubCategoryMasterRequest hdSubCategoryMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, hdSubCategoryMasterRequest);
         return (T) mapper.map(hdSubCategoryMasterRequest, claaz);
+    }
+    /**
+     * Maps hdBoardCategoryMaster Entity to hdBoardCategoryMaster Response Object
+     * @param hdBoardCategoryMasterEntity
+     * @param <T>
+     */
+    public <T> T hdBoardCategoryMasterEntityToObject(HdBoardCategoryMaster hdBoardCategoryMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,hdBoardCategoryMasterEntity);
+        return (T) mapper.map(hdBoardCategoryMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps hdBoardCategoryMaster Object to hdBoardCategoryMaster  Response Object
+     * @param hdBoardCategoryMasterRequest
+     * @param <T>
+     */
+    public <T> T hdBoardCategoryMasterObjectToEntity(HdBoardCategoryMasterRequest hdBoardCategoryMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdBoardCategoryMasterRequest);
+        return (T) mapper.map(hdBoardCategoryMasterRequest, claaz);
     }
 
 }
