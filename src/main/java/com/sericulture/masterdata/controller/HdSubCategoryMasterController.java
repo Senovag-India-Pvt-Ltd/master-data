@@ -29,7 +29,7 @@ public class HdSubCategoryMasterController {
     @Autowired
     HdSubCategoryMasterService hdSubCategoryMasterService;
 
-    @Operation(summary = "Insert categoryMaster Details", description = "Creates Sub categoryMaster Details in to DB")
+    @Operation(summary = "Insert Sub categoryMaster Details", description = "Creates Sub categoryMaster Details in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -172,24 +172,24 @@ public class HdSubCategoryMasterController {
         return ResponseEntity.ok(rw);
     }
 
-    //    @GetMapping("/get-by-hd-category-id/{hdCategoryId}")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Ok Response"),
-//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
-//                    content =
-//                            {
-//                                    @Content(mediaType = "application/json", schema =
-//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
-//                            }),
-//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
-//    })
-//    public ResponseEntity<?> getByHdCategoryId(
-//            @PathVariable final Integer hdCategoryId
-//    ) {
-//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-//        rw.setContent(hdCategoryMasterService.getHdCategoryMasterDetails(hdCategoryId));
-//        return ResponseEntity.ok(rw);
-//    }
+        @GetMapping("/get-by-hd-category-id/{hdCategoryId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByHdCategoryId(
+            @PathVariable final Integer hdCategoryId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(hdSubCategoryMasterService.getByHdCategoryId(hdCategoryId));
+        return ResponseEntity.ok(rw);
+    }
     @GetMapping("/list-with-join")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

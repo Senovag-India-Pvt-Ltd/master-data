@@ -4,7 +4,6 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterResponse;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.EditHdCategoryMasterRequest;
-import com.sericulture.masterdata.model.api.raceMaster.RaceMasterResponse;
 import com.sericulture.masterdata.model.dto.HdCategoryMasterDTO;
 import com.sericulture.masterdata.model.dto.RaceMasterDTO;
 import com.sericulture.masterdata.model.entity.HdCategoryMaster;
@@ -60,7 +59,7 @@ public class HdCategoryMasterService {
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
         HdCategoryMaster hdCategoryMaster = mapper.hdCategoryMasterObjectToEntity(hdCategoryMasterRequest, HdCategoryMaster.class);
         validator.validate(hdCategoryMaster);
-        List<HdCategoryMaster> hdCategoryMasterList= hdCategoryMasterRepository.findByHdCategoryName(hdCategoryMasterRequest.getHdCategoryName());
+        List<HdCategoryMaster> hdCategoryMasterList= hdCategoryMasterRepository.findByHdCategoryNameAndHdBoardCategoryId(hdCategoryMasterRequest.getHdCategoryName(),hdCategoryMasterRequest.getHdBoardCategoryId());
         if(!hdCategoryMasterList.isEmpty() && hdCategoryMasterList.stream().filter(HdCategoryMaster::getActive).findAny().isPresent()){
             hdCategoryMasterResponse.setError(true);
             hdCategoryMasterResponse.setError_description("Category name already exist");
@@ -77,7 +76,7 @@ public class HdCategoryMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdCategoryMasterDetails(final Pageable pageable){
-        return convertToMapResponse(hdCategoryMasterRepository.findByActiveOrderByHdCategoryNameAsc( true,pageable ));
+        return convertToMapResponse(hdCategoryMasterRepository.findByActiveOrderByHdCategoryIdAsc( true,pageable ));
 
     }
 
@@ -171,26 +170,26 @@ public class HdCategoryMasterService {
         return hdCategoryMasterResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByHdBoardCategoryId(int hdBoardCategoryId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<HdCategoryMaster> hdCategoryMasterList = hdCategoryMasterRepository.findByHdBoardCategoryIdAndActive(hdBoardCategoryId,true);
-//        if(hdCategoryMasterList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", hdCategoryMasterList);
-//            response = convertListToMapResponse(hdCategoryMasterList);
-//            return response;
-//        }
-//    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByHdBoardCategoryId(int hdBoardCategoryId){
+        Map<String, Object> response = new HashMap<>();
+        List<HdCategoryMaster> hdCategoryMasterList = hdCategoryMasterRepository.findByHdBoardCategoryIdAndActive(hdBoardCategoryId,true);
+        if(hdCategoryMasterList.isEmpty()){
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            log.info("Entity is ", hdCategoryMasterList);
+            response = convertListToMapResponse(hdCategoryMasterList);
+            return response;
+        }
+    }
 
     private Map<String, Object> convertListToMapResponse(List<HdCategoryMaster> hdCategoryMasterList) {
         Map<String, Object> response = new HashMap<>();
         List<HdCategoryMasterResponse> hdCategoryMasterResponses = hdCategoryMasterList.stream()
                 .map(hdCategoryMaster -> mapper.hdCategoryMasterEntityToObject(hdCategoryMaster,HdCategoryMasterResponse.class)).collect(Collectors.toList());
-        response.put("raceMaster",hdCategoryMasterResponses);
+        response.put("hdCategoryMaster",hdCategoryMasterResponses);
         response.put("totalItems", hdCategoryMasterResponses.size());
         return response;
     }

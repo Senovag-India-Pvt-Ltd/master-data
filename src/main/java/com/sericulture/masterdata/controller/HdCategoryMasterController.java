@@ -170,30 +170,30 @@ public class HdCategoryMasterController {
         return ResponseEntity.ok(rw);
     }
 
-//    @GetMapping("/get-by-hd-category-id/{hdCategoryId}")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Ok Response"),
-//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
-//                    content =
-//                            {
-//                                    @Content(mediaType = "application/json", schema =
-//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
-//                            }),
-//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
-//    })
-//    public ResponseEntity<?> getByHdCategoryId(
-//            @PathVariable final Integer hdCategoryId
-//    ) {
-//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-//        rw.setContent(hdCategoryMasterService.getHdCategoryMasterDetails(hdCategoryId));
-//        return ResponseEntity.ok(rw);
-//    }
+    @GetMapping("/get-by-hd-board-category-id/{hdBoardCategoryId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByHdBoardCategoryId(
+            @PathVariable final Integer hdBoardCategoryId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(hdCategoryMasterService.getByHdBoardCategoryId(hdBoardCategoryId));
+        return ResponseEntity.ok(rw);
+    }
     @GetMapping("/list-with-join")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"hdCategoryMaster\":[{\"id\":10,\"hdCategoryMasterName\":\"\",\"hdCategoryId\":1,},{\"id\":11,\"hdCategoryMasterName\":\"Shimoga\",\"hdCategoryId\":1,},{\"id\":13,\"hdCategoryMasterName\":\"Hubli\",\"hdCategoryId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"hdCategoryMaster\":[{\"id\":10,\"hdCategoryName\":\"\",\"hdCategoryId\":1,},{\"id\":11,\"hdCategoryName\":\"Shimoga\",\"hdCategoryId\":1,},{\"id\":13,\"hdCategoryName\":\"Hubli\",\"hdCategoryId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =

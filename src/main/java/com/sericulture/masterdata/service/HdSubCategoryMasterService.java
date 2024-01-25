@@ -63,7 +63,7 @@ public class HdSubCategoryMasterService {
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
         HdSubCategoryMaster hdSubCategoryMaster = mapper.hdSubCategoryMasterObjectToEntity(hdSubCategoryMasterRequest, HdSubCategoryMaster.class);
         validator.validate(hdSubCategoryMaster);
-        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdSubCategoryName(hdSubCategoryMasterRequest.getHdSubCategoryName());
+        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdSubCategoryNameAndHdCategoryId(hdSubCategoryMasterRequest.getHdSubCategoryName(),hdSubCategoryMasterRequest.getHdCategoryId());
         if (!hdSubCategoryMasterList.isEmpty() && hdSubCategoryMasterList.stream().filter(HdSubCategoryMaster::getActive).findAny().isPresent()) {
             hdSubCategoryMasterResponse.setError(true);
             hdSubCategoryMasterResponse.setError_description("Hd SubCategory name already exist");
@@ -79,7 +79,7 @@ public class HdSubCategoryMasterService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedHdSubCategoryMasterDetails(final Pageable pageable) {
-        return convertToMapResponse(hdSubCategoryMasterRepository.findByActiveOrderByHdSubCategoryNameAsc(true, pageable));
+        return convertToMapResponse(hdSubCategoryMasterRepository.findByActiveOrderByHdSubCategoryIdAsc(true, pageable));
 
     }
 
@@ -175,6 +175,21 @@ public class HdSubCategoryMasterService {
         return hdSubCategoryMasterResponse;
     }
 
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByHdCategoryId(int hdCategoryId){
+        Map<String, Object> response = new HashMap<>();
+        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdCategoryIdAndActive(hdCategoryId,true);
+        if(hdSubCategoryMasterList.isEmpty()){
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            log.info("Entity is ", hdSubCategoryMasterList);
+            response = convertListToMapResponse(hdSubCategoryMasterList);
+            return response;
+        }
+    }
     private Map<String, Object> convertListToMapResponse(List<HdSubCategoryMaster> hdSubCategoryMasterList) {
         Map<String, Object> response = new HashMap<>();
         List<HdSubCategoryMasterResponse> hdSubCategoryMasterResponses = hdSubCategoryMasterList.stream()
