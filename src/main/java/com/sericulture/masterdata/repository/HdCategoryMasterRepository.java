@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.dto.HdCategoryMasterDTO;
 import com.sericulture.masterdata.model.dto.RaceMasterDTO;
 import com.sericulture.masterdata.model.dto.TrScheduleDTO;
 import com.sericulture.masterdata.model.entity.HdCategoryMaster;
+import com.sericulture.masterdata.model.entity.HdFeatureMaster;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -21,9 +22,13 @@ public interface HdCategoryMasterRepository extends PagingAndSortingRepository<H
 
     public HdCategoryMaster findByHdCategoryNameAndActive(String hdCategoryName, boolean isActive);
 
-    public Page<HdCategoryMaster> findByActiveOrderByHdCategoryNameAsc(boolean isActive, final Pageable pageable);
+    public Page<HdCategoryMaster> findByActiveOrderByHdCategoryIdAsc(boolean isActive, final Pageable pageable);
+
+    public List<HdCategoryMaster> findByHdBoardCategoryIdAndActive(int hdBoardCategoryId, boolean isActive);
 
     public HdCategoryMaster save(HdCategoryMaster hdCategoryMaster);
+
+    List<HdCategoryMaster> findByHdCategoryNameAndHdBoardCategoryId(String hdCategoryName, long hdBoardCategoryId);
 
     public HdCategoryMaster findByHdCategoryIdAndActive(long id, boolean isActive);
 
