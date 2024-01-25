@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -86,6 +87,15 @@ public class EditMarketMasterRequest extends RequestBody {
 
     @Schema(name = "marketTypeMasterId", example = "1")
     Long marketTypeMasterId;
+
+    @Schema(name = "marketLatitude", example = "1.6")
+    BigDecimal marketLatitude;
+
+    @Schema(name = "marketLongitude", example = "1.7")
+    BigDecimal marketLongitude;
+
+    @Schema(name = "radius", example = "1.8")
+    BigDecimal radius;
 
     @Schema(name = "reelerMinimumBalance", example = "1")
     Long reelerMinimumBalance;

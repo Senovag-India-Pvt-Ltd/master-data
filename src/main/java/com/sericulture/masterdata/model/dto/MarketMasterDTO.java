@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Data
@@ -32,6 +33,9 @@ public class MarketMasterDTO {
     private LocalTime auctionAcceptance3EndTime;
     private String serialNumberPrefix;
     private Long marketTypeMasterId;
+    private BigDecimal marketLatitude;
+    private BigDecimal marketLongitude;
+    private BigDecimal radius;
     private String stateName;
     private String districtName;
     private String talukName;
@@ -68,6 +72,9 @@ public class MarketMasterDTO {
         LocalTime auctionAcceptance3EndTime,
         String serialNumberPrefix,
         Long marketTypeMasterId,
+        BigDecimal marketLatitude,
+        BigDecimal marketLongitude,
+        BigDecimal radius,
         String stateName,
         String districtName,
         String talukName,
@@ -100,6 +107,9 @@ public class MarketMasterDTO {
         this.auctionAcceptance3EndTime = auctionAcceptance3EndTime;
         this.serialNumberPrefix = serialNumberPrefix;
         this.marketTypeMasterId = marketTypeMasterId;
+        this.marketLatitude = marketLatitude;
+        this.marketLongitude = marketLongitude;
+        this.radius = radius;
         this.stateName = stateName;
         this.districtName = districtName;
         this.talukName = talukName;

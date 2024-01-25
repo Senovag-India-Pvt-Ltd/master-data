@@ -56,6 +56,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auctionAcceptance3EndTime," +
             " marketMaster.serialNumberPrefix," +
             " marketMaster.marketTypeMasterId," +
+            " marketMaster.marketLatitude," +
+            " marketMaster.marketLongitude," +
+            " marketMaster.radius," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -102,6 +105,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auctionAcceptance3EndTime," +
             " marketMaster.serialNumberPrefix," +
             " marketMaster.marketTypeMasterId," +
+            " marketMaster.marketLatitude," +
+            " marketMaster.marketLongitude," +
+            " marketMaster.radius," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -147,6 +153,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auctionAcceptance3EndTime," +
             " marketMaster.serialNumberPrefix," +
             " marketMaster.marketTypeMasterId," +
+            " marketMaster.marketLatitude," +
+            " marketMaster.marketLongitude," +
+            " marketMaster.radius," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +

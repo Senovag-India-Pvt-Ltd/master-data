@@ -206,6 +206,9 @@ public class MarketMasterService {
                 marketMaster.setAuctionAcceptance3EndTime(marketMasterRequest.getAuctionAcceptance3EndTime());
                 marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
                 marketMaster.setReelerMinimumBalance(marketMasterRequest.getReelerMinimumBalance());
+                marketMaster.setMarketLatitude(marketMasterRequest.getMarketLatitude());
+                marketMaster.setMarketLongitude(marketMasterRequest.getMarketLongitude());
+                marketMaster.setRadius(marketMasterRequest.getRadius());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
