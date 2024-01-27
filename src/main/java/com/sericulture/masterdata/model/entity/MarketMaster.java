@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity(name = "market_master")
@@ -102,6 +103,15 @@ public class MarketMaster extends  BaseEntity implements Serializable {
 
     @Column(name = "releer_minimum_balance")
     private Long reelerMinimumBalance;
+
+    @Column(name = "market_lat")
+    private BigDecimal marketLatitude;
+
+    @Column(name = "market_longitude")
+    private BigDecimal marketLongitude;
+
+    @Column(name = "radius")
+    private BigDecimal radius;
 
     @Column(name = "market_name_in_kannada")
     private String marketNameInKannada;

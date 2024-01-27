@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -88,6 +89,15 @@ public class MarketMasterResponse {
 
     @Schema(name = "marketTypeMasterId", example = "1")
     Long marketTypeMasterId;
+
+    @Schema(name = "marketLatitude", example = "1.6")
+    BigDecimal marketLatitude;
+
+    @Schema(name = "marketLongitude", example = "1.7")
+    BigDecimal marketLongitude;
+
+    @Schema(name = "radius", example = "1.8")
+    BigDecimal radius;
 
     @Schema(name = "stateName", example = "1")
     String stateName;
