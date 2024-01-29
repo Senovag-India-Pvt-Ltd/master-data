@@ -17,6 +17,7 @@ import com.sericulture.masterdata.model.api.godown.GodownRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdFeatureMaster.HdFeatureMasterRequest;
 import com.sericulture.masterdata.model.api.hdModuleMaster.HdModuleMasterRequest;
+import com.sericulture.masterdata.model.api.hdQuestionMaster.HdQuestionMasterRequest;
 import com.sericulture.masterdata.model.api.hdSeverityMaster.HdSeverityMasterRequest;
 import com.sericulture.masterdata.model.api.hdStatusMaster.HdStatusMasterRequest;
 import com.sericulture.masterdata.model.api.hdSubCategoryMaster.HdSubCategoryMasterRequest;
@@ -1594,7 +1595,24 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, hdSeverityMasterRequest);
         return (T) mapper.map(hdSeverityMasterRequest, claaz);
     }
+    /**
+     * Maps hdQuestionMaster Entity to hdQuestionMaster Response Object
+     * @param hdQuestionMasterEntity
+     * @param <T>
+     */
+    public <T> T hdQuestionMasterEntityToObject(HdQuestionMaster hdQuestionMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,hdQuestionMasterEntity);
+        return (T) mapper.map(hdQuestionMasterEntity, claaz);
+    }
 
 
-
+    /**
+     * Maps hdQuestionMaster Object to hdQuestionMaster  Response Object
+     * @param hdQuestionMasterRequest
+     * @param <T>
+     */
+    public <T> T hdQuestionMasterObjectToEntity(HdQuestionMasterRequest hdQuestionMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdQuestionMasterRequest);
+        return (T) mapper.map(hdQuestionMasterRequest, claaz);
+    }
 }
