@@ -4,6 +4,7 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.hdAnswerMaster.HdAnswerMasterRequest;
 import com.sericulture.masterdata.model.api.hdBoardCategoryMaster.HdBoardCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.crateMaster.CrateMasterRequest;
@@ -1614,5 +1615,26 @@ public class Mapper {
     public <T> T hdQuestionMasterObjectToEntity(HdQuestionMasterRequest hdQuestionMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, hdQuestionMasterRequest);
         return (T) mapper.map(hdQuestionMasterRequest, claaz);
+    }
+
+    /**
+     * Maps hdAnswerMaster Entity to hdAnswerMaster Response Object
+     * @param hdAnswerMasterEntity
+     * @param <T>
+     */
+    public <T> T hdAnswerMasterEntityToObject(HdAnswerMaster hdAnswerMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,hdAnswerMasterEntity);
+        return (T) mapper.map(hdAnswerMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps hdAnswerMaster Object to hdAnswerMaster  Response Object
+     * @param hdAnswerMasterRequest
+     * @param <T>
+     */
+    public <T> T hdAnswerMasterObjectToEntity(HdAnswerMasterRequest hdAnswerMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdAnswerMasterRequest);
+        return (T) mapper.map(hdAnswerMasterRequest, claaz);
     }
 }
