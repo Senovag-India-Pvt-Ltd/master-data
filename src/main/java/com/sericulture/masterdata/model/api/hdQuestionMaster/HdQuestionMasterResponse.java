@@ -18,6 +18,12 @@ public class HdQuestionMasterResponse {
     @Schema(name = "hdQuestionName", example = "Karnataka", required = true)
     String hdQuestionName;
 
+    @Schema(name = "hdQuestionAnswerName", example = "Karnataka",required=true)
+    String hdQuestionAnswerName;
+
+    @Schema(name = "hdFaqUploadPath", example = "Karnataka", required = true)
+    String hdFaqUploadPath;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

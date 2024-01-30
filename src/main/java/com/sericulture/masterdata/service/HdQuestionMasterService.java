@@ -153,6 +153,8 @@ public class HdQuestionMasterService {
             HdQuestionMaster hdQuestionMaster= hdQuestionMasterRepository.findByHdQuestionIdAndActiveIn(hdQuestionMasterRequest.getHdQuestionId(), Set.of(true,false));
             if(Objects.nonNull(hdQuestionMaster)){
                 hdQuestionMaster.setHdQuestionName(hdQuestionMasterRequest.getHdQuestionName());
+                hdQuestionMaster.setHdQuestionAnswerName(hdQuestionMasterRequest.getHdQuestionAnswerName());
+                hdQuestionMaster.setHdFaqUploadPath(hdQuestionMasterRequest.getHdFaqUploadPath());
                 hdQuestionMaster.setActive(true);
                 HdQuestionMaster hdQuestionMaster1 = hdQuestionMasterRepository.save(hdQuestionMaster);
                 hdQuestionMasterResponse = mapper.hdQuestionMasterEntityToObject(hdQuestionMaster1, HdQuestionMasterResponse.class);

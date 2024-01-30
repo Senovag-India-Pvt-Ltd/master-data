@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.model.entity;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,10 @@ public class HdQuestionMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Hd Question name should be more than 1 characters.")
     @Column(name = "hd_question_name", unique = true)
     private String hdQuestionName;
+
+    @Column(name = "hd_question_answer_name", unique = true)
+    private String hdQuestionAnswerName;
+
+    @Column(name = "hd_faq_upload_path", unique = true )
+    private String hdFaqUploadPath;
 }

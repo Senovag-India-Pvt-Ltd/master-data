@@ -13,4 +13,10 @@ import lombok.*;
 public class HdQuestionMasterRequest extends RequestBody {
     @Schema(name = "hdQuestionName", example = "Karnataka", required = true)
     String hdQuestionName;
+
+    @Schema(name = "hdQuestionAnswerName", example = "Karnataka",required=true)
+    String hdQuestionAnswerName;
+
+    @Schema(name = "hdFaqUploadPath", example = "Karnataka", required = true)
+    String hdFaqUploadPath;
 }
