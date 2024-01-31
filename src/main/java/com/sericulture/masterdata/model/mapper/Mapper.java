@@ -1605,7 +1605,15 @@ public class Mapper {
         log.info("Value of mapper is:",mapper,hdQuestionMasterEntity);
         return (T) mapper.map(hdQuestionMasterEntity, claaz);
     }
-
+    /**
+     * Maps hdFeatureMasterDTO to hdFeatureMaster Response Object
+     * @param hdQuestionMasterDTO
+     * @param <T>
+     */
+    public <T> T hdQuestionMasterDTOToObject(HdQuestionMasterDTO hdQuestionMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hdQuestionMasterDTO);
+        return (T) mapper.map(hdQuestionMasterDTO, claaz);
+    }
 
     /**
      * Maps hdQuestionMaster Object to hdQuestionMaster  Response Object

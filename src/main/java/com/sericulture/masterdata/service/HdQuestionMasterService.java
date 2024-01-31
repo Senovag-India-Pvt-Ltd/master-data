@@ -1,11 +1,15 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hdQuestionMaster.EditHdQuestionMasterRequest;
 import com.sericulture.masterdata.model.api.hdQuestionMaster.HdQuestionMasterRequest;
 import com.sericulture.masterdata.model.api.hdQuestionMaster.HdQuestionMasterResponse;
 import com.sericulture.masterdata.model.api.hdStatusMaster.EditHdStatusMasterRequest;
 import com.sericulture.masterdata.model.api.hdStatusMaster.HdStatusMasterRequest;
 import com.sericulture.masterdata.model.api.hdStatusMaster.HdStatusMasterResponse;
+import com.sericulture.masterdata.model.api.trSchedule.TrScheduleResponse;
+import com.sericulture.masterdata.model.dto.HdQuestionMasterDTO;
+import com.sericulture.masterdata.model.dto.TrScheduleDTO;
 import com.sericulture.masterdata.model.entity.HdQuestionMaster;
 import com.sericulture.masterdata.model.entity.HdStatusMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -14,7 +18,9 @@ import com.sericulture.masterdata.repository.HdStatusMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,4 +173,52 @@ public class HdQuestionMasterService {
         }
         return hdQuestionMasterResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest) {
+        if (searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")) {
+            searchWithSortRequest.setSearchText("%%");
+        } else {
+            searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
+        }
+        if (searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")) {
+            searchWithSortRequest.setSortColumn("hdQuestionName");
+        }
+        if (searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")) {
+            searchWithSortRequest.setSortOrder("asc");
+        }
+        if (searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")) {
+            searchWithSortRequest.setPageNumber("0");
+        }
+        if (searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")) {
+            searchWithSortRequest.setPageSize("5");
+        }
+        Sort sort;
+        if (searchWithSortRequest.getSortOrder().equals("asc")) {
+            sort = Sort.by(Sort.Direction.ASC, searchWithSortRequest.getSortColumn());
+        } else {
+            sort = Sort.by(Sort.Direction.DESC, searchWithSortRequest.getSortColumn());
+        }
+        Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
+        Page<HdQuestionMasterDTO> hdQuestionMasterDTOs = hdQuestionMasterRepository.getSortedHdQuestions(
+                searchWithSortRequest.getJoinColumn(),
+                searchWithSortRequest.getSearchText(),
+                pageable
+        );
+        log.info("Entity is ", hdQuestionMasterDTOs);
+        return convertPageableDTOToMapResponse(hdQuestionMasterDTOs);
+    }
+    private Map<String, Object> convertPageableDTOToMapResponse(final Page<HdQuestionMasterDTO> activeQuestions) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<HdQuestionMasterResponse> hdQuestionMasterResponses = activeQuestions.getContent().stream()
+                .map(hdQuestionMaster -> mapper.hdQuestionMasterDTOToObject(hdQuestionMaster,HdQuestionMasterResponse.class)).collect(Collectors.toList());
+        response.put("hdQuestionMaster",hdQuestionMasterResponses);
+        response.put("currentPage", activeQuestions.getNumber());
+        response.put("totalItems", activeQuestions.getTotalElements());
+        response.put("totalPages", activeQuestions.getTotalPages());
+
+        return response;
+    }
+
 }
