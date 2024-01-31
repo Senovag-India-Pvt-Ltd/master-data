@@ -55,6 +55,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auctionAcceptance2EndTime," +
             " marketMaster.auctionAcceptance3EndTime," +
             " marketMaster.serialNumberPrefix," +
+            " marketMaster.clientId," +
             " marketMaster.marketTypeMasterId," +
             " marketMaster.marketLatitude," +
             " marketMaster.marketLongitude," +
@@ -104,6 +105,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auctionAcceptance2EndTime," +
             " marketMaster.auctionAcceptance3EndTime," +
             " marketMaster.serialNumberPrefix," +
+            " marketMaster.clientId," +
             " marketMaster.marketTypeMasterId," +
             " marketMaster.marketLatitude," +
             " marketMaster.marketLongitude," +
@@ -152,6 +154,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.auctionAcceptance2EndTime," +
             " marketMaster.auctionAcceptance3EndTime," +
             " marketMaster.serialNumberPrefix," +
+            " marketMaster.clientId," +
             " marketMaster.marketTypeMasterId," +
             " marketMaster.marketLatitude," +
             " marketMaster.marketLongitude," +

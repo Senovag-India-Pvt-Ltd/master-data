@@ -85,6 +85,9 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "serialNumberPrefix", example = "KLR")
     String serialNumberPrefix;
 
+    @Schema(name = "clientId", example = "KLR123")
+    String clientId;
+
     @Schema(name = "marketTypeMasterId", example = "1")
     Long marketTypeMasterId;
 

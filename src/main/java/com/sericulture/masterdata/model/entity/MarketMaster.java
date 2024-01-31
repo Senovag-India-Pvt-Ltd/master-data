@@ -98,6 +98,9 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     @Column(name = "SERIAL_NUMBER_PREFIX")
     private String serialNumberPrefix;
 
+    @Column(name = "client_id")
+    private String clientId;
+
     @Column(name = "market_type_master_id")
     private Long marketTypeMasterId;
 

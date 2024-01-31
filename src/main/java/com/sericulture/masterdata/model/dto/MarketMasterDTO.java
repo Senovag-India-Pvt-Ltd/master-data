@@ -32,6 +32,7 @@ public class MarketMasterDTO {
     private LocalTime auctionAcceptance2EndTime;
     private LocalTime auctionAcceptance3EndTime;
     private String serialNumberPrefix;
+    private String clientId;
     private Long marketTypeMasterId;
     private BigDecimal marketLatitude;
     private BigDecimal marketLongitude;
@@ -71,6 +72,7 @@ public class MarketMasterDTO {
         LocalTime auctionAcceptance2EndTime,
         LocalTime auctionAcceptance3EndTime,
         String serialNumberPrefix,
+        String clientId,
         Long marketTypeMasterId,
         BigDecimal marketLatitude,
         BigDecimal marketLongitude,
@@ -106,6 +108,7 @@ public class MarketMasterDTO {
         this.auctionAcceptance2EndTime = auctionAcceptance2EndTime;
         this.auctionAcceptance3EndTime = auctionAcceptance3EndTime;
         this.serialNumberPrefix = serialNumberPrefix;
+        this.clientId = clientId;
         this.marketTypeMasterId = marketTypeMasterId;
         this.marketLatitude = marketLatitude;
         this.marketLongitude = marketLongitude;

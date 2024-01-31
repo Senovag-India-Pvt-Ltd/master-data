@@ -209,6 +209,7 @@ public class MarketMasterService {
                 marketMaster.setMarketLatitude(marketMasterRequest.getMarketLatitude());
                 marketMaster.setMarketLongitude(marketMasterRequest.getMarketLongitude());
                 marketMaster.setRadius(marketMasterRequest.getRadius());
+                marketMaster.setClientId(marketMasterRequest.getClientId());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
