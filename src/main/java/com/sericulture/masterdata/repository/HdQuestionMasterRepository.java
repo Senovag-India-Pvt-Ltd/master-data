@@ -30,6 +30,21 @@ public interface HdQuestionMasterRepository extends PagingAndSortingRepository<H
 
     public List<HdQuestionMaster> findByActiveOrderByHdQuestionNameAsc(boolean isActive);
 
+//    @Query("SELECT NEW com.sericulture.masterdata.model.dto.HdQuestionMasterDTO(" +
+//            " hdQuestionMaster.hdQuestionId," +
+//            " hdQuestionMaster.hdQuestionName," +
+//            " hdQuestionMaster.hdQuestionAnswerName," +
+//            " hdQuestionMaster.hdFaqUploadPath" +
+//            ") " +
+//            "FROM HdQuestionMaster hdQuestionMaster " +
+//            "WHERE (:joinColumn = 'hdQuestionMaster.hdQuestionName' AND hdQuestionMaster.hdQuestionName LIKE :searchText) OR " +
+//            "(:joinColumn = 'hdQuestionMaster.hdQuestionAnswerName' AND hdQuestionMaster.hdQuestionAnswerName LIKE :searchText)"
+//    )
+//    public Page<HdQuestionMasterDTO> getSortedHdQuestions(
+//            @Param("joinColumn") String joinColumn,
+//            @Param("searchText") String searchText,
+//            Pageable pageable
+//    );
     @Query("SELECT NEW com.sericulture.masterdata.model.dto.HdQuestionMasterDTO(" +
             " hdQuestionMaster.hdQuestionId," +
             " hdQuestionMaster.hdQuestionName," +
@@ -37,14 +52,13 @@ public interface HdQuestionMasterRepository extends PagingAndSortingRepository<H
             " hdQuestionMaster.hdFaqUploadPath" +
             ") " +
             "FROM HdQuestionMaster hdQuestionMaster " +
-            "WHERE (:joinColumn = 'hdQuestionMaster.hdQuestionName' AND hdQuestionMaster.hdQuestionName LIKE :searchText) OR " +
-            "(:joinColumn = 'hdQuestionMaster.hdQuestionAnswerName' AND hdQuestionMaster.hdQuestionAnswerName LIKE :searchText)"
+            "WHERE hdQuestionMaster.hdQuestionName LIKE :searchText OR hdQuestionMaster.hdQuestionAnswerName LIKE :searchText"
     )
     public Page<HdQuestionMasterDTO> getSortedHdQuestions(
-            @Param("joinColumn") String joinColumn,
             @Param("searchText") String searchText,
             Pageable pageable
     );
+
 
 }
 

@@ -201,7 +201,7 @@ public class HdQuestionMasterService {
         }
         Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
         Page<HdQuestionMasterDTO> hdQuestionMasterDTOs = hdQuestionMasterRepository.getSortedHdQuestions(
-                searchWithSortRequest.getJoinColumn(),
+//                searchWithSortRequest.getJoinColumn(),
                 searchWithSortRequest.getSearchText(),
                 pageable
         );
