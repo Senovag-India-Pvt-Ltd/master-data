@@ -42,14 +42,13 @@ public class BinMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public BinMasterResponse getBinMasterDetails(int binNumber){
         BinMasterResponse binMasterResponse = new BinMasterResponse();
-        BinMaster binMaster = null;
+        BinMaster binMaster = binMasterRepository.findByBinNumberAndActive(binNumber,true);
         if(binMaster==null){
-            binMaster = binMasterRepository.findByBinNumberAndActive(binNumber,true);
-            binMasterResponse = mapper.binMasterEntityToObject(binMaster, BinMasterResponse.class);
-            binMasterResponse.setError(false);
-        }else{
             binMasterResponse.setError(true);
             binMasterResponse.setError_description("bin not found");
+        }else{
+            binMasterResponse = mapper.binMasterEntityToObject(binMaster, BinMasterResponse.class);
+            binMasterResponse.setError(false);
         }
         log.info("Entity is ",binMaster);
         return binMasterResponse;
