@@ -37,22 +37,6 @@ public class CasteService {
     CustomValidator validator;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public CasteResponse getCasteDetails(String code, String title){
-        CasteResponse casteResponse = new CasteResponse();
-        Caste caste = null;
-        if(code==null){
-            caste = casteRepository.findByTitleAndActive(title,true);
-            casteResponse = mapper.casteEntityToObject(caste, CasteResponse.class);
-            casteResponse.setError(false);
-        }else{
-            casteResponse.setError(true);
-            casteResponse.setError_description("Caste not found");
-        }
-        log.info("Entity is ",caste);
-        return casteResponse;
-    }
-
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public CasteResponse getCasteDetailsByTitle(String title){
         Caste caste = casteRepository.findByTitleAndActive(title,true);
         log.info("Entity is ",caste);
@@ -65,7 +49,6 @@ public class CasteService {
             return mapper.casteEntityToObject(caste,CasteResponse.class);
         }
     }
-
 
     @Transactional
     public CasteResponse insertCasteDetails(CasteRequest casteRequest){

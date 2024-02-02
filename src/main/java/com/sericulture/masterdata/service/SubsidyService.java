@@ -38,14 +38,13 @@ public class SubsidyService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SubsidyResponse getSubsidyDetails(String subsidyName){
         SubsidyResponse subsidyResponse = new SubsidyResponse();
-        Subsidy subsidy = null;
+        Subsidy subsidy = subsidyRepository.findBySubsidyNameAndActive(subsidyName,true);
         if(subsidy==null){
-            subsidy = subsidyRepository.findBySubsidyNameAndActive(subsidyName,true);
-            subsidyResponse = mapper.subsidyEntityToObject(subsidy, SubsidyResponse.class);
-            subsidyResponse.setError(false);
-        }else{
             subsidyResponse.setError(true);
             subsidyResponse.setError_description("Subsidy not found");
+        }else{
+            subsidyResponse = mapper.subsidyEntityToObject(subsidy, SubsidyResponse.class);
+            subsidyResponse.setError(false);
         }
         log.info("Entity is ",subsidy);
         return subsidyResponse;

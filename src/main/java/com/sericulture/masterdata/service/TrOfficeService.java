@@ -37,23 +37,6 @@ public class TrOfficeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrOfficeResponse getTrOfficeDetails(String trOfficeName){
-        TrOfficeResponse trOfficeResponse = new TrOfficeResponse();
-        TrOffice trOffice = null;
-        if(trOffice==null){
-            trOffice = trOfficeRepository.findByTrOfficeNameAndActive(trOfficeName, true);
-            trOfficeResponse = mapper.trOfficeEntityToObject(trOffice, TrOfficeResponse.class);
-            trOfficeResponse.setError(false);
-        }else{
-            trOfficeResponse.setError(true);
-            trOfficeResponse.setError_description("Training Office not found");
-        }
-        log.info("Entity is ",trOffice);
-        return trOfficeResponse;
-
-    }
-
     @Transactional
     public TrOfficeResponse insertTrOfficeDetails(TrOfficeRequest trOfficeRequest){
         TrOfficeResponse trOfficeResponse = new TrOfficeResponse();

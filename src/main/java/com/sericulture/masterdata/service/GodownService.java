@@ -57,14 +57,13 @@ public class GodownService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public GodownResponse getGodownDetails(String godownName){
         GodownResponse godownResponse = new GodownResponse();
-        Godown godown = null;
+        Godown godown = godownRepository.findByGodownNameAndActive(godownName,true);
         if(godown==null){
-            godown = godownRepository.findByGodownNameAndActive(godownName,true);
-            godownResponse = mapper.godownEntityToObject(godown, GodownResponse.class);
-            godownResponse.setError(false);
-        }else{
             godownResponse.setError(true);
             godownResponse.setError_description("Godown not found");
+        }else{
+            godownResponse = mapper.godownEntityToObject(godown, GodownResponse.class);
+            godownResponse.setError(false);
         }
         log.info("Entity is ",godown);
         return godownResponse;

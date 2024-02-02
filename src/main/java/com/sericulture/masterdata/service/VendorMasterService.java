@@ -39,22 +39,6 @@ public class VendorMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public VendorMasterResponse getVendorMasterDetails(String vendorMasterName){
-        VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
-        VendorMaster vendorMaster = null;
-        if(vendorMaster==null){
-            vendorMaster = vendorMasterRepository.findByVendorMasterNameAndActive(vendorMasterName,true);
-            vendorMasterResponse = mapper.vendorMasterEntityToObject(vendorMaster,VendorMasterResponse.class);
-            vendorMasterResponse.setError(false);
-        }else{
-            vendorMasterResponse.setError(true);
-            vendorMasterResponse.setError_description("VendorMaster not found");
-        }
-        log.info("Entity is ",vendorMaster);
-        return vendorMasterResponse;
-    }
-
     @Transactional
     public VendorMasterResponse insertVendorMasterDetails(VendorMasterRequest vendorMasterRequest){
         VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();

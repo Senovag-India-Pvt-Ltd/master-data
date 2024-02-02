@@ -38,14 +38,13 @@ public class HdSeverityMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdSeverityMasterResponse getHdSeverityMasterDetails(String hdSeverityName){
         HdSeverityMasterResponse hdSeverityMasterResponse = new HdSeverityMasterResponse();
-        HdSeverityMaster hdSeverityMaster = null;
+        HdSeverityMaster hdSeverityMaster = hdSeverityMasterRepository.findByHdSeverityNameAndActive(hdSeverityName, true);
         if(hdSeverityMaster==null){
-            hdSeverityMaster = hdSeverityMasterRepository.findByHdSeverityNameAndActive(hdSeverityName, true);
+            hdSeverityMasterResponse.setError(true);
+            hdSeverityMasterResponse.setError_description("Severity not found");
+        }else{
             hdSeverityMasterResponse = mapper.hdSeverityMasterEntityToObject(hdSeverityMaster, HdSeverityMasterResponse.class);
             hdSeverityMasterResponse.setError(false);
-        }else{
-            hdSeverityMasterResponse.setError(true);
-            hdSeverityMasterResponse.setError_description("Hd SeverityMaster not found");
         }
         log.info("Entity is ",hdSeverityMaster);
         return hdSeverityMasterResponse;

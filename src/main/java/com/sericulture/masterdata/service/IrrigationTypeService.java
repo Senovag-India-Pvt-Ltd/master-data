@@ -36,14 +36,13 @@ public class IrrigationTypeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public IrrigationTypeResponse getIrrigationTypeDetails(String irrigationTypeName){
         IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
-        IrrigationType irrigationType = null;
+        IrrigationType irrigationType = irrigationTypeRepository.findByIrrigationTypeNameAndActive(irrigationTypeName,true);
         if(irrigationType==null){
-            irrigationType = irrigationTypeRepository.findByIrrigationTypeNameAndActive(irrigationTypeName,true);
+            irrigationTypeResponse.setError(true);
+            irrigationTypeResponse.setError_description("Irrigation Type not found");
+        }else{
             irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationType, IrrigationTypeResponse.class);
             irrigationTypeResponse.setError(false);
-        }else{
-            irrigationTypeResponse.setError(true);
-            irrigationTypeResponse.setError_description("IrrigationType not found");
         }
         log.info("Entity is ",irrigationType);
         return irrigationTypeResponse;

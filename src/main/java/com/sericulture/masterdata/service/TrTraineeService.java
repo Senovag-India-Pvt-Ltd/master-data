@@ -39,22 +39,6 @@ public class TrTraineeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrTraineeResponse getTrTraineeDetails(String trTraineeName){
-        TrTraineeResponse trTraineeResponse = new TrTraineeResponse();
-        TrTrainee trTrainee = null;
-        if(trTrainee==null){
-            trTrainee = trTraineeRepository.findByTrTraineeNameAndActive(trTraineeName, true);
-            trTraineeResponse = mapper.trTraineeEntityToObject(trTrainee, TrTraineeResponse.class);
-            trTraineeResponse.setError(false);
-        }else{
-            trTraineeResponse.setError(true);
-            trTraineeResponse.setError_description("Tr Trainee not found");
-        }
-        log.info("Entity is ",trTrainee);
-        return trTraineeResponse;
-
-    }
 
     @Transactional
     public TrTraineeResponse insertTrTraineeDetails(TrTraineeRequest trTraineeRequest){

@@ -44,14 +44,13 @@ public class ExternalUnitTypeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ExternalUnitTypeResponse getExternalUnitTypeDetails(String externalUnitTypeName){
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
-        ExternalUnitType externalUnitType = null;
+        ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeNameAndActive(externalUnitTypeName,true);
         if(externalUnitType==null){
-            externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeNameAndActive(externalUnitTypeName,true);
-            externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitType, ExternalUnitTypeResponse.class);
-            externalUnitTypeResponse.setError(false);
-        }else{
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType not found");
+        }else{
+            externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitType, ExternalUnitTypeResponse.class);
+            externalUnitTypeResponse.setError(false);
         }
         log.info("Entity is ",externalUnitType);
         return externalUnitTypeResponse;

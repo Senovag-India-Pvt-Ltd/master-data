@@ -38,14 +38,13 @@ public class LandOwnershipService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public LandOwnershipResponse getLandOwnershipDetails(String landOwnershipName){
         LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
-        LandOwnership landOwnership = null;
+        LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipNameAndActive(landOwnershipName,true);
         if(landOwnership==null){
-            landOwnership = landOwnershipRepository.findByLandOwnershipNameAndActive(landOwnershipName,true);
+            landOwnershipResponse.setError(true);
+            landOwnershipResponse.setError_description("Land Ownership not found");
+        }else{
             landOwnershipResponse = mapper.landOwnershipEntityToObject(landOwnership, LandOwnershipResponse.class);
             landOwnershipResponse.setError(false);
-        }else{
-            landOwnershipResponse.setError(true);
-            landOwnershipResponse.setError_description("LandOwnership not found");
         }
         log.info("Entity is ",landOwnership);
         return landOwnershipResponse;

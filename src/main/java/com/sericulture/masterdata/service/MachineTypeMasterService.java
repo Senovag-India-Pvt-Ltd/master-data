@@ -39,14 +39,13 @@ public class MachineTypeMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MachineTypeMasterResponse getMachineTypeMasterDetails(String machineTypeMasterName){
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
-        MachineTypeMaster machineTypeMaster = null;
+        MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeNameAndActive(machineTypeMasterName,true);
         if(machineTypeMaster==null){
-            machineTypeMaster = machineTypeMasterRepository.findByMachineTypeNameAndActive(machineTypeMasterName,true);
+            machineTypeMasterResponse.setError(true);
+            machineTypeMasterResponse.setError_description("Machine Type not found");
+        }else{
             machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMaster, MachineTypeMasterResponse.class);
             machineTypeMasterResponse.setError(false);
-        }else{
-            machineTypeMasterResponse.setError(true);
-            machineTypeMasterResponse.setError_description("MachineType not found");
         }
         log.info("Entity is ",machineTypeMaster);
         return machineTypeMasterResponse;

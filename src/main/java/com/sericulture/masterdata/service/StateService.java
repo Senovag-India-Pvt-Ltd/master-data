@@ -37,14 +37,13 @@ public class StateService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public StateResponse getStateDetails(String stateName){
         StateResponse stateResponse = new StateResponse();
-        State state = null;
+        State state = stateRepository.findByStateNameAndActive(stateName,true);
         if(state==null){
-            state = stateRepository.findByStateNameAndActive(stateName,true);
-            stateResponse = mapper.stateEntityToObject(state,StateResponse.class);
-            stateResponse.setError(false);
-        }else{
             stateResponse.setError(true);
             stateResponse.setError_description("State not found");
+        }else{
+            stateResponse = mapper.stateEntityToObject(state,StateResponse.class);
+            stateResponse.setError(false);
         }
         log.info("Entity is ",state);
         return stateResponse;

@@ -44,14 +44,13 @@ public class RelationshipService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RelationshipResponse getRelationshipDetails(String relationshipName){
         RelationshipResponse relationshipResponse = new RelationshipResponse();
-        Relationship relationship = null;
+        Relationship relationship = relationshipRepository.findByRelationshipNameAndActive(relationshipName,true);
         if(relationship==null){
-            relationship = relationshipRepository.findByRelationshipNameAndActive(relationshipName,true);
-            relationshipResponse = mapper.relationshipEntityToObject(relationship, RelationshipResponse.class);
-            relationshipResponse.setError(false);
-        }else{
             relationshipResponse.setError(true);
             relationshipResponse.setError_description("Relationship not found");
+        }else{
+            relationshipResponse = mapper.relationshipEntityToObject(relationship, RelationshipResponse.class);
+            relationshipResponse.setError(false);
         }
         log.info("Entity is ",relationship);
         return relationshipResponse;

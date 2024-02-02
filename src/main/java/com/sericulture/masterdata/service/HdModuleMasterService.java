@@ -39,14 +39,13 @@ public class HdModuleMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdModuleMasterResponse getHdModuleMasterDetails(String hdModuleName){
         HdModuleMasterResponse hdModuleMasterResponse = new HdModuleMasterResponse();
-        HdModuleMaster hdModuleMaster = null;
+        HdModuleMaster hdModuleMaster = hdModuleMasterRepository.findByHdModuleNameAndActive(hdModuleName, true);
         if(hdModuleMaster==null){
-            hdModuleMaster = hdModuleMasterRepository.findByHdModuleNameAndActive(hdModuleName, true);
+            hdModuleMasterResponse.setError(true);
+            hdModuleMasterResponse.setError_description("Module not found");
+        }else{
             hdModuleMasterResponse = mapper.hdModuleMasterEntityToObject(hdModuleMaster, HdModuleMasterResponse.class);
             hdModuleMasterResponse.setError(false);
-        }else{
-            hdModuleMasterResponse.setError(true);
-            hdModuleMasterResponse.setError_description("Hd ModuleMaster not found");
         }
         log.info("Entity is ",hdModuleMaster);
         return hdModuleMasterResponse;

@@ -46,14 +46,13 @@ public class MarketMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MarketMasterResponse getMarketMasterDetails(String marketMasterName){
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
-        MarketMaster marketMaster = null;
+        MarketMaster marketMaster = marketMasterRepository.findByMarketMasterNameAndActive(marketMasterName,true);
         if(marketMaster==null){
-            marketMaster = marketMasterRepository.findByMarketMasterNameAndActive(marketMasterName,true);
+            marketMasterResponse.setError(true);
+            marketMasterResponse.setError_description("Market not found");
+        }else{
             marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster, MarketMasterResponse.class);
             marketMasterResponse.setError(false);
-        }else{
-            marketMasterResponse.setError(true);
-            marketMasterResponse.setError_description("MarketMaster not found");
         }
         log.info("Entity is ",marketMaster);
         return marketMasterResponse;

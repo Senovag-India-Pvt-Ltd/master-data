@@ -40,14 +40,13 @@ public class MarketTypeMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MarketTypeMasterResponse getMarketTypeMasterDetails(String marketTypeMasterName){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
-        MarketTypeMaster marketTypeMaster = null;
+        MarketTypeMaster marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterNameAndActive(marketTypeMasterName,true);
         if(marketTypeMaster==null){
-            marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterNameAndActive(marketTypeMasterName,true);
-            marketTypeMasterResponse = mapper.marketTypeMasterEntityToObject(marketTypeMaster,MarketTypeMasterResponse.class);
-            marketTypeMasterResponse.setError(false);
-        }else{
             marketTypeMasterResponse.setError(true);
             marketTypeMasterResponse.setError_description("Market Type not found");
+        }else{
+            marketTypeMasterResponse = mapper.marketTypeMasterEntityToObject(marketTypeMaster,MarketTypeMasterResponse.class);
+            marketTypeMasterResponse.setError(false);
         }
         log.info("Entity is ",marketTypeMaster);
         return marketTypeMasterResponse;

@@ -38,14 +38,13 @@ public class HdAnswerMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdAnswerMasterResponse getHdAnswerMasterDetails(String hdAnswerName){
         HdAnswerMasterResponse hdAnswerMasterResponse = new HdAnswerMasterResponse();
-        HdAnswerMaster hdAnswerMaster = null;
+        HdAnswerMaster hdAnswerMaster =  hdAnswerMasterRepository.findByHdAnswerNameAndActive(hdAnswerName, true);
         if(hdAnswerMaster==null){
-            hdAnswerMaster = hdAnswerMasterRepository.findByHdAnswerNameAndActive(hdAnswerName, true);
-            hdAnswerMasterResponse = mapper.hdAnswerMasterEntityToObject(hdAnswerMaster, HdAnswerMasterResponse.class);
-            hdAnswerMasterResponse.setError(false);
-        }else{
             hdAnswerMasterResponse.setError(true);
             hdAnswerMasterResponse.setError_description("Hd AnswerMaster not found");
+        }else{
+            hdAnswerMasterResponse = mapper.hdAnswerMasterEntityToObject(hdAnswerMaster, HdAnswerMasterResponse.class);
+            hdAnswerMasterResponse.setError(false);
         }
         log.info("Entity is ",hdAnswerMaster);
         return hdAnswerMasterResponse;

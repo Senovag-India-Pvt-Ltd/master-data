@@ -45,14 +45,13 @@ public class DistrictService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public DistrictResponse getDistrictDetails(String districtName){
         DistrictResponse districtResponse = new DistrictResponse();
-        District district = null;
+        District district = districtRepository.findByDistrictNameAndActive(districtName,true);
         if(district==null){
-            district = districtRepository.findByDistrictNameAndActive(districtName,true);
-            districtResponse = mapper.districtEntityToObject(district, DistrictResponse.class);
-            districtResponse.setError(false);
-        }else{
             districtResponse.setError(true);
             districtResponse.setError_description("district not found");
+        }else{
+            districtResponse = mapper.districtEntityToObject(district, DistrictResponse.class);
+            districtResponse.setError(false);
         }
         log.info("Entity is ",district);
         return districtResponse;

@@ -38,14 +38,13 @@ public class RoleService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RoleResponse getRoleDetails(String roleName){
         RoleResponse roleResponse = new RoleResponse();
-        Role role = null;
+        Role role = roleRepository.findByRoleNameAndActive(roleName,true);
         if(role==null){
-            role = roleRepository.findByRoleNameAndActive(roleName,true);
-            roleResponse = mapper.roleEntityToObject(role, RoleResponse.class);
-            roleResponse.setError(false);
-        }else{
             roleResponse.setError(true);
             roleResponse.setError_description("Role not found");
+        }else{
+            roleResponse = mapper.roleEntityToObject(role, RoleResponse.class);
+            roleResponse.setError(false);
         }
         log.info("Entity is ",role);
         return roleResponse;

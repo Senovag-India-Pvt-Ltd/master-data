@@ -39,14 +39,13 @@ public class DocumentMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public DocumentMasterResponse getDocumentMasterDetails(String documentMasterName){
         DocumentMasterResponse documentMasterResponse = new DocumentMasterResponse();
-        DocumentMaster documentMaster = null;
+        DocumentMaster documentMaster = documentMasterRepository.findByDocumentMasterNameAndActive(documentMasterName,true);
         if(documentMaster==null){
-            documentMaster = documentMasterRepository.findByDocumentMasterNameAndActive(documentMasterName,true);
-            documentMasterResponse = mapper.documentMasterEntityToObject(documentMaster,DocumentMasterResponse.class);
-            documentMasterResponse.setError(false);
-        }else{
             documentMasterResponse.setError(true);
             documentMasterResponse.setError_description("Document not found");
+        }else{
+            documentMasterResponse = mapper.documentMasterEntityToObject(documentMaster,DocumentMasterResponse.class);
+            documentMasterResponse.setError(false);
         }
         log.info("Entity is ",documentMaster);
         return documentMasterResponse;

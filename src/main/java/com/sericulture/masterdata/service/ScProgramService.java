@@ -33,22 +33,6 @@ public class ScProgramService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScProgramResponse getScProgramDetails(String scProgramName){
-        ScProgramResponse scProgramResponse = new ScProgramResponse();
-        ScProgram scProgram = null;
-        if(scProgram==null){
-            scProgram = scProgramRepository.findByScProgramNameAndActive(scProgramName,true);
-            scProgramResponse = mapper.scProgramEntityToObject(scProgram, ScProgramResponse.class);
-            scProgramResponse.setError(false);
-        }else{
-            scProgramResponse.setError(true);
-            scProgramResponse.setError_description("ScProgram not found");
-        }
-        log.info("Entity is ",scProgram);
-        return scProgramResponse;
-    }
-
     @Transactional
     public ScProgramResponse insertScProgramDetails(ScProgramRequest scProgramRequest){
         ScProgramResponse scProgramResponse = new ScProgramResponse();

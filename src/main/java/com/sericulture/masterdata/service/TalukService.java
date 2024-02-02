@@ -53,22 +53,6 @@ public class TalukService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TalukResponse getTalukDetails(String talukName) {
-        TalukResponse talukResponse = new TalukResponse();
-        Taluk taluk = null;
-        if (taluk == null) {
-            taluk = talukRepository.findByTalukNameAndActive(talukName, true);
-            talukResponse = mapper.talukEntityToObject(taluk, TalukResponse.class);
-            talukResponse.setError(false);
-        } else {
-            talukResponse.setError(true);
-            talukResponse.setError_description("Taluk not found");
-        }
-        log.info("Entity is ", taluk);
-        return talukResponse;
-    }
-
     @Transactional
     public TalukResponse insertTalukDetails(TalukRequest talukRequest) {
         TalukResponse talukResponse = new TalukResponse();

@@ -40,14 +40,13 @@ public class HdCategoryMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdCategoryMasterResponse getHdCategoryMasterDetails(String hdCategoryName){
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
-        HdCategoryMaster hdCategoryMaster = null;
+        HdCategoryMaster hdCategoryMaster = hdCategoryMasterRepository.findByHdCategoryNameAndActive(hdCategoryName, true);
         if(hdCategoryMaster==null){
-            hdCategoryMaster = hdCategoryMasterRepository.findByHdCategoryNameAndActive(hdCategoryName, true);
-            hdCategoryMasterResponse = mapper.hdCategoryMasterEntityToObject(hdCategoryMaster, HdCategoryMasterResponse.class);
-            hdCategoryMasterResponse.setError(false);
-        }else{
             hdCategoryMasterResponse.setError(true);
             hdCategoryMasterResponse.setError_description("Hd CategoryMaster not found");
+        }else{
+            hdCategoryMasterResponse = mapper.hdCategoryMasterEntityToObject(hdCategoryMaster, HdCategoryMasterResponse.class);
+            hdCategoryMasterResponse.setError(false);
         }
         log.info("Entity is ",hdCategoryMaster);
         return hdCategoryMasterResponse;

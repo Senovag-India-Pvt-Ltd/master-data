@@ -44,14 +44,13 @@ public class HdSubCategoryMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdSubCategoryMasterResponse getHdSubCategoryMasterDetails(String hdSubCategoryName) {
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
-        HdSubCategoryMaster hdSubCategoryMaster = null;
+        HdSubCategoryMaster hdSubCategoryMaster = hdSubCategoryMasterRepository.findByHdSubCategoryNameAndActive(hdSubCategoryName, true);;
         if (hdSubCategoryMaster == null) {
-            hdSubCategoryMaster = hdSubCategoryMasterRepository.findByHdSubCategoryNameAndActive(hdSubCategoryName, true);
+            hdSubCategoryMasterResponse.setError(true);
+            hdSubCategoryMasterResponse.setError_description("Sub Category not found");
+        } else {
             hdSubCategoryMasterResponse = mapper.hdSubCategoryMasterEntityToObject(hdSubCategoryMaster, HdSubCategoryMasterResponse.class);
             hdSubCategoryMasterResponse.setError(false);
-        } else {
-            hdSubCategoryMasterResponse.setError(true);
-            hdSubCategoryMasterResponse.setError_description("Hd Sub CategoryMaster not found");
         }
         log.info("Entity is ", hdSubCategoryMaster);
         return hdSubCategoryMasterResponse;

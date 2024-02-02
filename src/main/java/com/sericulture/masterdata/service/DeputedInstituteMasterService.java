@@ -39,14 +39,13 @@ public class DeputedInstituteMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public DeputedInstituteMasterResponse getDeputedInstituteDetails(String deputedInstituteName){
         DeputedInstituteMasterResponse deputedInstituteMasterResponse = new DeputedInstituteMasterResponse();
-        DeputedInstituteMaster deputedInstituteMaster = null;
+        DeputedInstituteMaster deputedInstituteMaster = deputedInstituteMasterRepository.findByDeputedInstituteNameAndActive(deputedInstituteName,true);
         if(deputedInstituteMaster==null){
-            deputedInstituteMaster = deputedInstituteMasterRepository.findByDeputedInstituteNameAndActive(deputedInstituteName,true);
-            deputedInstituteMasterResponse = mapper.deputedInstituteMasterEntityToObject(deputedInstituteMaster, DeputedInstituteMasterResponse.class);
-            deputedInstituteMasterResponse.setError(false);
-        }else{
             deputedInstituteMasterResponse.setError(true);
             deputedInstituteMasterResponse.setError_description("Deputed Institute not found");
+        }else{
+            deputedInstituteMasterResponse = mapper.deputedInstituteMasterEntityToObject(deputedInstituteMaster, DeputedInstituteMasterResponse.class);
+            deputedInstituteMasterResponse.setError(false);
         }
         log.info("Entity is ",deputedInstituteMaster);
         return deputedInstituteMasterResponse;

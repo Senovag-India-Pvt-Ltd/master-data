@@ -40,14 +40,13 @@ public class MulberryVarietyService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MulberryVarietyResponse getMulberryVarietyDetails(String mulberryVarietyName){
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
-        MulberryVariety mulberryVariety = null;
+        MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyNameAndActive(mulberryVarietyName,true);
         if(mulberryVariety==null){
-            mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyNameAndActive(mulberryVarietyName,true);
+            mulberryVarietyResponse.setError(true);
+            mulberryVarietyResponse.setError_description("Mulberry Variety not found");
+        }else{
             mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVariety, MulberryVarietyResponse.class);
             mulberryVarietyResponse.setError(false);
-        }else{
-            mulberryVarietyResponse.setError(true);
-            mulberryVarietyResponse.setError_description("MulberryVariety not found");
         }
         log.info("Entity is ",mulberryVariety);
         return mulberryVarietyResponse;

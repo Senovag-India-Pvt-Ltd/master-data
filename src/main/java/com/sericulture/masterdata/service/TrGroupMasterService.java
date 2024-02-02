@@ -39,14 +39,13 @@ public class TrGroupMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public TrGroupMasterResponse getTrGroupMasterDetails(String trGroupMasterName){
         TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
-        TrGroupMaster trGroupMaster = null;
+        TrGroupMaster trGroupMaster =  trGroupMasterRepository.findByTrGroupMasterNameAndActive(trGroupMasterName, true);
         if(trGroupMaster==null){
-            trGroupMaster = trGroupMasterRepository.findByTrGroupMasterNameAndActive(trGroupMasterName, true);
+            trGroupMasterResponse.setError(true);
+            trGroupMasterResponse.setError_description("Training Group is not found");
+        }else{
             trGroupMasterResponse = mapper.trGroupMasterEntityToObject(trGroupMaster, TrGroupMasterResponse.class);
             trGroupMasterResponse.setError(false);
-        }else{
-            trGroupMasterResponse.setError(true);
-            trGroupMasterResponse.setError_description("Tr GroupMaster not found");
         }
         log.info("Entity is ",trGroupMaster);
         return trGroupMasterResponse;
