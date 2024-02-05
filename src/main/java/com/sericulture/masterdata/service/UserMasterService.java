@@ -54,15 +54,6 @@ public class UserMasterService {
     @Autowired
     private PasswordEncoder encoder;
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public RpPageRootResponse getRpPageRootDetails(String rpPageRootName){
-//        RpPageRoot rpPageRoot = null;
-//        if(rpPageRoot==null){
-//            rpPageRoot = rpPageRootRepository.findByRpPageRootNameAndActive(rpPageRootName,true);
-//        }
-//        log.info("Entity is ",rpPageRoot);
-//        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
-//    }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getLoginDetails(String username, String password){

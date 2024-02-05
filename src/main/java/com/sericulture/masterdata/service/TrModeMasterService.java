@@ -40,14 +40,13 @@ public class TrModeMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public TrModeMasterResponse getTrModeMasterDetails(String trModeMasterName){
         TrModeMasterResponse trModeMasterResponse = new TrModeMasterResponse();
-        TrModeMaster trModeMaster = null;
+        TrModeMaster trModeMaster = trModeMasterRepository.findByTrModeMasterNameAndActive(trModeMasterName, true);
         if(trModeMaster==null){
-            trModeMaster = trModeMasterRepository.findByTrModeMasterNameAndActive(trModeMasterName, true);
+            trModeMasterResponse.setError(true);
+            trModeMasterResponse.setError_description("Training Mode not Found");
+        }else{
             trModeMasterResponse = mapper.trModeMasterEntityToObject(trModeMaster, TrModeMasterResponse.class);
             trModeMasterResponse.setError(false);
-        }else{
-            trModeMasterResponse.setError(true);
-            trModeMasterResponse.setError_description("Tr ModeMaster not found");
         }
         log.info("Entity is ",trModeMaster);
         return trModeMasterResponse;

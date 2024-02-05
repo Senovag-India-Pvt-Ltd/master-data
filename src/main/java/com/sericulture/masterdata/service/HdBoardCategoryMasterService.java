@@ -38,14 +38,13 @@ public class HdBoardCategoryMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdBoardCategoryMasterResponse getHdBoardCategoryMasterDetails(String hdBoardCategoryName){
         HdBoardCategoryMasterResponse hdBoardCategoryMasterResponse = new HdBoardCategoryMasterResponse();
-        HdBoardCategoryMaster hdBoardCategoryMaster = null;
+        HdBoardCategoryMaster hdBoardCategoryMaster = hdBoardCategoryMasterRepository.findByHdBoardCategoryNameAndActive(hdBoardCategoryName, true);
         if(hdBoardCategoryMaster==null){
-            hdBoardCategoryMaster = hdBoardCategoryMasterRepository.findByHdBoardCategoryNameAndActive(hdBoardCategoryName, true);
-            hdBoardCategoryMasterResponse = mapper.hdBoardCategoryMasterEntityToObject(hdBoardCategoryMaster, HdBoardCategoryMasterResponse.class);
-            hdBoardCategoryMasterResponse.setError(false);
-        }else{
             hdBoardCategoryMasterResponse.setError(true);
             hdBoardCategoryMasterResponse.setError_description("Hd BoardCategoryMaster not found");
+        }else{
+            hdBoardCategoryMasterResponse = mapper.hdBoardCategoryMasterEntityToObject(hdBoardCategoryMaster, HdBoardCategoryMasterResponse.class);
+            hdBoardCategoryMasterResponse.setError(false);
         }
         log.info("Entity is ",hdBoardCategoryMaster);
         return hdBoardCategoryMasterResponse;

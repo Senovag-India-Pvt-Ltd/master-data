@@ -39,14 +39,13 @@ public class LandCategoryService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public LandCategoryResponse getLandCategoryDetails(String landCategoryName){
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
-        LandCategory landCategory = null;
+        LandCategory landCategory = landCategoryRepository.findByLandCategoryNameAndActive(landCategoryName,true);
         if(landCategory==null){
-            landCategory = landCategoryRepository.findByLandCategoryNameAndActive(landCategoryName,true);
+            landCategoryResponse.setError(true);
+            landCategoryResponse.setError_description("Land Category not found");
+        }else{
             landCategoryResponse = mapper.landCategoryEntityToObject(landCategory, LandCategoryResponse.class);
             landCategoryResponse.setError(false);
-        }else{
-            landCategoryResponse.setError(true);
-            landCategoryResponse.setError_description("LandCategory not found");
         }
         log.info("Entity is ",landCategory);
         return landCategoryResponse;

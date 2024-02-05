@@ -43,14 +43,13 @@ public class HobliService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HobliResponse getHobliDetails(String hobliName){
         HobliResponse hobliResponse = new HobliResponse();
-        Hobli hobli = null;
+        Hobli hobli = hobliRepository.findByHobliNameAndActive(hobliName,true);
         if(hobli==null){
-            hobli = hobliRepository.findByHobliNameAndActive(hobliName,true);
-            hobliResponse = mapper.hobliEntityToObject(hobli, HobliResponse.class);
-            hobliResponse.setError(false);
-        }else{
             hobliResponse.setError(true);
             hobliResponse.setError_description("Hobli not found");
+        }else{
+            hobliResponse = mapper.hobliEntityToObject(hobli, HobliResponse.class);
+            hobliResponse.setError(false);
         }
         log.info("Entity is ",hobli);
         return hobliResponse;

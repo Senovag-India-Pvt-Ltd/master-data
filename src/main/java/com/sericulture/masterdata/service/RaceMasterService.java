@@ -44,14 +44,13 @@ public class RaceMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RaceMasterResponse getRaceMasterDetails(String raceMasterName){
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
-        RaceMaster raceMaster = null;
+        RaceMaster raceMaster = raceMasterRepository.findByRaceMasterNameAndActive(raceMasterName,true);
         if(raceMaster==null){
-            raceMaster = raceMasterRepository.findByRaceMasterNameAndActive(raceMasterName,true);
-            raceMasterResponse = mapper.raceMasterEntityToObject(raceMaster, RaceMasterResponse.class);
-            raceMasterResponse.setError(false);
-        }else{
             raceMasterResponse.setError(true);
             raceMasterResponse.setError_description("Race not found");
+        }else{
+            raceMasterResponse = mapper.raceMasterEntityToObject(raceMaster, RaceMasterResponse.class);
+            raceMasterResponse.setError(false);
         }
         log.info("Entity is ",raceMaster);
         return raceMasterResponse;

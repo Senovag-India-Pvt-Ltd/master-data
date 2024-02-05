@@ -34,14 +34,13 @@ public class WorkingInstitutionService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public WorkingInstitutionResponse getWorkingInstitutionDetails(String workingInstitutionName){
         WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
-        WorkingInstitution workingInstitution = null;
+        WorkingInstitution workingInstitution = workingInstitutionRepository.findByWorkingInstitutionNameAndActive(workingInstitutionName,true);
         if(workingInstitution==null){
-            workingInstitution = workingInstitutionRepository.findByWorkingInstitutionNameAndActive(workingInstitutionName,true);
-            workingInstitutionResponse = mapper.workingInstitutionEntityToObject(workingInstitution,WorkingInstitutionResponse.class);
-            workingInstitutionResponse.setError(false);
-        }else{
             workingInstitutionResponse.setError(true);
             workingInstitutionResponse.setError_description("Working Institution not found");
+        }else{
+            workingInstitutionResponse = mapper.workingInstitutionEntityToObject(workingInstitution,WorkingInstitutionResponse.class);
+            workingInstitutionResponse.setError(false);
         }
         log.info("Entity is ",workingInstitution);
         return workingInstitutionResponse;

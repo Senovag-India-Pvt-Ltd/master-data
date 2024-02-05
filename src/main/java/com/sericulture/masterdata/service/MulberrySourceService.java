@@ -39,14 +39,13 @@ public class MulberrySourceService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public MulberrySourceResponse getMulberrySourceDetails(String mulberrySourceName){
         MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
-        MulberrySource mulberrySource = null;
+        MulberrySource mulberrySource = mulberrySourceRepository.findByMulberrySourceNameAndActive(mulberrySourceName,true);
         if(mulberrySource==null){
-            mulberrySource = mulberrySourceRepository.findByMulberrySourceNameAndActive(mulberrySourceName,true);
-            mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySource, MulberrySourceResponse.class);
-            mulberrySourceResponse.setError(false);
-        }else{
             mulberrySourceResponse.setError(true);
             mulberrySourceResponse.setError_description("MulberrySource not found");
+        }else{
+            mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySource, MulberrySourceResponse.class);
+            mulberrySourceResponse.setError(false);
         }
         log.info("Entity is ",mulberrySource);
         return mulberrySourceResponse;

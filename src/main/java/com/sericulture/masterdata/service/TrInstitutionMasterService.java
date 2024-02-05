@@ -39,14 +39,13 @@ public class TrInstitutionMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public TrInstitutionMasterResponse getTrInstitutionMasterDetails(String trInstitutionMasterName){
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
-        TrInstitutionMaster trInstitutionMaster = null;
+        TrInstitutionMaster trInstitutionMaster = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndActive(trInstitutionMasterName, true);
         if(trInstitutionMaster==null){
-            trInstitutionMaster = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndActive(trInstitutionMasterName, true);
+            trInstitutionMasterResponse.setError(true);
+            trInstitutionMasterResponse.setError_description("Training Institution not found");
+        }else{
             trInstitutionMasterResponse = mapper.trInstitutionMasterEntityToObject(trInstitutionMaster, TrInstitutionMasterResponse.class);
             trInstitutionMasterResponse.setError(false);
-        }else{
-            trInstitutionMasterResponse.setError(true);
-            trInstitutionMasterResponse.setError_description("Tr InstitutionMaster not found");
         }
         log.info("Entity is ",trInstitutionMaster);
         return trInstitutionMasterResponse;

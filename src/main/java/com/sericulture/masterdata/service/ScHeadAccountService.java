@@ -33,22 +33,6 @@ public class ScHeadAccountService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScHeadAccountResponse getScHeadAccountDetails(String scHeadAccountName){
-        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
-        ScHeadAccount scHeadAccount = null;
-        if(scHeadAccount==null){
-            scHeadAccount = scHeadAccountRepository.findByScHeadAccountNameAndActive(scHeadAccountName,true);
-            scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccount, ScHeadAccountResponse.class);
-            scHeadAccountResponse.setError(false);
-        }else{
-            scHeadAccountResponse.setError(true);
-            scHeadAccountResponse.setError_description("ScHeadAccount not found");
-        }
-        log.info("Entity is ",scHeadAccount);
-        return scHeadAccountResponse;
-    }
-
     @Transactional
     public ScHeadAccountResponse insertScHeadAccountDetails(ScHeadAccountRequest scHeadAccountRequest){
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();

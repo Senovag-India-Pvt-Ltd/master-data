@@ -33,21 +33,6 @@ public class ScComponentService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScComponentResponse getScComponentDetails(String scComponentName){
-        ScComponentResponse scComponentResponse = new ScComponentResponse();
-        ScComponent scComponent = null;
-        if(scComponent==null){
-            scComponent = scComponentRepository.findByScComponentNameAndActive(scComponentName,true);
-            scComponentResponse = mapper.scComponentEntityToObject(scComponent, ScComponentResponse.class);
-            scComponentResponse.setError(false);
-        }else{
-            scComponentResponse.setError(true);
-            scComponentResponse.setError_description("ScComponent not found");
-        }
-        log.info("Entity is ",scComponent);
-        return scComponentResponse;
-    }
 
     @Transactional
     public ScComponentResponse insertScComponentDetails(ScComponentRequest scComponentRequest){

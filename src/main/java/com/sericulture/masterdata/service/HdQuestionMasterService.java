@@ -45,14 +45,13 @@ public class HdQuestionMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdQuestionMasterResponse getHdQuestionMasterDetails(String hdQuestionName){
         HdQuestionMasterResponse hdQuestionMasterResponse = new HdQuestionMasterResponse();
-        HdQuestionMaster hdQuestionMaster = null;
+        HdQuestionMaster hdQuestionMaster = hdQuestionMasterRepository.findByHdQuestionNameAndActive(hdQuestionName, true);
         if(hdQuestionMaster==null){
-            hdQuestionMaster = hdQuestionMasterRepository.findByHdQuestionNameAndActive(hdQuestionName, true);
+            hdQuestionMasterResponse.setError(true);
+            hdQuestionMasterResponse.setError_description("Question not found");
+        }else{
             hdQuestionMasterResponse = mapper.hdQuestionMasterEntityToObject(hdQuestionMaster, HdQuestionMasterResponse.class);
             hdQuestionMasterResponse.setError(false);
-        }else{
-            hdQuestionMasterResponse.setError(true);
-            hdQuestionMasterResponse.setError_description("Hd QuestionMaster not found");
         }
         log.info("Entity is ",hdQuestionMaster);
         return hdQuestionMasterResponse;

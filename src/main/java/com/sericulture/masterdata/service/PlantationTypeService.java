@@ -38,14 +38,13 @@ public class PlantationTypeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public PlantationTypeResponse getPlantationTypeDetails(String plantationTypeName){
         PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
-        PlantationType plantationType = null;
+        PlantationType plantationType = plantationTypeRepository.findByPlantationTypeNameAndActive(plantationTypeName,true);
         if(plantationType==null){
-            plantationType = plantationTypeRepository.findByPlantationTypeNameAndActive(plantationTypeName,true);
+            plantationTypeResponse.setError(true);
+            plantationTypeResponse.setError_description("Plantation Type not found");
+        }else{
             plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationType, PlantationTypeResponse.class);
             plantationTypeResponse.setError(false);
-        }else{
-            plantationTypeResponse.setError(true);
-            plantationTypeResponse.setError_description("PlantationType not found");
         }
         log.info("Entity is ",plantationType);
         return plantationTypeResponse;

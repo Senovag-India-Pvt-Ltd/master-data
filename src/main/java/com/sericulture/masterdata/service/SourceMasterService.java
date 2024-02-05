@@ -36,14 +36,13 @@ public class SourceMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SourceMasterResponse getSourceMasterDetails(String sourceMasterName){
         SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
-        SourceMaster sourceMaster = null;
+        SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterNameAndActive(sourceMasterName,true);
         if(sourceMaster==null){
-            sourceMaster = sourceMasterRepository.findBySourceMasterNameAndActive(sourceMasterName,true);
-            sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMaster, SourceMasterResponse.class);
-            sourceMasterResponse.setError(false);
-        }else{
             sourceMasterResponse.setError(true);
             sourceMasterResponse.setError_description("Source not found");
+        }else{
+            sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMaster, SourceMasterResponse.class);
+            sourceMasterResponse.setError(false);
         }
         log.info("Entity is ",sourceMaster);
         return sourceMasterResponse;

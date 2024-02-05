@@ -39,14 +39,13 @@ public class SilkWormVarietyService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SilkWormVarietyResponse getSilkWormVarietyDetails(String silkWormVarietyName){
         SilkWormVarietyResponse silkWormVarietyResponse = new SilkWormVarietyResponse();
-        SilkWormVariety silkWormVariety = null;
+        SilkWormVariety silkWormVariety = silkWormVarietyRepository.findBySilkWormVarietyNameAndActive(silkWormVarietyName,true);
         if(silkWormVariety==null){
-            silkWormVariety = silkWormVarietyRepository.findBySilkWormVarietyNameAndActive(silkWormVarietyName,true);
+            silkWormVarietyResponse.setError(true);
+            silkWormVarietyResponse.setError_description("Silk Worm Variety not found");
+        }else{
             silkWormVarietyResponse = mapper.silkWormVarietyEntityToObject(silkWormVariety, SilkWormVarietyResponse.class);
             silkWormVarietyResponse.setError(false);
-        }else{
-            silkWormVarietyResponse.setError(true);
-            silkWormVarietyResponse.setError_description("SilkWormVariety not found");
         }
         log.info("Entity is ",silkWormVariety);
         return silkWormVarietyResponse;

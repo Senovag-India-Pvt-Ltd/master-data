@@ -39,14 +39,13 @@ public class ReasonLotRejectMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ReasonLotRejectMasterResponse getReasonLotRejectMasterDetails(String reasonLotRejectMasterName){
         ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
-        ReasonLotRejectMaster reasonLotRejectMaster = null;
+        ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectNameAndActive(reasonLotRejectMasterName,true);
         if(reasonLotRejectMaster==null){
-            reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectNameAndActive(reasonLotRejectMasterName,true);
+            reasonLotRejectMasterResponse.setError(true);
+            reasonLotRejectMasterResponse.setError_description("Reason for lot rejection is not found");
+        }else{
             reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster, ReasonLotRejectMasterResponse.class);
             reasonLotRejectMasterResponse.setError(false);
-        }else{
-            reasonLotRejectMasterResponse.setError(true);
-            reasonLotRejectMasterResponse.setError_description("Village not found");
         }
         log.info("Entity is ",reasonLotRejectMaster);
         return reasonLotRejectMasterResponse;

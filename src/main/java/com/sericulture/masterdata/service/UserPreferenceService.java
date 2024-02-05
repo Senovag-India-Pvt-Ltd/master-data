@@ -42,22 +42,6 @@ public class UserPreferenceService {
     @Autowired
     CustomValidator validator;
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public UserPreferenceResponse getUserPreferenceDetails(String stateName){
-//        StateResponse stateResponse = new StateResponse();
-//        State state = null;
-//        if(state==null){
-//            state = stateRepository.findByStateNameAndActive(stateName,true);
-//            stateResponse = mapper.stateEntityToObject(state,StateResponse.class);
-//            stateResponse.setError(false);
-//        }else{
-//            stateResponse.setError(true);
-//            stateResponse.setError_description("State not found");
-//        }
-//        log.info("Entity is ",state);
-//        return stateResponse;
-//    }
-
 
     @Transactional
     public UserPreferenceResponse insertUserPreferenceDetails(UserPreferenceRequest userPreferenceRequest){

@@ -38,14 +38,13 @@ public class TrProgramMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public TrProgramMasterResponse getTrProgramMasterDetails(String trProgramMasterName){
         TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
-        TrProgramMaster trProgramMaster= null;
+        TrProgramMaster trProgramMaster= trProgramMasterRepository.findByTrProgramMasterNameAndActive(trProgramMasterName,true);
         if(trProgramMaster==null){
-            trProgramMaster= trProgramMasterRepository.findByTrProgramMasterNameAndActive(trProgramMasterName,true);
-            trProgramMasterResponse = mapper.trProgramMasterEntityToObject(trProgramMaster,TrProgramMasterResponse.class);
-            trProgramMasterResponse.setError(false);
-        }else{
             trProgramMasterResponse.setError(true);
             trProgramMasterResponse.setError_description("Program not found");
+        }else{
+            trProgramMasterResponse = mapper.trProgramMasterEntityToObject(trProgramMaster,TrProgramMasterResponse.class);
+            trProgramMasterResponse.setError(false);
         }
         log.info("Entity is ",trProgramMaster);
         return trProgramMasterResponse;

@@ -38,14 +38,13 @@ public class ReasonBidRejectMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ReasonBidRejectMasterResponse getReasonBidRejectMasterDetails(String reasonBidRejectMasterName){
         ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
-       ReasonBidRejectMaster reasonBidRejectMaster = null;
+       ReasonBidRejectMaster reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectNameAndActive(reasonBidRejectMasterName,true);
         if(reasonBidRejectMaster==null){
-            reasonBidRejectMaster = reasonBidRejectMasterRepository.findByReasonBidRejectNameAndActive(reasonBidRejectMasterName,true);
+            reasonBidRejectMasterResponse.setError(true);
+            reasonBidRejectMasterResponse.setError_description("Reason for Bid Rejection is not found");
+        }else{
             reasonBidRejectMasterResponse = mapper.reasonBidRejectEntityToObject(reasonBidRejectMaster, ReasonBidRejectMasterResponse.class);
             reasonBidRejectMasterResponse.setError(false);
-        }else{
-            reasonBidRejectMasterResponse.setError(true);
-            reasonBidRejectMasterResponse.setError_description("ReasonBidReject not found");
         }
         log.info("Entity is ",reasonBidRejectMaster);
         return reasonBidRejectMasterResponse;

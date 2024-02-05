@@ -41,21 +41,6 @@ public class TrCourseMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrCourseMasterResponse getTrCourseMasterDetails(String trCourseMasterName){
-        TrCourseMasterResponse trCourseMasterResponse = new TrCourseMasterResponse();
-        TrCourseMaster trCourseMaster= null;
-        if(trCourseMaster==null){
-            trCourseMaster= trCourseMasterRepository.findByTrCourseMasterNameAndActive(trCourseMasterName,true);
-            trCourseMasterResponse = mapper.trCourseMasterEntityToObject(trCourseMaster,TrCourseMasterResponse.class);
-            trCourseMasterResponse.setError(false);
-        }else{
-            trCourseMasterResponse.setError(true);
-            trCourseMasterResponse.setError_description("Tr Course not found");
-        }
-        log.info("Entity is ",trCourseMaster);
-        return trCourseMasterResponse;
-    }
 
     @Transactional
     public TrCourseMasterResponse insertTrCourseMasterDetails(TrCourseMasterRequest trCourseMasterRequest){

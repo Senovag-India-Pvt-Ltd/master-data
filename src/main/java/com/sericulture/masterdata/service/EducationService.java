@@ -37,15 +37,6 @@ public class EducationService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public EducationResponse getEducationDetails(String code) {
-        EducationResponse educationResponse = new EducationResponse();
-        Education education = educationRepository.findByCode(code);
-        log.info("The entity is:", education);
-        return  educationResponse;
-//        return mapper.educationEntityToObject(education, EducationResponse.class);
-    }
-
     @Transactional
     public EducationResponse insertEducationDetails(EducationRequest request) {
         EducationResponse educationResponse = new EducationResponse();

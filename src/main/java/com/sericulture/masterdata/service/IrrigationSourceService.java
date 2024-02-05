@@ -38,14 +38,13 @@ public class IrrigationSourceService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public IrrigationSourceResponse getIrrigationSourceDetails(String irrigationSourceName){
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
-        IrrigationSource irrigationSource = null;
+        IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceNameAndActive(irrigationSourceName,true);
         if(irrigationSource==null){
-            irrigationSource = irrigationSourceRepository.findByIrrigationSourceNameAndActive(irrigationSourceName,true);
+            irrigationSourceResponse.setError(true);
+            irrigationSourceResponse.setError_description("Irrigation Source not found");
+        }else{
             irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSource, IrrigationSourceResponse.class);
             irrigationSourceResponse.setError(false);
-        }else{
-            irrigationSourceResponse.setError(true);
-            irrigationSourceResponse.setError_description("IrrigationSource not found");
         }
         log.info("Entity is ",irrigationSource);
         return irrigationSourceResponse;

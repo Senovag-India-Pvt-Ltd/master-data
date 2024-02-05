@@ -46,14 +46,13 @@ public class HdFeatureMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdFeatureMasterResponse getHdFeatureMasterDetails(String hdFeatureName){
         HdFeatureMasterResponse hdFeatureMasterResponse = new HdFeatureMasterResponse();
-        HdFeatureMaster hdFeatureMaster = null;
+        HdFeatureMaster hdFeatureMaster = hdFeatureMasterRepository.findByHdFeatureNameAndActive(hdFeatureName,true);
         if(hdFeatureMaster==null){
-            hdFeatureMaster = hdFeatureMasterRepository.findByHdFeatureNameAndActive(hdFeatureName,true);
-            hdFeatureMasterResponse = mapper.hdFeatureMasterEntityToObject(hdFeatureMaster, HdFeatureMasterResponse.class);
-            hdFeatureMasterResponse.setError(false);
-        }else{
             hdFeatureMasterResponse.setError(true);
             hdFeatureMasterResponse.setError_description("Feature not found");
+        }else{
+            hdFeatureMasterResponse = mapper.hdFeatureMasterEntityToObject(hdFeatureMaster, HdFeatureMasterResponse.class);
+            hdFeatureMasterResponse.setError(false);
         }
         log.info("Entity is ",hdFeatureMaster);
         return hdFeatureMasterResponse;

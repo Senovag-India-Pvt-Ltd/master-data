@@ -47,14 +47,13 @@ public class VillageService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public VillageResponse getVillageDetails(String villageName){
         VillageResponse villageResponse = new VillageResponse();
-        Village village = null;
+        Village village =  villageRepository.findByVillageNameAndActive(villageName,true);
         if(village==null){
-            village = villageRepository.findByVillageNameAndActive(villageName,true);
-            villageResponse = mapper.villageEntityToObject(village,VillageResponse.class);
-            villageResponse.setError(false);
-        }else{
             villageResponse.setError(true);
             villageResponse.setError_description("Village not found");
+        }else{
+            villageResponse = mapper.villageEntityToObject(village,VillageResponse.class);
+            villageResponse.setError(false);
         }
         log.info("Entity is ",village);
         return villageResponse;

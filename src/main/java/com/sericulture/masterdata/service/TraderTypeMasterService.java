@@ -33,22 +33,6 @@ public class TraderTypeMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TraderTypeMasterResponse getTraderTypeMasterDetails(String traderTypeMasterName){
-        TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
-        TraderTypeMaster traderTypeMaster = null;
-        if(traderTypeMaster==null){
-            traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterNameAndActive(traderTypeMasterName,true);
-            traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMaster,TraderTypeMasterResponse.class);
-            traderTypeMasterResponse.setError(false);
-        }else{
-            traderTypeMasterResponse.setError(true);
-            traderTypeMasterResponse.setError_description("Trader Type not found");
-        }
-        log.info("Entity is ",traderTypeMaster);
-        return traderTypeMasterResponse;
-    }
-
     @Transactional
     public TraderTypeMasterResponse insertTraderTypeMasterDetails(TraderTypeMasterRequest traderTypeMasterRequest){
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();

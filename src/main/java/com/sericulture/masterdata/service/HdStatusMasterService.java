@@ -40,14 +40,13 @@ public class HdStatusMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdStatusMasterResponse getHdStatusMasterDetails(String hdStatusName){
         HdStatusMasterResponse hdStatusMasterResponse = new HdStatusMasterResponse();
-        HdStatusMaster hdStatusMaster = null;
+        HdStatusMaster hdStatusMaster = hdStatusMasterRepository.findByHdStatusNameAndActive(hdStatusName, true);
         if(hdStatusMaster==null){
-            hdStatusMaster = hdStatusMasterRepository.findByHdStatusNameAndActive(hdStatusName, true);
+            hdStatusMasterResponse.setError(true);
+            hdStatusMasterResponse.setError_description("Status not found");
+        }else{
             hdStatusMasterResponse = mapper.hdStatusMasterEntityToObject(hdStatusMaster, HdStatusMasterResponse.class);
             hdStatusMasterResponse.setError(false);
-        }else{
-            hdStatusMasterResponse.setError(true);
-            hdStatusMasterResponse.setError_description("Hd StatusMaster not found");
         }
         log.info("Entity is ",hdStatusMaster);
         return hdStatusMasterResponse;

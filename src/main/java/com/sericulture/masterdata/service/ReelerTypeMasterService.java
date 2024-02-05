@@ -33,14 +33,13 @@ public class ReelerTypeMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ReelerTypeMasterResponse getReelerTypeMasterDetails(String reelerTypeMasterName){
         ReelerTypeMasterResponse reelerTypeMasterResponse = new ReelerTypeMasterResponse();
-        ReelerTypeMaster reelerTypeMaster= null;
+        ReelerTypeMaster reelerTypeMaster= reelerTypeMasterRepository. findByReelerTypeMasterNameAndActive(reelerTypeMasterName, true);
         if(reelerTypeMaster==null){
-            reelerTypeMaster= reelerTypeMasterRepository. findByReelerTypeMasterNameAndActive(reelerTypeMasterName, true);
+            reelerTypeMasterResponse.setError(true);
+            reelerTypeMasterResponse.setError_description("Reeler Type  not found");
+        }else{
             reelerTypeMasterResponse = mapper.reelerTypeMasterEntityToObject(reelerTypeMaster, ReelerTypeMasterResponse.class);
             reelerTypeMasterResponse.setError(false);
-        }else{
-            reelerTypeMasterResponse.setError(true);
-            reelerTypeMasterResponse.setError_description("Reeler Type Master not found");
         }
         log.info("Entity is ",reelerTypeMaster);
         return reelerTypeMasterResponse;

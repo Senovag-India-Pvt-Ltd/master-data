@@ -40,16 +40,6 @@ public class RpRolePermissionService {
     CustomValidator validator;
 
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public RpPageRootResponse getRpPageRootDetails(String rpPageRootName){
-//        RpPageRoot rpPageRoot = null;
-//        if(rpPageRoot==null){
-//            rpPageRoot = rpPageRootRepository.findByRpPageRootNameAndActive(rpPageRootName,true);
-//        }
-//        log.info("Entity is ",rpPageRoot);
-//        return mapper.rpPageRootEntityToObject(rpPageRoot,RpPageRootResponse.class);
-//    }
-
     @Transactional
     public RpRolePermissionResponse insertRpRolePermissionResponseDetails(RpRolePermissionRequest rpRolePermissionRequest) {
         RpRolePermissionResponse rpRolePermissionResponse = new RpRolePermissionResponse();

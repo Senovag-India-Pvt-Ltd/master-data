@@ -33,21 +33,6 @@ public class RpPageRootService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public RpPageRootResponse getRpPageRootDetails(String rpPageRootName){
-        RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
-        RpPageRoot rpPageRoot = null;
-        if(rpPageRoot==null){
-            rpPageRoot = rpPageRootRepository.findByRpPageRootNameAndActive(rpPageRootName,true);
-            rpPageRootResponse = mapper.rpPageRootEntityToObject(rpPageRoot, RpPageRootResponse.class);
-            rpPageRootResponse.setError(false);
-        }else{
-            rpPageRootResponse.setError(true);
-            rpPageRootResponse.setError_description("RpPageRoot not found");
-        }
-        log.info("Entity is ",rpPageRoot);
-        return rpPageRootResponse;
-    }
 
     @Transactional
     public RpPageRootResponse insertRpPageRootDetails(RpPageRootRequest rpPageRootRequest){

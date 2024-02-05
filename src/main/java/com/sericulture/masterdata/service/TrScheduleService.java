@@ -45,22 +45,6 @@ public class TrScheduleService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrScheduleResponse getTrScheduleDetails(String trName){
-        TrScheduleResponse trScheduleResponse = new TrScheduleResponse();
-        TrSchedule trSchedule = null;
-        if(trSchedule==null){
-            trSchedule = trScheduleRepository.findByTrNameAndActive(trName, true);
-            trScheduleResponse = mapper.trScheduleEntityToObject(trSchedule, TrScheduleResponse.class);
-            trScheduleResponse.setError(false);
-        }else{
-            trScheduleResponse.setError(true);
-            trScheduleResponse.setError_description("Tr Schedule not found");
-        }
-        log.info("Entity is ",trSchedule);
-        return trScheduleResponse;
-
-    }
 
     @Transactional
     public TrScheduleResponse insertTrScheduleDetails(TrScheduleRequest trScheduleRequest){

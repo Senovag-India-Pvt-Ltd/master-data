@@ -38,14 +38,13 @@ public class SoilTypeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public SoilTypeResponse getSoilTypeDetails(String soilTypeName){
         SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
-        SoilType soilType = null;
+        SoilType soilType = soilTypeRepository.findBySoilTypeNameAndActive(soilTypeName,true);
         if(soilType==null){
-            soilType = soilTypeRepository.findBySoilTypeNameAndActive(soilTypeName,true);
+            soilTypeResponse.setError(true);
+            soilTypeResponse.setError_description("Soil Type not found");
+        }else{
             soilTypeResponse = mapper.soilTypeEntityToObject(soilType, SoilTypeResponse.class);
             soilTypeResponse.setError(false);
-        }else{
-            soilTypeResponse.setError(true);
-            soilTypeResponse.setError_description("SoilType not found");
         }
         log.info("Entity is ",soilType);
         return soilTypeResponse;
