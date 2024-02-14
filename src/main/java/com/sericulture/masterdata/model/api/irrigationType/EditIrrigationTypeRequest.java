@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.irrigationType;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -14,9 +15,11 @@ public class EditIrrigationTypeRequest extends RequestBody {
     @Schema(name = "irrigationTypeId", example = "1")
     Integer irrigationTypeId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Irrigation type name must contain only letters and numbers")
     @Schema(name = "irrigationTypeName", example = "Flood", required = true)
     String irrigationTypeName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Irrigation type name in kannada must contain only letters and numbers")
     @Schema(name = "irrigationTypeNameInKannada",  example = "ಭಾಷೆ")
     String irrigationTypeNameInKannada;
 }

@@ -10,12 +10,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,6 +28,19 @@ public class UserMasterController {
 
     @Autowired
     UserMasterService userMasterService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert UserMaster Details", description = "Creates UserMaster Details in to DB")
     @ApiResponses(value = {
@@ -37,7 +54,7 @@ public class UserMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addUserMasterDetails(@RequestBody UserMasterRequest userMasterRequest){
+    public ResponseEntity<?> addUserMasterDetails(@Valid @RequestBody UserMasterRequest userMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
         rw.setContent(userMasterService.insertUserMasterDetails(userMasterRequest));
@@ -122,7 +139,7 @@ public class UserMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editUserMasterDetails(
-            @RequestBody final EditUserMasterRequest editUserMasterRequest
+            @Valid @RequestBody final EditUserMasterRequest editUserMasterRequest
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
         rw.setContent(userMasterService.updateUserMasterDetails(editUserMasterRequest));
@@ -224,7 +241,7 @@ public class UserMasterController {
     })
     @PostMapping("/get-by-user-name-and-password")
     public ResponseEntity<?> getByUserNameAndPassword(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
@@ -244,7 +261,7 @@ public class UserMasterController {
     })
     @PostMapping("/generate-otp-by-user-name")
     public ResponseEntity<?> generateOtpByUserName(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
@@ -264,7 +281,7 @@ public class UserMasterController {
     })
     @PostMapping("/generate-otp-by-user-name-and-password")
     public ResponseEntity<?> generateOtpByUserNameAndPassword(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
@@ -284,7 +301,7 @@ public class UserMasterController {
     })
     @PostMapping("/verify-otp-by-user-name")
     public ResponseEntity<?> verifyOtp(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
@@ -304,7 +321,7 @@ public class UserMasterController {
     })
     @PostMapping("/login-by-user-name-and-password")
     public ResponseEntity<?> loginByUserNameAndPassword(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
 
@@ -324,7 +341,7 @@ public class UserMasterController {
     })
     @PostMapping("/save-reeler-user")
     public ResponseEntity<?> saveReelerUser(
-            @RequestBody final SaveReelerUserRequest saveReelerUserRequest
+            @Valid @RequestBody final SaveReelerUserRequest saveReelerUserRequest
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
         rw.setContent(userMasterService.saveReelerUser(saveReelerUserRequest));
@@ -342,7 +359,7 @@ public class UserMasterController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @RequestBody final SearchWithSortRequest searchWithSortRequest
+            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(userMasterService.searchByColumnAndSort(searchWithSortRequest));
@@ -384,7 +401,7 @@ public class UserMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     public ResponseEntity<?> getReelerUsers(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(userMasterService.getAllReelerUsers(true, userMasterDTO.getUserTypeId()));
@@ -403,7 +420,7 @@ public class UserMasterController {
     })
     @PostMapping("/get-configure-user-details-for-reeler")
     public ResponseEntity<?> getConfigureUserDetailsForReeler(
-            @RequestBody final UserMasterDTO userMasterDTO
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
         rw.setContent(userMasterService.getConfigureUserDetailsForReeler( true, userMasterDTO.getUserTypeId()));

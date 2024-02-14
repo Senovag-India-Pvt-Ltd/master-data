@@ -10,12 +10,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,6 +28,19 @@ public class IrrigationTypeController {
 
     @Autowired
     IrrigationTypeService irrigationTypeService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert IrrigationType Details", description = "Creates IrrigationType Details in to DB")
     @ApiResponses(value = {
@@ -37,7 +54,7 @@ public class IrrigationTypeController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addIrrigationTypeDetails(@RequestBody IrrigationTypeRequest irrigationTypeRequest){
+    public ResponseEntity<?> addIrrigationTypeDetails(@Valid @RequestBody IrrigationTypeRequest irrigationTypeRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(IrrigationTypeResponse.class);
 
         rw.setContent(irrigationTypeService.insertIrrigationTypeDetails(irrigationTypeRequest));
@@ -122,7 +139,7 @@ public class IrrigationTypeController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editIrrigationTypeDetails(
-            @RequestBody final EditIrrigationTypeRequest editIrrigationTypeRequest
+           @Valid @RequestBody final EditIrrigationTypeRequest editIrrigationTypeRequest
     ) {
         ResponseWrapper<IrrigationTypeResponse> rw = ResponseWrapper.createWrapper(IrrigationTypeResponse.class);
         rw.setContent(irrigationTypeService.updateIrrigationTypeDetails(editIrrigationTypeRequest));

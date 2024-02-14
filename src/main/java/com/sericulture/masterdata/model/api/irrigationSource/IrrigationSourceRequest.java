@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.irrigationSource;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -10,9 +11,11 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class IrrigationSourceRequest extends RequestBody {
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Irrigation source name must contain only letters and numbers")
     @Schema(name = "irrigationSourceName", example = "Rainfall", required = true)
     String irrigationSourceName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Irrigation source name in kannada must contain only letters and numbers")
     @Schema(name = "irrigationSourceNameInKannada",  example = "ಭಾಷೆ")
     String irrigationSourceNameInKannada;
 }

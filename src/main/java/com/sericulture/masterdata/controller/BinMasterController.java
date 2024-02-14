@@ -17,12 +17,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -30,6 +34,19 @@ import java.util.Map;
 public class BinMasterController {
     @Autowired
     BinMasterService binMasterService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert Bin  Details", description = "Creates Bin Details in to DB")
     @ApiResponses(value = {
@@ -43,7 +60,7 @@ public class BinMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addBinMasterDetails(@RequestBody BinMasterRequest binMasterRequest){
+    public ResponseEntity<?> addBinMasterDetails(@Valid @RequestBody BinMasterRequest binMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
 
         rw.setContent(binMasterService.insertBinMasterDetails(binMasterRequest));
@@ -128,7 +145,7 @@ public class BinMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editBinMasterDetails(
-            @RequestBody final EditBinMasterRequest editBinMasterRequest
+            @Valid @RequestBody final EditBinMasterRequest editBinMasterRequest
     ) {
         ResponseWrapper<BinMasterResponse> rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
         rw.setContent(binMasterService.updateBinMasterDetails(editBinMasterRequest));
@@ -147,7 +164,7 @@ public class BinMasterController {
     })
     @PostMapping("/update-status")
     public ResponseEntity<?> updateBinStatus(
-            @RequestBody final UpdateBinMasterStatusRequest editBinMasterRequest
+            @Valid @RequestBody final UpdateBinMasterStatusRequest editBinMasterRequest
     ) {
         ResponseWrapper<BinMasterResponse> rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
 
@@ -261,7 +278,7 @@ public class BinMasterController {
     })
     @PostMapping("/get-by-godownId-and-marketId")
     public ResponseEntity<?> getByGodownIdAndMarketId(
-            @RequestBody final BinMasterRequest binMasterRequest
+           @Valid @RequestBody final BinMasterRequest binMasterRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(BinMasterResponse.class);
 
