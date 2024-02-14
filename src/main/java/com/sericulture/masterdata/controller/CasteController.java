@@ -143,7 +143,7 @@ public class CasteController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editEducationDetails(
-            @RequestBody final EditCasteRequest editCasteRequest
+            @Valid @RequestBody final EditCasteRequest editCasteRequest
     ) {
         ResponseWrapper<CasteResponse> rw = ResponseWrapper.createWrapper(CasteResponse.class);
         rw.setContent(casteService.updateCasteDetails(editCasteRequest));
@@ -182,7 +182,7 @@ public class CasteController {
     })
     @PostMapping("/get-by-title")
     public ResponseEntity<?> getByTitle(
-            @RequestBody final CasteDTO casteDTO
+            @Valid @RequestBody final CasteDTO casteDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(CasteResponse.class);
 
