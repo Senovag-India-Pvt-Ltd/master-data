@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.binMaster;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -23,9 +24,11 @@ public class BinMasterRequest extends RequestBody {
     @Schema(name = "binNumber", example = "12S", required = true)
     Integer binNumber;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Type must contain only letters and numbers")
     @Schema(name = "type", example = "1", required = true)
     String type;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Status must contain only letters and numbers")
     @Schema(name = "status", example = "1", required = true)
     String status;
 }

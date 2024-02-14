@@ -7,13 +7,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/govt-sms-service")
@@ -21,6 +24,19 @@ public class GovtSMSServiceController {
 
     @Autowired
     GovtSMSService govtSMSService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Send single SMS", description = "Send single sms")
     @ApiResponses(value = {
@@ -34,7 +50,7 @@ public class GovtSMSServiceController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/send-single-sms")
-    public ResponseEntity<?> sendSingleSMS(@RequestBody GovtSmsServiceDTO body) {
+    public ResponseEntity<?> sendSingleSMS(@Valid @RequestBody GovtSmsServiceDTO body) {
         try{
             String result =  govtSMSService.sendSingleSMS(body.getUsername(), body.getPassword(), body.getMessage(), body.getSenderId(), body.getMobileNumber(),body.getSecureKey(), body.getTemplateid());
             return new ResponseEntity<>("Sent single sms successfully" , HttpStatus.OK);
@@ -56,7 +72,7 @@ public class GovtSMSServiceController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/send-bulk-sms")
-    public ResponseEntity<?> sendBulkSMS(@RequestBody GovtSmsServiceDTO body) {
+    public ResponseEntity<?> sendBulkSMS(@Valid @RequestBody GovtSmsServiceDTO body) {
         try{
             String result =  govtSMSService.sendBulkSMS(body.getUsername(), body.getPassword(), body.getMessage(), body.getSenderId(), body.getMobileNumber(),body.getSecureKey(), body.getTemplateid());
             return new ResponseEntity<>("Sent bulk sms successfully" , HttpStatus.OK);
@@ -78,7 +94,7 @@ public class GovtSMSServiceController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/send-unicode-sms")
-    public ResponseEntity<?> sendUnicodeSMS(@RequestBody GovtSmsServiceDTO body) {
+    public ResponseEntity<?> sendUnicodeSMS(@Valid @RequestBody GovtSmsServiceDTO body) {
         try{
             String result =  govtSMSService.sendUnicodeSMS(body.getUsername(), body.getPassword(), body.getMessage(), body.getSenderId(), body.getMobileNumber(),body.getSecureKey(), body.getTemplateid());
             return new ResponseEntity<>("Sent unicode sms successfully" , HttpStatus.OK);
@@ -100,7 +116,7 @@ public class GovtSMSServiceController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/send-otp-sms")
-    public ResponseEntity<?> sendOtpSMS(@RequestBody GovtSmsServiceDTO body) {
+    public ResponseEntity<?> sendOtpSMS(@Valid @RequestBody GovtSmsServiceDTO body) {
         try{
             String result =  govtSMSService.sendOtpSMS(body.getUsername(), body.getPassword(), body.getMessage(), body.getSenderId(), body.getMobileNumber(),body.getSecureKey(), body.getTemplateid(), body.getUserId());
             return new ResponseEntity<>("Sent otp successfully" , HttpStatus.OK);
@@ -122,7 +138,7 @@ public class GovtSMSServiceController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/send-unicode-otp-sms")
-    public ResponseEntity<?> sendUnicodeOtpSMS(@RequestBody GovtSmsServiceDTO body) {
+    public ResponseEntity<?> sendUnicodeOtpSMS(@Valid @RequestBody GovtSmsServiceDTO body) {
         try{
             String result =  govtSMSService.sendSingleSMS(body.getUsername(), body.getPassword(), body.getMessage(), body.getSenderId(), body.getMobileNumber(),body.getSecureKey(), body.getTemplateid());
             return new ResponseEntity<>("Sent unicode otp successfully" , HttpStatus.OK);

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.district;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -13,9 +14,11 @@ public class DistrictRequest extends RequestBody {
     @Schema(name = "stateId", example = "1", required = true)
     Long stateId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
     @Schema(name = "districtName", example = "Shimoga", required = true)
     String districtName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "District name in kannada must contain only letters and numbers")
     @Schema(name = "districtNameInKannada",  example = "ಭಾಷೆ")
     String districtNameInKannada;
 }

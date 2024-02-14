@@ -140,7 +140,7 @@ public class VendorMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editVendorMasterDetails(
-            @RequestBody final EditVendorMasterRequest editVendorMasterRequest
+            @Valid @RequestBody final EditVendorMasterRequest editVendorMasterRequest
     ) {
         ResponseWrapper<VendorMasterResponse> rw = ResponseWrapper.createWrapper(VendorMasterResponse.class);
         rw.setContent(vendorMasterService.updateVendorMasterDetails(editVendorMasterRequest));

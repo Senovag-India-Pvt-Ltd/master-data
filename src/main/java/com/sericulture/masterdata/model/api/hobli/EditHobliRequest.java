@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.hobli;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -22,9 +23,11 @@ public class EditHobliRequest extends RequestBody {
     @Schema(name = "hobliId", example = "1")
     Integer hobliId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Hobli name must contain only letters and numbers")
     @Schema(name = "hobliName", example = "Kasaba", required = true)
     String hobliName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Hobli name in kannada must contain only letters and numbers")
     @Schema(name = "hobliNameInKannada",  example = "ಭಾಷೆ")
     String hobliNameInKannada;
 }
