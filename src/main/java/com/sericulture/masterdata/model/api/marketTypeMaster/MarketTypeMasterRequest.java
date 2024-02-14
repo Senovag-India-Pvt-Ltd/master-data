@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.marketTypeMaster;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,9 +14,11 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 public class MarketTypeMasterRequest extends RequestBody {
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "MarketType must contain only letters and numbers")
     @Schema(name = "marketTypeMasterName", example = "Commercial Market", required = true)
     String marketTypeMasterName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "MarketType name in kannada must contain only letters and numbers")
     @Schema(name = "marketTypeNameInKannada",  example = "ಭಾಷೆ")
     String marketTypeNameInKannada;
 

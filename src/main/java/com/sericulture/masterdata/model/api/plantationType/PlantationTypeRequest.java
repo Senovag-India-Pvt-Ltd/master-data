@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.plantationType;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -10,9 +11,11 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class PlantationTypeRequest extends RequestBody {
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "PlantationType must contain only letters and numbers")
     @Schema(name = "plantationTypeName", example = "Mulberry Silk", required = true)
     String plantationTypeName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "PlantationType in kannada must contain only letters and numbers")
     @Schema(name = "plantationTypeNameInKannada",  example = "ಭಾಷೆ")
     String plantationTypeNameInKannada;
 }
