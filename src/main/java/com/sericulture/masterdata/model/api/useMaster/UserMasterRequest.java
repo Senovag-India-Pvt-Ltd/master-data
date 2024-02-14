@@ -45,7 +45,7 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "marketMasterId", example = "1")
     Long marketMasterId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "User name must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9._@]*$", message = "User name must contain only letters and numbers")
     @Schema(name = "username", example = "test")
     String username;
 
