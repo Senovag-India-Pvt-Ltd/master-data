@@ -22,7 +22,7 @@ public class TrScheduleDTO {
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr name must contain only letters and numbers")
 
     private String trName;
-    @Pattern(regexp = "^[a-zA-Z0-9/_\\s]*$", message = "Tr upload path must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9/_.\\s]*$", message = "Tr upload path must contain only letters and numbers")
 
     private String trUploadPath;
 

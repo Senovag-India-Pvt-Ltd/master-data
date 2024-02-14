@@ -22,7 +22,7 @@ public class EditHdQuestionMasterRequest  extends RequestBody {
     @Schema(name = "hdQuestionAnswerName", example = "Karnataka",required=true)
     String hdQuestionAnswerName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9_/\\s]*$", message = "HD Faq Upload path must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9_./\\s]*$", message = "HD Faq Upload path must contain only letters and numbers")
     @Schema(name = "hdFaqUploadPath", example = "Karnataka", required = true)
     String hdFaqUploadPath;
 

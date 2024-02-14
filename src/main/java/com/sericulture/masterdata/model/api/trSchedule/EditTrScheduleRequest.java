@@ -54,7 +54,7 @@ public class EditTrScheduleRequest extends RequestBody {
     @Schema(name = "trDateOfCompletion", example = "1")
     Date trDateOfCompletion;
 
-    @Pattern(regexp = "^[a-zA-Z0-9/_\\s]*$", message = "Tr upload path must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9/_.\\s]*$", message = "Tr upload path must contain only letters and numbers")
     @Schema(name = "trUploadPath", example = "Karnataka",required = true)
     String trUploadPath;
 
