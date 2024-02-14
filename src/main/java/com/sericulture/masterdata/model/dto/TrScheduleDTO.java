@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.model.dto;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.util.Date;
@@ -17,15 +18,33 @@ public class TrScheduleDTO {
     private Long trDuration;
     private Long trPeriod;
     private Long trNoOfParticipant;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr name must contain only letters and numbers")
+
     private String trName;
+    @Pattern(regexp = "^[a-zA-Z0-9/_\\s]*$", message = "Tr upload path must contain only letters and numbers")
+
     private String trUploadPath;
+
     private Date trStartDate;
     private Date trDateOfCompletion;
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Username must contain only letters and numbers")
+
     private String username;
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr institution master name must contain only letters and numbers")
+
     private String trInstitutionMasterName;
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr program master name must contain only letters and numbers")
+
     private String trProgramMasterName;
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr course master name must contain only letters and numbers")
+
     private String trCourseMasterName;
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr group master name must contain only letters and numbers")
+
     private  String trGroupMasterName;
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr mode master name must contain only letters and numbers")
+
     private String trModeMasterName;
 
 

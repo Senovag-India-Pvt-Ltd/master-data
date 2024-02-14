@@ -3,6 +3,7 @@ package com.sericulture.masterdata.model.api.trSchedule;
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ public class EditTrScheduleRequest extends RequestBody {
     @Schema(name = "trStakeholderType", example = "1")
     Long trStakeholderType;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr name must contain only letters and numbers")
     @Schema(name = "trName", example = "Karnataka", required = true)
     String trName;
 
@@ -52,6 +54,7 @@ public class EditTrScheduleRequest extends RequestBody {
     @Schema(name = "trDateOfCompletion", example = "1")
     Date trDateOfCompletion;
 
+    @Pattern(regexp = "^[a-zA-Z0-9/_\\s]*$", message = "Tr upload path must contain only letters and numbers")
     @Schema(name = "trUploadPath", example = "Karnataka",required = true)
     String trUploadPath;
 

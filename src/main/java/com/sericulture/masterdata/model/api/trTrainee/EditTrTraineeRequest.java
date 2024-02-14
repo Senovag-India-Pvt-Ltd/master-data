@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.trTrainee;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ public class EditTrTraineeRequest extends RequestBody {
     @Schema(name = "trTraineeId", example = "1")
     Long trTraineeId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr trainee name must contain only letters and numbers")
     @Schema(name = "trTraineeName", example = "Karnataka", required = true)
     String trTraineeName;
 
@@ -31,9 +33,11 @@ public class EditTrTraineeRequest extends RequestBody {
     @Schema(name = "gender", example = "1")
     Long gender;
 
+    @Pattern(regexp = "^[0-9+\\s]*$", message = "Mobile number must contain only numbers")
     @Schema(name = "mobileNumber", example = "Karnataka", required = true)
     String mobileNumber;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Place must contain only letters and numbers")
     @Schema(name = "place", example = "Karnataka", required = true)
     String place;
 
