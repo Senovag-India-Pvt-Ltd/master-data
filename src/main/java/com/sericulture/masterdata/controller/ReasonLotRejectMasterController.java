@@ -10,12 +10,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,6 +28,19 @@ public class ReasonLotRejectMasterController {
 
     @Autowired
     ReasonLotRejectMasterService reasonLotRejectMasterService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert ReasonLotReject Details", description = "Creates ReasonLotReject Details in to DB")
     @ApiResponses(value = {
@@ -37,7 +54,7 @@ public class ReasonLotRejectMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addReasonLotRejectMasterDetails(@RequestBody ReasonLotRejectMasterRequest reasonLotRejectMasterRequest){
+    public ResponseEntity<?> addReasonLotRejectMasterDetails(@Valid @RequestBody ReasonLotRejectMasterRequest reasonLotRejectMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(ReasonLotRejectMasterResponse.class);
 
         rw.setContent(reasonLotRejectMasterService.insertReasonLotRejectMasterDetails(reasonLotRejectMasterRequest));
@@ -122,7 +139,7 @@ public class ReasonLotRejectMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editReasonLotRejectMasterDetails(
-            @RequestBody final EditReasonLotRejectMasterRequest editReasonLotRejectMasterRequest
+            @Valid @RequestBody final EditReasonLotRejectMasterRequest editReasonLotRejectMasterRequest
     ) {
         ResponseWrapper<ReasonLotRejectMasterResponse> rw = ResponseWrapper.createWrapper(ReasonLotRejectMasterResponse.class);
         rw.setContent(reasonLotRejectMasterService.updateReasonLotRejectMasterDetails(editReasonLotRejectMasterRequest));
