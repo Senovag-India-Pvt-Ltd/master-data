@@ -52,7 +52,7 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "designationId", example = "1")
     Long designationId;
 
-    @Pattern(regexp = "^[0-9\\s]*$", message = "Phone number must contain only numbers")
+    @Pattern(regexp = "^[0-9+\\s]*$", message = "Phone number must contain only numbers")
     @Schema(name = "phoneNumber", example = "9988776655")
     String phoneNumber;
 
