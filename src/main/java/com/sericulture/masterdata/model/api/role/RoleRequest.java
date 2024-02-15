@@ -12,7 +12,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class RoleRequest extends RequestBody {
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "tRole must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Role must contain only letters and numbers")
     @Schema(name = "roleName", example = "Role 1", required = true)
     String roleName;
 }
