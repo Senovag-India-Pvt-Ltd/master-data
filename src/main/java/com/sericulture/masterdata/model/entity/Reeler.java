@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.model.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -209,4 +210,7 @@ public class Reeler extends BaseEntity implements Serializable {
 
     @Column(name = "reeler_type_master_id")
     private int reelerTypeMasterId;
+
+    @Column(name = "transfer_reeler_id")
+    private int transferReelerId;
 }
