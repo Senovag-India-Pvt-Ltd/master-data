@@ -60,6 +60,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.marketLatitude," +
             " marketMaster.marketLongitude," +
             " marketMaster.radius," +
+            " marketMaster.snorkelRequestPath," +
+            " marketMaster.snorkelResponsePath," +
+            " marketMaster.clientCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -110,6 +113,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.marketLatitude," +
             " marketMaster.marketLongitude," +
             " marketMaster.radius," +
+            " marketMaster.snorkelRequestPath," +
+            " marketMaster.snorkelResponsePath," +
+            " marketMaster.clientCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -159,6 +165,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.marketLatitude," +
             " marketMaster.marketLongitude," +
             " marketMaster.radius," +
+            " marketMaster.snorkelRequestPath," +
+            " marketMaster.snorkelResponsePath," +
+            " marketMaster.clientCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +

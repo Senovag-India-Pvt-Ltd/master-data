@@ -118,4 +118,13 @@ public class MarketMaster extends  BaseEntity implements Serializable {
 
     @Column(name = "market_name_in_kannada")
     private String marketNameInKannada;
+
+    @Column(name = "snorkel_request_path")
+    private String snorkelRequestPath;
+
+    @Column(name = "snorkel_response_path")
+    private String snorkelResponsePath;
+
+    @Column(name = "client_code")
+    private String clientCode;
 }

@@ -42,6 +42,9 @@ public class MarketMasterDTO {
     private String talukName;
     private String marketTypeMasterName;
     private Long reelerMinimumBalance;
+    private String snorkelRequestPath;
+    private String snorkelResponsePath;
+    private String clientCode;
 
     public MarketMasterDTO() {
 
@@ -77,12 +80,14 @@ public class MarketMasterDTO {
         BigDecimal marketLatitude,
         BigDecimal marketLongitude,
         BigDecimal radius,
+        String snorkelRequestPath,
+        String snorkelResponsePath,
+        String clientCode,
         String stateName,
         String districtName,
         String talukName,
         String marketTypeMasterName,
         Long reelerMinimumBalance
-
             ) {
         this.marketMasterId = marketMasterId;
         this.marketNameInKannada = marketNameInKannada;
@@ -113,6 +118,9 @@ public class MarketMasterDTO {
         this.marketLatitude = marketLatitude;
         this.marketLongitude = marketLongitude;
         this.radius = radius;
+        this.snorkelRequestPath = snorkelRequestPath;
+        this.snorkelResponsePath = snorkelResponsePath;
+        this.clientCode = clientCode;
         this.stateName = stateName;
         this.districtName = districtName;
         this.talukName = talukName;
