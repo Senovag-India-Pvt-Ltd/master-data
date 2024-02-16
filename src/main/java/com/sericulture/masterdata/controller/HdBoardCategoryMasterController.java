@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class HdBoardCategoryMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addHdBoardCategoryMasterDetails(@RequestBody HdBoardCategoryMasterRequest hdBoardCategoryMasterRequest){
+    public ResponseEntity<?> addHdBoardCategoryMasterDetails(@Valid @RequestBody HdBoardCategoryMasterRequest hdBoardCategoryMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(HdBoardCategoryMasterResponse.class);
 
         rw.setContent(hdBoardCategoryMasterService.insertHdBoardCategoryMasterDetails(hdBoardCategoryMasterRequest));
@@ -142,7 +143,7 @@ public class HdBoardCategoryMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editHdBoardCategoryMasterDetails(
-            @RequestBody final EditHdBoardCategoryMasterRequest editHdBoardCategoryMasterRequest
+            @Valid @RequestBody final EditHdBoardCategoryMasterRequest editHdBoardCategoryMasterRequest
     ) {
         ResponseWrapper<HdBoardCategoryMasterResponse> rw = ResponseWrapper.createWrapper(HdBoardCategoryMasterResponse.class);
         rw.setContent(hdBoardCategoryMasterService.updateHdBoardCategoryMasterDetails(editHdBoardCategoryMasterRequest));
