@@ -19,6 +19,9 @@ public interface EducationRepository extends PagingAndSortingRepository<Educatio
 
     public List<Education> findByNameAndEducationNameInKannada(String name, String educationNameInKannada);
 
+    public List<Education> findByNameAndEducationNameInKannadaAndIdIsNot(String name, String educationNameInKannada,long id);
+
+
     public Education findByIdAndActive(long id, boolean isActive);
 
     public List<Education> findByNameAndActiveIn(@Param("name") String name, @Param("active") Set<Boolean> active);

@@ -15,6 +15,8 @@ import java.util.Set;
 public interface DocumentMasterRepository extends PagingAndSortingRepository<DocumentMaster, Long> {
 
     public List<DocumentMaster> findByDocumentMasterName(String documentMasterName);
+    public List<DocumentMaster> findByDocumentMasterNameAndDocumentMasterIdIsNot(String documentMasterName, long documentMasterId );
+
 
     public DocumentMaster findByDocumentMasterNameAndActive(String documentMasterName,boolean isActive);
 

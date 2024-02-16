@@ -121,7 +121,7 @@ public class DesignationService {
     @Transactional
     public DesignationResponse updateDesignationDetails(EditDesignationRequest designationRequest) {
         DesignationResponse designationResponse = new DesignationResponse();
-        List<Designation> designationList = designationRepository.findByNameAndDesignationNameInKannada(designationRequest.getName(),designationRequest.getDesignationNameInKannada());
+        List<Designation> designationList = designationRepository.findByNameAndDesignationNameInKannadaAndDesignationIdIsNot(designationRequest.getName(),designationRequest.getDesignationNameInKannada(), designationRequest.getDesignationId());
         if (designationList.size() > 0) {
             designationResponse.setError(true);
             designationResponse.setError_description("Designation already exists, duplicates are not allowed.");

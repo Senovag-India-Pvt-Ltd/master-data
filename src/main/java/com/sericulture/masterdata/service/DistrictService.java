@@ -213,7 +213,7 @@ public class DistrictService {
     @Transactional
     public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest) {
         DistrictResponse districtResponse = new DistrictResponse();
-        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannada(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada());
+        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannadaAndDistrictIdIsNot(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada(), districtRequest.getDistrictId());
         if (districtList.size() > 0) {
             districtResponse.setError(true);
             districtResponse.setError_description("District already exists, duplicates are not allowed.");

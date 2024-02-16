@@ -143,7 +143,7 @@ public class ExternalUnitTypeService {
     @Transactional
     public ExternalUnitTypeResponse updateExternalUnitTypeDetails(EditExternalUnitTypeRequest externalUnitTypeRequest) {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndExternalUnitTypeIdIsNot(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(),externalUnitTypeRequest.getExternalUnitTypeId());
         if (externalUnitTypeList.size() > 0) {
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType already exists, duplicates are not allowed.");

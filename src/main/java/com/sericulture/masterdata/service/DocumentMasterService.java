@@ -139,7 +139,7 @@ public class DocumentMasterService {
     public DocumentMasterResponse updateDocumentMasterDetails(EditDocumentMasterRequest documentMasterRequest){
 
         DocumentMasterResponse documentMasterResponse = new DocumentMasterResponse();
-        List<DocumentMaster> documentMasterList = documentMasterRepository.findByDocumentMasterName(documentMasterRequest.getDocumentMasterName());
+        List<DocumentMaster> documentMasterList = documentMasterRepository.findByDocumentMasterNameAndDocumentMasterIdIsNot(documentMasterRequest.getDocumentMasterName(),documentMasterRequest.getDocumentMasterId());
         if(documentMasterList.size()>0){
             documentMasterResponse.setError(true);
             documentMasterResponse.setError_description("Document already exists, duplicates are not allowed.");

@@ -213,7 +213,7 @@ public class GodownService {
     @Transactional
     public GodownResponse updateGodownDetails(EditGodownRequest godownRequest) {
         GodownResponse godownResponse = new GodownResponse();
-        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(),godownRequest.getMarketMasterId());
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterIdAndGodownIdIsNot(godownRequest.getGodownName(),godownRequest.getMarketMasterId(),godownRequest.getGodownId());
 //        if (godownList.size() > 0) {
 //            godownResponse.setError(true);
 //            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");

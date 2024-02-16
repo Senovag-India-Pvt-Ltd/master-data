@@ -14,6 +14,9 @@ import java.util.Set;
 public interface DesignationRepository extends PagingAndSortingRepository<Designation, Long> {
     public List<Designation> findByNameAndDesignationNameInKannada(String name,String designationNameInKannada);
 
+    public List<Designation> findByNameAndDesignationNameInKannadaAndDesignationIdIsNot(String name,String designationNameInKannada, long designationId);
+
+
     public Designation findByNameAndActive(String name,boolean isActive);
 
     public Page<Designation> findByActiveOrderByNameAsc(boolean isActive, final Pageable pageable);

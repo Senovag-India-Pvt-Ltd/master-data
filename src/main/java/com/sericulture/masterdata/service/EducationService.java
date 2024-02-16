@@ -129,7 +129,7 @@ public class EducationService {
     @Transactional
     public EducationResponse updateEducationDetails(EditEducationRequest educationRequest) {
         EducationResponse educationResponse = new EducationResponse();
-        List<Education> educations = educationRepository.findByNameAndEducationNameInKannada(educationRequest.getName(),educationRequest.getEducationNameInKannada());
+        List<Education> educations = educationRepository.findByNameAndEducationNameInKannadaAndIdIsNot(educationRequest.getName(),educationRequest.getEducationNameInKannada(),educationRequest.getId());
         if(!educations.isEmpty()) {
             educationResponse.setError(true);
             educationResponse.setError_description("Education already exists, duplicates are not allowed.");

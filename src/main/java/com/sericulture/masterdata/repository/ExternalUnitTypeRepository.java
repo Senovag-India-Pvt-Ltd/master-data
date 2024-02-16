@@ -16,6 +16,9 @@ import java.util.Set;
 public interface ExternalUnitTypeRepository extends PagingAndSortingRepository<ExternalUnitType,Long> {
     public List<ExternalUnitType> findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(String externalUnitTypeName,String externalUnitTypeNameInKannada);
 
+    public List<ExternalUnitType> findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndExternalUnitTypeIdIsNot(String externalUnitTypeName,String externalUnitTypeNameInKannada, long externalUnitTypeId);
+
+
     public ExternalUnitType findByExternalUnitTypeNameAndActive(String externalUnitTypeName,boolean isActive);
 
     public Page<ExternalUnitType> findByActiveOrderByExternalUnitTypeNameAsc(boolean isActive, final Pageable pageable);
