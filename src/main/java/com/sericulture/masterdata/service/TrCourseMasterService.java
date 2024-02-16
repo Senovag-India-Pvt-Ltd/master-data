@@ -130,7 +130,7 @@ public class TrCourseMasterService {
     public TrCourseMasterResponse updateTrCourseMastersDetails(EditTrCourseMasterRequest trCourseMasterRequest){
 
         TrCourseMasterResponse trCourseMasterResponse = new TrCourseMasterResponse();
-        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterNameAndTrCourseNameInKannada(trCourseMasterRequest.getTrCourseMasterName(), trCourseMasterRequest.getTrCourseNameInKannada());
+        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterNameAndTrCourseNameInKannadaAndTrCourseMasterIdIsNot(trCourseMasterRequest.getTrCourseMasterName(), trCourseMasterRequest.getTrCourseNameInKannada(),trCourseMasterRequest.getTrCourseMasterId());
         if(trCourseMasterList.size()>0){
             trCourseMasterResponse.setError(true);
             trCourseMasterResponse.setError_description(" Training Course already exists, duplicates are not allowed.");

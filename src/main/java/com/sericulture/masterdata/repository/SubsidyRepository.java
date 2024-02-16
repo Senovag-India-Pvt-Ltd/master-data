@@ -14,6 +14,8 @@ import java.util.Set;
 public interface SubsidyRepository extends PagingAndSortingRepository<Subsidy, Long> {
     public List<Subsidy> findBySubsidyNameAndSubsidyNameInKannada(String subsidyName,String subsidyNameInKannada);
 
+    public List<Subsidy> findBySubsidyNameAndSubsidyNameInKannadaAndSubsidyIdIsNot(String subsidyName,String subsidyNameInKannada,long subsidyId);
+
     public Subsidy findBySubsidyNameAndActive(String subsidyName,boolean isActive);
 
     public Page<Subsidy> findByActiveOrderBySubsidyNameAsc(boolean isActive, final Pageable pageable);

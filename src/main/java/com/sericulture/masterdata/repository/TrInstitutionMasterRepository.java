@@ -18,6 +18,8 @@ public interface TrInstitutionMasterRepository extends PagingAndSortingRepositor
 
     public List<TrInstitutionMaster> findByTrInstitutionMasterNameAndTrInstitutionNameInKannada(String trInstitutionMasterName, String trInstitutionNameInKannada);
 
+    public List<TrInstitutionMaster> findByTrInstitutionMasterNameAndTrInstitutionNameInKannadaAndTrInstitutionMasterIdIsNot(String trInstitutionMasterName, String trInstitutionNameInKannada,long trInstitutionMasterId);
+
     public TrInstitutionMaster findByTrInstitutionMasterNameAndActive(String trInstitutionMasterName,boolean isActive);
 
     public Page<TrInstitutionMaster> findByActiveOrderByTrInstitutionMasterNameAsc(boolean isActive, final Pageable pageable);

@@ -15,6 +15,9 @@ import java.util.Set;
 public interface DeputedInstituteMasterRepository extends PagingAndSortingRepository<DeputedInstituteMaster,Long> {
     public List<DeputedInstituteMaster> findByDeputedInstituteName(String deputedInstituteName);
 
+    public List<DeputedInstituteMaster> findByDeputedInstituteNameAndDeputedInstituteIdIsNot(String deputedInstituteName,long deputedInstituteId);
+
+
     public DeputedInstituteMaster findByDeputedInstituteNameAndActive(String deputedInstituteName,boolean isActive);
 
     public Page<DeputedInstituteMaster> findByActiveOrderByDeputedInstituteNameAsc(boolean isActive, final Pageable pageable);

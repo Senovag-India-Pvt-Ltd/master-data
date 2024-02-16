@@ -17,6 +17,8 @@ import java.util.Set;
 public interface TrTraineeRepository extends PagingAndSortingRepository<TrTrainee, Long> {
     public List<TrTrainee> findByTrTraineeName(String trTraineeName);
 
+    public List<TrTrainee> findByTrTraineeNameAndTrTraineeIdIsNot(String trTraineeName, long trTraineeId);
+
     public List<TrTrainee> findByMobileNumber(String mobileNumber);
 
     public TrTrainee findByTrTraineeNameAndActive(String trTraineeName, boolean isActive);

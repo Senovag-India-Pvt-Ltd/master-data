@@ -139,7 +139,7 @@ public class CasteService {
     @Transactional
     public CasteResponse updateCasteDetails(EditCasteRequest casteRequest){
         CasteResponse casteResponse = new CasteResponse();
-        List<Caste> casteList = casteRepository.findByTitleAndNameInKannada(casteRequest.getTitle(),casteRequest.getNameInKannada());
+        List<Caste> casteList = casteRepository.findByTitleAndNameInKannadaAndIdIsNot(casteRequest.getTitle(),casteRequest.getNameInKannada(),casteRequest.getId());
         if (casteList.size() > 0) {
             casteResponse.setError(true);
             casteResponse.setError_description("Caste already exists, duplicates are not allowed.");

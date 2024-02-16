@@ -220,7 +220,7 @@ public class BinMasterService {
     @Transactional
     public BinMasterResponse updateBinMasterDetails(EditBinMasterRequest binMasterRequest) {
         BinMasterResponse binMasterResponse = new BinMasterResponse();
-        List<BinMaster> binMasterList = binMasterRepository.findByGodownIdAndMarketIdAndActive (binMasterRequest.getGodownId(),binMasterRequest.getMarketId(),true);
+        List<BinMaster> binMasterList = binMasterRepository.findByGodownIdAndMarketIdAndBinMasterIdIsNot (binMasterRequest.getGodownId(),binMasterRequest.getMarketId(),binMasterRequest.getBinMasterId());
         if (binMasterList.size() > 0) {
             binMasterResponse.setError(true);
             binMasterResponse.setError_description("Bin already exists, duplicates are not allowed.");

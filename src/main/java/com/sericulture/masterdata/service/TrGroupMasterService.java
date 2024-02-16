@@ -141,7 +141,7 @@ public class TrGroupMasterService {
     public TrGroupMasterResponse updateTrGroupMasterDetails(EditTrGroupMasterRequest trGroupMasterRequest){
 
         TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
-        List<TrGroupMaster> trGroupMasterList = trGroupMasterRepository.findByTrGroupMasterNameAndTrGroupNameInKannada(trGroupMasterRequest.getTrGroupMasterName(), trGroupMasterRequest.getTrGroupNameInKannada());
+        List<TrGroupMaster> trGroupMasterList = trGroupMasterRepository.findByTrGroupMasterNameAndTrGroupNameInKannadaAndTrGroupMasterIdIsNot(trGroupMasterRequest.getTrGroupMasterName(), trGroupMasterRequest.getTrGroupNameInKannada(),trGroupMasterRequest.getTrGroupMasterId());
         if(trGroupMasterList.size()>0){
             trGroupMasterResponse.setError(true);
             trGroupMasterResponse.setError_description("TrGroupMaster already exists, duplicates are not allowed.");

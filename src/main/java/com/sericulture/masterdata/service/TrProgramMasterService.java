@@ -138,7 +138,7 @@ public class TrProgramMasterService {
     public TrProgramMasterResponse updateTrProgramMastersDetails(EditTrProgramMasterRequest  trProgramMasterRequest){
 
         TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
-        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository. findByTrProgramMasterNameAndTrProgramNameInKannada(trProgramMasterRequest.getTrProgramMasterName(), trProgramMasterRequest.getTrProgramNameInKannada());
+        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository. findByTrProgramMasterNameAndTrProgramNameInKannadaAndTrProgramMasterIdIsNot(trProgramMasterRequest.getTrProgramMasterName(), trProgramMasterRequest.getTrProgramNameInKannada(),trProgramMasterRequest.getTrProgramMasterId());
         if(trProgramMasterList.size()>0){
             trProgramMasterResponse.setError(true);
             trProgramMasterResponse.setError_description("Program already exists, duplicates are not allowed.");

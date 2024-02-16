@@ -127,7 +127,7 @@ public class VendorMasterService {
     @Transactional
     public VendorMasterResponse updateVendorMasterDetails(EditVendorMasterRequest vendorMasterRequest) {
         VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
-        List<VendorMaster> vendorMasterList = vendorMasterRepository.findByVendorMasterName(vendorMasterRequest.getVendorMasterName());
+        List<VendorMaster> vendorMasterList = vendorMasterRepository.findByVendorMasterNameAndVendorMasterIdIsNot(vendorMasterRequest.getVendorMasterName(),vendorMasterRequest.getVendorMasterId());
         if (vendorMasterList.size() > 0) {
             vendorMasterResponse.setError(true);
             vendorMasterResponse.setError_description("VendorMaster already exists, duplicates are not allowed.");

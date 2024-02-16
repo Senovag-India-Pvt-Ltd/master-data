@@ -16,6 +16,8 @@ import java.util.Set;
 public interface TraderTypeMasterRepository extends PagingAndSortingRepository<TraderTypeMaster,Long> {
     public List<TraderTypeMaster> findByTraderTypeMasterNameAndTraderTypeNameInKannada(String traderTypeMasterName,String traderTypeNameInKannada);
 
+    public List<TraderTypeMaster> findByTraderTypeMasterNameAndTraderTypeNameInKannadaAndTraderTypeMasterIdIsNot(String traderTypeMasterName,String traderTypeNameInKannada,long traderTypeMasterId);
+
     public TraderTypeMaster findByTraderTypeMasterNameAndActive(String traderTypeMasterName,boolean isActive);
 
     public Page<TraderTypeMaster> findByActiveOrderByTraderTypeMasterNameAsc(boolean isActive, final Pageable pageable);

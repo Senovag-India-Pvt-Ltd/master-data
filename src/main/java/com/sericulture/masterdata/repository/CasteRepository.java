@@ -18,6 +18,9 @@ public interface CasteRepository extends PagingAndSortingRepository<Caste, Long>
 
     public List<Caste> findByTitleAndNameInKannada(String title, String nameInKannada);
 
+
+    public List<Caste> findByTitleAndNameInKannadaAndIdIsNot(String title, String nameInKannada,long id);
+
     public Caste findByCodeAndActive(String code,boolean isActive);
 
     public Caste findByTitleAndActive(String title,boolean isActive);

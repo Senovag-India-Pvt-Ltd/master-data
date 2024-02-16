@@ -15,6 +15,9 @@ import java.util.Set;
 public interface TrModeMasterRepository extends PagingAndSortingRepository<TrModeMaster, Long> {
     public List<TrModeMaster> findByTrModeMasterName(String trModeMasterName);
 
+    public List<TrModeMaster> findByTrModeMasterNameAndTrModeMasterIdIsNot(String trModeMasterName,long trModeMasterId);
+
+
     public TrModeMaster findByTrModeMasterNameAndActive(String trModeMasterName,boolean isActive);
 
     public Page<TrModeMaster> findByActiveOrderByTrModeMasterNameAsc(boolean isActive, final Pageable pageable);

@@ -140,7 +140,7 @@ public class TrInstitutionMasterService {
     public TrInstitutionMasterResponse updateTrInstitutionMasterDetails(EditTrInstitutionMasterRequest trInstitutionMasterRequest){
 
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
-        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndTrInstitutionNameInKannada(trInstitutionMasterRequest.getTrInstitutionMasterName(), trInstitutionMasterRequest.getTrInstitutionNameInKannada());
+        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndTrInstitutionNameInKannadaAndTrInstitutionMasterIdIsNot(trInstitutionMasterRequest.getTrInstitutionMasterName(), trInstitutionMasterRequest.getTrInstitutionNameInKannada(),trInstitutionMasterRequest.getTrInstitutionMasterId());
         if(trInstitutionMasterList.size()>0){
             trInstitutionMasterResponse.setError(true);
             trInstitutionMasterResponse.setError_description("TrInstitutionMaster already exists, duplicates are not allowed.");

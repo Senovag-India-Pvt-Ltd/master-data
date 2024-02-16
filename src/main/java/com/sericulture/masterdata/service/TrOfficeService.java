@@ -127,7 +127,7 @@ public class TrOfficeService {
     public TrOfficeResponse updateTrOfficeDetails(EditTrOfficeRequest trOfficeRequest){
 
         TrOfficeResponse trOfficeResponse = new TrOfficeResponse();
-        List<TrOffice> trOfficeList = trOfficeRepository.findByTrOfficeName(trOfficeRequest.getTrOfficeName());
+        List<TrOffice> trOfficeList = trOfficeRepository.findByTrOfficeNameAndTrOfficeIdIsNot(trOfficeRequest.getTrOfficeName(),trOfficeRequest.getTrOfficeId());
         if(trOfficeList.size()>0){
             trOfficeResponse.setError(true);
             trOfficeResponse.setError_description("TrOffice already exists, duplicates are not allowed.");

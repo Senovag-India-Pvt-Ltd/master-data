@@ -134,7 +134,7 @@ public class WorkingInstitutionService {
     public WorkingInstitutionResponse updateWorkingInstitutionDetails(EditWorkingInstitutionRequest workingInstitutionRequest){
 
         WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
-        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(workingInstitutionRequest.getWorkingInstitutionName(), workingInstitutionRequest.getWorkingInstitutionNameInKannada());
+        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionNameAndWorkingInstitutionNameInKannadaAndWorkingInstitutionIdIsNot(workingInstitutionRequest.getWorkingInstitutionName(), workingInstitutionRequest.getWorkingInstitutionNameInKannada(),workingInstitutionRequest.getWorkingInstitutionId());
         if(workingInstitutionList.size()>0){
             workingInstitutionResponse.setError(true);
             workingInstitutionResponse.setError_description("Working Institution already exists, duplicates are not allowed.");

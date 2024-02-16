@@ -15,6 +15,9 @@ import java.util.Set;
 public interface VendorMasterRepository extends PagingAndSortingRepository<VendorMaster, Long> {
     public List<VendorMaster> findByVendorMasterName(String vendorMasterName);
 
+    public List<VendorMaster> findByVendorMasterNameAndVendorMasterIdIsNot(String vendorMasterName,long vendorMasterId);
+
+
     public VendorMaster findByVendorMasterNameAndActive(String vendorMasterName,boolean isActive);
 
     public Page<VendorMaster> findByActiveOrderByVendorMasterNameAsc(boolean isActive, final Pageable pageable);

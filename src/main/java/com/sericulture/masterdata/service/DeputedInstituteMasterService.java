@@ -138,7 +138,7 @@ public class DeputedInstituteMasterService {
     @Transactional
     public DeputedInstituteMasterResponse updateDeputedInstituteDetails(EditDeputedInstituteMasterRequest deputedInstituteMasterRequest) {
         DeputedInstituteMasterResponse deputedInstituteMasterResponse = new DeputedInstituteMasterResponse();
-        List<DeputedInstituteMaster> deputedInstituteMasterList = deputedInstituteMasterRepository.findByDeputedInstituteName(deputedInstituteMasterRequest.getDeputedInstituteName());
+        List<DeputedInstituteMaster> deputedInstituteMasterList = deputedInstituteMasterRepository.findByDeputedInstituteNameAndDeputedInstituteIdIsNot(deputedInstituteMasterRequest.getDeputedInstituteName(),deputedInstituteMasterRequest.getDeputedInstituteId());
         if (deputedInstituteMasterList.size() > 0) {
             deputedInstituteMasterResponse.setError(true);
             deputedInstituteMasterResponse.setError_description("Deputed Institute already exists, duplicates are not allowed.");

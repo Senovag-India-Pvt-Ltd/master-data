@@ -142,7 +142,7 @@ public class TrModeMasterService {
     public TrModeMasterResponse updateTrModeMasterDetails(EditTrModeMasterRequest trModeMasterRequest){
 
         TrModeMasterResponse trModeMasterResponse = new TrModeMasterResponse();
-        List<TrModeMaster> trModeMasterList = trModeMasterRepository.findByTrModeMasterName(trModeMasterRequest.getTrModeMasterName());
+        List<TrModeMaster> trModeMasterList = trModeMasterRepository.findByTrModeMasterNameAndTrModeMasterIdIsNot(trModeMasterRequest.getTrModeMasterName(),trModeMasterRequest.getTrModeMasterId());
         if(trModeMasterList.size()>0){
             trModeMasterResponse.setError(true);
             trModeMasterResponse.setError_description("TrModeMaster already exists, duplicates are not allowed.");

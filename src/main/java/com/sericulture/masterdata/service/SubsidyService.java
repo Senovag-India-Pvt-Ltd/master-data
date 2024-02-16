@@ -138,7 +138,7 @@ public class SubsidyService {
     @Transactional
     public SubsidyResponse updateSubsidyDetails(EditSubsidyRequest subsidyRequest) {
         SubsidyResponse subsidyResponse = new SubsidyResponse();
-        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyNameAndSubsidyNameInKannada(subsidyRequest.getSubsidyName(),subsidyRequest.getSubsidyNameInKannada());
+        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyNameAndSubsidyNameInKannadaAndSubsidyIdIsNot(subsidyRequest.getSubsidyName(),subsidyRequest.getSubsidyNameInKannada(),subsidyRequest.getSubsidyId());
         if (subsidyList.size() > 0) {
             subsidyResponse.setError(true);
             subsidyResponse.setError_description("Subsidy already exists, duplicates are not allowed.");

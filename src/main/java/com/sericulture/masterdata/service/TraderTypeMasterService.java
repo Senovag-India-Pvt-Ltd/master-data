@@ -120,7 +120,7 @@ public class TraderTypeMasterService {
     @Transactional
     public TraderTypeMasterResponse updateTraderTypeMasterDetails(EditTraderTypeMasterRequest traderTypeMasterRequest){
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
-        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterNameAndTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
+        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterNameAndTraderTypeNameInKannadaAndTraderTypeMasterIdIsNot(traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada(),traderTypeMasterRequest.getTraderTypeMasterId());
         if(traderTypeMasterList.size()>0){
             traderTypeMasterResponse.setError(true);
             traderTypeMasterResponse.setError_description("TraderType already exists, duplicates are not allowed.");

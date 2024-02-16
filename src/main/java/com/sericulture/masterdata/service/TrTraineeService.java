@@ -197,7 +197,7 @@ public class TrTraineeService {
     public TrTraineeResponse updateTrTraineeDetails(EditTrTraineeRequest trTraineeRequest){
 
         TrTraineeResponse trTraineeResponse = new TrTraineeResponse();
-        List<TrTrainee> trTraineeList = trTraineeRepository.findByTrTraineeName(trTraineeRequest.getTrTraineeName());
+        List<TrTrainee> trTraineeList = trTraineeRepository.findByTrTraineeNameAndTrTraineeIdIsNot(trTraineeRequest.getTrTraineeName(),trTraineeRequest.getTrTraineeId());
         if(trTraineeList.size()>0){
             trTraineeResponse.setError(true);
             trTraineeResponse.setError_description("TrTrainee already exists, duplicates are not allowed.");

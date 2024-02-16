@@ -18,6 +18,9 @@ public interface BinMasterRepository extends PagingAndSortingRepository<BinMaste
 
     public List<BinMaster> findByGodownIdAndMarketIdAndActive(int godownId,int marketId,boolean isActive);
 
+
+    public List<BinMaster> findByGodownIdAndMarketIdAndBinMasterIdIsNot(int godownId,int marketId,long binMasterId);
+
     public List<BinMaster> findByBinNumberAndBinCounterMasterId(int binNumber, int binCounterMasterId);
 
     public BinMaster findByBinNumberAndActive(int binNumber,boolean isActive);

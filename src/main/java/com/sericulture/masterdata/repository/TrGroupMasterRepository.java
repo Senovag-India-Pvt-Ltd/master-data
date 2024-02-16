@@ -18,6 +18,8 @@ public interface TrGroupMasterRepository extends PagingAndSortingRepository<TrGr
 
     public List<TrGroupMaster> findByTrGroupMasterNameAndTrGroupNameInKannada(String trGroupMasterName, String trGroupNameInKannada);
 
+    public List<TrGroupMaster> findByTrGroupMasterNameAndTrGroupNameInKannadaAndTrGroupMasterIdIsNot(String trGroupMasterName, String trGroupNameInKannada,long trGroupMasterId);
+
     public TrGroupMaster findByTrGroupMasterNameAndActive(String trGroupMasterName,boolean isActive);
 
     public Page<TrGroupMaster> findByActiveOrderByTrGroupMasterNameAsc(boolean isActive, final Pageable pageable);
