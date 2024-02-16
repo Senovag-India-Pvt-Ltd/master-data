@@ -138,7 +138,7 @@ public class MulberrySourceService {
     @Transactional
     public MulberrySourceResponse updateMulberrySourceDetails(EditMulberrySourceRequest mulberrySourceRequest) {
         MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
-        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceNameAndMulberrySourceNameInKannada(mulberrySourceRequest.getMulberrySourceName(),mulberrySourceRequest.getMulberrySourceNameInKannada());
+        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceNameAndMulberrySourceNameInKannadaAndMulberrySourceIdIsNot(mulberrySourceRequest.getMulberrySourceName(),mulberrySourceRequest.getMulberrySourceNameInKannada(),mulberrySourceRequest.getMulberrySourceId());
         if (mulberrySourceList.size() > 0) {
             mulberrySourceResponse.setError(true);
             mulberrySourceResponse.setError_description("MulberrySource already exists, duplicates are not allowed.");

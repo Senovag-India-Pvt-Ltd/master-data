@@ -15,6 +15,9 @@ import java.util.Set;
 public interface ScProgramRepository extends PagingAndSortingRepository<ScProgram, Long> {
     public List<ScProgram> findByScProgramName(String scProgramName);
 
+    public List<ScProgram> findByScProgramNameAndScProgramIdIsNot(String scProgramName, long scProgramId);
+
+
     public ScProgram findByScProgramNameAndActive(String scProgramName,boolean isActive);
 
     public Page<ScProgram> findByActiveOrderByScProgramNameAsc(boolean isActive, final Pageable pageable);

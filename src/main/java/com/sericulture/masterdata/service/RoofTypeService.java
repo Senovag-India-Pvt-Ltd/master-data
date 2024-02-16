@@ -137,7 +137,7 @@ public class RoofTypeService {
     @Transactional
     public RoofTypeResponse updateRoofTypeDetails(EditRoofTypeRequest roofTypeRequest) {
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
-        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannada(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada());
+        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannadaAndRoofTypeId(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada(),roofTypeRequest.getRoofTypeId());
         if (roofTypeList.size() > 0) {
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType already exists, duplicates are not allowed.");

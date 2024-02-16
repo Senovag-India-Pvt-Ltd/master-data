@@ -137,7 +137,7 @@ public class SoilTypeService {
     @Transactional
     public SoilTypeResponse updateSoilTypeDetails(EditSoilTypeRequest soilTypeRequest) {
         SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
-        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeNameAndSoilTypeNameInKannada(soilTypeRequest.getSoilTypeName(), soilTypeRequest.getSoilTypeNameInKannada());
+        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeNameAndSoilTypeNameInKannadaAndSoilTypeIdIsNot(soilTypeRequest.getSoilTypeName(), soilTypeRequest.getSoilTypeNameInKannada(),soilTypeRequest.getSoilTypeId());
         if (soilTypeList.size() > 0) {
             soilTypeResponse.setError(true);
             soilTypeResponse.setError_description("SoilType already exists, duplicates are not allowed.");

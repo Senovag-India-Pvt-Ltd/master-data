@@ -19,6 +19,9 @@ public interface HdSubCategoryMasterRepository extends PagingAndSortingRepositor
 
     public List<HdSubCategoryMaster> findByHdSubCategoryName(String hdSubCategoryName);
 
+    public List<HdSubCategoryMaster> findByHdSubCategoryNameAndHdSubCategoryIdIsNot(String hdSubCategoryName, long hdSubCategoryId);
+
+
     public HdSubCategoryMaster findByHdSubCategoryNameAndActive(String hdSubCategoryName, boolean isActive);
 
     public Page<HdSubCategoryMaster> findByActiveOrderByHdSubCategoryIdAsc(boolean isActive, final Pageable pageable);

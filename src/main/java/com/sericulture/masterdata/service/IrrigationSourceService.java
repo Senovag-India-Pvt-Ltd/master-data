@@ -137,7 +137,7 @@ public class IrrigationSourceService {
     @Transactional
     public IrrigationSourceResponse updateIrrigationSourceDetails(EditIrrigationSourceRequest irrigationSourceRequest) {
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
-        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceNameAndIrrigationSourceNameInKannada(irrigationSourceRequest.getIrrigationSourceName(),irrigationSourceRequest.getIrrigationSourceNameInKannada());
+        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceNameAndIrrigationSourceNameInKannadaAndIrrigationSourceIdIsNot(irrigationSourceRequest.getIrrigationSourceName(),irrigationSourceRequest.getIrrigationSourceNameInKannada(),irrigationSourceRequest.getIrrigationSourceId());
         if (irrigationSourceList.size() > 0) {
             irrigationSourceResponse.setError(true);
             irrigationSourceResponse.setError_description("IrrigationSource already exists, duplicates are not allowed.");

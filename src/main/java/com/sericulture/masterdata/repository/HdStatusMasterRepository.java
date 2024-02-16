@@ -17,6 +17,9 @@ public interface HdStatusMasterRepository extends PagingAndSortingRepository<HdS
 
     public List<HdStatusMaster> findByHdStatusName(String hdStatusName);
 
+    public List<HdStatusMaster> findByHdStatusNameAndHdStatusIdIsNot(String hdStatusName,long hdStatusId);
+
+
     public HdStatusMaster findByHdStatusNameAndActive(String hdStatusName, boolean isActive);
 
     public Page<HdStatusMaster> findByActiveOrderByHdStatusNameAsc(boolean isActive, final Pageable pageable);

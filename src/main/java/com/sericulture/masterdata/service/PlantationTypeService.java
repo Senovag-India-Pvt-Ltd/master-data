@@ -137,7 +137,7 @@ public class PlantationTypeService {
     @Transactional
     public PlantationTypeResponse updatePlantationTypeDetails(EditPlantationTypeRequest plantationTypeRequest) {
         PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
-        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeNameAndPlantationTypeNameInKannada(plantationTypeRequest.getPlantationTypeName(), plantationTypeRequest.getPlantationTypeNameInKannada());
+        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeNameAndPlantationTypeNameInKannadaAndPlantationTypeIdIsNot(plantationTypeRequest.getPlantationTypeName(), plantationTypeRequest.getPlantationTypeNameInKannada(),plantationTypeRequest.getPlantationTypeId());
         if (plantationTypeList.size() > 0) {
             plantationTypeResponse.setError(true);
             plantationTypeResponse.setError_description("PlantationType already exists, duplicates are not allowed.");

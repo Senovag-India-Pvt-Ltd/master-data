@@ -153,7 +153,7 @@ public class MarketTypeMasterService {
     @Transactional
     public MarketTypeMasterResponse updateMarketTypeMasterDetails(EditMarketTypeMasterRequest marketTypeMasterRequest){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
-        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterNameAndMarketTypeNameInKannada(marketTypeMasterRequest.getMarketTypeMasterName(),marketTypeMasterRequest.getMarketTypeNameInKannada());
+        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterNameAndMarketTypeNameInKannadaAndMarketTypeMasterIdIsNot(marketTypeMasterRequest.getMarketTypeMasterName(),marketTypeMasterRequest.getMarketTypeNameInKannada(),marketTypeMasterRequest.getMarketTypeMasterId());
         if(marketTypeMasterList.size()>0){
             marketTypeMasterResponse.setError(true);
             marketTypeMasterResponse.setError_description("Market Type already exists, duplicates are not allowed.");

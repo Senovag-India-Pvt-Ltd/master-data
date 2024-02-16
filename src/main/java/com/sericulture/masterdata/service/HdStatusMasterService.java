@@ -142,7 +142,7 @@ public class HdStatusMasterService {
     public HdStatusMasterResponse updateHdStatusMasterDetails(EditHdStatusMasterRequest hdStatusMasterRequest){
 
         HdStatusMasterResponse hdStatusMasterResponse = new HdStatusMasterResponse();
-        List<HdStatusMaster> hdStatusMasterList =  hdStatusMasterRepository.findByHdStatusName(hdStatusMasterRequest.getHdStatusName());
+        List<HdStatusMaster> hdStatusMasterList =  hdStatusMasterRepository.findByHdStatusNameAndHdStatusIdIsNot(hdStatusMasterRequest.getHdStatusName(),hdStatusMasterRequest.getHdStatusId());
         if(hdStatusMasterList.size()>0){
             hdStatusMasterResponse.setError(true);
             hdStatusMasterResponse.setError_description("StatusMaster already exists, duplicates are not allowed.");

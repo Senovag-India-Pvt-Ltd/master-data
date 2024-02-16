@@ -142,7 +142,7 @@ public class RelationshipService {
     @Transactional
     public RelationshipResponse updateRelationshipDetails(EditRelationshipRequest relationshipRequest) {
         RelationshipResponse relationshipResponse = new RelationshipResponse();
-        List<Relationship> relationshipList = relationshipRepository.findByRelationshipNameAndRelationshipNameInKannada(relationshipRequest.getRelationshipName(), relationshipRequest.getRelationshipNameInKannada());
+        List<Relationship> relationshipList = relationshipRepository.findByRelationshipNameAndRelationshipNameInKannadaAndRelationshipIdIsNot(relationshipRequest.getRelationshipName(), relationshipRequest.getRelationshipNameInKannada(),relationshipRequest.getRelationshipId());
         if (relationshipList.size() > 0) {
             relationshipResponse.setError(true);
             relationshipResponse.setError_description("Relationship already exists, duplicates are not allowed.");

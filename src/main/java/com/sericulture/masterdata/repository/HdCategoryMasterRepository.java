@@ -20,6 +20,9 @@ import java.util.Set;
 public interface HdCategoryMasterRepository extends PagingAndSortingRepository<HdCategoryMaster, Long> {
     public List<HdCategoryMaster> findByHdCategoryName(String hdCategoryName);
 
+    public List<HdCategoryMaster> findByHdCategoryNameAndHdCategoryIdIsNot(String hdCategoryName, long hdCategoryId);
+
+
     public HdCategoryMaster findByHdCategoryNameAndActive(String hdCategoryName, boolean isActive);
 
     public Page<HdCategoryMaster> findByActiveOrderByHdCategoryIdAsc(boolean isActive, final Pageable pageable);

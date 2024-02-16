@@ -133,7 +133,7 @@ public class ReelerTypeMasterService {
     public ReelerTypeMasterResponse updateReelerTypeMastersDetails(EditReelerTypeMasterRequest reelerTypeMasterRequest){
 
         ReelerTypeMasterResponse reelerTypeMasterResponse  = new ReelerTypeMasterResponse();
-        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository. findByReelerTypeMasterNameAndReelerTypeNameInKannada(reelerTypeMasterRequest.getReelerTypeMasterName(),reelerTypeMasterRequest.getReelerTypeNameInKannada());
+        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository. findByReelerTypeMasterNameAndReelerTypeNameInKannadaAndReelerTypeMasterIdIsNot(reelerTypeMasterRequest.getReelerTypeMasterName(),reelerTypeMasterRequest.getReelerTypeNameInKannada(),reelerTypeMasterRequest.getReelerTypeMasterId());
         if(reelerTypeMasterList.size()>0){
             reelerTypeMasterResponse.setError(true);
             reelerTypeMasterResponse.setError_description("Reeler Type , duplicates are not allowed.");

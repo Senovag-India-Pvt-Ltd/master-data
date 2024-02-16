@@ -14,6 +14,9 @@ import java.util.Set;
 public interface PlantationTypeRepository extends PagingAndSortingRepository<PlantationType, Long> {
     public List<PlantationType> findByPlantationTypeNameAndPlantationTypeNameInKannada(String plantationTypeName,String plantationTypeNameInKannada);
 
+    public List<PlantationType> findByPlantationTypeNameAndPlantationTypeNameInKannadaAndPlantationTypeIdIsNot(String plantationTypeName,String plantationTypeNameInKannada, long plantationTypeId);
+
+
     public PlantationType findByPlantationTypeNameAndActive(String plantationTypeName,boolean isActive);
 
     public Page<PlantationType> findByActiveOrderByPlantationTypeNameAsc(boolean isActive, final Pageable pageable);

@@ -195,7 +195,7 @@ public class HobliService {
     @Transactional
     public HobliResponse updateHobliDetails(EditHobliRequest hobliRequest) {
         HobliResponse hobliResponse = new HobliResponse();
-        List<Hobli> hobliList = hobliRepository.findByHobliNameAndHobliNameInKannada(hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada());
+        List<Hobli> hobliList = hobliRepository.findByHobliNameAndHobliNameInKannadaAndHobliIdIsNot(hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada(),hobliRequest.getHobliId());
         if (hobliList.size() > 0) {
             hobliResponse.setError(true);
             hobliResponse.setError_description("Hobli already exists, duplicates are not allowed.");

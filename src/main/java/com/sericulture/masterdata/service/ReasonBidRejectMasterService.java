@@ -137,7 +137,7 @@ public class ReasonBidRejectMasterService {
     @Transactional
     public ReasonBidRejectMasterResponse updateReasonBidRejectMasterDetails(EditReasonBidRejectMasterRequest reasonBidRejectMasterRequest) {
         ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
-        List<ReasonBidRejectMaster> reasonBidRejectMasterList = reasonBidRejectMasterRepository.findByReasonBidRejectName(reasonBidRejectMasterRequest.getReasonBidRejectName());
+        List<ReasonBidRejectMaster> reasonBidRejectMasterList = reasonBidRejectMasterRepository.findByReasonBidRejectNameAndReasonBidRejectIdIsNot(reasonBidRejectMasterRequest.getReasonBidRejectName(),reasonBidRejectMasterRequest.getReasonBidRejectId());
         if (reasonBidRejectMasterList.size() > 0) {
             reasonBidRejectMasterResponse.setError(true);
             reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster already exists, duplicates are not allowed.");

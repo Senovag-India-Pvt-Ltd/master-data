@@ -120,7 +120,7 @@ public class ScProgramService {
     @Transactional
     public ScProgramResponse updateScProgramDetails(EditScProgramRequest scProgramRequest) {
         ScProgramResponse scProgramResponse = new ScProgramResponse();
-        List<ScProgram> scProgramList = scProgramRepository.findByScProgramName(scProgramRequest.getScProgramName());
+        List<ScProgram> scProgramList = scProgramRepository.findByScProgramNameAndScProgramIdIsNot(scProgramRequest.getScProgramName(),scProgramRequest.getScProgramId());
         if (scProgramList.size() > 0) {
             scProgramResponse.setError(true);
             scProgramResponse.setError_description("ScProgram already exists, duplicates are not allowed.");

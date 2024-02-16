@@ -138,7 +138,7 @@ public class LandCategoryService {
     @Transactional
     public LandCategoryResponse updateLandCategoryDetails(EditLandCategoryRequest landCategoryRequest) {
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
-        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryNameAndLandCategoryNameInKannada(landCategoryRequest.getLandCategoryName(),landCategoryRequest.getLandCategoryNameInKannada());
+        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryNameAndLandCategoryNameInKannadaAndIdIsNot(landCategoryRequest.getLandCategoryName(),landCategoryRequest.getLandCategoryNameInKannada(),landCategoryRequest.getId());
         if (landCategoryList.size() > 0) {
             landCategoryResponse.setError(true);
             landCategoryResponse.setError_description("LandCategory already exists, duplicates are not allowed.");

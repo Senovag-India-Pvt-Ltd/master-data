@@ -137,7 +137,7 @@ public class LandOwnershipService {
     @Transactional
     public LandOwnershipResponse updateLandOwnershipDetails(EditLandOwnershipRequest landOwnershipRequest) {
         LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
-        List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipNameAndLandOwnershipNameInKannada(landOwnershipRequest.getLandOwnershipName(),landOwnershipRequest.getLandOwnershipNameInKannada());
+        List<LandOwnership> landOwnershipList = landOwnershipRepository.findByLandOwnershipNameAndLandOwnershipNameInKannadaAndLandOwnershipIdIsNot(landOwnershipRequest.getLandOwnershipName(),landOwnershipRequest.getLandOwnershipNameInKannada(),landOwnershipRequest.getLandOwnershipId());
         if (landOwnershipList.size() > 0) {
             landOwnershipResponse.setError(true);
             landOwnershipResponse.setError_description("LandOwnership already exists, duplicates are not allowed.");

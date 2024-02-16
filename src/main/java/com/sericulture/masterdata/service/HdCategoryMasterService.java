@@ -200,7 +200,7 @@ public class HdCategoryMasterService {
     public HdCategoryMasterResponse updateHdCategoryMasterDetails(EditHdCategoryMasterRequest hdCategoryMasterRequest){
 
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
-        List<HdCategoryMaster> hdCategoryMasterList =  hdCategoryMasterRepository.findByHdCategoryName(hdCategoryMasterRequest.getHdCategoryName());
+        List<HdCategoryMaster> hdCategoryMasterList =  hdCategoryMasterRepository.findByHdCategoryNameAndHdCategoryIdIsNot(hdCategoryMasterRequest.getHdCategoryName(),hdCategoryMasterRequest.getHdCategoryId());
         if(hdCategoryMasterList.size()>0){
             hdCategoryMasterResponse.setError(true);
             hdCategoryMasterResponse.setError_description("categoryMaster already exists, duplicates are not allowed.");

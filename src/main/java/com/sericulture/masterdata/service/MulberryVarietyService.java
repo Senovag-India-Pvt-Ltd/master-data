@@ -139,7 +139,7 @@ public class MulberryVarietyService {
     @Transactional
     public MulberryVarietyResponse updateMulberryVarietyDetails(EditMulberryVarietyRequest mulberryVarietyRequest){
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
-        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyNameAndMulberryVarietyNameInKannada(mulberryVarietyRequest.getMulberryVarietyName(),mulberryVarietyRequest.getMulberryVarietyNameInKannada());
+        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyNameAndMulberryVarietyNameInKannadaAndMulberryVarietyIdIsNot(mulberryVarietyRequest.getMulberryVarietyName(),mulberryVarietyRequest.getMulberryVarietyNameInKannada(),mulberryVarietyRequest.getMulberryVarietyId());
         if(mulberryVarietyList.size()>0){
             mulberryVarietyResponse.setError(true);
             mulberryVarietyResponse.setError_description("MulberryVariety already exists, duplicates are not allowed.");

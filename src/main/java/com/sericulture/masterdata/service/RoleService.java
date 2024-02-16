@@ -137,7 +137,7 @@ public class RoleService {
     @Transactional
     public RoleResponse updateRoleDetails(EditRoleRequest roleRequest) {
         RoleResponse roleResponse = new RoleResponse();
-        List<Role> roleList = roleRepository.findByRoleName(roleRequest.getRoleName());
+        List<Role> roleList = roleRepository.findByRoleNameAndRoleIdIsNot(roleRequest.getRoleName(),roleRequest.getRoleId());
         if (roleList.size() > 0) {
             roleResponse.setError(true);
             roleResponse.setError_description("Role already exists, duplicates are not allowed.");

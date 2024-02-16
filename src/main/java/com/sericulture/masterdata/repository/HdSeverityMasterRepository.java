@@ -16,6 +16,9 @@ import java.util.Set;
 public interface HdSeverityMasterRepository extends PagingAndSortingRepository<HdSeverityMaster, Long> {
     public List<HdSeverityMaster> findByHdSeverityName(String hdSeverityName);
 
+    public List<HdSeverityMaster> findByHdSeverityNameAndHdSeverityIdIsNot(String hdSeverityName, long hdSeverityId);
+
+
     public HdSeverityMaster findByHdSeverityNameAndActive(String hdSeverityName, boolean isActive);
 
     public Page<HdSeverityMaster> findByActiveOrderByHdSeverityNameAsc(boolean isActive, final Pageable pageable);

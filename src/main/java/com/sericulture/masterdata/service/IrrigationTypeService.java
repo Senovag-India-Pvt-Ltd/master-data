@@ -130,7 +130,7 @@ public class IrrigationTypeService {
     @Transactional
     public IrrigationTypeResponse updateIrrigationTypeDetails(EditIrrigationTypeRequest irrigationTypeRequest) {
         IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
-        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeNameAndIrrigationTypeNameInKannada(irrigationTypeRequest.getIrrigationTypeName(),irrigationTypeRequest.getIrrigationTypeNameInKannada());
+        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeNameAndIrrigationTypeNameInKannadaAndIrrigationTypeIdIsNot(irrigationTypeRequest.getIrrigationTypeName(),irrigationTypeRequest.getIrrigationTypeNameInKannada(),irrigationTypeRequest.getIrrigationTypeId());
         if (irrigationTypeList.size() > 0) {
             irrigationTypeResponse.setError(true);
             irrigationTypeResponse.setError_description("IrrigationType already exists, duplicates are not allowed.");

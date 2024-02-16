@@ -141,7 +141,7 @@ public class HdModuleMasterService {
     public HdModuleMasterResponse updateHdModuleMasterDetails(EditHdModuleMasterRequest hdModuleMasterRequest){
 
         HdModuleMasterResponse hdModuleMasterResponse = new HdModuleMasterResponse();
-        List<HdModuleMaster> hdModuleMasterList =  hdModuleMasterRepository.findByHdModuleName(hdModuleMasterRequest.getHdModuleName());
+        List<HdModuleMaster> hdModuleMasterList =  hdModuleMasterRepository.findByHdModuleNameAndHdModuleIdIsNot(hdModuleMasterRequest.getHdModuleName(),hdModuleMasterRequest.getHdModuleId());
         if(hdModuleMasterList.size()>0){
             hdModuleMasterResponse.setError(true);
             hdModuleMasterResponse.setError_description("ModuleMaster already exists, duplicates are not allowed.");

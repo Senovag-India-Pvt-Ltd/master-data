@@ -147,7 +147,7 @@ public class HdQuestionMasterService {
     public HdQuestionMasterResponse updateHdQuestionMasterDetails(EditHdQuestionMasterRequest hdQuestionMasterRequest){
 
         HdQuestionMasterResponse hdQuestionMasterResponse = new HdQuestionMasterResponse();
-        List<HdQuestionMaster> hdQuestionMasterList =  hdQuestionMasterRepository.findByHdQuestionName(hdQuestionMasterRequest.getHdQuestionName());
+        List<HdQuestionMaster> hdQuestionMasterList =  hdQuestionMasterRepository.findByHdQuestionNameAndHdQuestionIdIsNot(hdQuestionMasterRequest.getHdQuestionName(),hdQuestionMasterRequest.getHdQuestionId());
         if(hdQuestionMasterList.size()>0){
             hdQuestionMasterResponse.setError(true);
             hdQuestionMasterResponse.setError_description("QuestionMaster already exists, duplicates are not allowed.");

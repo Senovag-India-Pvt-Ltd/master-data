@@ -17,6 +17,9 @@ public interface SourceMasterRepository extends PagingAndSortingRepository<Sourc
 
     public List<SourceMaster> findBySourceMasterNameAndSourceNameInKannada(String sourceMasterName,String sourceNameInKannada);
 
+    public List<SourceMaster> findBySourceMasterNameAndSourceNameInKannadaAndSourceMasterIdIsNot(String sourceMasterName,String sourceNameInKannada, long sourceMasterId);
+
+
     public SourceMaster findBySourceMasterNameAndActive(String sourceMasterName,boolean isActive);
 
     public Page<SourceMaster> findByActiveOrderBySourceMasterNameAsc(boolean isActive, final Pageable pageable);

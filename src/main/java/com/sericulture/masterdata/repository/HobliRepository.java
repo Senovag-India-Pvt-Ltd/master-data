@@ -17,6 +17,9 @@ import java.util.Set;
 public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long> {
     public List<Hobli> findByHobliNameAndHobliNameInKannada(String hobliName,String hobliNameInKannada);
 
+    public List<Hobli> findByHobliNameAndHobliNameInKannadaAndHobliIdIsNot(String hobliName,String hobliNameInKannada, long hobliId);
+
+
     public List<Hobli> findByHobliName(String hobliName);
 
     public List<Hobli> findByHobliNameAndTalukId(String hobliName, long talukId);

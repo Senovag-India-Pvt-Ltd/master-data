@@ -140,7 +140,7 @@ public class HdBoardCategoryMasterService {
     public HdBoardCategoryMasterResponse updateHdBoardCategoryMasterDetails(EditHdBoardCategoryMasterRequest hdBoardCategoryMasterRequest){
 
         HdBoardCategoryMasterResponse hdBoardCategoryMasterResponse = new HdBoardCategoryMasterResponse();
-        List<HdBoardCategoryMaster> hdBoardCategoryMasterList =  hdBoardCategoryMasterRepository.findByHdBoardCategoryName(hdBoardCategoryMasterRequest.getHdBoardCategoryName());
+        List<HdBoardCategoryMaster> hdBoardCategoryMasterList =  hdBoardCategoryMasterRepository.findByHdBoardCategoryNameAndHdBoardCategoryIdIsNot(hdBoardCategoryMasterRequest.getHdBoardCategoryName(),hdBoardCategoryMasterRequest.getHdBoardCategoryId());
         if(hdBoardCategoryMasterList.size()>0){
             hdBoardCategoryMasterResponse.setError(true);
             hdBoardCategoryMasterResponse.setError_description("Board categoryMaster already exists, duplicates are not allowed.");

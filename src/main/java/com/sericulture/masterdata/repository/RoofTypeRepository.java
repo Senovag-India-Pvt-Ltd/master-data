@@ -14,6 +14,9 @@ import java.util.Set;
 public interface RoofTypeRepository extends PagingAndSortingRepository<RoofType, Long> {
     public List<RoofType> findByRoofTypeNameAndRoofTypeNameInKannada(String roofTypeName,String roofTypeNameInKannada);
 
+    public List<RoofType> findByRoofTypeNameAndRoofTypeNameInKannadaAndRoofTypeId(String roofTypeName,String roofTypeNameInKannada, long roofTypeId);
+
+
     public RoofType findByRoofTypeNameAndActive(String roofTypeName,boolean isActive);
 
     public Page<RoofType> findByActiveOrderByRoofTypeNameAsc(boolean isActive, final Pageable pageable);

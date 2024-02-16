@@ -14,6 +14,9 @@ import java.util.Set;
 public interface RpPageRootRepository extends PagingAndSortingRepository<RpPageRoot,Long> {
     public List<RpPageRoot> findByRpPageRootName(String rpPageRootName);
 
+    public List<RpPageRoot> findByRpPageRootNameAndRpPageRootIdIsNot(String rpPageRootName, long rpPageRootId);
+
+
     public RpPageRoot findByRpPageRootNameAndActive(String rpPageRootName,boolean isActive);
 
     public Page<RpPageRoot> findByActiveOrderByRpPageRootIdAsc(boolean isActive, final Pageable pageable);

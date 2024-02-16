@@ -14,6 +14,9 @@ import java.util.Set;
 public interface SilkWormVarietyRepository extends PagingAndSortingRepository<SilkWormVariety, Long> {
     public List<SilkWormVariety> findBySilkWormVarietyNameAndSilkWormVarietyNameInKannada(String silkWormVarietyName, String silkWormVarietyNameInKannada);
 
+    public List<SilkWormVariety> findBySilkWormVarietyNameAndSilkWormVarietyNameInKannadaAndSilkWormVarietyIdIsNot(String silkWormVarietyName, String silkWormVarietyNameInKannada, long silkWormVarietyId);
+
+
     public SilkWormVariety findBySilkWormVarietyNameAndActive(String silkWormVarietyName,boolean isActive);
 
     public Page<SilkWormVariety> findByActiveOrderBySilkWormVarietyNameAsc(boolean isActive, final Pageable pageable);

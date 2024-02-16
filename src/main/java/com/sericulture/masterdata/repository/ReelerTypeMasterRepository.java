@@ -14,6 +14,9 @@ import java.util.Set;
 public interface ReelerTypeMasterRepository extends PagingAndSortingRepository<ReelerTypeMaster, Long> {
     public List<ReelerTypeMaster> findByReelerTypeMasterNameAndReelerTypeNameInKannada(String reelerTypeMasterName,String reelerTypeNameInKannada);
 
+    public List<ReelerTypeMaster> findByReelerTypeMasterNameAndReelerTypeNameInKannadaAndReelerTypeMasterIdIsNot(String reelerTypeMasterName,String reelerTypeNameInKannada, long reelerTypeMasterId);
+
+
     public ReelerTypeMaster findByReelerTypeMasterNameAndActive(String reelerTypeMasterName, boolean isActive);
 
     public Page<ReelerTypeMaster> findByActiveOrderByReelerTypeMasterNameAsc(boolean isActive, final Pageable pageable);

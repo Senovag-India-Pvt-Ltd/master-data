@@ -18,6 +18,9 @@ import java.util.Set;
 public interface HdQuestionMasterRepository extends PagingAndSortingRepository<HdQuestionMaster, Long> {
     public List<HdQuestionMaster> findByHdQuestionName(String hdQuestionName);
 
+    public List<HdQuestionMaster> findByHdQuestionNameAndHdQuestionIdIsNot(String hdQuestionName, long hdQuestionId);
+
+
     public HdQuestionMaster findByHdQuestionNameAndActive(String hdQuestionName, boolean isActive);
 
     public Page<HdQuestionMaster> findByActiveOrderByHdQuestionNameAsc(boolean isActive, final Pageable pageable);

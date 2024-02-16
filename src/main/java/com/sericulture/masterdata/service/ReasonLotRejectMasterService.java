@@ -139,7 +139,7 @@ public class ReasonLotRejectMasterService {
     @Transactional
     public ReasonLotRejectMasterResponse updateReasonLotRejectMasterDetails(EditReasonLotRejectMasterRequest reasonLotRejectMasterRequest) {
         ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
-        List<ReasonLotRejectMaster> reasonLotRejectMasterList = reasonLotRejectMasterRepository.findByReasonLotRejectName(reasonLotRejectMasterRequest.getReasonLotRejectName());
+        List<ReasonLotRejectMaster> reasonLotRejectMasterList = reasonLotRejectMasterRepository.findByReasonLotRejectNameAndReasonLotRejectIdIsNot(reasonLotRejectMasterRequest.getReasonLotRejectName(),reasonLotRejectMasterRequest.getReasonLotRejectId());
         if (reasonLotRejectMasterList.size() > 0) {
             reasonLotRejectMasterResponse.setError(true);
             reasonLotRejectMasterResponse.setError_description("ReasonLotRejectMaster already exists, duplicates are not allowed.");

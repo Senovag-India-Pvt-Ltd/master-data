@@ -14,6 +14,9 @@ import java.util.Set;
 public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
     public List<Role> findByRoleName(String roleName);
 
+    public List<Role> findByRoleNameAndRoleIdIsNot(String roleName, long roleId);
+
+
     public Role findByRoleNameAndActive(String roleName,boolean isActive);
 
     public Page<Role> findByActiveOrderByRoleNameAsc(boolean isActive, final Pageable pageable);

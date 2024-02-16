@@ -135,7 +135,7 @@ public class SourceMasterService {
     @Transactional
     public SourceMasterResponse updateSourceMasterDetails(EditSourceMasterRequest sourceMasterRequest){
             SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
-            List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterNameAndSourceNameInKannada(sourceMasterRequest.getSourceMasterName(),sourceMasterRequest.getSourceNameInKannada());
+            List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterNameAndSourceNameInKannadaAndSourceMasterIdIsNot(sourceMasterRequest.getSourceMasterName(),sourceMasterRequest.getSourceNameInKannada(),sourceMasterRequest.getSourceMasterId());
             if(sourceMasterList.size()>0){
                 sourceMasterResponse.setError(true);
                 sourceMasterResponse.setError_description("Source already exists, duplicates are not allowed.");

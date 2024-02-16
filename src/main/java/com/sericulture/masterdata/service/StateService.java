@@ -137,7 +137,7 @@ public class StateService {
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
 
             StateResponse stateResponse = new StateResponse();
-        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannada(stateRequest.getStateName(),stateRequest.getStateNameInKannada());
+        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannadaAndStateIdIsNot(stateRequest.getStateName(),stateRequest.getStateNameInKannada(),stateRequest.getStateId());
         if(stateList.size()>0){
             stateResponse.setError(true);
             stateResponse.setError_description("State already exists, duplicates are not allowed.");

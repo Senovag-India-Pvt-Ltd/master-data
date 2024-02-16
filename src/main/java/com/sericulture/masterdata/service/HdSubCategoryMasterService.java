@@ -202,7 +202,7 @@ public class HdSubCategoryMasterService {
     public HdSubCategoryMasterResponse updateHdSubCategoryMasterDetails(EditHdSubCategoryMasterRequest hdSubCategoryMasterRequest) {
 
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
-        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdSubCategoryName(hdSubCategoryMasterRequest.getHdSubCategoryName());
+        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdSubCategoryNameAndHdSubCategoryIdIsNot(hdSubCategoryMasterRequest.getHdSubCategoryName(),hdSubCategoryMasterRequest.getHdSubCategoryId());
         if (hdSubCategoryMasterList.size() > 0) {
             hdSubCategoryMasterResponse.setError(true);
             hdSubCategoryMasterResponse.setError_description("hd SubcategoryMaster already exists, duplicates are not allowed.");

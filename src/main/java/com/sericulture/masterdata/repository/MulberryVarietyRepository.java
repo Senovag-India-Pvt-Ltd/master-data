@@ -14,6 +14,9 @@ import java.util.Set;
 public interface MulberryVarietyRepository extends PagingAndSortingRepository<MulberryVariety, Long> {
     public List<MulberryVariety> findByMulberryVarietyNameAndMulberryVarietyNameInKannada(String mulberryVarietyName,String mulberryVarietyNameInKannada);
 
+    public List<MulberryVariety> findByMulberryVarietyNameAndMulberryVarietyNameInKannadaAndMulberryVarietyIdIsNot(String mulberryVarietyName,String mulberryVarietyNameInKannada,long mulberryVarietyId);
+
+
     public MulberryVariety findByMulberryVarietyNameAndActive(String mulberryVarietyName,boolean isActive);
 
     public Page<MulberryVariety> findByActiveOrderByMulberryVarietyNameAsc(boolean isActive, final Pageable pageable);

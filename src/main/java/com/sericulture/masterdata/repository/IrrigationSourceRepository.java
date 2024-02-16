@@ -15,6 +15,9 @@ import java.util.Set;
 public interface IrrigationSourceRepository extends PagingAndSortingRepository<IrrigationSource,Long> {
     public List<IrrigationSource> findByIrrigationSourceNameAndIrrigationSourceNameInKannada(String irrigationSourceName,String irrigationSourceNameInKannada);
 
+    public List<IrrigationSource> findByIrrigationSourceNameAndIrrigationSourceNameInKannadaAndIrrigationSourceIdIsNot(String irrigationSourceName,String irrigationSourceNameInKannada,long irrigationSourceId);
+
+
     public IrrigationSource findByIrrigationSourceNameAndActive(String irrigationSourceName,boolean isActive);
 
     public Page<IrrigationSource> findByActiveOrderByIrrigationSourceNameAsc(boolean isActive, final Pageable pageable);

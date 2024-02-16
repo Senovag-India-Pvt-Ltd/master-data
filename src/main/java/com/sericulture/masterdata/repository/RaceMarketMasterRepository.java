@@ -22,6 +22,9 @@ public interface RaceMarketMasterRepository extends PagingAndSortingRepository<R
 
     List<RaceMarketMaster> findByMarketMasterIdAndRaceMasterId(long marketMasterId, long raceMasterId);
 
+    List<RaceMarketMaster> findByMarketMasterIdAndRaceMasterIdAndRaceMarketMasterIdIsNot(long marketMasterId, long raceMasterId, long raceMarketMasterId);
+
+
     public RaceMarketMaster save(RaceMarketMaster raceMarketMaster);
 
     public RaceMarketMaster findByRaceMarketMasterIdAndActive(long id, boolean isActive);

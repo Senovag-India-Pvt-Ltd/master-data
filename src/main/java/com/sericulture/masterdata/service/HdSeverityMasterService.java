@@ -140,7 +140,7 @@ public class HdSeverityMasterService {
     public HdSeverityMasterResponse updateHdSeverityMasterDetails(EditHdSeverityMasterRequest hdSeverityMasterRequest){
 
         HdSeverityMasterResponse hdSeverityMasterResponse = new HdSeverityMasterResponse();
-        List<HdSeverityMaster> hdSeverityMasterList =  hdSeverityMasterRepository.findByHdSeverityName(hdSeverityMasterRequest.getHdSeverityName());
+        List<HdSeverityMaster> hdSeverityMasterList =  hdSeverityMasterRepository.findByHdSeverityNameAndHdSeverityIdIsNot(hdSeverityMasterRequest.getHdSeverityName(),hdSeverityMasterRequest.getHdSeverityId());
         if(hdSeverityMasterList.size()>0){
             hdSeverityMasterResponse.setError(true);
             hdSeverityMasterResponse.setError_description("SeverityMaster already exists, duplicates are not allowed.");

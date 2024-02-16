@@ -138,7 +138,7 @@ public class MachineTypeMasterService {
     @Transactional
     public MachineTypeMasterResponse updateMachineTypeMasterDetails(EditMachineTypeMasterRequest machineTypeMasterRequest) {
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
-        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeNameAndMachineTypeNameInKannada(machineTypeMasterRequest.getMachineTypeName(),machineTypeMasterRequest.getMachineTypeNameInKannada());
+        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeNameAndMachineTypeNameInKannadaAndMachineTypeIdIsNot(machineTypeMasterRequest.getMachineTypeName(),machineTypeMasterRequest.getMachineTypeNameInKannada(),machineTypeMasterRequest.getMachineTypeId());
         if (machineTypeMasterList.size() > 0) {
             machineTypeMasterResponse.setError(true);
             machineTypeMasterResponse.setError_description("MachineType already exists, duplicates are not allowed.");

@@ -121,7 +121,7 @@ public class RpPageRootService {
     @Transactional
     public RpPageRootResponse updateRpPageRootDetails(EditRpPageRootRequest rpPageRootRequest) {
         RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
-        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
+        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootNameAndRpPageRootIdIsNot(rpPageRootRequest.getRpPageRootName(),rpPageRootRequest.getRpPageRootId());
         if (rpPageRootList.size() > 0) {
             rpPageRootResponse.setError(true);
             rpPageRootResponse.setError_description("RpPageRoot already exists, duplicates are not allowed.");

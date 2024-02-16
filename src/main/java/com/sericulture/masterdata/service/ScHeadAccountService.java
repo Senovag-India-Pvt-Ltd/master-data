@@ -120,7 +120,7 @@ public class ScHeadAccountService {
     @Transactional
     public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
-        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
+        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountNameAndScHeadAccountIdIsNot(scHeadAccountRequest.getScHeadAccountName(),scHeadAccountRequest.getScHeadAccountId());
         if (scHeadAccountList.size() > 0) {
             scHeadAccountResponse.setError(true);
             scHeadAccountResponse.setError_description("ScHeadAccount already exists, duplicates are not allowed.");

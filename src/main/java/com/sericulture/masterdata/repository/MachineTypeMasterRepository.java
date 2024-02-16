@@ -14,6 +14,9 @@ import java.util.Set;
 public interface MachineTypeMasterRepository extends PagingAndSortingRepository<MachineTypeMaster, Long> {
     public List<MachineTypeMaster> findByMachineTypeNameAndMachineTypeNameInKannada(String machineTypeName,String machineTypeNameInKannada);
 
+    public List<MachineTypeMaster> findByMachineTypeNameAndMachineTypeNameInKannadaAndMachineTypeIdIsNot(String machineTypeName,String machineTypeNameInKannada, long machineTypeId);
+
+
     public MachineTypeMaster findByMachineTypeNameAndActive(String machineTypeName,boolean isActive);
 
     public Page<MachineTypeMaster> findByActiveOrderByMachineTypeNameAsc(boolean isActive, final Pageable pageable);
