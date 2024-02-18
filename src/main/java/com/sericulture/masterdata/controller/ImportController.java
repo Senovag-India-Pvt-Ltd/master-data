@@ -41,6 +41,10 @@ public class ImportController {
             System.out.println("Iterating over Rows and Columns using Iterator");
             Iterator<Row> rowIterator = sheet.rowIterator();
             while (rowIterator.hasNext()) {
+                State updateState = new State();
+                District updateDistrict = new District();
+                Taluk updateTaluk = new Taluk();
+                Hobli updateHobli = new Hobli();
                 Village updateVillage = new Village();
                 long stateId = 0, districtId = 0, talukId = 0, hobliId = 0, villageId = 0;
                 Row row = rowIterator.next();
@@ -65,12 +69,24 @@ public class ImportController {
                                         state1.setStateName(cellValue);
                                         State state2 = stateRepository.save(state1);
                                         stateId = state2.getStateId();
+                                        updateState =  state2;
                                     } else {
                                         stateId = state.getStateId();
+                                        updateState = state;
                                     }
                                 }
                                 break;
                             case 1:
+                                //state kan
+                                System.out.print("stateKan:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (stateId != 0) {
+                                        updateState.setStateNameInKannada(cellValue);
+                                        stateRepository.save(updateState);
+                                    }
+                                }
+                                break;
+                            case 2:
                                 //district
                                 System.out.print("district:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -81,12 +97,24 @@ public class ImportController {
                                         district1.setStateId(stateId);
                                         District district2 = districtRepository.save(district1);
                                         districtId = district2.getDistrictId();
+                                        updateDistrict = district2;
                                     } else {
                                         districtId = district.getDistrictId();
+                                        updateDistrict = district;
                                     }
                                 }
                                 break;
-                            case 2:
+                            case 3:
+                                //district kan
+                                System.out.print("districtKan:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (districtId != 0) {
+                                        updateDistrict.setDistrictNameInKannada(cellValue);
+                                        districtRepository.save(updateDistrict);
+                                    }
+                                }
+                                break;
+                            case 4:
                                 //taluk
                                 System.out.print("taluk:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -98,12 +126,24 @@ public class ImportController {
                                         taluk1.setDistrictId(districtId);
                                         Taluk taluk2 = talukRepository.save(taluk1);
                                         talukId = taluk2.getTalukId();
+                                        updateTaluk = taluk2;
                                     } else {
                                         talukId = taluk.getTalukId();
+                                        updateTaluk = taluk;
                                     }
                                 }
                                 break;
-                            case 3:
+                            case 5:
+                                //taluk kan
+                                System.out.print("talukKan:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (talukId != 0) {
+                                        updateTaluk.setTalukNameInKannada(cellValue);
+                                        talukRepository.save(updateTaluk);
+                                    }
+                                }
+                                break;
+                            case 6:
                                 //hobli
                                 System.out.print("hobli:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -116,12 +156,24 @@ public class ImportController {
                                         hobli1.setTalukId(talukId);
                                         Hobli hobli2 = hobliRepository.save(hobli1);
                                         hobliId = hobli2.getHobliId();
+                                        updateHobli = hobli2;
                                     } else {
                                         hobliId = hobli.getHobliId();
+                                        updateHobli = hobli;
                                     }
                                 }
                                 break;
-                            case 4:
+                            case 7:
+                                //hobli kan
+                                System.out.print("hobliKan:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (hobliId != 0) {
+                                        updateHobli.setHobliNameInKannada(cellValue);
+                                        hobliRepository.save(updateHobli);
+                                    }
+                                }
+                                break;
+                            case 8:
                                 //villageEng
                                 System.out.print("villageEng:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -142,7 +194,7 @@ public class ImportController {
                                     }
                                 }
                                 break;
-                            case 5:
+                            case 9:
                                 //villageKan
                                 System.out.print("villageKan:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
