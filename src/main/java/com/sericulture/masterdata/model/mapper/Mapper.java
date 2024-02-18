@@ -4,6 +4,7 @@ package com.sericulture.masterdata.model.mapper;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.hdAnswerMaster.HdAnswerMasterRequest;
 import com.sericulture.masterdata.model.api.hdBoardCategoryMaster.HdBoardCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
@@ -1645,4 +1646,26 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, hdAnswerMasterRequest);
         return (T) mapper.map(hdAnswerMasterRequest, claaz);
     }
+
+    /**
+     * Maps disinfectantMaster Entity to disinfectantMaster Response Object
+     * @param disinfectantMasterEntity
+     * @param <T>
+     */
+    public <T> T disinfectantMasterEntityToObject(DisinfectantMaster disinfectantMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,disinfectantMasterEntity);
+        return (T) mapper.map(disinfectantMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps disinfectantMaster Object to disinfectantMaster  Response Object
+     * @param disinfectantMasterRequest
+     * @param <T>
+     */
+    public <T> T disinfectantMasterObjectToEntity(DisinfectantMasterRequest disinfectantMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, disinfectantMasterRequest);
+        return (T) mapper.map(disinfectantMasterRequest, claaz);
+    }
+
 }
