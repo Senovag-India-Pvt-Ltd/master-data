@@ -20,7 +20,7 @@ public class DisinfectantMasterResponse {
     @Schema(name = "disinfectantMasterName", example = "Karnataka", required = true)
     String disinfectantMasterName;
 
-    @Schema(name = "disinfectantMasterNameInKannada", example = "Karnataka", required = true)
+    @Schema(name = "disinfectantMasterNameInKannada", example = "ಭಾಷೆ", required = true)
     String disinfectantMasterNameInKannada;
 
     @Schema(name = "error", example = "true")

@@ -5,6 +5,9 @@ import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterReq
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
+import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
+import com.sericulture.masterdata.model.api.generationNumberMaster.GenerationNumberMasterRequest;
+import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
 import com.sericulture.masterdata.model.api.hdAnswerMaster.HdAnswerMasterRequest;
 import com.sericulture.masterdata.model.api.hdBoardCategoryMaster.HdBoardCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
@@ -16,7 +19,6 @@ import com.sericulture.masterdata.model.api.documentMaster.DocumentMasterRequest
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
-import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdFeatureMaster.HdFeatureMasterRequest;
 import com.sericulture.masterdata.model.api.hdModuleMaster.HdModuleMasterRequest;
 import com.sericulture.masterdata.model.api.hdQuestionMaster.HdQuestionMasterRequest;
@@ -27,6 +29,7 @@ import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
+import com.sericulture.masterdata.model.api.lineNameMaster.LineNameMasterRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterRequest;
@@ -1667,5 +1670,87 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, disinfectantMasterRequest);
         return (T) mapper.map(disinfectantMasterRequest, claaz);
     }
+    /**
+     * Maps grainageMaster Entity to grainageMaster Response Object
+     * @param grainageMasterEntity
+     * @param <T>
+     */
+    public <T> T grainageMasterEntityToObject(GrainageMaster grainageMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,grainageMasterEntity);
+        return (T) mapper.map(grainageMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps grainageMaster Object to grainageMaster  Response Object
+     * @param grainageMasterRequest
+     * @param <T>
+     */
+    public <T> T grainageMasterObjectToEntity(GrainageMasterRequest grainageMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, grainageMasterRequest);
+        return (T) mapper.map(grainageMasterRequest, claaz);
+    }
+    /**
+     * Maps lineNameMaster Entity to lineNameMaster Response Object
+     * @param lineNameMasterEntity
+     * @param <T>
+     */
+    public <T> T lineNameMasterEntityToObject(LineNameMaster lineNameMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,lineNameMasterEntity);
+        return (T) mapper.map(lineNameMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps lineNameMaster Object to lineNameMaster  Response Object
+     * @param lineNameMasterRequest
+     * @param <T>
+     */
+    public <T> T lineNameMasterObjectToEntity(LineNameMasterRequest lineNameMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, lineNameMasterRequest);
+        return (T) mapper.map(lineNameMasterRequest, claaz);
+    }
+    /**
+     * Maps farmMaster Entity to farmMaster Response Object
+     * @param farmMasterEntity
+     * @param <T>
+     */
+    public <T> T farmMasterEntityToObject(FarmMaster farmMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,farmMasterEntity);
+        return (T) mapper.map(farmMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps farmMaster Object to farmMaster  Response Object
+     * @param farmMasterRequest
+     * @param <T>
+     */
+    public <T> T farmMasterObjectToEntity(FarmMasterRequest farmMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmMasterRequest);
+        return (T) mapper.map(farmMasterRequest, claaz);
+    }
+
+    /**
+     * Maps generationNumberMaster Entity to generationNumberMaster Response Object
+     * @param generationNumberMasterEntity
+     * @param <T>
+     */
+    public <T> T generationNumberMasterEntityToObject(GenerationNumberMaster generationNumberMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,generationNumberMasterEntity);
+        return (T) mapper.map(generationNumberMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps generationNumberMaster Object to generationNumberMaster  Response Object
+     * @param generationNumberMasterRequest
+     * @param <T>
+     */
+    public <T> T generationNumberObjectToEntity(GenerationNumberMasterRequest generationNumberMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, generationNumberMasterRequest);
+        return (T) mapper.map(generationNumberMasterRequest, claaz);
+    }
+
 
 }

@@ -17,6 +17,6 @@ public class DisinfectantMasterRequest extends RequestBody {
     String disinfectantMasterName;
 
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Disinfectant in kannada must contain only letters and numbers")
-    @Schema(name = "disinfectantMasterNameInKannada", example = "Karnataka", required = true)
+    @Schema(name = "disinfectantMasterNameInKannada", example = "ಭಾಷೆ", required = true)
     String disinfectantMasterNameInKannada;
 }
