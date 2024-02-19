@@ -22,7 +22,7 @@ public class Taluk extends BaseEntity implements Serializable {
     private Long talukId;
 
     @Size(min = 2, max = 250, message = "TALUK name should be more than 1 characters.")
-    @Column(name = "TALUK_NAME", unique = true)
+    @Column(name = "TALUK_NAME")
     private String talukName;
 
     @Column(name = "STATE_ID")

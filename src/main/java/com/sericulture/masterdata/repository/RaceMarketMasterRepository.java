@@ -66,4 +66,19 @@ public interface RaceMarketMasterRepository extends PagingAndSortingRepository<R
     )
     public RaceMarketMasterDTO getByRaceMarketMasterIdAndActive(long id, boolean isActive);
 
+    @Query("select new com.sericulture.masterdata.model.dto.RaceMarketMasterDTO(" +
+            " raceMarketMaster.raceMarketMasterId," +
+            " raceMarketMaster.marketMasterId," +
+            " raceMarketMaster.raceMasterId," +
+            " marketMaster.marketMasterName," +
+            " raceMaster.raceMasterName" +
+            ") \n" +
+            "from RaceMarketMaster raceMarketMaster\n" +
+            "left join market_master marketMaster\n" +
+            "on raceMarketMaster.marketMasterId = marketMaster.marketMasterId " +
+            "left join RaceMaster raceMaster\n" +
+            "on raceMarketMaster.raceMasterId = raceMaster.raceMasterId " +
+            "where raceMarketMaster.active = :isActive AND raceMarketMaster.marketMasterId = :marketMasterId "
+    )
+    public List<RaceMarketMasterDTO> getRaceMaster(long marketMasterId, boolean isActive);
 }

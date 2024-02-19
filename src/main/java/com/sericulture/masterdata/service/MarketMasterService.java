@@ -209,6 +209,9 @@ public class MarketMasterService {
                 marketMaster.setMarketLongitude(marketMasterRequest.getMarketLongitude());
                 marketMaster.setRadius(marketMasterRequest.getRadius());
                 marketMaster.setClientId(marketMasterRequest.getClientId());
+                marketMaster.setSnorkelRequestPath(marketMasterRequest.getSnorkelRequestPath());
+                marketMaster.setSnorkelResponsePath(marketMasterRequest.getSnorkelResponsePath());
+                marketMaster.setClientCode(marketMasterRequest.getClientCode());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);

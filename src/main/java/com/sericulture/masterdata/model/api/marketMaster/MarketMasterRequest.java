@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.marketMaster;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
@@ -106,4 +107,13 @@ public class MarketMasterRequest extends RequestBody {
 
     @Schema(name = "reelerMinimumBalance", example = "1")
     Long reelerMinimumBalance;
+
+    @Schema(name = "snorkelRequestPath",example = "/path")
+    String snorkelRequestPath;
+
+    @Schema(name = "snorkelResponsePath",example = "/path")
+    String snorkelResponsePath;
+
+    @Schema(name = "clientCode",example = "C001")
+    String clientCode;
 }

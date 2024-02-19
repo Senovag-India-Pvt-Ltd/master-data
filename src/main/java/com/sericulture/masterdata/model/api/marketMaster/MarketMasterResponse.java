@@ -122,4 +122,13 @@ public class MarketMasterResponse {
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
+
+    @Schema(name = "snorkelRequestPath",example = "/path")
+    String snorkelRequestPath;
+
+    @Schema(name = "snorkelResponsePath",example = "/path")
+    String snorkelResponsePath;
+
+    @Schema(name = "clientCode",example = "C001")
+    String clientCode;
 }

@@ -109,4 +109,15 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "reelerMinimumBalance", example = "1")
     Long reelerMinimumBalance;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Snorkel Request Path must contain only letters and numbers")
+    @Schema(name = "snorkelRequestPath", example = "/pathname")
+    String snorkelRequestPath;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Snorkel Response Path must contain only letters and numbers")
+    @Schema(name = "snorkelResponsePath", example = "/pathname")
+    String snorkelResponsePath;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Client Code Path must contain only letters and numbers")
+    @Schema(name = "clientCode", example = "C123")
+    String clientCode;
 }
