@@ -18,6 +18,8 @@ public interface TrProgramMasterRespository extends PagingAndSortingRepository<T
 
     public List<TrProgramMaster> findByTrProgramMasterNameAndTrProgramNameInKannada(String trProgramMasterName,String trProgramNameInKannada);
 
+    public List<TrProgramMaster> findByActiveAndTrProgramMasterNameAndTrProgramNameInKannada(boolean a,String trProgramMasterName,String trProgramNameInKannada);
+
     public TrProgramMaster findByTrProgramMasterNameAndActive(String trProgramMasterName,boolean isActive);
 
     public Page<TrProgramMaster> findByActiveOrderByTrProgramMasterNameAsc(boolean isActive, final Pageable pageable);

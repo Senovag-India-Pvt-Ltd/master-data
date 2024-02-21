@@ -61,10 +61,10 @@ public class TrInstitutionMasterService {
         if(!trInstitutionMasterList.isEmpty() && trInstitutionMasterList.stream().filter(TrInstitutionMaster::getActive).findAny().isPresent()){
             trInstitutionMasterResponse.setError(true);
             trInstitutionMasterResponse.setError_description("TrInstitutionMaster name already exist");
-        }
-        else if(!trInstitutionMasterList.isEmpty() && trInstitutionMasterList.stream().filter(Predicate.not(TrInstitutionMaster::getActive)).findAny().isPresent()){
-            trInstitutionMasterResponse.setError(true);
-            trInstitutionMasterResponse.setError_description("trInstitutionMaster name already exist with inactive state");
+//        }
+//        else if(!trInstitutionMasterList.isEmpty() && trInstitutionMasterList.stream().filter(Predicate.not(TrInstitutionMaster::getActive)).findAny().isPresent()){
+//            trInstitutionMasterResponse.setError(true);
+//            trInstitutionMasterResponse.setError_description("trInstitutionMaster name already exist with inactive state");
         }else {
             trInstitutionMasterResponse = mapper.trInstitutionMasterEntityToObject(trInstitutionMasterRepository.save(trInstitutionMaster), TrInstitutionMasterResponse.class);
             trInstitutionMasterResponse.setError(false);
@@ -140,7 +140,7 @@ public class TrInstitutionMasterService {
     public TrInstitutionMasterResponse updateTrInstitutionMasterDetails(EditTrInstitutionMasterRequest trInstitutionMasterRequest){
 
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
-        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndTrInstitutionNameInKannada(trInstitutionMasterRequest.getTrInstitutionMasterName(), trInstitutionMasterRequest.getTrInstitutionNameInKannada());
+        List<TrInstitutionMaster> trInstitutionMasterList = trInstitutionMasterRepository.findByActiveAndTrInstitutionMasterNameAndTrInstitutionNameInKannada(true,trInstitutionMasterRequest.getTrInstitutionMasterName(), trInstitutionMasterRequest.getTrInstitutionNameInKannada());
         if(trInstitutionMasterList.size()>0){
             trInstitutionMasterResponse.setError(true);
             trInstitutionMasterResponse.setError_description("TrInstitutionMaster already exists, duplicates are not allowed.");

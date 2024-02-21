@@ -69,11 +69,11 @@ public class VillageService {
            // throw new ValidationException("Village name already exist");
             villageResponse.setError(true);
             villageResponse.setError_description("Village name already exist");
-        }
-        else if(!villageList.isEmpty() && villageList.stream().filter(Predicate.not(Village::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            villageResponse.setError(true);
-            villageResponse.setError_description("Village name already exist with inactive state");
+//        }
+//        else if(!villageList.isEmpty() && villageList.stream().filter(Predicate.not(Village::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            villageResponse.setError(true);
+//            villageResponse.setError_description("Village name already exist with inactive state");
         }else {
             villageResponse = mapper.villageEntityToObject(villageRepository.save(village), VillageResponse.class);
             villageResponse.setError(false);
@@ -206,7 +206,7 @@ public class VillageService {
     @Transactional
     public VillageResponse updateVillageDetails(EditVillageRequest villageRequest){
         VillageResponse villageResponse = new VillageResponse();
-        List<Village> villageList = villageRepository.findByVillageNameAndVillageNameInKannada(villageRequest.getVillageName(), villageRequest.getVillageNameInKannada());
+        List<Village> villageList = villageRepository.findByActiveAndVillageNameAndVillageNameInKannada(true,villageRequest.getVillageName(), villageRequest.getVillageNameInKannada());
         if(villageList.size()>0){
             villageResponse.setError(true);
             villageResponse.setError_description("Village already exists, duplicates are not allowed.");

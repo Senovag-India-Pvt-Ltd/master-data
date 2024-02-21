@@ -49,10 +49,10 @@ public class TrTraineeService {
         if(!trTraineeList.isEmpty() && trTraineeList.stream().filter(TrTrainee::getActive).findAny().isPresent()){
             trTraineeResponse.setError(true);
             trTraineeResponse.setError_description("Trainee name already exist");
-        }
-        else if(!trTraineeList.isEmpty() && trTraineeList.stream().filter(Predicate.not(TrTrainee::getActive)).findAny().isPresent()){
-            trTraineeResponse.setError(true);
-            trTraineeResponse.setError_description("Trainee name already exist with inactive state");
+//        }
+//        else if(!trTraineeList.isEmpty() && trTraineeList.stream().filter(Predicate.not(TrTrainee::getActive)).findAny().isPresent()){
+//            trTraineeResponse.setError(true);
+//            trTraineeResponse.setError_description("Trainee name already exist with inactive state");
         }else{
             // Check for duplicate Trainee Number
             List<TrTrainee> trTraineeListByNumber = trTraineeRepository.findByMobileNumber(trTrainee.getMobileNumber());
@@ -197,7 +197,7 @@ public class TrTraineeService {
     public TrTraineeResponse updateTrTraineeDetails(EditTrTraineeRequest trTraineeRequest){
 
         TrTraineeResponse trTraineeResponse = new TrTraineeResponse();
-        List<TrTrainee> trTraineeList = trTraineeRepository.findByTrTraineeName(trTraineeRequest.getTrTraineeName());
+        List<TrTrainee> trTraineeList = trTraineeRepository.findByActiveAndTrTraineeName(true,trTraineeRequest.getTrTraineeName());
         if(trTraineeList.size()>0){
             trTraineeResponse.setError(true);
             trTraineeResponse.setError_description("TrTrainee already exists, duplicates are not allowed.");

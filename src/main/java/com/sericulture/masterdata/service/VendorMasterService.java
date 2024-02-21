@@ -48,11 +48,11 @@ public class VendorMasterService {
         if(!vendorMasterList.isEmpty() && vendorMasterList.stream().filter(VendorMaster::getActive).findAny().isPresent()){
             vendorMasterResponse.setError(true);
             vendorMasterResponse.setError_description("VendorMaster name already exist");
-        }
-        else if(!vendorMasterList.isEmpty() && vendorMasterList.stream().filter(Predicate.not(VendorMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            vendorMasterResponse.setError(true);
-            vendorMasterResponse.setError_description("VendorMaster name already exist with inactive state");
+//        }
+//        else if(!vendorMasterList.isEmpty() && vendorMasterList.stream().filter(Predicate.not(VendorMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            vendorMasterResponse.setError(true);
+//            vendorMasterResponse.setError_description("VendorMaster name already exist with inactive state");
         }else {
             vendorMasterResponse = mapper.vendorMasterEntityToObject(vendorMasterRepository.save(vendorMaster), VendorMasterResponse.class);
             vendorMasterResponse.setError(false);
@@ -127,7 +127,7 @@ public class VendorMasterService {
     @Transactional
     public VendorMasterResponse updateVendorMasterDetails(EditVendorMasterRequest vendorMasterRequest) {
         VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
-        List<VendorMaster> vendorMasterList = vendorMasterRepository.findByVendorMasterName(vendorMasterRequest.getVendorMasterName());
+        List<VendorMaster> vendorMasterList = vendorMasterRepository.findByActiveAndVendorMasterName(true,vendorMasterRequest.getVendorMasterName());
         if (vendorMasterList.size() > 0) {
             vendorMasterResponse.setError(true);
             vendorMasterResponse.setError_description("VendorMaster already exists, duplicates are not allowed.");

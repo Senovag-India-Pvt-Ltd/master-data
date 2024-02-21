@@ -106,9 +106,9 @@ public class UserMasterService {
         if (userMasterList != null && userMasterList .getActive()) {
             userMasterResponse.setError(true);
             userMasterResponse.setError_description("Username already exists");
-        } else if (userMasterList != null && !userMasterList.getActive()) {
-            userMasterResponse.setError(true);
-            userMasterResponse.setError_description("Username already exists with inactive state");
+//        } else if (userMasterList != null && !userMasterList.getActive()) {
+//            userMasterResponse.setError(true);
+//            userMasterResponse.setError_description("Username already exists with inactive state");
         } else {
             userMasterResponse = mapper.userMasterEntityToObject(userMasterRepository.save(userMaster), UserMasterResponse.class);
             userMasterResponse.setError(false);

@@ -61,10 +61,10 @@ public class TrGroupMasterService {
         if(!trGroupMasterList.isEmpty() && trGroupMasterList.stream().filter(TrGroupMaster::getActive).findAny().isPresent()){
             trGroupMasterResponse.setError(true);
             trGroupMasterResponse.setError_description("TrGroupMaster name already exist");
-        }
-        else if(!trGroupMasterList.isEmpty() && trGroupMasterList.stream().filter(Predicate.not(TrGroupMaster::getActive)).findAny().isPresent()){
-            trGroupMasterResponse.setError(true);
-            trGroupMasterResponse.setError_description("trGroupMaster name already exist with inactive state");
+//        }
+//        else if(!trGroupMasterList.isEmpty() && trGroupMasterList.stream().filter(Predicate.not(TrGroupMaster::getActive)).findAny().isPresent()){
+//            trGroupMasterResponse.setError(true);
+//            trGroupMasterResponse.setError_description("trGroupMaster name already exist with inactive state");
         }else {
             trGroupMasterResponse = mapper.trGroupMasterEntityToObject(trGroupMasterRepository.save(trGroupMaster), TrGroupMasterResponse.class);
             trGroupMasterResponse.setError(false);
@@ -141,7 +141,7 @@ public class TrGroupMasterService {
     public TrGroupMasterResponse updateTrGroupMasterDetails(EditTrGroupMasterRequest trGroupMasterRequest){
 
         TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
-        List<TrGroupMaster> trGroupMasterList = trGroupMasterRepository.findByTrGroupMasterNameAndTrGroupNameInKannada(trGroupMasterRequest.getTrGroupMasterName(), trGroupMasterRequest.getTrGroupNameInKannada());
+        List<TrGroupMaster> trGroupMasterList = trGroupMasterRepository.findByActiveAndTrGroupMasterNameAndTrGroupNameInKannada(true,trGroupMasterRequest.getTrGroupMasterName(), trGroupMasterRequest.getTrGroupNameInKannada());
         if(trGroupMasterList.size()>0){
             trGroupMasterResponse.setError(true);
             trGroupMasterResponse.setError_description("TrGroupMaster already exists, duplicates are not allowed.");

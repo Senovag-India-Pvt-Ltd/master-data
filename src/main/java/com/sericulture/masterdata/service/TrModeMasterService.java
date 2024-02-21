@@ -62,10 +62,10 @@ public class TrModeMasterService {
         if(!trModeMasterList.isEmpty() && trModeMasterList.stream().filter(TrModeMaster::getActive).findAny().isPresent()){
             trModeMasterResponse.setError(true);
             trModeMasterResponse.setError_description("TrModeMaster name already exist");
-        }
-        else if(!trModeMasterList.isEmpty() && trModeMasterList.stream().filter(Predicate.not(TrModeMaster::getActive)).findAny().isPresent()){
-            trModeMasterResponse.setError(true);
-            trModeMasterResponse.setError_description("trModeMaster name already exist with inactive state");
+//        }
+//        else if(!trModeMasterList.isEmpty() && trModeMasterList.stream().filter(Predicate.not(TrModeMaster::getActive)).findAny().isPresent()){
+//            trModeMasterResponse.setError(true);
+//            trModeMasterResponse.setError_description("trModeMaster name already exist with inactive state");
         }else {
             trModeMasterResponse = mapper.trModeMasterEntityToObject(trModeMasterRepository.save(trModeMaster), TrModeMasterResponse.class);
             trModeMasterResponse.setError(false);
@@ -142,7 +142,7 @@ public class TrModeMasterService {
     public TrModeMasterResponse updateTrModeMasterDetails(EditTrModeMasterRequest trModeMasterRequest){
 
         TrModeMasterResponse trModeMasterResponse = new TrModeMasterResponse();
-        List<TrModeMaster> trModeMasterList = trModeMasterRepository.findByTrModeMasterName(trModeMasterRequest.getTrModeMasterName());
+        List<TrModeMaster> trModeMasterList = trModeMasterRepository.findByActiveAndTrModeMasterName(true,trModeMasterRequest.getTrModeMasterName());
         if(trModeMasterList.size()>0){
             trModeMasterResponse.setError(true);
             trModeMasterResponse.setError_description("TrModeMaster already exists, duplicates are not allowed.");

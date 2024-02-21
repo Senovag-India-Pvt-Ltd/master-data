@@ -51,10 +51,10 @@ public class TrCourseMasterService {
         if(!trCourseMasterList.isEmpty() && trCourseMasterList.stream().filter(TrCourseMaster::getActive).findAny().isPresent()){
             trCourseMasterResponse.setError(true);
             trCourseMasterResponse.setError_description("Tr course name already exist");
-        }
-        else if(!trCourseMasterList.isEmpty() && trCourseMasterList.stream().filter(Predicate.not(TrCourseMaster::getActive)).findAny().isPresent()){
-            trCourseMasterResponse.setError(true);
-            trCourseMasterResponse.setError_description("Tr Course name already exist with inactive state");
+//        }
+//        else if(!trCourseMasterList.isEmpty() && trCourseMasterList.stream().filter(Predicate.not(TrCourseMaster::getActive)).findAny().isPresent()){
+//            trCourseMasterResponse.setError(true);
+//            trCourseMasterResponse.setError_description("Tr Course name already exist with inactive state");
         }else {
             trCourseMasterResponse = mapper.trCourseMasterEntityToObject(trCourseMasterRepository.save(trCourseMaster), TrCourseMasterResponse.class);
             trCourseMasterResponse.setError(false);
@@ -130,7 +130,7 @@ public class TrCourseMasterService {
     public TrCourseMasterResponse updateTrCourseMastersDetails(EditTrCourseMasterRequest trCourseMasterRequest){
 
         TrCourseMasterResponse trCourseMasterResponse = new TrCourseMasterResponse();
-        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByTrCourseMasterNameAndTrCourseNameInKannada(trCourseMasterRequest.getTrCourseMasterName(), trCourseMasterRequest.getTrCourseNameInKannada());
+        List<TrCourseMaster> trCourseMasterList = trCourseMasterRepository.findByActiveAndTrCourseMasterNameAndTrCourseNameInKannada(true,trCourseMasterRequest.getTrCourseMasterName(), trCourseMasterRequest.getTrCourseNameInKannada());
         if(trCourseMasterList.size()>0){
             trCourseMasterResponse.setError(true);
             trCourseMasterResponse.setError_description(" Training Course already exists, duplicates are not allowed.");

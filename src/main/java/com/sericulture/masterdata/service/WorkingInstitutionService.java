@@ -55,10 +55,10 @@ public class WorkingInstitutionService {
         if(!workingInstitutionList.isEmpty() && workingInstitutionList.stream().filter(WorkingInstitution::getActive).findAny().isPresent()){
             workingInstitutionResponse.setError(true);
             workingInstitutionResponse.setError_description("Working Institution name already exist");
-        }
-        else if(!workingInstitutionList.isEmpty() && workingInstitutionList.stream().filter(Predicate.not(WorkingInstitution::getActive)).findAny().isPresent()){
-            workingInstitutionResponse.setError(true);
-            workingInstitutionResponse.setError_description("Working Institution name already exist with inactive state");
+//        }
+//        else if(!workingInstitutionList.isEmpty() && workingInstitutionList.stream().filter(Predicate.not(WorkingInstitution::getActive)).findAny().isPresent()){
+//            workingInstitutionResponse.setError(true);
+//            workingInstitutionResponse.setError_description("Working Institution name already exist with inactive state");
         }else {
             workingInstitutionResponse = mapper.workingInstitutionEntityToObject(workingInstitutionRepository.save(workingInstitution), WorkingInstitutionResponse.class);
             workingInstitutionResponse.setError(false);
@@ -134,7 +134,7 @@ public class WorkingInstitutionService {
     public WorkingInstitutionResponse updateWorkingInstitutionDetails(EditWorkingInstitutionRequest workingInstitutionRequest){
 
         WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
-        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(workingInstitutionRequest.getWorkingInstitutionName(), workingInstitutionRequest.getWorkingInstitutionNameInKannada());
+        List<WorkingInstitution> workingInstitutionList = workingInstitutionRepository.findByActiveAndWorkingInstitutionNameAndWorkingInstitutionNameInKannada(true,workingInstitutionRequest.getWorkingInstitutionName(), workingInstitutionRequest.getWorkingInstitutionNameInKannada());
         if(workingInstitutionList.size()>0){
             workingInstitutionResponse.setError(true);
             workingInstitutionResponse.setError_description("Working Institution already exists, duplicates are not allowed.");

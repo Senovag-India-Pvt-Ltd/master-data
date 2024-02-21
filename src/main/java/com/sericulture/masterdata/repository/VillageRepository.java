@@ -18,6 +18,8 @@ import java.util.Set;
 public interface VillageRepository extends PagingAndSortingRepository<Village, Long> {
     public List<Village> findByVillageNameAndVillageNameInKannada(String villageName,String villageNameInKannada);
 
+    public List<Village> findByActiveAndVillageNameAndVillageNameInKannada(boolean a,String villageName,String villageNameInKannada);
+
     public List<Village> findByVillageNameAndStateId(String villageName, long stateId);
 
     public Village findByVillageNameAndActive(String villageName,boolean isActive);

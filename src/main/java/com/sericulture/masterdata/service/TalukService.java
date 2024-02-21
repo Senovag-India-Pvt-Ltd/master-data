@@ -63,10 +63,10 @@ public class TalukService {
 //            throw new ValidationException("Taluk name already exist with this state");
             talukResponse.setError(true);
             talukResponse.setError_description("Taluk name already exist");
-        } else if (!talukList.isEmpty() && talukList.stream().filter(Predicate.not(Taluk::getActive)).findAny().isPresent()) {
-            //throw new ValidationException("Village name already exist with inactive state");
-            talukResponse.setError(true);
-            talukResponse.setError_description("Taluk name already exist with inactive state");
+//        } else if (!talukList.isEmpty() && talukList.stream().filter(Predicate.not(Taluk::getActive)).findAny().isPresent()) {
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            talukResponse.setError(true);
+//            talukResponse.setError_description("Taluk name already exist with inactive state");
         } else {
             talukResponse = mapper.talukEntityToObject(talukRepository.save(taluk), TalukResponse.class);
             talukResponse.setError(false);
@@ -205,7 +205,7 @@ public class TalukService {
     @Transactional
     public TalukResponse updateTalukDetails(EditTalukRequest talukRequest) {
         TalukResponse talukResponse = new TalukResponse();
-        List<Taluk> talukList = talukRepository.findByTalukNameAndTalukNameInKannada(talukRequest.getTalukName(),talukRequest.getTalukNameInKannada());
+        List<Taluk> talukList = talukRepository.findByActiveAndTalukNameAndTalukNameInKannada(true,talukRequest.getTalukName(),talukRequest.getTalukNameInKannada());
         if (talukList.size() > 0) {
             talukResponse.setError(true);
             talukResponse.setError_description("Taluk already exists, duplicates are not allowed.");

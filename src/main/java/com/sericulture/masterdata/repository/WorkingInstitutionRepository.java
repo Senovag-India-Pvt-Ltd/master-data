@@ -14,6 +14,8 @@ import java.util.Set;
 public interface WorkingInstitutionRepository extends PagingAndSortingRepository<WorkingInstitution,Long> {
     public List<WorkingInstitution> findByWorkingInstitutionNameAndWorkingInstitutionNameInKannada(String workingInstitutionName,String workingInstitutionNameInKannada);
 
+    public List<WorkingInstitution> findByActiveAndWorkingInstitutionNameAndWorkingInstitutionNameInKannada(boolean a,String workingInstitutionName,String workingInstitutionNameInKannada);
+
     public WorkingInstitution findByWorkingInstitutionNameAndActive(String workingInstitutionName,boolean isActive);
 
     public Page<WorkingInstitution> findByActiveOrderByWorkingInstitutionNameAsc(boolean isActive, final Pageable pageable);

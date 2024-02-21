@@ -17,6 +17,9 @@ public interface TrOfficeRepository extends PagingAndSortingRepository<TrOffice,
 
     public List<TrOffice> findByTrOfficeName(String trOfficeName);
 
+    public List<TrOffice> findByActiveAndTrOfficeName(boolean a,String trOfficeName);
+
+
     public TrOffice findByTrOfficeNameAndActive(String trOfficeName,boolean isActive);
 
     public Page<TrOffice> findByActiveOrderByTrOfficeNameAsc(boolean isActive, final Pageable pageable);

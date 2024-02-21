@@ -19,6 +19,8 @@ public interface TrCourseMasterRepository extends PagingAndSortingRepository<TrC
 
     public List<TrCourseMaster> findByTrCourseMasterNameAndTrCourseNameInKannada(String trCourseMasterName,String trCourseNameInKannada);
 
+    public List<TrCourseMaster> findByActiveAndTrCourseMasterNameAndTrCourseNameInKannada(boolean a,String trCourseMasterName,String trCourseNameInKannada);
+
     public TrCourseMaster findByTrCourseMasterNameAndActive(String trCourseMasterName,boolean isActive);
 
     public Page<TrCourseMaster> findByActiveOrderByTrCourseMasterNameAsc(boolean isActive, final Pageable pageable);

@@ -47,10 +47,10 @@ public class TrOfficeService {
         if(!trOfficeList.isEmpty() && trOfficeList.stream().filter(TrOffice::getActive).findAny().isPresent()){
             trOfficeResponse.setError(true);
             trOfficeResponse.setError_description("TrOffice name already exist");
-        }
-        else if(!trOfficeList.isEmpty() && trOfficeList.stream().filter(Predicate.not(TrOffice::getActive)).findAny().isPresent()){
-            trOfficeResponse.setError(true);
-            trOfficeResponse.setError_description("trOffice name already exist with inactive state");
+//        }
+//        else if(!trOfficeList.isEmpty() && trOfficeList.stream().filter(Predicate.not(TrOffice::getActive)).findAny().isPresent()){
+//            trOfficeResponse.setError(true);
+//            trOfficeResponse.setError_description("trOffice name already exist with inactive state");
         }else {
             trOfficeResponse = mapper.trOfficeEntityToObject(trOfficeRepository.save(trOffice), TrOfficeResponse.class);
             trOfficeResponse.setError(false);
@@ -127,7 +127,7 @@ public class TrOfficeService {
     public TrOfficeResponse updateTrOfficeDetails(EditTrOfficeRequest trOfficeRequest){
 
         TrOfficeResponse trOfficeResponse = new TrOfficeResponse();
-        List<TrOffice> trOfficeList = trOfficeRepository.findByTrOfficeName(trOfficeRequest.getTrOfficeName());
+        List<TrOffice> trOfficeList = trOfficeRepository.findByActiveAndTrOfficeName(true,trOfficeRequest.getTrOfficeName());
         if(trOfficeList.size()>0){
             trOfficeResponse.setError(true);
             trOfficeResponse.setError_description("TrOffice already exists, duplicates are not allowed.");

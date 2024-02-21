@@ -42,11 +42,11 @@ public class TraderTypeMasterService {
         if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(TraderTypeMaster::getActive).findAny().isPresent()){
             traderTypeMasterResponse.setError(true);
             traderTypeMasterResponse.setError_description("TraderType name already exist");
-        }
-        else if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(Predicate.not(TraderTypeMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            traderTypeMasterResponse.setError(true);
-            traderTypeMasterResponse.setError_description("TraderType name already exist with inactive state");
+//        }
+//        else if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(Predicate.not(TraderTypeMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            traderTypeMasterResponse.setError(true);
+//            traderTypeMasterResponse.setError_description("TraderType name already exist with inactive state");
         }else {
             traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMasterRepository.save(traderTypeMaster), TraderTypeMasterResponse.class);
             traderTypeMasterResponse.setError(false);
@@ -120,7 +120,7 @@ public class TraderTypeMasterService {
     @Transactional
     public TraderTypeMasterResponse updateTraderTypeMasterDetails(EditTraderTypeMasterRequest traderTypeMasterRequest){
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
-        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterNameAndTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
+        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByActiveAndTraderTypeMasterNameAndTraderTypeNameInKannada(true,traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
         if(traderTypeMasterList.size()>0){
             traderTypeMasterResponse.setError(true);
             traderTypeMasterResponse.setError_description("TraderType already exists, duplicates are not allowed.");

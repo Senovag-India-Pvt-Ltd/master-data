@@ -59,10 +59,10 @@ public class TrProgramMasterService {
         if(!trProgramMasterList.isEmpty() && trProgramMasterList.stream().filter( TrProgramMaster::getActive).findAny().isPresent()){
             trProgramMasterResponse.setError(true);
             trProgramMasterResponse.setError_description("Tr Program name already exist");
-        }
-        else if(! trProgramMasterList.isEmpty() && trProgramMasterList.stream().filter(Predicate.not( TrProgramMaster::getActive)).findAny().isPresent()){
-            trProgramMasterResponse.setError(true);
-            trProgramMasterResponse.setError_description("Tr Program name already exist with inactive state");
+//        }
+//        else if(! trProgramMasterList.isEmpty() && trProgramMasterList.stream().filter(Predicate.not( TrProgramMaster::getActive)).findAny().isPresent()){
+//            trProgramMasterResponse.setError(true);
+//            trProgramMasterResponse.setError_description("Tr Program name already exist with inactive state");
         }else {
             trProgramMasterResponse  = mapper.trProgramMasterEntityToObject( trProgramMasterRepository.save(trProgramMaster), TrProgramMasterResponse.class);
             trProgramMasterResponse.setError(false);
@@ -138,7 +138,7 @@ public class TrProgramMasterService {
     public TrProgramMasterResponse updateTrProgramMastersDetails(EditTrProgramMasterRequest  trProgramMasterRequest){
 
         TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
-        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository. findByTrProgramMasterNameAndTrProgramNameInKannada(trProgramMasterRequest.getTrProgramMasterName(), trProgramMasterRequest.getTrProgramNameInKannada());
+        List<TrProgramMaster> trProgramMasterList = trProgramMasterRepository. findByActiveAndTrProgramMasterNameAndTrProgramNameInKannada(true,trProgramMasterRequest.getTrProgramMasterName(), trProgramMasterRequest.getTrProgramNameInKannada());
         if(trProgramMasterList.size()>0){
             trProgramMasterResponse.setError(true);
             trProgramMasterResponse.setError_description("Program already exists, duplicates are not allowed.");
