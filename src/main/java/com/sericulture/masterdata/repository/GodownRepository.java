@@ -32,6 +32,8 @@ public interface GodownRepository extends PagingAndSortingRepository<Godown, Lon
     public Godown findByGodownIdAndActiveIn(@Param("godownId") long godownId, @Param("active") Set<Boolean> active);
 
     List<Godown> findByGodownNameAndMarketMasterId(String godownName, long marketMasterId);
+    List<Godown> findByGodownNameAndMarketMasterIdAndActive(String godownName, long marketMasterId, boolean active);
+
     public List<Godown> findByActive(boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.GodownDTO(" +

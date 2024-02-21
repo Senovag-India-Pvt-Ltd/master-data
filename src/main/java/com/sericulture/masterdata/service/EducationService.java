@@ -47,11 +47,11 @@ public class EducationService {
         if(!educations.isEmpty() && educations.stream().filter(Education::getActive).findAny().isPresent()) {
             educationResponse.setError(true);
             educationResponse.setError_description("Education name already exist");
-        }
-        else if(!educations.isEmpty() && educations.stream().filter(Predicate.not(Education::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            educationResponse.setError(true);
-            educationResponse.setError_description("Education name already exist with inactive state");
+//        }
+//        else if(!educations.isEmpty() && educations.stream().filter(Predicate.not(Education::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            educationResponse.setError(true);
+//            educationResponse.setError_description("Education name already exist with inactive state");
         }else {
             educationResponse = mapper.educationEntityToObject(educationRepository.save(education), EducationResponse.class);
             educationResponse.setError(false);
@@ -129,7 +129,7 @@ public class EducationService {
     @Transactional
     public EducationResponse updateEducationDetails(EditEducationRequest educationRequest) {
         EducationResponse educationResponse = new EducationResponse();
-        List<Education> educations = educationRepository.findByNameAndEducationNameInKannada(educationRequest.getName(),educationRequest.getEducationNameInKannada());
+        List<Education> educations = educationRepository.findByNameAndEducationNameInKannadaAndActive(educationRequest.getName(),educationRequest.getEducationNameInKannada(), true);
         if(!educations.isEmpty()) {
             educationResponse.setError(true);
             educationResponse.setError_description("Education already exists, duplicates are not allowed.");

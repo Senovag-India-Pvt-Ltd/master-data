@@ -102,11 +102,11 @@ public class BinMasterService {
         if(binMasterList.isEmpty() && binMasterList.stream().filter(BinMaster::getActive).findAny().isPresent()){
             binMasterResponse.setError(true);
             binMasterResponse.setError_description("BinMaster name already exist");
-        }
-        else if(!binMasterList.isEmpty() && binMasterList.stream().filter(Predicate.not(BinMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            binMasterResponse.setError(true);
-            binMasterResponse.setError_description("BinMaster name already exist with inactive state");
+//        }
+//        else if(!binMasterList.isEmpty() && binMasterList.stream().filter(Predicate.not(BinMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            binMasterResponse.setError(true);
+//            binMasterResponse.setError_description("BinMaster name already exist with inactive state");
         }else {
             binMasterResponse = mapper.binMasterEntityToObject(binMasterRepository.save(binMaster), BinMasterResponse.class);
             binMasterResponse.setError(false);

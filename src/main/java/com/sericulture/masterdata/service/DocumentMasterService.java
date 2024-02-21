@@ -60,10 +60,10 @@ public class DocumentMasterService {
         if(!documentMasterList.isEmpty() && documentMasterList.stream().filter(DocumentMaster::getActive).findAny().isPresent()){
             documentMasterResponse.setError(true);
             documentMasterResponse.setError_description("Document name already exist");
-        }
-        else if(!documentMasterList.isEmpty() && documentMasterList.stream().filter(Predicate.not(DocumentMaster::getActive)).findAny().isPresent()){
-            documentMasterResponse.setError(true);
-            documentMasterResponse.setError_description("Document name already exist with inactive state");
+//        }
+//        else if(!documentMasterList.isEmpty() && documentMasterList.stream().filter(Predicate.not(DocumentMaster::getActive)).findAny().isPresent()){
+//            documentMasterResponse.setError(true);
+//            documentMasterResponse.setError_description("Document name already exist with inactive state");
         }else {
             documentMasterResponse = mapper.documentMasterEntityToObject(documentMasterRepository.save(documentMaster), DocumentMasterResponse.class);
             documentMasterResponse.setError(false);
@@ -139,7 +139,7 @@ public class DocumentMasterService {
     public DocumentMasterResponse updateDocumentMasterDetails(EditDocumentMasterRequest documentMasterRequest){
 
         DocumentMasterResponse documentMasterResponse = new DocumentMasterResponse();
-        List<DocumentMaster> documentMasterList = documentMasterRepository.findByDocumentMasterName(documentMasterRequest.getDocumentMasterName());
+        List<DocumentMaster> documentMasterList = documentMasterRepository.findByActiveAndDocumentMasterName(true,documentMasterRequest.getDocumentMasterName());
         if(documentMasterList.size()>0){
             documentMasterResponse.setError(true);
             documentMasterResponse.setError_description("Document already exists, duplicates are not allowed.");

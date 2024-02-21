@@ -61,7 +61,7 @@ public class ExternalUnitTypeService {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = mapper.externalUnitTypeObjectToEntity(externalUnitTypeRequest,ExternalUnitType.class);
         validator.validate(externalUnitType);
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActive(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(), true);
         if(!externalUnitTypeList.isEmpty() && externalUnitTypeList.stream().filter(ExternalUnitType::getActive).findAny().isPresent()){
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType name already exist");
@@ -143,7 +143,7 @@ public class ExternalUnitTypeService {
     @Transactional
     public ExternalUnitTypeResponse updateExternalUnitTypeDetails(EditExternalUnitTypeRequest externalUnitTypeRequest) {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActive(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(), true);
         if (externalUnitTypeList.size() > 0) {
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType already exists, duplicates are not allowed.");

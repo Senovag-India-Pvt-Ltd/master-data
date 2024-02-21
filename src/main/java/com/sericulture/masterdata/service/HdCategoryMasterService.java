@@ -62,10 +62,10 @@ public class HdCategoryMasterService {
         if(!hdCategoryMasterList.isEmpty() && hdCategoryMasterList.stream().filter(HdCategoryMaster::getActive).findAny().isPresent()){
             hdCategoryMasterResponse.setError(true);
             hdCategoryMasterResponse.setError_description("Category name already exist");
-        }
-        else if(!hdCategoryMasterList.isEmpty() && hdCategoryMasterList.stream().filter(Predicate.not(HdCategoryMaster::getActive)).findAny().isPresent()){
-            hdCategoryMasterResponse.setError(true);
-            hdCategoryMasterResponse.setError_description("Category name already exist with inactive state");
+//        }
+//        else if(!hdCategoryMasterList.isEmpty() && hdCategoryMasterList.stream().filter(Predicate.not(HdCategoryMaster::getActive)).findAny().isPresent()){
+//            hdCategoryMasterResponse.setError(true);
+//            hdCategoryMasterResponse.setError_description("Category name already exist with inactive state");
         }else {
             hdCategoryMasterResponse = mapper.hdCategoryMasterEntityToObject(hdCategoryMasterRepository.save(hdCategoryMaster), HdCategoryMasterResponse.class);
             hdCategoryMasterResponse.setError(false);
@@ -200,7 +200,7 @@ public class HdCategoryMasterService {
     public HdCategoryMasterResponse updateHdCategoryMasterDetails(EditHdCategoryMasterRequest hdCategoryMasterRequest){
 
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
-        List<HdCategoryMaster> hdCategoryMasterList =  hdCategoryMasterRepository.findByHdCategoryName(hdCategoryMasterRequest.getHdCategoryName());
+        List<HdCategoryMaster> hdCategoryMasterList =  hdCategoryMasterRepository.findByActiveAndHdCategoryName(true,hdCategoryMasterRequest.getHdCategoryName());
         if(hdCategoryMasterList.size()>0){
             hdCategoryMasterResponse.setError(true);
             hdCategoryMasterResponse.setError_description("categoryMaster already exists, duplicates are not allowed.");

@@ -56,7 +56,7 @@ public class HdAnswerMasterService {
         HdAnswerMasterResponse hdAnswerMasterResponse = new HdAnswerMasterResponse();
         HdAnswerMaster hdAnswerMaster = mapper.hdAnswerMasterObjectToEntity(hdAnswerMasterRequest, HdAnswerMaster.class);
         validator.validate(hdAnswerMaster);
-        List<HdAnswerMaster> hdAnswerMasterList= hdAnswerMasterRepository.findByHdAnswerName(hdAnswerMasterRequest.getHdAnswerName());
+        List<HdAnswerMaster> hdAnswerMasterList= hdAnswerMasterRepository.findByActiveAndHdAnswerName(true,hdAnswerMasterRequest.getHdAnswerName());
         if(!hdAnswerMasterList.isEmpty() && hdAnswerMasterList.stream().filter(HdAnswerMaster::getActive).findAny().isPresent()){
             hdAnswerMasterResponse.setError(true);
             hdAnswerMasterResponse.setError_description("HdAnswer name already exist");
@@ -140,7 +140,7 @@ public class HdAnswerMasterService {
     public HdAnswerMasterResponse updateHdAnswerMasterDetails(EditHdAnswerMasterRequest hdAnswerMasterRequest){
 
         HdAnswerMasterResponse hdAnswerMasterResponse = new HdAnswerMasterResponse();
-        List<HdAnswerMaster> hdAnswerMasterList =  hdAnswerMasterRepository.findByHdAnswerName(hdAnswerMasterRequest.getHdAnswerName());
+        List<HdAnswerMaster> hdAnswerMasterList =  hdAnswerMasterRepository.findByActiveAndHdAnswerName(true,hdAnswerMasterRequest.getHdAnswerName());
         if(hdAnswerMasterList.size()>0){
             hdAnswerMasterResponse.setError(true);
             hdAnswerMasterResponse.setError_description("AnswerMaster already exists, duplicates are not allowed.");

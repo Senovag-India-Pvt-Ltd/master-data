@@ -66,11 +66,11 @@ public class DistrictService {
         if(!districtList.isEmpty() && districtList.stream().filter(District::getActive).findAny().isPresent()){
             districtResponse.setError(true);
             districtResponse.setError_description("District name already exist");
-        }
-        else if(!districtList.isEmpty() && districtList.stream().filter(Predicate.not(District::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            districtResponse.setError(true);
-            districtResponse.setError_description("District name already exist with inactive state");
+//        }
+//        else if(!districtList.isEmpty() && districtList.stream().filter(Predicate.not(District::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            districtResponse.setError(true);
+//            districtResponse.setError_description("District name already exist with inactive state");
         }else {
             districtResponse = mapper.districtEntityToObject(districtRepository.save(district), DistrictResponse.class);
             districtResponse.setError(false);
@@ -213,7 +213,7 @@ public class DistrictService {
     @Transactional
     public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest) {
         DistrictResponse districtResponse = new DistrictResponse();
-        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannada(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada());
+        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannadaAndActive(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada(), true);
         if (districtList.size() > 0) {
             districtResponse.setError(true);
             districtResponse.setError_description("District already exists, duplicates are not allowed.");

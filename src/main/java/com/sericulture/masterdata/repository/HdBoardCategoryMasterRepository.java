@@ -17,6 +17,8 @@ public interface HdBoardCategoryMasterRepository extends PagingAndSortingReposit
 
     public List<HdBoardCategoryMaster> findByHdBoardCategoryName(String hdBoardCategoryName);
 
+    public List<HdBoardCategoryMaster> findByActiveAndHdBoardCategoryName(boolean active,String hdBoardCategoryName);
+
     public HdBoardCategoryMaster findByHdBoardCategoryNameAndActive(String hdBoardCategoryName, boolean isActive);
 
     public Page<HdBoardCategoryMaster> findByActiveOrderByHdBoardCategoryNameAsc(boolean isActive, final Pageable pageable);

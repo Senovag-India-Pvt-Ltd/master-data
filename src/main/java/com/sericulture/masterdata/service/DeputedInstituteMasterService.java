@@ -60,12 +60,12 @@ public class DeputedInstituteMasterService {
         if(!deputedInstituteMasterList.isEmpty() && deputedInstituteMasterList.stream().filter(DeputedInstituteMaster::getActive).findAny().isPresent()){
             deputedInstituteMasterResponse.setError(true);
             deputedInstituteMasterResponse.setError_description("Deputed Institute name already exist");
-        }
-        else if(!deputedInstituteMasterList.isEmpty() && deputedInstituteMasterList.stream().filter(Predicate.not(DeputedInstituteMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            deputedInstituteMasterResponse.setError(true);
-            deputedInstituteMasterResponse.setError_description("Deputed Institute name already exist with inactive state");
-        }else {
+//        }
+//        else if(!deputedInstituteMasterList.isEmpty() && deputedInstituteMasterList.stream().filter(Predicate.not(DeputedInstituteMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            deputedInstituteMasterResponse.setError(true);
+//            deputedInstituteMasterResponse.setError_description("Deputed Institute name already exist with inactive state");
+//        }else {
             deputedInstituteMasterResponse = mapper.deputedInstituteMasterEntityToObject(deputedInstituteMasterRepository.save(deputedInstituteMaster), DeputedInstituteMasterResponse.class);
             deputedInstituteMasterResponse.setError(false);
         }
@@ -138,7 +138,7 @@ public class DeputedInstituteMasterService {
     @Transactional
     public DeputedInstituteMasterResponse updateDeputedInstituteDetails(EditDeputedInstituteMasterRequest deputedInstituteMasterRequest) {
         DeputedInstituteMasterResponse deputedInstituteMasterResponse = new DeputedInstituteMasterResponse();
-        List<DeputedInstituteMaster> deputedInstituteMasterList = deputedInstituteMasterRepository.findByDeputedInstituteName(deputedInstituteMasterRequest.getDeputedInstituteName());
+        List<DeputedInstituteMaster> deputedInstituteMasterList = deputedInstituteMasterRepository.findByActiveAndDeputedInstituteName(true, deputedInstituteMasterRequest.getDeputedInstituteName());
         if (deputedInstituteMasterList.size() > 0) {
             deputedInstituteMasterResponse.setError(true);
             deputedInstituteMasterResponse.setError_description("Deputed Institute already exists, duplicates are not allowed.");

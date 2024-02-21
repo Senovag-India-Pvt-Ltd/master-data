@@ -74,7 +74,7 @@ public class GodownService {
         GodownResponse godownResponse = new GodownResponse();
         Godown godown = mapper.godownObjectToEntity(godownRequest,Godown.class);
         validator.validate(godown);
-        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(), godownRequest.getMarketMasterId());
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterIdAndActive(godownRequest.getGodownName(), godownRequest.getMarketMasterId(), true);
         if(!godownList.isEmpty() && godownList.stream().filter(Godown::getActive).findAny().isPresent()){
             godownResponse.setError(true);
             godownResponse.setError_description("Godown name already exist");
@@ -213,7 +213,7 @@ public class GodownService {
     @Transactional
     public GodownResponse updateGodownDetails(EditGodownRequest godownRequest) {
         GodownResponse godownResponse = new GodownResponse();
-        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterId(godownRequest.getGodownName(),godownRequest.getMarketMasterId());
+        List<Godown> godownList = godownRepository.findByGodownNameAndMarketMasterIdAndActive(godownRequest.getGodownName(),godownRequest.getMarketMasterId(), true);
 //        if (godownList.size() > 0) {
 //            godownResponse.setError(true);
 //            godownResponse.setError_description("Godown already exists, duplicates are not allowed.");

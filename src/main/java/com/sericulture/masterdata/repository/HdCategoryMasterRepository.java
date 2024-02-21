@@ -20,6 +20,8 @@ import java.util.Set;
 public interface HdCategoryMasterRepository extends PagingAndSortingRepository<HdCategoryMaster, Long> {
     public List<HdCategoryMaster> findByHdCategoryName(String hdCategoryName);
 
+    public List<HdCategoryMaster> findByActiveAndHdCategoryName(boolean active,String hdCategoryName);
+
     public HdCategoryMaster findByHdCategoryNameAndActive(String hdCategoryName, boolean isActive);
 
     public Page<HdCategoryMaster> findByActiveOrderByHdCategoryIdAsc(boolean isActive, final Pageable pageable);
@@ -29,6 +31,8 @@ public interface HdCategoryMasterRepository extends PagingAndSortingRepository<H
     public HdCategoryMaster save(HdCategoryMaster hdCategoryMaster);
 
     List<HdCategoryMaster> findByHdCategoryNameAndHdBoardCategoryId(String hdCategoryName, long hdBoardCategoryId);
+
+    List<HdCategoryMaster> findByActiveAndHdCategoryNameAndHdBoardCategoryId(boolean active,String hdCategoryName, long hdBoardCategoryId);
 
     public HdCategoryMaster findByHdCategoryIdAndActive(long id, boolean isActive);
 

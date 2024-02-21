@@ -43,11 +43,11 @@ public class DesignationService {
         if(!designationList.isEmpty() && designationList.stream().filter(Designation::getActive).findAny().isPresent()){
             designationResponse.setError(true);
             designationResponse.setError_description("Designation name already exist");
-        }
-        else if(!designationList.isEmpty() && designationList.stream().filter(Predicate.not(Designation::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            designationResponse.setError(true);
-            designationResponse.setError_description("Designation name already exist with inactive state");
+//        }
+//        else if(!designationList.isEmpty() && designationList.stream().filter(Predicate.not(Designation::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            designationResponse.setError(true);
+//            designationResponse.setError_description("Designation name already exist with inactive state");
         }else {
             designationResponse = mapper.designationEntityToObject(designationRepository.save(designation), DesignationResponse.class);
             designationResponse.setError(false);
@@ -121,7 +121,7 @@ public class DesignationService {
     @Transactional
     public DesignationResponse updateDesignationDetails(EditDesignationRequest designationRequest) {
         DesignationResponse designationResponse = new DesignationResponse();
-        List<Designation> designationList = designationRepository.findByNameAndDesignationNameInKannada(designationRequest.getName(),designationRequest.getDesignationNameInKannada());
+        List<Designation> designationList = designationRepository.findByNameAndDesignationNameInKannadaAndActive(designationRequest.getName(),designationRequest.getDesignationNameInKannada(), true);
         if (designationList.size() > 0) {
             designationResponse.setError(true);
             designationResponse.setError_description("Designation already exists, duplicates are not allowed.");

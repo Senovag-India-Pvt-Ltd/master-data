@@ -60,10 +60,10 @@ public class HdBoardCategoryMasterService {
         if(!hdBoardCategoryMasterList.isEmpty() && hdBoardCategoryMasterList.stream().filter(HdBoardCategoryMaster::getActive).findAny().isPresent()){
             hdBoardCategoryMasterResponse.setError(true);
             hdBoardCategoryMasterResponse.setError_description("BoardCategory name already exist");
-        }
-        else if(!hdBoardCategoryMasterList.isEmpty() && hdBoardCategoryMasterList.stream().filter(Predicate.not(HdBoardCategoryMaster::getActive)).findAny().isPresent()){
-            hdBoardCategoryMasterResponse.setError(true);
-            hdBoardCategoryMasterResponse.setError_description("BoardCategory name already exist with inactive state");
+//        }
+//        else if(!hdBoardCategoryMasterList.isEmpty() && hdBoardCategoryMasterList.stream().filter(Predicate.not(HdBoardCategoryMaster::getActive)).findAny().isPresent()){
+//            hdBoardCategoryMasterResponse.setError(true);
+//            hdBoardCategoryMasterResponse.setError_description("BoardCategory name already exist with inactive state");
         }else {
             hdBoardCategoryMasterResponse = mapper.hdBoardCategoryMasterEntityToObject(hdBoardCategoryMasterRepository.save(hdBoardCategoryMaster), HdBoardCategoryMasterResponse.class);
             hdBoardCategoryMasterResponse.setError(false);
@@ -140,7 +140,7 @@ public class HdBoardCategoryMasterService {
     public HdBoardCategoryMasterResponse updateHdBoardCategoryMasterDetails(EditHdBoardCategoryMasterRequest hdBoardCategoryMasterRequest){
 
         HdBoardCategoryMasterResponse hdBoardCategoryMasterResponse = new HdBoardCategoryMasterResponse();
-        List<HdBoardCategoryMaster> hdBoardCategoryMasterList =  hdBoardCategoryMasterRepository.findByHdBoardCategoryName(hdBoardCategoryMasterRequest.getHdBoardCategoryName());
+        List<HdBoardCategoryMaster> hdBoardCategoryMasterList =  hdBoardCategoryMasterRepository.findByActiveAndHdBoardCategoryName(true,hdBoardCategoryMasterRequest.getHdBoardCategoryName());
         if(hdBoardCategoryMasterList.size()>0){
             hdBoardCategoryMasterResponse.setError(true);
             hdBoardCategoryMasterResponse.setError_description("Board categoryMaster already exists, duplicates are not allowed.");
