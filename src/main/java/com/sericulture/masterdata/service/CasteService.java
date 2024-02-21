@@ -59,11 +59,11 @@ public class CasteService {
         if(!casteList.isEmpty() && casteList.stream().filter(Caste::getActive).findAny().isPresent()){
             casteResponse.setError(true);
             casteResponse.setError_description("Caste name already exist");
-        }
-        else if(!casteList.isEmpty() && casteList.stream().filter(Predicate.not(Caste::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            casteResponse.setError(true);
-            casteResponse.setError_description("Caste name already exist with inactive state");
+//        }
+//        else if(!casteList.isEmpty() && casteList.stream().filter(Predicate.not(Caste::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            casteResponse.setError(true);
+//            casteResponse.setError_description("Caste name already exist with inactive state");
         }else {
             casteResponse = mapper.casteEntityToObject(casteRepository.save(caste), CasteResponse.class);
             casteResponse.setError(false);
@@ -139,7 +139,7 @@ public class CasteService {
     @Transactional
     public CasteResponse updateCasteDetails(EditCasteRequest casteRequest){
         CasteResponse casteResponse = new CasteResponse();
-        List<Caste> casteList = casteRepository.findByTitleAndNameInKannada(casteRequest.getTitle(),casteRequest.getNameInKannada());
+        List<Caste> casteList = casteRepository.findByTitleAndNameInKannadaAndIdIsNotAndActive(casteRequest.getTitle(),casteRequest.getNameInKannada(),casteRequest.getId(), true);
         if (casteList.size() > 0) {
             casteResponse.setError(true);
             casteResponse.setError_description("Caste already exists, duplicates are not allowed.");
