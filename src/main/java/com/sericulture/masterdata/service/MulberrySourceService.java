@@ -60,11 +60,11 @@ public class MulberrySourceService {
         if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(MulberrySource::getActive).findAny().isPresent()){
             mulberrySourceResponse.setError(true);
             mulberrySourceResponse.setError_description("MulberrySource name already exist");
-        }
-        else if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(Predicate.not(MulberrySource::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            mulberrySourceResponse.setError(true);
-            mulberrySourceResponse.setError_description("MulberrySource name already exist with inactive state");
+//        }
+//        else if(!mulberrySourceList.isEmpty() && mulberrySourceList.stream().filter(Predicate.not(MulberrySource::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            mulberrySourceResponse.setError(true);
+//            mulberrySourceResponse.setError_description("MulberrySource name already exist with inactive state");
         }else {
             mulberrySourceResponse = mapper.mulberrySourceEntityToObject(mulberrySourceRepository.save(mulberrySource), MulberrySourceResponse.class);
             mulberrySourceResponse.setError(false);
@@ -138,7 +138,7 @@ public class MulberrySourceService {
     @Transactional
     public MulberrySourceResponse updateMulberrySourceDetails(EditMulberrySourceRequest mulberrySourceRequest) {
         MulberrySourceResponse mulberrySourceResponse = new MulberrySourceResponse();
-        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByMulberrySourceNameAndMulberrySourceNameInKannada(mulberrySourceRequest.getMulberrySourceName(),mulberrySourceRequest.getMulberrySourceNameInKannada());
+        List<MulberrySource> mulberrySourceList = mulberrySourceRepository.findByActiveAndMulberrySourceNameAndMulberrySourceNameInKannada(true,mulberrySourceRequest.getMulberrySourceName(),mulberrySourceRequest.getMulberrySourceNameInKannada());
         if (mulberrySourceList.size() > 0) {
             mulberrySourceResponse.setError(true);
             mulberrySourceResponse.setError_description("MulberrySource already exists, duplicates are not allowed.");

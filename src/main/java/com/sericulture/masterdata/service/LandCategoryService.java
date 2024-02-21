@@ -60,11 +60,11 @@ public class LandCategoryService {
         if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(LandCategory::getActive).findAny().isPresent()){
             landCategoryResponse.setError(true);
             landCategoryResponse.setError_description("landCategory name already exist");
-        }
-        else if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(Predicate.not(LandCategory::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            landCategoryResponse.setError(true);
-            landCategoryResponse.setError_description("landCategory name already exist with inactive state");
+//        }
+//        else if(!landCategoryList.isEmpty() && landCategoryList.stream().filter(Predicate.not(LandCategory::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            landCategoryResponse.setError(true);
+//            landCategoryResponse.setError_description("landCategory name already exist with inactive state");
         }else {
             landCategoryResponse = mapper.landCategoryEntityToObject(landCategoryRepository.save(landCategory), LandCategoryResponse.class);
             landCategoryResponse.setError(false);
@@ -138,7 +138,7 @@ public class LandCategoryService {
     @Transactional
     public LandCategoryResponse updateLandCategoryDetails(EditLandCategoryRequest landCategoryRequest) {
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
-        List<LandCategory> landCategoryList = landCategoryRepository.findByLandCategoryNameAndLandCategoryNameInKannada(landCategoryRequest.getLandCategoryName(),landCategoryRequest.getLandCategoryNameInKannada());
+        List<LandCategory> landCategoryList = landCategoryRepository.findByActiveAndLandCategoryNameAndLandCategoryNameInKannada(true,landCategoryRequest.getLandCategoryName(),landCategoryRequest.getLandCategoryNameInKannada());
         if (landCategoryList.size() > 0) {
             landCategoryResponse.setError(true);
             landCategoryResponse.setError_description("LandCategory already exists, duplicates are not allowed.");

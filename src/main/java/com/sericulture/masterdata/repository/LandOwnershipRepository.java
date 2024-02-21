@@ -14,6 +14,8 @@ import java.util.Set;
 public interface LandOwnershipRepository extends PagingAndSortingRepository<LandOwnership,Long> {
     public List<LandOwnership> findByLandOwnershipNameAndLandOwnershipNameInKannada(String landOwnershipName,String landOwnershipNameInKannada);
 
+    public List<LandOwnership> findByActiveAndLandOwnershipNameAndLandOwnershipNameInKannada(boolean a,String landOwnershipName,String landOwnershipNameInKannada);
+
     public LandOwnership findByLandOwnershipNameAndActive(String landOwnershipName,boolean isActive);
 
     public Page<LandOwnership> findByActiveOrderByLandOwnershipNameAsc(boolean isActive, final Pageable pageable);

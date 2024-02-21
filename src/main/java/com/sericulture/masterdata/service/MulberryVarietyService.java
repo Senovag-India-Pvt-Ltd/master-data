@@ -61,11 +61,11 @@ public class MulberryVarietyService {
         if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(MulberryVariety::getActive).findAny().isPresent()){
             mulberryVarietyResponse.setError(true);
             mulberryVarietyResponse.setError_description("MulberryVariety name already exist");
-        }
-        else if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(Predicate.not(MulberryVariety::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            mulberryVarietyResponse.setError(true);
-            mulberryVarietyResponse.setError_description("MulberryVariety name already exist with inactive state");
+//        }
+//        else if(!mulberryVarietyList.isEmpty() && mulberryVarietyList.stream().filter(Predicate.not(MulberryVariety::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            mulberryVarietyResponse.setError(true);
+//            mulberryVarietyResponse.setError_description("MulberryVariety name already exist with inactive state");
         }else {
             mulberryVarietyResponse = mapper.mulberryVarietyEntityToObject(mulberryVarietyRepository.save(mulberryVariety), MulberryVarietyResponse.class);
             mulberryVarietyResponse.setError(false);
@@ -139,7 +139,7 @@ public class MulberryVarietyService {
     @Transactional
     public MulberryVarietyResponse updateMulberryVarietyDetails(EditMulberryVarietyRequest mulberryVarietyRequest){
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
-        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByMulberryVarietyNameAndMulberryVarietyNameInKannada(mulberryVarietyRequest.getMulberryVarietyName(),mulberryVarietyRequest.getMulberryVarietyNameInKannada());
+        List<MulberryVariety> mulberryVarietyList = mulberryVarietyRepository.findByActiveAndMulberryVarietyNameAndMulberryVarietyNameInKannada(true,mulberryVarietyRequest.getMulberryVarietyName(),mulberryVarietyRequest.getMulberryVarietyNameInKannada());
         if(mulberryVarietyList.size()>0){
             mulberryVarietyResponse.setError(true);
             mulberryVarietyResponse.setError_description("MulberryVariety already exists, duplicates are not allowed.");

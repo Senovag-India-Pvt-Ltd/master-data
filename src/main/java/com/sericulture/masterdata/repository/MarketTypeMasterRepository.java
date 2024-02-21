@@ -16,6 +16,8 @@ public interface MarketTypeMasterRepository extends PagingAndSortingRepository<M
 
     public List<MarketTypeMaster> findByMarketTypeMasterNameAndMarketTypeNameInKannada(String marketTypeMasterName,String marketTypeNameInKannada);
 
+    public List<MarketTypeMaster> findByActiveAndMarketTypeMasterNameAndMarketTypeNameInKannada(boolean a,String marketTypeMasterName,String marketTypeNameInKannada);
+
     public MarketTypeMaster findByMarketTypeMasterNameAndActive(String marketTypeMasterName,boolean isActive);
 
     public Page<MarketTypeMaster> findByActiveOrderByMarketTypeMasterIdAsc(boolean isActive, final Pageable pageable);

@@ -59,11 +59,11 @@ public class IrrigationSourceService {
         if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(IrrigationSource::getActive).findAny().isPresent()){
             irrigationSourceResponse.setError(true);
             irrigationSourceResponse.setError_description("IrrigationSource name already exist");
-        }
-        else if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(Predicate.not(IrrigationSource::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            irrigationSourceResponse.setError(true);
-            irrigationSourceResponse.setError_description("Village name already exist with inactive state");
+//        }
+//        else if(!irrigationSourceList.isEmpty() && irrigationSourceList.stream().filter(Predicate.not(IrrigationSource::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            irrigationSourceResponse.setError(true);
+//            irrigationSourceResponse.setError_description("Village name already exist with inactive state");
         }else {
             irrigationSourceResponse = mapper.irrigationSourceEntityToObject(irrigationSourceRepository.save(irrigationSource), IrrigationSourceResponse.class);
             irrigationSourceResponse.setError(false);
@@ -137,7 +137,7 @@ public class IrrigationSourceService {
     @Transactional
     public IrrigationSourceResponse updateIrrigationSourceDetails(EditIrrigationSourceRequest irrigationSourceRequest) {
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
-        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByIrrigationSourceNameAndIrrigationSourceNameInKannada(irrigationSourceRequest.getIrrigationSourceName(),irrigationSourceRequest.getIrrigationSourceNameInKannada());
+        List<IrrigationSource> irrigationSourceList = irrigationSourceRepository.findByActiveAndIrrigationSourceNameAndIrrigationSourceNameInKannada(true,irrigationSourceRequest.getIrrigationSourceName(),irrigationSourceRequest.getIrrigationSourceNameInKannada());
         if (irrigationSourceList.size() > 0) {
             irrigationSourceResponse.setError(true);
             irrigationSourceResponse.setError_description("IrrigationSource already exists, duplicates are not allowed.");

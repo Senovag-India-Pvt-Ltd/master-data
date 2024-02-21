@@ -12,6 +12,8 @@ import java.util.Set;
 public interface LandCategoryRepository extends PagingAndSortingRepository<LandCategory, Long> {
     public List<LandCategory> findByLandCategoryNameAndLandCategoryNameInKannada(String landCategoryName,String landCategoryNameInKannada);
 
+    public List<LandCategory> findByActiveAndLandCategoryNameAndLandCategoryNameInKannada(boolean a,String landCategoryName,String landCategoryNameInKannada);
+
     public LandCategory findByLandCategoryNameAndActive(String landCategoryName,boolean isActive);
 
     public Page<LandCategory> findByActiveOrderByLandCategoryNameAsc(boolean isActive, final Pageable pageable);

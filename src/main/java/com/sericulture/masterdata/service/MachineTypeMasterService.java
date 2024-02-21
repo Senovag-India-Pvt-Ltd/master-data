@@ -60,11 +60,11 @@ public class MachineTypeMasterService {
         if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(MachineTypeMaster::getActive).findAny().isPresent()){
             machineTypeMasterResponse.setError(true);
             machineTypeMasterResponse.setError_description("MachineType name already exist");
-        }
-        else if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(Predicate.not(MachineTypeMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            machineTypeMasterResponse.setError(true);
-            machineTypeMasterResponse.setError_description("MachineType name already exist with inactive state");
+//        }
+//        else if(!machineTypeMasterList.isEmpty() && machineTypeMasterList.stream().filter(Predicate.not(MachineTypeMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            machineTypeMasterResponse.setError(true);
+//            machineTypeMasterResponse.setError_description("MachineType name already exist with inactive state");
         }else {
             machineTypeMasterResponse = mapper.machineTypeEntityToObject(machineTypeMasterRepository.save(machineTypeMaster), MachineTypeMasterResponse.class);
             machineTypeMasterResponse.setError(false);
@@ -138,7 +138,7 @@ public class MachineTypeMasterService {
     @Transactional
     public MachineTypeMasterResponse updateMachineTypeMasterDetails(EditMachineTypeMasterRequest machineTypeMasterRequest) {
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
-        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByMachineTypeNameAndMachineTypeNameInKannada(machineTypeMasterRequest.getMachineTypeName(),machineTypeMasterRequest.getMachineTypeNameInKannada());
+        List<MachineTypeMaster> machineTypeMasterList = machineTypeMasterRepository.findByActiveAndMachineTypeNameAndMachineTypeNameInKannada(true,machineTypeMasterRequest.getMachineTypeName(),machineTypeMasterRequest.getMachineTypeNameInKannada());
         if (machineTypeMasterList.size() > 0) {
             machineTypeMasterResponse.setError(true);
             machineTypeMasterResponse.setError_description("MachineType already exists, duplicates are not allowed.");

@@ -57,11 +57,11 @@ public class IrrigationTypeService {
         if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(IrrigationType::getActive).findAny().isPresent()){
             irrigationTypeResponse.setError(true);
             irrigationTypeResponse.setError_description("IrrigationType name already exist");
-        }
-        else if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(Predicate.not(IrrigationType::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            irrigationTypeResponse.setError(true);
-            irrigationTypeResponse.setError_description("IrrigationType name already exist with inactive state");
+//        }
+//        else if(!irrigationTypeList.isEmpty() && irrigationTypeList.stream().filter(Predicate.not(IrrigationType::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            irrigationTypeResponse.setError(true);
+//            irrigationTypeResponse.setError_description("IrrigationType name already exist with inactive state");
         }else {
             irrigationTypeResponse = mapper.irrigationTypeEntityToObject(irrigationTypeRepository.save(irrigationType), IrrigationTypeResponse.class);
             irrigationTypeResponse.setError(false);
@@ -130,7 +130,7 @@ public class IrrigationTypeService {
     @Transactional
     public IrrigationTypeResponse updateIrrigationTypeDetails(EditIrrigationTypeRequest irrigationTypeRequest) {
         IrrigationTypeResponse irrigationTypeResponse = new IrrigationTypeResponse();
-        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByIrrigationTypeNameAndIrrigationTypeNameInKannada(irrigationTypeRequest.getIrrigationTypeName(),irrigationTypeRequest.getIrrigationTypeNameInKannada());
+        List<IrrigationType> irrigationTypeList = irrigationTypeRepository.findByActiveAndIrrigationTypeNameAndIrrigationTypeNameInKannada(true,irrigationTypeRequest.getIrrigationTypeName(),irrigationTypeRequest.getIrrigationTypeNameInKannada());
         if (irrigationTypeList.size() > 0) {
             irrigationTypeResponse.setError(true);
             irrigationTypeResponse.setError_description("IrrigationType already exists, duplicates are not allowed.");

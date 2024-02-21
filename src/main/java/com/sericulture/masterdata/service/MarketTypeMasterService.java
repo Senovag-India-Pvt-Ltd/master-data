@@ -62,11 +62,11 @@ public class MarketTypeMasterService {
             // throw new ValidationException("Village name already exist");
             marketTypeMasterResponse.setError(true);
             marketTypeMasterResponse.setError_description("Market Type name already exist");
-        }
-        else if(!marketTypeMasterList.isEmpty() && marketTypeMasterList.stream().filter(Predicate.not(MarketTypeMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            marketTypeMasterResponse.setError(true);
-            marketTypeMasterResponse.setError_description("Market Type  name already exist with inactive state");
+//        }
+//        else if(!marketTypeMasterList.isEmpty() && marketTypeMasterList.stream().filter(Predicate.not(MarketTypeMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            marketTypeMasterResponse.setError(true);
+//            marketTypeMasterResponse.setError_description("Market Type  name already exist with inactive state");
         }else {
             marketTypeMasterResponse = mapper.marketTypeMasterEntityToObject(marketTypeMasterRepository.save(marketTypeMaster), MarketTypeMasterResponse.class);
             marketTypeMasterResponse.setError(false);
@@ -153,7 +153,7 @@ public class MarketTypeMasterService {
     @Transactional
     public MarketTypeMasterResponse updateMarketTypeMasterDetails(EditMarketTypeMasterRequest marketTypeMasterRequest){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
-        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByMarketTypeMasterNameAndMarketTypeNameInKannada(marketTypeMasterRequest.getMarketTypeMasterName(),marketTypeMasterRequest.getMarketTypeNameInKannada());
+        List<MarketTypeMaster> marketTypeMasterList = marketTypeMasterRepository.findByActiveAndMarketTypeMasterNameAndMarketTypeNameInKannada(true,marketTypeMasterRequest.getMarketTypeMasterName(),marketTypeMasterRequest.getMarketTypeNameInKannada());
         if(marketTypeMasterList.size()>0){
             marketTypeMasterResponse.setError(true);
             marketTypeMasterResponse.setError_description("Market Type already exists, duplicates are not allowed.");

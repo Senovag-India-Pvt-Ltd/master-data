@@ -67,11 +67,11 @@ public class MarketMasterService {
         if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(MarketMaster::getActive).findAny().isPresent()){
             marketMasterResponse.setError(true);
             marketMasterResponse.setError_description("Market name already exist");
-        }
-        else if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(Predicate.not(MarketMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            marketMasterResponse.setError(true);
-            marketMasterResponse.setError_description("Market name already exist with inactive state");
+//        }
+//        else if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(Predicate.not(MarketMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            marketMasterResponse.setError(true);
+//            marketMasterResponse.setError_description("Market name already exist with inactive state");
         }else {
             marketMasterResponse = mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster), MarketMasterResponse.class);
             marketMasterResponse.setError(false);
