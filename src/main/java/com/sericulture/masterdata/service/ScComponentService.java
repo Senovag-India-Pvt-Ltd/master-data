@@ -43,11 +43,11 @@ public class ScComponentService {
         if(!scComponentList.isEmpty() && scComponentList.stream().filter(ScComponent::getActive).findAny().isPresent()){
             scComponentResponse.setError(true);
             scComponentResponse.setError_description("ScComponent name already exist");
-        }
-        else if(!scComponentList.isEmpty() && scComponentList.stream().filter(Predicate.not(ScComponent::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            scComponentResponse.setError(true);
-            scComponentResponse.setError_description("ScComponent name already exist with inactive state");
+//        }
+//        else if(!scComponentList.isEmpty() && scComponentList.stream().filter(Predicate.not(ScComponent::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            scComponentResponse.setError(true);
+//            scComponentResponse.setError_description("ScComponent name already exist with inactive state");
         }else {
             scComponentResponse = mapper.scComponentEntityToObject(scComponentRepository.save(scComponent), ScComponentResponse.class);
             scComponentResponse.setError(false);
@@ -121,7 +121,7 @@ public class ScComponentService {
     @Transactional
     public ScComponentResponse updateScComponentDetails(EditScComponentRequest scComponentRequest) {
         ScComponentResponse scComponentResponse = new ScComponentResponse();
-        List<ScComponent> scComponentList = scComponentRepository.findByScComponentName(scComponentRequest.getScComponentName());
+        List<ScComponent> scComponentList = scComponentRepository.findByActiveAndScComponentName(true,scComponentRequest.getScComponentName());
         if (scComponentList.size() > 0) {
             scComponentResponse.setError(true);
             scComponentResponse.setError_description("ScComponent already exists, duplicates are not allowed.");

@@ -14,6 +14,8 @@ import java.util.Set;
 public interface ScComponentRepository extends PagingAndSortingRepository<ScComponent, Long> {
     public List<ScComponent> findByScComponentName(String scComponentName);
 
+    public List<ScComponent> findByActiveAndScComponentName(boolean a,String scComponentName);
+
     public ScComponent findByScComponentNameAndActive(String scComponentName,boolean isActive);
 
     public Page<ScComponent> findByActiveOrderByScComponentNameAsc(boolean isActive, final Pageable pageable);

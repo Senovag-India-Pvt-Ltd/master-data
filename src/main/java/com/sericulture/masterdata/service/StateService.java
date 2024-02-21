@@ -58,10 +58,10 @@ public class StateService {
         if(!stateList.isEmpty() && stateList.stream().filter(State::getActive).findAny().isPresent()){
             stateResponse.setError(true);
             stateResponse.setError_description("State name already exist");
-        }
-        else if(!stateList.isEmpty() && stateList.stream().filter(Predicate.not(State::getActive)).findAny().isPresent()){
-            stateResponse.setError(true);
-            stateResponse.setError_description("State name already exist with inactive state");
+//        }
+//        else if(!stateList.isEmpty() && stateList.stream().filter(Predicate.not(State::getActive)).findAny().isPresent()){
+//            stateResponse.setError(true);
+//            stateResponse.setError_description("State name already exist with inactive state");
         }else {
             stateResponse = mapper.stateEntityToObject(stateRepository.save(state), StateResponse.class);
             stateResponse.setError(false);
@@ -137,7 +137,7 @@ public class StateService {
     public StateResponse updateStateDetails(EditStateRequest stateRequest){
 
             StateResponse stateResponse = new StateResponse();
-        List<State> stateList = stateRepository.findByStateNameAndStateNameInKannada(stateRequest.getStateName(),stateRequest.getStateNameInKannada());
+        List<State> stateList = stateRepository.findByActiveAndStateNameAndStateNameInKannada(true,stateRequest.getStateName(),stateRequest.getStateNameInKannada());
         if(stateList.size()>0){
             stateResponse.setError(true);
             stateResponse.setError_description("State already exists, duplicates are not allowed.");

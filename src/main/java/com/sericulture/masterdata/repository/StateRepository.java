@@ -14,6 +14,8 @@ import java.util.Set;
 public interface StateRepository extends PagingAndSortingRepository<State, Long> {
     public List<State> findByStateNameAndStateNameInKannada(String stateName,String stateNameInKannada);
 
+    public List<State> findByActiveAndStateNameAndStateNameInKannada(boolean a,String stateName,String stateNameInKannada);
+
     public State findByStateNameAndActive(String stateName,boolean isActive);
 
     public Page<State> findByActiveOrderByStateNameAsc(boolean isActive, final Pageable pageable);

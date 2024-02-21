@@ -60,11 +60,11 @@ public class SilkWormVarietyService {
         if(!silkWormVarietyList.isEmpty() && silkWormVarietyList.stream().filter(SilkWormVariety::getActive).findAny().isPresent()){
             silkWormVarietyResponse.setError(true);
             silkWormVarietyResponse.setError_description("SilkWormVariety name already exist");
-        }
-        else if(!silkWormVarietyList.isEmpty() && silkWormVarietyList.stream().filter(Predicate.not(SilkWormVariety::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            silkWormVarietyResponse.setError(true);
-            silkWormVarietyResponse.setError_description("SilkWormVariety name already exist with inactive state");
+//        }
+//        else if(!silkWormVarietyList.isEmpty() && silkWormVarietyList.stream().filter(Predicate.not(SilkWormVariety::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            silkWormVarietyResponse.setError(true);
+//            silkWormVarietyResponse.setError_description("SilkWormVariety name already exist with inactive state");
         }else {
             silkWormVarietyResponse = mapper.silkWormVarietyEntityToObject(silkWormVarietyRepository.save(silkWormVariety), SilkWormVarietyResponse.class);
             silkWormVarietyResponse.setError(false);
@@ -138,7 +138,7 @@ public class SilkWormVarietyService {
     @Transactional
     public SilkWormVarietyResponse updateSilkWormVarietyDetails(EditSilkWormVarietyRequest silkWormVarietyRequest) {
         SilkWormVarietyResponse silkWormVarietyResponse = new SilkWormVarietyResponse();
-        List<SilkWormVariety> silkWormVarietyList = silkWormVarietyRepository.findBySilkWormVarietyNameAndSilkWormVarietyNameInKannada(silkWormVarietyRequest.getSilkWormVarietyName(),silkWormVarietyRequest.getSilkWormVarietyNameInKannada());
+        List<SilkWormVariety> silkWormVarietyList = silkWormVarietyRepository.findByActiveAndSilkWormVarietyNameAndSilkWormVarietyNameInKannada(true,silkWormVarietyRequest.getSilkWormVarietyName(),silkWormVarietyRequest.getSilkWormVarietyNameInKannada());
         if (silkWormVarietyList.size() > 0) {
             silkWormVarietyResponse.setError(true);
             silkWormVarietyResponse.setError_description("SilkWormVariety already exists, duplicates are not allowed.");

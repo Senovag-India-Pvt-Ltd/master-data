@@ -13,6 +13,7 @@ import java.util.Set;
 @Repository
 public interface SubsidyRepository extends PagingAndSortingRepository<Subsidy, Long> {
     public List<Subsidy> findBySubsidyNameAndSubsidyNameInKannada(String subsidyName,String subsidyNameInKannada);
+    public List<Subsidy> findByActiveAndSubsidyNameAndSubsidyNameInKannada(boolean a,String subsidyName,String subsidyNameInKannada);
 
     public Subsidy findBySubsidyNameAndActive(String subsidyName,boolean isActive);
 

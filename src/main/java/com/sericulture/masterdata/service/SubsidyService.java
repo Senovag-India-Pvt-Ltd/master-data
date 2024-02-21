@@ -59,11 +59,11 @@ public class SubsidyService {
         if(!subsidyList.isEmpty() && subsidyList.stream().filter(Subsidy::getActive).findAny().isPresent()){
             subsidyResponse.setError(true);
             subsidyResponse.setError_description("Subsidy name already exist");
-        }
-        else if(!subsidyList.isEmpty() && subsidyList.stream().filter(Predicate.not(Subsidy::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            subsidyResponse.setError(true);
-            subsidyResponse.setError_description("Subsidy name already exist with inactive state");
+//        }
+//        else if(!subsidyList.isEmpty() && subsidyList.stream().filter(Predicate.not(Subsidy::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            subsidyResponse.setError(true);
+//            subsidyResponse.setError_description("Subsidy name already exist with inactive state");
         }else {
             subsidyResponse = mapper.subsidyEntityToObject(subsidyRepository.save(subsidy), SubsidyResponse.class);
             subsidyResponse.setError(false);
@@ -138,7 +138,7 @@ public class SubsidyService {
     @Transactional
     public SubsidyResponse updateSubsidyDetails(EditSubsidyRequest subsidyRequest) {
         SubsidyResponse subsidyResponse = new SubsidyResponse();
-        List<Subsidy> subsidyList = subsidyRepository.findBySubsidyNameAndSubsidyNameInKannada(subsidyRequest.getSubsidyName(),subsidyRequest.getSubsidyNameInKannada());
+        List<Subsidy> subsidyList = subsidyRepository.findByActiveAndSubsidyNameAndSubsidyNameInKannada(true,subsidyRequest.getSubsidyName(),subsidyRequest.getSubsidyNameInKannada());
         if (subsidyList.size() > 0) {
             subsidyResponse.setError(true);
             subsidyResponse.setError_description("Subsidy already exists, duplicates are not allowed.");

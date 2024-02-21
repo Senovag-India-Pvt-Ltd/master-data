@@ -15,6 +15,8 @@ import java.util.Set;
 public interface SoilTypeRepository extends PagingAndSortingRepository<SoilType,Long> {
     public List<SoilType> findBySoilTypeNameAndSoilTypeNameInKannada(String soilTypeName,String soilTypeNameInKannada);
 
+    public List<SoilType> findByActiveAndSoilTypeNameAndSoilTypeNameInKannada(boolean a,String soilTypeName,String soilTypeNameInKannada);
+
     public SoilType findBySoilTypeNameAndActive(String soilTypeName,boolean isActive);
 
     public Page<SoilType> findByActiveOrderBySoilTypeNameAsc(boolean isActive, final Pageable pageable);

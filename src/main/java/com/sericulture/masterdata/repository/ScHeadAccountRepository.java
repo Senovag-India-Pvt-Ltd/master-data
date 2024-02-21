@@ -15,6 +15,8 @@ import java.util.Set;
 public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHeadAccount, Long> {
     public List<ScHeadAccount> findByScHeadAccountName(String scHeadAccountName);
 
+    public List<ScHeadAccount> findByActiveAndScHeadAccountName(boolean a,String scHeadAccountName);
+
     public ScHeadAccount findByScHeadAccountNameAndActive(String scHeadAccountName,boolean isActive);
 
     public Page<ScHeadAccount> findByActiveOrderByScHeadAccountNameAsc(boolean isActive, final Pageable pageable);

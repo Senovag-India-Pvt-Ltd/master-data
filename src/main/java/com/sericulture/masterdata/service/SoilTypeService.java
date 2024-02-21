@@ -59,11 +59,11 @@ public class SoilTypeService {
         if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(SoilType::getActive).findAny().isPresent()){
             soilTypeResponse.setError(true);
             soilTypeResponse.setError_description("SoilType name already exist");
-        }
-        else if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(Predicate.not(SoilType::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            soilTypeResponse.setError(true);
-            soilTypeResponse.setError_description("SoilType name already exist with inactive state");
+//        }
+//        else if(!soilTypeList.isEmpty() && soilTypeList.stream().filter(Predicate.not(SoilType::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            soilTypeResponse.setError(true);
+//            soilTypeResponse.setError_description("SoilType name already exist with inactive state");
         }else {
             soilTypeResponse = mapper.soilTypeEntityToObject(soilTypeRepository.save(soilType), SoilTypeResponse.class);
             soilTypeResponse.setError(false);
@@ -137,7 +137,7 @@ public class SoilTypeService {
     @Transactional
     public SoilTypeResponse updateSoilTypeDetails(EditSoilTypeRequest soilTypeRequest) {
         SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
-        List<SoilType> soilTypeList = soilTypeRepository.findBySoilTypeNameAndSoilTypeNameInKannada(soilTypeRequest.getSoilTypeName(), soilTypeRequest.getSoilTypeNameInKannada());
+        List<SoilType> soilTypeList = soilTypeRepository.findByActiveAndSoilTypeNameAndSoilTypeNameInKannada(true,soilTypeRequest.getSoilTypeName(), soilTypeRequest.getSoilTypeNameInKannada());
         if (soilTypeList.size() > 0) {
             soilTypeResponse.setError(true);
             soilTypeResponse.setError_description("SoilType already exists, duplicates are not allowed.");

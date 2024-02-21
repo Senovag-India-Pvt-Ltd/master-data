@@ -57,11 +57,11 @@ public class SourceMasterService {
         if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(SourceMaster::getActive).findAny().isPresent()){
             sourceMasterResponse.setError(true);
             sourceMasterResponse.setError_description("Source name already exist");
-        }
-        else if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(Predicate.not(SourceMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            sourceMasterResponse.setError(true);
-            sourceMasterResponse.setError_description("Source name already exist with inactive state");
+//        }
+//        else if(!sourceMasterList.isEmpty() && sourceMasterList.stream().filter(Predicate.not(SourceMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            sourceMasterResponse.setError(true);
+//            sourceMasterResponse.setError_description("Source name already exist with inactive state");
         }else {
             sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMasterRepository.save(sourceMaster), SourceMasterResponse.class);
             sourceMasterResponse.setError(false);
@@ -135,7 +135,7 @@ public class SourceMasterService {
     @Transactional
     public SourceMasterResponse updateSourceMasterDetails(EditSourceMasterRequest sourceMasterRequest){
             SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
-            List<SourceMaster> sourceMasterList = sourceMasterRepository.findBySourceMasterNameAndSourceNameInKannada(sourceMasterRequest.getSourceMasterName(),sourceMasterRequest.getSourceNameInKannada());
+            List<SourceMaster> sourceMasterList = sourceMasterRepository.findByActiveAndSourceMasterNameAndSourceNameInKannada(true,sourceMasterRequest.getSourceMasterName(),sourceMasterRequest.getSourceNameInKannada());
             if(sourceMasterList.size()>0){
                 sourceMasterResponse.setError(true);
                 sourceMasterResponse.setError_description("Source already exists, duplicates are not allowed.");
