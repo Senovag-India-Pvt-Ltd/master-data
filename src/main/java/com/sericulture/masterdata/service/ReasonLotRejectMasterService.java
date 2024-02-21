@@ -60,11 +60,11 @@ public class ReasonLotRejectMasterService {
         if(!reasonLotRejectMasterList.isEmpty() && reasonLotRejectMasterList.stream().filter(ReasonLotRejectMaster::getActive).findAny().isPresent()){
             reasonLotRejectMasterResponse.setError(true);
             reasonLotRejectMasterResponse.setError_description("ReasonLotReject name already exist");
-        }
-        else if(!reasonLotRejectMasterList.isEmpty() && reasonLotRejectMasterList.stream().filter(Predicate.not(ReasonLotRejectMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            reasonLotRejectMasterResponse.setError(true);
-            reasonLotRejectMasterResponse.setError_description("ReasonLotReject name already exist with inactive state");
+//        }
+//        else if(!reasonLotRejectMasterList.isEmpty() && reasonLotRejectMasterList.stream().filter(Predicate.not(ReasonLotRejectMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            reasonLotRejectMasterResponse.setError(true);
+//            reasonLotRejectMasterResponse.setError_description("ReasonLotReject name already exist with inactive state");
         }else {
             reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMasterRepository.save(reasonLotRejectMaster), ReasonLotRejectMasterResponse.class);
             reasonLotRejectMasterResponse.setError(false);
@@ -139,7 +139,7 @@ public class ReasonLotRejectMasterService {
     @Transactional
     public ReasonLotRejectMasterResponse updateReasonLotRejectMasterDetails(EditReasonLotRejectMasterRequest reasonLotRejectMasterRequest) {
         ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
-        List<ReasonLotRejectMaster> reasonLotRejectMasterList = reasonLotRejectMasterRepository.findByReasonLotRejectName(reasonLotRejectMasterRequest.getReasonLotRejectName());
+        List<ReasonLotRejectMaster> reasonLotRejectMasterList = reasonLotRejectMasterRepository.findByActiveAndReasonLotRejectName(true,reasonLotRejectMasterRequest.getReasonLotRejectName());
         if (reasonLotRejectMasterList.size() > 0) {
             reasonLotRejectMasterResponse.setError(true);
             reasonLotRejectMasterResponse.setError_description("ReasonLotRejectMaster already exists, duplicates are not allowed.");

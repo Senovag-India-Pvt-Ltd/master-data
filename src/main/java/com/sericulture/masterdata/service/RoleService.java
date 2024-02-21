@@ -59,11 +59,11 @@ public class RoleService {
         if(!roleList.isEmpty() && roleList.stream().filter(Role::getActive).findAny().isPresent()){
             roleResponse.setError(true);
             roleResponse.setError_description("Role name already exist");
-        }
-        else if(!roleList.isEmpty() && roleList.stream().filter(Predicate.not(Role::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            roleResponse.setError(true);
-            roleResponse.setError_description("Role name already exist with inactive state");
+//        }
+//        else if(!roleList.isEmpty() && roleList.stream().filter(Predicate.not(Role::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            roleResponse.setError(true);
+//            roleResponse.setError_description("Role name already exist with inactive state");
         }else {
             roleResponse = mapper.roleEntityToObject(roleRepository.save(role), RoleResponse.class);
             roleResponse.setError(false);
@@ -137,7 +137,7 @@ public class RoleService {
     @Transactional
     public RoleResponse updateRoleDetails(EditRoleRequest roleRequest) {
         RoleResponse roleResponse = new RoleResponse();
-        List<Role> roleList = roleRepository.findByRoleName(roleRequest.getRoleName());
+        List<Role> roleList = roleRepository.findByActiveAndRoleName(true,roleRequest.getRoleName());
         if (roleList.size() > 0) {
             roleResponse.setError(true);
             roleResponse.setError_description("Role already exists, duplicates are not allowed.");

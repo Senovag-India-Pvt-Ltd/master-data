@@ -54,10 +54,10 @@ public class ReelerTypeMasterService {
         if(!reelerTypeMasterList.isEmpty() && reelerTypeMasterList.stream(). filter(ReelerTypeMaster::getActive).findAny().isPresent()){
             reelerTypeMasterResponse.setError(true);
             reelerTypeMasterResponse.setError_description("Reeler Type name already exist");
-        }
-        else if(!reelerTypeMasterList.isEmpty() && reelerTypeMasterList.stream().filter(Predicate.not(ReelerTypeMaster::getActive)).findAny().isPresent()){
-            reelerTypeMasterResponse.setError(true);
-            reelerTypeMasterResponse.setError_description("Reeler Type name already exist with inactive state");
+//        }
+//        else if(!reelerTypeMasterList.isEmpty() && reelerTypeMasterList.stream().filter(Predicate.not(ReelerTypeMaster::getActive)).findAny().isPresent()){
+//            reelerTypeMasterResponse.setError(true);
+//            reelerTypeMasterResponse.setError_description("Reeler Type name already exist with inactive state");
         }else {
             reelerTypeMasterResponse = mapper.reelerTypeMasterEntityToObject(reelerTypeMasterRepository.save(reelerTypeMaster), ReelerTypeMasterResponse.class);
             reelerTypeMasterResponse.setError(false);
@@ -133,7 +133,7 @@ public class ReelerTypeMasterService {
     public ReelerTypeMasterResponse updateReelerTypeMastersDetails(EditReelerTypeMasterRequest reelerTypeMasterRequest){
 
         ReelerTypeMasterResponse reelerTypeMasterResponse  = new ReelerTypeMasterResponse();
-        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository. findByReelerTypeMasterNameAndReelerTypeNameInKannada(reelerTypeMasterRequest.getReelerTypeMasterName(),reelerTypeMasterRequest.getReelerTypeNameInKannada());
+        List<ReelerTypeMaster> reelerTypeMasterList = reelerTypeMasterRepository. findByActiveAndReelerTypeMasterNameAndReelerTypeNameInKannada(true,reelerTypeMasterRequest.getReelerTypeMasterName(),reelerTypeMasterRequest.getReelerTypeNameInKannada());
         if(reelerTypeMasterList.size()>0){
             reelerTypeMasterResponse.setError(true);
             reelerTypeMasterResponse.setError_description("Reeler Type , duplicates are not allowed.");

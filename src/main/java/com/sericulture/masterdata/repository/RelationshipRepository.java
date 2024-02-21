@@ -15,6 +15,8 @@ import java.util.Set;
 public interface RelationshipRepository extends PagingAndSortingRepository<Relationship, Long> {
         public List<Relationship> findByRelationshipNameAndRelationshipNameInKannada(String relationshipName,String relationshipNameInKannada);
 
+        public List<Relationship> findByActiveAndRelationshipNameAndRelationshipNameInKannada(boolean a,String relationshipName,String relationshipNameInKannada);
+
         public Relationship findByRelationshipNameAndActive(String relationshipName,boolean isActive);
 
         public Page<Relationship> findByActiveOrderByRelationshipNameAsc(boolean isActive, final Pageable pageable);

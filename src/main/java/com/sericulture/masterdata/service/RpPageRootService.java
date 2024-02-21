@@ -43,11 +43,11 @@ public class RpPageRootService {
         if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
             rpPageRootResponse.setError(true);
             rpPageRootResponse.setError_description("RpPageRoot name already exist");
-        }
-        else if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            rpPageRootResponse.setError(true);
-            rpPageRootResponse.setError_description("RpPageRoot name already exist with inactive state");
+//        }
+//        else if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            rpPageRootResponse.setError(true);
+//            rpPageRootResponse.setError_description("RpPageRoot name already exist with inactive state");
         }else {
             rpPageRootResponse = mapper.rpPageRootEntityToObject(rpPageRootRepository.save(rpPageRoot), RpPageRootResponse.class);
             rpPageRootResponse.setError(false);
@@ -121,7 +121,7 @@ public class RpPageRootService {
     @Transactional
     public RpPageRootResponse updateRpPageRootDetails(EditRpPageRootRequest rpPageRootRequest) {
         RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
-        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
+        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByActiveAndRpPageRootName(true,rpPageRootRequest.getRpPageRootName());
         if (rpPageRootList.size() > 0) {
             rpPageRootResponse.setError(true);
             rpPageRootResponse.setError_description("RpPageRoot already exists, duplicates are not allowed.");

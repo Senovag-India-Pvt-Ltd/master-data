@@ -49,11 +49,11 @@ public class RaceMarketMasterService {
         if(!raceMarketMasterList.isEmpty() && raceMarketMasterList.stream().filter(RaceMarketMaster::getActive).findAny().isPresent()){
             raceMarketMasterResponse.setError(true);
             raceMarketMasterResponse.setError_description("Race name already exist");
-        }
-        else if(!raceMarketMasterList.isEmpty() && raceMarketMasterList.stream().filter(Predicate.not(RaceMarketMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            raceMarketMasterResponse.setError(true);
-            raceMarketMasterResponse.setError_description("Race name already exist with inactive state");
+//        }
+//        else if(!raceMarketMasterList.isEmpty() && raceMarketMasterList.stream().filter(Predicate.not(RaceMarketMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            raceMarketMasterResponse.setError(true);
+//            raceMarketMasterResponse.setError_description("Race name already exist with inactive state");
         }else {
             raceMarketMasterResponse = mapper.raceMarketMasterEntityToObject(raceMarketMasterRepository.save(raceMarketMaster), RaceMarketMasterResponse.class);
             raceMarketMasterResponse.setError(false);
@@ -162,7 +162,7 @@ public class RaceMarketMasterService {
     @Transactional
     public RaceMarketMasterResponse updateRaceMarketMasterDetails(EditRaceMarketMasterRequest raceMarketMasterRequest) {
         RaceMarketMasterResponse raceMarketMasterResponse = new RaceMarketMasterResponse();
-        List<RaceMarketMaster> raceMarketMasterList = raceMarketMasterRepository.findByMarketMasterIdAndRaceMasterId(raceMarketMasterRequest.getMarketMasterId(), raceMarketMasterRequest.getRaceMasterId());
+        List<RaceMarketMaster> raceMarketMasterList = raceMarketMasterRepository.findByActiveAndMarketMasterIdAndRaceMasterId(true,raceMarketMasterRequest.getMarketMasterId(), raceMarketMasterRequest.getRaceMasterId());
         if (raceMarketMasterList.size() > 0) {
             raceMarketMasterResponse.setError(true);
             raceMarketMasterResponse.setError_description("Race already exists, duplicates are not allowed.");

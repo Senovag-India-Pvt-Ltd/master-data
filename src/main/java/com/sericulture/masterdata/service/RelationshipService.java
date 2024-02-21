@@ -65,11 +65,11 @@ public class RelationshipService {
         if(!relationshipList.isEmpty() && relationshipList.stream().filter(Relationship::getActive).findAny().isPresent()){
             relationshipResponse.setError(true);
             relationshipResponse.setError_description("Relationship name already exist");
-        }
-        else if(!relationshipList.isEmpty() && relationshipList.stream().filter(Predicate.not(Relationship::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            relationshipResponse.setError(true);
-            relationshipResponse.setError_description("Relationship name already exist with inactive state");
+//        }
+//        else if(!relationshipList.isEmpty() && relationshipList.stream().filter(Predicate.not(Relationship::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            relationshipResponse.setError(true);
+//            relationshipResponse.setError_description("Relationship name already exist with inactive state");
         }else {
             relationshipResponse = mapper.relationshipEntityToObject(relationshipRepository.save(relationship), RelationshipResponse.class);
             relationshipResponse.setError(false);
@@ -142,7 +142,7 @@ public class RelationshipService {
     @Transactional
     public RelationshipResponse updateRelationshipDetails(EditRelationshipRequest relationshipRequest) {
         RelationshipResponse relationshipResponse = new RelationshipResponse();
-        List<Relationship> relationshipList = relationshipRepository.findByRelationshipNameAndRelationshipNameInKannada(relationshipRequest.getRelationshipName(), relationshipRequest.getRelationshipNameInKannada());
+        List<Relationship> relationshipList = relationshipRepository.findByActiveAndRelationshipNameAndRelationshipNameInKannada(true,relationshipRequest.getRelationshipName(), relationshipRequest.getRelationshipNameInKannada());
         if (relationshipList.size() > 0) {
             relationshipResponse.setError(true);
             relationshipResponse.setError_description("Relationship already exists, duplicates are not allowed.");

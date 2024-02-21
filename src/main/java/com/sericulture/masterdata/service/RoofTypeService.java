@@ -59,11 +59,11 @@ public class RoofTypeService {
         if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(RoofType::getActive).findAny().isPresent()){
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType name already exist");
-        }
-        else if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(Predicate.not(RoofType::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            roofTypeResponse.setError(true);
-            roofTypeResponse.setError_description("RoofType name already exist with inactive state");
+//        }
+//        else if(!roofTypeList.isEmpty() && roofTypeList.stream().filter(Predicate.not(RoofType::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            roofTypeResponse.setError(true);
+//            roofTypeResponse.setError_description("RoofType name already exist with inactive state");
         }else {
             roofTypeResponse = mapper.roofTypeEntityToObject(roofTypeRepository.save(roofType), RoofTypeResponse.class);
             roofTypeResponse.setError(false);
@@ -137,7 +137,7 @@ public class RoofTypeService {
     @Transactional
     public RoofTypeResponse updateRoofTypeDetails(EditRoofTypeRequest roofTypeRequest) {
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
-        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannada(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada());
+        List<RoofType> roofTypeList = roofTypeRepository.findByRoofTypeNameAndRoofTypeNameInKannadaAndActive(roofTypeRequest.getRoofTypeName(),roofTypeRequest.getRoofTypeNameInKannada(), true);
         if (roofTypeList.size() > 0) {
             roofTypeResponse.setError(true);
             roofTypeResponse.setError_description("RoofType already exists, duplicates are not allowed.");

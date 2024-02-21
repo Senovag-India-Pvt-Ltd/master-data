@@ -59,11 +59,11 @@ public class ReasonBidRejectMasterService {
         if(!reasonBidRejectMasterList.isEmpty() && reasonBidRejectMasterList.stream().filter(ReasonBidRejectMaster::getActive).findAny().isPresent()){
             reasonBidRejectMasterResponse.setError(true);
             reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster name already exist");
-        }
-        else if(!reasonBidRejectMasterList.isEmpty() && reasonBidRejectMasterList.stream().filter(Predicate.not(ReasonBidRejectMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            reasonBidRejectMasterResponse.setError(true);
-            reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster name already exist with inactive state");
+//        }
+//        else if(!reasonBidRejectMasterList.isEmpty() && reasonBidRejectMasterList.stream().filter(Predicate.not(ReasonBidRejectMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            reasonBidRejectMasterResponse.setError(true);
+//            reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster name already exist with inactive state");
         }else {
             reasonBidRejectMasterResponse = mapper.reasonBidRejectEntityToObject(reasonBidRejectMasterRepository.save(reasonBidRejectMaster), ReasonBidRejectMasterResponse.class);
             reasonBidRejectMasterResponse.setError(false);
@@ -137,7 +137,7 @@ public class ReasonBidRejectMasterService {
     @Transactional
     public ReasonBidRejectMasterResponse updateReasonBidRejectMasterDetails(EditReasonBidRejectMasterRequest reasonBidRejectMasterRequest) {
         ReasonBidRejectMasterResponse reasonBidRejectMasterResponse = new ReasonBidRejectMasterResponse();
-        List<ReasonBidRejectMaster> reasonBidRejectMasterList = reasonBidRejectMasterRepository.findByReasonBidRejectName(reasonBidRejectMasterRequest.getReasonBidRejectName());
+        List<ReasonBidRejectMaster> reasonBidRejectMasterList = reasonBidRejectMasterRepository.findByActiveAndReasonBidRejectName(true,reasonBidRejectMasterRequest.getReasonBidRejectName());
         if (reasonBidRejectMasterList.size() > 0) {
             reasonBidRejectMasterResponse.setError(true);
             reasonBidRejectMasterResponse.setError_description("ReasonBidRejectMaster already exists, duplicates are not allowed.");

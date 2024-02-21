@@ -14,6 +14,9 @@ import java.util.Set;
 public interface ReasonBidRejectMasterRepository extends PagingAndSortingRepository<ReasonBidRejectMaster, Long> {
     public List<ReasonBidRejectMaster> findByReasonBidRejectName(String reasonBidRejectName);
 
+    public List<ReasonBidRejectMaster> findByActiveAndReasonBidRejectName(boolean a,String reasonBidRejectName);
+
+
     public ReasonBidRejectMaster findByReasonBidRejectNameAndActive(String reasonBidRejectName,boolean isActive);
 
     public Page<ReasonBidRejectMaster> findByActiveOrderByReasonBidRejectIdAsc(boolean isActive, final Pageable pageable);

@@ -65,11 +65,11 @@ public class RaceMasterService {
         if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(RaceMaster::getActive).findAny().isPresent()){
             raceMasterResponse.setError(true);
             raceMasterResponse.setError_description("Race name already exist");
-        }
-        else if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(Predicate.not(RaceMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            raceMasterResponse.setError(true);
-            raceMasterResponse.setError_description("Race name already exist with inactive state");
+//        }
+//        else if(!raceMasterList.isEmpty() && raceMasterList.stream().filter(Predicate.not(RaceMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            raceMasterResponse.setError(true);
+//            raceMasterResponse.setError_description("Race name already exist with inactive state");
         }else {
             raceMasterResponse = mapper.raceMasterEntityToObject(raceMasterRepository.save(raceMaster), RaceMasterResponse.class);
             raceMasterResponse.setError(false);

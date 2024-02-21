@@ -21,6 +21,7 @@ public interface RaceMarketMasterRepository extends PagingAndSortingRepository<R
     public Page<RaceMarketMaster> findByActiveOrderByRaceMarketMasterIdAsc(boolean isActive, final Pageable pageable);
 
     List<RaceMarketMaster> findByMarketMasterIdAndRaceMasterId(long marketMasterId, long raceMasterId);
+    List<RaceMarketMaster> findByActiveAndMarketMasterIdAndRaceMasterId(boolean a,long marketMasterId, long raceMasterId);
 
     public RaceMarketMaster save(RaceMarketMaster raceMarketMaster);
 

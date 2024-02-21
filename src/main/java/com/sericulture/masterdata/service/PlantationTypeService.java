@@ -59,11 +59,11 @@ public class PlantationTypeService {
         if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(PlantationType::getActive).findAny().isPresent()){
             plantationTypeResponse.setError(true);
             plantationTypeResponse.setError_description("PlantationType name already exist");
-        }
-        else if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(Predicate.not(PlantationType::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            plantationTypeResponse.setError(true);
-            plantationTypeResponse.setError_description("PlantationType name already exist with inactive state");
+//        }
+//        else if(!plantationTypeList.isEmpty() && plantationTypeList.stream().filter(Predicate.not(PlantationType::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            plantationTypeResponse.setError(true);
+//            plantationTypeResponse.setError_description("PlantationType name already exist with inactive state");
         }else {
             plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationTypeRepository.save(plantationType), PlantationTypeResponse.class);
             plantationTypeResponse.setError(false);
@@ -137,7 +137,7 @@ public class PlantationTypeService {
     @Transactional
     public PlantationTypeResponse updatePlantationTypeDetails(EditPlantationTypeRequest plantationTypeRequest) {
         PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
-        List<PlantationType> plantationTypeList = plantationTypeRepository.findByPlantationTypeNameAndPlantationTypeNameInKannada(plantationTypeRequest.getPlantationTypeName(), plantationTypeRequest.getPlantationTypeNameInKannada());
+        List<PlantationType> plantationTypeList = plantationTypeRepository.findByActiveAndPlantationTypeNameAndPlantationTypeNameInKannada(true,plantationTypeRequest.getPlantationTypeName(), plantationTypeRequest.getPlantationTypeNameInKannada());
         if (plantationTypeList.size() > 0) {
             plantationTypeResponse.setError(true);
             plantationTypeResponse.setError_description("PlantationType already exists, duplicates are not allowed.");
