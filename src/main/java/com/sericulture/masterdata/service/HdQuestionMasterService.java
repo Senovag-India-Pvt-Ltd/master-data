@@ -67,10 +67,10 @@ public class HdQuestionMasterService {
         if(!hdQuestionMasterList.isEmpty() && hdQuestionMasterList.stream().filter(HdQuestionMaster::getActive).findAny().isPresent()){
             hdQuestionMasterResponse.setError(true);
             hdQuestionMasterResponse.setError_description("Question name already exist");
-        }
-        else if(!hdQuestionMasterList.isEmpty() && hdQuestionMasterList.stream().filter(Predicate.not(HdQuestionMaster::getActive)).findAny().isPresent()){
-            hdQuestionMasterResponse.setError(true);
-            hdQuestionMasterResponse.setError_description("Question name already exist with inactive state");
+//        }
+//        else if(!hdQuestionMasterList.isEmpty() && hdQuestionMasterList.stream().filter(Predicate.not(HdQuestionMaster::getActive)).findAny().isPresent()){
+//            hdQuestionMasterResponse.setError(true);
+//            hdQuestionMasterResponse.setError_description("Question name already exist with inactive state");
         }else {
             hdQuestionMasterResponse = mapper.hdQuestionMasterEntityToObject(hdQuestionMasterRepository.save(hdQuestionMaster), HdQuestionMasterResponse.class);
             hdQuestionMasterResponse.setError(false);
@@ -147,7 +147,7 @@ public class HdQuestionMasterService {
     public HdQuestionMasterResponse updateHdQuestionMasterDetails(EditHdQuestionMasterRequest hdQuestionMasterRequest){
 
         HdQuestionMasterResponse hdQuestionMasterResponse = new HdQuestionMasterResponse();
-        List<HdQuestionMaster> hdQuestionMasterList =  hdQuestionMasterRepository.findByHdQuestionName(hdQuestionMasterRequest.getHdQuestionName());
+        List<HdQuestionMaster> hdQuestionMasterList =  hdQuestionMasterRepository.findByActiveAndHdQuestionName(true,hdQuestionMasterRequest.getHdQuestionName());
         if(hdQuestionMasterList.size()>0){
             hdQuestionMasterResponse.setError(true);
             hdQuestionMasterResponse.setError_description("QuestionMaster already exists, duplicates are not allowed.");

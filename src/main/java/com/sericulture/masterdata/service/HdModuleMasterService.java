@@ -61,10 +61,10 @@ public class HdModuleMasterService {
         if(!hdModuleMasterList.isEmpty() && hdModuleMasterList.stream().filter(HdModuleMaster::getActive).findAny().isPresent()){
             hdModuleMasterResponse.setError(true);
             hdModuleMasterResponse.setError_description("Module name already exist");
-        }
-        else if(!hdModuleMasterList.isEmpty() && hdModuleMasterList.stream().filter(Predicate.not(HdModuleMaster::getActive)).findAny().isPresent()){
-            hdModuleMasterResponse.setError(true);
-            hdModuleMasterResponse.setError_description("Module name already exist with inactive state");
+//        }
+//        else if(!hdModuleMasterList.isEmpty() && hdModuleMasterList.stream().filter(Predicate.not(HdModuleMaster::getActive)).findAny().isPresent()){
+//            hdModuleMasterResponse.setError(true);
+//            hdModuleMasterResponse.setError_description("Module name already exist with inactive state");
         }else {
             hdModuleMasterResponse = mapper.hdModuleMasterEntityToObject(hdModuleMasterRepository.save(hdModuleMaster), HdModuleMasterResponse.class);
             hdModuleMasterResponse.setError(false);
@@ -141,7 +141,7 @@ public class HdModuleMasterService {
     public HdModuleMasterResponse updateHdModuleMasterDetails(EditHdModuleMasterRequest hdModuleMasterRequest){
 
         HdModuleMasterResponse hdModuleMasterResponse = new HdModuleMasterResponse();
-        List<HdModuleMaster> hdModuleMasterList =  hdModuleMasterRepository.findByHdModuleName(hdModuleMasterRequest.getHdModuleName());
+        List<HdModuleMaster> hdModuleMasterList =  hdModuleMasterRepository.findByActiveAndHdModuleName(true,hdModuleMasterRequest.getHdModuleName());
         if(hdModuleMasterList.size()>0){
             hdModuleMasterResponse.setError(true);
             hdModuleMasterResponse.setError_description("ModuleMaster already exists, duplicates are not allowed.");

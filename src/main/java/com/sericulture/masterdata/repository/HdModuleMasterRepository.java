@@ -16,6 +16,8 @@ import java.util.Set;
 public interface HdModuleMasterRepository extends PagingAndSortingRepository<HdModuleMaster, Long> {
     public List<HdModuleMaster> findByHdModuleName(String hdModuleName);
 
+    public List<HdModuleMaster> findByActiveAndHdModuleName(boolean active, String hdModuleName);
+
     public HdModuleMaster findByHdModuleNameAndActive(String hdModuleName, boolean isActive);
 
     public Page<HdModuleMaster> findByActiveOrderByHdModuleNameAsc(boolean isActive, final Pageable pageable);

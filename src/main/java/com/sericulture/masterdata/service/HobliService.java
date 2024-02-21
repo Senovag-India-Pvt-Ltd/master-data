@@ -64,11 +64,11 @@ public class HobliService {
         if(!hobliList.isEmpty() && hobliList.stream().filter(Hobli::getActive).findAny().isPresent()){
             hobliResponse.setError(true);
             hobliResponse.setError_description("Hobli name already exist");
-        }
-        else if(!hobliList.isEmpty() && hobliList.stream().filter(Predicate.not(Hobli::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            hobliResponse.setError(true);
-            hobliResponse.setError_description("Hobli name already exist with inactive state");
+//        }
+//        else if(!hobliList.isEmpty() && hobliList.stream().filter(Predicate.not(Hobli::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            hobliResponse.setError(true);
+//            hobliResponse.setError_description("Hobli name already exist with inactive state");
         }else {
             hobliResponse = mapper.hobliEntityToObject(hobliRepository.save(hobli), HobliResponse.class);
             hobliResponse.setError(false);
@@ -195,7 +195,7 @@ public class HobliService {
     @Transactional
     public HobliResponse updateHobliDetails(EditHobliRequest hobliRequest) {
         HobliResponse hobliResponse = new HobliResponse();
-        List<Hobli> hobliList = hobliRepository.findByHobliNameAndHobliNameInKannada(hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada());
+        List<Hobli> hobliList = hobliRepository.findByActiveAndHobliNameAndHobliNameInKannada(true,hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada());
         if (hobliList.size() > 0) {
             hobliResponse.setError(true);
             hobliResponse.setError_description("Hobli already exists, duplicates are not allowed.");

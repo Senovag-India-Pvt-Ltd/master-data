@@ -60,10 +60,10 @@ public class HdSeverityMasterService {
         if(!hdSeverityMasterList.isEmpty() && hdSeverityMasterList.stream().filter(HdSeverityMaster::getActive).findAny().isPresent()){
             hdSeverityMasterResponse.setError(true);
             hdSeverityMasterResponse.setError_description("Severity name already exist");
-        }
-        else if(!hdSeverityMasterList.isEmpty() && hdSeverityMasterList.stream().filter(Predicate.not(HdSeverityMaster::getActive)).findAny().isPresent()){
-            hdSeverityMasterResponse.setError(true);
-            hdSeverityMasterResponse.setError_description("Severity name already exist with inactive state");
+//        }
+//        else if(!hdSeverityMasterList.isEmpty() && hdSeverityMasterList.stream().filter(Predicate.not(HdSeverityMaster::getActive)).findAny().isPresent()){
+//            hdSeverityMasterResponse.setError(true);
+//            hdSeverityMasterResponse.setError_description("Severity name already exist with inactive state");
         }else {
             hdSeverityMasterResponse = mapper.hdSeverityMasterEntityToObject(hdSeverityMasterRepository.save(hdSeverityMaster), HdSeverityMasterResponse.class);
             hdSeverityMasterResponse.setError(false);
@@ -140,7 +140,7 @@ public class HdSeverityMasterService {
     public HdSeverityMasterResponse updateHdSeverityMasterDetails(EditHdSeverityMasterRequest hdSeverityMasterRequest){
 
         HdSeverityMasterResponse hdSeverityMasterResponse = new HdSeverityMasterResponse();
-        List<HdSeverityMaster> hdSeverityMasterList =  hdSeverityMasterRepository.findByHdSeverityName(hdSeverityMasterRequest.getHdSeverityName());
+        List<HdSeverityMaster> hdSeverityMasterList =  hdSeverityMasterRepository.findByActiveAndHdSeverityName(true,hdSeverityMasterRequest.getHdSeverityName());
         if(hdSeverityMasterList.size()>0){
             hdSeverityMasterResponse.setError(true);
             hdSeverityMasterResponse.setError_description("SeverityMaster already exists, duplicates are not allowed.");

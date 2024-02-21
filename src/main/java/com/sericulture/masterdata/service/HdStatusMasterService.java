@@ -62,10 +62,10 @@ public class HdStatusMasterService {
         if(!hdStatusMasterList.isEmpty() && hdStatusMasterList.stream().filter(HdStatusMaster::getActive).findAny().isPresent()){
             hdStatusMasterResponse.setError(true);
             hdStatusMasterResponse.setError_description("Status name already exist");
-        }
-        else if(!hdStatusMasterList.isEmpty() && hdStatusMasterList.stream().filter(Predicate.not(HdStatusMaster::getActive)).findAny().isPresent()){
-            hdStatusMasterResponse.setError(true);
-            hdStatusMasterResponse.setError_description("Status name already exist with inactive state");
+//        }
+//        else if(!hdStatusMasterList.isEmpty() && hdStatusMasterList.stream().filter(Predicate.not(HdStatusMaster::getActive)).findAny().isPresent()){
+//            hdStatusMasterResponse.setError(true);
+//            hdStatusMasterResponse.setError_description("Status name already exist with inactive state");
         }else {
             hdStatusMasterResponse = mapper.hdStatusMasterEntityToObject(hdStatusMasterRepository.save(hdStatusMaster), HdStatusMasterResponse.class);
             hdStatusMasterResponse.setError(false);
@@ -142,7 +142,7 @@ public class HdStatusMasterService {
     public HdStatusMasterResponse updateHdStatusMasterDetails(EditHdStatusMasterRequest hdStatusMasterRequest){
 
         HdStatusMasterResponse hdStatusMasterResponse = new HdStatusMasterResponse();
-        List<HdStatusMaster> hdStatusMasterList =  hdStatusMasterRepository.findByHdStatusName(hdStatusMasterRequest.getHdStatusName());
+        List<HdStatusMaster> hdStatusMasterList =  hdStatusMasterRepository.findByActiveAndHdStatusName(true,hdStatusMasterRequest.getHdStatusName());
         if(hdStatusMasterList.size()>0){
             hdStatusMasterResponse.setError(true);
             hdStatusMasterResponse.setError_description("StatusMaster already exists, duplicates are not allowed.");

@@ -66,9 +66,9 @@ public class HdSubCategoryMasterService {
         if (!hdSubCategoryMasterList.isEmpty() && hdSubCategoryMasterList.stream().filter(HdSubCategoryMaster::getActive).findAny().isPresent()) {
             hdSubCategoryMasterResponse.setError(true);
             hdSubCategoryMasterResponse.setError_description("Hd SubCategory name already exist");
-        } else if (!hdSubCategoryMasterList.isEmpty() && hdSubCategoryMasterList.stream().filter(Predicate.not(HdSubCategoryMaster::getActive)).findAny().isPresent()) {
-            hdSubCategoryMasterResponse.setError(true);
-            hdSubCategoryMasterResponse.setError_description("Hd SubCategory name already exist with inactive state");
+//        } else if (!hdSubCategoryMasterList.isEmpty() && hdSubCategoryMasterList.stream().filter(Predicate.not(HdSubCategoryMaster::getActive)).findAny().isPresent()) {
+//            hdSubCategoryMasterResponse.setError(true);
+//            hdSubCategoryMasterResponse.setError_description("Hd SubCategory name already exist with inactive state");
         } else {
             hdSubCategoryMasterResponse = mapper.hdSubCategoryMasterEntityToObject(hdSubCategoryMasterRepository.save(hdSubCategoryMaster), HdSubCategoryMasterResponse.class);
             hdSubCategoryMasterResponse.setError(false);
@@ -202,7 +202,7 @@ public class HdSubCategoryMasterService {
     public HdSubCategoryMasterResponse updateHdSubCategoryMasterDetails(EditHdSubCategoryMasterRequest hdSubCategoryMasterRequest) {
 
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
-        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdSubCategoryName(hdSubCategoryMasterRequest.getHdSubCategoryName());
+        List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByActiveAndHdSubCategoryName(true,hdSubCategoryMasterRequest.getHdSubCategoryName());
         if (hdSubCategoryMasterList.size() > 0) {
             hdSubCategoryMasterResponse.setError(true);
             hdSubCategoryMasterResponse.setError_description("hd SubcategoryMaster already exists, duplicates are not allowed.");

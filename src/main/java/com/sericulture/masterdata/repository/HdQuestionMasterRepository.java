@@ -17,6 +17,8 @@ import java.util.Set;
 @Repository
 public interface HdQuestionMasterRepository extends PagingAndSortingRepository<HdQuestionMaster, Long> {
     public List<HdQuestionMaster> findByHdQuestionName(String hdQuestionName);
+    public List<HdQuestionMaster> findByActiveAndHdQuestionName(boolean active,String hdQuestionName);
+
 
     public HdQuestionMaster findByHdQuestionNameAndActive(String hdQuestionName, boolean isActive);
 

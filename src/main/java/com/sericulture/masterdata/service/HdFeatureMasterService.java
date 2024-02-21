@@ -67,11 +67,11 @@ public class HdFeatureMasterService {
         if(!hdFeatureMasterList.isEmpty() && hdFeatureMasterList.stream().filter(HdFeatureMaster::getActive).findAny().isPresent()){
             hdFeatureMasterResponse.setError(true);
             hdFeatureMasterResponse.setError_description("FeatureMaster name already exist");
-        }
-        else if(!hdFeatureMasterList.isEmpty() && hdFeatureMasterList.stream().filter(Predicate.not(HdFeatureMaster::getActive)).findAny().isPresent()){
-            //throw new ValidationException("Village name already exist with inactive state");
-            hdFeatureMasterResponse.setError(true);
-            hdFeatureMasterResponse.setError_description("FeatureMaster name already exist with inactive state");
+//        }
+//        else if(!hdFeatureMasterList.isEmpty() && hdFeatureMasterList.stream().filter(Predicate.not(HdFeatureMaster::getActive)).findAny().isPresent()){
+//            //throw new ValidationException("Village name already exist with inactive state");
+//            hdFeatureMasterResponse.setError(true);
+//            hdFeatureMasterResponse.setError_description("FeatureMaster name already exist with inactive state");
         }else {
             hdFeatureMasterResponse = mapper.hdFeatureMasterEntityToObject(hdFeatureMasterRepository.save(hdFeatureMaster), HdFeatureMasterResponse.class);
             hdFeatureMasterResponse.setError(false);
