@@ -186,6 +186,31 @@ public class RaceMarketMasterService {
         }
         return raceMarketMasterResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getByMarketMasterId(long marketMasterId){
+        Map<String, Object> response = new HashMap<>();
+        List<RaceMarketMasterDTO> raceMarketMasterList = raceMarketMasterRepository.getRaceMaster(marketMasterId,true);
+        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
+        if(raceMarketMasterList.isEmpty()){
+            response.put("error","Error");
+            response.put("error_description","Invalid id");
+            return response;
+        }else {
+            log.info("Entity is ", raceMarketMasterList);
+            response = convertListToMapResponse(raceMarketMasterList);
+            return response;
+        }
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<RaceMarketMasterDTO> raceMarketMasterList) {
+        Map<String, Object> response = new HashMap<>();
+        List<RaceMarketMasterResponse> raceMasterResponses = raceMarketMasterList.stream()
+                .map(raceMarketMaster -> mapper.raceMarketMasterDTOToObject(raceMarketMaster,RaceMarketMasterResponse.class)).collect(Collectors.toList());
+        response.put("raceMaster",raceMasterResponses);
+        response.put("totalItems", raceMasterResponses.size());
+        return response;
+    }
 }
 
 

@@ -18,6 +18,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
 
     public List<Taluk> findByActiveAndTalukNameAndTalukNameInKannada(boolean a,String talukName,String talukNameInKannada);
 
+    Taluk findByTalukNameAndDistrictIdAndActive(String talukName, long districtId, boolean a);
     public List<Taluk> findByTalukNameAndDistrictId(String talukName, long districtId);
 
     public Taluk findByTalukNameAndActive(String talukName,boolean isActive);
