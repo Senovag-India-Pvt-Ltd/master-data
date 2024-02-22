@@ -193,6 +193,25 @@ public class RaceMarketMasterController {
         rw.setContent(raceMarketMasterService.getPaginatedRaceMarketMasterDetailsWithJoin(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/get-by-market-master-id/{marketMasterId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByMarketMasterId(
+            @PathVariable final Integer marketMasterId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(raceMarketMasterService.getByMarketMasterId(marketMasterId));
+        return ResponseEntity.ok(rw);
+    }
 }
 
 

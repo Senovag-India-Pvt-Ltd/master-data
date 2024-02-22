@@ -23,6 +23,9 @@ public interface RaceMarketMasterRepository extends PagingAndSortingRepository<R
     List<RaceMarketMaster> findByMarketMasterIdAndRaceMasterId(long marketMasterId, long raceMasterId);
     List<RaceMarketMaster> findByActiveAndMarketMasterIdAndRaceMasterId(boolean a,long marketMasterId, long raceMasterId);
 
+    List<RaceMarketMaster> findByMarketMasterIdAndRaceMasterIdAndRaceMarketMasterIdIsNot(long marketMasterId, long raceMasterId, long raceMarketMasterId);
+
+
     public RaceMarketMaster save(RaceMarketMaster raceMarketMaster);
 
     public RaceMarketMaster findByRaceMarketMasterIdAndActive(long id, boolean isActive);
@@ -64,4 +67,19 @@ public interface RaceMarketMasterRepository extends PagingAndSortingRepository<R
     )
     public RaceMarketMasterDTO getByRaceMarketMasterIdAndActive(long id, boolean isActive);
 
+    @Query("select new com.sericulture.masterdata.model.dto.RaceMarketMasterDTO(" +
+            " raceMarketMaster.raceMarketMasterId," +
+            " raceMarketMaster.marketMasterId," +
+            " raceMarketMaster.raceMasterId," +
+            " marketMaster.marketMasterName," +
+            " raceMaster.raceMasterName" +
+            ") \n" +
+            "from RaceMarketMaster raceMarketMaster\n" +
+            "left join market_master marketMaster\n" +
+            "on raceMarketMaster.marketMasterId = marketMaster.marketMasterId " +
+            "left join RaceMaster raceMaster\n" +
+            "on raceMarketMaster.raceMasterId = raceMaster.raceMasterId " +
+            "where raceMarketMaster.active = :isActive AND raceMarketMaster.marketMasterId = :marketMasterId "
+    )
+    public List<RaceMarketMasterDTO> getRaceMaster(long marketMasterId, boolean isActive);
 }

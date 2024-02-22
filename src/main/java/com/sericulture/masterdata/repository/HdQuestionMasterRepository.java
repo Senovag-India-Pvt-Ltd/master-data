@@ -20,6 +20,9 @@ public interface HdQuestionMasterRepository extends PagingAndSortingRepository<H
     public List<HdQuestionMaster> findByActiveAndHdQuestionName(boolean active,String hdQuestionName);
 
 
+    public List<HdQuestionMaster> findByHdQuestionNameAndHdQuestionIdIsNot(String hdQuestionName, long hdQuestionId);
+
+
     public HdQuestionMaster findByHdQuestionNameAndActive(String hdQuestionName, boolean isActive);
 
     public Page<HdQuestionMaster> findByActiveOrderByHdQuestionNameAsc(boolean isActive, final Pageable pageable);

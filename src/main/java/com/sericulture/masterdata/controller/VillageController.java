@@ -13,12 +13,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -27,6 +31,19 @@ public class VillageController {
 
     @Autowired
     VillageService villageService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert Village Details", description = "Creates Village Details in to DB")
     @ApiResponses(value = {
@@ -40,7 +57,7 @@ public class VillageController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addVillageDetails(@RequestBody VillageRequest villageRequest){
+    public ResponseEntity<?> addVillageDetails(@Valid @RequestBody VillageRequest villageRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(VillageResponse.class);
 
         rw.setContent(villageService.insertVillageDetails(villageRequest));
@@ -125,7 +142,7 @@ public class VillageController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editVillageDetails(
-            @RequestBody final EditVillageRequest editVillageRequest
+            @Valid @RequestBody final EditVillageRequest editVillageRequest
     ) {
         ResponseWrapper<VillageResponse> rw = ResponseWrapper.createWrapper(VillageResponse.class);
         rw.setContent(villageService.updateVillageDetails(editVillageRequest));
@@ -226,7 +243,7 @@ public class VillageController {
     })
     @PostMapping("/get-details-by-village-name")
     public ResponseEntity<?> getVillageDetailsByName(
-            @RequestBody final VillageDTO villageDTO
+            @Valid @RequestBody final VillageDTO villageDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(VillageResponse.class);
 
@@ -245,7 +262,7 @@ public class VillageController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @RequestBody final SearchWithSortRequest searchWithSortRequest
+            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(villageService.searchByColumnAndSort(searchWithSortRequest));

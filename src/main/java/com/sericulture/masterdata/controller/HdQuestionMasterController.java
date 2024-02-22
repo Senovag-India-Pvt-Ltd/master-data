@@ -15,17 +15,35 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 @RestController
 @RequestMapping("/v1/hdQuestionMaster")
 public class HdQuestionMasterController {
     @Autowired
     HdQuestionMasterService hdQuestionMasterService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert QuestionMaster Details", description = "Creates QuestionMaster Details in to DB")
     @ApiResponses(value = {
@@ -39,7 +57,7 @@ public class HdQuestionMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addHdQuestionMasterDetails(@RequestBody HdQuestionMasterRequest hdQuestionMasterRequest){
+    public ResponseEntity<?> addHdQuestionMasterDetails(@Valid @RequestBody HdQuestionMasterRequest hdQuestionMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(HdQuestionMasterResponse.class);
 
         rw.setContent(hdQuestionMasterService.insertHdQuestionMasterDetails(hdQuestionMasterRequest));
@@ -124,7 +142,7 @@ public class HdQuestionMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editHdQuestionMasterDetails(
-            @RequestBody final EditHdQuestionMasterRequest editHdQuestionMasterRequest
+           @Valid @RequestBody final EditHdQuestionMasterRequest editHdQuestionMasterRequest
     ) {
         ResponseWrapper<HdQuestionMasterResponse> rw = ResponseWrapper.createWrapper(HdQuestionMasterResponse.class);
         rw.setContent(hdQuestionMasterService.updateHdQuestionMasterDetails(editHdQuestionMasterRequest));
@@ -163,7 +181,7 @@ public class HdQuestionMasterController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @RequestBody final SearchWithSortRequest searchWithSortRequest
+            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(hdQuestionMasterService.searchByColumnAndSort(searchWithSortRequest));

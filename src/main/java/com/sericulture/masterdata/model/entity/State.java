@@ -23,7 +23,7 @@ public class State extends BaseEntity implements Serializable {
 
 
     @Size(min = 2, max = 250, message = "State name should be more than 1 characters.")
-    @Column(name = "STATE_NAME", unique = true)
+    @Column(name = "STATE_NAME")
     private String stateName;
 
     @Column(name = "state_name_in_kannada")

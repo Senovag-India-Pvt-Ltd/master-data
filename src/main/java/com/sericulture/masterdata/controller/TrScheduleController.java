@@ -17,11 +17,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -30,6 +35,19 @@ import java.util.Map;
 public class TrScheduleController {
     @Autowired
     TrScheduleService trScheduleService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        response.put("validationErrors", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
     @Operation(summary = "Insert TrSchedule Details", description = "Creates TrSchedule Details in to DB")
     @ApiResponses(value = {
@@ -43,7 +61,7 @@ public class TrScheduleController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addTrScheduleDetails(@RequestBody TrScheduleRequest trScheduleRequest){
+    public ResponseEntity<?> addTrScheduleDetails(@Valid @RequestBody TrScheduleRequest trScheduleRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(TrScheduleResponse.class);
 
         rw.setContent(trScheduleService.insertTrScheduleDetails(trScheduleRequest));
@@ -153,7 +171,7 @@ public class TrScheduleController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editTrScheduleDetails(
-            @RequestBody final EditTrScheduleRequest editTrScheduleRequest
+            @Valid @RequestBody final EditTrScheduleRequest editTrScheduleRequest
     ) {
         ResponseWrapper<TrScheduleResponse> rw = ResponseWrapper.createWrapper(TrScheduleResponse.class);
         rw.setContent(trScheduleService.updateTrScheduleDetails(editTrScheduleRequest));
@@ -211,7 +229,7 @@ public class TrScheduleController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @RequestBody final SearchWithSortRequest searchWithSortRequest
+            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(trScheduleService.searchByColumnAndSort(searchWithSortRequest));
@@ -270,7 +288,7 @@ public class TrScheduleController {
     })
     @PostMapping("/get-by-user-master-id")
     public ResponseEntity<?> getByUserMasterId(
-            @RequestBody final TrScheduleDTO trScheduleDTO
+            @Valid @RequestBody final TrScheduleDTO trScheduleDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(trScheduleService.getByUserMasterId(trScheduleDTO.getUserMasterId()));

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.trainingDeputationTracker;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.Date;
@@ -13,15 +14,18 @@ import java.util.Date;
 @EqualsAndHashCode
 public class TrainingDeputationTrackerRequest extends RequestBody {
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "OfficialName must contain only letters and numbers")
     @Schema(name = "officialName", example = "Kaveri", required=true)
     String officialName;
 
     @Schema(name = "designationId",  example = "1")
     Integer designationId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "OfficialAddress must contain only letters and numbers")
     @Schema(name = "officialAddress", example = "Udupi")
     String officialAddress;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "mobileNumber must contain only letters and numbers")
     @Schema(name = "mobileNumber", example = "10")
     String mobileNumber;
 
@@ -43,6 +47,7 @@ public class TrainingDeputationTrackerRequest extends RequestBody {
     @Schema(name = "deputedAttended", example = "1")
     int deputedAttended;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DeputedRemarks must contain only letters and numbers")
     @Schema(name = "deputedRemarks", example = "1")
     String deputedRemarks;
 }

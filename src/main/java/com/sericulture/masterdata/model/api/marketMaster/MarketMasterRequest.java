@@ -2,6 +2,8 @@ package com.sericulture.masterdata.model.api.marketMaster;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,12 +16,15 @@ import java.time.LocalTime;
 @EqualsAndHashCode
 public class MarketMasterRequest extends RequestBody {
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market must contain only letters and numbers")
     @Schema(name = "marketMasterName", example = "Kaveri", required = true)
     String marketMasterName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Market name in kannada must contain only letters and numbers")
     @Schema(name = "marketNameInKannada",  example = "ಭಾಷೆ")
     String marketNameInKannada;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market Address must contain only letters and numbers")
     @Schema(name = "marketMasterAddress", example = "Udupi", required = true)
     String marketMasterAddress;
 
@@ -80,9 +85,11 @@ public class MarketMasterRequest extends RequestBody {
     @Schema(name = "auctionAcceptance3EndTime", example = "00:00:00")
     LocalTime auctionAcceptance3EndTime;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Serial Number must contain only letters and numbers")
     @Schema(name = "serialNumberPrefix", example = "KLR")
     String serialNumberPrefix;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Client Id must contain only letters and numbers")
     @Schema(name = "clientId", example = "KLR123")
     String clientId;
 
@@ -100,4 +107,13 @@ public class MarketMasterRequest extends RequestBody {
 
     @Schema(name = "reelerMinimumBalance", example = "1")
     Long reelerMinimumBalance;
+
+    @Schema(name = "snorkelRequestPath",example = "/path")
+    String snorkelRequestPath;
+
+    @Schema(name = "snorkelResponsePath",example = "/path")
+    String snorkelResponsePath;
+
+    @Schema(name = "clientCode",example = "C001")
+    String clientCode;
 }

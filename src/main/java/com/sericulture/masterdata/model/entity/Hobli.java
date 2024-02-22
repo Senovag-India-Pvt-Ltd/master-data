@@ -22,7 +22,7 @@ public class Hobli extends BaseEntity implements Serializable {
     private Long hobliId;
 
     @Size(min = 2, max = 250, message = "HOBLI name should be more than 1 characters.")
-    @Column(name = "HOBLI_NAME", unique = true)
+    @Column(name = "HOBLI_NAME")
     private String hobliName;
 
     @Column(name = "STATE_ID")

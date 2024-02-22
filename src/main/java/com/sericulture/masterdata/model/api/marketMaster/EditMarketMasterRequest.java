@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.marketMaster;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,12 +17,15 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "marketMasterId", example = "1")
     Integer marketMasterId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market must contain only letters and numbers")
     @Schema(name = "marketMasterName", example = "Kaveri", required=true)
     String marketMasterName;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Market name in kannada must contain only letters and numbers")
     @Schema(name = "marketNameInKannada",  example = "ಭಾಷೆ")
     String marketNameInKannada;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market Address must contain only letters and numbers")
     @Schema(name = "marketMasterAddress", example = "Udupi", required=true)
     String marketMasterAddress;
 
@@ -82,9 +86,11 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "auctionAcceptance3EndTime", example = "00:00:00")
     LocalTime auctionAcceptance3EndTime;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Serial Number must contain only letters and numbers")
     @Schema(name = "serialNumberPrefix", example = "KLR")
     String serialNumberPrefix;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Client Id must contain only letters and numbers")
     @Schema(name = "clientId", example = "KLR123")
     String clientId;
 
@@ -103,4 +109,15 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "reelerMinimumBalance", example = "1")
     Long reelerMinimumBalance;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Snorkel Request Path must contain only letters and numbers")
+    @Schema(name = "snorkelRequestPath", example = "/pathname")
+    String snorkelRequestPath;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Snorkel Response Path must contain only letters and numbers")
+    @Schema(name = "snorkelResponsePath", example = "/pathname")
+    String snorkelResponsePath;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Client Code Path must contain only letters and numbers")
+    @Schema(name = "clientCode", example = "C123")
+    String clientCode;
 }

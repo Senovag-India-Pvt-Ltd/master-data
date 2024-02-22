@@ -18,6 +18,8 @@ import java.util.Set;
 @Repository
 public interface GodownRepository extends PagingAndSortingRepository<Godown, Long> {
     public List<Godown> findByGodownName(String godownName);
+    List<Godown> findByGodownNameAndMarketMasterIdAndGodownIdIsNot(String godownName, long marketMasterId,long godownId);
+
 
     public Godown findByGodownNameAndActive(String godownName,boolean isActive);
 

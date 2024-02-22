@@ -22,7 +22,7 @@ public class Village extends BaseEntity implements Serializable {
     private Long villageId;
 
     @Size(min = 2, max = 250, message = "VILLAGE name should be more than 1 characters.")
-    @Column(name = "VILLAGE_NAME", unique = true)
+    @Column(name = "VILLAGE_NAME")
     private String villageName;
 
     @Column(name = "STATE_ID")
