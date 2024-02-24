@@ -5,10 +5,12 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.useMaster.*;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
+import com.sericulture.masterdata.model.entity.ExternalUnitRegistration;
 import com.sericulture.masterdata.model.entity.Reeler;
 import com.sericulture.masterdata.model.entity.ReelerTypeMaster;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
+import com.sericulture.masterdata.repository.ExternalUnitRegistrationRepository;
 import com.sericulture.masterdata.repository.ReelerRepository;
 import com.sericulture.masterdata.repository.ReelerTypeMasterRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
@@ -53,6 +55,9 @@ public class UserMasterService {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    ExternalUnitRegistrationRepository externalUnitRegistrationRepository;
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -396,6 +401,38 @@ public class UserMasterService {
             }
         }
 
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse saveExternalUnitRegistration(SaveReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        ExternalUnitRegistration externalUnitRegistration = externalUnitRegistrationRepository.findByExternalUnitRegistrationIdAndActive(saveReelerUserRequest.getExternalUnitRegistrationId(),  true);
+        if (externalUnitRegistration == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Error occurred while fetching external unit registration");
+        }else {
+            UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
+            if (userMaster == null) {
+                UserMaster userMaster1 = new UserMaster();
+                userMaster1.setUsername(saveReelerUserRequest.getUsername());
+                userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+                userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+                userMaster1.setMarketMasterId(0L);
+                userMaster1.setUserType(3); // For external unit
+                userMaster1.setUserTypeId(saveReelerUserRequest.getExternalUnitRegistrationId());
+                userMaster1.setActive(true);
+
+                //Save external unit user
+                UserMaster userMaster2 = userMasterRepository.save(userMaster1);
+                userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+
+                userMasterResponse.setError(false);
+            } else {
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("Username already exist");
+            }
+        }
         return userMasterResponse;
     }
 

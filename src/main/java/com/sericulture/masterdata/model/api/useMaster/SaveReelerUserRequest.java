@@ -44,4 +44,7 @@ public class SaveReelerUserRequest extends RequestBody {
 
     @Schema(name = "walletAmount", example = "1200.00")
     Double walletAMount;
+
+    @Schema(name = "externalUnitRegistrationId", example = "1", required = true)
+    Long externalUnitRegistrationId;
 }
