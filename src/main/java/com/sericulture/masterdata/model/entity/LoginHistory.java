@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -29,10 +30,10 @@ public class LoginHistory extends BaseEntity implements Serializable {
     private String username;
 
     @Column(name = "login_time")
-    private Date loginTime;
+    private LocalDateTime loginTime;
 
     @Column(name = "logout_time")
-    private Date logoutTime;
+    private LocalDateTime logoutTime;
 
     @Column(name = "login_status")
     private Long loginStatus;

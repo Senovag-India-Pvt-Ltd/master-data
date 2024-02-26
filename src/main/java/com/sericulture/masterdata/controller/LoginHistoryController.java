@@ -66,6 +66,25 @@ public class LoginHistoryController {
         return ResponseEntity.ok(rw);
     }
 
+    @Operation(summary = "Insert LogoutHistory Details", description = "Creates LoginHistory Details in to DB")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Market name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/add-logout-history")
+    public ResponseEntity<?> addLogoutHistoryDetails( @Valid @RequestBody LoginHistoryRequest loginHistoryRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(LoginHistoryResponse.class);
+
+        rw.setContent(loginHistoryService.insertLogoutHistoryDetails(loginHistoryRequest));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/get-all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -53,19 +54,16 @@ public class LoginHistoryService {
         LoginHistoryResponse loginHistoryResponse = new LoginHistoryResponse();
         LoginHistory loginHistory = mapper.loginHistoryObjectToEntity(loginHistoryRequest,LoginHistory.class);
         validator.validate(loginHistory);
-//        List<MarketMaster> marketMasterList = marketMasterRepository.findByMarketMasterNameAndMarketNameInKannada(marketMasterRequest.getMarketMasterName(), marketMasterRequest.getMarketNameInKannada());
-//        if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(MarketMaster::getActive).findAny().isPresent()){
-//            marketMasterResponse.setError(true);
-//            marketMasterResponse.setError_description("Market name already exist");
-//        }
-//        else if(!marketMasterList.isEmpty() && marketMasterList.stream().filter(Predicate.not(MarketMaster::getActive)).findAny().isPresent()){
-//            //throw new ValidationException("Village name already exist with inactive state");
-//            marketMasterResponse.setError(true);
-//            marketMasterResponse.setError_description("Market name already exist with inactive state");
-//        }else {
-//            marketMasterResponse = mapper.marketMasterEntityToObject(marketMasterRepository.save(marketMaster), MarketMasterResponse.class);
-//            marketMasterResponse.setError(false);
-//        }
+        loginHistory.setLoginTime(LocalDateTime.now());
+        return mapper.loginHistoryEntityToObject(loginHistoryRepository.save(loginHistory),LoginHistoryResponse.class);
+    }
+
+    @Transactional
+    public LoginHistoryResponse insertLogoutHistoryDetails(LoginHistoryRequest loginHistoryRequest){
+        LoginHistoryResponse loginHistoryResponse = new LoginHistoryResponse();
+        LoginHistory loginHistory = mapper.loginHistoryObjectToEntity(loginHistoryRequest,LoginHistory.class);
+        validator.validate(loginHistory);
+        loginHistory.setLogoutTime(LocalDateTime.now());
         return mapper.loginHistoryEntityToObject(loginHistoryRepository.save(loginHistory),LoginHistoryResponse.class);
     }
 

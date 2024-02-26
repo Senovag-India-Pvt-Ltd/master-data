@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,10 +25,10 @@ public class LoginHistoryResponse {
     String username;
 
     @Schema(name = "loginTime", example = "1")
-    Date loginTime;
+    LocalDateTime loginTime;
 
     @Schema(name = "logoutTime", example = "1")
-    Date logoutTime;
+    LocalDateTime logoutTime;
 
     @Schema(name = "loginStatus", example = "1")
     Long loginStatus;
