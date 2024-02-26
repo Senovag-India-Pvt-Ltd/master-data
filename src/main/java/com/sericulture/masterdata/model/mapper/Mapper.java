@@ -30,6 +30,7 @@ import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceReq
 import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
 import com.sericulture.masterdata.model.api.lineNameMaster.LineNameMasterRequest;
+import com.sericulture.masterdata.model.api.loginHistory.LoginHistoryRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterRequest;
@@ -1750,6 +1751,27 @@ public class Mapper {
     public <T> T generationNumberObjectToEntity(GenerationNumberMasterRequest generationNumberMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, generationNumberMasterRequest);
         return (T) mapper.map(generationNumberMasterRequest, claaz);
+    }
+
+    /**
+     * Maps loginHistory Entity to loginHistory Response Object
+     * @param loginHistoryEntity
+     * @param <T>
+     */
+    public <T> T loginHistoryEntityToObject(LoginHistory loginHistoryEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,loginHistoryEntity);
+        return (T) mapper.map(loginHistoryEntity, claaz);
+    }
+
+
+    /**
+     * Maps loginHistory Object to loginHistory  Response Object
+     * @param loginHistoryRequest
+     * @param <T>
+     */
+    public <T> T loginHistoryObjectToEntity(LoginHistoryRequest loginHistoryRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, loginHistoryRequest);
+        return (T) mapper.map(loginHistoryRequest, claaz);
     }
 
 
