@@ -236,7 +236,7 @@ public class UserMasterService {
             userMaster.setFirstName(userMasterRequest.getFirstName());
             userMaster.setMiddleName(userMasterRequest.getMiddleName());
             userMaster.setLastName(userMasterRequest.getLastName());
-            userMaster.setPassword(userMasterRequest.getPassword());
+            userMaster.setPassword(encoder.encode(userMasterRequest.getPassword()));
             userMaster.setEmailID(userMasterRequest.getEmailID());
             userMaster.setStateId(userMasterRequest.getStateId());
             userMaster.setDistrictId(userMasterRequest.getDistrictId());
