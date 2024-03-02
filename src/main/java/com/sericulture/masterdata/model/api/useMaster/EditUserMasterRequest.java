@@ -15,15 +15,15 @@ public class EditUserMasterRequest extends RequestBody {
     @Schema(name = "userMasterId", example = "1")
     Long userMasterId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "First name must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9._@ ]*$", message = "First name must contain only letters and numbers")
     @Schema(name = "firstName", example = "Shraddha", required = true)
     String firstName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Middle name must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9._@ ]*$", message = "Middle name must contain only letters and numbers")
     @Schema(name = "middleName", example = "Nagaraja", required = true)
     String middleName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Last name must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9._@ ]*$", message = "Last name must contain only letters and numbers")
     @Schema(name = "lastName", example = "Kharvi", required = true)
     String lastName;
 
