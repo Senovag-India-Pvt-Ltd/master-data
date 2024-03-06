@@ -70,6 +70,7 @@ import com.sericulture.masterdata.model.api.trTrainee.TrTraineeRequest;
 import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
+import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
@@ -1774,5 +1775,26 @@ public class Mapper {
         return (T) mapper.map(loginHistoryRequest, claaz);
     }
 
+
+    /**
+     * Maps tscMaster Entity to tscMaster Response Object
+     * @param tscMasterEntity
+     * @param <T>
+     */
+    public <T> T tscMasterEntityToObject(TscMaster tscMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tscMasterEntity);
+        return (T) mapper.map(tscMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps tscMaster Object to tscMaster  Response Object
+     * @param tscMasterRequest
+     * @param <T>
+     */
+    public <T> T tscMasterObjectToEntity(TscMasterRequest tscMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tscMasterRequest);
+        return (T) mapper.map(tscMasterRequest, claaz);
+    }
 
 }
