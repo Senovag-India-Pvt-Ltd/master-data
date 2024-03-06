@@ -405,6 +405,34 @@ public class UserMasterService {
     }
 
     @Transactional
+    public UserMasterResponse editReelerUser(EditReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(saveReelerUserRequest.getUserTypeId(), true);
+        if (userMaster != null) {
+            userMaster.setUsername(saveReelerUserRequest.getUsername());
+            userMaster.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+            userMaster.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+            userMaster.setEmailID(saveReelerUserRequest.getEmailID());
+            userMaster.setRoleId(saveReelerUserRequest.getRoleId());
+            userMaster.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+            userMaster.setDesignationId(saveReelerUserRequest.getDesignationId());
+            userMaster.setDeviceId(saveReelerUserRequest.getDeviceId());
+            userMaster.setUserType(2); //For reeler
+            userMaster.setActive(true);
+
+            //Edit reeler user
+            UserMaster userMaster2 = userMasterRepository.save(userMaster);
+            userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+            userMasterResponse.setError(false);
+
+        } else {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("User not found");
+        }
+        return userMasterResponse;
+    }
+
+    @Transactional
     public UserMasterResponse saveExternalUnitRegistration(SaveReelerUserRequest saveReelerUserRequest){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         ExternalUnitRegistration externalUnitRegistration = externalUnitRegistrationRepository.findByExternalUnitRegistrationIdAndActive(saveReelerUserRequest.getExternalUnitRegistrationId(),  true);

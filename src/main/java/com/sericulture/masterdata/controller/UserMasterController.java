@@ -358,6 +358,25 @@ public class UserMasterController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
+    @PostMapping("/edit-reeler-user")
+    public ResponseEntity<?> editReelerUser(
+            @Valid @RequestBody final EditReelerUserRequest saveReelerUserRequest
+    ) {
+        ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+        rw.setContent(userMasterService.editReelerUser(saveReelerUserRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
     @PostMapping("/save-external-user")
     public ResponseEntity<?> saveExternalUser(
             @Valid @RequestBody final SaveReelerUserRequest saveReelerUserRequest
