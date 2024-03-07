@@ -359,7 +359,7 @@ public class UserMasterService {
                         userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
                         userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
                         userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
-                        userMaster1.setRoleId(saveReelerUserRequest.getRoleId());
+                        userMaster1.setRoleId(0L);
                         userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
                         userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
                         userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
@@ -405,6 +405,81 @@ public class UserMasterService {
     }
 
     @Transactional
+    public UserMasterResponse saveForReelerUser(SaveReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        for(int i=0; i<1000; i++) {
+            saveReelerUserRequest.setReelerId(Long.valueOf(4132 + i));
+            UUID uuid = UUID.randomUUID();
+            saveReelerUserRequest.setUsername("dummy_username_"+uuid);
+            saveReelerUserRequest.setPhoneNumber(String.valueOf(uuid));
+            Reeler reeler = reelerRepository.findByReelerIdAndActive(saveReelerUserRequest.getReelerId(), true);
+            if (reeler == null) {
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("Error occurred while fetching reeler");
+            } else {
+                UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
+                if (userMaster == null) {
+                    ReelerTypeMaster reelerTypeMaster = reelerTypeMasterRepository.findByReelerTypeMasterIdAndActive(reeler.getReelerTypeMasterId(), true);
+                    if (reelerTypeMaster == null) {
+                        userMasterResponse.setError(true);
+                        userMasterResponse.setError_description("ReelerType not found");
+                    } else {
+                        userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
+                        List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getReelerId());
+                        userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
+                        if (currentReelerUsers.size() < reelerTypeMaster.getNoOfDeviceAllowed()) {
+                            UserMaster userMaster1 = new UserMaster();
+                            userMaster1.setUsername(saveReelerUserRequest.getUsername());
+                            userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+                            userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+                            userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
+                            userMaster1.setRoleId(0L);
+                            userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+                            userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
+                            userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
+                            userMaster1.setUserType(2); //For reeler
+                            userMaster1.setUserTypeId(reeler.getReelerId());
+                            userMaster1.setFirstName(reeler.getReelerName());
+                            userMaster1.setStateId(reeler.getStateId());
+                            userMaster1.setDistrictId(reeler.getDistrictId());
+                            userMaster1.setTalukId(reeler.getTalukId());
+                            userMaster1.setActive(true);
+
+                            //Save reeler user
+                            UserMaster userMaster2 = userMasterRepository.save(userMaster1);
+                            userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+
+                            //Activate reeler
+                            reeler.setIsActivated(1); //activated
+                            if (saveReelerUserRequest.getWalletAMount() == null) {
+                                reeler.setWalletAmount(0.0);
+                            } else {
+                                if (saveReelerUserRequest.getWalletAMount() > 0.0) {
+                                    reeler.setWalletAmount(saveReelerUserRequest.getWalletAMount());
+                                } else {
+                                    reeler.setWalletAmount(0.0);
+                                }
+                            }
+                            reeler.setActive(true);
+                            reelerRepository.save(reeler);
+
+                            userMasterResponse.setError(false);
+                        } else {
+                            userMasterResponse.setError(true);
+                            userMasterResponse.setError_description("Max number of users already configured");
+                        }
+                    }
+                } else {
+                    userMasterResponse.setError(true);
+                    userMasterResponse.setError_description("Username already exist");
+                }
+            }
+
+        }
+        return userMasterResponse;
+    }
+
+    @Transactional
     public UserMasterResponse editReelerUser(EditReelerUserRequest saveReelerUserRequest){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(saveReelerUserRequest.getUserTypeId(), true);
@@ -413,7 +488,7 @@ public class UserMasterService {
             userMaster.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
             userMaster.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
             userMaster.setEmailID(saveReelerUserRequest.getEmailID());
-            userMaster.setRoleId(saveReelerUserRequest.getRoleId());
+            userMaster.setRoleId(0L);
             userMaster.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
             userMaster.setDesignationId(saveReelerUserRequest.getDesignationId());
             userMaster.setDeviceId(saveReelerUserRequest.getDeviceId());
