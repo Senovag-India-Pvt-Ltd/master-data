@@ -56,7 +56,7 @@ import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionRequest;
-import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
+//import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
