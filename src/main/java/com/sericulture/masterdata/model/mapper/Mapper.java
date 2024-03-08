@@ -50,6 +50,7 @@ import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionRequest;
+import com.sericulture.masterdata.model.api.scCategory.ScCategoryRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
@@ -1795,6 +1796,26 @@ public class Mapper {
     public <T> T tscMasterObjectToEntity(TscMasterRequest tscMasterRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, tscMasterRequest);
         return (T) mapper.map(tscMasterRequest, claaz);
+    }
+    /**
+     * Maps scCategory Entity to scCategory Response Object
+     * @param scCategoryEntity
+     * @param <T>
+     */
+    public <T> T scCategoryEntityToObject(ScCategory scCategoryEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scCategoryEntity);
+        return (T) mapper.map(scCategoryEntity, claaz);
+    }
+
+
+    /**
+     * Maps scCategory Object to scCategory  Response Object
+     * @param scCategoryRequest
+     * @param <T>
+     */
+    public <T> T scCategoryObjectToEntity(ScCategoryRequest scCategoryRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scCategoryRequest);
+        return (T) mapper.map(scCategoryRequest, claaz);
     }
 
 }
