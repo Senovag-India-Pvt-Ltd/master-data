@@ -50,11 +50,13 @@ import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionRequest;
+import com.sericulture.masterdata.model.api.scApprovalStage.ScApprovalStageRequest;
 import com.sericulture.masterdata.model.api.scCategory.ScCategoryRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionRequest;
+import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
@@ -1816,6 +1818,59 @@ public class Mapper {
     public <T> T scCategoryObjectToEntity(ScCategoryRequest scCategoryRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, scCategoryRequest);
         return (T) mapper.map(scCategoryRequest, claaz);
+    }
+
+    /**
+     * Maps scApprovalStage Entity to scApprovalStage Response Object
+     * @param scApprovalStageEntity
+     * @param <T>
+     */
+    public <T> T scApprovalStageEntityToObject(ScApprovalStage scApprovalStageEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scApprovalStageEntity);
+        return (T) mapper.map(scApprovalStageEntity, claaz);
+    }
+
+
+    /**
+     * Maps scApprovalStage Object to scApprovalStage  Response Object
+     * @param scApprovalStageRequest
+     * @param <T>
+     */
+    public <T> T scApprovalStageObjectToEntity(ScApprovalStageRequest scApprovalStageRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scApprovalStageRequest);
+        return (T) mapper.map(scApprovalStageRequest, claaz);
+    }
+
+    /**
+     * Maps scProgramApprovalMapping Entity to scProgramApprovalMapping Response Object
+     * @param scProgramApprovalMappingEntity
+     * @param <T>
+     */
+    public <T> T scProgramApprovalMappingEntityToObject(ScProgramApprovalMapping scProgramApprovalMappingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scProgramApprovalMappingEntity);
+        return (T) mapper.map(scProgramApprovalMappingEntity, claaz);
+    }
+
+    /**
+     * Maps scProgramApprovalMappingDTO to scProgramApprovalMapping Response Object
+     * @param scProgramApprovalMappingDTO
+     * @param <T>
+     */
+    public <T> T scProgramApprovalMappingDTOToObject(ScProgramApprovalMappingDTO scProgramApprovalMappingDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scProgramApprovalMappingDTO);
+        return (T) mapper.map(scProgramApprovalMappingDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scProgramApprovalMapping Object to scProgramApprovalMapping  Response Object
+     * @param scProgramApprovalMappingRequest
+     * @param <T>
+     */
+    public <T> T scProgramApprovalMappingObjectToEntity(ScProgramApprovalMappingRequest scProgramApprovalMappingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scProgramApprovalMappingRequest);
+        return (T) mapper.map(scProgramApprovalMappingRequest, claaz);
     }
 
 }
