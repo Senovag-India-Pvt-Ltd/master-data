@@ -1841,36 +1841,36 @@ public class Mapper {
         return (T) mapper.map(scApprovalStageRequest, claaz);
     }
 
-    /**
-     * Maps scProgramApprovalMapping Entity to scProgramApprovalMapping Response Object
-     * @param scProgramApprovalMappingEntity
-     * @param <T>
-     */
-    public <T> T scProgramApprovalMappingEntityToObject(ScProgramApprovalMapping scProgramApprovalMappingEntity, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper,scProgramApprovalMappingEntity);
-        return (T) mapper.map(scProgramApprovalMappingEntity, claaz);
-    }
-
-    /**
-     * Maps scProgramApprovalMappingDTO to scProgramApprovalMapping Response Object
-     * @param scProgramApprovalMappingDTO
-     * @param <T>
-     */
-    public <T> T scProgramApprovalMappingDTOToObject(ScProgramApprovalMappingDTO scProgramApprovalMappingDTO, Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, scProgramApprovalMappingDTO);
-        return (T) mapper.map(scProgramApprovalMappingDTO, claaz);
-    }
-
-
-
-    /**
-     * Maps scProgramApprovalMapping Object to scProgramApprovalMapping  Response Object
-     * @param scProgramApprovalMappingRequest
-     * @param <T>
-     */
-    public <T> T scProgramApprovalMappingObjectToEntity(ScProgramApprovalMappingRequest scProgramApprovalMappingRequest , Class<T> claaz) {
-        log.info("Value of mapper is:",mapper, scProgramApprovalMappingRequest);
-        return (T) mapper.map(scProgramApprovalMappingRequest, claaz);
-    }
+//    /**
+//     * Maps scProgramApprovalMapping Entity to scProgramApprovalMapping Response Object
+//     * @param scProgramApprovalMappingEntity
+//     * @param <T>
+//     */
+//    public <T> T scProgramApprovalMappingEntityToObject(ScProgramApprovalMapping scProgramApprovalMappingEntity, Class<T> claaz) {
+//        log.info("Value of mapper is:",mapper,scProgramApprovalMappingEntity);
+//        return (T) mapper.map(scProgramApprovalMappingEntity, claaz);
+//    }
+//
+//    /**
+//     * Maps scProgramApprovalMappingDTO to scProgramApprovalMapping Response Object
+//     * @param scProgramApprovalMappingDTO
+//     * @param <T>
+//     */
+//    public <T> T scProgramApprovalMappingDTOToObject(ScProgramApprovalMappingDTO scProgramApprovalMappingDTO, Class<T> claaz) {
+//        log.info("Value of mapper is:",mapper, scProgramApprovalMappingDTO);
+//        return (T) mapper.map(scProgramApprovalMappingDTO, claaz);
+//    }
+//
+//
+//
+//    /**
+//     * Maps scProgramApprovalMapping Object to scProgramApprovalMapping  Response Object
+//     * @param scProgramApprovalMappingRequest
+//     * @param <T>
+//     */
+//    public <T> T scProgramApprovalMappingObjectToEntity(ScProgramApprovalMappingRequest scProgramApprovalMappingRequest , Class<T> claaz) {
+//        log.info("Value of mapper is:",mapper, scProgramApprovalMappingRequest);
+//        return (T) mapper.map(scProgramApprovalMappingRequest, claaz);
+//    }
 
 }
