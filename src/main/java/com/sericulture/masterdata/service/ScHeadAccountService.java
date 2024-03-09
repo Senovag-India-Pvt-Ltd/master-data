@@ -44,11 +44,11 @@ public class ScHeadAccountService {
         if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(ScHeadAccount::getActive).findAny().isPresent()){
             scHeadAccountResponse.setError(true);
             scHeadAccountResponse.setError_description("ScHeadAccount name already exist");
-//        }
-//        else if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(Predicate.not(ScHeadAccount::getActive)).findAny().isPresent()){
-//            //throw new ValidationException("Village name already exist with inactive state");
-//            scHeadAccountResponse.setError(true);
-//            scHeadAccountResponse.setError_description("ScHeadAccount name already exist with inactive state");
+        }
+        else if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(Predicate.not(ScHeadAccount::getActive)).findAny().isPresent()){
+            //throw new ValidationException("Village name already exist with inactive state");
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("ScHeadAccount name already exist with inactive state");
         }else {
             scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccountRepository.save(scHeadAccount), ScHeadAccountResponse.class);
             scHeadAccountResponse.setError(false);
@@ -141,7 +141,7 @@ public class ScHeadAccountService {
     @Transactional
     public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
-        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByActiveAndScHeadAccountName(true,scHeadAccountRequest.getScHeadAccountName());
+        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountNameAndScHeadAccountIdIsNot(scHeadAccountRequest.getScHeadAccountName(),scHeadAccountRequest.getScHeadAccountId());
         if (scHeadAccountList.size() > 0) {
             scHeadAccountResponse.setError(true);
             scHeadAccountResponse.setError_description("ScHeadAccount already exists, duplicates are not allowed.");
