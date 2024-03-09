@@ -204,6 +204,11 @@ public class MarketMasterService {
                 marketMaster.setAuctionAcceptance2EndTime(marketMasterRequest.getAuctionAcceptance2EndTime());
                 marketMaster.setAuctionAcceptance3EndTime(marketMasterRequest.getAuctionAcceptance3EndTime());
                 marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
+                marketMaster.setBoxWeight(marketMasterRequest.getBoxWeight());
+                marketMaster.setLotWeight(marketMasterRequest.getLotWeight());
+                marketMaster.setStateId(marketMasterRequest.getStateId());
+                marketMaster.setDistrictId(marketMasterRequest.getDistrictId());
+                marketMaster.setTalukId(marketMasterRequest.getTalukId());
                 marketMaster.setReelerMinimumBalance(marketMasterRequest.getReelerMinimumBalance());
                 marketMaster.setMarketLatitude(marketMasterRequest.getMarketLatitude());
                 marketMaster.setMarketLongitude(marketMasterRequest.getMarketLongitude());

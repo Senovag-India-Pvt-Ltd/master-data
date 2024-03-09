@@ -30,19 +30,19 @@ public class EditMarketMasterRequest extends RequestBody {
     String marketMasterAddress;
 
     @Schema(name = "boxWeight", example = "10")
-    Integer boxWeight;
+    Long boxWeight;
 
     @Schema(name = "lotWeight", example = "5")
-    Integer lotWeight;
+    Long lotWeight;
 
     @Schema(name = "stateId", example = "1")
     Long stateId;
 
     @Schema(name = "districtId", example = "1")
-    Integer districtId;
+    Long districtId;
 
     @Schema(name = "talukId", example = "1")
-    Integer talukId;
+    Long talukId;
 
     @Schema(name = "issueBidSlipStartTime", example = "1")
     LocalTime issueBidSlipStartTime;
