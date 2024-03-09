@@ -166,4 +166,23 @@ public class DesignationController {
         return ResponseEntity.ok(rw);
     }
 
+//    @GetMapping("/get-by-sc-approval-stage-id/{scApprovalStageId}")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Ok Response"),
+//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+//                    content =
+//                            {
+//                                    @Content(mediaType = "application/json", schema =
+//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+//                            }),
+//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+//    })
+//    public ResponseEntity<?> getByScApprovalStageId(
+//            @PathVariable final Long scApprovalStageId
+//    ) {
+//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+//        rw.setContent(designationService.getDesignationByScApprovalStageId(scApprovalStageId));
+//        return ResponseEntity.ok(rw);
+//    }
+
 }

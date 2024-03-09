@@ -1,14 +1,14 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
-import com.sericulture.masterdata.model.api.scHeadAccount.EditScHeadAccountRequest;
-import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
-import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountResponse;
-import com.sericulture.masterdata.model.api.scProgram.EditScProgramRequest;
-import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
-import com.sericulture.masterdata.model.api.scProgram.ScProgramResponse;
-import com.sericulture.masterdata.service.ScHeadAccountService;
-import com.sericulture.masterdata.service.ScProgramService;
+import com.sericulture.masterdata.model.api.scCategory.EditScCategoryRequest;
+import com.sericulture.masterdata.model.api.scCategory.ScCategoryRequest;
+import com.sericulture.masterdata.model.api.scCategory.ScCategoryResponse;
+import com.sericulture.masterdata.model.api.trProgramMaster.EditTrProgramMasterRequest;
+import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
+import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterResponse;
+import com.sericulture.masterdata.service.ScCategoryService;
+import com.sericulture.masterdata.service.TrProgramMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,11 +27,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/scHeadAccount")
-public class ScHeadAccountController {
+@RequestMapping("v1/scCategory")
+public class ScCategoryController {
 
     @Autowired
-    ScHeadAccountService scHeadAccountService;
+    ScCategoryService scCategoryService ;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -46,22 +46,22 @@ public class ScHeadAccountController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @Operation(summary = "Insert ScHeadAccount Details", description = "Creates ScHeadAccount Details in to DB")
+    @Operation(summary = "Insert ScCategory Details", description = "Creates ScCategory Details in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
                             {
                                     @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"ScHeadAccount name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"ScCategory name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addScHeadAccountDetails(@Valid @RequestBody ScHeadAccountRequest scHeadAccountRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ScHeadAccountResponse.class);
+    public ResponseEntity<?> addScCategoryDetails(@Valid @RequestBody ScCategoryRequest scCategoryRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
 
-        rw.setContent(scHeadAccountService.insertScHeadAccountDetails(scHeadAccountRequest));
+        rw.setContent(scCategoryService.insertScCategoryDetails(scCategoryRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -70,7 +70,7 @@ public class ScHeadAccountController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scProgram\":[{\"id\":10,\"scHeadAccountName\":\"\"},{\"id\":11,\"scHeadAccountName\":\"scHeadAccount 1\"},{\"id\":13,\"scHeadAccountName\":\"scHeadAccount 2\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scCategory\":[{\"id\":10,\"categoryName\":\"\"},{\"id\":11,\"categoryName\":\"Karnataka\"},{\"id\":13,\"categoryName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -84,7 +84,7 @@ public class ScHeadAccountController {
             @RequestParam(defaultValue = "true") boolean isActive
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scHeadAccountService.getAllByActive(isActive));
+        rw.setContent(scCategoryService.getAllByActive(isActive));
         return ResponseEntity.ok(rw);
     }
 
@@ -93,7 +93,7 @@ public class ScHeadAccountController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":1,\"scProgram\":[{\"id\":1,\"scHeadAccountName\":\"\"},{\"id\":2,\"scHeadAccountName\":\"scHeadAccountName 1\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scCategory\":[{\"id\":10,\"categoryName\":\"\"},{\"id\":11,\"categoryName\":\"Karnataka\"},{\"id\":13,\"categoryName\":\"Kerala\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -108,7 +108,7 @@ public class ScHeadAccountController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scHeadAccountService.getPaginatedScHeadAccountDetails(PageRequest.of(pageNumber, size)));
+        rw.setContent(scCategoryService.getPaginatedScCategoryDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -123,11 +123,11 @@ public class ScHeadAccountController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteScHeadAccountDetails(
+    public ResponseEntity<?> deleteScCategoryDetails(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scHeadAccountService.deleteScHeadAccountDetails(id));
+        ResponseWrapper<ScCategoryResponse> rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
+        rw.setContent(scCategoryService.deleteScCategoryDetails(id));
         return ResponseEntity.ok(rw);
     }
 
@@ -142,11 +142,11 @@ public class ScHeadAccountController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editScHeadAccountDetails(
-            @Valid @RequestBody final EditScHeadAccountRequest editScHeadAccountRequest
+    public ResponseEntity<?> editScCategoryDetails(
+            @Valid @RequestBody final EditScCategoryRequest editScCategoryRequest
     ) {
-        ResponseWrapper<ScHeadAccountResponse> rw = ResponseWrapper.createWrapper(ScHeadAccountResponse.class);
-        rw.setContent(scHeadAccountService.updateScHeadAccountDetails(editScHeadAccountRequest));
+        ResponseWrapper<ScCategoryResponse> rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
+        rw.setContent(scCategoryService.updateScCategoryDetails(editScCategoryRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -164,13 +164,13 @@ public class ScHeadAccountController {
     public ResponseEntity<?> getById(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ScHeadAccountResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
 
-        rw.setContent(scHeadAccountService.getById(id));
+        rw.setContent(scCategoryService.getById(id));
         return ResponseEntity.ok(rw);
     }
 
-//    @GetMapping("/get-by-sc-program-id/{scProgramId}")
+//    @GetMapping("/get-by-sc-head-account-id/{scHeadAccountId}")
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "Ok Response"),
 //            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -181,12 +181,11 @@ public class ScHeadAccountController {
 //                            }),
 //            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
 //    })
-//    public ResponseEntity<?> getByScProgramId(
-//            @PathVariable final Long scProgramId
+//    public ResponseEntity<?> getByScHeadAccountId(
+//            @PathVariable final Long scHeadAccountId
 //    ) {
 //        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-//        rw.setContent(scHeadAccountService.getScHeadAccountByScProgramId(scProgramId));
+//        rw.setContent(scCategoryService.getScCategoryByScHeadAccountId(scHeadAccountId));
 //        return ResponseEntity.ok(rw);
 //    }
-
 }

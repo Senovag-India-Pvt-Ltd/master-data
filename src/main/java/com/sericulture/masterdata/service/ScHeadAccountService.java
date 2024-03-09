@@ -1,9 +1,11 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.scApprovalStage.ScApprovalStageResponse;
 import com.sericulture.masterdata.model.api.scHeadAccount.EditScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.entity.ScApprovalStage;
 import com.sericulture.masterdata.model.entity.ScHeadAccount;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -117,6 +119,25 @@ public class ScHeadAccountService {
         return scHeadAccountResponse;
     }
 
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public Map<String,Object> getScHeadAccountByScProgramId(Long scProgramId){
+//        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScProgramIdAndActiveOrderByScHeadAccountName(scProgramId,true);
+//        if(scHeadAccountList.isEmpty()){
+//            throw new ValidationException("Invalid Id");
+//        }
+//        log.info("Entity is ",scHeadAccountList);
+//        return convertListToMapResponse(scHeadAccountList);
+//    }
+//
+//    private Map<String, Object> convertListToMapResponse(List<ScHeadAccount> scHeadAccountList) {
+//        Map<String, Object> response = new HashMap<>();
+//        List<ScHeadAccountResponse> scHeadAccountResponses = scHeadAccountList.stream()
+//                .map(scHeadAccount -> mapper.scHeadAccountEntityToObject(scHeadAccount,ScHeadAccountResponse.class)).collect(Collectors.toList());
+//        response.put("scHeadAccount",scHeadAccountResponses);
+//        response.put("totalItems", scHeadAccountList.size());
+//        return response;
+//    }
+
     @Transactional
     public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
@@ -130,6 +151,7 @@ public class ScHeadAccountService {
             ScHeadAccount scHeadAccount = scHeadAccountRepository.findByScHeadAccountIdAndActiveIn(scHeadAccountRequest.getScHeadAccountId(), Set.of(true, false));
             if (Objects.nonNull(scHeadAccount)) {
                 scHeadAccount.setScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
+                scHeadAccount.setScHeadAccountNameInKannada(scHeadAccountRequest.getScHeadAccountNameInKannada());
                 scHeadAccount.setActive(true);
                 ScHeadAccount scHeadAccount1 = scHeadAccountRepository.save(scHeadAccount);
                 scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccount1, ScHeadAccountResponse.class);
