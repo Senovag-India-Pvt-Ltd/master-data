@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.ScApprovalStage;
 import com.sericulture.masterdata.model.entity.ScHeadAccount;
 import com.sericulture.masterdata.model.entity.ScProgram;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHe
 
     public List<ScHeadAccount> findByScHeadAccountNameAndScHeadAccountIdIsNot(String scHeadAccountName , long scHeadAccountId);
 
-
+//    public List<ScHeadAccount> findByScProgramIdAndActiveOrderByScHeadAccountName(long scProgramId, boolean isActive);
     public ScHeadAccount findByScHeadAccountNameAndActive(String scHeadAccountName,boolean isActive);
 
     public Page<ScHeadAccount> findByActiveOrderByScHeadAccountNameAsc(boolean isActive, final Pageable pageable);

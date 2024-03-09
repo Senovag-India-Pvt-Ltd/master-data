@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.ScApprovalStage;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,8 @@ import java.util.Set;
 public interface ScApprovalStageRepository extends PagingAndSortingRepository<ScApprovalStage, Long> {
 
     public List<ScApprovalStage> findByStageName(String stageName);
+
+//    public List<ScApprovalStage> findByScProgramIdAndActiveOrderByStageName(long scProgramId, boolean isActive);
 
     public List<ScApprovalStage> findByStageNameAndStageNameInKannada(String stageName,String stageNameInKannada);
 

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.scHeadAccount;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -17,6 +18,9 @@ public class ScHeadAccountResponse {
 
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ")
     String scHeadAccountName;
+
+    @Schema(name = "scHeadAccountNameInKannada",  example = "ಭಾಷೆ")
+    String scHeadAccountNameInKannada;
 
     @Schema(name = "error", example = "true")
     Boolean error;

@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.model.entity.Designation;
 import com.sericulture.masterdata.model.entity.ScCategory;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ public interface ScCategoryRepository extends PagingAndSortingRepository<ScCateg
     public List<ScCategory> findByCategoryName(String categoryName);
 
     public List<ScCategory> findByCategoryNameAndCategoryNameInKannada(String categoryName,String categoryNameInKannada);
+
+//    public List<ScCategory> findByScHeadAccountIdAndActiveOrderByCategoryName(long scHeadAccountId, boolean isActive);
 
     public List<ScCategory> findByCategoryNameAndCategoryNameInKannadaAndScCategoryIdIsNot(String categoryName,String categoryNameInKannada,long scCategoryId);
 

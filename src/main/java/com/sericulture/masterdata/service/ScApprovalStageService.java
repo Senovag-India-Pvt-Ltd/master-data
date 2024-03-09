@@ -1,13 +1,17 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.scApprovalStage.EditScApprovalStageRequest;
 import com.sericulture.masterdata.model.api.scApprovalStage.ScApprovalStageRequest;
 import com.sericulture.masterdata.model.api.scApprovalStage.ScApprovalStageResponse;
 import com.sericulture.masterdata.model.api.trProgramMaster.EditTrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterResponse;
+import com.sericulture.masterdata.model.dto.RaceMarketMasterDTO;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.ScApprovalStage;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
+import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScApprovalStageRepository;
 import com.sericulture.masterdata.repository.TrProgramMasterRespository;
@@ -36,20 +40,7 @@ public class ScApprovalStageService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScApprovalStageResponse getScApprovalStageDetails(String stageName){
-        ScApprovalStageResponse scApprovalStageResponse = new ScApprovalStageResponse();
-        ScApprovalStage scApprovalStage= scApprovalStageRepository.findByStageNameAndActive(stageName,true);
-        if(scApprovalStage==null){
-            scApprovalStageResponse.setError(true);
-            scApprovalStageResponse.setError_description("Program not found");
-        }else{
-            scApprovalStageResponse = mapper.scApprovalStageEntityToObject(scApprovalStage,ScApprovalStageResponse.class);
-            scApprovalStageResponse.setError(false);
-        }
-        log.info("Entity is ",scApprovalStage);
-        return scApprovalStageResponse;
-    }
+
 
     @Transactional
     public ScApprovalStageResponse insertScApprovalStageDetails(ScApprovalStageRequest scApprovalStageRequest){
@@ -135,6 +126,24 @@ public class ScApprovalStageService {
         return scApprovalStageResponse;
     }
 
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public Map<String,Object> getScApprovalStageByScProgramId(Long scProgramId){
+//        List<ScApprovalStage> scApprovalStageList = scApprovalStageRepository.findByScProgramIdAndActiveOrderByStageName(scProgramId,true);
+//        if(scApprovalStageList.isEmpty()){
+//            throw new ValidationException("Invalid Id");
+//        }
+//        log.info("Entity is ",scApprovalStageList);
+//        return convertListToMapResponse(scApprovalStageList);
+//    }
+//
+//    private Map<String, Object> convertListToMapResponse(List<ScApprovalStage> scApprovalStageList) {
+//        Map<String, Object> response = new HashMap<>();
+//        List<ScApprovalStageResponse> scApprovalStageResponses = scApprovalStageList.stream()
+//                .map(scApprovalStage -> mapper.scApprovalStageEntityToObject(scApprovalStage,ScApprovalStageResponse.class)).collect(Collectors.toList());
+//        response.put("scApprovalStage",scApprovalStageResponses);
+//        response.put("totalItems", scApprovalStageList.size());
+//        return response;
+//    }
     @Transactional
     public ScApprovalStageResponse updateScApprovalStageDetails(EditScApprovalStageRequest scApprovalStageRequest){
 

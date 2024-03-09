@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.Designation;
+import com.sericulture.masterdata.model.entity.ScHeadAccount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,8 +17,7 @@ public interface DesignationRepository extends PagingAndSortingRepository<Design
 
     public List<Designation> findByNameAndDesignationNameInKannadaAndDesignationIdIsNot(String name,String designationNameInKannada, long designationId);
 
-
-    public Designation findByNameAndActive(String name,boolean isActive);
+//    public List<Designation> findByScApprovalStageIdAndActiveOrderByName(Long scApprovalStageId, boolean isActive);
 
     public Page<Designation> findByActiveOrderByNameAsc(boolean isActive, final Pageable pageable);
 

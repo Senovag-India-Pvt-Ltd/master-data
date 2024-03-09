@@ -170,4 +170,23 @@ public class ScHeadAccountController {
         return ResponseEntity.ok(rw);
     }
 
+//    @GetMapping("/get-by-sc-program-id/{scProgramId}")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Ok Response"),
+//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+//                    content =
+//                            {
+//                                    @Content(mediaType = "application/json", schema =
+//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+//                            }),
+//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+//    })
+//    public ResponseEntity<?> getByScProgramId(
+//            @PathVariable final Long scProgramId
+//    ) {
+//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+//        rw.setContent(scHeadAccountService.getScHeadAccountByScProgramId(scProgramId));
+//        return ResponseEntity.ok(rw);
+//    }
+
 }

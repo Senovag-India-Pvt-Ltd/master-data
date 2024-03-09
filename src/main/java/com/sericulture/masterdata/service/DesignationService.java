@@ -3,8 +3,10 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.designation.EditDesignationRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.designation.DesignationResponse;
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.entity.Designation;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -117,6 +119,25 @@ public class DesignationService {
         log.info("Entity is ",designation);
         return designationResponse;
     }
+
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public Map<String,Object> getDesignationByScApprovalStageId(Long scApprovalStageId){
+//        List<Designation> designationList = designationRepository.findByScApprovalStageIdAndActiveOrderByName(scApprovalStageId,true);
+//        if(designationList.isEmpty()){
+//            throw new ValidationException("Invalid Id");
+//        }
+//        log.info("Entity is ",designationList);
+//        return convertListToMapResponse(designationList);
+//    }
+//
+//    private Map<String, Object> convertListToMapResponse(List<Designation> designationList) {
+//        Map<String, Object> response = new HashMap<>();
+//        List<DesignationResponse> designationResponses = designationList.stream()
+//                .map(designation -> mapper.designationEntityToObject(designation,DesignationResponse.class)).collect(Collectors.toList());
+//        response.put("designation",designationResponses);
+//        response.put("totalItems", designationList.size());
+//        return response;
+//    }
 
     @Transactional
     public DesignationResponse updateDesignationDetails(EditDesignationRequest designationRequest) {

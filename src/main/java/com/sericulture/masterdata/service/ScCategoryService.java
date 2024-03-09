@@ -1,13 +1,16 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.designation.DesignationResponse;
 import com.sericulture.masterdata.model.api.scCategory.EditScCategoryRequest;
 import com.sericulture.masterdata.model.api.scCategory.ScCategoryRequest;
 import com.sericulture.masterdata.model.api.scCategory.ScCategoryResponse;
 import com.sericulture.masterdata.model.api.trProgramMaster.EditTrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRequest;
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterResponse;
+import com.sericulture.masterdata.model.entity.Designation;
 import com.sericulture.masterdata.model.entity.ScCategory;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
+import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScCategoryRepository;
 import com.sericulture.masterdata.repository.TrProgramMasterRespository;
@@ -135,6 +138,25 @@ public class ScCategoryService {
         log.info("Entity is ",scCategory);
         return scCategoryResponse;
     }
+
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    public Map<String,Object> getScCategoryByScHeadAccountId(Long scHeadAccountId){
+//        List<ScCategory> scCategoryList = scCategoryRepository.findByScHeadAccountIdAndActiveOrderByCategoryName(scHeadAccountId,true);
+//        if(scCategoryList.isEmpty()){
+//            throw new ValidationException("Invalid Id");
+//        }
+//        log.info("Entity is ",scCategoryList);
+//        return convertListToMapResponse(scCategoryList);
+//    }
+//
+//    private Map<String, Object> convertListToMapResponse(List<ScCategory> scCategoryList) {
+//        Map<String, Object> response = new HashMap<>();
+//        List<ScCategoryResponse> scCategoryResponses = scCategoryList.stream()
+//                .map(scCategory -> mapper.scCategoryEntityToObject(scCategory,ScCategoryResponse.class)).collect(Collectors.toList());
+//        response.put("scCategory",scCategoryResponses);
+//        response.put("totalItems", scCategoryList.size());
+//        return response;
+//    }
 
     @Transactional
     public ScCategoryResponse updateScCategoryDetails(EditScCategoryRequest scCategoryRequest){

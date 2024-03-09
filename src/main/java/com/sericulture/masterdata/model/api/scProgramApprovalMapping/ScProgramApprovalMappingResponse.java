@@ -24,6 +24,15 @@ public class ScProgramApprovalMappingResponse {
     @Schema(name = "designationId", example = "1")
     Long designationId;
 
+    @Schema(name = "scProgramName", example = "1")
+    String scProgramName;
+
+    @Schema(name = "name", example = "1")
+    String name;
+
+    @Schema(name = "stageName", example = "1")
+    String stageName;
+
     @Schema(name = "orders", example = "1")
     Long orders;
 
