@@ -213,6 +213,7 @@ public class MarketMasterService {
                 marketMaster.setMarketLatitude(marketMasterRequest.getMarketLatitude());
                 marketMaster.setMarketLongitude(marketMasterRequest.getMarketLongitude());
                 marketMaster.setRadius(marketMasterRequest.getRadius());
+                marketMaster.setMarketMasterAddress(marketMasterRequest.getMarketMasterAddress());
                 marketMaster.setClientId(marketMasterRequest.getClientId());
                 marketMaster.setSnorkelRequestPath(marketMasterRequest.getSnorkelRequestPath());
                 marketMaster.setSnorkelResponsePath(marketMasterRequest.getSnorkelResponsePath());
