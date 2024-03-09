@@ -20,4 +20,7 @@ public class ScProgramApprovalMappingRequest extends RequestBody {
 
     @Schema(name = "designationId", example = "1")
     Long designationId;
+
+    @Schema(name = "orders", example = "1")
+    Long orders;
 }

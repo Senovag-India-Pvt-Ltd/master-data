@@ -24,6 +24,9 @@ public class ScProgramApprovalMappingResponse {
     @Schema(name = "designationId", example = "1")
     Long designationId;
 
+    @Schema(name = "orders", example = "1")
+    Long orders;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

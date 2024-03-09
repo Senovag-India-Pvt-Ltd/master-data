@@ -200,6 +200,8 @@ public class ScProgramApprovalMappingService {
                 scProgramApprovalMapping.setScProgramId(scProgramApprovalMappingRequest.getScProgramId());
                 scProgramApprovalMapping.setScApprovalStageId(scProgramApprovalMappingRequest.getScApprovalStageId());
                 scProgramApprovalMapping.setDesignationId(scProgramApprovalMappingRequest.getDesignationId());
+                scProgramApprovalMapping.setOrders(scProgramApprovalMappingRequest.getOrders());
+
 
                 scProgramApprovalMapping.setActive(true);
                 ScProgramApprovalMapping scProgramApprovalMapping1 = scProgramApprovalMappingRepository.save(scProgramApprovalMapping);

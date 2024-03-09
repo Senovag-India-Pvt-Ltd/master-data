@@ -29,4 +29,8 @@ public class ScProgramApprovalMapping extends BaseEntity implements Serializable
 
     @Column(name = "designation_id")
     private Long designationId;
+
+    @Column(name = "orders")
+    private Long orders;
+
 }

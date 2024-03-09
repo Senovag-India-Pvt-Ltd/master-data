@@ -12,6 +12,7 @@ public class ScProgramApprovalMappingDTO {
     private Long scProgramId;
     private Long scApprovalStageId;
     private Long designationId;
+    private Long orders;
     private String scProgramName;
     private String stageName;
     private String name;

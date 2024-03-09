@@ -38,6 +38,7 @@ public interface ScProgramApprovalMappingRepository extends PagingAndSortingRepo
             " scProgramApprovalMapping.scProgramId," +
             " scProgramApprovalMapping.scApprovalStageId," +
             " scProgramApprovalMapping.designationId," +
+            " scProgramApprovalMapping.orders," +
             " scProgram.scProgramName," +
             " scApprovalStage.stageName," +
             " designation.name" +
@@ -59,6 +60,7 @@ public interface ScProgramApprovalMappingRepository extends PagingAndSortingRepo
             " scProgramApprovalMapping.scProgramId," +
             " scProgramApprovalMapping.scApprovalStageId," +
             " scProgramApprovalMapping.designationId," +
+            " scProgramApprovalMapping.orders," +
             " scProgram.scProgramName," +
             " scApprovalStage.stageName," +
             " designation.name" +
@@ -80,6 +82,7 @@ public interface ScProgramApprovalMappingRepository extends PagingAndSortingRepo
             " scProgramApprovalMapping.scProgramId," +
             " scProgramApprovalMapping.scApprovalStageId," +
             " scProgramApprovalMapping.designationId," +
+            " scProgramApprovalMapping.orders," +
             " scProgram.scProgramName," +
             " scApprovalStage.stageName," +
             " designation.name" +
