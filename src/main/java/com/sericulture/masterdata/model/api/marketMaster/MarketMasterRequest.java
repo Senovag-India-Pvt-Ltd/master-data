@@ -29,10 +29,10 @@ public class MarketMasterRequest extends RequestBody {
     String marketMasterAddress;
 
     @Schema(name = "boxWeight", example = "10", required = true)
-    Integer boxWeight;
+    Long boxWeight;
 
     @Schema(name = "lotWeight", example = "5", required = true)
-    Integer lotWeight;
+    Long lotWeight;
 
     @Schema(name = "stateId", example = "1", required = true)
     Long stateId;
