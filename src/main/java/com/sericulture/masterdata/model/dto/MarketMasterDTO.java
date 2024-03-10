@@ -12,7 +12,7 @@ public class MarketMasterDTO {
     private String marketMasterName;
     private String marketNameInKannada;
     private String marketMasterAddress;
-    private Long boxWeight;
+    private BigDecimal boxWeight;
     private Long lotWeight;
     private Long stateId;
     private Long districtId;
@@ -55,7 +55,7 @@ public class MarketMasterDTO {
         String marketMasterName,
         String marketNameInKannada,
         String marketMasterAddress,
-        Long boxWeight,
+        BigDecimal boxWeight,
         Long lotWeight,
         Long stateId,
         Long districtId,
