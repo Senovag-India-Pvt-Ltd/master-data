@@ -28,7 +28,7 @@ public class MarketMasterResponse {
     String marketMasterAddress;
 
     @Schema(name = "boxWeight", example = "10")
-    Long boxWeight;
+    BigDecimal boxWeight;
 
     @Schema(name = "lotWeight", example = "5")
     Long lotWeight;

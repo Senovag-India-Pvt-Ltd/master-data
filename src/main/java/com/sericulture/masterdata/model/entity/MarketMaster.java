@@ -32,7 +32,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     private String marketMasterAddress;
 
     @Column(name = "box_weight")
-    private Long boxWeight;
+    private BigDecimal boxWeight;
 
     @Column(name = "lot_weight")
     private Long lotWeight;
