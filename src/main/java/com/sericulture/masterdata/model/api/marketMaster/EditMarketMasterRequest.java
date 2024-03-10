@@ -30,7 +30,7 @@ public class EditMarketMasterRequest extends RequestBody {
     String marketMasterAddress;
 
     @Schema(name = "boxWeight", example = "10")
-    Integer boxWeight;
+    BigDecimal boxWeight;
 
     @Schema(name = "lotWeight", example = "5")
     Integer lotWeight;
