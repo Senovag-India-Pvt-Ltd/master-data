@@ -187,6 +187,7 @@ public class MarketMasterService {
             MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActiveIn(marketMasterRequest.getMarketMasterId(), Set.of(true, false));
             if (Objects.nonNull(marketMaster)) {
                 marketMaster.setMarketMasterName(marketMasterRequest.getMarketMasterName());
+                marketMaster.setBoxWeight(marketMasterRequest.getBoxWeight());
                 marketMaster.setMarketNameInKannada(marketMasterRequest.getMarketNameInKannada());
                 marketMaster.setMarketTypeMasterId(marketMasterRequest.getMarketTypeMasterId());
                 marketMaster.setIssueBidSlipStartTime(marketMasterRequest.getIssueBidSlipStartTime());
