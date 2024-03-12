@@ -120,4 +120,8 @@ public class EditMarketMasterRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Client Code Path must contain only letters and numbers")
     @Schema(name = "clientCode", example = "C123")
     String clientCode;
+
+    @Schema(name = "weighmentTripletGeneration", example = "true")
+    Boolean weighmentTripletGeneration;
+
 }

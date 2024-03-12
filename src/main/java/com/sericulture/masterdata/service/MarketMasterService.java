@@ -213,6 +213,7 @@ public class MarketMasterService {
                 marketMaster.setSnorkelRequestPath(marketMasterRequest.getSnorkelRequestPath());
                 marketMaster.setSnorkelResponsePath(marketMasterRequest.getSnorkelResponsePath());
                 marketMaster.setClientCode(marketMasterRequest.getClientCode());
+                marketMaster.setWeighmentTripletGeneration(marketMasterRequest.getWeighmentTripletGeneration());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
