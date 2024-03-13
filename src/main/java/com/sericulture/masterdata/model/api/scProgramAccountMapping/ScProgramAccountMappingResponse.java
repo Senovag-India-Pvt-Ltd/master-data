@@ -25,6 +25,15 @@ public class ScProgramAccountMappingResponse {
     @Schema(name = "scCategoryId", example = "1")
     Long scCategoryId;
 
+    @Schema(name = "scProgramName", example = "1")
+    String scProgramName;
+
+    @Schema(name = "scHeadAccountName", example = "1")
+    String scHeadAccountName;
+
+    @Schema(name = "categoryName", example = "1")
+    String categoryName;
+
 
     @Schema(name = "error", example = "true")
     Boolean error;
