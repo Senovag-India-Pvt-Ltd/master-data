@@ -131,4 +131,7 @@ public class MarketMasterResponse {
 
     @Schema(name = "clientCode",example = "C001")
     String clientCode;
+
+    @Schema(name = "weighmentTripletGeneration", example = "true")
+    Boolean weighmentTripletGeneration;
 }
