@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.model.mapper;
 
 
+import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
@@ -1872,5 +1873,27 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, scProgramApprovalMappingRequest);
         return (T) mapper.map(scProgramApprovalMappingRequest, claaz);
     }
+
+    /**
+     * Maps bankMaster Entity to bankMaster Response Object
+     * @param bankMasterEntity
+     * @param <T>
+     */
+    public <T> T bankMasterEntityToObject(BankMaster bankMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,bankMasterEntity);
+        return (T) mapper.map(bankMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps bankMaster Object to bankMaster  Response Object
+     * @param bankMasterRequest
+     * @param <T>
+     */
+    public <T> T bankMasterObjectToEntity(BankMasterRequest bankMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, bankMasterRequest);
+        return (T) mapper.map(bankMasterRequest, claaz);
+    }
+
 
 }
