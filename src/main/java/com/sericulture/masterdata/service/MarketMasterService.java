@@ -16,6 +16,7 @@ import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.MarketMasterRepository;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -214,6 +215,7 @@ public class MarketMasterService {
                 marketMaster.setSnorkelResponsePath(marketMasterRequest.getSnorkelResponsePath());
                 marketMaster.setClientCode(marketMasterRequest.getClientCode());
                 marketMaster.setWeighmentTripletGeneration(marketMasterRequest.getWeighmentTripletGeneration());
+                marketMaster.setBidAmountFlag(marketMasterRequest.getBidAmountFlag());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);

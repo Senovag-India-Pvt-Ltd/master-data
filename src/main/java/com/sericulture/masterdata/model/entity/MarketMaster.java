@@ -130,4 +130,8 @@ public class MarketMaster extends  BaseEntity implements Serializable {
 
     @Column(name = "weighment_triplet_generation", columnDefinition = "TINYINT")
     private Boolean weighmentTripletGeneration;
+
+    @Column(name = "bid_amount_flag", columnDefinition = "TINYINT")
+    private Boolean bidAmountFlag;
+
 }

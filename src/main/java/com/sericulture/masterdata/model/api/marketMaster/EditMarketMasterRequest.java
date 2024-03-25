@@ -124,4 +124,6 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "weighmentTripletGeneration", example = "true")
     Boolean weighmentTripletGeneration;
 
+    @Schema(name = "bidAmountFlag", example = "true")
+    Boolean bidAmountFlag;
 }
