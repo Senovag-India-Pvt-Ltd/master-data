@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.lineNameMaster;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -19,6 +20,10 @@ public class LineNameMasterResponse {
 
     @Schema(name = "lineNameInKannada", example = "ಭಾಷೆ", required = true)
     String lineNameInKannada;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Line Code must contain only letters and numbers")
+    @Schema(name = "lineCode", example = "Karnataka", required = true)
+    String lineCode;
 
     @Schema(name = "error", example = "true")
     Boolean error;

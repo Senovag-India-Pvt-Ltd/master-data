@@ -88,6 +88,7 @@ import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.workingInstitution.WorkingInstitutionRequest;
+import com.sericulture.masterdata.model.api.wormStageMaster.WormStageMasterRequest;
 import com.sericulture.masterdata.model.dto.*;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.api.taluk.TalukRequest;
@@ -2138,5 +2139,25 @@ public class Mapper {
         return (T) mapper.map(scVendorBankRequest, claaz);
     }
 
+
+    /**
+     * Maps Worm Stage Master Entity to Worm Stage Master Response Object
+     * @param wormStageMasterEntity
+     * @param <T>
+     */
+    public <T> T wormStageMasterEntityToObject(WormStageMaster wormStageMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, wormStageMasterEntity);
+        return (T) mapper.map(wormStageMasterEntity, claaz);
+    }
+
+    /**
+     * Maps Worm Stage Master Entity to Worm Stage Master Response Object
+     * @param wormStageMasterRequest
+     * @param <T>
+     */
+    public <T> T wormStageMasterObjectToEntity(WormStageMasterRequest wormStageMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, wormStageMasterRequest);
+        return (T) mapper.map(wormStageMasterRequest, claaz);
+    }
 
 }
