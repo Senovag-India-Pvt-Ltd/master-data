@@ -22,6 +22,7 @@ public class Role extends BaseEntity implements Serializable {
     private Long roleId;
 
 
+
     @Size(min = 2, max = 250, message = "Role name should be more than 1 characters.")
     @Column(name = "role_name", unique = true)
     private String roleName;

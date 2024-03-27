@@ -172,9 +172,11 @@ public class ScCategoryService {
 
             ScCategory scCategory = scCategoryRepository.findByScCategoryIdAndActiveIn(scCategoryRequest.getScCategoryId(), Set.of(true,false));
             if(Objects.nonNull(scCategory)){
-                scCategory.setCategoryNumber( scCategoryRequest.getCategoryNumber());
                 scCategory.setCategoryName( scCategoryRequest.getCategoryName());
                 scCategory.setCategoryNameInKannada( scCategoryRequest.getCategoryNameInKannada());
+                scCategory.setCodeNumber( scCategoryRequest.getCodeNumber());
+                scCategory.setDescription( scCategoryRequest.getDescription());
+
 
                 scCategory.setActive(true);
                 ScCategory scCategory1= scCategoryRepository.save(scCategory);

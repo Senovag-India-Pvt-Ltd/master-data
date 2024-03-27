@@ -52,12 +52,20 @@ import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
 import com.sericulture.masterdata.model.api.rpRoleAssociation.RpRoleAssociationRequest;
 import com.sericulture.masterdata.model.api.rpRolePermission.RpRolePermissionRequest;
 import com.sericulture.masterdata.model.api.scApprovalStage.ScApprovalStageRequest;
+import com.sericulture.masterdata.model.api.scApprovingAuthority.ScApprovingAuthorityRequest;
 import com.sericulture.masterdata.model.api.scCategory.ScCategoryRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
+import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionRequest;
 import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
+import com.sericulture.masterdata.model.api.scSchemeDetails.ScSchemeDetailsRequest;
+import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsRequest;
+import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostRequest;
+import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
+import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
+import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
@@ -1893,6 +1901,241 @@ public class Mapper {
     public <T> T bankMasterObjectToEntity(BankMasterRequest bankMasterRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, bankMasterRequest);
         return (T) mapper.map(bankMasterRequest, claaz);
+    }
+
+    /**
+     * Maps scHeadAccountCategory Entity to scHeadAccountCategory Response Object
+     * @param scHeadAccountCategoryEntity
+     * @param <T>
+     */
+    public <T> T scHeadAccountCategoryEntityToObject(ScHeadAccountCategory scHeadAccountCategoryEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scHeadAccountCategoryEntity);
+        return (T) mapper.map(scHeadAccountCategoryEntity, claaz);
+    }
+
+    /**
+     * Maps scHeadAccountCategoryDTO to scHeadAccountCategory Response Object
+     * @param scHeadAccountCategoryDTO
+     * @param <T>
+     */
+    public <T> T scHeadAccountCategoryDTOToObject(ScHeadAccountCategoryDTO scHeadAccountCategoryDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scHeadAccountCategoryDTO);
+        return (T) mapper.map(scHeadAccountCategoryDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scHeadAccountCategory Object to scHeadAccountCategory  Response Object
+     * @param scHeadAccountCategoryRequest
+     * @param <T>
+     */
+    public <T> T scHeadAccountCategoryObjectToEntity(ScHeadAccountCategoryRequest scHeadAccountCategoryRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scHeadAccountCategoryRequest);
+        return (T) mapper.map(scHeadAccountCategoryRequest, claaz);
+    }
+
+
+    /**
+     * Maps scUnitCost Entity to scUnitCost Response Object
+     * @param scUnitCostEntity
+     * @param <T>
+     */
+    public <T> T scUnitCostEntityToObject(ScUnitCost scUnitCostEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scUnitCostEntity);
+        return (T) mapper.map(scUnitCostEntity, claaz);
+    }
+
+    /**
+     * Maps scUnitCostDTO to scUnitCost Response Object
+     * @param scUnitCostDTO
+     * @param <T>
+     */
+    public <T> T scUnitCostDTOToObject(ScUnitCostDTO scUnitCostDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scUnitCostDTO);
+        return (T) mapper.map(scUnitCostDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scUnitCost Object to scUnitCost  Response Object
+     * @param scUnitCostRequest
+     * @param <T>
+     */
+    public <T> T scUnitCostObjectToEntity(ScUnitCostRequest scUnitCostRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scUnitCostRequest);
+        return (T) mapper.map(scUnitCostRequest, claaz);
+    }
+
+
+    /**
+     * Maps scApprovingAuthority Entity to scApprovingAuthority Response Object
+     * @param scApprovingAuthorityEntity
+     * @param <T>
+     */
+    public <T> T scApprovingAuthorityEntityToObject(ScApprovingAuthority scApprovingAuthorityEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scApprovingAuthorityEntity);
+        return (T) mapper.map(scApprovingAuthorityEntity, claaz);
+    }
+
+    /**
+     * Maps scApprovingAuthorityDTO to scApprovingAuthority Response Object
+     * @param scApprovingAuthorityDTO
+     * @param <T>
+     */
+    public <T> T scApprovingAuthorityDTOToObject(ScApprovingAuthorityDTO scApprovingAuthorityDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scApprovingAuthorityDTO);
+        return (T) mapper.map(scApprovingAuthorityDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scApprovingAuthority Object to scApprovingAuthority  Response Object
+     * @param scApprovingAuthorityRequest
+     * @param <T>
+     */
+    public <T> T scApprovingAuthorityObjectToEntity(ScApprovingAuthorityRequest scApprovingAuthorityRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scApprovingAuthorityRequest);
+        return (T) mapper.map(scApprovingAuthorityRequest, claaz);
+    }
+    /**
+     * Maps scVendor Entity to scVendor Response Object
+     * @param scVendorEntity
+     * @param <T>
+     */
+    public <T> T scVendorEntityToObject(ScVendor scVendorEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scVendorEntity);
+        return (T) mapper.map(scVendorEntity, claaz);
+    }
+
+
+    /**
+     * Maps scVendor Object to scVendor  Response Object
+     * @param scVendorRequest
+     * @param <T>
+     */
+    public <T> T scVendorObjectToEntity(ScVendorRequest scVendorRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scVendorRequest);
+        return (T) mapper.map(scVendorRequest, claaz);
+    }
+
+    /**
+     * Maps scSchemeDetails Entity to scSchemeDetails Response Object
+     * @param scSchemeDetailsEntity
+     * @param <T>
+     */
+    public <T> T scSchemeDetailsEntityToObject(ScSchemeDetails scSchemeDetailsEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scSchemeDetailsEntity);
+        return (T) mapper.map(scSchemeDetailsEntity, claaz);
+    }
+
+
+    /**
+     * Maps scSchemeDetails Object to scSchemeDetails  Response Object
+     * @param scSchemeDetailsRequest
+     * @param <T>
+     */
+    public <T> T scSchemeDetailsObjectToEntity(ScSchemeDetailsRequest scSchemeDetailsRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSchemeDetailsRequest);
+        return (T) mapper.map(scSchemeDetailsRequest, claaz);
+    }
+
+    /**
+     * Maps scSubSchemeDetails Entity to scSubSchemeDetails Response Object
+     * @param scSubSchemeDetailsEntity
+     * @param <T>
+     */
+    public <T> T scSubSchemeDetailsEntityToObject(ScSubSchemeDetails scSubSchemeDetailsEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scSubSchemeDetailsEntity);
+        return (T) mapper.map(scSubSchemeDetailsEntity, claaz);
+    }
+
+    /**
+     * Maps scSubSchemeDetailsDTO to scSubSchemeDetails Response Object
+     * @param scSubSchemeDetailsDTO
+     * @param <T>
+     */
+    public <T> T scSubSchemeDetailsDTOToObject(ScSubSchemeDetailsDTO scSubSchemeDetailsDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSubSchemeDetailsDTO);
+        return (T) mapper.map(scSubSchemeDetailsDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scSubSchemeDetails Object to scSubSchemeDetails  Response Object
+     * @param scSubSchemeDetailsRequest
+     * @param <T>
+     */
+    public <T> T scSubSchemeDetailsObjectToEntity(ScSubSchemeDetailsRequest scSubSchemeDetailsRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSubSchemeDetailsRequest);
+        return (T) mapper.map(scSubSchemeDetailsRequest, claaz);
+    }
+
+    /**
+     * Maps scVendorContact Entity to scVendorContact Response Object
+     * @param scVendorContactEntity
+     * @param <T>
+     */
+    public <T> T scVendorContactEntityToObject(ScVendorContact scVendorContactEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scVendorContactEntity);
+        return (T) mapper.map(scVendorContactEntity, claaz);
+    }
+
+    /**
+     * Maps scVendorContactDTO to scVendorContact Response Object
+     * @param scVendorContactDTO
+     * @param <T>
+     */
+    public <T> T scVendorContactDTOToObject(ScVendorContactDTO scVendorContactDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scVendorContactDTO);
+        return (T) mapper.map(scVendorContactDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scVendorContact Object to scVendorContact  Response Object
+     * @param scVendorContactRequest
+     * @param <T>
+     */
+    public <T> T scVendorContactObjectToEntity(ScVendorContactRequest scVendorContactRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scVendorContactRequest);
+        return (T) mapper.map(scVendorContactRequest, claaz);
+    }
+
+    /**
+     * Maps scVendorBank Entity to scVendorBank Response Object
+     * @param scVendorBankEntity
+     * @param <T>
+     */
+    public <T> T scVendorBankEntityToObject(ScVendorBank scVendorBankEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scVendorBankEntity);
+        return (T) mapper.map(scVendorBankEntity, claaz);
+    }
+
+    /**
+     * Maps scVendorBankDTO to scVendorBank Response Object
+     * @param scVendorBankDTO
+     * @param <T>
+     */
+    public <T> T scVendorBankDTOToObject(ScVendorBankDTO scVendorBankDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scVendorBankDTO);
+        return (T) mapper.map(scVendorBankDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scVendorBank Object to scVendorBank  Response Object
+     * @param scVendorBankRequest
+     * @param <T>
+     */
+    public <T> T scVendorBankObjectToEntity(ScVendorBankRequest scVendorBankRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scVendorBankRequest);
+        return (T) mapper.map(scVendorBankRequest, claaz);
     }
 
 

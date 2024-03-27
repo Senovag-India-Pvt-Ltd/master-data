@@ -24,12 +24,18 @@ public class ScCategory extends BaseEntity implements Serializable {
 
 
     @Size(min = 2, max = 250, message = "Category Number should be more than 1 characters.")
-    @Column(name = " category_number", unique = true)
-    private String categoryNumber;
 
     @Column(name = " category_name", unique = true)
     private String categoryName;
 
     @Column(name = " category_name_in_kannada", unique = true)
     private String categoryNameInKannada;
+
+    @Column(name = " code_number", unique = true)
+    private String codeNumber;
+
+    @Column(name = " description", unique = true)
+    private String description;
+
+
 }

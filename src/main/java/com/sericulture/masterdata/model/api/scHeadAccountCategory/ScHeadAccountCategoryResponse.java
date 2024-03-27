@@ -1,35 +1,33 @@
-package com.sericulture.masterdata.model.api.scCategory;
-
+package com.sericulture.masterdata.model.api.scHeadAccountCategory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ScCategoryResponse {
+public class ScHeadAccountCategoryResponse {
+
+    @Schema(name = "scHeadAccountCategoryId", example = "1")
+    Long scHeadAccountCategoryId;
+
+    @Schema(name = "scHeadAccountId", example = "1")
+    Long scHeadAccountId;
 
     @Schema(name = "scCategoryId", example = "1")
     Long scCategoryId;
 
+    @Schema(name = "scHeadAccountName", example = "Karnataka", required = true)
+    String scHeadAccountName;
 
     @Schema(name = "categoryName", example = "Karnataka", required = true)
     String categoryName;
 
-
-    @Schema(name = "categoryNameInKannada", example = "ಕನ್ನಡ")
-    String categoryNameInKannada;
-
-    @Schema(name = "codeNumber", example = "Karnataka", required = true)
-    String codeNumber;
-
-    @Schema(name = "description", example = "Karnataka", required = true)
-    String description;
 
     @Schema(name = "error", example = "true")
     Boolean error;
