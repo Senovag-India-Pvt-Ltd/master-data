@@ -27,6 +27,9 @@ public class LineNameMaster extends BaseEntity implements Serializable {
     @Column(name = "line_name", unique = true)
     private String lineName;
 
+    @Column(name = "line_code")
+    private String lineCode;
+
     @Column(name = "line_name_in_kannada", unique = true)
     private String lineNameInKannada;
 }
