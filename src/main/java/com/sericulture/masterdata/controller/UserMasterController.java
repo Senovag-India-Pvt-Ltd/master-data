@@ -480,8 +480,7 @@ public class UserMasterController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    public ResponseEntity<?> getAllUsers(
-    ) {
+    public ResponseEntity<?> getAllUsers() {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(userMasterService.getAllUsers());
         return ResponseEntity.ok(rw);
