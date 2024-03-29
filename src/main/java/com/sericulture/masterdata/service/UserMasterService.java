@@ -608,6 +608,11 @@ public class UserMasterService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllUsers(){
+        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndRoleId(true, 91));
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getConfigureUserDetailsForReeler(boolean isActive, long reelerId){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         Reeler reeler = reelerRepository.findByReelerIdAndActive(reelerId, true);
