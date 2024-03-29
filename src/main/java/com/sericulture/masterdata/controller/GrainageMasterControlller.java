@@ -1,9 +1,11 @@
 package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.EditGrainageMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterResponse;
+import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostResponse;
 import com.sericulture.masterdata.service.GrainageMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -164,6 +166,85 @@ public class GrainageMasterControlller {
         ResponseWrapper rw = ResponseWrapper.createWrapper(GrainageMasterResponse.class);
 
         rw.setContent(grainageMasterService.getById(id));
+        return ResponseEntity.ok(rw);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-join/{id}")
+    public ResponseEntity<?> getByIdJoin(
+            @PathVariable final Integer id
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(GrainageMasterResponse.class);
+
+        rw.setContent(grainageMasterService.getByIdJoin(id));
+        return ResponseEntity.ok(rw);
+    }
+    @GetMapping("/list-with-join")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"grainageMaster\":[{\"id\":10,\"grainageMasterId\":\"\",\"grainageMasterId\":1,},{\"id\":11,\"grainageMasterId\":\"Shimoga\",\"grainageMasterId\":1,},{\"id\":13,\"grainageMasterId\":\"Hubli\",\"grainageMasterId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getPaginatedListWithJoin(
+            @RequestParam(defaultValue = "0") final Integer pageNumber,
+            @RequestParam(defaultValue = "5") final Integer size
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(grainageMasterService.getPaginatedGrainageMasterWithJoin(PageRequest.of(pageNumber, size)));
+        return ResponseEntity.ok(rw);
+    }
+
+    //    @GetMapping("/get-by-sc-program-id/{scProgramId}")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Ok Response"),
+//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+//                    content =
+//                            {
+//                                    @Content(mediaType = "application/json", schema =
+//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+//                            }),
+//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+//    })
+//    public ResponseEntity<?> getByScProgramId(
+//            @PathVariable final Integer scProgramId
+//    ) {
+//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+//        rw.setContent(scProgramApprovalMappingService.getByScProgramId(scProgramId));
+//        return ResponseEntity.ok(rw);
+//    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Object saved details"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/search")
+    public ResponseEntity<?> search(
+            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(grainageMasterService.searchByColumnAndSort(searchWithSortRequest));
         return ResponseEntity.ok(rw);
     }
 

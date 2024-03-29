@@ -22,6 +22,12 @@ public class GrainageMasterResponse {
     @Schema(name = "grainageMasterNameInKannada", example = "ಭಾಷೆ", required = true)
     String grainageMasterNameInKannada;
 
+    @Schema(name = "userMasterId", example = "1")
+    Long userMasterId;
+
+    @Schema(name = "username", example = "test")
+    String username;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

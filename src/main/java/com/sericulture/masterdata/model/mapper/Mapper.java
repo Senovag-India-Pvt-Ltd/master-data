@@ -1695,6 +1695,16 @@ public class Mapper {
         return (T) mapper.map(grainageMasterEntity, claaz);
     }
 
+    /**
+     * Maps grainageMasterDTO to grainageMaster Response Object
+     * @param grainageMasterDTO
+     * @param <T>
+     */
+    public <T> T grainageMasterDTOToObject(GrainageMasterDTO grainageMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, grainageMasterDTO);
+        return (T) mapper.map(grainageMasterDTO, claaz);
+    }
+
 
     /**
      * Maps grainageMaster Object to grainageMaster  Response Object
@@ -1733,6 +1743,16 @@ public class Mapper {
     public <T> T farmMasterEntityToObject(FarmMaster farmMasterEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper,farmMasterEntity);
         return (T) mapper.map(farmMasterEntity, claaz);
+    }
+
+    /**
+     * Maps farmMasterDTO to farmMaster Response Object
+     * @param farmMasterDTO
+     * @param <T>
+     */
+    public <T> T farmMasterDTOToObject(FarmMasterDTO farmMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmMasterDTO);
+        return (T) mapper.map(farmMasterDTO, claaz);
     }
 
 

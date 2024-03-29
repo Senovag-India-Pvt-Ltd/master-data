@@ -20,9 +20,16 @@ public class FarmMasterResponse {
     @Schema(name = "farmNameInKannada", example = "ಭಾಷೆ", required = true)
     String farmNameInKannada;
 
+    @Schema(name = "userMasterId", example = "1")
+    Long userMasterId;
+
+    @Schema(name = "username", example = "test")
+    String username;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
+
 }

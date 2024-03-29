@@ -90,7 +90,7 @@ public class ScProgramApprovalMappingService {
 
         List<ScProgramApprovalMappingResponse> scProgramApprovalMappingResponses = activeScProgramApprovalMapping.stream()
                 .map(scProgramApprovalMapping  -> mapper.scProgramApprovalMappingEntityToObject(scProgramApprovalMapping, ScProgramApprovalMappingResponse.class)).collect(Collectors.toList());
-        response.put("activeRaceMarketMaster",scProgramApprovalMappingResponses);
+        response.put("scProgramApprovalMapping",scProgramApprovalMappingResponses);
         return response;
     }
 

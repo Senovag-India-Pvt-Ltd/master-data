@@ -24,4 +24,7 @@ public class EditFarmMasterRequest extends RequestBody {
     @Schema(name = "farmNameInKannada", example = "ಭಾಷೆ", required = true)
     String farmNameInKannada;
 
+    @Schema(name = "userMasterId", example = "1")
+    Long userMasterId;
+
 }

@@ -30,4 +30,7 @@ public class FarmMaster extends BaseEntity implements Serializable {
 
     @Column(name = "farm_name_in_kannada", unique = true)
     private String farmNameInKannada;
+
+    @Column(name = "user_master_id")
+    private Long userMasterId;
 }

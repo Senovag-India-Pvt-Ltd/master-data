@@ -1,15 +1,21 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.EditGrainageMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterResponse;
+import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostResponse;
+import com.sericulture.masterdata.model.dto.GrainageMasterDTO;
+import com.sericulture.masterdata.model.dto.ScUnitCostDTO;
 import com.sericulture.masterdata.model.entity.GrainageMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.GrainageMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,6 +107,23 @@ public class GrainageMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedGrainageMasterWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(grainageMasterRepository.getByActiveOrderByGrainageMasterIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<GrainageMasterDTO> activeGrainageMaster) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<GrainageMasterResponse> grainageMasterResponses= activeGrainageMaster.getContent().stream()
+                .map(grainageMaster -> mapper.grainageMasterDTOToObject(grainageMaster,GrainageMasterResponse.class)).collect(Collectors.toList());
+        response.put("grainageMaster",grainageMasterResponses);
+        response.put("currentPage", activeGrainageMaster.getNumber());
+        response.put("totalItems", activeGrainageMaster.getTotalElements());
+        response.put("totalPages", activeGrainageMaster.getTotalPages());
+        return response;
+    }
+
     @Transactional
     public GrainageMasterResponse deleteGrainageMasterDetails(long id) {
 
@@ -133,6 +156,30 @@ public class GrainageMasterService {
         return grainingMasterResponse;
     }
 
+    private Map<String, Object> convertListToMapResponse(List<GrainageMasterDTO> grainageMasterList) {
+        Map<String, Object> response = new HashMap<>();
+        List<GrainageMasterResponse> grainageMasterResponses = grainageMasterList.stream()
+                .map(grainageMaster -> mapper.grainageMasterDTOToObject(grainageMaster,GrainageMasterResponse.class)).collect(Collectors.toList());
+        response.put("grainageMaster",grainageMasterResponses);
+        response.put("totalItems", grainageMasterResponses.size());
+        return response;
+    }
+
+    @Transactional
+    public GrainageMasterResponse getByIdJoin(int id){
+        GrainageMasterResponse grainageMasterResponse = new GrainageMasterResponse();
+        GrainageMasterDTO grainageMasterDTO = grainageMasterRepository.getByGrainageMasterIdAndActive(id,true);
+        if(grainageMasterDTO == null){
+            grainageMasterResponse.setError(true);
+            grainageMasterResponse.setError_description("Invalid id");
+        } else {
+            grainageMasterResponse = mapper.grainageMasterDTOToObject(grainageMasterDTO, GrainageMasterResponse.class);
+            grainageMasterResponse.setError(false);
+        }
+        log.info("Entity is ", grainageMasterDTO);
+        return grainageMasterResponse;
+    }
+
     @Transactional
     public GrainageMasterResponse updateGrainageMasterDetails(EditGrainageMasterRequest grainageMasterRequest){
 
@@ -149,6 +196,8 @@ public class GrainageMasterService {
             if(Objects.nonNull(grainageMaster)){
                 grainageMaster.setGrainageMasterName(grainageMasterRequest.getGrainageMasterName());
                 grainageMaster.setGrainageMasterNameInKannada(grainageMasterRequest.getGrainageMasterNameInKannada());
+                grainageMaster.setUserMasterId(grainageMasterRequest.getUserMasterId());
+
                 grainageMaster.setActive(true);
                 GrainageMaster grainingMaster1 = grainageMasterRepository.save(grainageMaster);
                 grainageMasterResponse = mapper.grainageMasterEntityToObject(grainingMaster1, GrainageMasterResponse.class);
@@ -160,5 +209,47 @@ public class GrainageMasterService {
             }
         }
         return grainageMasterResponse;
+    }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
+        if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
+            searchWithSortRequest.setSearchText("%%");
+        }else{
+            searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
+        }
+        if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
+            searchWithSortRequest.setSortColumn("grainageMaster.grainageMasterName");
+        }
+        if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
+            searchWithSortRequest.setSortOrder("asc");
+        }
+        if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
+            searchWithSortRequest.setPageNumber("0");
+        }
+        if(searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")){
+            searchWithSortRequest.setPageSize("5");
+        }
+        Sort sort;
+        if(searchWithSortRequest.getSortOrder().equals("asc")){
+            sort = Sort.by(Sort.Direction.ASC, searchWithSortRequest.getSortColumn());
+        }else{
+            sort = Sort.by(Sort.Direction.DESC, searchWithSortRequest.getSortColumn());
+        }
+        Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
+        Page<GrainageMasterDTO> grainageMasterDTOS = grainageMasterRepository.getSortedGrainageMaster(searchWithSortRequest.getJoinColumn(),searchWithSortRequest.getSearchText(),true, pageable);
+        log.info("Entity is ",grainageMasterDTOS);
+        return convertPageableDTOToMapResponse(grainageMasterDTOS);
+    }
+    private Map<String, Object> convertPageableDTOToMapResponse(final Page<GrainageMasterDTO> activeGrainageMaster) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<GrainageMasterResponse> grainageMasterResponses = activeGrainageMaster.getContent().stream()
+                .map(grainageMaster -> mapper.grainageMasterDTOToObject(grainageMaster,GrainageMasterResponse.class)).collect(Collectors.toList());
+        response.put("grainageMaster",grainageMasterResponses);
+        response.put("currentPage", activeGrainageMaster.getNumber());
+        response.put("totalItems", activeGrainageMaster.getTotalElements());
+        response.put("totalPages", activeGrainageMaster.getTotalPages());
+
+        return response;
     }
 }

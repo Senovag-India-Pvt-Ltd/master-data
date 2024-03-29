@@ -29,5 +29,8 @@ public class GrainageMaster extends BaseEntity implements Serializable {
 
     @Column(name = "grainage_master_name_in_kannada", unique = true)
     private String grainageMasterNameInKannada;
+
+    @Column(name = "user_master_id")
+    private Long userMasterId;
 }
 
