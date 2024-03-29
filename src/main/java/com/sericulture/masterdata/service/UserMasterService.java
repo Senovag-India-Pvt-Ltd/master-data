@@ -617,8 +617,8 @@ public class UserMasterService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllUsers(){
-        return convertDTOListEntityToMapResponse(userMasterRepository.getByActiveAndRoleName(true, "escalate"));
+    public Map<String,Object> getEscalateRoleUsers(String roleName){
+        return convertDTOListEntityToMapResponse(userMasterRepository.getByActiveAndRoleName(true, roleName));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
