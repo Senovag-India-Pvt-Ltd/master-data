@@ -480,10 +480,9 @@ public class UserMasterController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    public ResponseEntity<?> getAllUsers(
-    ) {
+    public ResponseEntity<?> getEscalateRoleUsers( @Valid @RequestBody final UserMasterDTO userMasterDTO) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(userMasterService.getAllUsers());
+        rw.setContent(userMasterService.getEscalateRoleUsers(userMasterDTO.getRoleName()));
         return ResponseEntity.ok(rw);
     }
 

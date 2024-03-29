@@ -172,6 +172,15 @@ public class UserMasterService {
         return response;
     }
 
+    private Map<String, Object> convertDTOListEntityToMapResponse(final List<UserMasterDTO> activeUserMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<UserMasterResponse> userMasterResponses = activeUserMasters.stream()
+                .map(userMaster -> mapper.userMasterDTOToObject(userMaster,UserMasterResponse.class)).collect(Collectors.toList());
+        response.put("userMaster",userMasterResponses);
+        return response;
+    }
+
     @Transactional
     public UserMasterResponse getByIdJoin(int id){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
@@ -608,8 +617,8 @@ public class UserMasterService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllUsers(){
-        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndRoleId(true, 91));
+    public Map<String,Object> getEscalateRoleUsers(String roleName){
+        return convertDTOListEntityToMapResponse(userMasterRepository.getByActiveAndRoleName(true, roleName));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
