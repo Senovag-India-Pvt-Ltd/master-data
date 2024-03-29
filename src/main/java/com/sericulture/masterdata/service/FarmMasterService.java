@@ -125,7 +125,7 @@ public class FarmMasterService {
 
         List<FarmMasterResponse> farmMasterResponses= activeFarmMaster.getContent().stream()
                 .map(farmMaster -> mapper.farmMasterDTOToObject(farmMaster,FarmMasterResponse.class)).collect(Collectors.toList());
-        response.put("scProgramApprovalMapping",farmMasterResponses);
+        response.put("farmMaster",farmMasterResponses);
         response.put("currentPage", activeFarmMaster.getNumber());
         response.put("totalItems", activeFarmMaster.getTotalElements());
         response.put("totalPages", activeFarmMaster.getTotalPages());
