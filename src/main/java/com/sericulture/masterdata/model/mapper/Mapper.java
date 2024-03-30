@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterReq
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
+import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
 import com.sericulture.masterdata.model.api.generationNumberMaster.GenerationNumberMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
@@ -2178,6 +2179,27 @@ public class Mapper {
     public <T> T wormStageMasterObjectToEntity(WormStageMasterRequest wormStageMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, wormStageMasterRequest);
         return (T) mapper.map(wormStageMasterRequest, claaz);
+    }
+
+    /**
+     * Maps divisionMaster Entity to divisionMaster Response Object
+     * @param divisionMasterEntity
+     * @param <T>
+     */
+    public <T> T divisionMasterEntityToObject(DivisionMaster divisionMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,divisionMasterEntity);
+        return (T) mapper.map(divisionMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps divisionMaster Object to divisionMaster  Response Object
+     * @param divisionMasterRequest
+     * @param <T>
+     */
+    public <T> T divisionMasterObjectToEntity(DivisionMasterRequest divisionMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, divisionMasterRequest);
+        return (T) mapper.map(divisionMasterRequest, claaz);
     }
 
 }
