@@ -216,6 +216,7 @@ public class MarketMasterService {
                 marketMaster.setClientCode(marketMasterRequest.getClientCode());
                 marketMaster.setWeighmentTripletGeneration(marketMasterRequest.getWeighmentTripletGeneration());
                 marketMaster.setBidAmountFlag(marketMasterRequest.getBidAmountFlag());
+                marketMaster.setDivisionMasterId(marketMasterRequest.getDivisionMasterId());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);

@@ -126,4 +126,8 @@ public class EditMarketMasterRequest extends RequestBody {
 
     @Schema(name = "bidAmountFlag", example = "true")
     Boolean bidAmountFlag;
+
+    @Schema(name = "divisionMasterId", example = "1")
+    Long divisionMasterId;
+
 }

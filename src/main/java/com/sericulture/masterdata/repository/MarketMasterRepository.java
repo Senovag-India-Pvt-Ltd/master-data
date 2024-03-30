@@ -67,7 +67,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " district.districtName," +
             " taluk.talukName," +
             " marketTypeMaster.marketTypeMasterName," +
-            " marketMaster.reelerMinimumBalance" +
+            " marketMaster.reelerMinimumBalance," +
+            " marketMaster.divisionMasterId," +
+            " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +
             "left join State state\n" +
@@ -78,6 +80,8 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "on marketMaster.talukId = taluk.talukId " +
             "left join MarketTypeMaster marketTypeMaster\n" +
             "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on marketMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where marketMaster.active = :isActive " +
             "ORDER BY marketMaster.marketMasterName ASC"
     )
@@ -120,7 +124,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " district.districtName," +
             " taluk.talukName," +
             " marketTypeMaster.marketTypeMasterName," +
-            " marketMaster.reelerMinimumBalance" +
+            " marketMaster.reelerMinimumBalance," +
+            " marketMaster.divisionMasterId," +
+            " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +
             "left join State state\n" +
@@ -131,6 +137,8 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "on marketMaster.talukId = taluk.talukId " +
             "left join MarketTypeMaster marketTypeMaster\n" +
             "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on marketMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where marketMaster.active = :isActive AND marketMaster.marketMasterId = :id "
     )
     public MarketMasterDTO getByMarketMasterIdAndActive(@Param("id") long id, @Param("isActive") boolean isActive);
@@ -172,7 +180,9 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " district.districtName," +
             " taluk.talukName," +
             " marketTypeMaster.marketTypeMasterName," +
-            " marketMaster.reelerMinimumBalance" +
+            " marketMaster.reelerMinimumBalance," +
+            " marketMaster.divisionMasterId," +
+            " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +
             "left join State state\n" +
@@ -183,6 +193,8 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "on marketMaster.talukId = taluk.talukId " +
             "left join MarketTypeMaster marketTypeMaster\n" +
             "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on marketMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where marketMaster.active = :isActive AND " +
             "(:joinColumn = 'marketMaster.marketMasterName' AND marketMaster.marketMasterName LIKE :searchText) OR " +
             "(:joinColumn = 'marketTypeMaster.marketTypeMasterName' AND marketTypeMaster.marketTypeMasterName LIKE :searchText)"

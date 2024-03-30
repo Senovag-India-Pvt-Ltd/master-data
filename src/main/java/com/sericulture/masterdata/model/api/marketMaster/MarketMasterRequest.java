@@ -122,4 +122,7 @@ public class MarketMasterRequest extends RequestBody {
 
     @Schema(name = "bidAmountFlag", example = "true")
     Boolean bidAmountFlag;
+
+    @Schema(name = "divisionMasterId", example = "1")
+    Long divisionMasterId;
 }

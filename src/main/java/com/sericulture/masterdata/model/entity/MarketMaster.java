@@ -134,4 +134,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     @Column(name = "bid_amount_flag", columnDefinition = "TINYINT")
     private Boolean bidAmountFlag;
 
+    @Column(name = "division_master_id")
+    private Long divisionMasterId;
+
 }

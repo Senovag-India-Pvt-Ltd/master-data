@@ -137,4 +137,10 @@ public class MarketMasterResponse {
 
     @Schema(name = "bidAmountFlag", example = "true")
     Boolean bidAmountFlag;
+
+    @Schema(name = "divisionMasterId", example = "1")
+    Long divisionMasterId;
+
+    @Schema(name = "name", example = "Karnataka")
+    String name;
 }

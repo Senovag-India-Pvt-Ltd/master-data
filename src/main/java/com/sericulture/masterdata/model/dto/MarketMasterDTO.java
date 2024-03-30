@@ -45,6 +45,9 @@ public class MarketMasterDTO {
     private String snorkelRequestPath;
     private String snorkelResponsePath;
     private String clientCode;
+    private Long divisionMasterId;
+    private String name;
+
 
     public MarketMasterDTO() {
 
@@ -87,7 +90,9 @@ public class MarketMasterDTO {
         String districtName,
         String talukName,
         String marketTypeMasterName,
-        Long reelerMinimumBalance
+        Long reelerMinimumBalance,
+        Long divisionMasterId,
+        String name
             ) {
         this.marketMasterId = marketMasterId;
         this.marketNameInKannada = marketNameInKannada;
@@ -126,6 +131,9 @@ public class MarketMasterDTO {
         this.talukName = talukName;
         this.marketTypeMasterName = marketTypeMasterName;
         this.reelerMinimumBalance = reelerMinimumBalance;
+        this.divisionMasterId = divisionMasterId;
+        this.name = name;
+
 
     }
 }
