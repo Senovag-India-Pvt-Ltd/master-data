@@ -896,14 +896,25 @@ public class Mapper {
         return (T) mapper.map(scComponentRequest, claaz);
     }
     /**
-     * Maps SC Head Account Entity to SC Head Account Response Object
+     * Maps scHead Account Entity to scHeadAccount Response Object
      * @param scHeadAccountEntity
      * @param <T>
      */
     public <T> T scHeadAccountEntityToObject(ScHeadAccount scHeadAccountEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, scHeadAccountEntity);
         return (T) mapper.map(scHeadAccountEntity, claaz);
+
     }
+    /**
+     * Maps scHeadAccountDTO to scHeadAccount Response Object
+     * @param scHeadAccountDTO
+     * @param <T>
+     */
+    public <T> T scHeadAccountDTOToObject(ScHeadAccountDTO scHeadAccountDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scHeadAccountDTO);
+        return (T) mapper.map(scHeadAccountDTO, claaz);
+    }
+
 
     /**
      * Maps SC Head Account Object to SC Head Account Response Object

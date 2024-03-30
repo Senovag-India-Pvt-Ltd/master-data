@@ -18,4 +18,7 @@ public class ScHeadAccountRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Head Of Account name in kannada must contain only letters and numbers")
     @Schema(name = "scHeadAccountNameInKannada",  example = "ಭಾಷೆ")
     String scHeadAccountNameInKannada;
+
+    @Schema(name = "scSchemeDetailsId", example = "1")
+    Long scSchemeDetailsId;
 }

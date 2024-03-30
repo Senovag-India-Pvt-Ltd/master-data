@@ -1,10 +1,14 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.scApprovalStage.ScApprovalStageResponse;
 import com.sericulture.masterdata.model.api.scHeadAccount.EditScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountResponse;
+import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.ScHeadAccountDTO;
+import com.sericulture.masterdata.model.dto.ScVendorBankDTO;
 import com.sericulture.masterdata.model.entity.ScApprovalStage;
 import com.sericulture.masterdata.model.entity.ScHeadAccount;
 import com.sericulture.masterdata.model.entity.Village;
@@ -14,7 +18,9 @@ import com.sericulture.masterdata.repository.ScHeadAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +94,23 @@ public class ScHeadAccountService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedScHeadAccountWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(scHeadAccountRepository.getByActiveOrderByScHeadAccountIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<ScHeadAccountDTO> activeScHeadAccount) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ScHeadAccountResponse> scHeadAccountResponses= activeScHeadAccount.getContent().stream()
+                .map(scHeadAccount -> mapper.scHeadAccountDTOToObject(scHeadAccount,ScHeadAccountResponse.class)).collect(Collectors.toList());
+        response.put("scHeadAccount",scHeadAccountResponses);
+        response.put("currentPage", activeScHeadAccount.getNumber());
+        response.put("totalItems", activeScHeadAccount.getTotalElements());
+        response.put("totalPages", activeScHeadAccount.getTotalPages());
+        return response;
+    }
+
     @Transactional
     public ScHeadAccountResponse deleteScHeadAccountDetails(long id) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
@@ -138,6 +161,31 @@ public class ScHeadAccountService {
 //        return response;
 //    }
 
+
+
+    private Map<String, Object> convertListToMapResponse(List<ScHeadAccountDTO> scHeadAccountList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScHeadAccountResponse> scHeadAccountResponses = scHeadAccountList.stream()
+                .map(scHeadAccount -> mapper.scHeadAccountDTOToObject(scHeadAccount,ScHeadAccountResponse.class)).collect(Collectors.toList());
+        response.put("scHeadAccount",scHeadAccountResponses);
+        response.put("totalItems", scHeadAccountResponses.size());
+        return response;
+    }
+
+    @Transactional
+    public ScHeadAccountResponse getByIdJoin(int id){
+        ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
+        ScHeadAccountDTO scHeadAccountDTO = scHeadAccountRepository.getByScHeadAccountIdAndActive(id,true);
+        if(scHeadAccountDTO == null){
+            scHeadAccountResponse.setError(true);
+            scHeadAccountResponse.setError_description("Invalid id");
+        } else {
+            scHeadAccountResponse = mapper.scHeadAccountDTOToObject(scHeadAccountDTO, ScHeadAccountResponse.class);
+            scHeadAccountResponse.setError(false);
+        }
+        log.info("Entity is ", scHeadAccountDTO);
+        return scHeadAccountResponse;
+    }
     @Transactional
     public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
@@ -152,6 +200,7 @@ public class ScHeadAccountService {
             if (Objects.nonNull(scHeadAccount)) {
                 scHeadAccount.setScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
                 scHeadAccount.setScHeadAccountNameInKannada(scHeadAccountRequest.getScHeadAccountNameInKannada());
+                scHeadAccount.setScSchemeDetailsId(scHeadAccountRequest.getScSchemeDetailsId());
                 scHeadAccount.setActive(true);
                 ScHeadAccount scHeadAccount1 = scHeadAccountRepository.save(scHeadAccount);
                 scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccount1, ScHeadAccountResponse.class);
@@ -163,5 +212,48 @@ public class ScHeadAccountService {
             }
         }
         return scHeadAccountResponse;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
+        if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
+            searchWithSortRequest.setSearchText("%%");
+        }else{
+            searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
+        }
+        if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
+            searchWithSortRequest.setSortColumn("scHeadAccount.scHeadAccountName");
+        }
+        if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
+            searchWithSortRequest.setSortOrder("asc");
+        }
+        if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
+            searchWithSortRequest.setPageNumber("0");
+        }
+        if(searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")){
+            searchWithSortRequest.setPageSize("5");
+        }
+        Sort sort;
+        if(searchWithSortRequest.getSortOrder().equals("asc")){
+            sort = Sort.by(Sort.Direction.ASC, searchWithSortRequest.getSortColumn());
+        }else{
+            sort = Sort.by(Sort.Direction.DESC, searchWithSortRequest.getSortColumn());
+        }
+        Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
+        Page<ScHeadAccountDTO> scHeadAccountDTOS = scHeadAccountRepository.getSortedScHeadAccount(searchWithSortRequest.getJoinColumn(),searchWithSortRequest.getSearchText(),true, pageable);
+        log.info("Entity is ",scHeadAccountDTOS);
+        return convertPageableDTOToMapResponse(scHeadAccountDTOS);
+    }
+    private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScHeadAccountDTO> activeScHeadAccount) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ScHeadAccountResponse> scVendorBankResponses = activeScHeadAccount.getContent().stream()
+                .map(scHeadAccount -> mapper.scHeadAccountDTOToObject(scHeadAccount,ScHeadAccountResponse.class)).collect(Collectors.toList());
+        response.put("scHeadAccount",scVendorBankResponses);
+        response.put("currentPage", activeScHeadAccount.getNumber());
+        response.put("totalItems", activeScHeadAccount.getTotalElements());
+        response.put("totalPages", activeScHeadAccount.getTotalPages());
+
+        return response;
     }
 }

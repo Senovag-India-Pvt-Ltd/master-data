@@ -29,4 +29,7 @@ public class ScHeadAccount extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Head Account name should be more than 1 characters.")
     @Column(name = "name_in_kannada", unique = true)
     private String scHeadAccountNameInKannada;
+
+    @Column(name = "sc_scheme_details_id")
+    private Long scSchemeDetailsId;
 }

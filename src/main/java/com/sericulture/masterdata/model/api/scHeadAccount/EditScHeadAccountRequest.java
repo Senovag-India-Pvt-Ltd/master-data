@@ -12,7 +12,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class EditScHeadAccountRequest extends RequestBody {
     @Schema(name = "scHeadAccountId", example = "1")
-    Integer scHeadAccountId;
+    Long scHeadAccountId;
 
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "scHeadAccount must contain only letters and numbers")
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ", required = true)
@@ -21,4 +21,7 @@ public class EditScHeadAccountRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Head Of Account name in kannada must contain only letters and numbers")
     @Schema(name = "scHeadAccountNameInKannada",  example = "ಭಾಷೆ")
     String scHeadAccountNameInKannada;
+
+    @Schema(name = "scSchemeDetailsId", example = "1")
+    Long scSchemeDetailsId;
 }

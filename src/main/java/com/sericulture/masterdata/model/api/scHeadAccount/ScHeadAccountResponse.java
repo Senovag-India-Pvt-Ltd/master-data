@@ -14,13 +14,19 @@ import lombok.*;
 public class ScHeadAccountResponse {
 
     @Schema(name = "scHeadAccountId", example = "1")
-    Integer scHeadAccountId;
+    Long scHeadAccountId;
 
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ")
     String scHeadAccountName;
 
     @Schema(name = "scHeadAccountNameInKannada",  example = "ಭಾಷೆ")
     String scHeadAccountNameInKannada;
+
+    @Schema(name = "scSchemeDetailsId", example = "1")
+    Long scSchemeDetailsId;
+
+    @Schema(name = "schemeName", example = "Karnataka", required = true)
+    String schemeName;
 
     @Schema(name = "error", example = "true")
     Boolean error;
