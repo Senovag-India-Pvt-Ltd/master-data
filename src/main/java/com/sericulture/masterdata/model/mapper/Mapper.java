@@ -8,6 +8,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
+import com.sericulture.masterdata.model.api.financialYearMaster.FinancialYearMasterRequest;
 import com.sericulture.masterdata.model.api.generationNumberMaster.GenerationNumberMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
 import com.sericulture.masterdata.model.api.hdAnswerMaster.HdAnswerMasterRequest;
@@ -2211,6 +2212,27 @@ public class Mapper {
     public <T> T divisionMasterObjectToEntity(DivisionMasterRequest divisionMasterRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, divisionMasterRequest);
         return (T) mapper.map(divisionMasterRequest, claaz);
+    }
+
+    /**
+     * Maps financialYearMaster Entity to financialYearMaster Response Object
+     * @param financialYearMasterEntity
+     * @param <T>
+     */
+    public <T> T financialYearMasterEntityToObject(FinancialYearMaster financialYearMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,financialYearMasterEntity);
+        return (T) mapper.map(financialYearMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps financialYearMaster Object to financialYearMaster  Response Object
+     * @param financialYearMasterRequest
+     * @param <T>
+     */
+    public <T> T financialYearMasterObjectToEntity(FinancialYearMasterRequest financialYearMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, financialYearMasterRequest);
+        return (T) mapper.map(financialYearMasterRequest, claaz);
     }
 
 }
