@@ -27,5 +27,5 @@ public class FinancialYearMaster extends BaseEntity implements Serializable {
     private String financialYear;
 
     @Column(name = " is_default", unique = true)
-    private Long isDefault;
+    private Boolean isDefault;
 }

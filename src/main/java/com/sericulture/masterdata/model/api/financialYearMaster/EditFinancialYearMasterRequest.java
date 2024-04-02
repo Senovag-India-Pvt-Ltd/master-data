@@ -19,6 +19,6 @@ public class EditFinancialYearMasterRequest extends RequestBody {
     @Schema(name = "financialYear", example = "Karnataka", required = true)
     String financialYear;
 
-    @Schema(name = "isDefault", example = "1")
-    Long isDefault;
+    @Schema(name = "isDefault", example = "true")
+    Boolean isDefault;
 }

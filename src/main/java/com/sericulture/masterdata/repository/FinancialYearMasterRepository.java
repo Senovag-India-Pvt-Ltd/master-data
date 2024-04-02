@@ -14,9 +14,9 @@ import java.util.Set;
 public interface FinancialYearMasterRepository extends PagingAndSortingRepository<FinancialYearMaster, Long> {
     public List<FinancialYearMaster> findByFinancialYear(String financialYear);
 
-    public List<FinancialYearMaster> findByFinancialYearAndIsDefault(String financialYear,long isDefault);
+    public List<FinancialYearMaster> findByFinancialYearAndIsDefault(String financialYear,boolean isDefault);
 
-    public List<FinancialYearMaster> findByActiveAndFinancialYearAndIsDefault(boolean a,String financialYear,long isDefault);
+    public List<FinancialYearMaster> findByActiveAndFinancialYearAndIsDefault(boolean a,String financialYear,boolean isDefault);
 
     public FinancialYearMaster findByFinancialYearAndActive(String financialYear,boolean isActive);
 
