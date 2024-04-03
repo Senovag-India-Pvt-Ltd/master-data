@@ -221,7 +221,7 @@ public class ScSubSchemeDetailsService {
             searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
         }
         if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
-            searchWithSortRequest.setSortColumn("scSchemeDetails.schemeName");
+            searchWithSortRequest.setSortColumn("scSubSchemeDetails.subSchemeName");
         }
         if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
             searchWithSortRequest.setSortOrder("asc");

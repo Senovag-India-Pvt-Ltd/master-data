@@ -79,7 +79,9 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             "left join ScSchemeDetails scSchemeDetails\n" +
             "on scSubSchemeDetails.scSchemeDetailsId = scSchemeDetails.scSchemeDetailsId " +
             "where scSubSchemeDetails.active = :isActive AND " +
-            "(:joinColumn = 'scSchemeDetails.schemeName' AND scSchemeDetails.schemeName LIKE :searchText) "
+            "(:joinColumn = 'scSchemeDetails.schemeName' AND scSchemeDetails.schemeName LIKE :searchText) OR " +
+            "(:joinColumn = 'scSubSchemeDetails.subSchemeName' AND scSubSchemeDetails.subSchemeName LIKE :searchText)"
+
     )
     public Page<ScSubSchemeDetailsDTO> getSortedScSubSchemeDetails(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }
