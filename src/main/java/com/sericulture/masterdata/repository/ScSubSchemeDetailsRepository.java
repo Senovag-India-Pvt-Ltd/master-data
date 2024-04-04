@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.ScSubSchemeDetailsDTO;
 import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
+import com.sericulture.masterdata.model.entity.Taluk;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,7 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
 
     List<ScSubSchemeDetails> findByScSchemeDetailsIdAndScSubSchemeDetailsIdIsNot( long scSchemeDetailsId, long ScSubSchemeDetailsId);
 
+    public List<ScSubSchemeDetails> findByScSchemeDetailsIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
 
     public ScSubSchemeDetails save(ScSubSchemeDetails scSubSchemeDetails);
 

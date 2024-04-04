@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.EditScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.dto.ScVendorBankDTO;
 import com.sericulture.masterdata.model.entity.ScVendorBank;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScVendorBankRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -153,14 +155,6 @@ public class ScVendorBankService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScVendorBankDTO> scVendorBankList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScVendorBankResponse> scVendorBankResponses = scVendorBankList.stream()
-                .map(scVendorBank -> mapper.scVendorBankDTOToObject(scVendorBank,ScVendorBankResponse.class)).collect(Collectors.toList());
-        response.put("ScVendorBank",scVendorBankResponses);
-        response.put("totalItems", scVendorBankResponses.size());
-        return response;
-    }
 
     @Transactional
     public ScVendorBankResponse getByIdJoin(int id){
@@ -176,6 +170,36 @@ public class ScVendorBankService {
         log.info("Entity is ", scVendorBankDTO);
         return scVendorBankResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScVendorBankByScVendorId(Long scVendorId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorIdAndActiveOrderByBankNameAsc(scVendorId, true);
+        if (scVendorBankList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scVendorBankList);
+            response = convertListToMapResponse(scVendorBankList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScVendorBank> scVendorBankList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScVendorBankResponse> scVendorBankResponses = scVendorBankList.stream()
+                .map(scVendorBank -> mapper.scVendorBankEntityToObject(scVendorBank, ScVendorBankResponse.class)).collect(Collectors.toList());
+        response.put("scVendorBank", scVendorBankResponses);
+        response.put("totalItems", scVendorBankList.size());
+        return response;
+    }
+
 
     @Transactional
     public ScVendorBankResponse updateScVendorBankDetails(EditScVendorBankRequest scVendorBankRequest) {

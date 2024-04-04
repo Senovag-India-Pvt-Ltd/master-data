@@ -170,6 +170,29 @@ public class ScVendorBankController {
         rw.setContent(scVendorBankService.getByIdJoin(id));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/get-by-sc-vendor-id/{scVendorId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scVendorBank\":[{\"id\":10,\"bankName\":\"\",\"scVendorId\":1,},{\"id\":11,\"bankName\":\"Shimoga\",\"scVendorId\":1,},{\"id\":13,\"bankName\":\"Hubli\",\"scVendorId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByScVendorId(
+            @PathVariable final Long scVendorId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scVendorBankService.getScVendorBankByScVendorId(scVendorId));
+        return ResponseEntity.ok(rw);
+    }
     @GetMapping("/list-with-join")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

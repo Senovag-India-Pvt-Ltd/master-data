@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.ScVendorContactDTO;
+import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
 import com.sericulture.masterdata.model.entity.ScVendorContact;
 import com.sericulture.masterdata.model.entity.ScVendorContact;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ public interface ScVendorContactRepository extends PagingAndSortingRepository<Sc
 
     List<ScVendorContact> findByScVendorIdAndScVendorContactIdIsNot(long scVendorId, long scVendorContactId);
 
+    public List<ScVendorContact> findByScVendorIdAndActiveOrderByPhoneAsc(long scVendorId, boolean isActive);
 
     public ScVendorContact save(ScVendorContact scVendorContact);
 

@@ -1,11 +1,15 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
+import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankResponse;
 import com.sericulture.masterdata.model.api.scVendorContact.EditScVendorContactRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.dto.ScVendorContactDTO;
+import com.sericulture.masterdata.model.entity.ScVendorBank;
 import com.sericulture.masterdata.model.entity.ScVendorContact;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScVendorContactRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -153,14 +157,6 @@ public class ScVendorContactService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScVendorContactDTO> scVendorContactList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScVendorContactResponse> scVendorContactResponses = scVendorContactList.stream()
-                .map(scVendorContact -> mapper.scVendorContactDTOToObject(scVendorContact,ScVendorContactResponse.class)).collect(Collectors.toList());
-        response.put("ScVendorContact",scVendorContactResponses);
-        response.put("totalItems", scVendorContactResponses.size());
-        return response;
-    }
 
     @Transactional
     public ScVendorContactResponse getByIdJoin(int id){
@@ -176,6 +172,37 @@ public class ScVendorContactService {
         log.info("Entity is ", scVendorContactDTO);
         return scVendorContactResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScVendorContactByScVendorId(Long scVendorId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScVendorContact> scVendorContactList = scVendorContactRepository.findByScVendorIdAndActiveOrderByPhoneAsc(scVendorId, true);
+        if (scVendorContactList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scVendorContactList);
+            response = convertListToMapResponse(scVendorContactList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScVendorContact> scVendorContactList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScVendorContactResponse> scVendorContactResponses = scVendorContactList.stream()
+                .map(scVendorContact -> mapper.scVendorContactEntityToObject(scVendorContact, ScVendorContactResponse.class)).collect(Collectors.toList());
+        response.put("scVendorContact", scVendorContactList);
+        response.put("totalItems", scVendorContactList.size());
+        return response;
+    }
+
+
 
     @Transactional
     public ScVendorContactResponse updateScVendorContactDetails(EditScVendorContactRequest scVendorContactRequest) {

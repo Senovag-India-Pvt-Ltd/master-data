@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.EditScSubSchemeDetailsRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.dto.ScSubSchemeDetailsDTO;
 import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScSubSchemeDetailsRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,7 @@ public class ScSubSchemeDetailsService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getScSubSchemeDetailsDetails(final Pageable pageable){
+    public Map<String,Object> getScSubSchemeDetails(final Pageable pageable){
         return convertToMapResponse(scSubSchemeDetailsRepository.findByActiveOrderByScSubSchemeDetailsIdAsc(true, pageable));
     }
 
@@ -153,14 +155,7 @@ public class ScSubSchemeDetailsService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScSubSchemeDetailsDTO> scSubSchemeDetailsList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScSubSchemeDetailsResponse> ScSubSchemeDetailsResponses = scSubSchemeDetailsList.stream()
-                .map(scSubSchemeDetails -> mapper.scSubSchemeDetailsDTOToObject(scSubSchemeDetails,ScSubSchemeDetailsResponse.class)).collect(Collectors.toList());
-        response.put("ScSubSchemeDetails",ScSubSchemeDetailsResponses);
-        response.put("totalItems", ScSubSchemeDetailsResponses.size());
-        return response;
-    }
+
 
     @Transactional
     public ScSubSchemeDetailsResponse getByIdJoin(int id){
@@ -176,6 +171,37 @@ public class ScSubSchemeDetailsService {
         log.info("Entity is ", scSubSchemeDetailsDTO);
         return scSubSchemeDetailsResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScSubSchemeDetailsByScSchemeDetailsId(Long scSchemeDetailsId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndActiveOrderBySubSchemeNameAsc(scSchemeDetailsId, true);
+        if (scSubSchemeDetailsList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scSubSchemeDetailsList);
+            response = convertListToMapResponse(scSubSchemeDetailsList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScSubSchemeDetails> scSubSchemeDetailsList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScSubSchemeDetailsResponse> scSubSchemeDetailsResponses = scSubSchemeDetailsList.stream()
+                .map(scSubSchemeDetails -> mapper.scSubSchemeDetailsEntityToObject(scSubSchemeDetails, ScSubSchemeDetailsResponse.class)).collect(Collectors.toList());
+        response.put("scSubSchemeDetails", scSubSchemeDetailsResponses);
+        response.put("totalItems", scSubSchemeDetailsList.size());
+        return response;
+    }
+
+
 
     @Transactional
     public ScSubSchemeDetailsResponse updateScSubSchemeDetailsDetails(EditScSubSchemeDetailsRequest scSubSchemeDetailsRequest) {

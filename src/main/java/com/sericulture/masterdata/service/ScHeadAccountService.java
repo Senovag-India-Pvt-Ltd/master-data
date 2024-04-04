@@ -6,11 +6,13 @@ import com.sericulture.masterdata.model.api.scHeadAccount.EditScHeadAccountReque
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountResponse;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.ScHeadAccountDTO;
 import com.sericulture.masterdata.model.dto.ScVendorBankDTO;
 import com.sericulture.masterdata.model.entity.ScApprovalStage;
 import com.sericulture.masterdata.model.entity.ScHeadAccount;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -162,16 +164,6 @@ public class ScHeadAccountService {
 //    }
 
 
-
-    private Map<String, Object> convertListToMapResponse(List<ScHeadAccountDTO> scHeadAccountList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScHeadAccountResponse> scHeadAccountResponses = scHeadAccountList.stream()
-                .map(scHeadAccount -> mapper.scHeadAccountDTOToObject(scHeadAccount,ScHeadAccountResponse.class)).collect(Collectors.toList());
-        response.put("scHeadAccount",scHeadAccountResponses);
-        response.put("totalItems", scHeadAccountResponses.size());
-        return response;
-    }
-
     @Transactional
     public ScHeadAccountResponse getByIdJoin(int id){
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
@@ -186,6 +178,36 @@ public class ScHeadAccountService {
         log.info("Entity is ", scHeadAccountDTO);
         return scHeadAccountResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScHeadAccountByScSchemeDetailsId(Long scSchemeDetailsId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScSchemeDetailsIdAndActiveOrderByScHeadAccountNameAsc(scSchemeDetailsId, true);
+        if (scHeadAccountList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scHeadAccountList);
+            response = convertListToMapResponse(scHeadAccountList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScHeadAccount> scHeadAccountList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScHeadAccountResponse> scHeadAccountResponses = scHeadAccountList.stream()
+                .map(scHeadAccount -> mapper.scHeadAccountEntityToObject(scHeadAccount, ScHeadAccountResponse.class)).collect(Collectors.toList());
+        response.put("scHeadAccount", scHeadAccountResponses);
+        response.put("totalItems", scHeadAccountList.size());
+        return response;
+    }
+
     @Transactional
     public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
