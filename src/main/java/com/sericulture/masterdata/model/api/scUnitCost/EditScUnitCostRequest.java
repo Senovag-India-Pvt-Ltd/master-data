@@ -29,9 +29,13 @@ public class EditScUnitCostRequest  extends RequestBody {
     @Schema(name = "centralShare", example = "1")
     BigDecimal centralShare;
 
+
     @Schema(name = "stateShare", example = "1")
     BigDecimal stateShare;
 
     @Schema(name = "benificiaryShare", example = "1")
     BigDecimal benificiaryShare;
+
+    @Schema(name = "unitCost", example = "1")
+    BigDecimal unitCost;
 }

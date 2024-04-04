@@ -17,8 +17,10 @@ public class ScUnitCostDTO {
     private BigDecimal centralShare;
     private BigDecimal stateShare;
     private BigDecimal benificiaryShare;
+    private BigDecimal unitCost;
     private String scHeadAccountName;
     private String categoryName;
     private String subSchemeName;
+
 
 }

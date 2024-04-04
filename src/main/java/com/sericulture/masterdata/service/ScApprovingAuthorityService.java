@@ -4,8 +4,11 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.scApprovingAuthority.EditScApprovingAuthorityRequest;
 import com.sericulture.masterdata.model.api.scApprovingAuthority.ScApprovingAuthorityRequest;
 import com.sericulture.masterdata.model.api.scApprovingAuthority.ScApprovingAuthorityResponse;
+import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryResponse;
 import com.sericulture.masterdata.model.dto.ScApprovingAuthorityDTO;
+import com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO;
 import com.sericulture.masterdata.model.entity.ScApprovingAuthority;
+import com.sericulture.masterdata.model.entity.ScHeadAccountCategory;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScApprovingAuthorityRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -154,14 +157,7 @@ public class ScApprovingAuthorityService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScApprovingAuthorityDTO> scApprovingAuthorityList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScApprovingAuthorityResponse> scApprovingAuthorityResponses = scApprovingAuthorityList.stream()
-                .map(scApprovingAuthority -> mapper.scApprovingAuthorityDTOToObject(scApprovingAuthority,ScApprovingAuthorityResponse.class)).collect(Collectors.toList());
-        response.put("ScApprovingAuthority",scApprovingAuthorityResponses);
-        response.put("totalItems", scApprovingAuthorityResponses.size());
-        return response;
-    }
+
 
     @Transactional
     public ScApprovingAuthorityResponse getByIdJoin(int id){
@@ -177,6 +173,44 @@ public class ScApprovingAuthorityService {
         log.info("Entity is ", scApprovingAuthorityDTO);
         return scApprovingAuthorityResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScApprovingAuthorityByRoleId(Long roleId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScApprovingAuthorityDTO> scApprovingAuthorityList = scApprovingAuthorityRepository.getByRoleIdAndActive(roleId, true);
+        if (scApprovingAuthorityList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scApprovingAuthorityList);
+            response = convertListDTOToMapResponse(scApprovingAuthorityList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScApprovingAuthority> scApprovingAuthorityList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScApprovingAuthorityResponse> scApprovingAuthorityResponses = scApprovingAuthorityList.stream()
+                .map(scApprovingAuthority -> mapper.scApprovingAuthorityEntityToObject(scApprovingAuthority, ScApprovingAuthorityResponse.class)).collect(Collectors.toList());
+        response.put("scApprovingAuthority", scApprovingAuthorityResponses);
+        response.put("totalItems", scApprovingAuthorityList.size());
+        return response;
+    }
+    private Map<String, Object> convertListDTOToMapResponse(List<ScApprovingAuthorityDTO> scApprovingAuthorityList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScApprovingAuthorityResponse> scApprovingAuthorityResponses = scApprovingAuthorityList.stream()
+                .map(scApprovingAuthority -> mapper.scApprovingAuthorityDTOToObject(scApprovingAuthority,ScApprovingAuthorityResponse.class)).collect(Collectors.toList());
+        response.put("scApprovingAuthority",scApprovingAuthorityResponses);
+        response.put("totalItems", scApprovingAuthorityList.size());
+        return response;
+    }
+
 
     @Transactional
     public ScApprovingAuthorityResponse updateScApprovingAuthorityDetails(EditScApprovingAuthorityRequest scApprovingAuthorityRequest) {

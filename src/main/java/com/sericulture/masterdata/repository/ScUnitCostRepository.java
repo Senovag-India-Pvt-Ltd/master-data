@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.ScUnitCostDTO;
+import com.sericulture.masterdata.model.entity.ScHeadAccount;
 import com.sericulture.masterdata.model.entity.ScUnitCost;
 import com.sericulture.masterdata.model.entity.ScUnitCost;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,8 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
     List<ScUnitCost> findByScHeadAccountIdAndScCategoryIdAndScUnitCostIdIsNot(long scHeadAccountId, long scCategoryId, long scUnitCostId);
 
 
+    public List<ScUnitCost> findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsIdAndActive(long scHeadAccountId,long scCategoryId,long scSubSchemeDetailsId, boolean isActive);
+
     public ScUnitCost save(ScUnitCost scUnitCost);
 
     public ScUnitCost findByScUnitCostIdAndActive(long id, boolean isActive);
@@ -38,6 +41,7 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
             " scUnitCost.centralShare," +
             " scUnitCost.stateShare," +
             " scUnitCost.benificiaryShare," +
+            " scUnitCost.unitCost," +
             " scHeadAccount.scHeadAccountName," +
             " scCategory.categoryName," +
             " scSubSchemeDetails.subSchemeName" +
@@ -62,6 +66,7 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
             " scUnitCost.centralShare," +
             " scUnitCost.stateShare," +
             " scUnitCost.benificiaryShare," +
+            " scUnitCost.unitCost," +
             " scHeadAccount.scHeadAccountName," +
             " scCategory.categoryName," +
             " scSubSchemeDetails.subSchemeName" +
@@ -86,6 +91,7 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
             " scUnitCost.centralShare," +
             " scUnitCost.stateShare," +
             " scUnitCost.benificiaryShare," +
+            " scUnitCost.unitCost," +
             " scHeadAccount.scHeadAccountName," +
             " scCategory.categoryName," +
             " scSubSchemeDetails.subSchemeName" +
