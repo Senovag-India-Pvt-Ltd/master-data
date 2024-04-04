@@ -1,12 +1,16 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
+import com.sericulture.masterdata.model.api.scApprovingAuthority.ScApprovingAuthorityResponse;
 import com.sericulture.masterdata.model.api.scHeadAccountCategory.EditScHeadAccountCategoryRequest;
 import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryRequest;
 import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryResponse;
 import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.dto.ScApprovingAuthorityDTO;
 import com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO;
 import com.sericulture.masterdata.model.entity.ScHeadAccountCategory;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScHeadAccountCategoryRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -155,14 +159,6 @@ public class ScHeadAccountCategoryService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScHeadAccountCategoryDTO> scHeadAccountCategoryList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScHeadAccountCategoryResponse> scHeadAccountCategoryResponses = scHeadAccountCategoryList.stream()
-                .map(scHeadAccountCategory -> mapper.scHeadAccountCategoryDTOToObject(scHeadAccountCategory,ScHeadAccountCategoryResponse.class)).collect(Collectors.toList());
-        response.put("scHeadAccountCategory",scHeadAccountCategoryResponses);
-        response.put("totalItems", scHeadAccountCategoryResponses.size());
-        return response;
-    }
 
     @Transactional
     public ScHeadAccountCategoryResponse getByIdJoin(int id){
@@ -178,6 +174,44 @@ public class ScHeadAccountCategoryService {
         log.info("Entity is ", scHeadAccountCategoryDTO);
         return scHeadAccountCategoryResponse;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScHeadAccountCategoryByScHeadAccountId(Long scHeadAccountId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScHeadAccountCategoryDTO> scHeadAccountCategoryList = scHeadAccountCategoryRepository.getByScHeadAccountIdAndActive(scHeadAccountId, true);
+        if (scHeadAccountCategoryList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scHeadAccountCategoryList);
+            response = convertListDTOToMapResponse(scHeadAccountCategoryList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScHeadAccountCategory> scHeadAccountCategoryList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScHeadAccountCategoryResponse> scHeadAccountCategoryResponses = scHeadAccountCategoryList.stream()
+                .map(scHeadAccountCategory -> mapper.scHeadAccountCategoryEntityToObject(scHeadAccountCategory, ScHeadAccountCategoryResponse.class)).collect(Collectors.toList());
+        response.put("scHeadAccountCategory", scHeadAccountCategoryResponses);
+        response.put("totalItems", scHeadAccountCategoryList.size());
+        return response;
+    }
+    private Map<String, Object> convertListDTOToMapResponse(List<ScHeadAccountCategoryDTO> scHeadAccountCategoryList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScHeadAccountCategoryResponse> scHeadAccountCategoryResponses = scHeadAccountCategoryList.stream()
+                .map(scHeadAccountCategory -> mapper.scHeadAccountCategoryDTOToObject(scHeadAccountCategory,ScHeadAccountCategoryResponse.class)).collect(Collectors.toList());
+        response.put("scHeadAccountCategory",scHeadAccountCategoryResponses);
+        response.put("totalItems", scHeadAccountCategoryList.size());
+        return response;
+    }
+
 
     @Transactional
     public ScHeadAccountCategoryResponse updateScHeadAccountCategoryDetails(EditScHeadAccountCategoryRequest scHeadAccountCategoryRequest) {

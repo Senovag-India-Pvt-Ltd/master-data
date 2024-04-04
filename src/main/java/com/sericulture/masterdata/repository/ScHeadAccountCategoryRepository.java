@@ -3,6 +3,7 @@ package com.sericulture.masterdata.repository;
 import com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO;
 import com.sericulture.masterdata.model.entity.ScHeadAccountCategory;
 import com.sericulture.masterdata.model.entity.ScHeadAccountCategory;
+import com.sericulture.masterdata.model.entity.Taluk;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,13 @@ public interface ScHeadAccountCategoryRepository extends PagingAndSortingReposit
     List<ScHeadAccountCategory> findByScHeadAccountIdAndScCategoryId(long scHeadAccountId, long scCategoryId);
 
     List<ScHeadAccountCategory> findByScHeadAccountIdAndScCategoryIdAndScHeadAccountCategoryIdIsNot(long scHeadAccountId, long scCategoryId, long scHeadAccountCategoryId);
+
+//    public List<ScHeadAccountCategory> findByScHeadAccountIdAndActiveOrderByScHeadAccountNameAsc(long scHeadAccountId, boolean isActive);
+
+//    public List<ScHeadAccountCategory> findByScHeadAccountIdAndScCategoryIdAndActive(long scHeadAccountId,long scCategoryId, boolean isActive);
+
+
+//    public List<ScHeadAccountCategory> findByScCategoryIdAndActiveOrderByCategoryNameAsc(long scCategoryId, boolean isActive);
 
 
     public ScHeadAccountCategory save(ScHeadAccountCategory scHeadAccountCategory);
@@ -60,9 +68,26 @@ public interface ScHeadAccountCategoryRepository extends PagingAndSortingReposit
             "on scHeadAccountCategory.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "left join ScCategory scCategory\n" +
             "on scHeadAccountCategory.scCategoryId = scCategory.scCategoryId " +
+            "where scHeadAccountCategory.active = :isActive AND scHeadAccountCategory.scHeadAccountId = :id "
+    )
+    public List<ScHeadAccountCategoryDTO> getByScHeadAccountIdAndActive(long id, boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO(" +
+            " scHeadAccountCategory.scHeadAccountCategoryId," +
+            " scHeadAccountCategory.scHeadAccountId," +
+            " scHeadAccountCategory.scCategoryId," +
+            " scHeadAccount.scHeadAccountName," +
+            " scCategory.categoryName" +
+            ") \n" +
+            "from ScHeadAccountCategory scHeadAccountCategory\n" +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on scHeadAccountCategory.scHeadAccountId = scHeadAccount.scHeadAccountId " +
+            "left join ScCategory scCategory\n" +
+            "on scHeadAccountCategory.scCategoryId = scCategory.scCategoryId " +
             "where scHeadAccountCategory.active = :isActive AND scHeadAccountCategory.scHeadAccountCategoryId = :id "
     )
     public ScHeadAccountCategoryDTO getByScHeadAccountCategoryIdAndActive(long id, boolean isActive);
+
 
 
     @Query("select new com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO(" +
