@@ -84,6 +84,7 @@ import com.sericulture.masterdata.model.api.trTrainee.TrTraineeRequest;
 import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
+import com.sericulture.masterdata.model.api.tsActivityMaster.TsActivityMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
@@ -2234,5 +2235,27 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, financialYearMasterRequest);
         return (T) mapper.map(financialYearMasterRequest, claaz);
     }
+
+    /**
+     * Maps tsActivityMaster Entity to tsActivityMaster Response Object
+     * @param tsActivityMasterEntity
+     * @param <T>
+     */
+    public <T> T tsActivityMasterEntityToObject(TsActivityMaster tsActivityMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsActivityMasterEntity);
+        return (T) mapper.map(tsActivityMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps tsActivityMaster Object to tsActivityMaster  Response Object
+     * @param tsActivityMasterRequest
+     * @param <T>
+     */
+    public <T> T tsActivityMasterObjectToEntity(TsActivityMasterRequest tsActivityMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsActivityMasterRequest);
+        return (T) mapper.map(tsActivityMasterRequest, claaz);
+    }
+
 
 }
