@@ -85,6 +85,7 @@ import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
 import com.sericulture.masterdata.model.api.tsActivityMaster.TsActivityMasterRequest;
+import com.sericulture.masterdata.model.api.tsBudget.TsBudgetRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
@@ -2256,6 +2257,39 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, tsActivityMasterRequest);
         return (T) mapper.map(tsActivityMasterRequest, claaz);
     }
+
+    /**
+     * Maps tsBudget Entity to tsBudget Response Object
+     * @param tsBudgetEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetEntityToObject(TsBudget tsBudgetEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetEntity);
+        return (T) mapper.map(tsBudgetEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetDTO to tsBudget Response Object
+     * @param tsBudgetDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetDTOToObject(TsBudgetDTO tsBudgetDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetDTO);
+        return (T) mapper.map(tsBudgetDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudget Object to tsBudget  Response Object
+     * @param tsBudgetRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetObjectToEntity(TsBudgetRequest tsBudgetRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetRequest);
+        return (T) mapper.map(tsBudgetRequest, claaz);
+    }
+
 
 
 }
