@@ -47,6 +47,7 @@ import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
 import com.sericulture.masterdata.model.api.reelerTypeMaster.ReelerTypeMasterRequest;
+import com.sericulture.masterdata.model.api.rendittaMaster.RendittaMasterRequest;
 import com.sericulture.masterdata.model.api.role.RoleRequest;
 import com.sericulture.masterdata.model.api.roofType.RoofTypeRequest;
 import com.sericulture.masterdata.model.api.rpPageRoot.RpPageRootRequest;
@@ -2212,5 +2213,38 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, divisionMasterRequest);
         return (T) mapper.map(divisionMasterRequest, claaz);
     }
+
+    /**
+     * Maps rendittaMaster Entity to rendittaMaster Response Object
+     * @param rendittaMasterEntity
+     * @param <T>
+     */
+    public <T> T rendittaMasterEntityToObject(RendittaMaster rendittaMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,rendittaMasterEntity);
+        return (T) mapper.map(rendittaMasterEntity, claaz);
+    }
+
+    /**
+     * Maps rendittaMasterDTO to rendittaMaster Response Object
+     * @param rendittaMasterDTO
+     * @param <T>
+     */
+    public <T> T rendittaMasterDTOToObject(RendittaMasterDTO rendittaMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rendittaMasterDTO);
+        return (T) mapper.map(rendittaMasterDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps rendittaMaster Object to rendittaMaster  Response Object
+     * @param rendittaMasterRequest
+     * @param <T>
+     */
+    public <T> T rendittaMasterObjectToEntity(RendittaMasterRequest rendittaMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rendittaMasterRequest);
+        return (T) mapper.map(rendittaMasterRequest, claaz);
+    }
+
 
 }
