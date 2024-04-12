@@ -86,6 +86,7 @@ import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterReq
 import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
 import com.sericulture.masterdata.model.api.tsActivityMaster.TsActivityMasterRequest;
 import com.sericulture.masterdata.model.api.tsBudget.TsBudgetRequest;
+import com.sericulture.masterdata.model.api.tsBudgetDistrict.TsBudgetDistrictRequest;
 import com.sericulture.masterdata.model.api.tsBudgetHoa.TsBudgetHoaRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
@@ -2322,6 +2323,38 @@ public class Mapper {
     public <T> T tsBudgetHoaObjectToEntity(TsBudgetHoaRequest tsBudgetHoaRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, tsBudgetHoaRequest);
         return (T) mapper.map(tsBudgetHoaRequest, claaz);
+    }
+
+    /**
+     * Maps tsBudgetDistrict Entity to tsBudgetDistrict Response Object
+     * @param tsBudgetDistrictEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetDistrictEntityToObject(TsBudgetDistrict tsBudgetDistrictEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetDistrictEntity);
+        return (T) mapper.map(tsBudgetDistrictEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetDistrictDTO to tsBudgetDistrict Response Object
+     * @param tsBudgetDistrictDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetDistrictDTOToObject(TsBudgetDistrictDTO tsBudgetDistrictDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetDistrictDTO);
+        return (T) mapper.map(tsBudgetDistrictDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetDistrict Object to tsBudgetDistrict  Response Object
+     * @param tsBudgetDistrictRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetDistrictObjectToEntity(TsBudgetDistrictRequest tsBudgetDistrictRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetDistrictRequest);
+        return (T) mapper.map(tsBudgetDistrictRequest, claaz);
     }
 
 
