@@ -28,6 +28,6 @@ public class TsBudgetDistrictRequest extends RequestBody {
 
 
     @Schema(name="districtId", example = "1")
-    int districtId;
+    Long districtId;
 
 }

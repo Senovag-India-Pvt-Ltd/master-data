@@ -1,4 +1,4 @@
-package com.sericulture.masterdata.model.api.tsBudgetDistrict;
+package com.sericulture.masterdata.model.api.tsBudgetTaluk;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,9 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TsBudgetDistrictResponse {
-    @Schema(name = "tsBudgetDistrictId", example = "1")
-    Long tsBudgetDistrictId;
+public class TsBudgetTalukResponse {
+    @Schema(name = "tsBudgetTalukId", example = "1")
+    Long tsBudgetTalukId;
 
 
     @Schema(name = "financialYearMasterId", example = "1")
@@ -29,14 +29,21 @@ public class TsBudgetDistrictResponse {
     @Schema(name = "budgetAmount", example = "1")
     BigDecimal budgetAmount;
 
-    @Schema(name = "financialYear", example = "Karnataka", required = true)
-    String financialYear;
 
     @Schema(name="districtId", example = "1")
     Long districtId;
 
+    @Schema(name = "talukId", example = "1")
+    Long talukId;
+
+    @Schema(name = "financialYear", example = "Karnataka", required = true)
+    String financialYear;
+
     @Schema(name = "districtName", example = "Shimoga")
     String districtName;
+
+    @Schema(name = "talukName", example = "Thirthahalli", required = true)
+    String talukName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

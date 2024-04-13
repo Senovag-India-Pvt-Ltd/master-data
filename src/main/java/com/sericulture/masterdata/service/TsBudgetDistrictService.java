@@ -39,7 +39,7 @@ public class TsBudgetDistrictService {
         TsBudgetDistrictResponse tsBudgetDistrictResponse = new TsBudgetDistrictResponse();
         TsBudgetDistrict tsBudgetDistrict = mapper.tsBudgetDistrictObjectToEntity(tsBudgetDistrictRequest, TsBudgetDistrict.class);
         validator.validate(tsBudgetDistrict);
-        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterId(tsBudgetDistrictRequest.getFinancialYearMasterId());
+        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndDistrictId(tsBudgetDistrictRequest.getFinancialYearMasterId(),tsBudgetDistrictRequest.getDistrictId());
         if(!tsBudgetDistrictList.isEmpty() && tsBudgetDistrictList.stream().filter(TsBudgetDistrict::getActive).findAny().isPresent()){
             tsBudgetDistrictResponse.setError(true);
             tsBudgetDistrictResponse.setError_description("TsBudgetDistrict already exist");
@@ -212,7 +212,7 @@ public class TsBudgetDistrictService {
     @Transactional
     public TsBudgetDistrictResponse updateTsBudgetDistrictDetails(EditTsBudgetDistrictRequest tsBudgetDistrictRequest) {
         TsBudgetDistrictResponse tsBudgetDistrictResponse = new TsBudgetDistrictResponse();
-        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndTsBudgetDistrictIdIsNot(tsBudgetDistrictRequest.getFinancialYearMasterId(), tsBudgetDistrictRequest.getTsBudgetDistrictId());
+        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndDistrictIdAndTsBudgetDistrictIdIsNot(tsBudgetDistrictRequest.getFinancialYearMasterId(),tsBudgetDistrictRequest.getDistrictId(), tsBudgetDistrictRequest.getTsBudgetDistrictId());
         if (tsBudgetDistrictList.size() > 0) {
             tsBudgetDistrictResponse.setError(true);
             tsBudgetDistrictResponse.setError_description("TsBudgetDistrict exists, duplicates are not allowed.");

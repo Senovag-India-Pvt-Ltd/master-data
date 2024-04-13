@@ -15,7 +15,7 @@ import java.util.Set;
 public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<TsBudgetDistrict,Long> {
     public Page<TsBudgetDistrict> findByActiveOrderByTsBudgetDistrictIdAsc(boolean isActive, final Pageable pageable);
 
-    List<TsBudgetDistrict> findByFinancialYearMasterId(long financialYearMasterId);
+    List<TsBudgetDistrict> findByFinancialYearMasterIdAndDistrictId(long financialYearMasterId,long districtId );
 
 
 //    public List<TsBudgetDistrict> findByFinancialYearMasterIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
@@ -23,7 +23,7 @@ public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<T
 //    public List<TsBudgetDistrict> findByFinancialYearMasterIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
 
 
-    List<TsBudgetDistrict> findByFinancialYearMasterIdAndTsBudgetDistrictIdIsNot(long financialYearMasterId, long tsBudgetDistrictId);
+    List<TsBudgetDistrict> findByFinancialYearMasterIdAndDistrictIdAndTsBudgetDistrictIdIsNot(long financialYearMasterId,long districtId, long tsBudgetDistrictId);
 
 
     public TsBudgetDistrict save(TsBudgetDistrict tsBudgetDistrict);

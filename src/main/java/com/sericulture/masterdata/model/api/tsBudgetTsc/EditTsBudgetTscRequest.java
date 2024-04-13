@@ -1,4 +1,4 @@
-package com.sericulture.masterdata.model.api.tsBudgetDistrict;
+package com.sericulture.masterdata.model.api.tsBudgetTsc;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,10 +11,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class EditTsBudgetDistrictRequest extends RequestBody {
-
-    @Schema(name = "tsBudgetDistrictId", example = "1")
-    Long tsBudgetDistrictId;
+public class EditTsBudgetTscRequest extends RequestBody {
+    @Schema(name = "tsBudgetTscId", example = "1")
+    Long tsBudgetTscId;
 
 
     @Schema(name = "financialYearMasterId", example = "1")
@@ -33,5 +32,9 @@ public class EditTsBudgetDistrictRequest extends RequestBody {
     @Schema(name="districtId", example = "1")
     Long districtId;
 
+    @Schema(name = "talukId", example = "1")
+    Long talukId;
 
+    @Schema(name = "tscMasterId", example = "1")
+    Long tscMasterId;
 }
