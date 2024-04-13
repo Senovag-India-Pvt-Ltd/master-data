@@ -8,8 +8,10 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
+import com.sericulture.masterdata.model.api.farmType.FarmTypeRequest;
 import com.sericulture.masterdata.model.api.generationNumberMaster.GenerationNumberMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
+import com.sericulture.masterdata.model.api.grainageType.GrainageTypeRequest;
 import com.sericulture.masterdata.model.api.hdAnswerMaster.HdAnswerMasterRequest;
 import com.sericulture.masterdata.model.api.hdBoardCategoryMaster.HdBoardCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hdCategoryMaster.HdCategoryMasterRequest;
@@ -2244,6 +2246,74 @@ public class Mapper {
     public <T> T rendittaMasterObjectToEntity(RendittaMasterRequest rendittaMasterRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, rendittaMasterRequest);
         return (T) mapper.map(rendittaMasterRequest, claaz);
+    }
+
+
+
+    /**
+     * Maps farmType Entity to farmType Response Object
+     * @param farmTypeEntity
+     * @param <T>
+     */
+    public <T> T farmTypeEntityToObject(FarmType farmTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,farmTypeEntity);
+        return (T) mapper.map(farmTypeEntity, claaz);
+    }
+
+    /**
+     * Maps farmTypeDTO to farmType Response Object
+     * @param farmTypeDTO
+     * @param <T>
+     */
+    public <T> T farmTypeDTOToObject(FarmTypeDTO farmTypeDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmTypeDTO);
+        return (T) mapper.map(farmTypeDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps farmType Object to farmType  Response Object
+     * @param farmTypeRequest
+     * @param <T>
+     */
+    public <T> T farmTypeObjectToEntity(FarmTypeRequest farmTypeRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmTypeRequest);
+        return (T) mapper.map(farmTypeRequest, claaz);
+    }
+
+
+
+    /**
+     * Maps grainageType Entity to grainageType Response Object
+     * @param grainageTypeEntity
+     * @param <T>
+     */
+    public <T> T grainageTypeEntityToObject(GrainageType grainageTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,grainageTypeEntity);
+        return (T) mapper.map(grainageTypeEntity, claaz);
+    }
+
+    /**
+     * Maps grainageTypeDTO to grainageType Response Object
+     * @param grainageTypeDTO
+     * @param <T>
+     */
+    public <T> T grainageTypeDTOToObject(GrainageTypeDTO grainageTypeDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, grainageTypeDTO);
+        return (T) mapper.map(grainageTypeDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps grainageType Object to grainageType  Response Object
+     * @param grainageTypeRequest
+     * @param <T>
+     */
+    public <T> T grainageTypeObjectToEntity(GrainageTypeRequest grainageTypeRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, grainageTypeRequest);
+        return (T) mapper.map(grainageTypeRequest, claaz);
     }
 
 
