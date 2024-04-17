@@ -49,7 +49,7 @@ public class ScVendorService {
         ScVendorResponse scVendorResponse = new ScVendorResponse();
         ScVendor scVendor = mapper.scVendorObjectToEntity(scVendorRequest,ScVendor.class);
         validator.validate(scVendor);
-        List<ScVendor> scVendorList = scVendorRepository.findByNameAndNameInKannada(scVendorRequest.getName(), scVendorRequest.getNameInKannada());
+        List<ScVendor> scVendorList = scVendorRepository.findByNameAndNameInKannadaAndType(scVendorRequest.getName(), scVendorRequest.getNameInKannada(), scVendorRequest.getType());
         if(!scVendorList.isEmpty() && scVendorList.stream().filter( ScVendor::getActive).findAny().isPresent()){
             scVendorResponse.setError(true);
             scVendorResponse.setError_description("Sc Vendor name already exist");
@@ -132,7 +132,7 @@ public class ScVendorService {
     public ScVendorResponse updateScVendorsDetails(EditScVendorRequest scVendorRequest){
 
         ScVendorResponse scVendorResponse = new ScVendorResponse();
-        List<ScVendor> scVendorList = scVendorRepository. findByActiveAndNameAndNameInKannada(true,scVendorRequest.getName(), scVendorRequest.getNameInKannada());
+        List<ScVendor> scVendorList = scVendorRepository. findByActiveAndNameAndNameInKannadaAndType(true,scVendorRequest.getName(), scVendorRequest.getNameInKannada(), scVendorRequest.getType());
         if(scVendorList.size()>0){
             scVendorResponse.setError(true);
             scVendorResponse.setError_description("Sc Vendor exists, duplicates are not allowed.");

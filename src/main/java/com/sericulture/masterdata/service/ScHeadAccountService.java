@@ -48,7 +48,7 @@ public class ScHeadAccountService {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccount scHeadAccount = mapper.scHeadAccountObjectToEntity(scHeadAccountRequest,ScHeadAccount.class);
         validator.validate(scHeadAccount);
-        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
+        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountNameAndScSchemeDetailsId(scHeadAccountRequest.getScHeadAccountName(), scHeadAccountRequest.getScSchemeDetailsId());
         if(!scHeadAccountList.isEmpty() && scHeadAccountList.stream().filter(ScHeadAccount::getActive).findAny().isPresent()){
             scHeadAccountResponse.setError(true);
             scHeadAccountResponse.setError_description("ScHeadAccount name already exist");
@@ -211,7 +211,7 @@ public class ScHeadAccountService {
     @Transactional
     public ScHeadAccountResponse updateScHeadAccountDetails(EditScHeadAccountRequest scHeadAccountRequest) {
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
-        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountNameAndScHeadAccountIdIsNot(scHeadAccountRequest.getScHeadAccountName(),scHeadAccountRequest.getScHeadAccountId());
+        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScHeadAccountNameAndScSchemeDetailsIdAndScHeadAccountIdIsNot(scHeadAccountRequest.getScHeadAccountName(),scHeadAccountRequest.getScSchemeDetailsId(),scHeadAccountRequest.getScHeadAccountId());
         if (scHeadAccountList.size() > 0) {
             scHeadAccountResponse.setError(true);
             scHeadAccountResponse.setError_description("ScHeadAccount already exists, duplicates are not allowed.");

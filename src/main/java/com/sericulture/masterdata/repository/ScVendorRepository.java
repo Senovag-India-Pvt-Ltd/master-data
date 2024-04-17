@@ -17,7 +17,11 @@ public interface ScVendorRepository  extends PagingAndSortingRepository<ScVendor
 
     public List<ScVendor> findByNameAndNameInKannada(String name,String nameInKannada);
 
+    public List<ScVendor> findByNameAndNameInKannadaAndType(String name,String nameInKannada, long type);
+
     public List<ScVendor> findByActiveAndNameAndNameInKannada(boolean a,String name,String nameInKannada);
+
+    public List<ScVendor> findByActiveAndNameAndNameInKannadaAndType(boolean a,String name,String nameInKannada, long type);
 
     public ScVendor findByNameAndActive(String name,boolean isActive);
 

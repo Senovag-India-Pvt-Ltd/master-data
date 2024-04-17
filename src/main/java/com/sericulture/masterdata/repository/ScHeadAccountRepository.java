@@ -17,11 +17,16 @@ import java.util.Set;
 public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHeadAccount, Long> {
     public List<ScHeadAccount> findByScHeadAccountName(String scHeadAccountName);
 
+    public List<ScHeadAccount> findByScHeadAccountNameAndScSchemeDetailsId(String scHeadAccountName, long scSchemeDetailsId);
+
+
     public List<ScHeadAccount> findByScSchemeDetailsIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
 
     public List<ScHeadAccount> findByScHeadAccountNameAndScHeadAccountIdIsNot(String scHeadAccountName , long scHeadAccountId);
 
-//    public List<ScHeadAccount> findByScProgramIdAndActiveOrderByScHeadAccountName(long scProgramId, boolean isActive);
+    public List<ScHeadAccount> findByScHeadAccountNameAndScSchemeDetailsIdAndScHeadAccountIdIsNot(String scHeadAccountName ,long scSchemeDetailsId, long scHeadAccountId);
+
+    //    public List<ScHeadAccount> findByScProgramIdAndActiveOrderByScHeadAccountName(long scProgramId, boolean isActive);
     public ScHeadAccount findByScHeadAccountNameAndActive(String scHeadAccountName,boolean isActive);
 
     public Page<ScHeadAccount> findByActiveOrderByScHeadAccountNameAsc(boolean isActive, final Pageable pageable);

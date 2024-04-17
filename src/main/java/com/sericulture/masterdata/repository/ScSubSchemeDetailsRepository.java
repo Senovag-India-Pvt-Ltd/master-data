@@ -18,7 +18,11 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
 
     List<ScSubSchemeDetails> findByScSchemeDetailsId(long scSchemeDetailsId);
 
+    List<ScSubSchemeDetails> findByScSchemeDetailsIdAndSubSchemeName(long scSchemeDetailsId, String subSchemeName);
+
     List<ScSubSchemeDetails> findByScSchemeDetailsIdAndScSubSchemeDetailsIdIsNot( long scSchemeDetailsId, long ScSubSchemeDetailsId);
+
+    List<ScSubSchemeDetails> findByScSchemeDetailsIdAndSubSchemeNameAndScSubSchemeDetailsIdIsNot( long scSchemeDetailsId, String subSchemeName, long ScSubSchemeDetailsId);
 
     public List<ScSubSchemeDetails> findByScSchemeDetailsIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
 

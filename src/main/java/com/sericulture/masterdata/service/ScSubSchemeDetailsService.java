@@ -40,7 +40,7 @@ public class ScSubSchemeDetailsService {
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
         ScSubSchemeDetails scSubSchemeDetails = mapper.scSubSchemeDetailsObjectToEntity(scSubSchemeDetailsRequest, ScSubSchemeDetails.class);
         validator.validate(scSubSchemeDetails);
-        List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsId(scSubSchemeDetailsRequest.getScSchemeDetailsId());
+        List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndSubSchemeName(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getSubSchemeName());
         if(!scSubSchemeDetailsList.isEmpty() && scSubSchemeDetailsList.stream().filter(ScSubSchemeDetails::getActive).findAny().isPresent()){
             scSubSchemeDetailsResponse.setError(true);
             scSubSchemeDetailsResponse.setError_description("ScSubSchemeDetails already exist");
@@ -206,7 +206,7 @@ public class ScSubSchemeDetailsService {
     @Transactional
     public ScSubSchemeDetailsResponse updateScSubSchemeDetailsDetails(EditScSubSchemeDetailsRequest scSubSchemeDetailsRequest) {
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
-        List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndScSubSchemeDetailsIdIsNot(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getScSubSchemeDetailsId());
+        List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndSubSchemeNameAndScSubSchemeDetailsIdIsNot(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getSubSchemeName(), scSubSchemeDetailsRequest.getScSubSchemeDetailsId());
         if (scSubSchemeDetailsList.size() > 0) {
             scSubSchemeDetailsResponse.setError(true);
             scSubSchemeDetailsResponse.setError_description("ScSubSchemeDetails exists, duplicates are not allowed.");
