@@ -45,12 +45,12 @@ public class ScVendorContactService {
         List<ScVendorContact> scVendorContactList = scVendorContactRepository.findByScVendorId(scVendorContactRequest.getScVendorId());
         if(!scVendorContactList.isEmpty() && scVendorContactList.stream().filter(ScVendorContact::getActive).findAny().isPresent()){
             scVendorContactResponse.setError(true);
-            scVendorContactResponse.setError_description("ScVendorContact already exist");
+            scVendorContactResponse.setError_description("Vendor already exist");
         }
         else if(!scVendorContactList.isEmpty() && scVendorContactList.stream().filter(Predicate.not(ScVendorContact::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scVendorContactResponse.setError(true);
-            scVendorContactResponse.setError_description("ScVendorContact already exist with inactive state");
+            scVendorContactResponse.setError_description("Vendor already exist with inactive state");
         }else {
             scVendorContactResponse = mapper.scVendorContactEntityToObject(scVendorContactRepository.save(scVendorContact), ScVendorContactResponse.class);
             scVendorContactResponse.setError(false);
@@ -210,7 +210,7 @@ public class ScVendorContactService {
         List<ScVendorContact> scVendorContactList = scVendorContactRepository.findByScVendorIdAndScVendorContactIdIsNot(scVendorContactRequest.getScVendorId(), scVendorContactRequest.getScVendorContactId());
         if (scVendorContactList.size() > 0) {
             scVendorContactResponse.setError(true);
-            scVendorContactResponse.setError_description("ScVendorContact exists, duplicates are not allowed.");
+            scVendorContactResponse.setError_description("Vendor exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

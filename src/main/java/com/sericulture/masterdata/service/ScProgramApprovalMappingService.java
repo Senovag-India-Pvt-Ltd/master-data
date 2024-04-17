@@ -49,12 +49,12 @@ public class ScProgramApprovalMappingService {
         List<ScProgramApprovalMapping> scProgramApprovalMappingList = scProgramApprovalMappingRepository.findByScProgramIdAndScApprovalStageId(scProgramApprovalMappingRequest.getScProgramId(),scProgramApprovalMappingRequest.getScApprovalStageId());
         if(!scProgramApprovalMappingList.isEmpty() && scProgramApprovalMappingList.stream().filter(ScProgramApprovalMapping::getActive).findAny().isPresent()){
             scProgramApprovalMappingResponse.setError(true);
-            scProgramApprovalMappingResponse.setError_description("ScProgramApprovalMapping already exist");
+            scProgramApprovalMappingResponse.setError_description("Sc Program already exist");
         }
         else if(!scProgramApprovalMappingList.isEmpty() && scProgramApprovalMappingList.stream().filter(Predicate.not(ScProgramApprovalMapping::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scProgramApprovalMappingResponse.setError(true);
-            scProgramApprovalMappingResponse.setError_description("ScProgramApprovalMapping already exist with inactive state");
+            scProgramApprovalMappingResponse.setError_description("Sc Program already exist with inactive state");
         }else {
             scProgramApprovalMappingResponse = mapper.scProgramApprovalMappingEntityToObject(scProgramApprovalMappingRepository.save(scProgramApprovalMapping), ScProgramApprovalMappingResponse.class);
             scProgramApprovalMappingResponse.setError(false);
@@ -191,7 +191,7 @@ public class ScProgramApprovalMappingService {
         List<ScProgramApprovalMapping> scProgramApprovalMappingList = scProgramApprovalMappingRepository.findByScProgramIdAndScApprovalStageIdAndScProgramApprovalMappingIdIsNot(scProgramApprovalMappingRequest.getScProgramId(), scProgramApprovalMappingRequest.getScApprovalStageId(),scProgramApprovalMappingRequest.getScProgramApprovalMappingId());
         if (scProgramApprovalMappingList.size() > 0) {
             scProgramApprovalMappingResponse.setError(true);
-            scProgramApprovalMappingResponse.setError_description("ScProgramApprovalMapping exists, duplicates are not allowed.");
+            scProgramApprovalMappingResponse.setError_description("Sc Program exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 
