@@ -90,7 +90,7 @@ public class ScSubSchemeDetailsController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.getPaginatedScSubSchemeDetailsWithJoin(PageRequest.of(pageNumber, size)));
+        rw.setContent(scSubSchemeDetailsService.getScSubSchemeDetails(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 

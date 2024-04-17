@@ -221,9 +221,8 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setSubSchemeType(scSubSchemeDetailsRequest.getSubSchemeType());
                 scSubSchemeDetails.setSubSchemeStartDate(scSubSchemeDetailsRequest.getSubSchemeStartDate());
                 scSubSchemeDetails.setSubSchemeEndDate(scSubSchemeDetailsRequest.getSubSchemeEndDate());
-
-
-
+                scSubSchemeDetails.setWithLand(scSubSchemeDetailsRequest.getWithLand());
+                scSubSchemeDetails.setBeneficiaryType(scSubSchemeDetailsRequest.getBeneficiaryType());
 
                 scSubSchemeDetails.setActive(true);
                 ScSubSchemeDetails scSubSchemeDetails1 = scSubSchemeDetailsRepository.save(scSubSchemeDetails);
