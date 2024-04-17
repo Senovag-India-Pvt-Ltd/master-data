@@ -17,8 +17,8 @@ public class TsBudgetDistrictRequest extends RequestBody {
     @Schema(name = "financialYearMasterId", example = "1")
     Long financialYearMasterId;
 
-    @Schema(name = "hoaId", example = "1")
-    Long hoaId;
+    @Schema(name = "scHeadAccountId", example = "1")
+    Long scHeadAccountId;
 
     @Schema(name = "date", example = "1")
     Date date;

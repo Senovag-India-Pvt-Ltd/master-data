@@ -12,8 +12,9 @@ import java.util.Date;
 public class TsBudgetHoaDTO {
     private Long tsBudgetHoaId;
     private Long financialYearMasterId;
-    private Long hoaId;
+    private Long scHeadAccountId;
     private Date date;
     private BigDecimal budgetAmount;
     private String financialYear;
+    private String scHeadAccountName;
 }

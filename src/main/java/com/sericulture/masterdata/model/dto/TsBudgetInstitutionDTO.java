@@ -6,19 +6,23 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TsBudgetDistrictDTO {
-
-    private Long tsBudgetDistrictId;
+public class TsBudgetInstitutionDTO {
+    private Long tsBudgetInstitutionId;
     private Long financialYearMasterId;
     private Long scHeadAccountId;
+    private Long districtId;
+    private Long talukId;
+    private Long institutionType;
+    private Long institutionId;
     private Date date;
     private BigDecimal budgetAmount;
-    private Long districtId;
     private String financialYear;
     private String districtName;
+    private String talukName;
     private String scHeadAccountName;
 
 }

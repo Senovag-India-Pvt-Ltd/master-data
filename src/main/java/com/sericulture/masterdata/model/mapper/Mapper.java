@@ -88,6 +88,7 @@ import com.sericulture.masterdata.model.api.tsActivityMaster.TsActivityMasterReq
 import com.sericulture.masterdata.model.api.tsBudget.TsBudgetRequest;
 import com.sericulture.masterdata.model.api.tsBudgetDistrict.TsBudgetDistrictRequest;
 import com.sericulture.masterdata.model.api.tsBudgetHoa.TsBudgetHoaRequest;
+import com.sericulture.masterdata.model.api.tsBudgetInstitution.TsBudgetInstitutionRequest;
 import com.sericulture.masterdata.model.api.tsBudgetTaluk.TsBudgetTalukRequest;
 import com.sericulture.masterdata.model.api.tsBudgetTsc.TsBudgetTscRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
@@ -2421,6 +2422,39 @@ public class Mapper {
     public <T> T tsBudgetTscObjectToEntity(TsBudgetTscRequest tsBudgetTscRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, tsBudgetTscRequest);
         return (T) mapper.map(tsBudgetTscRequest, claaz);
+    }
+
+
+    /**
+     * Maps tsBudgetInstitution Entity to tsBudgetInstitution Response Object
+     * @param tsBudgetInstitutionEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetInstitutionEntityToObject(TsBudgetInstitution tsBudgetInstitutionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetInstitutionEntity);
+        return (T) mapper.map(tsBudgetInstitutionEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetInstitutionDTO to tsBudgetInstitution Response Object
+     * @param tsBudgetInstitutionDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetInstitutionDTOToObject(TsBudgetInstitutionDTO tsBudgetInstitutionDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetInstitutionDTO);
+        return (T) mapper.map(tsBudgetInstitutionDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetInstitution Object to tsBudgetInstitution   Response Object
+     * @param tsBudgetInstitutionRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetInstitutionObjectToEntity(TsBudgetInstitutionRequest tsBudgetInstitutionRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetInstitutionRequest);
+        return (T) mapper.map(tsBudgetInstitutionRequest, claaz);
     }
 
 

@@ -38,7 +38,7 @@ public class TsBudgetTscService {
         TsBudgetTscResponse tsBudgetTscResponse = new TsBudgetTscResponse();
         TsBudgetTsc tsBudgetTsc = mapper.tsBudgetTscObjectToEntity(tsBudgetTscRequest, TsBudgetTsc.class);
         validator.validate(tsBudgetTsc);
-        List<TsBudgetTsc> tsBudgetTscList = tsBudgetTscRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterId(tsBudgetTscRequest.getFinancialYearMasterId(),tsBudgetTscRequest.getDistrictId(),tsBudgetTscRequest.getTalukId(),tsBudgetTscRequest.getTscMasterId());
+        List<TsBudgetTsc> tsBudgetTscList = tsBudgetTscRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterIdAndScHeadAccountId(tsBudgetTscRequest.getFinancialYearMasterId(),tsBudgetTscRequest.getDistrictId(),tsBudgetTscRequest.getTalukId(),tsBudgetTscRequest.getTscMasterId(),tsBudgetTscRequest.getScHeadAccountId());
         if(!tsBudgetTscList.isEmpty() && tsBudgetTscList.stream().filter(TsBudgetTsc::getActive).findAny().isPresent()){
             tsBudgetTscResponse.setError(true);
             tsBudgetTscResponse.setError_description("TsBudgetTsc already exist");
@@ -211,7 +211,7 @@ public class TsBudgetTscService {
     @Transactional
     public TsBudgetTscResponse updateTsBudgetTscDetails(EditTsBudgetTscRequest tsBudgetTscRequest) {
         TsBudgetTscResponse tsBudgetTscResponse = new TsBudgetTscResponse();
-        List<TsBudgetTsc> tsBudgetTscList = tsBudgetTscRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterIdAndTsBudgetTscIdIsNot(tsBudgetTscRequest.getFinancialYearMasterId(),tsBudgetTscRequest.getDistrictId(),tsBudgetTscRequest.getTalukId(),tsBudgetTscRequest.getTscMasterId(), tsBudgetTscRequest.getTsBudgetTscId());
+        List<TsBudgetTsc> tsBudgetTscList = tsBudgetTscRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterIdAndScHeadAccountIdAndTsBudgetTscIdIsNot(tsBudgetTscRequest.getFinancialYearMasterId(),tsBudgetTscRequest.getDistrictId(),tsBudgetTscRequest.getTalukId(),tsBudgetTscRequest.getTscMasterId(),tsBudgetTscRequest.getScHeadAccountId(), tsBudgetTscRequest.getTsBudgetTscId());
         if (tsBudgetTscList.size() > 0) {
             tsBudgetTscResponse.setError(true);
             tsBudgetTscResponse.setError_description("TsBudgetTsc exists, duplicates are not allowed.");
@@ -221,7 +221,7 @@ public class TsBudgetTscService {
             TsBudgetTsc tsBudgetTsc = tsBudgetTscRepository.findByTsBudgetTscIdAndActiveIn(tsBudgetTscRequest.getTsBudgetTscId(), Set.of(true, false));
             if (Objects.nonNull(tsBudgetTsc)) {
                 tsBudgetTsc.setFinancialYearMasterId(tsBudgetTscRequest.getFinancialYearMasterId());
-                tsBudgetTsc.setHoaId(tsBudgetTscRequest.getHoaId());
+                tsBudgetTsc.setScHeadAccountId(tsBudgetTscRequest.getScHeadAccountId());
                 tsBudgetTsc.setDate(tsBudgetTscRequest.getDate());
                 tsBudgetTsc.setBudgetAmount(tsBudgetTscRequest.getBudgetAmount());
                 tsBudgetTsc.setDistrictId(tsBudgetTscRequest.getDistrictId());

@@ -20,8 +20,8 @@ public class TsBudgetDistrictResponse {
     @Schema(name = "financialYearMasterId", example = "1")
     Long financialYearMasterId;
 
-    @Schema(name = "hoaId", example = "1")
-    Long hoaId;
+    @Schema(name = "scHeadAccountId", example = "1")
+    Long scHeadAccountId;
 
     @Schema(name = "date", example = "1")
     Date date;
@@ -37,6 +37,9 @@ public class TsBudgetDistrictResponse {
 
     @Schema(name = "districtName", example = "Shimoga")
     String districtName;
+
+    @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ", required = true)
+    String scHeadAccountName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

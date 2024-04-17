@@ -38,7 +38,7 @@ public class TsBudgetTalukService {
         TsBudgetTalukResponse tsBudgetTalukResponse = new TsBudgetTalukResponse();
         TsBudgetTaluk tsBudgetTaluk = mapper.tsBudgetTalukObjectToEntity(tsBudgetTalukRequest, TsBudgetTaluk.class);
         validator.validate(tsBudgetTaluk);
-        List<TsBudgetTaluk> tsBudgetTalukList = tsBudgetTalukRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukId(tsBudgetTalukRequest.getFinancialYearMasterId(),tsBudgetTalukRequest.getDistrictId(),tsBudgetTalukRequest.getTalukId());
+        List<TsBudgetTaluk> tsBudgetTalukList = tsBudgetTalukRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndScHeadAccountId(tsBudgetTalukRequest.getFinancialYearMasterId(),tsBudgetTalukRequest.getDistrictId(),tsBudgetTalukRequest.getTalukId(),tsBudgetTalukRequest.getScHeadAccountId());
         if(!tsBudgetTalukList.isEmpty() && tsBudgetTalukList.stream().filter(TsBudgetTaluk::getActive).findAny().isPresent()){
             tsBudgetTalukResponse.setError(true);
             tsBudgetTalukResponse.setError_description("TsBudgetTaluk already exist");
@@ -211,7 +211,7 @@ public class TsBudgetTalukService {
     @Transactional
     public TsBudgetTalukResponse updateTsBudgetTalukDetails(EditTsBudgetTalukRequest tsBudgetTalukRequest) {
         TsBudgetTalukResponse tsBudgetTalukResponse = new TsBudgetTalukResponse();
-        List<TsBudgetTaluk> tsBudgetTalukList = tsBudgetTalukRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTsBudgetTalukIdIsNot(tsBudgetTalukRequest.getFinancialYearMasterId(),tsBudgetTalukRequest.getDistrictId(),tsBudgetTalukRequest.getTalukId(), tsBudgetTalukRequest.getTsBudgetTalukId());
+        List<TsBudgetTaluk> tsBudgetTalukList = tsBudgetTalukRepository.findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndScHeadAccountIdAndTsBudgetTalukIdIsNot(tsBudgetTalukRequest.getFinancialYearMasterId(),tsBudgetTalukRequest.getDistrictId(),tsBudgetTalukRequest.getTalukId(),tsBudgetTalukRequest.getScHeadAccountId(), tsBudgetTalukRequest.getTsBudgetTalukId());
         if (tsBudgetTalukList.size() > 0) {
             tsBudgetTalukResponse.setError(true);
             tsBudgetTalukResponse.setError_description("TsBudgetTaluk exists, duplicates are not allowed.");
@@ -221,7 +221,7 @@ public class TsBudgetTalukService {
             TsBudgetTaluk tsBudgetTaluk = tsBudgetTalukRepository.findByTsBudgetTalukIdAndActiveIn(tsBudgetTalukRequest.getTsBudgetTalukId(), Set.of(true, false));
             if (Objects.nonNull(tsBudgetTaluk)) {
                 tsBudgetTaluk.setFinancialYearMasterId(tsBudgetTalukRequest.getFinancialYearMasterId());
-                tsBudgetTaluk.setHoaId(tsBudgetTalukRequest.getHoaId());
+                tsBudgetTaluk.setScHeadAccountId(tsBudgetTalukRequest.getScHeadAccountId());
                 tsBudgetTaluk.setDate(tsBudgetTalukRequest.getDate());
                 tsBudgetTaluk.setBudgetAmount(tsBudgetTalukRequest.getBudgetAmount());
                 tsBudgetTaluk.setDistrictId(tsBudgetTalukRequest.getDistrictId());

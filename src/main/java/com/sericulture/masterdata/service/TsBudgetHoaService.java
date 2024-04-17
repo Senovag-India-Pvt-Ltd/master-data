@@ -38,7 +38,7 @@ public class TsBudgetHoaService {
         TsBudgetHoaResponse tsBudgetHoaResponse = new TsBudgetHoaResponse();
         TsBudgetHoa tsBudgetHoa = mapper.tsBudgetHoaObjectToEntity(tsBudgetHoaRequest, TsBudgetHoa.class);
         validator.validate(tsBudgetHoa);
-        List<TsBudgetHoa> tsBudgetHoaList = tsBudgetHoaRepository.findByFinancialYearMasterId(tsBudgetHoaRequest.getFinancialYearMasterId());
+        List<TsBudgetHoa> tsBudgetHoaList = tsBudgetHoaRepository.findByFinancialYearMasterIdAndScHeadAccountId(tsBudgetHoaRequest.getFinancialYearMasterId(),tsBudgetHoaRequest.getScHeadAccountId());
         if(!tsBudgetHoaList.isEmpty() && tsBudgetHoaList.stream().filter(TsBudgetHoa::getActive).findAny().isPresent()){
             tsBudgetHoaResponse.setError(true);
             tsBudgetHoaResponse.setError_description("TsBudgetHoa already exist");
@@ -211,7 +211,7 @@ public class TsBudgetHoaService {
     @Transactional
     public TsBudgetHoaResponse updateTsBudgetHoaDetails(EditTsBudgetHoaRequest tsBudgetHoaRequest) {
         TsBudgetHoaResponse tsBudgetHoaResponse = new TsBudgetHoaResponse();
-        List<TsBudgetHoa> tsBudgetHoaList = tsBudgetHoaRepository.findByFinancialYearMasterIdAndTsBudgetHoaIdIsNot(tsBudgetHoaRequest.getFinancialYearMasterId(), tsBudgetHoaRequest.getTsBudgetHoaId());
+        List<TsBudgetHoa> tsBudgetHoaList = tsBudgetHoaRepository.findByFinancialYearMasterIdAndScHeadAccountIdAndTsBudgetHoaIdIsNot(tsBudgetHoaRequest.getFinancialYearMasterId(),tsBudgetHoaRequest.getScHeadAccountId(), tsBudgetHoaRequest.getTsBudgetHoaId());
         if (tsBudgetHoaList.size() > 0) {
             tsBudgetHoaResponse.setError(true);
             tsBudgetHoaResponse.setError_description("TsBudgetHoa exists, duplicates are not allowed.");
@@ -221,7 +221,7 @@ public class TsBudgetHoaService {
             TsBudgetHoa tsBudgetHoa = tsBudgetHoaRepository.findByTsBudgetHoaIdAndActiveIn(tsBudgetHoaRequest.getTsBudgetHoaId(), Set.of(true, false));
             if (Objects.nonNull(tsBudgetHoa)) {
                 tsBudgetHoa.setFinancialYearMasterId(tsBudgetHoaRequest.getFinancialYearMasterId());
-                tsBudgetHoa.setHoaId(tsBudgetHoaRequest.getHoaId());
+                tsBudgetHoa.setScHeadAccountId(tsBudgetHoaRequest.getScHeadAccountId());
                 tsBudgetHoa.setDate(tsBudgetHoaRequest.getDate());
                 tsBudgetHoa.setBudgetAmount(tsBudgetHoaRequest.getBudgetAmount());
 

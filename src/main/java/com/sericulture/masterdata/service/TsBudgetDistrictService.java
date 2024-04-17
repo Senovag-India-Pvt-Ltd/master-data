@@ -39,7 +39,7 @@ public class TsBudgetDistrictService {
         TsBudgetDistrictResponse tsBudgetDistrictResponse = new TsBudgetDistrictResponse();
         TsBudgetDistrict tsBudgetDistrict = mapper.tsBudgetDistrictObjectToEntity(tsBudgetDistrictRequest, TsBudgetDistrict.class);
         validator.validate(tsBudgetDistrict);
-        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndDistrictId(tsBudgetDistrictRequest.getFinancialYearMasterId(),tsBudgetDistrictRequest.getDistrictId());
+        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndDistrictIdAndScHeadAccountId(tsBudgetDistrictRequest.getFinancialYearMasterId(),tsBudgetDistrictRequest.getDistrictId(),tsBudgetDistrictRequest.getScHeadAccountId());
         if(!tsBudgetDistrictList.isEmpty() && tsBudgetDistrictList.stream().filter(TsBudgetDistrict::getActive).findAny().isPresent()){
             tsBudgetDistrictResponse.setError(true);
             tsBudgetDistrictResponse.setError_description("TsBudgetDistrict already exist");
@@ -212,7 +212,7 @@ public class TsBudgetDistrictService {
     @Transactional
     public TsBudgetDistrictResponse updateTsBudgetDistrictDetails(EditTsBudgetDistrictRequest tsBudgetDistrictRequest) {
         TsBudgetDistrictResponse tsBudgetDistrictResponse = new TsBudgetDistrictResponse();
-        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndDistrictIdAndTsBudgetDistrictIdIsNot(tsBudgetDistrictRequest.getFinancialYearMasterId(),tsBudgetDistrictRequest.getDistrictId(), tsBudgetDistrictRequest.getTsBudgetDistrictId());
+        List<TsBudgetDistrict> tsBudgetDistrictList = tsBudgetDistrictRepository.findByFinancialYearMasterIdAndDistrictIdAndScHeadAccountIdAndTsBudgetDistrictIdIsNot(tsBudgetDistrictRequest.getFinancialYearMasterId(),tsBudgetDistrictRequest.getDistrictId(),tsBudgetDistrictRequest.getScHeadAccountId(), tsBudgetDistrictRequest.getTsBudgetDistrictId());
         if (tsBudgetDistrictList.size() > 0) {
             tsBudgetDistrictResponse.setError(true);
             tsBudgetDistrictResponse.setError_description("TsBudgetDistrict exists, duplicates are not allowed.");
@@ -222,7 +222,7 @@ public class TsBudgetDistrictService {
             TsBudgetDistrict tsBudgetDistrict = tsBudgetDistrictRepository.findByTsBudgetDistrictIdAndActiveIn(tsBudgetDistrictRequest.getTsBudgetDistrictId(), Set.of(true, false));
             if (Objects.nonNull(tsBudgetDistrict)) {
                 tsBudgetDistrict.setFinancialYearMasterId(tsBudgetDistrictRequest.getFinancialYearMasterId());
-                tsBudgetDistrict.setHoaId(tsBudgetDistrictRequest.getHoaId());
+                tsBudgetDistrict.setScHeadAccountId(tsBudgetDistrictRequest.getScHeadAccountId());
                 tsBudgetDistrict.setDate(tsBudgetDistrictRequest.getDate());
                 tsBudgetDistrict.setBudgetAmount(tsBudgetDistrictRequest.getBudgetAmount());
                 tsBudgetDistrict.setDistrictId(tsBudgetDistrictRequest.getDistrictId());

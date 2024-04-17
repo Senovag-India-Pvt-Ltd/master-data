@@ -15,7 +15,7 @@ import java.util.Set;
 public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<TsBudgetDistrict,Long> {
     public Page<TsBudgetDistrict> findByActiveOrderByTsBudgetDistrictIdAsc(boolean isActive, final Pageable pageable);
 
-    List<TsBudgetDistrict> findByFinancialYearMasterIdAndDistrictId(long financialYearMasterId,long districtId );
+    List<TsBudgetDistrict> findByFinancialYearMasterIdAndDistrictIdAndScHeadAccountId(long financialYearMasterId,long districtId,long scHeadAccountId );
 
 
 //    public List<TsBudgetDistrict> findByFinancialYearMasterIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
@@ -23,7 +23,7 @@ public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<T
 //    public List<TsBudgetDistrict> findByFinancialYearMasterIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
 
 
-    List<TsBudgetDistrict> findByFinancialYearMasterIdAndDistrictIdAndTsBudgetDistrictIdIsNot(long financialYearMasterId,long districtId, long tsBudgetDistrictId);
+    List<TsBudgetDistrict> findByFinancialYearMasterIdAndDistrictIdAndScHeadAccountIdAndTsBudgetDistrictIdIsNot(long financialYearMasterId,long districtId,long scHeadAccountId, long tsBudgetDistrictId);
 
 
     public TsBudgetDistrict save(TsBudgetDistrict tsBudgetDistrict);
@@ -37,18 +37,21 @@ public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<T
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetDistrictDTO(" +
             " tsBudgetDistrict.tsBudgetDistrictId," +
             " tsBudgetDistrict.financialYearMasterId," +
-            " tsBudgetDistrict.hoaId," +
+            " tsBudgetDistrict.scHeadAccountId," +
             " tsBudgetDistrict.date," +
             " tsBudgetDistrict.budgetAmount," +
             " tsBudgetDistrict.districtId," +
             " financialYearMaster.financialYear," +
-            " district.districtName" +
+            " district.districtName," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetDistrict tsBudgetDistrict\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
             "on tsBudgetDistrict.financialYearMasterId = financialYearMaster.financialYearMasterId " +
             "left join District district\n" +
             "on tsBudgetDistrict.districtId = district.districtId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetDistrict.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetDistrict.active = :isActive " +
             "ORDER BY tsBudgetDistrict.tsBudgetDistrictId ASC"
     )
@@ -57,18 +60,21 @@ public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<T
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetDistrictDTO(" +
             " tsBudgetDistrict.tsBudgetDistrictId," +
             " tsBudgetDistrict.financialYearMasterId," +
-            " tsBudgetDistrict.hoaId," +
+            " tsBudgetDistrict.scHeadAccountId," +
             " tsBudgetDistrict.date," +
             " tsBudgetDistrict.budgetAmount," +
             " tsBudgetDistrict.districtId," +
             " financialYearMaster.financialYear," +
-            " district.districtName" +
+            " district.districtName," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetDistrict tsBudgetDistrict\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
             "on tsBudgetDistrict.financialYearMasterId = financialYearMaster.financialYearMasterId " +
             "left join District district\n" +
             "on tsBudgetDistrict.districtId = district.districtId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetDistrict.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetDistrict.active = :isActive AND tsBudgetDistrict.tsBudgetDistrictId = :id "
     )
     public TsBudgetDistrictDTO getByTsBudgetDistrictIdAndActive(long id, boolean isActive);
@@ -94,18 +100,21 @@ public interface TsBudgetDistrictRepository extends PagingAndSortingRepository<T
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetDistrictDTO(" +
             " tsBudgetDistrict.tsBudgetDistrictId," +
             " tsBudgetDistrict.financialYearMasterId," +
-            " tsBudgetDistrict.hoaId," +
+            " tsBudgetDistrict.scHeadAccountId," +
             " tsBudgetDistrict.date," +
             " tsBudgetDistrict.budgetAmount," +
             " tsBudgetDistrict.districtId," +
             " financialYearMaster.financialYear," +
-            " district.districtName" +
+            " district.districtName," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetDistrict tsBudgetDistrict\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
             "on tsBudgetDistrict.financialYearMasterId = financialYearMaster.financialYearMasterId " +
             "left join District district\n" +
             "on tsBudgetDistrict.districtId = district.districtId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetDistrict.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetDistrict.active = :isActive AND " +
             "(:joinColumn = 'financialYearMaster.financialYear' AND financialYearMaster.financialYear LIKE :searchText) OR " +
             "(:joinColumn = 'district.districtName' AND district.districtName LIKE :searchText)"

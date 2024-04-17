@@ -15,7 +15,7 @@ import java.util.Set;
 public interface TsBudgetHoaRepository extends PagingAndSortingRepository<TsBudgetHoa,Long> {
     public Page<TsBudgetHoa> findByActiveOrderByTsBudgetHoaIdAsc(boolean isActive, final Pageable pageable);
 
-    List<TsBudgetHoa> findByFinancialYearMasterId(long financialYearMasterId);
+    List<TsBudgetHoa> findByFinancialYearMasterIdAndScHeadAccountId(long financialYearMasterId,long scHeadAccountId);
 
 
 //    public List<TsBudgetHoa> findByFinancialYearMasterIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
@@ -23,7 +23,7 @@ public interface TsBudgetHoaRepository extends PagingAndSortingRepository<TsBudg
 //    public List<TsBudgetHoa> findByFinancialYearMasterIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
 
 
-    List<TsBudgetHoa> findByFinancialYearMasterIdAndTsBudgetHoaIdIsNot(long financialYearMasterId, long tsBudgetHoaId);
+    List<TsBudgetHoa> findByFinancialYearMasterIdAndScHeadAccountIdAndTsBudgetHoaIdIsNot(long financialYearMasterId,long scHeadAccountId, long tsBudgetHoaId);
 
 
     public TsBudgetHoa save(TsBudgetHoa tsBudgetHoa);
@@ -37,14 +37,17 @@ public interface TsBudgetHoaRepository extends PagingAndSortingRepository<TsBudg
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetHoaDTO(" +
             " tsBudgetHoa.tsBudgetHoaId," +
             " tsBudgetHoa.financialYearMasterId," +
-            " tsBudgetHoa.hoaId," +
+            " tsBudgetHoa.scHeadAccountId," +
             " tsBudgetHoa.date," +
             " tsBudgetHoa.budgetAmount," +
-            " financialYearMaster.financialYear" +
+            " financialYearMaster.financialYear," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetHoa tsBudgetHoa\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
             "on tsBudgetHoa.financialYearMasterId = financialYearMaster.financialYearMasterId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetHoa.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetHoa.active = :isActive " +
             "ORDER BY tsBudgetHoa.tsBudgetHoaId ASC"
     )
@@ -53,14 +56,17 @@ public interface TsBudgetHoaRepository extends PagingAndSortingRepository<TsBudg
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetHoaDTO(" +
             " tsBudgetHoa.tsBudgetHoaId," +
             " tsBudgetHoa.financialYearMasterId," +
-            " tsBudgetHoa.hoaId," +
+            " tsBudgetHoa.scHeadAccountId," +
             " tsBudgetHoa.date," +
             " tsBudgetHoa.budgetAmount," +
-            " financialYearMaster.financialYear" +
+            " financialYearMaster.financialYear," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetHoa tsBudgetHoa\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
             "on tsBudgetHoa.financialYearMasterId = financialYearMaster.financialYearMasterId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetHoa.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetHoa.active = :isActive AND tsBudgetHoa.tsBudgetHoaId = :id "
     )
     public TsBudgetHoaDTO getByTsBudgetHoaIdAndActive(long id, boolean isActive);
@@ -86,14 +92,17 @@ public interface TsBudgetHoaRepository extends PagingAndSortingRepository<TsBudg
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetHoaDTO(" +
             " tsBudgetHoa.tsBudgetHoaId," +
             " tsBudgetHoa.financialYearMasterId," +
-            " tsBudgetHoa.hoaId," +
+            " tsBudgetHoa.scHeadAccountId," +
             " tsBudgetHoa.date," +
             " tsBudgetHoa.budgetAmount," +
-            " financialYearMaster.financialYear" +
+            " financialYearMaster.financialYear," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetHoa tsBudgetHoa\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
             "on tsBudgetHoa.financialYearMasterId = financialYearMaster.financialYearMasterId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetHoa.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetHoa.active = :isActive AND " +
             "(:joinColumn = 'financialYearMaster.financialYear' AND financialYearMaster.financialYear LIKE :searchText) "
 

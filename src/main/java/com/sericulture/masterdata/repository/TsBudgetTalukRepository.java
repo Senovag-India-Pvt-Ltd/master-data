@@ -17,7 +17,7 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
 
     public Page<TsBudgetTaluk> findByActiveOrderByTsBudgetTalukIdAsc(boolean isActive, final Pageable pageable);
 
-    List<TsBudgetTaluk> findByFinancialYearMasterIdAndDistrictIdAndTalukId(long financialYearMasterId,long districtId,long talukId);
+    List<TsBudgetTaluk> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndScHeadAccountId(long financialYearMasterId,long districtId,long talukId,long scHeadAccountId);
 
 
 //    public List<TsBudgetTaluk> findByFinancialYearMasterIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
@@ -25,7 +25,7 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
 //    public List<TsBudgetTaluk> findByFinancialYearMasterIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
 
 
-    List<TsBudgetTaluk> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTsBudgetTalukIdIsNot(long financialYearMasterId,long districtId,long talukId, long tsBudgetTalukId);
+    List<TsBudgetTaluk> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndScHeadAccountIdAndTsBudgetTalukIdIsNot(long financialYearMasterId,long districtId,long talukId,long scHeadAccountId, long tsBudgetTalukId);
 
 
     public TsBudgetTaluk save(TsBudgetTaluk tsBudgetTaluk);
@@ -39,14 +39,15 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetTalukDTO(" +
             " tsBudgetTaluk.tsBudgetTalukId," +
             " tsBudgetTaluk.financialYearMasterId," +
-            " tsBudgetTaluk.hoaId," +
+            " tsBudgetTaluk.scHeadAccountId," +
             " tsBudgetTaluk.date," +
             " tsBudgetTaluk.budgetAmount," +
             " tsBudgetTaluk.districtId," +
             " tsBudgetTaluk.talukId," +
             " financialYearMaster.financialYear," +
             " district.districtName," +
-            " taluk.talukName" +
+            " taluk.talukName," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetTaluk tsBudgetTaluk\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
@@ -55,6 +56,8 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
             "on tsBudgetTaluk.districtId = district.districtId " +
             "left join Taluk taluk\n" +
             "on tsBudgetTaluk.talukId = taluk.talukId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetTaluk.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetTaluk.active = :isActive " +
             "ORDER BY tsBudgetTaluk.tsBudgetTalukId ASC"
     )
@@ -63,14 +66,15 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetTalukDTO(" +
             " tsBudgetTaluk.tsBudgetTalukId," +
             " tsBudgetTaluk.financialYearMasterId," +
-            " tsBudgetTaluk.hoaId," +
+            " tsBudgetTaluk.scHeadAccountId," +
             " tsBudgetTaluk.date," +
             " tsBudgetTaluk.budgetAmount," +
             " tsBudgetTaluk.districtId," +
             " tsBudgetTaluk.talukId," +
             " financialYearMaster.financialYear," +
             " district.districtName," +
-            " taluk.talukName" +
+            " taluk.talukName," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetTaluk tsBudgetTaluk\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
@@ -79,6 +83,8 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
             "on tsBudgetTaluk.districtId = district.districtId " +
             "left join Taluk taluk\n" +
             "on tsBudgetTaluk.talukId = taluk.talukId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetTaluk.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetTaluk.active = :isActive AND tsBudgetTaluk.tsBudgetTalukId = :id "
     )
     public TsBudgetTalukDTO getByTsBudgetTalukIdAndActive(long id, boolean isActive);
@@ -104,14 +110,15 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetTalukDTO(" +
             " tsBudgetTaluk.tsBudgetTalukId," +
             " tsBudgetTaluk.financialYearMasterId," +
-            " tsBudgetTaluk.hoaId," +
+            " tsBudgetTaluk.scHeadAccountId," +
             " tsBudgetTaluk.date," +
             " tsBudgetTaluk.budgetAmount," +
             " tsBudgetTaluk.districtId," +
             " tsBudgetTaluk.talukId," +
             " financialYearMaster.financialYear," +
             " district.districtName," +
-            " taluk.talukName" +
+            " taluk.talukName," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetTaluk tsBudgetTaluk\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
@@ -120,6 +127,8 @@ public interface TsBudgetTalukRepository extends PagingAndSortingRepository<TsBu
             "on tsBudgetTaluk.districtId = district.districtId " +
             "left join Taluk taluk\n" +
             "on tsBudgetTaluk.talukId = taluk.talukId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetTaluk.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetTaluk.active = :isActive AND " +
             "(:joinColumn = 'financialYearMaster.financialYear' AND financialYearMaster.financialYear LIKE :searchText) OR " +
             "(:joinColumn = 'taluk.talukName' AND taluk.talukName LIKE :searchText)"

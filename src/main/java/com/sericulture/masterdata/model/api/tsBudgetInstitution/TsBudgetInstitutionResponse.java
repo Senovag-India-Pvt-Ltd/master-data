@@ -1,4 +1,4 @@
-package com.sericulture.masterdata.model.api.tsBudgetTaluk;
+package com.sericulture.masterdata.model.api.tsBudgetInstitution;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,9 +12,10 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TsBudgetTalukResponse {
-    @Schema(name = "tsBudgetTalukId", example = "1")
-    Long tsBudgetTalukId;
+public class TsBudgetInstitutionResponse {
+
+    @Schema(name = "tsBudgetInstitutionId", example = "1")
+    Long tsBudgetInstitutionId;
 
 
     @Schema(name = "financialYearMasterId", example = "1")
@@ -23,18 +24,26 @@ public class TsBudgetTalukResponse {
     @Schema(name = "scHeadAccountId", example = "1")
     Long scHeadAccountId;
 
-    @Schema(name = "date", example = "1")
-    Date date;
-
-    @Schema(name = "budgetAmount", example = "1")
-    BigDecimal budgetAmount;
-
 
     @Schema(name="districtId", example = "1")
     Long districtId;
 
     @Schema(name = "talukId", example = "1")
     Long talukId;
+
+
+    @Schema(name = "institutionType", example = "1")
+    Long institutionType;
+
+
+    @Schema(name = "institutionId", example = "1")
+    Long institutionId;
+
+    @Schema(name = "date", example = "1")
+    Date date;
+
+    @Schema(name = "budgetAmount", example = "1")
+    BigDecimal budgetAmount;
 
     @Schema(name = "financialYear", example = "Karnataka", required = true)
     String financialYear;
@@ -45,6 +54,7 @@ public class TsBudgetTalukResponse {
     @Schema(name = "talukName", example = "Thirthahalli", required = true)
     String talukName;
 
+
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ", required = true)
     String scHeadAccountName;
 
@@ -53,4 +63,6 @@ public class TsBudgetTalukResponse {
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
+
+
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudgetTsc,Long> {
     public Page<TsBudgetTsc> findByActiveOrderByTsBudgetTscIdAsc(boolean isActive, final Pageable pageable);
 
-    List<TsBudgetTsc> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterId(long financialYearMasterId,long districtId,long talukId,long tscMasterId);
+    List<TsBudgetTsc> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterIdAndScHeadAccountId(long financialYearMasterId,long districtId,long talukId,long tscMasterId,long scHeadAccountId);
 
 
 //    public List<TsBudgetTsc> findByFinancialYearMasterIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
@@ -23,7 +23,7 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
 //    public List<TsBudgetTsc> findByFinancialYearMasterIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
 
 
-    List<TsBudgetTsc> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterIdAndTsBudgetTscIdIsNot(long financialYearMasterId,long districtId,long talukId,long tscMasterId, long tsBudgetTscId);
+    List<TsBudgetTsc> findByFinancialYearMasterIdAndDistrictIdAndTalukIdAndTscMasterIdAndScHeadAccountIdAndTsBudgetTscIdIsNot(long financialYearMasterId,long districtId,long talukId,long tscMasterId,long scHeadAccountId, long tsBudgetTscId);
 
 
     public TsBudgetTsc save(TsBudgetTsc tsBudgetTsc);
@@ -37,7 +37,7 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetTscDTO(" +
             " tsBudgetTsc.tsBudgetTscId," +
             " tsBudgetTsc.financialYearMasterId," +
-            " tsBudgetTsc.hoaId," +
+            " tsBudgetTsc.scHeadAccountId," +
             " tsBudgetTsc.date," +
             " tsBudgetTsc.budgetAmount," +
             " tsBudgetTsc.districtId," +
@@ -46,7 +46,8 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
             " financialYearMaster.financialYear," +
             " district.districtName," +
             " taluk.talukName," +
-            " tscMaster.name" +
+            " tscMaster.name," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetTsc tsBudgetTsc\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
@@ -57,6 +58,8 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
             "on tsBudgetTsc.talukId = taluk.talukId " +
             "left join TscMaster tscMaster\n" +
             "on tsBudgetTsc.tscMasterId = tscMaster.tscMasterId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetTsc.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetTsc.active = :isActive " +
             "ORDER BY tsBudgetTsc.tsBudgetTscId ASC"
     )
@@ -65,7 +68,7 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetTscDTO(" +
             " tsBudgetTsc.tsBudgetTscId," +
             " tsBudgetTsc.financialYearMasterId," +
-            " tsBudgetTsc.hoaId," +
+            " tsBudgetTsc.scHeadAccountId," +
             " tsBudgetTsc.date," +
             " tsBudgetTsc.budgetAmount," +
             " tsBudgetTsc.districtId," +
@@ -74,7 +77,8 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
             " financialYearMaster.financialYear," +
             " district.districtName," +
             " taluk.talukName," +
-            " tscMaster.name" +
+            " tscMaster.name," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetTsc tsBudgetTsc\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
@@ -85,6 +89,8 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
             "on tsBudgetTsc.talukId = taluk.talukId " +
             "left join TscMaster tscMaster\n" +
             "on tsBudgetTsc.tscMasterId = tscMaster.tscMasterId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetTsc.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetTsc.active = :isActive AND tsBudgetTsc.tsBudgetTscId = :id "
     )
     public TsBudgetTscDTO getByTsBudgetTscIdAndActive(long id, boolean isActive);
@@ -110,7 +116,7 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
     @Query("select new com.sericulture.masterdata.model.dto.TsBudgetTscDTO(" +
             " tsBudgetTsc.tsBudgetTscId," +
             " tsBudgetTsc.financialYearMasterId," +
-            " tsBudgetTsc.hoaId," +
+            " tsBudgetTsc.scHeadAccountId," +
             " tsBudgetTsc.date," +
             " tsBudgetTsc.budgetAmount," +
             " tsBudgetTsc.districtId," +
@@ -119,7 +125,8 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
             " financialYearMaster.financialYear," +
             " district.districtName," +
             " taluk.talukName," +
-            " tscMaster.name" +
+            " tscMaster.name," +
+            " scHeadAccount.scHeadAccountName" +
             ") \n" +
             "from TsBudgetTsc tsBudgetTsc\n" +
             "left join FinancialYearMaster financialYearMaster\n" +
@@ -130,6 +137,8 @@ public interface TsBudgetTscRepository extends PagingAndSortingRepository<TsBudg
             "on tsBudgetTsc.talukId = taluk.talukId " +
             "left join TscMaster tscMaster\n" +
             "on tsBudgetTsc.tscMasterId = tscMaster.tscMasterId " +
+            "left join ScHeadAccount scHeadAccount\n" +
+            "on tsBudgetTsc.scHeadAccountId = scHeadAccount.scHeadAccountId " +
             "where tsBudgetTsc.active = :isActive AND " +
             "(:joinColumn = 'financialYearMaster.financialYear' AND financialYearMaster.financialYear LIKE :searchText) OR " +
             "(:joinColumn = 'tscMaster.name' AND tscMaster.name LIKE :searchText)"

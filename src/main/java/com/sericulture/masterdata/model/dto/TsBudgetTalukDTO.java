@@ -13,7 +13,7 @@ import java.util.Date;
 public class TsBudgetTalukDTO {
     private Long tsBudgetTalukId;
     private Long financialYearMasterId;
-    private Long hoaId;
+    private Long scHeadAccountId;
     private Date date;
     private BigDecimal budgetAmount;
     private Long districtId;
@@ -21,5 +21,6 @@ public class TsBudgetTalukDTO {
     private String financialYear;
     private String districtName;
     private String talukName;
+    private String scHeadAccountName;
 
 }

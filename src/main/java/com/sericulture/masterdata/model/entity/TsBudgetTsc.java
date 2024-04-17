@@ -27,7 +27,7 @@ public class TsBudgetTsc extends BaseEntity implements Serializable {
     private Long financialYearMasterId;
 
     @Column(name = "hao_id")
-    private Long hoaId;
+    private Long scHeadAccountId;
 
     @Column(name = "date")
     private Date date;

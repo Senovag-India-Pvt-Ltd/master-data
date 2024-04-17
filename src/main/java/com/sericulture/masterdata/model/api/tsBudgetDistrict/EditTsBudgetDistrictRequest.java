@@ -20,8 +20,8 @@ public class EditTsBudgetDistrictRequest extends RequestBody {
     @Schema(name = "financialYearMasterId", example = "1")
     Long financialYearMasterId;
 
-    @Schema(name = "hoaId", example = "1")
-    Long hoaId;
+    @Schema(name = "scHeadAccountId", example = "1")
+    Long scHeadAccountId;
 
     @Schema(name = "date", example = "1")
     Date date;
@@ -32,6 +32,8 @@ public class EditTsBudgetDistrictRequest extends RequestBody {
 
     @Schema(name="districtId", example = "1")
     Long districtId;
+
+
 
 
 }
