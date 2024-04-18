@@ -70,7 +70,8 @@ public interface GrainageTypeRepository extends PagingAndSortingRepository<Grain
             "left join GrainageMaster grainageMaster\n" +
             "on grainageType.grainageMasterId = grainageMaster.grainageMasterId " +
             "where grainageType.active = :isActive AND " +
-            "(:joinColumn = 'grainageMaster.grainageMasterName' AND grainageMaster.grainageMasterName LIKE :searchText)"
+            "(:joinColumn = 'grainageMaster.grainageMasterName' AND grainageMaster.grainageMasterName LIKE :searchText) OR " +
+            "(:joinColumn = 'grainageType.name' AND grainageType.name LIKE :searchText)"
     )
     public Page<GrainageTypeDTO> getSortedGrainageType(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 

@@ -70,6 +70,7 @@ public interface FarmTypeRepository extends PagingAndSortingRepository<FarmType,
             "left join FarmMaster farmMaster\n" +
             "on farmType.farmId = farmMaster.farmId " +
             "where farmType.active = :isActive AND " +
+            "(:joinColumn = 'farmType.name' AND farmType.name LIKE :searchText) OR " +
             "(:joinColumn = 'farmMaster.farmName' AND farmMaster.farmName LIKE :searchText)"
     )
     public Page<FarmTypeDTO> getSortedFarmType(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
