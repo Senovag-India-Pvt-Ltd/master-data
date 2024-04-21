@@ -64,6 +64,7 @@ import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionReq
 import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
 import com.sericulture.masterdata.model.api.scSchemeDetails.ScSchemeDetailsRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsRequest;
+import com.sericulture.masterdata.model.api.scSubSchemeMapping.ScSubSchemeMappingRequest;
 import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostRequest;
 import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
@@ -2234,5 +2235,38 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, financialYearMasterRequest);
         return (T) mapper.map(financialYearMasterRequest, claaz);
     }
+
+    /**
+     * Maps scSubSchemeMapping Entity to scSubSchemeMapping Response Object
+     * @param scSubSchemeMappingEntity
+     * @param <T>
+     */
+    public <T> T scSubSchemeMappingEntityToObject(ScSubSchemeMapping scSubSchemeMappingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scSubSchemeMappingEntity);
+        return (T) mapper.map(scSubSchemeMappingEntity, claaz);
+    }
+
+    /**
+     * Maps scSubSchemeMappingDTO to scSubSchemeMapping Response Object
+     * @param scSubSchemeMappingDTO
+     * @param <T>
+     */
+    public <T> T scSubSchemeMappingDTOToObject(ScSubSchemeMappingDTO scSubSchemeMappingDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSubSchemeMappingDTO);
+        return (T) mapper.map(scSubSchemeMappingDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scSubSchemeMapping Object to scSubSchemeMapping  Response Object
+     * @param scSubSchemeMappingRequest
+     * @param <T>
+     */
+    public <T> T scSubSchemeMappingObjectToEntity(ScSubSchemeMappingRequest scSubSchemeMappingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSubSchemeMappingRequest);
+        return (T) mapper.map(scSubSchemeMappingRequest, claaz);
+    }
+
 
 }
