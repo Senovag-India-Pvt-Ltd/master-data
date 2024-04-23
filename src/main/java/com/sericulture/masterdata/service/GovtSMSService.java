@@ -262,13 +262,15 @@ public class GovtSMSService {
      */
 
     public String sendOtpSMS(String username, String password, String message, String senderId, String mobileNumber, String secureKey, String templateid, String userId) {
-
+        log.info("entered to send otp sms");
+        log.info("Entity is ",username+"_"+ message+"_"+ senderId+"_"+ mobileNumber+"_"+secureKey+"_"+userId);
         String responseString = "";
         SSLSocketFactory sf = null;
         SSLContext context = null;
         String encryptedPassword;
         try {
             String otp = generateOTP();
+            log.info("otp generated");
             String generatedOtpMessage = "Dear User, OTP to Authenticate your login credentials is "+ otp +" and is valid for 10mins. Do not share with anyone.-COMDOS";
             //context=SSLContext.getInstance("TLSv1.1"); // Use this line for Java version 6
             context = SSLContext.getInstance("TLSv1.2"); // Use this line for Java version 7 and above
@@ -279,6 +281,7 @@ public class GovtSMSService {
             client.getConnectionManager().getSchemeRegistry().register(scheme);
             HttpPost post = new HttpPost("http://smsmobileone.karnataka.gov.in/index.php/sendmsg");
             encryptedPassword = MD5(password);
+            log.info("password encrypted");
             String genratedhashKey = hashGenerator(username, senderId, generatedOtpMessage, secureKey);
             List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("mobileno", mobileNumber));
@@ -289,32 +292,41 @@ public class GovtSMSService {
             nameValuePairs.add(new BasicNameValuePair("password", encryptedPassword));
             nameValuePairs.add(new BasicNameValuePair("key", genratedhashKey));
             nameValuePairs.add(new BasicNameValuePair("templateid", templateid));
+            log.info("payload", nameValuePairs);
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = client.execute(post);
             BufferedReader bf = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line = "";
             while ((line = bf.readLine()) != null) {
                 responseString = responseString + line;
+                log.info("response", responseString);
 
             }
             otpService.storeOtp(userId, otp);
+            log.info("otp stored");
             System.out.println(responseString);
         } catch (NoSuchAlgorithmException e) {
+            log.error(e.toString());
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (KeyManagementException e) {
+            log.error(e.toString());
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
+            log.error(e.toString());
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ClientProtocolException e) {
+            log.error(e.toString());
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
+            log.error(e.toString());
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        log.info("Final response"+responseString);
         return responseString;
 
     }
