@@ -11,6 +11,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.net.ssl.SSLContext;
@@ -38,6 +39,9 @@ public class GovtSMSService {
 
     @Autowired
     OtpService otpService;
+
+    @Value("${otp.sms.url}")
+    private String otpUrl;
     /**
      * Send Single text SMS
      *
@@ -279,7 +283,7 @@ public class GovtSMSService {
             Scheme scheme = new Scheme("https", 443, sf);
             HttpClient client = new DefaultHttpClient();
             client.getConnectionManager().getSchemeRegistry().register(scheme);
-            HttpPost post = new HttpPost("http://smsmobileone.karnataka.gov.in/index.php/sendmsg");
+            HttpPost post = new HttpPost(otpUrl);
             encryptedPassword = MD5(password);
             log.info("password encrypted");
             String genratedhashKey = hashGenerator(username, senderId, generatedOtpMessage, secureKey);
