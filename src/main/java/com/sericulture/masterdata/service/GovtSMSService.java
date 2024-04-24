@@ -284,6 +284,7 @@ public class GovtSMSService {
             HttpClient client = new DefaultHttpClient();
             client.getConnectionManager().getSchemeRegistry().register(scheme);
             HttpPost post = new HttpPost(otpUrl);
+            log.info("Configured url", otpUrl);
             encryptedPassword = MD5(password);
             log.info("password encrypted");
             String genratedhashKey = hashGenerator(username, senderId, generatedOtpMessage, secureKey);
