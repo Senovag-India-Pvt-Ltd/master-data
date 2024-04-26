@@ -28,6 +28,7 @@ import com.sericulture.masterdata.model.api.hdSeverityMaster.HdSeverityMasterReq
 import com.sericulture.masterdata.model.api.hdStatusMaster.HdStatusMasterRequest;
 import com.sericulture.masterdata.model.api.hdSubCategoryMaster.HdSubCategoryMasterRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
+import com.sericulture.masterdata.model.api.inspectionType.InspectionTypeRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
 import com.sericulture.masterdata.model.api.irrigationType.IrrigationTypeRequest;
 import com.sericulture.masterdata.model.api.landOwnership.LandOwnershipRequest;
@@ -2244,6 +2245,27 @@ public class Mapper {
     public <T> T rendittaMasterObjectToEntity(RendittaMasterRequest rendittaMasterRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, rendittaMasterRequest);
         return (T) mapper.map(rendittaMasterRequest, claaz);
+    }
+
+    /**
+     * Maps inspectionType Entity to inspectionType Response Object
+     * @param inspectionTypeEntity
+     * @param <T>
+     */
+    public <T> T inspectionTypeEntityToObject(InspectionType inspectionTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,inspectionTypeEntity);
+        return (T) mapper.map(inspectionTypeEntity, claaz);
+    }
+
+
+    /**
+     * Maps inspectionType Object to inspectionType  Response Object
+     * @param inspectionTypeRequest
+     * @param <T>
+     */
+    public <T> T inspectionTypeObjectToEntity(InspectionTypeRequest inspectionTypeRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, inspectionTypeRequest);
+        return (T) mapper.map(inspectionTypeRequest, claaz);
     }
 
 
