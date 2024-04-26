@@ -16,6 +16,7 @@ import com.sericulture.masterdata.repository.ReelerTypeMasterRepository;
 import com.sericulture.masterdata.repository.UserMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,6 +59,21 @@ public class UserMasterService {
 
     @Autowired
     ExternalUnitRegistrationRepository externalUnitRegistrationRepository;
+
+    @Value("${otp.sms.username}")
+    private String otpUserName;
+
+    @Value("${otp.sms.password}")
+    private String otpPassword;
+
+    @Value("${otp.sms.senderId}")
+    private String otpSenderId;
+
+    @Value("${otp.sms.secureKey}")
+    private String otpSecureKey;
+
+    @Value("${otp.sms.templateId}")
+    private String otpTemplateId;
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -280,13 +296,14 @@ public class UserMasterService {
             userMasterResponse.setError_description("Invalid id");
         }else{
             GovtSmsServiceDTO govtSmsServiceDTO = new GovtSmsServiceDTO();
-            govtSmsServiceDTO.setUsername("Mobile_1-COMDOS");
-            govtSmsServiceDTO.setPassword("COMDOS@1234");
+            govtSmsServiceDTO.setUsername(otpUserName);
+            govtSmsServiceDTO.setPassword(otpPassword);
             govtSmsServiceDTO.setMessage("Generate and store otp");
-            govtSmsServiceDTO.setSenderId("COMDOS");
+            govtSmsServiceDTO.setSenderId(otpSenderId);
             govtSmsServiceDTO.setMobileNumber(userMaster.getPhoneNumber());
-            govtSmsServiceDTO.setSecureKey("046bdec5-4bba-69b3-k4e4-01d6b555c9cv");
-            govtSmsServiceDTO.setTemplateid("1107170082061011792");
+            govtSmsServiceDTO.setSecureKey(otpSecureKey);
+            govtSmsServiceDTO.setTemplateid(otpTemplateId);
+            log.info("Otp username:"+otpUserName+"_OtpPassword:"+otpPassword+"_OtpSenderId:"+otpSenderId+"_OtpSecureKey:"+otpSecureKey+"_OtpTemplateId:"+otpTemplateId);
             govtSmsServiceDTO.setUserId(userMaster.getUserMasterId().toString());
 
             govtSMSServiceController.sendOtpSMS(govtSmsServiceDTO);
