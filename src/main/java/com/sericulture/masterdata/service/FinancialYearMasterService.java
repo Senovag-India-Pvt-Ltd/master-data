@@ -80,6 +80,21 @@ public class FinancialYearMasterService {
         return convertListEntityToMapResponse(financialYearMasterRepository.findByActive(isActive));
     }
 
+    @Transactional
+    public FinancialYearMasterResponse getIsDefault(){
+        FinancialYearMasterResponse financialYearMasterResponse = new FinancialYearMasterResponse();
+        FinancialYearMaster financialYearMaster= financialYearMasterRepository.findByIsDefaultAndActive(true, true);
+        if(financialYearMaster== null){
+            financialYearMasterResponse.setError(true);
+            financialYearMasterResponse.setError_description("Invalid id");
+        }else{
+            financialYearMasterResponse =  mapper.financialYearMasterEntityToObject(financialYearMaster, FinancialYearMasterResponse.class);
+            financialYearMasterResponse.setError(false);
+        }
+        log.info("Entity is ",financialYearMaster);
+        return financialYearMasterResponse;
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<FinancialYearMaster> activeFinancialYearMasters) {
         Map<String, Object> response = new HashMap<>();
 
