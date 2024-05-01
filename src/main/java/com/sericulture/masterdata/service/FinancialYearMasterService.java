@@ -57,6 +57,13 @@ public class FinancialYearMasterService {
 //            FinancialYearMasterResponse.setError(true);
 //            FinancialYearMasterResponse.setError_description("Tr Program name already exist with inactive state");
         }else {
+            if(financialYearMasterRequest.getIsDefault()){
+                List<FinancialYearMaster> financialYearMasters = financialYearMasterRepository.findByActive(true);
+                for(FinancialYearMaster financialYearMaster1: financialYearMasters){
+                    financialYearMaster1.setIsDefault(false);
+                    financialYearMasterRepository.save(financialYearMaster1);
+                }
+            }
             financialYearMasterResponse  = mapper.financialYearMasterEntityToObject( financialYearMasterRepository.save(financialYearMaster), FinancialYearMasterResponse.class);
             financialYearMasterResponse.setError(false);
         }

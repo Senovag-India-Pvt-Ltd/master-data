@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class FinancialYearMasterRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "  Financial Year  must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9-\\s]*$", message = "  Financial Year  must contain only letters and numbers")
     @Schema(name = "financialYear", example = "Karnataka", required = true)
     String financialYear;
 
