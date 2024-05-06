@@ -100,6 +100,30 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByRoleIdAndTalukId(Long roleId,Long talukId) {
+        Map<String, Object> response = new HashMap<>();
+        List<UserMasterDTO> userMasterDTOS = userMasterRepository.getByRoleIdAndTalukIdAndActive(roleId,talukId,true);
+        if(userMasterDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", userMasterDTOS);
+            response = convertDTOToMapResponse(userMasterDTOS);
+        }
+        return response;
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(List<UserMasterDTO> userMasterDTOS) {
+        Map<String, Object> response = new HashMap<>();
+        List<UserMasterResponse> userMasterResponses = userMasterDTOS.stream()
+                .map(userMasterDTO -> mapper.userMasterDTOToObject(userMasterDTO,UserMasterResponse.class)).collect(Collectors.toList());
+        response.put("userMaster",userMasterResponses);
+        response.put("totalItems", userMasterDTOS.size());
+        return response;
+    }
+
+
 
     @Transactional
     public UserMasterResponse insertUserMasterDetails(UserMasterRequest userMasterRequest){
