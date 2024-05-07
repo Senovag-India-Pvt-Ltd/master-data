@@ -31,12 +31,14 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
     public GrainageMaster findByGrainageMasterIdAndActiveIn(@Param("grainageMasterId") long grainageMasterId, @Param("active") Set<Boolean> active);
 
     public List<GrainageMaster> findByActiveOrderByGrainageMasterNameAsc(boolean isActive);
-    
+
 
     @Query("select new com.sericulture.masterdata.model.dto.GrainageMasterDTO(" +
             " grainageMaster.grainageMasterId," +
             " grainageMaster.grainageMasterName," +
             " grainageMaster.grainageMasterNameInKannada," +
+            " grainageMaster.grainageNameRepresentation," +
+            " grainageMaster.grainageType," +
             " grainageMaster.userMasterId," +
             " userMaster.username" +
             ") \n" +
@@ -52,6 +54,8 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
             " grainageMaster.grainageMasterId," +
             " grainageMaster.grainageMasterName," +
             " grainageMaster.grainageMasterNameInKannada," +
+            " grainageMaster.grainageNameRepresentation," +
+            " grainageMaster.grainageType," +
             " grainageMaster.userMasterId," +
             " userMaster.username" +
             ") \n" +
@@ -67,6 +71,8 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
             " grainageMaster.grainageMasterId," +
             " grainageMaster.grainageMasterName," +
             " grainageMaster.grainageMasterNameInKannada," +
+            " grainageMaster.grainageNameRepresentation," +
+            " grainageMaster.grainageType," +
             " grainageMaster.userMasterId," +
             " userMaster.username" +
             ") \n" +
@@ -79,8 +85,3 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
     )
     public Page<GrainageMasterDTO> getSortedGrainageMaster(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }
-
-
-
-
-

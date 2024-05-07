@@ -197,6 +197,8 @@ public class GrainageMasterService {
                 grainageMaster.setGrainageMasterName(grainageMasterRequest.getGrainageMasterName());
                 grainageMaster.setGrainageMasterNameInKannada(grainageMasterRequest.getGrainageMasterNameInKannada());
                 grainageMaster.setUserMasterId(grainageMasterRequest.getUserMasterId());
+                grainageMaster.setGrainageType(grainageMasterRequest.getGrainageType());
+                grainageMaster.setGrainageNameRepresentation(grainageMasterRequest.getGrainageNameRepresentation());
 
                 grainageMaster.setActive(true);
                 GrainageMaster grainingMaster1 = grainageMasterRepository.save(grainageMaster);
