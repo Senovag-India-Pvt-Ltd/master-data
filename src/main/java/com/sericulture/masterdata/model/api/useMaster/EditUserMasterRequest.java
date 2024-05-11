@@ -60,6 +60,10 @@ public class EditUserMasterRequest extends RequestBody {
     @Schema(name = "phoneNumber", example = "9988776655")
     String phoneNumber;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "ddoCode name must contain only letters and numbers")
+    @Schema(name = "ddoCode", example = "ddoCode 1", required = true)
+    String ddoCode;
+
     @Schema(name = "userType", example = "1")
     int userType;
 

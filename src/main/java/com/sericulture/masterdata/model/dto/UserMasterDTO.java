@@ -50,6 +50,8 @@ public class UserMasterDTO {
 
     private Long workingInstitutionId;
 
+    private String ddoCode;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Working institution name must contain only letters and numbers")
     private String workingInstitutionName;
 
@@ -83,6 +85,7 @@ public class UserMasterDTO {
             Long userTypeId,
             String deviceId,
             Long workingInstitutionId,
+            String ddoCode,
             String workingInstitutionName
     ) {
         // Initialize your fields here
@@ -110,6 +113,7 @@ public class UserMasterDTO {
         this.userTypeId = userTypeId;
         this.deviceId = deviceId;
         this.workingInstitutionId = workingInstitutionId;
+        this.ddoCode = ddoCode;
         this.workingInstitutionName = workingInstitutionName;
     }
 }

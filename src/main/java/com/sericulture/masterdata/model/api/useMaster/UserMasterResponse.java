@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.useMaster;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -83,6 +84,9 @@ public class UserMasterResponse {
 
     @Schema(name = "workingInstitutionId", example = "1")
     int workingInstitutionId;
+
+    @Schema(name = "ddoCode", example = "ddoCode 1")
+    String ddoCode;
 
     @Schema(name = "workingInstitutionName", example = "Government")
     String workingInstitutionName;

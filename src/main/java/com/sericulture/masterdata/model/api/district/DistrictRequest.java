@@ -21,4 +21,8 @@ public class DistrictRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "District name in kannada must contain only letters and numbers")
     @Schema(name = "districtNameInKannada",  example = "ಭಾಷೆ")
     String districtNameInKannada;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgDistrict must contain only letters and numbers")
+    @Schema(name = "lgDistrict", example = "Shimoga")
+    String lgDistrict;
 }

@@ -257,6 +257,7 @@ public class UserMasterService {
             userMaster.setUserType(userMasterRequest.getUserType());
             userMaster.setUserTypeId(userMasterRequest.getUserTypeId());
             userMaster.setDeviceId(userMasterRequest.getDeviceId());
+            userMaster.setDdoCode(userMasterRequest.getDdoCode());
             userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
