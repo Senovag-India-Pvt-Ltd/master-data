@@ -16,4 +16,5 @@ public class SchemeQuotaDTO {
     private String schemeQuotaType;
     private String schemeQuotaCode;
     private String schemeQuotaPaymentType;
+    private String schemeName;
 }

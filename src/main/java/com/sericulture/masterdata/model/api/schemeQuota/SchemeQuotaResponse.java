@@ -31,6 +31,9 @@ public class SchemeQuotaResponse {
     @Schema(name = "schemeQuotaPaymentType", example = "1")
     String schemeQuotaPaymentType;
 
+    @Schema(name = "schemeName", example = "1")
+    String schemeName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
