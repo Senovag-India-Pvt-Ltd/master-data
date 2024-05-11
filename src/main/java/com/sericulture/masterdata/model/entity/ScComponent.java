@@ -25,4 +25,7 @@ public class ScComponent extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Sc Component name should be more than 1 characters.")
     @Column(name = "sc_component_name", unique = true)
     private String scComponentName;
+
+    @Column(name = "sc_sub_scheme_details_id")
+    private Long scSubSchemeDetailsId;
 }

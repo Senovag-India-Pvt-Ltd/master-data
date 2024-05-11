@@ -3,7 +3,10 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.scComponent.EditScComponentRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentRequest;
 import com.sericulture.masterdata.model.api.scComponent.ScComponentResponse;
+import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.ScComponentDTO;
+import com.sericulture.masterdata.model.dto.SchemeQuotaDTO;
 import com.sericulture.masterdata.model.entity.ScComponent;
 import com.sericulture.masterdata.model.entity.Village;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
@@ -59,6 +62,24 @@ public class ScComponentService {
     public Map<String,Object> getPaginatedScComponentDetails(final Pageable pageable){
         return convertToMapResponse(scComponentRepository.findByActiveOrderByScComponentNameAsc( true, pageable));
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedScComponentWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(scComponentRepository.getByActiveOrderByScComponentIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<ScComponentDTO> activeScComponent) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ScComponentResponse> scComponentResponses= activeScComponent.getContent().stream()
+                .map(scComponent -> mapper.scComponentDTOToObject(scComponent,ScComponentResponse.class)).collect(Collectors.toList());
+        response.put("scComponent",scComponentResponses);
+        response.put("currentPage", activeScComponent.getNumber());
+        response.put("totalItems", activeScComponent.getTotalElements());
+        response.put("totalPages", activeScComponent.getTotalPages());
+        return response;
+    }
+
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
@@ -119,6 +140,21 @@ public class ScComponentService {
     }
 
     @Transactional
+    public ScComponentResponse getByIdJoin(int id){
+        ScComponentResponse scComponentResponse = new ScComponentResponse();
+        ScComponentDTO scComponentDTO = scComponentRepository.getByScComponentIdAndActive(id,true);
+        if(scComponentDTO == null){
+            scComponentResponse.setError(true);
+            scComponentResponse.setError_description("Invalid id");
+        } else {
+            scComponentResponse = mapper.scComponentDTOToObject(scComponentDTO, ScComponentResponse.class);
+            scComponentResponse.setError(false);
+        }
+        log.info("Entity is ", scComponentDTO);
+        return scComponentResponse;
+    }
+
+    @Transactional
     public ScComponentResponse updateScComponentDetails(EditScComponentRequest scComponentRequest) {
         ScComponentResponse scComponentResponse = new ScComponentResponse();
         List<ScComponent> scComponentList = scComponentRepository.findByActiveAndScComponentName(true,scComponentRequest.getScComponentName());
@@ -131,6 +167,7 @@ public class ScComponentService {
             ScComponent scComponent = scComponentRepository.findByScComponentIdAndActiveIn(scComponentRequest.getScComponentId(), Set.of(true, false));
             if (Objects.nonNull(scComponent)) {
                 scComponent.setScComponentName(scComponentRequest.getScComponentName());
+                scComponent.setScSubSchemeDetailsId(scComponentRequest.getScSubSchemeDetailsId());
                 scComponent.setActive(true);
                 ScComponent scComponent1 = scComponentRepository.save(scComponent);
                 scComponentResponse = mapper.scComponentEntityToObject(scComponent1, ScComponentResponse.class);

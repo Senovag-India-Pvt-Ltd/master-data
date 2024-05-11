@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.model.mapper;
 
 
+import com.sericulture.masterdata.model.api.agency.AgencyRequest;
 import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
@@ -68,6 +69,7 @@ import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostRequest;
 import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
+import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
@@ -895,6 +897,16 @@ public class Mapper {
     public <T> T scComponentEntityToObject(ScComponent scComponentEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, scComponentEntity);
         return (T) mapper.map(scComponentEntity, claaz);
+    }
+
+    /**
+     * Maps scComponentDTO to scComponent Response Object
+     * @param scComponentDTO
+     * @param <T>
+     */
+    public <T> T scComponentDTOToObject(ScComponentDTO scComponentDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scComponentDTO);
+        return (T) mapper.map(scComponentDTO, claaz);
     }
 
     /**
@@ -2558,6 +2570,57 @@ public class Mapper {
     public <T> T tsReleaseBudgetDistrictObjectToEntity(TsReleaseBudgetDistrictRequest tsReleaseBudgetDistrictRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, tsReleaseBudgetDistrictRequest);
         return (T) mapper.map(tsReleaseBudgetDistrictRequest, claaz);
+    }
+    /**
+     * Maps agency Entity to agency Response Object
+     * @param agencyEntity
+     * @param <T>
+     */
+    public <T> T agencyEntityToObject(Agency agencyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,agencyEntity);
+        return (T) mapper.map(agencyEntity, claaz);
+    }
+
+
+    /**
+     * Maps agency Object to agency  Response Object
+     * @param agencyRequest
+     * @param <T>
+     */
+    public <T> T agencyObjectToEntity(AgencyRequest agencyRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, agencyRequest);
+        return (T) mapper.map(agencyRequest, claaz);
+    }
+
+    /**
+     * Maps schemeQuota Entity to schemeQuota Response Object
+     * @param schemeQuotaEntity
+     * @param <T>
+     */
+    public <T> T schemeQuotaEntityToObject(SchemeQuota schemeQuotaEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,schemeQuotaEntity);
+        return (T) mapper.map(schemeQuotaEntity, claaz);
+    }
+
+    /**
+     * Maps schemeQuotaDTO to schemeQuota Response Object
+     * @param schemeQuotaDTO
+     * @param <T>
+     */
+    public <T> T schemeQuotaDTOToObject(SchemeQuotaDTO schemeQuotaDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeQuotaDTO);
+        return (T) mapper.map(schemeQuotaDTO, claaz);
+    }
+
+
+    /**
+     * Maps schemeQuota Object to schemeQuota  Response Object
+     * @param schemeQuotaRequest
+     * @param <T>
+     */
+    public <T> T schemeQuotaObjectToEntity(SchemeQuotaRequest schemeQuotaRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeQuotaRequest);
+        return (T) mapper.map(schemeQuotaRequest, claaz);
     }
 
 
