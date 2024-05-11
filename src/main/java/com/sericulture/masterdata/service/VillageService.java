@@ -220,6 +220,7 @@ public class VillageService {
                 village.setTalukId(villageRequest.getTalukId());
                 village.setHobliId(villageRequest.getHobliId());
                 village.setVillageName(villageRequest.getVillageName());
+                village.setLgVillage(villageRequest.getLgVillage());
                 village.setVillageNameInKannada(villageRequest.getVillageNameInKannada());
                 village.setActive(true);
                 Village village1 = villageRepository.save(village);

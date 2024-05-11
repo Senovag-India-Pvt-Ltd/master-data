@@ -25,4 +25,8 @@ public class TalukRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Taluk in kannada must contain only letters and numbers")
     @Schema(name = "talukNameInKannada",  example = "ಭಾಷೆ")
     String talukNameInKannada;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgTaluk must contain only letters and numbers")
+    @Schema(name = "lgTaluk", example = "Shimoga")
+    String lgTaluk;
 }
