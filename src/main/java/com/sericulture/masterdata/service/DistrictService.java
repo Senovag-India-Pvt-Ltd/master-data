@@ -229,6 +229,7 @@ public class DistrictService {
                 if (Objects.nonNull(district)) {
                     district.setStateId(districtRequest.getStateId());
                     district.setDistrictName(districtRequest.getDistrictName());
+                    district.setLgDistrict(districtRequest.getLgDistrict());
                     district.setDistrictNameInKannada(districtRequest.getDistrictNameInKannada());
                     district.setActive(true);
                     District district1 = districtRepository.save(district);

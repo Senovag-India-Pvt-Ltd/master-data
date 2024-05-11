@@ -79,4 +79,9 @@ public class UserMaster extends BaseEntity implements Serializable {
 
     @Column(name = "working_institution_id")
     private Long workingInstitutionId;
+
+    @Column(name = "ddo_code")
+    private String ddoCode;
+
+
 }

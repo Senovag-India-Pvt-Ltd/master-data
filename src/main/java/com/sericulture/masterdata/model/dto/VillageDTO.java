@@ -16,24 +16,27 @@ public class VillageDTO {
     private Long districtId;
     private Long talukId;
     private Long hobliId;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgVillage name must contain only letters and numbers")
+    private String lgVillage;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
-
     private String stateName;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
-
     private String districtName;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk name must contain only letters and numbers")
-
     private String talukName;
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Hobli name must contain only letters and numbers")
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Hobli name must contain only letters and numbers")
     private String hobliName;
 
     public VillageDTO(){
 
     }
 
-    public VillageDTO(Long villageId,String villageName,String villageNameInKannada, Long stateId, Long districtId, Long talukId,Long hobliId, String stateName, String districtName, String talukName, String hobliName) {
+    public VillageDTO(Long villageId,String villageName,String villageNameInKannada, Long stateId, Long districtId, Long talukId,Long hobliId,String lgVillage, String stateName, String districtName, String talukName, String hobliName) {
         this.villageId = villageId;
         this.villageName = villageName;
         this.villageNameInKannada = villageNameInKannada;
@@ -41,6 +44,7 @@ public class VillageDTO {
         this.districtId = districtId;
         this.talukId = talukId;
         this.hobliId = hobliId;
+        this.lgVillage = lgVillage;
         this.stateName = stateName;
         this.districtName = districtName;
         this.talukName = talukName;

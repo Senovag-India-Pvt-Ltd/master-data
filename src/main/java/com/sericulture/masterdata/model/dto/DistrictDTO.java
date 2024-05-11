@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,9 @@ public class DistrictDTO {
     private String districtNameInKannada;
     private Long stateId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgDistrict must contain only letters and numbers")
+    private String lgDistrict;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
     private String stateName;
 
@@ -23,11 +27,12 @@ public class DistrictDTO {
 
     }
 
-    public DistrictDTO(Long districtId, String districtName,String districtNameInKannada, Long stateId, String stateName) {
+    public DistrictDTO(Long districtId, String districtName,String districtNameInKannada, Long stateId,String lgDistrict, String stateName) {
         this.districtId = districtId;
         this.districtName = districtName;
         this.districtNameInKannada = districtNameInKannada;
         this.stateId = stateId;
+        this.lgDistrict = lgDistrict;
         this.stateName = stateName;
     }
 }

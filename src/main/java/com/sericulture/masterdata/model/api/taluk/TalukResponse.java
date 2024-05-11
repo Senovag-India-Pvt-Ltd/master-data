@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.taluk;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -29,6 +30,9 @@ public class TalukResponse {
 
     @Schema(name = "talukName", example = "Thirthahalli")
     String talukName;
+
+    @Schema(name = "lgTaluk", example = "Shimoga")
+    String lgTaluk;
 
     @Schema(name = "talukNameInKannada",  example = "ಭಾಷೆ")
     String talukNameInKannada;

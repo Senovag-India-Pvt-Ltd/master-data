@@ -28,6 +28,9 @@ public class District extends BaseEntity implements Serializable {
     @Column(name = "STATE_ID")
     private Long stateId;
 
+    @Column(name = "lg_district")
+    private String lgDistrict;
+
     @Column(name = "district_name_in_kannada")
     private String districtNameInKannada;
 }

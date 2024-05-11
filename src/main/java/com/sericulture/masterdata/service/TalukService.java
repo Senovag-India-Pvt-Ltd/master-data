@@ -215,6 +215,7 @@ public class TalukService {
                 taluk.setStateId(talukRequest.getStateId());
                 taluk.setDistrictId(talukRequest.getDistrictId());
                 taluk.setTalukId(talukRequest.getTalukId());
+                taluk.setLgTaluk(talukRequest.getLgTaluk());
                 taluk.setTalukName(talukRequest.getTalukName());
                 taluk.setTalukNameInKannada(talukRequest.getTalukNameInKannada());
                 Taluk updatedTaluk = talukRepository.save(taluk);

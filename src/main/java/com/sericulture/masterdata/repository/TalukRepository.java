@@ -29,6 +29,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
+            " taluk.lgTaluk," +
             " state.stateName," +
             " district.districtName" +
             ") \n" +
@@ -48,6 +49,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
+            " taluk.lgTaluk," +
             " state.stateName," +
             " district.districtName" +
             ") \n" +
@@ -84,6 +86,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             " taluk.talukNameInKannada," +
             " taluk.stateId," +
             " taluk.districtId," +
+            " taluk.lgTaluk," +
             " state.stateName," +
             " district.districtName" +
             ") \n" +
