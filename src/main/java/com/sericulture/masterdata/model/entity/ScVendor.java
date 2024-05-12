@@ -31,4 +31,19 @@ public class ScVendor extends BaseEntity implements Serializable {
 
     @Column(name = "type")
     private Long type;
+
+    @Column(name = "agency_code")
+    private String agencyCode;
+
+    @Column(name = "agency_bank_acc_no")
+    private String agencyBankAcNo;
+
+    @Column(name = "agency_ifsc_code")
+    private String agencyIfscCode;
+
+    @Column(name = "agency_district_code")
+    private String agencyDistrictCode;
+
+    @Column(name = "agency_taluk_code")
+    private String agencyTalukCode;
 }
