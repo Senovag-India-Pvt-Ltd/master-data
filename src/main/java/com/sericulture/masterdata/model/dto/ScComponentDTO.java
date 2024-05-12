@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ScComponentDTO {
     private Long scComponentId;
     private Long scSubSchemeDetailsId;
-    private Long scComponentName;
-    private Long subSchemeName;
+    private String scComponentName;
+    private String subSchemeName;
 
 }
