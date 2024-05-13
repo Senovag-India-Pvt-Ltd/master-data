@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.departmentMaster.DepartmentMasterRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
@@ -2658,6 +2659,27 @@ public class Mapper {
     public <T> T scSubSchemeMappingObjectToEntity(ScSubSchemeMappingRequest scSubSchemeMappingRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, scSubSchemeMappingRequest);
         return (T) mapper.map(scSubSchemeMappingRequest, claaz);
+    }
+
+    /**
+     * Maps departmentMaster Entity to departmentMaster Response Object
+     * @param departmentMasterEntity
+     * @param <T>
+     */
+    public <T> T departmentMasterEntityToObject(DepartmentMaster departmentMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,departmentMasterEntity);
+        return (T) mapper.map(departmentMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps departmentMaster Object to departmentMaster  Response Object
+     * @param departmentMasterRequest
+     * @param <T>
+     */
+    public <T> T departmentMasterObjectToEntity(DepartmentMasterRequest departmentMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, departmentMasterRequest);
+        return (T) mapper.map(departmentMasterRequest, claaz);
     }
 
 

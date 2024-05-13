@@ -14,6 +14,7 @@ public class ScHeadAccountDTO {
     private String scHeadAccountName;
     private String scHeadAccountNameInKannada;
     private Long scSchemeDetailsId;
+    private String dbtCode;
     private String schemeName;
 
 }

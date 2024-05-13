@@ -19,6 +19,7 @@ public class ScSubSchemeDetailsDTO {
     private Date subSchemeEndDate;
     private Long withLand;
     private Long beneficiaryType;
+    private String dbtCode;
     private String schemeName;
 
 

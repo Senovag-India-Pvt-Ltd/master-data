@@ -223,6 +223,7 @@ public class ScHeadAccountService {
                 scHeadAccount.setScHeadAccountName(scHeadAccountRequest.getScHeadAccountName());
                 scHeadAccount.setScHeadAccountNameInKannada(scHeadAccountRequest.getScHeadAccountNameInKannada());
                 scHeadAccount.setScSchemeDetailsId(scHeadAccountRequest.getScSchemeDetailsId());
+                scHeadAccount.setDbtCode(scHeadAccountRequest.getDbtCode());
                 scHeadAccount.setActive(true);
                 ScHeadAccount scHeadAccount1 = scHeadAccountRepository.save(scHeadAccount);
                 scHeadAccountResponse = mapper.scHeadAccountEntityToObject(scHeadAccount1, ScHeadAccountResponse.class);

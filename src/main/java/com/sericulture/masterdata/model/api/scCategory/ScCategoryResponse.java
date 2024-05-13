@@ -28,6 +28,9 @@ public class ScCategoryResponse {
     @Schema(name = "codeNumber", example = "Karnataka", required = true)
     String codeNumber;
 
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Schema(name = "description", example = "Karnataka", required = true)
     String description;
 

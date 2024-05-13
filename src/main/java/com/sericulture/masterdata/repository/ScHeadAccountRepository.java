@@ -46,6 +46,7 @@ public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHe
             " scHeadAccount.scHeadAccountName," +
             " scHeadAccount.scHeadAccountNameInKannada," +
             " scHeadAccount.scSchemeDetailsId," +
+            " scHeadAccount.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScHeadAccount scHeadAccount\n" +
@@ -61,6 +62,7 @@ public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHe
             " scHeadAccount.scHeadAccountName," +
             " scHeadAccount.scHeadAccountNameInKannada," +
             " scHeadAccount.scSchemeDetailsId," +
+            " scHeadAccount.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScHeadAccount scHeadAccount\n" +
@@ -76,6 +78,7 @@ public interface ScHeadAccountRepository extends PagingAndSortingRepository<ScHe
             " scHeadAccount.scHeadAccountName," +
             " scHeadAccount.scHeadAccountNameInKannada," +
             " scHeadAccount.scSchemeDetailsId," +
+            " scHeadAccount.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScHeadAccount scHeadAccount\n" +

@@ -44,6 +44,9 @@ public class ScSubSchemeDetailsResponse {
     @Schema(name = "beneficiaryType", example = "1")
     Long beneficiaryType;
 
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -27,6 +27,10 @@ public class ScCategoryRequest extends RequestBody {
     @Schema(name = "codeNumber", example = "Karnataka", required = true)
     String codeNumber;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
 
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Description must contain only letters and numbers")
     @Schema(name = "description", example = "Karnataka", required = true)

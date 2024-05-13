@@ -146,6 +146,7 @@ public class ScSchemeDetailsService {
                 scSchemeDetails.setSchemeNameInKannada( scSchemeDetailsRequest.getSchemeNameInKannada());
                 scSchemeDetails.setSchemeStartDate( scSchemeDetailsRequest.getSchemeStartDate());
                 scSchemeDetails.setSchemeEndDate( scSchemeDetailsRequest.getSchemeEndDate());
+                scSchemeDetails.setDbtCode(scSchemeDetailsRequest.getDbtCode());
 
                 scSchemeDetails.setActive(true);
                 ScSchemeDetails scSchemeDetails1= scSchemeDetailsRepository.save(scSchemeDetails);

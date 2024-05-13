@@ -36,4 +36,7 @@ public class ScSchemeDetails extends BaseEntity implements Serializable {
 
     @Column(name = "scheme_end_date", unique = true)
     private Date schemeEndDate;
+
+    @Column(name = "dbt_code", unique = true)
+    private String dbtCode;
 }

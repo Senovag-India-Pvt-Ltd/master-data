@@ -18,6 +18,10 @@ public class EditScComponentRequest extends RequestBody {
     @Schema(name = "scSubSchemeDetailsId", example = "1")
     Long scSubSchemeDetailsId;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "ScComponent must contain only letters and numbers")
     @Schema(name = "scComponentName", example = "scComponentName 1 ", required = true)
     String scComponentName;
