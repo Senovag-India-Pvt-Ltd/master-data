@@ -47,12 +47,12 @@ public class ScHeadAccountCategoryService {
         List<ScHeadAccountCategory> scHeadAccountCategoryList = scHeadAccountCategoryRepository.findByScHeadAccountIdAndScCategoryId(scHeadAccountCategoryRequest.getScHeadAccountId(),scHeadAccountCategoryRequest.getScCategoryId());
         if(!scHeadAccountCategoryList.isEmpty() && scHeadAccountCategoryList.stream().filter(ScHeadAccountCategory::getActive).findAny().isPresent()){
             scHeadAccountCategoryResponse.setError(true);
-            scHeadAccountCategoryResponse.setError_description("ScHeadAccountCategory already exist");
+            scHeadAccountCategoryResponse.setError_description("Head Account  already exist");
         }
         else if(!scHeadAccountCategoryList.isEmpty() && scHeadAccountCategoryList.stream().filter(Predicate.not(ScHeadAccountCategory::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scHeadAccountCategoryResponse.setError(true);
-            scHeadAccountCategoryResponse.setError_description("ScHeadAccountCategory already exist with inactive state");
+            scHeadAccountCategoryResponse.setError_description("Head Account already exist with inactive state");
         }else {
             scHeadAccountCategoryResponse = mapper.scHeadAccountCategoryEntityToObject(scHeadAccountCategoryRepository.save(scHeadAccountCategory), ScHeadAccountCategoryResponse.class);
             scHeadAccountCategoryResponse.setError(false);
@@ -219,7 +219,7 @@ public class ScHeadAccountCategoryService {
         List<ScHeadAccountCategory> scHeadAccountCategoryList = scHeadAccountCategoryRepository.findByScHeadAccountIdAndScCategoryIdAndScHeadAccountCategoryIdIsNot(scHeadAccountCategoryRequest.getScHeadAccountId(), scHeadAccountCategoryRequest.getScCategoryId(),scHeadAccountCategoryRequest.getScHeadAccountCategoryId());
         if (scHeadAccountCategoryList.size() > 0) {
             scHeadAccountCategoryResponse.setError(true);
-            scHeadAccountCategoryResponse.setError_description("scHeadAccountCategory exists, duplicates are not allowed.");
+            scHeadAccountCategoryResponse.setError_description("Head Account exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

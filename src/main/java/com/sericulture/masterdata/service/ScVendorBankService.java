@@ -43,12 +43,12 @@ public class ScVendorBankService {
         List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorId(scVendorBankRequest.getScVendorId());
         if(!scVendorBankList.isEmpty() && scVendorBankList.stream().filter(ScVendorBank::getActive).findAny().isPresent()){
             scVendorBankResponse.setError(true);
-            scVendorBankResponse.setError_description("ScVendorBank already exist");
+            scVendorBankResponse.setError_description("Vendor already exist");
         }
         else if(!scVendorBankList.isEmpty() && scVendorBankList.stream().filter(Predicate.not(ScVendorBank::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scVendorBankResponse.setError(true);
-            scVendorBankResponse.setError_description("ScVendorBank already exist with inactive state");
+            scVendorBankResponse.setError_description("Vendor already exist with inactive state");
         }else {
             scVendorBankResponse = mapper.scVendorBankEntityToObject(scVendorBankRepository.save(scVendorBank), ScVendorBankResponse.class);
             scVendorBankResponse.setError(false);
@@ -207,7 +207,7 @@ public class ScVendorBankService {
         List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorIdAndScVendorBankIdIsNot(scVendorBankRequest.getScVendorId(), scVendorBankRequest.getScVendorBankId());
         if (scVendorBankList.size() > 0) {
             scVendorBankResponse.setError(true);
-            scVendorBankResponse.setError_description("ScVendorBank exists, duplicates are not allowed.");
+            scVendorBankResponse.setError_description("Vendor exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

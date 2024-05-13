@@ -48,12 +48,12 @@ public class ScUnitCostService {
         List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(scUnitCostRequest.getScHeadAccountId(),scUnitCostRequest.getScCategoryId(), scUnitCostRequest.getScSubSchemeDetailsId());
         if(!scUnitCostList.isEmpty() && scUnitCostList.stream().filter(ScUnitCost::getActive).findAny().isPresent()){
             scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("ScUnitCost already exist");
+            scUnitCostResponse.setError_description("Head Account already exist");
         }
         else if(!scUnitCostList.isEmpty() && scUnitCostList.stream().filter(Predicate.not(ScUnitCost::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("ScUnitCost already exist with inactive state");
+            scUnitCostResponse.setError_description("Head Account already exist with inactive state");
         }else {
             scUnitCostResponse = mapper.scUnitCostEntityToObject(scUnitCostRepository.save(scUnitCost), ScUnitCostResponse.class);
             scUnitCostResponse.setError(false);
@@ -212,7 +212,7 @@ public class ScUnitCostService {
         List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndAndScSubSchemeDetailsIdAndScCategoryIdAndScUnitCostIdIsNot(scUnitCostRequest.getScHeadAccountId(), scUnitCostRequest.getScSubSchemeDetailsId(),scUnitCostRequest.getScCategoryId(),scUnitCostRequest.getScSubSchemeDetailsId());
         if (scUnitCostList.size() > 0) {
             scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("ScUnitCost exists, duplicates are not allowed.");
+            scUnitCostResponse.setError_description("Head Account exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

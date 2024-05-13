@@ -24,6 +24,21 @@ public class ScVendorResponse {
     @Schema(name = "type", example = "1")
     Long type;
 
+    @Schema(name = "agencyCode", example = "agencyCode 1", required = true)
+    String agencyCode;
+
+    @Schema(name = "agencyBankAcNo",  example = "123456")
+    String agencyBankAcNo;
+
+    @Schema(name = "agencyIfscCode", example = "agencyIfscCode 1", required = true)
+    String agencyIfscCode;
+
+    @Schema(name = "agencyDistrictCode", example = "agencyDistrictCode 1", required = true)
+    String agencyDistrictCode;
+
+    @Schema(name = "agencyTalukCode", example = "agencyTalukCode 1", required = true)
+    String agencyTalukCode;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

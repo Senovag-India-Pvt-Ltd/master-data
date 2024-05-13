@@ -22,6 +22,14 @@ public class GrainageMasterResponse {
     @Schema(name = "grainageMasterNameInKannada", example = "ಭಾಷೆ", required = true)
     String grainageMasterNameInKannada;
 
+
+    @Schema(name = "grainageType", example = "Karnataka", required = true)
+    String grainageType;
+
+    @Schema(name = "grainageNameRepresentation", example = "Karnataka", required = true)
+    String grainageNameRepresentation;
+
+
     @Schema(name = "userMasterId", example = "1")
     Long userMasterId;
 

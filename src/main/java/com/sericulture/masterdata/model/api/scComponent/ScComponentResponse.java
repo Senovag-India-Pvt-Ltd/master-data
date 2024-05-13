@@ -15,6 +15,12 @@ public class ScComponentResponse {
     @Schema(name = "scComponentId", example = "1")
     Integer scComponentId;
 
+    @Schema(name = "scSubSchemeDetailsId", example = "1")
+    Long scSubSchemeDetailsId;
+
+    @Schema(name = "subSchemeName", example = "scComponentName 1 ")
+    String subSchemeName;
+
     @Schema(name = "scComponentName", example = "scComponentName 1 ")
     String scComponentName;
 

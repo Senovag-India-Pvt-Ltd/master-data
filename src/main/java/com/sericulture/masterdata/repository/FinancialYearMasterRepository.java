@@ -29,4 +29,6 @@ public interface FinancialYearMasterRepository extends PagingAndSortingRepositor
     public FinancialYearMaster findByFinancialYearMasterIdAndActiveIn(@Param("financialYearMasterId") long financialYearMasterId, @Param("active") Set<Boolean> active);
 
     public List<FinancialYearMaster> findByActive(boolean isActive);
+
+    public FinancialYearMaster findByIsDefaultAndActive(boolean isDefault, boolean isActive);
 }

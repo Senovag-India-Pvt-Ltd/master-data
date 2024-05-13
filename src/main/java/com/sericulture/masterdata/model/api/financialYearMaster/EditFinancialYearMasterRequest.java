@@ -15,7 +15,7 @@ public class EditFinancialYearMasterRequest extends RequestBody {
     @Schema(name = "financialYearMasterId", example = "1")
     Long financialYearMasterId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "  Financial Year  must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9\\s-]*$", message = "  Financial Year  must contain only letters and numbers")
     @Schema(name = "financialYear", example = "Karnataka", required = true)
     String financialYear;
 

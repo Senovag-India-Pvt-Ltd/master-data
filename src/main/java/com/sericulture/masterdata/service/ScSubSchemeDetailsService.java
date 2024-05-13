@@ -43,12 +43,12 @@ public class ScSubSchemeDetailsService {
         List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndSubSchemeName(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getSubSchemeName());
         if(!scSubSchemeDetailsList.isEmpty() && scSubSchemeDetailsList.stream().filter(ScSubSchemeDetails::getActive).findAny().isPresent()){
             scSubSchemeDetailsResponse.setError(true);
-            scSubSchemeDetailsResponse.setError_description("ScSubSchemeDetails already exist");
+            scSubSchemeDetailsResponse.setError_description("SchemeDetails already exist");
         }
         else if(!scSubSchemeDetailsList.isEmpty() && scSubSchemeDetailsList.stream().filter(Predicate.not(ScSubSchemeDetails::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scSubSchemeDetailsResponse.setError(true);
-            scSubSchemeDetailsResponse.setError_description("ScSubSchemeDetails already exist with inactive state");
+            scSubSchemeDetailsResponse.setError_description("SchemeDetails already exist with inactive state");
         }else {
             scSubSchemeDetailsResponse = mapper.scSubSchemeDetailsEntityToObject(scSubSchemeDetailsRepository.save(scSubSchemeDetails), ScSubSchemeDetailsResponse.class);
             scSubSchemeDetailsResponse.setError(false);
@@ -209,7 +209,7 @@ public class ScSubSchemeDetailsService {
         List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndSubSchemeNameAndScSubSchemeDetailsIdIsNot(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getSubSchemeName(), scSubSchemeDetailsRequest.getScSubSchemeDetailsId());
         if (scSubSchemeDetailsList.size() > 0) {
             scSubSchemeDetailsResponse.setError(true);
-            scSubSchemeDetailsResponse.setError_description("ScSubSchemeDetails exists, duplicates are not allowed.");
+            scSubSchemeDetailsResponse.setError_description("SchemeDetails exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

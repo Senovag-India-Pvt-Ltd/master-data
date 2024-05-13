@@ -154,6 +154,7 @@ public class LineNameMasterService {
                 lineNameMaster.setLineName(lineNameMasterRequest.getLineName());
                 lineNameMaster.setLineNameInKannada(lineNameMasterRequest.getLineNameInKannada());
                 lineNameMaster.setLineCode(lineNameMasterRequest.getLineCode());
+                lineNameMaster.setLineNameRepresentation(lineNameMasterRequest.getLineNameRepresentation());
                 lineNameMaster.setActive(true);
                 LineNameMaster lineNameMaster1 = lineNameMasterRepository.save(lineNameMaster);
                 lineNameMasterResponse = mapper.lineNameMasterEntityToObject(lineNameMaster1, LineNameMasterResponse.class);

@@ -132,7 +132,7 @@ public class ScVendorService {
     public ScVendorResponse updateScVendorsDetails(EditScVendorRequest scVendorRequest){
 
         ScVendorResponse scVendorResponse = new ScVendorResponse();
-        List<ScVendor> scVendorList = scVendorRepository. findByActiveAndNameAndNameInKannadaAndType(true,scVendorRequest.getName(), scVendorRequest.getNameInKannada(), scVendorRequest.getType());
+        List<ScVendor> scVendorList = scVendorRepository. findByActiveAndNameAndNameInKannadaIsNot(true,scVendorRequest.getName(), scVendorRequest.getNameInKannada());
         if(scVendorList.size()>0){
             scVendorResponse.setError(true);
             scVendorResponse.setError_description("Sc Vendor exists, duplicates are not allowed.");
@@ -145,6 +145,11 @@ public class ScVendorService {
                 scVendor.setName( scVendorRequest.getName());
                 scVendor.setNameInKannada( scVendorRequest.getNameInKannada());
                 scVendor.setType(scVendorRequest.getType());
+                scVendor.setAgencyCode(scVendorRequest.getAgencyCode());
+                scVendor.setAgencyBankAcNo(scVendorRequest.getAgencyBankAcNo());
+                scVendor.setAgencyDistrictCode(scVendorRequest.getAgencyDistrictCode());
+                scVendor.setAgencyIfscCode(scVendorRequest.getAgencyIfscCode());
+                scVendor.setAgencyTalukCode(scVendorRequest.getAgencyTalukCode());
                 scVendor.setActive(true);
                 ScVendor scVendor1= scVendorRepository.save(scVendor);
                 scVendorResponse = mapper.scVendorEntityToObject(scVendor1, ScVendorResponse.class);

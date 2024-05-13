@@ -57,6 +57,13 @@ public class FinancialYearMasterService {
 //            FinancialYearMasterResponse.setError(true);
 //            FinancialYearMasterResponse.setError_description("Tr Program name already exist with inactive state");
         }else {
+            if(financialYearMasterRequest.getIsDefault()){
+                List<FinancialYearMaster> financialYearMasters = financialYearMasterRepository.findByActive(true);
+                for(FinancialYearMaster financialYearMaster1: financialYearMasters){
+                    financialYearMaster1.setIsDefault(false);
+                    financialYearMasterRepository.save(financialYearMaster1);
+                }
+            }
             financialYearMasterResponse  = mapper.financialYearMasterEntityToObject( financialYearMasterRepository.save(financialYearMaster), FinancialYearMasterResponse.class);
             financialYearMasterResponse.setError(false);
         }
@@ -71,6 +78,21 @@ public class FinancialYearMasterService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(financialYearMasterRepository.findByActive(isActive));
+    }
+
+    @Transactional
+    public FinancialYearMasterResponse getIsDefault(){
+        FinancialYearMasterResponse financialYearMasterResponse = new FinancialYearMasterResponse();
+        FinancialYearMaster financialYearMaster= financialYearMasterRepository.findByIsDefaultAndActive(true, true);
+        if(financialYearMaster== null){
+            financialYearMasterResponse.setError(true);
+            financialYearMasterResponse.setError_description("Invalid id");
+        }else{
+            financialYearMasterResponse =  mapper.financialYearMasterEntityToObject(financialYearMaster, FinancialYearMasterResponse.class);
+            financialYearMasterResponse.setError(false);
+        }
+        log.info("Entity is ",financialYearMaster);
+        return financialYearMasterResponse;
     }
 
     private Map<String, Object> convertToMapResponse(final Page<FinancialYearMaster> activeFinancialYearMasters) {

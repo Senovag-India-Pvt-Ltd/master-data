@@ -14,6 +14,8 @@ public class GrainageMasterDTO {
     private Long grainageMasterId;
     private String grainageMasterName;
     private String grainageMasterNameInKannada;
+    private String grainageNameRepresentation;
+    private String grainageType;
     private Long userMasterId;
     private String username;
 
