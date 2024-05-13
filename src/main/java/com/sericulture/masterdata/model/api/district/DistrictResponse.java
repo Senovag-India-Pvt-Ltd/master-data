@@ -18,6 +18,9 @@ public class DistrictResponse {
     @Schema(name="stateId", example = "1")
     int stateId;
 
+    @Schema(name = "lgDistrict", example = "Shimoga")
+    String lgDistrict;
+
     @Schema(name = "districtName", example = "Shimoga")
     String districtName;
 

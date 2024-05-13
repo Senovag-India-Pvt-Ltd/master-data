@@ -32,6 +32,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             " village.districtId," +
             " village.talukId," +
             " village.hobliId," +
+            " village.lgVillage," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -59,6 +60,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             " village.districtId," +
             " village.talukId," +
             " village.hobliId," +
+            " village.lgVillage," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -98,6 +100,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             " village.districtId," +
             " village.talukId," +
             " village.hobliId," +
+            " village.lgVillage," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +

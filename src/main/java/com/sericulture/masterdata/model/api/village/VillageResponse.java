@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.village;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -41,6 +42,9 @@ public class VillageResponse {
 
     @Schema(name = "villageName", example = "Hodala")
     String villageName;
+
+    @Schema(name = "lgVillage", example = "Shimoga")
+    String lgVillage;
 
     @Schema(name = "villageNameInKannada",  example = "ಭಾಷೆ")
     String villageNameInKannada;
