@@ -31,6 +31,10 @@ public class EditSchemeQuotaRequest extends RequestBody {
     @Schema(name = "schemeQuotaCode", example = "1")
     String schemeQuotaCode;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = " schemeQuotaType in kannada must contain only letters and numbers")
     @Schema(name = "schemeQuotaPaymentType", example = "1")
     String schemeQuotaPaymentType;

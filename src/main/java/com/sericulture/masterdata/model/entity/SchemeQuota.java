@@ -40,4 +40,7 @@ public class SchemeQuota extends BaseEntity implements Serializable {
     @Column(name = "scheme_quota_payment_type")
     private String schemeQuotaPaymentType;
 
+    @Column(name = "dbt_code", unique = true)
+    private String dbtCode;
+
 }

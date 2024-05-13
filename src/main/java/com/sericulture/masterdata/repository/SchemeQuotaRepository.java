@@ -38,6 +38,7 @@ public interface SchemeQuotaRepository extends PagingAndSortingRepository<Scheme
             " schemeQuota.schemeQuotaType," +
             " schemeQuota.schemeQuotaCode," +
             " schemeQuota.schemeQuotaPaymentType," +
+            " schemeQuota.dbtCode," +
             " scSchemeDetails.schemeName" +
 
             ") \n" +
@@ -56,6 +57,7 @@ public interface SchemeQuotaRepository extends PagingAndSortingRepository<Scheme
             " schemeQuota.schemeQuotaType," +
             " schemeQuota.schemeQuotaCode," +
             " schemeQuota.schemeQuotaPaymentType," +
+            " schemeQuota.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from SchemeQuota schemeQuota\n" +
@@ -73,6 +75,7 @@ public interface SchemeQuotaRepository extends PagingAndSortingRepository<Scheme
             " schemeQuota.schemeQuotaType," +
             " schemeQuota.schemeQuotaCode," +
             " schemeQuota.schemeQuotaPaymentType," +
+            " schemeQuota.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from SchemeQuota schemeQuota\n" +

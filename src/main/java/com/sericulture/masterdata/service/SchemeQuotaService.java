@@ -220,8 +220,7 @@ public class SchemeQuotaService {
                 schemeQuota.setSchemeQuotaType(schemeQuotaRequest.getSchemeQuotaType());
                 schemeQuota.setSchemeQuotaPaymentType(schemeQuotaRequest.getSchemeQuotaPaymentType());
                 schemeQuota.setSchemeQuotaCode(schemeQuotaRequest.getSchemeQuotaCode());
-
-
+                schemeQuota.setDbtCode(schemeQuotaRequest.getDbtCode());
 
 
                 schemeQuota.setActive(true);

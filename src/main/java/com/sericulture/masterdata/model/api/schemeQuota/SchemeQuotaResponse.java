@@ -34,6 +34,9 @@ public class SchemeQuotaResponse {
     @Schema(name = "schemeName", example = "1")
     String schemeName;
 
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
