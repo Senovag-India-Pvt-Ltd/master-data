@@ -25,6 +25,10 @@ public class EditScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "schemeNameInKannada", example = "ಕನ್ನಡ")
     String schemeNameInKannada;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Schema(name = "schemeStartDate", example = "1")
     Date schemeStartDate;
 

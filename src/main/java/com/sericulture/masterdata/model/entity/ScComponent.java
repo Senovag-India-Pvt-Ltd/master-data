@@ -21,6 +21,8 @@ public class ScComponent extends BaseEntity implements Serializable {
     @Column(name = "sc_component_id")
     private Long scComponentId;
 
+    @Column(name = "dbt_code", unique = true)
+    private String dbtCode;
 
     @Size(min = 2, max = 250, message = "Sc Component name should be more than 1 characters.")
     @Column(name = "sc_component_name", unique = true)

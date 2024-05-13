@@ -131,6 +131,7 @@ public class ScComponentService {
             ScComponent scComponent = scComponentRepository.findByScComponentIdAndActiveIn(scComponentRequest.getScComponentId(), Set.of(true, false));
             if (Objects.nonNull(scComponent)) {
                 scComponent.setScComponentName(scComponentRequest.getScComponentName());
+                scComponent.setDbtCode(scComponentRequest.getDbtCode());
                 scComponent.setActive(true);
                 ScComponent scComponent1 = scComponentRepository.save(scComponent);
                 scComponentResponse = mapper.scComponentEntityToObject(scComponent1, ScComponentResponse.class);

@@ -44,6 +44,7 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.subSchemeEndDate," +
             " scSubSchemeDetails.withLand," +
             " scSubSchemeDetails.beneficiaryType," +
+            " scSubSchemeDetails.dbtCode," +
             " scSchemeDetails.schemeName" +
 
             ") \n" +
@@ -65,6 +66,7 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.subSchemeEndDate," +
             " scSubSchemeDetails.withLand," +
             " scSubSchemeDetails.beneficiaryType," +
+            " scSubSchemeDetails.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +
@@ -85,6 +87,7 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.subSchemeEndDate," +
             " scSubSchemeDetails.withLand," +
             " scSubSchemeDetails.beneficiaryType," +
+            " scSubSchemeDetails.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +

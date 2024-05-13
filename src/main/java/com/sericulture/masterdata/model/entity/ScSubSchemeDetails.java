@@ -49,4 +49,7 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "beneficiary_type")
     private Long beneficiaryType;
 
+    @Column(name = "dbt_code", unique = true)
+    private String dbtCode;
+
 }

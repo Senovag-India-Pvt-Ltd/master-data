@@ -28,6 +28,9 @@ public class ScSchemeDetailsResponse {
     @Schema(name = "schemeEndDate", example = "1")
     Date schemeEndDate;
 
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

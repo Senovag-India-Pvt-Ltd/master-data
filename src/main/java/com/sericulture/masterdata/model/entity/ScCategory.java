@@ -34,6 +34,9 @@ public class ScCategory extends BaseEntity implements Serializable {
     @Column(name = " code_number", unique = true)
     private String codeNumber;
 
+    @Column(name = "dbt_code", unique = true)
+    private String dbtCode;
+
     @Column(name = " description", unique = true)
     private String description;
 
