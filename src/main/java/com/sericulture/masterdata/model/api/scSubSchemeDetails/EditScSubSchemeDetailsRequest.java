@@ -38,7 +38,7 @@ public class EditScSubSchemeDetailsRequest extends RequestBody {
     Date subSchemeEndDate;
 
     @Schema(name = "withLand", example = "1")
-    Long withLand;
+    Boolean withLand;
 
     @Schema(name = "beneficiaryType", example = "1")
     Long beneficiaryType;
