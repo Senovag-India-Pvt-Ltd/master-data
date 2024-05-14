@@ -115,6 +115,16 @@ public class ImportController {
                                 }
                                 break;
                             case 4:
+                                //district lg
+                                System.out.print("districtLg:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (districtId != 0) {
+                                        updateDistrict.setLgDistrict(cellValue);
+                                        districtRepository.save(updateDistrict);
+                                    }
+                                }
+                                break;
+                            case 5:
                                 //taluk
                                 System.out.print("taluk:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -133,7 +143,7 @@ public class ImportController {
                                     }
                                 }
                                 break;
-                            case 5:
+                            case 6:
                                 //taluk kan
                                 System.out.print("talukKan:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -143,7 +153,17 @@ public class ImportController {
                                     }
                                 }
                                 break;
-                            case 6:
+                            case 7:
+                                //taluk lg
+                                System.out.print("talukLg:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (talukId != 0) {
+                                        updateTaluk.setLgTaluk(cellValue);
+                                        talukRepository.save(updateTaluk);
+                                    }
+                                }
+                                break;
+                            case 8:
                                 //hobli
                                 System.out.print("hobli:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -163,7 +183,7 @@ public class ImportController {
                                     }
                                 }
                                 break;
-                            case 7:
+                            case 9:
                                 //hobli kan
                                 System.out.print("hobliKan:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -173,7 +193,7 @@ public class ImportController {
                                     }
                                 }
                                 break;
-                            case 8:
+                            case 10:
                                 //villageEng
                                 System.out.print("villageEng:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
@@ -194,12 +214,21 @@ public class ImportController {
                                     }
                                 }
                                 break;
-                            case 9:
+                            case 11:
                                 //villageKan
                                 System.out.print("villageKan:" +cellValue + "\t");
                                 if(!cellValue.equals("") && cellValue != null) {
                                     if (villageId != 0) {
                                         updateVillage.setVillageNameInKannada(cellValue);
+                                        villageRepository.save(updateVillage);
+                                    }
+                                }
+                            case 12:
+                                //villageLg
+                                System.out.print("villageLg:" +cellValue + "\t");
+                                if(!cellValue.equals("") && cellValue != null) {
+                                    if (villageId != 0) {
+                                        updateVillage.setLgVillage(cellValue);
                                         villageRepository.save(updateVillage);
                                     }
                                 }
