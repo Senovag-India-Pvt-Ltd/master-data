@@ -58,7 +58,7 @@ public class ScCategoryController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addScCategoryDetails(@Valid @RequestBody ScCategoryRequest scCategoryRequest){
+    public ResponseEntity<?> addScCategoryDetails( @RequestBody ScCategoryRequest scCategoryRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
 
         rw.setContent(scCategoryService.insertScCategoryDetails(scCategoryRequest));
@@ -142,8 +142,7 @@ public class ScCategoryController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editScCategoryDetails(
-            @Valid @RequestBody final EditScCategoryRequest editScCategoryRequest
+    public ResponseEntity<?> editScCategoryDetails( @RequestBody final EditScCategoryRequest editScCategoryRequest
     ) {
         ResponseWrapper<ScCategoryResponse> rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
         rw.setContent(scCategoryService.updateScCategoryDetails(editScCategoryRequest));

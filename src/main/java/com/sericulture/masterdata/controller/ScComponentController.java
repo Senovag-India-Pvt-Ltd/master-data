@@ -55,7 +55,7 @@ public class ScComponentController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addScComponentDetails(@Valid @RequestBody ScComponentRequest scComponentRequest){
+    public ResponseEntity<?> addScComponentDetails( @RequestBody ScComponentRequest scComponentRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(ScComponentResponse.class);
 
         rw.setContent(scComponentService.insertScComponentDetails(scComponentRequest));
@@ -184,7 +184,7 @@ public class ScComponentController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editScComponentDetails(
-            @Valid @RequestBody final EditScComponentRequest editScComponentRequest
+             @RequestBody final EditScComponentRequest editScComponentRequest
     ) {
         ResponseWrapper<ScComponentResponse> rw = ResponseWrapper.createWrapper(ScComponentResponse.class);
         rw.setContent(scComponentService.updateScComponentDetails(editScComponentRequest));

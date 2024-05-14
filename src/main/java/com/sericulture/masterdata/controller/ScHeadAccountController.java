@@ -60,7 +60,7 @@ public class ScHeadAccountController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addScHeadAccountDetails(@Valid @RequestBody ScHeadAccountRequest scHeadAccountRequest){
+    public ResponseEntity<?> addScHeadAccountDetails( @RequestBody ScHeadAccountRequest scHeadAccountRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(ScHeadAccountResponse.class);
 
         rw.setContent(scHeadAccountService.insertScHeadAccountDetails(scHeadAccountRequest));
@@ -145,7 +145,7 @@ public class ScHeadAccountController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editScHeadAccountDetails(
-            @Valid @RequestBody final EditScHeadAccountRequest editScHeadAccountRequest
+             @RequestBody final EditScHeadAccountRequest editScHeadAccountRequest
     ) {
         ResponseWrapper<ScHeadAccountResponse> rw = ResponseWrapper.createWrapper(ScHeadAccountResponse.class);
         rw.setContent(scHeadAccountService.updateScHeadAccountDetails(editScHeadAccountRequest));
@@ -286,7 +286,7 @@ public class ScHeadAccountController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
+            @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(scHeadAccountService.searchByColumnAndSort(searchWithSortRequest));

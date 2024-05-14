@@ -57,7 +57,7 @@ public class ScSchemeDetailsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addScSchemeDetails(@Valid @RequestBody ScSchemeDetailsRequest scSchemeDetailsRequest){
+    public ResponseEntity<?> addScSchemeDetails(@RequestBody ScSchemeDetailsRequest scSchemeDetailsRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(ScSchemeDetailsResponse.class);
 
         rw.setContent(scSchemeDetailsService.insertScSchemeDetailsDetails(scSchemeDetailsRequest));
@@ -142,7 +142,7 @@ public class ScSchemeDetailsController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editScSchemeDetailsDetails(
-            @Valid @RequestBody final EditScSchemeDetailsRequest editScSchemeDetailsRequest
+             @RequestBody final EditScSchemeDetailsRequest editScSchemeDetailsRequest
     ) {
         ResponseWrapper<ScSchemeDetailsResponse> rw = ResponseWrapper.createWrapper(ScSchemeDetailsResponse.class);
         rw.setContent(scSchemeDetailsService.updateScSchemeDetailsDetails(editScSchemeDetailsRequest));
