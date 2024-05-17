@@ -4,6 +4,8 @@ import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @Getter
 @Setter
@@ -16,6 +18,9 @@ public class DesignationResponse extends RequestBody {
 
     @Schema(name = "name", example = "Admin", required = true)
     String name;
+
+    @Schema(name = "amount", example = "amount", required = true)
+    BigDecimal amount;
 
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;

@@ -47,6 +47,7 @@ import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterReq
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
+import com.sericulture.masterdata.model.api.rejectReasonWorkflowMaster.RejectReasonWorkFlowMasterRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -102,6 +103,7 @@ import com.sericulture.masterdata.model.api.tsReleaseBudgetInstitution.TsRelease
 import com.sericulture.masterdata.model.api.tsReleaseBudgetTaluk.TsReleaseBudgetTalukRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
+import com.sericulture.masterdata.model.api.userHierarchyMapping.UserHierarchyMappingRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -2736,6 +2738,46 @@ public class Mapper {
         return (T) mapper.map(inspectionTypeRequest, claaz);
     }
 
+    /**
+     * Maps userHierarchyMapping Entity to userHierarchyMapping Response Object
+     * @param userHierarchyMappingEntity
+     * @param <T>
+     */
+    public <T> T userHierarchyMappingEntityToObject(UserHierarchyMapping userHierarchyMappingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,userHierarchyMappingEntity);
+        return (T) mapper.map(userHierarchyMappingEntity, claaz);
+    }
 
+
+    /**
+     * Maps inspectionType Object to inspectionType  Response Object
+     * @param userHierarchyMappingRequest
+     * @param <T>
+     */
+    public <T> T userHierarchyMappingObjectToEntity(UserHierarchyMappingRequest userHierarchyMappingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userHierarchyMappingRequest);
+        return (T) mapper.map(userHierarchyMappingRequest, claaz);
+    }
+
+    /**
+     * Maps rejectReasonWorkflowMaster Entity to rejectReasonWorkflowMaster Response Object
+     * @param rejectReasonWorkflowMasterEntity
+     * @param <T>
+     */
+    public <T> T rejectReasonWorkflowMasterEntityToObject(RejectReasonWorkFlowMaster rejectReasonWorkflowMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,rejectReasonWorkflowMasterEntity);
+        return (T) mapper.map(rejectReasonWorkflowMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps rejectReasonWorkflowMaster Object to rejectReasonWorkflowMaster  Response Object
+     * @param rejectReasonWorkflowMasterRequest
+     * @param <T>
+     */
+    public <T> T rejectReasonWorkflowMasterObjectToEntity(RejectReasonWorkFlowMasterRequest rejectReasonWorkflowMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rejectReasonWorkflowMasterRequest);
+        return (T) mapper.map(rejectReasonWorkflowMasterRequest, claaz);
+    }
 
 }

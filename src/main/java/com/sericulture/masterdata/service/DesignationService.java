@@ -153,6 +153,7 @@ public class DesignationService {
             if (Objects.nonNull(designation)) {
                 designation.setName(designationRequest.getName());
                 designation.setDesignationNameInKannada(designationRequest.getDesignationNameInKannada());
+                designation.setAmount(designationRequest.getAmount());
                 designation.setActive(true);
                 Designation designation1 = designationRepository.save(designation);
                 designationResponse = mapper.designationEntityToObject(designation1, DesignationResponse.class);
