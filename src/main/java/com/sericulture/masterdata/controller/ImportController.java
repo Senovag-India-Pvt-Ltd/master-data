@@ -46,7 +46,7 @@ public class ImportController {
             Taluk updateTaluk = new Taluk();
             Hobli updateHobli = new Hobli();
             Village updateVillage = new Village();
-            long stateId = 0, districtId = 0, talukId = 0, hobliId = 0, villageId = 0;
+            long stateId = 2, districtId = 0, talukId = 0, hobliId = 0, villageId = 0;
             Row row = rowIterator.next();
             // Get the row number
             int rowNumber = row.getRowNum();
