@@ -28,6 +28,127 @@ public class ImportController {
     @Autowired
     VillageRepository villageRepository;
 
+    @PostMapping("/import-district-and-taluk")
+    public String readExcelDataForDistrictAndTaluk(@RequestParam MultipartFile file) throws Exception{
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+
+        // Getting the Sheet at index i
+        Sheet sheet = workbook.getSheetAt(0);
+        System.out.println("=> " + sheet.getSheetName());
+        // Create a DataFormatter to format and get each cell's value as String
+        DataFormatter dataFormatter = new DataFormatter();
+        // 1. You can obtain a rowIterator and columnIterator and iterate over them
+        System.out.println("Iterating over Rows and Columns using Iterator");
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        while (rowIterator.hasNext()) {
+            State updateState = new State();
+            District updateDistrict = new District();
+            Taluk updateTaluk = new Taluk();
+            Hobli updateHobli = new Hobli();
+            Village updateVillage = new Village();
+            long stateId = 0, districtId = 0, talukId = 0, hobliId = 0, villageId = 0;
+            Row row = rowIterator.next();
+            // Get the row number
+            int rowNumber = row.getRowNum();
+            // Now let's iterate over the columns of the current row
+            if(rowNumber>0) {
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    int cellIndex = cell.getColumnIndex();
+                    String cellValue = dataFormatter.formatCellValue(cell);
+
+                    switch (cellIndex) {
+                        case 0:
+                            //district lg
+                            System.out.print("lgDistrict:" +cellValue + "\t");
+                            if(!cellValue.equals("") && cellValue != null) {
+                                District district = districtRepository.findByLgDistrict(cellValue);
+                                if (district == null) {
+                                    District district1 = new District();
+                                    district1.setLgDistrict(cellValue);
+                                    district1.setStateId(stateId);
+                                    District district2 = districtRepository.save(district1);
+                                    districtId = district2.getDistrictId();
+                                    updateDistrict = district2;
+                                } else {
+                                    districtId = district.getDistrictId();
+                                    updateDistrict = district;
+                                }
+                            }
+                            break;
+                        case 1:
+                            //district
+                            System.out.print("district:" +cellValue + "\t");
+                            if(!cellValue.equals("") && cellValue != null) {
+                                if (districtId != 0) {
+                                    updateDistrict.setDistrictName(cellValue);
+                                    districtRepository.save(updateDistrict);
+                                }
+                            }
+                            break;
+                        case 2:
+                            //district kan
+                            System.out.print("districtKan:" +cellValue + "\t");
+                            if(!cellValue.equals("") && cellValue != null) {
+                                if (districtId != 0) {
+                                    updateDistrict.setDistrictNameInKannada(cellValue);
+                                    districtRepository.save(updateDistrict);
+                                }
+                            }
+                            break;
+                        case 3:
+                            //talukLg
+                            System.out.print("taluk:" +cellValue + "\t");
+                            if(!cellValue.equals("") && cellValue != null) {
+                                Taluk taluk = talukRepository.findByLgTaluk(cellValue);
+                                if (taluk == null) {
+                                    Taluk taluk1 = new Taluk();
+                                    taluk1.setLgTaluk(cellValue);
+                                    taluk1.setStateId(stateId);
+                                    taluk1.setDistrictId(districtId);
+                                    Taluk taluk2 = talukRepository.save(taluk1);
+                                    talukId = taluk2.getTalukId();
+                                    updateTaluk = taluk2;
+                                } else {
+                                    talukId = taluk.getTalukId();
+                                    updateTaluk = taluk;
+                                }
+                            }
+                            break;
+                        case 6:
+                            //taluk eng
+                            System.out.print("talukEng:" +cellValue + "\t");
+                            if(!cellValue.equals("") && cellValue != null) {
+                                if (talukId != 0) {
+                                    updateTaluk.setTalukName(cellValue);
+                                    talukRepository.save(updateTaluk);
+                                }
+                            }
+                            break;
+                        case 7:
+                            //taluk kan
+                            System.out.print("talukKan:" +cellValue + "\t");
+                            if(!cellValue.equals("") && cellValue != null) {
+                                if (talukId != 0) {
+                                    updateTaluk.setTalukNameInKannada(cellValue);
+                                    talukRepository.save(updateTaluk);
+                                }
+                            }
+                            break;
+                    }
+                }
+                // Check if this is the last cell in the row
+                if (row.getLastCellNum() > 0 && row.getLastCellNum() == row.getPhysicalNumberOfCells()) {
+                    System.out.println("\nEnd of Row " + rowNumber);
+                }
+            }
+            System.out.println();
+        }
+
+        return "OK";
+    }
+
     @PostMapping("/import-excel-data")
     public String readExcelData(@RequestParam MultipartFile file) throws Exception{
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
