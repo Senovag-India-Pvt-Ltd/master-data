@@ -118,7 +118,7 @@ public class RejectReasonWorkFlowMasterController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{rejectReasonWorkFlowMasterId}")
     public ResponseEntity<?> deleteRejectReasonWorkFlowMasterDetails(
             @PathVariable final Long rejectReasonWorkFlowMasterId
     ) {

@@ -12,6 +12,9 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RejectReasonWorkFlowMasterResponse     {
 
+    @Schema(name = "rejectReasonWorkFlowMasterId", example = "1")
+    Long rejectReasonWorkFlowMasterId;
+
     @Schema(name = "reason", example = "Karnataka", required = true)
     String reason;
 
