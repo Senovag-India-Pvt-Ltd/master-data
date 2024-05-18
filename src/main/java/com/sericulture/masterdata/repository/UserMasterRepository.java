@@ -61,6 +61,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -109,6 +110,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -157,6 +159,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -257,6 +260,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -305,6 +309,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
             "from UserMaster userMaster\n" +
