@@ -23,6 +23,6 @@ public class UserHierarchyMapping extends BaseEntity implements Serializable {
     @Column(name = "reportee_user_master_id", unique = true)
     private Long reporteeUserMasterId;
 
-    @Column(name = "report_to_master_id")
+    @Column(name = "report_to_user_master_id")
     private Long reportToUserMasterId;
 }
