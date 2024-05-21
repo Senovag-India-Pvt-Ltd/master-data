@@ -12,6 +12,9 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserHierarchyMappingResponse {
 
+    @Schema(name = "userHierarchyMappingId", example = "1")
+    Long userHierarchyMappingId;
+
     @Schema(name = "reporteeUserMasterId", example = "1")
     Long reporteeUserMasterId;
 
