@@ -158,6 +158,104 @@ public class ImportController {
         return "OK";
     }
 
+    @PostMapping("/import-lg-district-and-lg-taluk")
+    public String readExcelDataForDistrictAndTalukLg(@RequestParam MultipartFile file) throws Exception{
+        try {
+            log.info("Multipart file uploaded ", file.getOriginalFilename());
+            XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+
+            // Getting the Sheet at index i
+            Sheet sheet = workbook.getSheetAt(0);
+            System.out.println("=> " + sheet.getSheetName());
+            // Create a DataFormatter to format and get each cell's value as String
+            DataFormatter dataFormatter = new DataFormatter();
+            // 1. You can obtain a rowIterator and columnIterator and iterate over them
+            System.out.println("Iterating over Rows and Columns using Iterator");
+            log.info("Iterating over Rows and Columns using Iterator");
+            Iterator<Row> rowIterator = sheet.rowIterator();
+            while (rowIterator.hasNext()) {
+                log.info("Inside row iterator");
+                long stateId = 2, districtId = 0;
+                Row row = rowIterator.next();
+                // Get the row number
+                int rowNumber = row.getRowNum();
+                // Now let's iterate over the columns of the current row
+                if (rowNumber > 0) {
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    String distName = "";
+                    String lgDist = "";
+                    String talukName = "";
+                    String lgTaluk = "";
+                    while (cellIterator.hasNext()) {
+                        log.info("Inside cell iterator");
+                        Cell cell = cellIterator.next();
+                        int cellIndex = cell.getColumnIndex();
+                        String cellValue = dataFormatter.formatCellValue(cell);
+
+                        switch (cellIndex) {
+                            case 0:
+                                //district name
+                                System.out.print("District name eng:" + cellValue + "\t");
+                                log.info("District name eng:" + cellValue + "\t");
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    distName = cellValue;
+                                }
+                                break;
+                            case 1:
+                                //district lg;
+                                System.out.print("District lg:" + cellValue + "\t");
+                                log.info("District lg:" + cellValue + "\t");
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    lgDist = cellValue;
+                                }
+                                break;
+                            case 2:
+                                //taluk eng
+                                System.out.print("taluk:" + cellValue + "\t");
+                                log.info("Taluk eng:" + cellValue + "\t");
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    talukName = cellValue;
+                                }
+                                break;
+                            case 3:
+                                //taluk lg
+                                System.out.print("lgTaluk:" + cellValue + "\t");
+                                log.info("LgTaluk :" + cellValue + "\t");
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    lgTaluk = cellValue;
+                                }
+                                break;
+                        }
+                    }
+                    // Check if this is the last cell in the row
+                    if (row.getLastCellNum() > 0 && row.getLastCellNum() == row.getPhysicalNumberOfCells()) {
+                        log.info("\nEnd of Row " + rowNumber);
+                        System.out.println("\nEnd of Row " + rowNumber);
+                        List<District> district = districtRepository.findByDistrictName(distName);
+                        if (district.size()>0) {
+                            district.get(0).setLgDistrict(lgDist);
+                            districtId = district.get(0).getDistrictId();
+                            log.info("\nSave district here. Entity: " + district.get(0));
+                            districtRepository.save(district.get(0));
+                        }
+                        List<Taluk> taluk = talukRepository.findByTalukNameAndDistrictId(talukName, districtId);
+                        if (taluk.size()>0) {
+                            taluk.get(0).setLgTaluk(lgTaluk);
+                            log.info("\nSave taluk here. Entity: " + taluk.get(0));
+                            talukRepository.save(taluk.get(0));
+                        }
+                    }
+                }
+                System.out.println();
+            }
+        }catch (Exception ex){
+            log.debug("error:" + ex);
+            ex.printStackTrace();
+        }
+
+        return "OK";
+    }
+
     @PostMapping("/import-excel-data")
     public String readExcelData(@RequestParam MultipartFile file) throws Exception{
         try {

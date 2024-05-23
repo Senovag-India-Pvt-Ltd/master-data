@@ -24,6 +24,8 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
 
     public List<Taluk> findByTalukNameAndDistrictId(String talukName, long districtId);
 
+    public List<Taluk> findByTalukName(String talukName);
+
     public Taluk findByTalukNameAndActive(String talukName,boolean isActive);
 
     @Query("select new com.sericulture.masterdata.model.dto.TalukDTO(" +
