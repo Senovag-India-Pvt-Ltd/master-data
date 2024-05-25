@@ -1,8 +1,10 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.ScApprovingAuthorityDTO;
+import com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO;
 import com.sericulture.masterdata.model.entity.ScApprovingAuthority;
 import com.sericulture.masterdata.model.entity.ScApprovingAuthority;
+import com.sericulture.masterdata.model.entity.ScHeadAccount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +20,10 @@ public interface ScApprovingAuthorityRepository extends PagingAndSortingReposito
     public Page<ScApprovingAuthority> findByActiveOrderByScApprovingAuthorityIdAsc(boolean isActive, final Pageable pageable);
 
     List<ScApprovingAuthority> findByRoleId(long roleId);
+
+
+//    public List<ScApprovingAuthority> findByRoleIdAndActiveOrderByScHeadAccountNameAsc(long scSchemeDetailsId, boolean isActive);
+
 
     List<ScApprovingAuthority> findByRoleIdAndScApprovingAuthorityIdIsNot(long roleId, long scApprovingAuthorityId);
 
@@ -60,6 +66,22 @@ public interface ScApprovingAuthorityRepository extends PagingAndSortingReposito
             "where scApprovingAuthority.active = :isActive AND scApprovingAuthority.scApprovingAuthorityId = :id "
     )
     public ScApprovingAuthorityDTO getByScApprovingAuthorityIdAndActive(long id, boolean isActive);
+
+
+    @Query("select new com.sericulture.masterdata.model.dto.ScApprovingAuthorityDTO(" +
+            " scApprovingAuthority.scApprovingAuthorityId," +
+            " scApprovingAuthority.minAmount," +
+            " scApprovingAuthority.maxAmount," +
+            " scApprovingAuthority.type," +
+            " scApprovingAuthority.roleId," +
+            " role.roleName" +
+            ") \n" +
+            "from ScApprovingAuthority scApprovingAuthority\n" +
+            "left join role_master role\n" +
+            "on scApprovingAuthority.roleId = role.roleId " +
+            "where scApprovingAuthority.active = :isActive AND scApprovingAuthority.scApprovingAuthorityId = :id "
+    )
+    public List<ScApprovingAuthorityDTO> getByRoleIdAndActive(long id, boolean isActive);
 
 
     @Query("select new com.sericulture.masterdata.model.dto.ScApprovingAuthorityDTO(" +

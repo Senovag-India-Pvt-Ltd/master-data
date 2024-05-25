@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.ScSubSchemeDetailsDTO;
 import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
+import com.sericulture.masterdata.model.entity.Taluk;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,7 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
 
     List<ScSubSchemeDetails> findByScSchemeDetailsIdAndScSubSchemeDetailsIdIsNot( long scSchemeDetailsId, long ScSubSchemeDetailsId);
 
+    public List<ScSubSchemeDetails> findByScSchemeDetailsIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
 
     public ScSubSchemeDetails save(ScSubSchemeDetails scSubSchemeDetails);
 
@@ -79,7 +81,9 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             "left join ScSchemeDetails scSchemeDetails\n" +
             "on scSubSchemeDetails.scSchemeDetailsId = scSchemeDetails.scSchemeDetailsId " +
             "where scSubSchemeDetails.active = :isActive AND " +
-            "(:joinColumn = 'scSchemeDetails.schemeName' AND scSchemeDetails.schemeName LIKE :searchText) "
+            "(:joinColumn = 'scSchemeDetails.schemeName' AND scSchemeDetails.schemeName LIKE :searchText) OR " +
+            "(:joinColumn = 'scSubSchemeDetails.subSchemeName' AND scSubSchemeDetails.subSchemeName LIKE :searchText)"
+
     )
     public Page<ScSubSchemeDetailsDTO> getSortedScSubSchemeDetails(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
 }

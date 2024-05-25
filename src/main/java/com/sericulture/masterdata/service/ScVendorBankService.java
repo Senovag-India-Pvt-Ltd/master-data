@@ -4,8 +4,10 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.EditScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.dto.ScVendorBankDTO;
 import com.sericulture.masterdata.model.entity.ScVendorBank;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScVendorBankRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +43,12 @@ public class ScVendorBankService {
         List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorId(scVendorBankRequest.getScVendorId());
         if(!scVendorBankList.isEmpty() && scVendorBankList.stream().filter(ScVendorBank::getActive).findAny().isPresent()){
             scVendorBankResponse.setError(true);
-            scVendorBankResponse.setError_description("ScVendorBank already exist");
+            scVendorBankResponse.setError_description("Vendor already exist");
         }
         else if(!scVendorBankList.isEmpty() && scVendorBankList.stream().filter(Predicate.not(ScVendorBank::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scVendorBankResponse.setError(true);
-            scVendorBankResponse.setError_description("ScVendorBank already exist with inactive state");
+            scVendorBankResponse.setError_description("Vendor already exist with inactive state");
         }else {
             scVendorBankResponse = mapper.scVendorBankEntityToObject(scVendorBankRepository.save(scVendorBank), ScVendorBankResponse.class);
             scVendorBankResponse.setError(false);
@@ -153,14 +155,6 @@ public class ScVendorBankService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScVendorBankDTO> scVendorBankList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScVendorBankResponse> scVendorBankResponses = scVendorBankList.stream()
-                .map(scVendorBank -> mapper.scVendorBankDTOToObject(scVendorBank,ScVendorBankResponse.class)).collect(Collectors.toList());
-        response.put("ScVendorBank",scVendorBankResponses);
-        response.put("totalItems", scVendorBankResponses.size());
-        return response;
-    }
 
     @Transactional
     public ScVendorBankResponse getByIdJoin(int id){
@@ -177,13 +171,43 @@ public class ScVendorBankService {
         return scVendorBankResponse;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScVendorBankByScVendorId(Long scVendorId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorIdAndActiveOrderByBankNameAsc(scVendorId, true);
+        if (scVendorBankList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scVendorBankList);
+            response = convertListToMapResponse(scVendorBankList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScVendorBank> scVendorBankList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScVendorBankResponse> scVendorBankResponses = scVendorBankList.stream()
+                .map(scVendorBank -> mapper.scVendorBankEntityToObject(scVendorBank, ScVendorBankResponse.class)).collect(Collectors.toList());
+        response.put("scVendorBank", scVendorBankResponses);
+        response.put("totalItems", scVendorBankList.size());
+        return response;
+    }
+
+
     @Transactional
     public ScVendorBankResponse updateScVendorBankDetails(EditScVendorBankRequest scVendorBankRequest) {
         ScVendorBankResponse scVendorBankResponse = new ScVendorBankResponse();
         List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorIdAndScVendorBankIdIsNot(scVendorBankRequest.getScVendorId(), scVendorBankRequest.getScVendorBankId());
         if (scVendorBankList.size() > 0) {
             scVendorBankResponse.setError(true);
-            scVendorBankResponse.setError_description("ScVendorBank exists, duplicates are not allowed.");
+            scVendorBankResponse.setError_description("Vendor exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

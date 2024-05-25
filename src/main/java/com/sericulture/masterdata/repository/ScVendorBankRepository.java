@@ -3,6 +3,7 @@ package com.sericulture.masterdata.repository;
 import com.sericulture.masterdata.model.dto.ScVendorBankDTO;
 import com.sericulture.masterdata.model.entity.ScVendorBank;
 import com.sericulture.masterdata.model.entity.ScVendorBank;
+import com.sericulture.masterdata.model.entity.ScVendorContact;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +21,7 @@ public interface ScVendorBankRepository extends PagingAndSortingRepository<ScVen
 
     List<ScVendorBank> findByScVendorIdAndScVendorBankIdIsNot( long scVendorId, long scVendorBankId);
 
+    public List<ScVendorBank> findByScVendorIdAndActiveOrderByBankNameAsc(long scVendorId, boolean isActive);
 
     public ScVendorBank save(ScVendorBank scVendorBank);
 

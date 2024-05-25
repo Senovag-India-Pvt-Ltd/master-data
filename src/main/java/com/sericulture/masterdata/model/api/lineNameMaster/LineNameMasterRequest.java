@@ -20,6 +20,10 @@ public class LineNameMasterRequest extends RequestBody {
     @Schema(name = "lineNameInKannada", example = "ಭಾಷೆ", required = true)
     String lineNameInKannada;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lineNameRepresentation  must contain only letters and numbers")
+    @Schema(name = "lineNameRepresentation", example = "Karnataka", required = true)
+    String lineNameRepresentation;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Line Code must contain only letters and numbers")
     @Schema(name = "lineCode", example = "Karnataka", required = true)
     String lineCode;

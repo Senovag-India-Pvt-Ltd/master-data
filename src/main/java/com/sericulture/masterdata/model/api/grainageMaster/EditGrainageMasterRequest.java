@@ -23,6 +23,15 @@ public class EditGrainageMasterRequest extends RequestBody {
     @Schema(name = "grainageMasterNameInKannada", example = "ಭಾಷೆ", required = true)
     String grainageMasterNameInKannada;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "grainage type must contain only letters and numbers")
+    @Schema(name = "grainageType", example = "Karnataka", required = true)
+    String grainageType;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "grainage name representation must contain only letters and numbers")
+    @Schema(name = "grainageNameRepresentation", example = "Karnataka", required = true)
+    String grainageNameRepresentation;
+
+
     @Schema(name = "userMasterId", example = "1")
     Long userMasterId;
 }

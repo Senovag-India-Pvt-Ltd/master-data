@@ -2,11 +2,16 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 
+import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryResponse;
 import com.sericulture.masterdata.model.api.scUnitCost.EditScUnitCostRequest;
 import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostRequest;
 import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostResponse;
+import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.dto.ScHeadAccountCategoryDTO;
 import com.sericulture.masterdata.model.dto.ScUnitCostDTO;
+import com.sericulture.masterdata.model.entity.ScHeadAccountCategory;
 import com.sericulture.masterdata.model.entity.ScUnitCost;
+import com.sericulture.masterdata.model.entity.Taluk;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScUnitCostRepository;
 import com.sericulture.masterdata.repository.ScUnitCostRepository;
@@ -43,12 +48,12 @@ public class ScUnitCostService {
         List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryId(scUnitCostRequest.getScHeadAccountId(),scUnitCostRequest.getScCategoryId());
         if(!scUnitCostList.isEmpty() && scUnitCostList.stream().filter(ScUnitCost::getActive).findAny().isPresent()){
             scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("ScUnitCost already exist");
+            scUnitCostResponse.setError_description("Head Account already exist");
         }
         else if(!scUnitCostList.isEmpty() && scUnitCostList.stream().filter(Predicate.not(ScUnitCost::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("ScUnitCost already exist with inactive state");
+            scUnitCostResponse.setError_description("Head Account already exist with inactive state");
         }else {
             scUnitCostResponse = mapper.scUnitCostEntityToObject(scUnitCostRepository.save(scUnitCost), ScUnitCostResponse.class);
             scUnitCostResponse.setError(false);
@@ -155,14 +160,7 @@ public class ScUnitCostService {
 //        }
 //    }
 
-    private Map<String, Object> convertListToMapResponse(List<ScUnitCostDTO> ScUnitCostList) {
-        Map<String, Object> response = new HashMap<>();
-        List<ScUnitCostResponse> scUnitCostResponses = ScUnitCostList.stream()
-                .map(scUnitCost -> mapper.scUnitCostDTOToObject(scUnitCost,ScUnitCostResponse.class)).collect(Collectors.toList());
-        response.put("ScUnitCost",scUnitCostResponses);
-        response.put("totalItems", scUnitCostResponses.size());
-        return response;
-    }
+
 
     @Transactional
     public ScUnitCostResponse getByIdJoin(int id){
@@ -179,13 +177,42 @@ public class ScUnitCostService {
         return scUnitCostResponse;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getScUnitCostByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(Long scHeadAccountId,Long scCategoryId,Long scSubSchemeDetailsId) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsIdAndActive(scHeadAccountId, scCategoryId,scSubSchemeDetailsId,true);
+        if (scUnitCostList.isEmpty()) {
+//            throw new ValidationException("Invalid Id");
+            response.put("error", "Error");
+            response.put("error_description", "Invalid id");
+            response.put("success", false);
+            return response;
+        } else {
+            log.info("Entity is ", scUnitCostList);
+            response = convertListToMapResponse(scUnitCostList);
+            response.put("success", true);
+            return response;
+
+        }
+
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<ScUnitCost> scUnitCostList) {
+        Map<String, Object> response = new HashMap<>();
+        List<ScUnitCostResponse> scUnitCostResponses = scUnitCostList.stream()
+                .map(scUnitCost -> mapper.scUnitCostEntityToObject(scUnitCost, ScUnitCostResponse.class)).collect(Collectors.toList());
+        response.put("scUnitCost", scUnitCostResponses);
+        response.put("totalItems", scUnitCostList.size());
+        return response;
+    }
+
     @Transactional
     public ScUnitCostResponse updateScUnitCostDetails(EditScUnitCostRequest scUnitCostRequest) {
         ScUnitCostResponse scUnitCostResponse = new ScUnitCostResponse();
         List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryIdAndScUnitCostIdIsNot(scUnitCostRequest.getScHeadAccountId(), scUnitCostRequest.getScCategoryId(),scUnitCostRequest.getScSubSchemeDetailsId());
         if (scUnitCostList.size() > 0) {
             scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("ScUnitCost exists, duplicates are not allowed.");
+            scUnitCostResponse.setError_description("Head Account exists, duplicates are not allowed.");
             // throw new ValidationException("Village already exists, duplicates are not allowed.");
         } else {
 

@@ -48,6 +48,31 @@ public class ScUnitCostController {
         return ResponseEntity.ok(rw);
     }
 
+    @GetMapping("/get-by-sc-head-account-id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"taluk\":[{\"id\":10,\"talukName\":\"\",\"stateId\":1,},{\"id\":11,\"talukName\":\"Shimoga\",\"stateId\":1,},{\"id\":13,\"talukName\":\"Hubli\",\"stateId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(
+            @RequestParam final Long scHeadAccountId,
+            @RequestParam final Long scCategoryId,
+            @RequestParam final Long scSubSchemeDetailsId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scUnitCostService.getScUnitCostByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(scHeadAccountId, scCategoryId,scSubSchemeDetailsId));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/get-all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

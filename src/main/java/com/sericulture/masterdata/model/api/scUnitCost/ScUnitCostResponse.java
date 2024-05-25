@@ -35,6 +35,9 @@ public class ScUnitCostResponse {
     @Schema(name = "benificiaryShare", example = "1")
     BigDecimal benificiaryShare;
 
+    @Schema(name = "unitCost", example = "1")
+    BigDecimal unitCost;
+
     @Schema(name = "scHeadAccountName", example = "Karnataka", required = true)
     String scHeadAccountName;
 

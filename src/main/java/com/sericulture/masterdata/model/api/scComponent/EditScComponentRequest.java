@@ -15,6 +15,9 @@ public class EditScComponentRequest extends RequestBody {
     @Schema(name = "scComponentId", example = "1")
     Integer scComponentId;
 
+    @Schema(name = "scSubSchemeDetailsId", example = "1")
+    Long scSubSchemeDetailsId;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "ScComponent must contain only letters and numbers")
     @Schema(name = "scComponentName", example = "scComponentName 1 ", required = true)
     String scComponentName;

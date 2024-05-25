@@ -170,6 +170,29 @@ public class ScApprovingAuthorityController {
         rw.setContent(scApprovingAuthorityService.getByIdJoin(id));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/get-by-role-id/{roleId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scApprovingAuthority\":[{\"id\":10,\"scApprovingAuthority\":\"\",\"roleId\":1,},{\"id\":11,\"scApprovingAuthority\":\"Shimoga\",\"roleId\":1,},{\"id\":13,\"scApprovingAuthority\":\"Hubli\",\"roleId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getByRoleId(
+            @PathVariable final Long roleId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scApprovingAuthorityService.getScApprovingAuthorityByRoleId(roleId));
+        return ResponseEntity.ok(rw);
+    }
     @GetMapping("/list-with-join")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

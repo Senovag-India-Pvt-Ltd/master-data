@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.model.mapper;
 
 
+import com.sericulture.masterdata.model.api.agency.AgencyRequest;
 import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
@@ -8,6 +9,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
+import com.sericulture.masterdata.model.api.financialYearMaster.FinancialYearMasterRequest;
 import com.sericulture.masterdata.model.api.generationNumberMaster.GenerationNumberMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
 import com.sericulture.masterdata.model.api.hdAnswerMaster.HdAnswerMasterRequest;
@@ -69,6 +71,7 @@ import com.sericulture.masterdata.model.api.scUnitCost.ScUnitCostRequest;
 import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
+import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
@@ -85,6 +88,16 @@ import com.sericulture.masterdata.model.api.trTrainee.TrTraineeRequest;
 import com.sericulture.masterdata.model.api.trTraining.TrTrainingRequest;
 import com.sericulture.masterdata.model.api.traderTypeMaster.TraderTypeMasterRequest;
 import com.sericulture.masterdata.model.api.trainingDeputationTracker.TrainingDeputationTrackerRequest;
+import com.sericulture.masterdata.model.api.tsActivityMaster.TsActivityMasterRequest;
+import com.sericulture.masterdata.model.api.tsBudget.TsBudgetRequest;
+import com.sericulture.masterdata.model.api.tsBudgetDistrict.TsBudgetDistrictRequest;
+import com.sericulture.masterdata.model.api.tsBudgetHoa.TsBudgetHoaRequest;
+import com.sericulture.masterdata.model.api.tsBudgetInstitution.TsBudgetInstitutionRequest;
+import com.sericulture.masterdata.model.api.tsBudgetTaluk.TsBudgetTalukRequest;
+import com.sericulture.masterdata.model.api.tsBudgetTsc.TsBudgetTscRequest;
+import com.sericulture.masterdata.model.api.tsReleaseBudgetDistrict.TsReleaseBudgetDistrictRequest;
+import com.sericulture.masterdata.model.api.tsReleaseBudgetInstitution.TsReleaseBudgetInstitutionRequest;
+import com.sericulture.masterdata.model.api.tsReleaseBudgetTaluk.TsReleaseBudgetTalukRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
@@ -886,6 +899,16 @@ public class Mapper {
     public <T> T scComponentEntityToObject(ScComponent scComponentEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, scComponentEntity);
         return (T) mapper.map(scComponentEntity, claaz);
+    }
+
+    /**
+     * Maps scComponentDTO to scComponent Response Object
+     * @param scComponentDTO
+     * @param <T>
+     */
+    public <T> T scComponentDTOToObject(ScComponentDTO scComponentDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scComponentDTO);
+        return (T) mapper.map(scComponentDTO, claaz);
     }
 
     /**
@@ -2214,6 +2237,395 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, divisionMasterRequest);
         return (T) mapper.map(divisionMasterRequest, claaz);
     }
+
+    /**
+     * Maps financialYearMaster Entity to financialYearMaster Response Object
+     * @param financialYearMasterEntity
+     * @param <T>
+     */
+    public <T> T financialYearMasterEntityToObject(FinancialYearMaster financialYearMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,financialYearMasterEntity);
+        return (T) mapper.map(financialYearMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps financialYearMaster Object to financialYearMaster  Response Object
+     * @param financialYearMasterRequest
+     * @param <T>
+     */
+    public <T> T financialYearMasterObjectToEntity(FinancialYearMasterRequest financialYearMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, financialYearMasterRequest);
+        return (T) mapper.map(financialYearMasterRequest, claaz);
+    }
+
+    /**
+     * Maps tsActivityMaster Entity to tsActivityMaster Response Object
+     * @param tsActivityMasterEntity
+     * @param <T>
+     */
+    public <T> T tsActivityMasterEntityToObject(TsActivityMaster tsActivityMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsActivityMasterEntity);
+        return (T) mapper.map(tsActivityMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps tsActivityMaster Object to tsActivityMaster  Response Object
+     * @param tsActivityMasterRequest
+     * @param <T>
+     */
+    public <T> T tsActivityMasterObjectToEntity(TsActivityMasterRequest tsActivityMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsActivityMasterRequest);
+        return (T) mapper.map(tsActivityMasterRequest, claaz);
+    }
+
+    /**
+     * Maps tsBudget Entity to tsBudget Response Object
+     * @param tsBudgetEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetEntityToObject(TsBudget tsBudgetEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetEntity);
+        return (T) mapper.map(tsBudgetEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetDTO to tsBudget Response Object
+     * @param tsBudgetDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetDTOToObject(TsBudgetDTO tsBudgetDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetDTO);
+        return (T) mapper.map(tsBudgetDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudget Object to tsBudget  Response Object
+     * @param tsBudgetRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetObjectToEntity(TsBudgetRequest tsBudgetRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetRequest);
+        return (T) mapper.map(tsBudgetRequest, claaz);
+    }
+
+
+    /**
+     * Maps tsBudgetHoa Entity to tsBudgetHoa Response Object
+     * @param tsBudgetHoaEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetHoaEntityToObject(TsBudgetHoa tsBudgetHoaEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetHoaEntity);
+        return (T) mapper.map(tsBudgetHoaEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetHoaDTO to tsBudgetHoa Response Object
+     * @param tsBudgetHoaDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetHoaDTOToObject(TsBudgetHoaDTO tsBudgetHoaDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetHoaDTO);
+        return (T) mapper.map(tsBudgetHoaDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetHoa Object to tsBudgetHoa  Response Object
+     * @param tsBudgetHoaRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetHoaObjectToEntity(TsBudgetHoaRequest tsBudgetHoaRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetHoaRequest);
+        return (T) mapper.map(tsBudgetHoaRequest, claaz);
+    }
+
+    /**
+     * Maps tsBudgetDistrict Entity to tsBudgetDistrict Response Object
+     * @param tsBudgetDistrictEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetDistrictEntityToObject(TsBudgetDistrict tsBudgetDistrictEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetDistrictEntity);
+        return (T) mapper.map(tsBudgetDistrictEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetDistrictDTO to tsBudgetDistrict Response Object
+     * @param tsBudgetDistrictDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetDistrictDTOToObject(TsBudgetDistrictDTO tsBudgetDistrictDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetDistrictDTO);
+        return (T) mapper.map(tsBudgetDistrictDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetDistrict Object to tsBudgetDistrict  Response Object
+     * @param tsBudgetDistrictRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetDistrictObjectToEntity(TsBudgetDistrictRequest tsBudgetDistrictRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetDistrictRequest);
+        return (T) mapper.map(tsBudgetDistrictRequest, claaz);
+    }
+
+    /**
+     * Maps tsBudgetTaluk Entity to tsBudgetTaluk Response Object
+     * @param tsBudgetTalukEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetTalukEntityToObject(TsBudgetTaluk tsBudgetTalukEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetTalukEntity);
+        return (T) mapper.map(tsBudgetTalukEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetTalukDTO to tsBudgetTaluk Response Object
+     * @param tsBudgetTalukDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetTalukDTOToObject(TsBudgetTalukDTO tsBudgetTalukDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetTalukDTO);
+        return (T) mapper.map(tsBudgetTalukDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetTaluk Object to tsBudgetTaluk  Response Object
+     * @param tsBudgetTalukRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetTalukObjectToEntity(TsBudgetTalukRequest tsBudgetTalukRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetTalukRequest);
+        return (T) mapper.map(tsBudgetTalukRequest, claaz);
+    }
+
+    /**
+     * Maps tsBudgetTsc Entity to tsBudgetTsc Response Object
+     * @param tsBudgetTscEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetTscEntityToObject(TsBudgetTsc tsBudgetTscEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetTscEntity);
+        return (T) mapper.map(tsBudgetTscEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetTscDTO to tsBudgetTsc Response Object
+     * @param tsBudgetTscDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetTscDTOToObject(TsBudgetTscDTO tsBudgetTscDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetTscDTO);
+        return (T) mapper.map(tsBudgetTscDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetTsc Object to tsBudgetTsc   Response Object
+     * @param tsBudgetTscRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetTscObjectToEntity(TsBudgetTscRequest tsBudgetTscRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetTscRequest);
+        return (T) mapper.map(tsBudgetTscRequest, claaz);
+    }
+
+
+    /**
+     * Maps tsBudgetInstitution Entity to tsBudgetInstitution Response Object
+     * @param tsBudgetInstitutionEntity
+     * @param <T>
+     */
+    public <T> T tsBudgetInstitutionEntityToObject(TsBudgetInstitution tsBudgetInstitutionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsBudgetInstitutionEntity);
+        return (T) mapper.map(tsBudgetInstitutionEntity, claaz);
+    }
+
+    /**
+     * Maps tsBudgetInstitutionDTO to tsBudgetInstitution Response Object
+     * @param tsBudgetInstitutionDTO
+     * @param <T>
+     */
+    public <T> T tsBudgetInstitutionDTOToObject(TsBudgetInstitutionDTO tsBudgetInstitutionDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetInstitutionDTO);
+        return (T) mapper.map(tsBudgetInstitutionDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsBudgetInstitution Object to tsBudgetInstitution   Response Object
+     * @param tsBudgetInstitutionRequest
+     * @param <T>
+     */
+    public <T> T tsBudgetInstitutionObjectToEntity(TsBudgetInstitutionRequest tsBudgetInstitutionRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsBudgetInstitutionRequest);
+        return (T) mapper.map(tsBudgetInstitutionRequest, claaz);
+    }
+
+
+    /**
+     * Maps tsReleaseBudgetTaluk Entity to tsReleaseBudgetTaluk Response Object
+     * @param tsReleaseBudgetTalukEntity
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetTalukEntityToObject(TsReleaseBudgetTaluk tsReleaseBudgetTalukEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsReleaseBudgetTalukEntity);
+        return (T) mapper.map(tsReleaseBudgetTalukEntity, claaz);
+    }
+
+    /**
+     * Maps tsReleaseBudgetTalukDTO to tsReleaseBudgetTaluk Response Object
+     * @param tsReleaseBudgetTalukDTO
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetTalukDTOToObject(TsReleaseBudgetTalukDTO tsReleaseBudgetTalukDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsReleaseBudgetTalukDTO);
+        return (T) mapper.map(tsReleaseBudgetTalukDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsReleaseBudgetTaluk Object to tsReleaseBudgetTaluk  Response Object
+     * @param tsReleaseBudgetTalukRequest
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetTalukObjectToEntity(TsReleaseBudgetTalukRequest tsReleaseBudgetTalukRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsReleaseBudgetTalukRequest);
+        return (T) mapper.map(tsReleaseBudgetTalukRequest, claaz);
+    }
+
+
+
+    /**
+     * Maps tsReleaseBudgetInstitution Entity to tsReleaseBudgetInstitution Response Object
+     * @param tsReleaseBudgetInstitutionEntity
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetInstitutionEntityToObject(TsReleaseBudgetInstitution tsReleaseBudgetInstitutionEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsReleaseBudgetInstitutionEntity);
+        return (T) mapper.map(tsReleaseBudgetInstitutionEntity, claaz);
+    }
+
+    /**
+     * Maps tsReleaseBudgetInstitutionDTO to tsReleaseBudgetInstitution Response Object
+     * @param tsReleaseBudgetInstitutionDTO
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetInstitutionDTOToObject(TsReleaseBudgetInstitutionDTO tsReleaseBudgetInstitutionDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsReleaseBudgetInstitutionDTO);
+        return (T) mapper.map(tsReleaseBudgetInstitutionDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsReleaseBudgetInstitution Object to tsReleaseBudgetInstitution   Response Object
+     * @param tsReleaseBudgetInstitutionRequest
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetInstitutionObjectToEntity(TsReleaseBudgetInstitutionRequest tsReleaseBudgetInstitutionRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsReleaseBudgetInstitutionRequest);
+        return (T) mapper.map(tsReleaseBudgetInstitutionRequest, claaz);
+    }
+
+
+    /**
+     * Maps tsReleaseBudgetDistrict Entity to tsReleaseBudgetDistrict Response Object
+     * @param tsReleaseBudgetDistrictEntity
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetDistrictEntityToObject(TsReleaseBudgetDistrict tsReleaseBudgetDistrictEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,tsReleaseBudgetDistrictEntity);
+        return (T) mapper.map(tsReleaseBudgetDistrictEntity, claaz);
+    }
+
+    /**
+     * Maps tsReleaseBudgetDistrictDTO to tsReleaseBudgetDistrict Response Object
+     * @param tsReleaseBudgetDistrictDTO
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetDistrictDTOToObject(TsReleaseBudgetDistrictDTO tsReleaseBudgetDistrictDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsReleaseBudgetDistrictDTO);
+        return (T) mapper.map(tsReleaseBudgetDistrictDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps tsReleaseBudgetDistrict Object to tsReleaseBudgetDistrict  Response Object
+     * @param tsReleaseBudgetDistrictRequest
+     * @param <T>
+     */
+    public <T> T tsReleaseBudgetDistrictObjectToEntity(TsReleaseBudgetDistrictRequest tsReleaseBudgetDistrictRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tsReleaseBudgetDistrictRequest);
+        return (T) mapper.map(tsReleaseBudgetDistrictRequest, claaz);
+    }
+    /**
+     * Maps agency Entity to agency Response Object
+     * @param agencyEntity
+     * @param <T>
+     */
+    public <T> T agencyEntityToObject(Agency agencyEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,agencyEntity);
+        return (T) mapper.map(agencyEntity, claaz);
+    }
+
+
+    /**
+     * Maps agency Object to agency  Response Object
+     * @param agencyRequest
+     * @param <T>
+     */
+    public <T> T agencyObjectToEntity(AgencyRequest agencyRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, agencyRequest);
+        return (T) mapper.map(agencyRequest, claaz);
+    }
+
+    /**
+     * Maps schemeQuota Entity to schemeQuota Response Object
+     * @param schemeQuotaEntity
+     * @param <T>
+     */
+    public <T> T schemeQuotaEntityToObject(SchemeQuota schemeQuotaEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,schemeQuotaEntity);
+        return (T) mapper.map(schemeQuotaEntity, claaz);
+    }
+
+    /**
+     * Maps schemeQuotaDTO to schemeQuota Response Object
+     * @param schemeQuotaDTO
+     * @param <T>
+     */
+    public <T> T schemeQuotaDTOToObject(SchemeQuotaDTO schemeQuotaDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeQuotaDTO);
+        return (T) mapper.map(schemeQuotaDTO, claaz);
+    }
+
+
+    /**
+     * Maps schemeQuota Object to schemeQuota  Response Object
+     * @param schemeQuotaRequest
+     * @param <T>
+     */
+    public <T> T schemeQuotaObjectToEntity(SchemeQuotaRequest schemeQuotaRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeQuotaRequest);
+        return (T) mapper.map(schemeQuotaRequest, claaz);
+    }
+
+
 
     /**
      * Maps rendittaMaster Entity to rendittaMaster Response Object

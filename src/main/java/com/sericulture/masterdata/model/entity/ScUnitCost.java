@@ -41,4 +41,7 @@ public class ScUnitCost extends BaseEntity implements Serializable {
 
     @Column(name = "benificiary_share")
     private BigDecimal benificiaryShare;
+
+    @Column(name = "unit_cost")
+    private BigDecimal unitCost;
 }
