@@ -157,7 +157,7 @@ public class ScComponentService {
     @Transactional
     public ScComponentResponse updateScComponentDetails(EditScComponentRequest scComponentRequest) {
         ScComponentResponse scComponentResponse = new ScComponentResponse();
-        List<ScComponent> scComponentList = scComponentRepository.findByActiveAndScComponentName(true,scComponentRequest.getScComponentName());
+        List<ScComponent> scComponentList = scComponentRepository.findByActiveAndScComponentNameAndScComponentIdIsNot(true,scComponentRequest.getScComponentName(),scComponentRequest.getScComponentId());
         if (scComponentList.size() > 0) {
             scComponentResponse.setError(true);
             scComponentResponse.setError_description("ScComponent already exists, duplicates are not allowed.");
