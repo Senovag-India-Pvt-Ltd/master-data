@@ -14,11 +14,15 @@ public class EditScHeadAccountRequest extends RequestBody {
     @Schema(name = "scHeadAccountId", example = "1")
     Long scHeadAccountId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9-\\s]*$", message = "scHeadAccount must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9-\\s]*$", message = "scHeadAccount must contain only letters and numbers")
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ", required = true)
     String scHeadAccountName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9-\\s\\u0C80-\\u0CFF]*$", message = "Head Of Account name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
+//    @Pattern(regexp = "^[a-zA-Z0-9-\\s\\u0C80-\\u0CFF]*$", message = "Head Of Account name in kannada must contain only letters and numbers")
     @Schema(name = "scHeadAccountNameInKannada",  example = "ಭಾಷೆ")
     String scHeadAccountNameInKannada;
 

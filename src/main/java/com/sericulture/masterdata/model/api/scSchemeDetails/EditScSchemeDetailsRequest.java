@@ -17,13 +17,17 @@ public class EditScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "scSchemeDetailsId", example = "1")
     Long scSchemeDetailsId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Scheme Name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Scheme Name must contain only letters and numbers")
     @Schema(name = "schemeName", example = "Karnataka", required = true)
     String schemeName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = " Scheme name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = " Scheme name in kannada must contain only letters and numbers")
     @Schema(name = "schemeNameInKannada", example = "ಕನ್ನಡ")
     String schemeNameInKannada;
+
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
 
     @Schema(name = "schemeStartDate", example = "1")
     Date schemeStartDate;

@@ -39,10 +39,13 @@ public class ScSubSchemeDetailsResponse {
     String schemeName;
 
     @Schema(name = "withLand", example = "1")
-    Long withLand;
+    Boolean withLand;
 
     @Schema(name = "beneficiaryType", example = "1")
     Long beneficiaryType;
+
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
 
     @Schema(name = "error", example = "true")
     Boolean error;

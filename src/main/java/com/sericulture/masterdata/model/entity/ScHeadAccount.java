@@ -30,6 +30,9 @@ public class ScHeadAccount extends BaseEntity implements Serializable {
     @Column(name = "name_in_kannada", unique = true)
     private String scHeadAccountNameInKannada;
 
+    @Column(name = "dbt_code", unique = true)
+    private String dbtCode;
+
     @Column(name = "sc_scheme_details_id")
     private Long scSchemeDetailsId;
 }

@@ -25,6 +25,9 @@ public class ScHeadAccountResponse {
     @Schema(name = "scSchemeDetailsId", example = "1")
     Long scSchemeDetailsId;
 
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
+
     @Schema(name = "schemeName", example = "Karnataka", required = true)
     String schemeName;
 

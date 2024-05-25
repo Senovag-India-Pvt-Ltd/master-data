@@ -244,7 +244,7 @@ public class SchemeQuotaController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
+            @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(schemeQuotaService.searchByColumnAndSort(searchWithSortRequest));

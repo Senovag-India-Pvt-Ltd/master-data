@@ -40,7 +40,7 @@ public class SchemeQuotaService {
         SchemeQuotaResponse schemeQuotaResponse = new SchemeQuotaResponse();
         SchemeQuota schemeQuota = mapper.schemeQuotaObjectToEntity(schemeQuotaRequest, SchemeQuota.class);
         validator.validate(schemeQuota);
-        List<SchemeQuota> schemeQuotaList = schemeQuotaRepository.findByScSchemeDetailsId(schemeQuotaRequest.getScSchemeDetailsId());
+        List<SchemeQuota> schemeQuotaList = schemeQuotaRepository.findBySchemeQuotaName(schemeQuotaRequest.getSchemeQuotaName());
         if(!schemeQuotaList.isEmpty() && schemeQuotaList.stream().filter(SchemeQuota::getActive).findAny().isPresent()){
             schemeQuotaResponse.setError(true);
             schemeQuotaResponse.setError_description("SchemeDetails already exist");
@@ -206,7 +206,7 @@ public class SchemeQuotaService {
     @Transactional
     public SchemeQuotaResponse updateSchemeQuotaDetails(EditSchemeQuotaRequest schemeQuotaRequest) {
         SchemeQuotaResponse schemeQuotaResponse = new SchemeQuotaResponse();
-        List<SchemeQuota> schemeQuotaList = schemeQuotaRepository.findByScSchemeDetailsIdAndSchemeQuotaIdIsNot(schemeQuotaRequest.getScSchemeDetailsId(), schemeQuotaRequest.getSchemeQuotaId());
+        List<SchemeQuota> schemeQuotaList = schemeQuotaRepository.findBySchemeQuotaNameAndSchemeQuotaIdIsNot(schemeQuotaRequest.getSchemeQuotaName(), schemeQuotaRequest.getSchemeQuotaId());
         if (schemeQuotaList.size() > 0) {
             schemeQuotaResponse.setError(true);
             schemeQuotaResponse.setError_description("SchemeDetails exists, duplicates are not allowed.");
@@ -220,8 +220,7 @@ public class SchemeQuotaService {
                 schemeQuota.setSchemeQuotaType(schemeQuotaRequest.getSchemeQuotaType());
                 schemeQuota.setSchemeQuotaPaymentType(schemeQuotaRequest.getSchemeQuotaPaymentType());
                 schemeQuota.setSchemeQuotaCode(schemeQuotaRequest.getSchemeQuotaCode());
-
-
+                schemeQuota.setDbtCode(schemeQuotaRequest.getDbtCode());
 
 
                 schemeQuota.setActive(true);

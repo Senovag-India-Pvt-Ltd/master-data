@@ -176,6 +176,7 @@ public class ScCategoryService {
                 scCategory.setCategoryNameInKannada( scCategoryRequest.getCategoryNameInKannada());
                 scCategory.setCodeNumber( scCategoryRequest.getCodeNumber());
                 scCategory.setDescription( scCategoryRequest.getDescription());
+                scCategory.setDbtCode(scCategoryRequest.getDbtCode());
 
 
                 scCategory.setActive(true);

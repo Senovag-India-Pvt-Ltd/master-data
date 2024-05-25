@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @AllArgsConstructor
@@ -25,6 +26,9 @@ public class Designation extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Name should be more than 1 characters.")
     @Column(name = "name")
     private String name;
+
+    @Column(name = "amount")
+    private BigDecimal amount;
 
     @Column(name = "designation_name_in_kannada")
     private String designationNameInKannada;

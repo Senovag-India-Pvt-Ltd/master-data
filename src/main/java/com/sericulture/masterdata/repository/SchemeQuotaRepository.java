@@ -17,9 +17,9 @@ import java.util.Set;
 public interface SchemeQuotaRepository extends PagingAndSortingRepository<SchemeQuota, Long> {
     public Page<SchemeQuota> findByActiveOrderBySchemeQuotaIdAsc(boolean isActive, final Pageable pageable);
 
-    List<SchemeQuota> findByScSchemeDetailsId(long scSchemeDetailsId);
+    List<SchemeQuota> findBySchemeQuotaName(String schemeQuotaName);
 
-    List<SchemeQuota> findByScSchemeDetailsIdAndSchemeQuotaIdIsNot( long scSchemeDetailsId, long schemeQuotaId);
+    List<SchemeQuota> findBySchemeQuotaNameAndSchemeQuotaIdIsNot( String schemeQuotaName, long schemeQuotaId);
 
     public List<SchemeQuota> findByScSchemeDetailsIdAndActiveOrderBySchemeQuotaNameAsc(long scSchemeDetailsId, boolean isActive);
 
@@ -38,6 +38,7 @@ public interface SchemeQuotaRepository extends PagingAndSortingRepository<Scheme
             " schemeQuota.schemeQuotaType," +
             " schemeQuota.schemeQuotaCode," +
             " schemeQuota.schemeQuotaPaymentType," +
+            " schemeQuota.dbtCode," +
             " scSchemeDetails.schemeName" +
 
             ") \n" +
@@ -56,6 +57,7 @@ public interface SchemeQuotaRepository extends PagingAndSortingRepository<Scheme
             " schemeQuota.schemeQuotaType," +
             " schemeQuota.schemeQuotaCode," +
             " schemeQuota.schemeQuotaPaymentType," +
+            " schemeQuota.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from SchemeQuota schemeQuota\n" +
@@ -73,6 +75,7 @@ public interface SchemeQuotaRepository extends PagingAndSortingRepository<Scheme
             " schemeQuota.schemeQuotaType," +
             " schemeQuota.schemeQuotaCode," +
             " schemeQuota.schemeQuotaPaymentType," +
+            " schemeQuota.dbtCode," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from SchemeQuota schemeQuota\n" +

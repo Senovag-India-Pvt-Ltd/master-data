@@ -11,13 +11,17 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class ScHeadAccountRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9-\\s]*$", message = "scHeadAccount must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9-\\s]*$", message = "scHeadAccount must contain only letters and numbers")
     @Schema(name = "scHeadAccountName", example = "scHeadAccount 1 ", required = true)
     String scHeadAccountName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9-\\s\\u0C80-\\u0CFF]*$", message = "Head Of Account name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9-\\s\\u0C80-\\u0CFF]*$", message = "Head Of Account name in kannada must contain only letters and numbers")
     @Schema(name = "scHeadAccountNameInKannada",  example = "ಭಾಷೆ")
     String scHeadAccountNameInKannada;
+
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
 
     @Schema(name = "scSchemeDetailsId", example = "1")
     Long scSchemeDetailsId;

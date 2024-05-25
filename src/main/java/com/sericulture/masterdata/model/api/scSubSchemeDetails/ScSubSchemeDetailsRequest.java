@@ -16,11 +16,11 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
     @Schema(name = "scSchemeDetailsId", example = "1")
     Long scSchemeDetailsId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Sc Sub Scheme name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Sc Sub Scheme name must contain only letters and numbers")
     @Schema(name = "subSchemeName", example = "Karnataka", required = true)
     String subSchemeName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = " Sc Sub Scheme Name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = " Sc Sub Scheme Name in kannada must contain only letters and numbers")
     @Schema(name = "subSchemeNameInKannada", example = "ಕನ್ನಡ")
     String subSchemeNameInKannada;
 
@@ -34,8 +34,12 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
     Date subSchemeEndDate;
 
     @Schema(name = "withLand", example = "1")
-    Long withLand;
+    Boolean withLand;
 
     @Schema(name = "beneficiaryType", example = "1")
     Long beneficiaryType;
+
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
 }

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.scComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -23,6 +24,9 @@ public class ScComponentResponse {
 
     @Schema(name = "scComponentName", example = "scComponentName 1 ")
     String scComponentName;
+
+    @Schema(name = "dbtCode", example = "Karnataka", required = true)
+    String dbtCode;
 
     @Schema(name = "error", example = "true")
     Boolean error;

@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.departmentMaster.DepartmentMasterRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
@@ -46,6 +47,7 @@ import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterReq
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
+import com.sericulture.masterdata.model.api.rejectReasonWorkflowMaster.RejectReasonWorkFlowMasterRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.landCategory.LandCategoryRequest;
@@ -101,6 +103,7 @@ import com.sericulture.masterdata.model.api.tsReleaseBudgetInstitution.TsRelease
 import com.sericulture.masterdata.model.api.tsReleaseBudgetTaluk.TsReleaseBudgetTalukRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.useMaster.UserMasterRequest;
+import com.sericulture.masterdata.model.api.userHierarchyMapping.UserHierarchyMappingRequest;
 import com.sericulture.masterdata.model.api.userPreference.UserPreferenceRequest;
 import com.sericulture.masterdata.model.api.vendorMaster.VendorMasterRequest;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
@@ -2629,6 +2632,28 @@ public class Mapper {
 
 
     /**
+     * Maps scSubSchemeMapping Entity to scSubSchemeMapping Response Object
+     * @param scSubSchemeMappingEntity
+     * @param <T>
+     */
+    public <T> T scSubSchemeMappingEntityToObject(ScSubSchemeMapping scSubSchemeMappingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scSubSchemeMappingEntity);
+        return (T) mapper.map(scSubSchemeMappingEntity, claaz);
+    }
+
+    /**
+     * Maps scSubSchemeMappingDTO to scSubSchemeMapping Response Object
+     * @param scSubSchemeMappingDTO
+     * @param <T>
+     */
+    public <T> T scSubSchemeMappingDTOToObject(ScSubSchemeMappingDTO scSubSchemeMappingDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSubSchemeMappingDTO);
+        return (T) mapper.map(scSubSchemeMappingDTO, claaz);
+    }
+
+
+
+    /**
      * Maps rendittaMaster Entity to rendittaMaster Response Object
      * @param rendittaMasterEntity
      * @param <T>
@@ -2704,6 +2729,133 @@ public class Mapper {
     }
 
 
+
+    /**
+     * Maps scSubSchemeMapping Object to scSubSchemeMapping  Response Object
+     * @param scSubSchemeMappingRequest
+     * @param <T>
+     */
+    public <T> T scSubSchemeMappingObjectToEntity(ScSubSchemeMappingRequest scSubSchemeMappingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scSubSchemeMappingRequest);
+        return (T) mapper.map(scSubSchemeMappingRequest, claaz);
+    }
+
+    /**
+     * Maps departmentMaster Entity to departmentMaster Response Object
+     * @param departmentMasterEntity
+     * @param <T>
+     */
+    public <T> T departmentMasterEntityToObject(DepartmentMaster departmentMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,departmentMasterEntity);
+        return (T) mapper.map(departmentMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps departmentMaster Object to departmentMaster  Response Object
+     * @param departmentMasterRequest
+     * @param <T>
+     */
+    public <T> T departmentMasterObjectToEntity(DepartmentMasterRequest departmentMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, departmentMasterRequest);
+        return (T) mapper.map(departmentMasterRequest, claaz);
+    }
+
+
+    /**
+     * Maps rendittaMaster Entity to rendittaMaster Response Object
+     * @param rendittaMasterEntity
+     * @param <T>
+     */
+    public <T> T rendittaMasterEntityToObject(RendittaMaster rendittaMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,rendittaMasterEntity);
+        return (T) mapper.map(rendittaMasterEntity, claaz);
+    }
+
+    /**
+     * Maps rendittaMasterDTO to rendittaMaster Response Object
+     * @param rendittaMasterDTO
+     * @param <T>
+     */
+    public <T> T rendittaMasterDTOToObject(RendittaMasterDTO rendittaMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rendittaMasterDTO);
+        return (T) mapper.map(rendittaMasterDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps rendittaMaster Object to rendittaMaster  Response Object
+     * @param rendittaMasterRequest
+     * @param <T>
+     */
+    public <T> T rendittaMasterObjectToEntity(RendittaMasterRequest rendittaMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rendittaMasterRequest);
+        return (T) mapper.map(rendittaMasterRequest, claaz);
+    }
+
+    /**
+     * Maps inspectionType Entity to inspectionType Response Object
+     * @param inspectionTypeEntity
+     * @param <T>
+     */
+    public <T> T inspectionTypeEntityToObject(InspectionType inspectionTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,inspectionTypeEntity);
+        return (T) mapper.map(inspectionTypeEntity, claaz);
+    }
+
+
+    /**
+     * Maps inspectionType Object to inspectionType  Response Object
+     * @param inspectionTypeRequest
+     * @param <T>
+     */
+    public <T> T inspectionTypeObjectToEntity(InspectionTypeRequest inspectionTypeRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, inspectionTypeRequest);
+        return (T) mapper.map(inspectionTypeRequest, claaz);
+    }
+
+    /**
+     * Maps userHierarchyMapping Entity to userHierarchyMapping Response Object
+     * @param userHierarchyMappingEntity
+     * @param <T>
+     */
+    public <T> T userHierarchyMappingEntityToObject(UserHierarchyMapping userHierarchyMappingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,userHierarchyMappingEntity);
+        return (T) mapper.map(userHierarchyMappingEntity, claaz);
+    }
+
+
+    /**
+     * Maps inspectionType Object to inspectionType  Response Object
+     * @param userHierarchyMappingRequest
+     * @param <T>
+     */
+    public <T> T userHierarchyMappingObjectToEntity(UserHierarchyMappingRequest userHierarchyMappingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, userHierarchyMappingRequest);
+        return (T) mapper.map(userHierarchyMappingRequest, claaz);
+    }
+
+    /**
+     * Maps rejectReasonWorkflowMaster Entity to rejectReasonWorkflowMaster Response Object
+     * @param rejectReasonWorkflowMasterEntity
+     * @param <T>
+     */
+    public <T> T rejectReasonWorkflowMasterEntityToObject(RejectReasonWorkFlowMaster rejectReasonWorkflowMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,rejectReasonWorkflowMasterEntity);
+        return (T) mapper.map(rejectReasonWorkflowMasterEntity, claaz);
+    }
+
+
+    /**
+     * Maps rejectReasonWorkflowMaster Object to rejectReasonWorkflowMaster  Response Object
+     * @param rejectReasonWorkflowMasterRequest
+     * @param <T>
+     */
+    public <T> T rejectReasonWorkflowMasterObjectToEntity(RejectReasonWorkFlowMasterRequest rejectReasonWorkflowMasterRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, rejectReasonWorkflowMasterRequest);
+        return (T) mapper.map(rejectReasonWorkflowMasterRequest, claaz);
+    }
 
     /**
      * Maps scSubSchemeMapping Object to scSubSchemeMapping  Response Object

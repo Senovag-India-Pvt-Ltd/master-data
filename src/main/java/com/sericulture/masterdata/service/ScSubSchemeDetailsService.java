@@ -223,6 +223,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setSubSchemeEndDate(scSubSchemeDetailsRequest.getSubSchemeEndDate());
                 scSubSchemeDetails.setWithLand(scSubSchemeDetailsRequest.getWithLand());
                 scSubSchemeDetails.setBeneficiaryType(scSubSchemeDetailsRequest.getBeneficiaryType());
+                scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
 
                 scSubSchemeDetails.setActive(true);
                 ScSubSchemeDetails scSubSchemeDetails1 = scSubSchemeDetailsRepository.save(scSubSchemeDetails);
