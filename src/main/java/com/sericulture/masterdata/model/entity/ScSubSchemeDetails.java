@@ -43,4 +43,10 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "sub_scheme_end_date", unique = true)
     private Date subSchemeEndDate;
 
+    @Column(name = "with_land")
+    private Long withLand;
+
+    @Column(name = "beneficiary_type")
+    private Long beneficiaryType;
+
 }

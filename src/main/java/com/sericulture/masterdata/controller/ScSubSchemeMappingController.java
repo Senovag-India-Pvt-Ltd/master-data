@@ -2,14 +2,10 @@ package com.sericulture.masterdata.controller;
 
 import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
-import com.sericulture.masterdata.model.api.scProgramApprovalMapping.EditScProgramApprovalMappingRequest;
-import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
-import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingResponse;
-import com.sericulture.masterdata.model.api.scSubSchemeDetails.EditScSubSchemeDetailsRequest;
-import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsRequest;
-import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsResponse;
-import com.sericulture.masterdata.service.ScProgramApprovalMappingService;
-import com.sericulture.masterdata.service.ScSubSchemeDetailsService;
+import com.sericulture.masterdata.model.api.scSubSchemeMapping.EditScSubSchemeMappingRequest;
+import com.sericulture.masterdata.model.api.scSubSchemeMapping.ScSubSchemeMappingRequest;
+import com.sericulture.masterdata.model.api.scSubSchemeMapping.ScSubSchemeMappingResponse;
+import com.sericulture.masterdata.service.ScSubSchemeMappingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,36 +19,61 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 @RestController
-@RequestMapping("v1/scSubSchemeDetails")
-public class ScSubSchemeDetailsController {
+@RequestMapping("v1/scSubSchemeMapping")
+public class ScSubSchemeMappingController {
     @Autowired
-    ScSubSchemeDetailsService scSubSchemeDetailsService;
+    ScSubSchemeMappingService scSubSchemeMappingService;
 
-    @Operation(summary = "Insert ScSub Scheme  Details", description = "Creates Sc Sub Scheme Details in to DB")
+    @Operation(summary = "Insert ScSubSchemeMapping ", description = "Creates ScSubSchemeMapping  in to DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
                             {
                                     @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"ScProgram Approval name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
+                                    @Schema(example = "{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Sc SubSchemeMapping name should be more than 1 characters.\",\"label\":\"name\",\"locale\":null}]}"))
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addScSubSchemeDetailsDetails(@RequestBody ScSubSchemeDetailsRequest scSubSchemeDetailsRequest){
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ScSubSchemeDetailsResponse.class);
+    public ResponseEntity<?> addScSubSchemeMappingDetails(@RequestBody ScSubSchemeMappingRequest scSubSchemeMappingRequest){
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ScSubSchemeMappingResponse.class);
 
-        rw.setContent(scSubSchemeDetailsService.insertScSubSchemeDetailsDetails(scSubSchemeDetailsRequest));
+        rw.setContent(scSubSchemeMappingService.insertScSubSchemeMappingDetails(scSubSchemeMappingRequest));
         return ResponseEntity.ok(rw);
     }
+
+//    @GetMapping("/get-by-sc-head-account-id")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
+//                    {
+//                            @Content(mediaType = "application/json", schema =
+//                            @Schema(example = "{\"content\":{\"totalItems\":6,\"taluk\":[{\"id\":10,\"talukName\":\"\",\"stateId\":1,},{\"id\":11,\"talukName\":\"Shimoga\",\"stateId\":1,},{\"id\":13,\"talukName\":\"Hubli\",\"stateId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+//                    }),
+//            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+//                    content =
+//                            {
+//                                    @Content(mediaType = "application/json", schema =
+//                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+//                            }),
+//            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+//    })
+//    public ResponseEntity<?> getByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(
+//            @RequestParam final Long scHeadAccountId,
+//            @RequestParam final Long scCategoryId,
+//            @RequestParam final Long scSubSchemeDetailsId
+//    ) {
+//        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+//        rw.setContent(scSubSchemeMappingService.getScSubSchemeMappingByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(scHeadAccountId, scCategoryId,scSubSchemeDetailsId));
+//        return ResponseEntity.ok(rw);
+//    }
 
     @GetMapping("/get-all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"ScSubSchemeDetails\":[{\"id\":10,\"scSubSchemeDetailsId\":\"\"},{\"id\":11,\"scSubSchemeDetailsId\":\"scSubSchemeDetailsId \"},{\"id\":13,\"race\":\"Roof Type 2\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"ScSubSchemeMapping\":[{\"id\":10,\"scSubSchemeMappingId\":\"\"},{\"id\":11,\"scSubSchemeMappingId\":\"scSubSchemeMappingId \"},{\"id\":13,\"race\":\"Roof Type 2\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -66,7 +87,7 @@ public class ScSubSchemeDetailsController {
             @RequestParam(defaultValue = "true") boolean isActive
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.getAllByActive(isActive));
+        rw.setContent(scSubSchemeMappingService.getAllByActive(isActive));
         return ResponseEntity.ok(rw);
     }
 
@@ -75,7 +96,7 @@ public class ScSubSchemeDetailsController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":1,\"scSubSchemeDetails\":[{\"id\":1,\"scSubSchemeDetailsId\":\"\"},{\"id\":2,\"scSubSchemeDetailsId\":\"race 1\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":1,\"scSubSchemeMapping\":[{\"id\":1,\"scSubSchemeMappingId\":\"\"},{\"id\":2,\"scSubSchemeMappingId\":\"race 1\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -90,7 +111,7 @@ public class ScSubSchemeDetailsController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.getScSubSchemeDetails(PageRequest.of(pageNumber, size)));
+        rw.setContent(scSubSchemeMappingService.getPaginatedScSubSchemeMappingWithJoin(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -105,11 +126,11 @@ public class ScSubSchemeDetailsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteSubSchemeDetailsDetails(
+    public ResponseEntity<?> deleteScSubSchemeMappingDetails(
             @PathVariable final Integer id
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.deleteScSubSchemeDetailsDetails(id));
+        rw.setContent(scSubSchemeMappingService.deleteScSubSchemeMappingDetails(id));
         return ResponseEntity.ok(rw);
     }
 
@@ -124,11 +145,11 @@ public class ScSubSchemeDetailsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/edit")
-    public ResponseEntity<?> editScSubSchemeDetails(
-            @RequestBody final EditScSubSchemeDetailsRequest editScSubSchemeDetailsRequest
+    public ResponseEntity<?> editScSubSchemeMappingDetails(
+            @RequestBody final EditScSubSchemeMappingRequest editScSubSchemeMappingRequest
     ) {
-        ResponseWrapper<ScSubSchemeDetailsResponse> rw = ResponseWrapper.createWrapper(ScSubSchemeDetailsResponse.class);
-        rw.setContent(scSubSchemeDetailsService.updateScSubSchemeDetailsDetails(editScSubSchemeDetailsRequest));
+        ResponseWrapper<ScSubSchemeMappingResponse> rw = ResponseWrapper.createWrapper(ScSubSchemeMappingResponse.class);
+        rw.setContent(scSubSchemeMappingService.updateScSubSchemeMappingDetails(editScSubSchemeMappingRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -146,9 +167,9 @@ public class ScSubSchemeDetailsController {
     public ResponseEntity<?> getById(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ScSubSchemeDetailsResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ScSubSchemeMappingResponse.class);
 
-        rw.setContent(scSubSchemeDetailsService.getById(id));
+        rw.setContent(scSubSchemeMappingService.getById(id));
         return ResponseEntity.ok(rw);
     }
     @ApiResponses(value = {
@@ -165,31 +186,9 @@ public class ScSubSchemeDetailsController {
     public ResponseEntity<?> getByIdJoin(
             @PathVariable final Integer id
     ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(ScSubSchemeDetailsResponse.class);
+        ResponseWrapper rw = ResponseWrapper.createWrapper(ScSubSchemeMappingResponse.class);
 
-        rw.setContent(scSubSchemeDetailsService.getByIdJoin(id));
-        return ResponseEntity.ok(rw);
-    }
-    @GetMapping("/get-by-sc-scheme-details-id/{scSchemeDetailsId}")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
-                    {
-                            @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scSchemeDetails\":[{\"id\":10,\"schemeName\":\"\",\"scSubSchemeDetailsId\":1,},{\"id\":11,\"schemeName\":\"Shimoga\",\"scSubSchemeDetailsId\":1,},{\"id\":13,\"schemeName\":\"Hubli\",\"scSubSchemeDetailsId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
-                    }),
-            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
-                    content =
-                            {
-                                    @Content(mediaType = "application/json", schema =
-                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
-                            }),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
-    })
-    public ResponseEntity<?> getByScSchemeDetailsIdId(
-            @PathVariable final Long scSchemeDetailsId
-    ) {
-        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.getScSubSchemeDetailsByScSchemeDetailsId(scSchemeDetailsId));
+        rw.setContent(scSubSchemeMappingService.getByIdJoin(id));
         return ResponseEntity.ok(rw);
     }
     @GetMapping("/list-with-join")
@@ -197,7 +196,7 @@ public class ScSubSchemeDetailsController {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
                     {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(example = "{\"content\":{\"totalItems\":6,\"ScSubSchemeDetails\":[{\"id\":10,\"scSubSchemeDetailsId\":\"\",\"scSubSchemeDetailsId\":1,},{\"id\":11,\"scSubSchemeDetailsId\":\"Shimoga\",\"scSubSchemeDetailsId\":1,},{\"id\":13,\"scSubSchemeDetailsId\":\"Hubli\",\"scSubSchemeDetailsId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                            @Schema(example = "{\"content\":{\"totalItems\":6,\"scSubSchemeMapping\":[{\"id\":10,\"scSubSchemeMappingId\":\"\",\"scSubSchemeMappingId\":1,},{\"id\":11,\"scSubSchemeMappingId\":\"Shimoga\",\"scSubSchemeMappingId\":1,},{\"id\":13,\"scSubSchemeMappingId\":\"Hubli\",\"scSubSchemeMappingId\":1,}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
                     content =
@@ -212,7 +211,7 @@ public class ScSubSchemeDetailsController {
             @RequestParam(defaultValue = "5") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.getPaginatedScSubSchemeDetailsWithJoin(PageRequest.of(pageNumber, size)));
+        rw.setContent(scSubSchemeMappingService.getPaginatedScSubSchemeMappingWithJoin(PageRequest.of(pageNumber, size)));
         return ResponseEntity.ok(rw);
     }
 
@@ -249,7 +248,8 @@ public class ScSubSchemeDetailsController {
             @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(scSubSchemeDetailsService.searchByColumnAndSort(searchWithSortRequest));
+        rw.setContent(scSubSchemeMappingService.searchByColumnAndSort(searchWithSortRequest));
         return ResponseEntity.ok(rw);
     }
+
 }

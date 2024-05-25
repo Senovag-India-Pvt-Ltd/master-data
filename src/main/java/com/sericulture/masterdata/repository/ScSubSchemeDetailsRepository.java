@@ -18,7 +18,11 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
 
     List<ScSubSchemeDetails> findByScSchemeDetailsId(long scSchemeDetailsId);
 
+    List<ScSubSchemeDetails> findByScSchemeDetailsIdAndSubSchemeName(long scSchemeDetailsId, String subSchemeName);
+
     List<ScSubSchemeDetails> findByScSchemeDetailsIdAndScSubSchemeDetailsIdIsNot( long scSchemeDetailsId, long ScSubSchemeDetailsId);
+
+    List<ScSubSchemeDetails> findByScSchemeDetailsIdAndSubSchemeNameAndScSubSchemeDetailsIdIsNot( long scSchemeDetailsId, String subSchemeName, long ScSubSchemeDetailsId);
 
     public List<ScSubSchemeDetails> findByScSchemeDetailsIdAndActiveOrderBySubSchemeNameAsc(long scSchemeDetailsId, boolean isActive);
 
@@ -38,6 +42,8 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.subSchemeType," +
             " scSubSchemeDetails.subSchemeStartDate," +
             " scSubSchemeDetails.subSchemeEndDate," +
+            " scSubSchemeDetails.withLand," +
+            " scSubSchemeDetails.beneficiaryType," +
             " scSchemeDetails.schemeName" +
 
             ") \n" +
@@ -57,6 +63,8 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.subSchemeType," +
             " scSubSchemeDetails.subSchemeStartDate," +
             " scSubSchemeDetails.subSchemeEndDate," +
+            " scSubSchemeDetails.withLand," +
+            " scSubSchemeDetails.beneficiaryType," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +
@@ -75,6 +83,8 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.subSchemeType," +
             " scSubSchemeDetails.subSchemeStartDate," +
             " scSubSchemeDetails.subSchemeEndDate," +
+            " scSubSchemeDetails.withLand," +
+            " scSubSchemeDetails.beneficiaryType," +
             " scSchemeDetails.schemeName" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +

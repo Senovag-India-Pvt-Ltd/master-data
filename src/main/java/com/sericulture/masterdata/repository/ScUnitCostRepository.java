@@ -20,8 +20,11 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
 
     List<ScUnitCost> findByScHeadAccountIdAndScCategoryId(long scHeadAccountId, long scCategoryId);
 
+    List<ScUnitCost> findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(long scHeadAccountId, long scCategoryId, long scSubSchemeDetailsId);
+
     List<ScUnitCost> findByScHeadAccountIdAndScCategoryIdAndScUnitCostIdIsNot(long scHeadAccountId, long scCategoryId, long scUnitCostId);
 
+    List<ScUnitCost> findByScHeadAccountIdAndAndScSubSchemeDetailsIdAndScCategoryIdAndScUnitCostIdIsNot(long scHeadAccountId,long scSubSchemeDetailsId, long scCategoryId, long scUnitCostId);
 
     public List<ScUnitCost> findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsIdAndActive(long scHeadAccountId,long scCategoryId,long scSubSchemeDetailsId, boolean isActive);
 

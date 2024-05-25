@@ -45,7 +45,7 @@ public class ScUnitCostService {
         ScUnitCostResponse scUnitCostResponse = new ScUnitCostResponse();
         ScUnitCost scUnitCost = mapper.scUnitCostObjectToEntity(scUnitCostRequest, ScUnitCost.class);
         validator.validate(scUnitCost);
-        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryId(scUnitCostRequest.getScHeadAccountId(),scUnitCostRequest.getScCategoryId());
+        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(scUnitCostRequest.getScHeadAccountId(),scUnitCostRequest.getScCategoryId(), scUnitCostRequest.getScSubSchemeDetailsId());
         if(!scUnitCostList.isEmpty() && scUnitCostList.stream().filter(ScUnitCost::getActive).findAny().isPresent()){
             scUnitCostResponse.setError(true);
             scUnitCostResponse.setError_description("Head Account already exist");
@@ -209,7 +209,7 @@ public class ScUnitCostService {
     @Transactional
     public ScUnitCostResponse updateScUnitCostDetails(EditScUnitCostRequest scUnitCostRequest) {
         ScUnitCostResponse scUnitCostResponse = new ScUnitCostResponse();
-        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryIdAndScUnitCostIdIsNot(scUnitCostRequest.getScHeadAccountId(), scUnitCostRequest.getScCategoryId(),scUnitCostRequest.getScSubSchemeDetailsId());
+        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndAndScSubSchemeDetailsIdAndScCategoryIdAndScUnitCostIdIsNot(scUnitCostRequest.getScHeadAccountId(), scUnitCostRequest.getScSubSchemeDetailsId(),scUnitCostRequest.getScCategoryId(),scUnitCostRequest.getScSubSchemeDetailsId());
         if (scUnitCostList.size() > 0) {
             scUnitCostResponse.setError(true);
             scUnitCostResponse.setError_description("Head Account exists, duplicates are not allowed.");

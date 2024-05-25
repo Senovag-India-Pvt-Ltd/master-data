@@ -32,4 +32,10 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
 
     @Schema(name = "subSchemeEndDate", example = "1")
     Date subSchemeEndDate;
+
+    @Schema(name = "withLand", example = "1")
+    Long withLand;
+
+    @Schema(name = "beneficiaryType", example = "1")
+    Long beneficiaryType;
 }
