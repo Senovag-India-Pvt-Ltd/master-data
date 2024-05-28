@@ -29,20 +29,6 @@ public class ScSchemeDetailsService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScSchemeDetailsResponse getScSchemeDetailsDetails(String schemeName){
-        ScSchemeDetailsResponse scSchemeDetailsResponse = new ScSchemeDetailsResponse();
-        ScSchemeDetails scSchemeDetails= scSchemeDetailsRepository.findBySchemeNameAndActive(schemeName,true);
-        if(scSchemeDetails==null){
-            scSchemeDetailsResponse.setError(true);
-            scSchemeDetailsResponse.setError_description("Program not found");
-        }else{
-            scSchemeDetailsResponse = mapper.scSchemeDetailsEntityToObject(scSchemeDetails,ScSchemeDetailsResponse.class);
-            scSchemeDetailsResponse.setError(false);
-        }
-        log.info("Entity is ",scSchemeDetails);
-        return scSchemeDetailsResponse;
-    }
 
     @Transactional
     public ScSchemeDetailsResponse insertScSchemeDetailsDetails(ScSchemeDetailsRequest scSchemeDetailsRequest){
@@ -132,7 +118,7 @@ public class ScSchemeDetailsService {
     public ScSchemeDetailsResponse updateScSchemeDetailsDetails(EditScSchemeDetailsRequest scSchemeDetailsRequest){
 
         ScSchemeDetailsResponse scSchemeDetailsResponse = new ScSchemeDetailsResponse();
-        List<ScSchemeDetails> scSchemeDetailsList = scSchemeDetailsRepository. findByActiveAndSchemeNameAndSchemeNameInKannada(true,scSchemeDetailsRequest.getSchemeName(), scSchemeDetailsRequest.getSchemeNameInKannada());
+        List<ScSchemeDetails> scSchemeDetailsList = scSchemeDetailsRepository. findByActiveAndSchemeNameAndSchemeNameInKannadaAndScSchemeDetailsIdIsNot(true,scSchemeDetailsRequest.getSchemeName(), scSchemeDetailsRequest.getSchemeNameInKannada(),scSchemeDetailsRequest.getScSchemeDetailsId());
         if(scSchemeDetailsList.size()>0){
             scSchemeDetailsResponse.setError(true);
             scSchemeDetailsResponse.setError_description("Sc Scheme Details exists, duplicates are not allowed.");

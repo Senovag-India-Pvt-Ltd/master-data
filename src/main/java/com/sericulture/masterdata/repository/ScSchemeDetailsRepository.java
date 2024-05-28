@@ -15,7 +15,7 @@ public interface ScSchemeDetailsRepository extends PagingAndSortingRepository<Sc
 
     public List<ScSchemeDetails> findBySchemeNameAndSchemeNameInKannada(String schemeName,String schemeNameInKannada);
 
-    public List<ScSchemeDetails> findByActiveAndSchemeNameAndSchemeNameInKannada(boolean a,String schemeName,String schemeNameInKannada);
+    public List<ScSchemeDetails> findByActiveAndSchemeNameAndSchemeNameInKannadaAndScSchemeDetailsIdIsNot(boolean a,String schemeName,String schemeNameInKannada,long scSchemeDetailsId);
 
     public ScSchemeDetails findBySchemeNameAndActive(String schemeName,boolean isActive);
 
