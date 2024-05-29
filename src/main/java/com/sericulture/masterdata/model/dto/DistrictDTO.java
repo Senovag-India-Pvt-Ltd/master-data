@@ -4,9 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DistrictDTO {
     private Long districtId;
 
@@ -23,16 +27,16 @@ public class DistrictDTO {
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
     private String stateName;
 
-    public DistrictDTO(){
-
-    }
-
-    public DistrictDTO(Long districtId, String districtName,String districtNameInKannada, Long stateId,String lgDistrict, String stateName) {
-        this.districtId = districtId;
-        this.districtName = districtName;
-        this.districtNameInKannada = districtNameInKannada;
-        this.stateId = stateId;
-        this.lgDistrict = lgDistrict;
-        this.stateName = stateName;
-    }
+//    public DistrictDTO(){
+//
+//    }
+//
+//    public DistrictDTO(Long districtId, String districtName,String districtNameInKannada, Long stateId,String lgDistrict, String stateName) {
+//        this.districtId = districtId;
+//        this.districtName = districtName;
+//        this.districtNameInKannada = districtNameInKannada;
+//        this.stateId = stateId;
+//        this.lgDistrict = lgDistrict;
+//        this.stateName = stateName;
+//    }
 }

@@ -35,6 +35,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
            " district.districtName," +
            " district.districtNameInKannada," +
            " district.stateId," +
+           " district.lgDistrict," +
            " state.stateName" +
            ") \n" +
            "from District district\n" +
@@ -54,6 +55,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.districtName," +
             " district.districtNameInKannada," +
             " district.stateId," +
+            " district.lgDistrict," +
             " state.stateName" +
             ") \n" +
             "from District district\n" +
@@ -74,6 +76,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.districtName," +
             " district.districtNameInKannada," +
             " district.stateId," +
+            " district.lgDistrict," +
             " state.stateName" +
             ") \n" +
             "from District district\n" +
@@ -88,6 +91,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.districtName," +
             " district.districtNameInKannada," +
             " district.stateId," +
+            " district.lgDistrict," +
             " state.stateName" +
             ") \n" +
             "from District district\n" +
