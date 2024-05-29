@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.district;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -29,6 +30,9 @@ public class DistrictResponse {
 
     @Schema(name = "districtNameInKannada",  example = "ಭಾಷೆ")
     String districtNameInKannada;
+
+    @Schema(name = "districtCode", example = "1234")
+    String districtCode;
 
     @Schema(name = "error", example = "true")
     Boolean error;

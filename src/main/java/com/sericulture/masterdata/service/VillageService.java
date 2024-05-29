@@ -206,7 +206,7 @@ public class VillageService {
     @Transactional
     public VillageResponse updateVillageDetails(EditVillageRequest villageRequest){
         VillageResponse villageResponse = new VillageResponse();
-        List<Village> villageList = villageRepository.findByActiveAndVillageNameAndVillageNameInKannada(true,villageRequest.getVillageName(), villageRequest.getVillageNameInKannada());
+        List<Village> villageList = villageRepository.findByActiveAndVillageNameAndVillageNameInKannadaAndVillageIdIsNot(true,villageRequest.getVillageName(), villageRequest.getVillageNameInKannada(),villageRequest.getVillageId());
         if(villageList.size()>0){
             villageResponse.setError(true);
             villageResponse.setError_description("Village already exists, duplicates are not allowed.");
@@ -219,6 +219,7 @@ public class VillageService {
                 village.setDistrictId(villageRequest.getDistrictId());
                 village.setTalukId(villageRequest.getTalukId());
                 village.setHobliId(villageRequest.getHobliId());
+                village.setVillageCode(villageRequest.getVillageCode());
                 village.setVillageName(villageRequest.getVillageName());
                 village.setLgVillage(villageRequest.getLgVillage());
                 village.setVillageNameInKannada(villageRequest.getVillageNameInKannada());

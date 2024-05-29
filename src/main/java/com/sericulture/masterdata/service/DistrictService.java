@@ -213,7 +213,7 @@ public class DistrictService {
     @Transactional
     public DistrictResponse updateDistrictDetails(EditDistrictRequest districtRequest) {
         DistrictResponse districtResponse = new DistrictResponse();
-        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannadaAndActive(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada(), true);
+        List<District> districtList = districtRepository.findByDistrictNameAndDistrictNameInKannadaAndDistrictIdIsNot(districtRequest.getDistrictName(),districtRequest.getDistrictNameInKannada(),districtRequest.getDistrictId());
         if (districtList.size() > 0) {
             districtResponse.setError(true);
             districtResponse.setError_description("District already exists, duplicates are not allowed.");
@@ -231,6 +231,7 @@ public class DistrictService {
                     district.setDistrictName(districtRequest.getDistrictName());
                     district.setLgDistrict(districtRequest.getLgDistrict());
                     district.setDistrictNameInKannada(districtRequest.getDistrictNameInKannada());
+                    district.setDistrictCode(districtRequest.getDistrictCode());
                     district.setActive(true);
                     District district1 = districtRepository.save(district);
                     districtResponse = mapper.districtEntityToObject(district1, DistrictResponse.class);

@@ -205,7 +205,7 @@ public class TalukService {
     @Transactional
     public TalukResponse updateTalukDetails(EditTalukRequest talukRequest) {
         TalukResponse talukResponse = new TalukResponse();
-        List<Taluk> talukList = talukRepository.findByActiveAndTalukNameAndTalukNameInKannada(true,talukRequest.getTalukName(),talukRequest.getTalukNameInKannada());
+        List<Taluk> talukList = talukRepository.findByActiveAndTalukNameAndTalukNameInKannadaAndTalukIdIsNot(true,talukRequest.getTalukName(),talukRequest.getTalukNameInKannada(),talukRequest.getTalukId());
         if (talukList.size() > 0) {
             talukResponse.setError(true);
             talukResponse.setError_description("Taluk already exists, duplicates are not allowed.");
@@ -217,6 +217,7 @@ public class TalukService {
                 taluk.setTalukId(talukRequest.getTalukId());
                 taluk.setLgTaluk(talukRequest.getLgTaluk());
                 taluk.setTalukName(talukRequest.getTalukName());
+                taluk.setTalukCode(talukRequest.getTalukCode());
                 taluk.setTalukNameInKannada(talukRequest.getTalukNameInKannada());
                 Taluk updatedTaluk = talukRepository.save(taluk);
                 talukResponse = mapper.talukEntityToObject(updatedTaluk, TalukResponse.class);

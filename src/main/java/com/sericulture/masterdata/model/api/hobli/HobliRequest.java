@@ -27,4 +27,8 @@ public class HobliRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Hobli name in kannada must contain only letters and numbers")
     @Schema(name = "hobliNameInKannada",  example = "ಭಾಷೆ")
     String hobliNameInKannada;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Hobli Code must contain only letters and numbers")
+    @Schema(name = "hobliCode", example = "1234")
+    String hobliCode;
 }

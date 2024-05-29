@@ -17,7 +17,7 @@ import java.util.Set;
 public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long> {
     public List<Hobli> findByHobliNameAndHobliNameInKannada(String hobliName,String hobliNameInKannada);
 
-    public List<Hobli> findByActiveAndHobliNameAndHobliNameInKannada(boolean active,String hobliName,String hobliNameInKannada);
+    public List<Hobli> findByHobliNameAndHobliNameInKannadaAndHobliIdIsNot(String hobliName,String hobliNameInKannada,long hobliId);
 
     Hobli findByHobliNameAndTalukIdAndActive(String hobliName, long talukId, boolean a);
 
@@ -42,6 +42,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
+            " hobli.hobliCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName" +
@@ -65,6 +66,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
+            " hobli.hobliCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName" +
@@ -94,6 +96,7 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
             " hobli.stateId," +
             " hobli.districtId," +
             " hobli.talukId," +
+            " hobli.hobliCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName" +

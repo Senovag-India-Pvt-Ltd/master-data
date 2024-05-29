@@ -24,6 +24,9 @@ public class DistrictDTO {
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgDistrict must contain only letters and numbers")
     private String lgDistrict;
 
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "districtCode must contain only letters and numbers")
+    private String districtCode;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
     private String stateName;
 

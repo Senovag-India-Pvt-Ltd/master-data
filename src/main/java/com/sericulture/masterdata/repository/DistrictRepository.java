@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Repository
 public interface DistrictRepository extends PagingAndSortingRepository<District, Long> {
-    public List<District> findByDistrictNameAndDistrictNameInKannada(String districtName,String districtNameInKannada);
+    public List<District> findByDistrictNameAndDistrictNameInKannadaAndDistrictIdIsNot(String districtName,String districtNameInKannada,long districtId);
 
     District findByDistrictNameAndStateIdAndActive(String districtName, long stateId, boolean active);
 
@@ -36,6 +36,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
            " district.districtNameInKannada," +
            " district.stateId," +
            " district.lgDistrict," +
+           " district.districtCode," +
            " state.stateName" +
            ") \n" +
            "from District district\n" +
@@ -56,6 +57,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.districtNameInKannada," +
             " district.stateId," +
             " district.lgDistrict," +
+            " district.districtCode," +
             " state.stateName" +
             ") \n" +
             "from District district\n" +
@@ -77,6 +79,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.districtNameInKannada," +
             " district.stateId," +
             " district.lgDistrict," +
+            " district.districtCode," +
             " state.stateName" +
             ") \n" +
             "from District district\n" +
@@ -92,6 +95,7 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.districtNameInKannada," +
             " district.stateId," +
             " district.lgDistrict," +
+            " district.districtCode," +
             " state.stateName" +
             ") \n" +
             "from District district\n" +

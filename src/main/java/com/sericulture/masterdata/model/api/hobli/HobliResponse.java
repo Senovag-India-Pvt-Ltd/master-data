@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.hobli;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor
@@ -38,6 +39,9 @@ public class HobliResponse {
 
     @Schema(name = "hobliNameInKannada",  example = "ಭಾಷೆ")
     String hobliNameInKannada;
+
+    @Schema(name = "hobliCode", example = "1234")
+    String hobliCode;
 
     @Schema(name = "error", example = "true")
     Boolean error;

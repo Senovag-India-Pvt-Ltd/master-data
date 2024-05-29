@@ -195,17 +195,18 @@ public class HobliService {
     @Transactional
     public HobliResponse updateHobliDetails(EditHobliRequest hobliRequest) {
         HobliResponse hobliResponse = new HobliResponse();
-        List<Hobli> hobliList = hobliRepository.findByActiveAndHobliNameAndHobliNameInKannada(true,hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada());
-        if (hobliList.size() > 0) {
-            hobliResponse.setError(true);
-            hobliResponse.setError_description("Hobli already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+//        List<Hobli> hobliList = hobliRepository.findByHobliNameAndHobliNameInKannadaAndHobliIdIsNot(hobliRequest.getHobliName(),hobliRequest.getHobliNameInKannada(),hobliRequest.getHobliId());
+//        if (hobliList.size() > 0) {
+//            hobliResponse.setError(true);
+//            hobliResponse.setError_description("Hobli already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
             Hobli hobli = hobliRepository.findByHobliIdAndActiveIn(hobliRequest.getHobliId(), Set.of(true, false));
             if (Objects.nonNull(hobli)) {
                 hobli.setStateId(hobliRequest.getStateId());
                 hobli.setHobliName(hobliRequest.getHobliName());
                 hobli.setHobliNameInKannada(hobliRequest.getHobliNameInKannada());
+                hobli.setHobliCode(hobliRequest.getHobliCode());
                 hobli.setActive(true);
                 Hobli hobli1 = hobliRepository.save(hobli);
                 hobliResponse = mapper.hobliEntityToObject(hobli1, HobliResponse.class);
@@ -215,7 +216,7 @@ public class HobliService {
                 hobliResponse.setError_description("Error occurred while fetching hobli");
                 // throw new ValidationException("Error occurred while fetching village");
             }
-        }
+//        }
         return hobliResponse;
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)

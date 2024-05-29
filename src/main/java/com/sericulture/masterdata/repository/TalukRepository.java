@@ -16,7 +16,7 @@ import java.util.Set;
 public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long> {
     public List<Taluk> findByTalukNameAndTalukNameInKannada(String talukName,String talukNameInKannada);
 
-    public List<Taluk> findByActiveAndTalukNameAndTalukNameInKannada(boolean a,String talukName,String talukNameInKannada);
+    public List<Taluk> findByActiveAndTalukNameAndTalukNameInKannadaAndTalukIdIsNot(boolean a,String talukName,String talukNameInKannada,long talukId);
 
     Taluk findByTalukNameAndDistrictIdAndActive(String talukName, long districtId, boolean a);
 
@@ -35,6 +35,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             " taluk.stateId," +
             " taluk.districtId," +
             " taluk.lgTaluk," +
+            " taluk.talukCode," +
             " state.stateName," +
             " district.districtName" +
             ") \n" +
@@ -55,6 +56,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             " taluk.stateId," +
             " taluk.districtId," +
             " taluk.lgTaluk," +
+            " taluk.talukCode," +
             " state.stateName," +
             " district.districtName" +
             ") \n" +
@@ -92,6 +94,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
             " taluk.stateId," +
             " taluk.districtId," +
             " taluk.lgTaluk," +
+            " taluk.talukCode," +
             " state.stateName," +
             " district.districtName" +
             ") \n" +

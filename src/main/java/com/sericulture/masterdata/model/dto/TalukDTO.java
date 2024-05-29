@@ -12,19 +12,21 @@ public class TalukDTO {
     private Long stateId;
     private Long districtId;
     private String lgTaluk;
+    private String talukCode;
     private String stateName;
     private String districtName;
 
     public TalukDTO(){
 
     }
-    public TalukDTO(Long talukId,String talukName,String talukNameInKannada,Long stateId,Long districtId,String lgTaluk,String stateName,String districtName) {
+    public TalukDTO(Long talukId,String talukName,String talukNameInKannada,Long stateId,Long districtId,String lgTaluk,String talukCode,String stateName,String districtName) {
         this.talukId = talukId;
         this.talukName = talukName;
         this.talukNameInKannada = talukNameInKannada;
         this.stateId = stateId;
         this.districtId = districtId;
         this.lgTaluk = lgTaluk;
+        this.talukCode = talukCode;
         this.stateName = stateName;
         this.districtName = districtName;
 

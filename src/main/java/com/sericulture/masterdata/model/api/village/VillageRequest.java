@@ -34,4 +34,8 @@ public class VillageRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgVillage must contain only letters and numbers")
     @Schema(name = "lgVillage", example = "Shimoga")
     String lgVillage;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Village Code must contain only letters and numbers")
+    @Schema(name = "villageCode", example = "1234")
+    String villageCode;
 }

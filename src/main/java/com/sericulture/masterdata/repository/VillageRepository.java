@@ -18,7 +18,7 @@ import java.util.Set;
 public interface VillageRepository extends PagingAndSortingRepository<Village, Long> {
     public List<Village> findByVillageNameAndVillageNameInKannada(String villageName,String villageNameInKannada);
 
-    public List<Village> findByActiveAndVillageNameAndVillageNameInKannada(boolean a,String villageName,String villageNameInKannada);
+    public List<Village> findByActiveAndVillageNameAndVillageNameInKannadaAndVillageIdIsNot(boolean a,String villageName,String villageNameInKannada,long villageId);
 
     public List<Village> findByVillageNameAndStateId(String villageName, long stateId);
 
@@ -35,6 +35,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             " village.talukId," +
             " village.hobliId," +
             " village.lgVillage," +
+            " village.villageCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -63,6 +64,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             " village.talukId," +
             " village.hobliId," +
             " village.lgVillage," +
+            " village.villageCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -103,6 +105,7 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             " village.talukId," +
             " village.hobliId," +
             " village.lgVillage," +
+            " village.villageCode," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
