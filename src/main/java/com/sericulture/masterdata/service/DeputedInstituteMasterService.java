@@ -36,20 +36,7 @@ public class DeputedInstituteMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public DeputedInstituteMasterResponse getDeputedInstituteDetails(String deputedInstituteName){
-        DeputedInstituteMasterResponse deputedInstituteMasterResponse = new DeputedInstituteMasterResponse();
-        DeputedInstituteMaster deputedInstituteMaster = deputedInstituteMasterRepository.findByDeputedInstituteNameAndActive(deputedInstituteName,true);
-        if(deputedInstituteMaster==null){
-            deputedInstituteMasterResponse.setError(true);
-            deputedInstituteMasterResponse.setError_description("Deputed Institute not found");
-        }else{
-            deputedInstituteMasterResponse = mapper.deputedInstituteMasterEntityToObject(deputedInstituteMaster, DeputedInstituteMasterResponse.class);
-            deputedInstituteMasterResponse.setError(false);
-        }
-        log.info("Entity is ",deputedInstituteMaster);
-        return deputedInstituteMasterResponse;
-    }
+
 
     @Transactional
     public DeputedInstituteMasterResponse insertDeputedInstituteDetails(DeputedInstituteMasterRequest deputedInstituteMasterRequest){
@@ -65,7 +52,7 @@ public class DeputedInstituteMasterService {
 //            //throw new ValidationException("Village name already exist with inactive state");
 //            deputedInstituteMasterResponse.setError(true);
 //            deputedInstituteMasterResponse.setError_description("Deputed Institute name already exist with inactive state");
-//        }else {
+        }else {
             deputedInstituteMasterResponse = mapper.deputedInstituteMasterEntityToObject(deputedInstituteMasterRepository.save(deputedInstituteMaster), DeputedInstituteMasterResponse.class);
             deputedInstituteMasterResponse.setError(false);
         }

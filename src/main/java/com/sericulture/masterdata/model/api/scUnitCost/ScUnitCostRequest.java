@@ -30,6 +30,6 @@ public class ScUnitCostRequest extends RequestBody {
     @Schema(name = "benificiaryShare", example = "1")
     BigDecimal benificiaryShare;
 
-    @Schema(name = "unitCost", example = "1")
-    BigDecimal unitCost;
+//    @Schema(name = "unitCost", example = "1")
+//    BigDecimal unitCost;
 }

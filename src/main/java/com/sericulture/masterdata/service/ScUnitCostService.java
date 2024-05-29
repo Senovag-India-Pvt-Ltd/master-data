@@ -209,12 +209,12 @@ public class ScUnitCostService {
     @Transactional
     public ScUnitCostResponse updateScUnitCostDetails(EditScUnitCostRequest scUnitCostRequest) {
         ScUnitCostResponse scUnitCostResponse = new ScUnitCostResponse();
-        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndAndScSubSchemeDetailsIdAndScCategoryIdAndScUnitCostIdIsNot(scUnitCostRequest.getScHeadAccountId(), scUnitCostRequest.getScSubSchemeDetailsId(),scUnitCostRequest.getScCategoryId(),scUnitCostRequest.getScSubSchemeDetailsId());
-        if (scUnitCostList.size() > 0) {
-            scUnitCostResponse.setError(true);
-            scUnitCostResponse.setError_description("Head Account exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+//        List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndAndScSubSchemeDetailsIdAndScCategoryIdAndScUnitCostIdIsNot(scUnitCostRequest.getScHeadAccountId(), scUnitCostRequest.getScSubSchemeDetailsId(),scUnitCostRequest.getScCategoryId(),scUnitCostRequest.getScSubSchemeDetailsId());
+//        if (scUnitCostList.size() > 0) {
+//            scUnitCostResponse.setError(true);
+//            scUnitCostResponse.setError_description("Head Account exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        } else {
 
             ScUnitCost scUnitCost = scUnitCostRepository.findByScUnitCostIdAndActiveIn(scUnitCostRequest.getScUnitCostId(), Set.of(true, false));
             if (Objects.nonNull(scUnitCost)) {
@@ -237,7 +237,7 @@ public class ScUnitCostService {
                 // throw new ValidationException("Error occurred while fetching village");
             }
 
-        }
+//        }
         return scUnitCostResponse;
     }
 

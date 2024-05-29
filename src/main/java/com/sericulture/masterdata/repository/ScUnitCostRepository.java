@@ -44,7 +44,6 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
             " scUnitCost.centralShare," +
             " scUnitCost.stateShare," +
             " scUnitCost.benificiaryShare," +
-            " scUnitCost.unitCost," +
             " scHeadAccount.scHeadAccountName," +
             " scCategory.categoryName," +
             " scSubSchemeDetails.subSchemeName" +
@@ -69,7 +68,6 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
             " scUnitCost.centralShare," +
             " scUnitCost.stateShare," +
             " scUnitCost.benificiaryShare," +
-            " scUnitCost.unitCost," +
             " scHeadAccount.scHeadAccountName," +
             " scCategory.categoryName," +
             " scSubSchemeDetails.subSchemeName" +
@@ -94,7 +92,6 @@ public interface ScUnitCostRepository extends PagingAndSortingRepository<ScUnitC
             " scUnitCost.centralShare," +
             " scUnitCost.stateShare," +
             " scUnitCost.benificiaryShare," +
-            " scUnitCost.unitCost," +
             " scHeadAccount.scHeadAccountName," +
             " scCategory.categoryName," +
             " scSubSchemeDetails.subSchemeName" +
