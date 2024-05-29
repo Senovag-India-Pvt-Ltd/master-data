@@ -66,6 +66,7 @@ import com.sericulture.masterdata.model.api.scHeadAccount.ScHeadAccountRequest;
 import com.sericulture.masterdata.model.api.scHeadAccountCategory.ScHeadAccountCategoryRequest;
 import com.sericulture.masterdata.model.api.scProgram.ScProgramRequest;
 import com.sericulture.masterdata.model.api.rpPagePermission.RpPagePermissionRequest;
+import com.sericulture.masterdata.model.api.scProgramAccountMapping.ScProgramAccountMappingRequest;
 import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
 import com.sericulture.masterdata.model.api.scSchemeDetails.ScSchemeDetailsRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsRequest;
@@ -2776,6 +2777,39 @@ public class Mapper {
     public <T> T scSubSchemeMappingObjectToEntity(ScSubSchemeMappingRequest scSubSchemeMappingRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, scSubSchemeMappingRequest);
         return (T) mapper.map(scSubSchemeMappingRequest, claaz);
+    }
+
+
+    /**
+     * Maps scProgramAccountMapping Entity to scProgramAccountMapping Response Object
+     * @param scProgramAccountMappingEntity
+     * @param <T>
+     */
+    public <T> T scProgramAccountMappingEntityToObject(ScProgramAccountMapping scProgramAccountMappingEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,scProgramAccountMappingEntity);
+        return (T) mapper.map(scProgramAccountMappingEntity, claaz);
+    }
+
+    /**
+     * Maps scProgramAccountMappingDTO to scProgramAccountMapping Response Object
+     * @param scProgramAccountMappingDTO
+     * @param <T>
+     */
+    public <T> T scProgramAccountMappingDTOToObject(ScProgramAccountMappingDTO scProgramAccountMappingDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scProgramAccountMappingDTO);
+        return (T) mapper.map(scProgramAccountMappingDTO, claaz);
+    }
+
+
+
+    /**
+     * Maps scProgramAccountMapping Object to scProgramAccountMapping  Response Object
+     * @param scProgramAccountMappingRequest
+     * @param <T>
+     */
+    public <T> T scProgramAccountMappingObjectToEntity(ScProgramAccountMappingRequest scProgramAccountMappingRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, scProgramAccountMappingRequest);
+        return (T) mapper.map(scProgramAccountMappingRequest, claaz);
     }
 
 
