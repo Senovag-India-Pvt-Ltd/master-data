@@ -22,6 +22,9 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
 
     public List<Village> findByVillageNameAndStateId(String villageName, long stateId);
 
+    public List<Village> findByVillageNameAndDistrictIdAndTalukIdAndHobliId(String villageName, long distId, long talukId, long hobliId);
+
+
     public Village findByVillageNameAndActive(String villageName,boolean isActive);
 
     public Village findByLgVillage(String lgVillage);

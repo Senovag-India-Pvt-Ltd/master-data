@@ -396,4 +396,296 @@ public class ImportController {
 
         return "OK";
     }
+
+    @PostMapping("/import-codes")
+    public String importCodes(@RequestParam MultipartFile file) throws Exception{
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+            log.info("\nUpload villages file name: " + file.getOriginalFilename());
+            // Getting the Sheet at index i
+            Sheet sheet = workbook.getSheetAt(0);
+            System.out.println("=> " + sheet.getSheetName());
+            // Create a DataFormatter to format and get each cell's value as String
+            DataFormatter dataFormatter = new DataFormatter();
+            // 1. You can obtain a rowIterator and columnIterator and iterate over them
+            System.out.println("Iterating over Rows and Columns using Iterator");
+            Iterator<Row> rowIterator = sheet.rowIterator();
+            while (rowIterator.hasNext()) {
+                log.info("Inside row iterator");
+                long districtId = 0, talukId = 0, hobliId = 0, villageId = 0;
+                String distCode = "";
+                String talukCode = "";
+                String hobliCode = "";
+                String villageCode = "";
+                District districtObj = new District();
+                Taluk talukObj = new Taluk();
+                Hobli hobliObj = new Hobli();
+                Village villageObj = new Village();
+                Row row = rowIterator.next();
+                // Get the row number
+                int rowNumber = row.getRowNum();
+                // Now let's iterate over the columns of the current row
+                if (rowNumber > 0) {
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    while (cellIterator.hasNext()) {
+                        log.info("Inside cell iterator");
+                        Cell cell = cellIterator.next();
+                        int cellIndex = cell.getColumnIndex();
+                        String cellValue = dataFormatter.formatCellValue(cell);
+
+                        switch (cellIndex) {
+                            case 0:
+                                //district name
+                                System.out.print("distname:" + cellValue + "\t");
+                                log.info("\ndistname: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    List<District> district = districtRepository.findByDistrictName(cellValue);
+                                    if (district.size()>0) {
+                                        districtId = district.get(0).getDistrictId();
+                                        districtObj = district.get(0);
+                                    }
+                                }
+                                break;
+                            case 1:
+                                //dist code
+                                System.out.print("distcode:" + cellValue + "\t");
+                                log.info("\ndistcode: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    distCode = cellValue;
+                                }
+                                break;
+                            case 2:
+                                //taluk name
+                                System.out.print("talukname:" + cellValue + "\t");
+                                log.info("\ntalukname: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    List<Taluk> talukList = talukRepository.findByTalukNameAndDistrictId(cellValue, districtId);
+                                    if (talukList.size()>0) {
+                                        talukId = talukList.get(0).getTalukId();
+                                        talukObj = talukList.get(0);
+                                    }
+                                }
+                                break;
+                            case 3:
+                                //taluk code
+                                System.out.print("talukcode:" + cellValue + "\t");
+                                log.info("\ntalukcode: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    talukCode = cellValue;
+                                }
+                                break;
+                            case 4:
+                                //hobli name
+                                System.out.print("hobliname:" + cellValue + "\t");
+                                log.info("\nhobliname: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    List<Hobli> hobliList = hobliRepository.findByHobliNameAndTalukIdAndDistrictId(cellValue, talukId, districtId);
+                                    if (hobliList.size()>0) {
+                                        hobliId = hobliList.get(0).getHobliId();
+                                        hobliObj = hobliList.get(0);
+                                    }
+                                }
+                                break;
+                            case 5:
+                                //hobli code
+                                System.out.print("hoblicode:" + cellValue + "\t");
+                                log.info("\nhoblicode: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    hobliCode = cellValue;
+                                }
+                            case 6:
+                                //village name
+                                System.out.print("villagename:" + cellValue + "\t");
+                                log.info("\nVillagename: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    List<Village> villages = villageRepository.findByVillageNameAndDistrictIdAndTalukIdAndHobliId(cellValue, districtId, talukId, hobliId);
+                                    if (villages.size()>0) {
+                                        villageId = villages.get(0).getVillageId();
+                                        villageObj = villages.get(0);
+                                    }
+                                }
+                                break;
+                            case 7:
+                                //village code
+                                System.out.print("villagecode:" + cellValue + "\t");
+                                log.info("\nVillagecode: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    villageCode = cellValue;
+                                }
+                                break;
+                        }
+                    }
+                    // Check if this is the last cell in the row
+                    if (row.getLastCellNum() > 0 && row.getLastCellNum() == row.getPhysicalNumberOfCells()) {
+                        System.out.println("\nEnd of Row " + rowNumber);
+                        log.info("\nEnd of Row " + rowNumber);
+
+                        if(districtId>0){
+                            districtObj.setDistrictCode(distCode);
+                            districtRepository.save(districtObj);
+                        }
+                        if(talukId>0){
+                            talukObj.setTalukCode(talukCode);
+                            talukRepository.save(talukObj);
+                        }
+                        if(hobliId>0){
+                            hobliObj.setHobliCode(hobliCode);
+                            hobliRepository.save(hobliObj);
+                        }
+                        if(villageId>0){
+                            villageObj.setVillageCode(villageCode);
+                            villageRepository.save(villageObj);
+                        }
+                    }
+                }
+                System.out.println();
+            }
+        }catch (Exception ex){
+            log.debug("Error:"+ex);
+            ex.printStackTrace();
+        }
+
+        return "OK";
+    }
+
+    @PostMapping("/re-import-excel-data")
+    public String reReadExcelData(@RequestParam MultipartFile file) throws Exception{
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+            log.info("\nUpload villages file name: " + file.getOriginalFilename());
+            // Getting the Sheet at index i
+            Sheet sheet = workbook.getSheetAt(0);
+            System.out.println("=> " + sheet.getSheetName());
+            // Create a DataFormatter to format and get each cell's value as String
+            DataFormatter dataFormatter = new DataFormatter();
+            // 1. You can obtain a rowIterator and columnIterator and iterate over them
+            System.out.println("Iterating over Rows and Columns using Iterator");
+            Iterator<Row> rowIterator = sheet.rowIterator();
+            while (rowIterator.hasNext()) {
+                log.info("Inside row iterator");
+                long stateId = 2, districtId = 0, talukId = 0, hobliId = 0;
+                String hobliName = "";
+                String hobliNameInKan = "";
+                String villageName = "";
+                String villageNameInKan = "";
+                String lgVillage = "";
+                Row row = rowIterator.next();
+                // Get the row number
+                int rowNumber = row.getRowNum();
+                // Now let's iterate over the columns of the current row
+                if (rowNumber > 0) {
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    while (cellIterator.hasNext()) {
+                        log.info("Inside cell iterator");
+                        Cell cell = cellIterator.next();
+                        int cellIndex = cell.getColumnIndex();
+                        String cellValue = dataFormatter.formatCellValue(cell);
+
+                        switch (cellIndex) {
+                            case 0:
+                                //district name
+                                System.out.print("District name:" + cellValue + "\t");
+                                log.info("\nDist name: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    List<District> district = districtRepository.findByDistrictName(cellValue);
+                                    if (district.size()>0) {
+                                        districtId = district.get(0).getDistrictId();
+                                    }
+                                }
+                                break;
+                            case 1:
+                                //taluk name
+                                System.out.print("taluk name:" + cellValue + "\t");
+                                log.info("\nTaluk name: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    List<Taluk> taluk = talukRepository.findByTalukNameAndDistrictId(cellValue, districtId);
+                                    if (taluk.size()>0) {
+                                        talukId = taluk.get(0).getTalukId();
+                                    }
+                                }
+                                break;
+                            case 2:
+                                //hobli
+                                System.out.print("hobli:" + cellValue + "\t");
+                                log.info("\nHobli: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    hobliName = cellValue;
+                                }
+                                break;
+                            case 3:
+                                //hobli kan
+                                System.out.print("hobliKan:" + cellValue + "\t");
+                                log.info("\nHobliKan: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    hobliNameInKan = cellValue;
+                                }
+                                break;
+                            case 4:
+                                //villageLg
+                                System.out.print("villageLg:" + cellValue + "\t");
+                                log.info("\nlgVillage: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    lgVillage = cellValue;
+                                }
+                                break;
+                            case 5:
+                                //villageEng
+                                System.out.print("villageEng:" + cellValue + "\t");
+                                log.info("\nvillageEng: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    villageName = cellValue;
+                                }
+                            case 6:
+                                //villageKan
+                                System.out.print("villageKan:" + cellValue + "\t");
+                                log.info("\nVillageKan: " + cellValue);
+                                if (!cellValue.equals("") && cellValue != null) {
+                                    villageNameInKan = cellValue;
+                                }
+                                break;
+                        }
+                    }
+                    // Check if this is the last cell in the row
+                    if (row.getLastCellNum() > 0 && row.getLastCellNum() == row.getPhysicalNumberOfCells()) {
+                        System.out.println("\nEnd of Row " + rowNumber);
+                        log.info("\nEnd of Row " + rowNumber);
+                        Hobli hobli = hobliRepository.findByHobliNameAndTalukIdAndDistrictIdAndActive(hobliName, talukId, districtId, true);
+                        if (hobli == null) {
+                            Hobli hobli1 = new Hobli();
+                            hobli1.setHobliName(hobliName);
+                            hobli1.setHobliNameInKannada(hobliNameInKan);
+                            hobli1.setStateId(stateId);
+                            hobli1.setDistrictId(districtId);
+                            hobli1.setTalukId(talukId);
+                            Hobli hobli2 = hobliRepository.save(hobli1);
+                            log.info("\nSave hobli entity: " + hobli1);
+                            hobliId = hobli2.getHobliId();
+                        } else {
+                            hobliId = hobli.getHobliId();
+                        }
+
+                        List<Village> village = villageRepository.findByVillageNameAndDistrictIdAndTalukIdAndHobliId(villageName, districtId, talukId, hobliId);
+                        if (village.size() == 0) {
+                            Village village1 = new Village();
+                            village1.setLgVillage(lgVillage);
+                            village1.setVillageName(villageName);
+                            village1.setVillageNameInKannada(villageNameInKan);
+                            village1.setStateId(stateId);
+                            village1.setDistrictId(districtId);
+                            village1.setTalukId(talukId);
+                            village1.setHobliId(hobliId);
+                            log.info("\nSave village entity: " + village1);
+                            villageRepository.save(village1);
+                        }
+                    }
+                }
+                System.out.println();
+            }
+        }catch (Exception ex){
+            log.debug("Error:"+ex);
+            ex.printStackTrace();
+        }
+
+        return "OK";
+    }
 }
