@@ -16,9 +16,9 @@ import java.util.Set;
 public interface DisinfectantMasterRepository extends PagingAndSortingRepository<DisinfectantMaster, Long> {
 
 
-    public List<DisinfectantMaster> findByDisinfectantMasterNameAndDisinfectantMasterNameInKannada(String disinfectantMasterName, String disinfectantMasterInKannada);
+    public List<DisinfectantMaster> findByActiveAndDisinfectantMasterNameAndDisinfectantMasterNameInKannada(boolean isActive,String disinfectantMasterName, String disinfectantMasterInKannada);
 
-    public List<DisinfectantMaster> findByDisinfectantMasterNameAndDisinfectantMasterNameInKannadaAndDisinfectantMasterIdIsNot(String disinfectantMasterName,String disinfectantMasterInKannada,long disinfectantMasterId);
+    public List<DisinfectantMaster> findByActiveAndDisinfectantMasterNameAndDisinfectantMasterNameInKannadaAndDisinfectantMasterIdIsNot(boolean isActive,String disinfectantMasterName,String disinfectantMasterInKannada,long disinfectantMasterId);
 
     public DisinfectantMaster findByDisinfectantMasterNameAndActive(String disinfectantMasterName,boolean isActive);
 

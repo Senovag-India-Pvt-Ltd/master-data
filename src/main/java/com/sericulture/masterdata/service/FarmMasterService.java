@@ -66,7 +66,7 @@ public class FarmMasterService {
         FarmMasterResponse farmMasterResponse = new FarmMasterResponse();
         FarmMaster farmMaster = mapper.farmMasterObjectToEntity(farmMasterRequest,FarmMaster.class);
         validator.validate(farmMaster);
-        List<FarmMaster> farmMasterList= farmMasterRepository.findByFarmNameAndFarmNameInKannada(farmMasterRequest.getFarmName(),farmMasterRequest.getFarmNameInKannada());
+        List<FarmMaster> farmMasterList= farmMasterRepository.findByActiveAndFarmNameAndFarmNameInKannada(true,farmMasterRequest.getFarmName(),farmMasterRequest.getFarmNameInKannada());
         if(!farmMasterList.isEmpty() && farmMasterList.stream().filter(FarmMaster::getActive).findAny().isPresent()){
             farmMasterResponse.setError(true);
             farmMasterResponse.setError_description("FarmMaster name already exist");
@@ -193,7 +193,7 @@ public class FarmMasterService {
     public FarmMasterResponse updateFarmMasterDetails(EditFarmMasterRequest farmMasterRequest){
 
         FarmMasterResponse farmMasterResponse = new FarmMasterResponse();
-        List<FarmMaster> farmMasterList = farmMasterRepository.findByFarmNameAndFarmNameInKannadaAndFarmIdIsNot(farmMasterRequest.getFarmName(),farmMasterRequest.getFarmNameInKannada(),farmMasterRequest.getFarmId());
+        List<FarmMaster> farmMasterList = farmMasterRepository.findByActiveAndFarmNameAndFarmNameInKannadaAndFarmIdIsNot(true,farmMasterRequest.getFarmName(),farmMasterRequest.getFarmNameInKannada(),farmMasterRequest.getFarmId());
         if(farmMasterList.size()>0){
             farmMasterResponse.setError(true);
             farmMasterResponse.setError_description("farmMaster already exists, duplicates are not allowed.");

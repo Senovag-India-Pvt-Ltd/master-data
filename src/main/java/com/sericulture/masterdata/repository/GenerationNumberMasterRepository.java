@@ -14,12 +14,12 @@ import java.util.Set;
 @Repository
 public interface GenerationNumberMasterRepository extends PagingAndSortingRepository<GenerationNumberMaster, Long> {
 
-    public List<GenerationNumberMaster> findByGenerationNumber(String generationNumber);
+//    public List<GenerationNumberMaster> findByGenerationNumberAndActive(String generationNumber);
 
-    public List<GenerationNumberMaster> findByGenerationNumberAndGenerationNumberIdIsNot(String generationNumber,long generationNumberId);
+    public List<GenerationNumberMaster> findByActiveAndGenerationNumberAndGenerationNumberIdIsNot(boolean isActive,String generationNumber,long generationNumberId);
 
 
-    public GenerationNumberMaster findByGenerationNumberAndActive(String generationNumber,boolean isActive);
+    public List<GenerationNumberMaster> findByGenerationNumberAndActive(String generationNumber,boolean isActive);
 
     public Page<GenerationNumberMaster> findByActiveOrderByGenerationNumberAsc(boolean isActive, final Pageable pageable);
 

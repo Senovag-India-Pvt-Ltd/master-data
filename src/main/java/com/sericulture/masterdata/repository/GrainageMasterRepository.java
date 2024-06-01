@@ -18,7 +18,7 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
 
     public List<GrainageMaster> findByGrainageMasterNameAndGrainageMasterNameInKannadaAndActive(String grainageMasterName, String grainageMasterNameInKannada,boolean isActive);
 
-    public List<GrainageMaster> findByGrainageMasterNameAndGrainageMasterNameInKannadaAndGrainageMasterIdIsNot(String grainageMasterName, String grainageMasterNameInKannada, long grainageMasterId);
+    public List<GrainageMaster> findByActiveAndGrainageMasterNameAndGrainageMasterNameInKannadaAndGrainageMasterIdIsNot(boolean isActive,String grainageMasterName, String grainageMasterNameInKannada, long grainageMasterId);
 
     public GrainageMaster findByGrainageMasterNameAndActive(String grainageMasterName, boolean isActive);
 

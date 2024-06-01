@@ -56,7 +56,7 @@ public class TscMasterService {
         TscMasterResponse tscMasterResponse = new TscMasterResponse();
         TscMaster tscMaster = mapper.tscMasterObjectToEntity(tscMasterRequest,TscMaster.class);
         validator.validate(tscMaster);
-        List<TscMaster> tscMasterList = tscMasterRepository.findByNameAndNameInKannada(tscMasterRequest.getName(), tscMasterRequest.getNameInKannada());
+        List<TscMaster> tscMasterList = tscMasterRepository.findByActiveAndNameAndNameInKannada(true,tscMasterRequest.getName(), tscMasterRequest.getNameInKannada());
         if(!tscMasterList.isEmpty() && tscMasterList.stream().filter( TscMaster::getActive).findAny().isPresent()){
             tscMasterResponse.setError(true);
             tscMasterResponse.setError_description("TscMaster name already exist");
@@ -139,7 +139,7 @@ public class TscMasterService {
     public TscMasterResponse updateTscMastersDetails(EditTscMasterRequest tscMasterRequest){
 
         TscMasterResponse tscMasterResponse = new TscMasterResponse();
-        List<TscMaster> tscMasterList = tscMasterRepository. findByNameAndNameInKannadaAndTscMasterIdIsNot(tscMasterRequest.getName(), tscMasterRequest.getNameInKannada(),tscMasterRequest.getTscMasterId());
+        List<TscMaster> tscMasterList = tscMasterRepository. findByActiveAndNameAndNameInKannadaAndTscMasterIdIsNot(true,tscMasterRequest.getName(), tscMasterRequest.getNameInKannada(),tscMasterRequest.getTscMasterId());
         if(tscMasterList.size()>0){
             tscMasterResponse.setError(true);
             tscMasterResponse.setError_description("TscMaster exists, duplicates are not allowed.");

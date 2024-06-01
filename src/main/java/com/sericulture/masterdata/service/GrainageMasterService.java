@@ -184,7 +184,7 @@ public class GrainageMasterService {
     public GrainageMasterResponse updateGrainageMasterDetails(EditGrainageMasterRequest grainageMasterRequest){
 
         GrainageMasterResponse grainageMasterResponse = new GrainageMasterResponse();
-        List<GrainageMaster> grainageMasterList = grainageMasterRepository.findByGrainageMasterNameAndGrainageMasterNameInKannadaAndGrainageMasterIdIsNot(grainageMasterRequest.getGrainageMasterName(),grainageMasterRequest.getGrainageMasterNameInKannada(),grainageMasterRequest.getGrainageMasterId());
+        List<GrainageMaster> grainageMasterList = grainageMasterRepository.findByActiveAndGrainageMasterNameAndGrainageMasterNameInKannadaAndGrainageMasterIdIsNot(true,grainageMasterRequest.getGrainageMasterName(),grainageMasterRequest.getGrainageMasterNameInKannada(),grainageMasterRequest.getGrainageMasterId());
         if(grainageMasterList.size()>0){
             grainageMasterResponse.setError(true);
             grainageMasterResponse.setError_description("grainageMaster already exists, duplicates are not allowed.");

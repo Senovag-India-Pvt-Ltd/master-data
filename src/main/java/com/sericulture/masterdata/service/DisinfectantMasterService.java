@@ -58,7 +58,7 @@ public class DisinfectantMasterService {
         DisinfectantMasterResponse disinfectantMasterResponse = new DisinfectantMasterResponse();
         DisinfectantMaster disinfectantMaster = mapper.disinfectantMasterObjectToEntity(disinfectantMasterRequest,DisinfectantMaster.class);
         validator.validate(disinfectantMaster);
-        List<DisinfectantMaster> disinfectantMasterList= disinfectantMasterRepository.findByDisinfectantMasterNameAndDisinfectantMasterNameInKannada(disinfectantMasterRequest.getDisinfectantMasterName(),disinfectantMasterRequest.getDisinfectantMasterNameInKannada());
+        List<DisinfectantMaster> disinfectantMasterList= disinfectantMasterRepository.findByActiveAndDisinfectantMasterNameAndDisinfectantMasterNameInKannada(true,disinfectantMasterRequest.getDisinfectantMasterName(),disinfectantMasterRequest.getDisinfectantMasterNameInKannada());
         if(!disinfectantMasterList.isEmpty() && disinfectantMasterList.stream().filter(DisinfectantMaster::getActive).findAny().isPresent()){
             disinfectantMasterResponse.setError(true);
             disinfectantMasterResponse.setError_description("disinfectantMaster name already exist");
@@ -142,7 +142,7 @@ public class DisinfectantMasterService {
     public DisinfectantMasterResponse updateDisinfectantMasterDetails(EditDisinfectantMasterRequest disinfectantMasterRequest){
 
         DisinfectantMasterResponse disinfectantMasterResponse = new DisinfectantMasterResponse();
-        List<DisinfectantMaster> disinfectantMasterList = disinfectantMasterRepository.findByDisinfectantMasterNameAndDisinfectantMasterNameInKannadaAndDisinfectantMasterIdIsNot(disinfectantMasterRequest.getDisinfectantMasterName(),disinfectantMasterRequest.getDisinfectantMasterNameInKannada(),disinfectantMasterRequest.getDisinfectantMasterId());
+        List<DisinfectantMaster> disinfectantMasterList = disinfectantMasterRepository.findByActiveAndDisinfectantMasterNameAndDisinfectantMasterNameInKannadaAndDisinfectantMasterIdIsNot(true,disinfectantMasterRequest.getDisinfectantMasterName(),disinfectantMasterRequest.getDisinfectantMasterNameInKannada(),disinfectantMasterRequest.getDisinfectantMasterId());
         if(disinfectantMasterList.size()>0){
             disinfectantMasterResponse.setError(true);
             disinfectantMasterResponse.setError_description("disinfectantMaster already exists, duplicates are not allowed.");

@@ -20,9 +20,9 @@ public interface FarmMasterRepository extends PagingAndSortingRepository<FarmMas
 
     public Page<ScProgramApprovalMapping> findByActiveOrderByFarmIdAsc(boolean isActive, final Pageable pageable);
 
-    public List<FarmMaster> findByFarmNameAndFarmNameInKannada(String farmName, String farmNameInKannada);
+    public List<FarmMaster> findByActiveAndFarmNameAndFarmNameInKannada(boolean isActive,String farmName, String farmNameInKannada);
 
-    public List<FarmMaster> findByFarmNameAndFarmNameInKannadaAndFarmIdIsNot(String farmName,String farmNameInKannada,long farmId);
+    public List<FarmMaster> findByActiveAndFarmNameAndFarmNameInKannadaAndFarmIdIsNot(boolean isActive,String farmName,String farmNameInKannada,long farmId);
 
     public FarmMaster findByFarmNameAndActive(String farmName,boolean isActive);
 

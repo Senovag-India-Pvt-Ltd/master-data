@@ -35,28 +35,14 @@ public class GenerationNumberMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public GenerationNumberMasterResponse getGenerationNumberMasterDetails(String generationNumber){
-        GenerationNumberMasterResponse generationNumberMasterResponse = new GenerationNumberMasterResponse();
-        GenerationNumberMaster generationNumberMaster = generationNumberMasterRepository.findByGenerationNumberAndActive(generationNumber, true);
-        if(generationNumberMaster==null){
-            generationNumberMasterResponse.setError(true);
-            generationNumberMasterResponse.setError_description("generationNumberMaster Mode not Found");
-        }else{
-            generationNumberMasterResponse = mapper.generationNumberMasterEntityToObject(generationNumberMaster, GenerationNumberMasterResponse.class);
-            generationNumberMasterResponse.setError(false);
-        }
-        log.info("Entity is ",generationNumberMaster);
-        return generationNumberMasterResponse;
 
-    }
 
     @Transactional
     public GenerationNumberMasterResponse insertGenerationNumberMasterDetails(GenerationNumberMasterRequest generationNumberMasterRequest){
         GenerationNumberMasterResponse generationNumberMasterResponse = new GenerationNumberMasterResponse();
         GenerationNumberMaster generationNumberMaster = mapper.generationNumberObjectToEntity(generationNumberMasterRequest,GenerationNumberMaster.class);
         validator.validate(generationNumberMaster);
-        List<GenerationNumberMaster> generationNumberMasterList= generationNumberMasterRepository.findByGenerationNumber(generationNumberMasterRequest.getGenerationNumber());
+        List<GenerationNumberMaster> generationNumberMasterList= generationNumberMasterRepository.findByGenerationNumberAndActive(generationNumberMasterRequest.getGenerationNumber(),true);
         if(!generationNumberMasterList.isEmpty() && generationNumberMasterList.stream().filter(GenerationNumberMaster::getActive).findAny().isPresent()){
             generationNumberMasterResponse.setError(true);
             generationNumberMasterResponse.setError_description("generationNumberMaster name already exist");
@@ -140,7 +126,7 @@ public class GenerationNumberMasterService {
     public GenerationNumberMasterResponse updateGenerationNumberMasterDetails(EditGenerationNumberMasterRequest generationNumberMasterRequest){
 
         GenerationNumberMasterResponse generationNumberMasterResponse = new GenerationNumberMasterResponse();
-        List<GenerationNumberMaster> generationNumberMasterList = generationNumberMasterRepository.findByGenerationNumberAndGenerationNumberIdIsNot(generationNumberMasterRequest.getGenerationNumber(),generationNumberMasterRequest.getGenerationNumberId());
+        List<GenerationNumberMaster> generationNumberMasterList = generationNumberMasterRepository.findByActiveAndGenerationNumberAndGenerationNumberIdIsNot(true,generationNumberMasterRequest.getGenerationNumber(),generationNumberMasterRequest.getGenerationNumberId());
         if(generationNumberMasterList.size()>0){
             generationNumberMasterResponse.setError(true);
             generationNumberMasterResponse.setError_description("generationNumberMaster already exists, duplicates are not allowed.");

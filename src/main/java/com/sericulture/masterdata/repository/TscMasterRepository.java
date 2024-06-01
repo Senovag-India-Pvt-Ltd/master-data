@@ -16,9 +16,9 @@ public interface TscMasterRepository extends PagingAndSortingRepository<TscMaste
 
     public List<TscMaster> findByName(String name);
 
-    public List<TscMaster> findByNameAndNameInKannada(String name,String nameInKannada);
+    public List<TscMaster> findByActiveAndNameAndNameInKannada(boolean isActive,String name,String nameInKannada);
 
-    public List<TscMaster> findByNameAndNameInKannadaAndTscMasterIdIsNot(String name,String nameInKannada,long tscMasterId);
+    public List<TscMaster> findByActiveAndNameAndNameInKannadaAndTscMasterIdIsNot(boolean isActive,String name,String nameInKannada,long tscMasterId);
 
     public TscMaster findByNameAndActive(String name,boolean isActive);
 
