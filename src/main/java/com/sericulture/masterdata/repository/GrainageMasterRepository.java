@@ -16,7 +16,7 @@ import java.util.Set;
 @Repository
 public interface GrainageMasterRepository extends PagingAndSortingRepository<GrainageMaster, Long> {
 
-    public List<GrainageMaster> findByGrainageMasterNameAndGrainageMasterNameInKannada(String grainageMasterName, String grainageMasterNameInKannada);
+    public List<GrainageMaster> findByGrainageMasterNameAndGrainageMasterNameInKannadaAndActive(String grainageMasterName, String grainageMasterNameInKannada,boolean isActive);
 
     public List<GrainageMaster> findByGrainageMasterNameAndGrainageMasterNameInKannadaAndGrainageMasterIdIsNot(String grainageMasterName, String grainageMasterNameInKannada, long grainageMasterId);
 

@@ -59,7 +59,7 @@ public class GrainageMasterService {
         GrainageMasterResponse grainageMasterResponse = new GrainageMasterResponse();
         GrainageMaster grainageMaster = mapper.grainageMasterObjectToEntity(grainageMasterRequest, GrainageMaster.class);
         validator.validate(grainageMaster);
-        List<GrainageMaster> grainageMasterList= grainageMasterRepository.findByGrainageMasterNameAndGrainageMasterNameInKannada(grainageMasterRequest.getGrainageMasterName(),grainageMasterRequest.getGrainageMasterNameInKannada());
+        List<GrainageMaster> grainageMasterList= grainageMasterRepository.findByGrainageMasterNameAndGrainageMasterNameInKannadaAndActive(grainageMasterRequest.getGrainageMasterName(),grainageMasterRequest.getGrainageMasterNameInKannada(),true);
         if(!grainageMasterList.isEmpty() && grainageMasterList.stream().filter(GrainageMaster::getActive).findAny().isPresent()){
             grainageMasterResponse.setError(true);
             grainageMasterResponse.setError_description("grainageMaster name already exist");
