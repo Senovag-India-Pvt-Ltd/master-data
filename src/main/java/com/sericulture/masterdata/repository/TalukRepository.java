@@ -20,7 +20,7 @@ public interface TalukRepository extends PagingAndSortingRepository<Taluk, Long>
 
     Taluk findByTalukNameAndDistrictIdAndActive(String talukName, long districtId, boolean a);
 
-    Taluk findByLgTaluk(String lgTaluk);
+    List<Taluk> findByLgTaluk(String lgTaluk);
 
     public List<Taluk> findByTalukNameAndDistrictId(String talukName, long districtId);
 

@@ -135,8 +135,8 @@ public class ImportController {
                             districtId = district.getDistrictId();
                         }
 
-                        Taluk taluk = talukRepository.findByLgTaluk(lgTaluk);
-                        if (taluk == null) {
+                        List<Taluk> taluk = talukRepository.findByLgTaluk(lgTaluk);
+                        if (taluk.size() ==0) {
                             Taluk taluk1 = new Taluk();
                             taluk1.setLgTaluk(lgTaluk);
                             taluk1.setTalukName(talukName);
@@ -306,9 +306,9 @@ public class ImportController {
                                 System.out.print("taluk:" + cellValue + "\t");
                                 log.info("\nlgTaluk: " + cellValue);
                                 if (!cellValue.equals("") && cellValue != null) {
-                                    Taluk taluk = talukRepository.findByLgTaluk(cellValue);
-                                    if (taluk != null) {
-                                        talukId = taluk.getTalukId();
+                                    List<Taluk> taluk = talukRepository.findByLgTaluk(cellValue);
+                                    if (taluk.size()>0) {
+                                        talukId = taluk.get(0).getTalukId();
                                     }
                                 }
                                 break;
