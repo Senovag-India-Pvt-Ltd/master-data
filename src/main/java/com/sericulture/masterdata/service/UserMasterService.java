@@ -144,6 +144,20 @@ public class UserMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByDesignationIdAndDistrictIdAndTalukId(Long designationId,Long districtId, Long talukId) {
+        Map<String, Object> response = new HashMap<>();
+        List<UserMasterDTO> userMasterDTOS = userMasterRepository.getByDesignationIdAndDistrictIdAndActive(designationId,districtId,talukId,true);
+        if(userMasterDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", userMasterDTOS);
+            response = convertDTOToMapResponse(userMasterDTOS);
+        }
+        return response;
+    }
+
     private Map<String, Object> convertDTOToMapResponse(List<UserMasterDTO> userMasterDTOS) {
         Map<String, Object> response = new HashMap<>();
         List<UserMasterResponse> userMasterResponses = userMasterDTOS.stream()
