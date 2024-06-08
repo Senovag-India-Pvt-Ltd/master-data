@@ -22,6 +22,14 @@ public class TscMaster extends BaseEntity implements Serializable {
     @Column(name = "tsc_master_id")
     private Long tscMasterId;
 
+    @Column(name = "district_id")
+    private Long districtId;
+
+    @Column(name = "taluk_id")
+    private Long talukId;
+
+    @Column(name = "address")
+    private String address;
 
     @Size(min = 2, max = 250, message = "Tsc Name should be more than 1 characters.")
     @Column(name = "name", unique = true)

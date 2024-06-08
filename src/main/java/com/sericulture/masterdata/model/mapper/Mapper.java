@@ -1861,6 +1861,16 @@ public class Mapper {
         return (T) mapper.map(tscMasterEntity, claaz);
     }
 
+    /**
+     * Maps tscMasterDTO to tscMaster Response Object
+     * @param tscMasterDTO
+     * @param <T>
+     */
+    public <T> T tscMasterDTOToObject(TscMasterDTO tscMasterDTO, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, tscMasterDTO);
+        return (T) mapper.map(tscMasterDTO, claaz);
+    }
+
 
     /**
      * Maps tscMaster Object to tscMaster  Response Object

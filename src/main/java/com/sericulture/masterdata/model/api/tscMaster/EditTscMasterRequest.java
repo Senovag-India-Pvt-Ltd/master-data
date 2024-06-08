@@ -15,6 +15,15 @@ public class EditTscMasterRequest extends RequestBody {
     @Schema(name = "tscMasterId", example = "1")
     Long tscMasterId;
 
+    @Schema(name = "districtId", example = "1")
+    Long districtId;
+
+    @Schema(name = "talukId", example = "1")
+    Long talukId;
+
+    @Schema(name = "address", example = "")
+    String address;
+
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tsc Master name must contain only letters and numbers")
     @Schema(name = "name", example = "Karnataka", required = true)
     String name;
