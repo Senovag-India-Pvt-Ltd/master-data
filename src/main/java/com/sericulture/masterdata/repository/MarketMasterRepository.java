@@ -35,6 +35,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.marketMasterName," +
             " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
+            " marketMaster.paymentMode," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
             " marketMaster.stateId," +
@@ -92,6 +93,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.marketMasterName," +
             " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
+            " marketMaster.paymentMode," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
             " marketMaster.stateId," +
@@ -148,6 +150,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.marketMasterName," +
             " marketMaster.marketNameInKannada," +
             " marketMaster.marketMasterAddress," +
+            " marketMaster.paymentMode," +
             " marketMaster.boxWeight," +
             " marketMaster.lotWeight," +
             " marketMaster.stateId," +

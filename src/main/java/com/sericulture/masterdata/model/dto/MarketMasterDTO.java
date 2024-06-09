@@ -12,6 +12,7 @@ public class MarketMasterDTO {
     private String marketMasterName;
     private String marketNameInKannada;
     private String marketMasterAddress;
+    private String paymentMode;
     private BigDecimal boxWeight;
     private Long lotWeight;
     private Long stateId;
@@ -58,6 +59,7 @@ public class MarketMasterDTO {
         String marketMasterName,
         String marketNameInKannada,
         String marketMasterAddress,
+        String paymentMode,
         BigDecimal boxWeight,
         Long lotWeight,
         Long stateId,
@@ -98,6 +100,7 @@ public class MarketMasterDTO {
         this.marketNameInKannada = marketNameInKannada;
         this.marketMasterName = marketMasterName;
         this.marketMasterAddress = marketMasterAddress;
+        this.paymentMode = paymentMode;
         this.boxWeight = boxWeight;
         this.lotWeight = lotWeight;
         this.stateId = stateId;

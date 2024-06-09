@@ -143,4 +143,7 @@ public class MarketMasterResponse {
 
     @Schema(name = "name", example = "Karnataka")
     String name;
+
+    @Schema(name = "paymentMode", example = "1")
+    String paymentMode;
 }

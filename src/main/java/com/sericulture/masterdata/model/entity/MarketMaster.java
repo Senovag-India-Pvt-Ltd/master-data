@@ -137,4 +137,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     @Column(name = "division_master_id")
     private Long divisionMasterId;
 
+    @Column(name = "payment_mode")
+    private String paymentMode;
+
 }
