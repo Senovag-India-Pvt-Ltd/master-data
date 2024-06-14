@@ -20,20 +20,20 @@ public class EditTalukRequest extends RequestBody {
     @Schema(name = "talukId", example = "1")
     Long talukId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk must contain only letters and numbers")
     @Schema(name = "talukName", example = "Thirthahalli", required = true)
     String talukName;
 
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Taluk in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Taluk in kannada must contain only letters and numbers")
     @Schema(name = "talukNameInKannada",  example = "ಭಾಷೆ")
     String talukNameInKannada;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgTaluk must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgTaluk must contain only letters and numbers")
     @Schema(name = "lgTaluk", example = "Shimoga")
     String lgTaluk;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk Code must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk Code must contain only letters and numbers")
     @Schema(name = "talukCode", example = "1234")
     String talukCode;
 }
