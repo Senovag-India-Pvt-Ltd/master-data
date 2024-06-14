@@ -14,20 +14,20 @@ import lombok.NoArgsConstructor;
 public class DistrictDTO {
     private Long districtId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
     private String districtName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "District name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "District name in kannada must contain only letters and numbers")
     private String districtNameInKannada;
     private Long stateId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgDistrict must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgDistrict must contain only letters and numbers")
     private String lgDistrict;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "districtCode must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "districtCode must contain only letters and numbers")
     private String districtCode;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
     private String stateName;
 
 //    public DistrictDTO(){
