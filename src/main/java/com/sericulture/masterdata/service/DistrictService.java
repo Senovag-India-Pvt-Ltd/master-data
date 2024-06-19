@@ -232,6 +232,7 @@ public class DistrictService {
                     district.setLgDistrict(districtRequest.getLgDistrict());
                     district.setDistrictNameInKannada(districtRequest.getDistrictNameInKannada());
                     district.setDistrictCode(districtRequest.getDistrictCode());
+                    district.setDivisionMasterId(districtRequest.getDivisionMasterId());
                     district.setActive(true);
                     District district1 = districtRepository.save(district);
                     districtResponse = mapper.districtEntityToObject(district1, DistrictResponse.class);

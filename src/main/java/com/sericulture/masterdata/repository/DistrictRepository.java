@@ -37,11 +37,15 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
            " district.stateId," +
            " district.lgDistrict," +
            " district.districtCode," +
-           " state.stateName" +
+           " state.stateName," +
+           " district.divisionMasterId,"+
+           " divisionMaster.name" +
            ") \n" +
            "from District district\n" +
            "left join State state\n" +
            "on district.stateId = state.stateId " +
+           "left join DivisionMaster divisionMaster\n" +
+           "on district.divisionMasterId = divisionMaster.divisionMasterId " +
            "where district.active = :isActive " +
            "ORDER BY district.districtName ASC"
    )
@@ -58,11 +62,15 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.stateId," +
             " district.lgDistrict," +
             " district.districtCode," +
-            " state.stateName" +
+            " state.stateName," +
+            " district.divisionMasterId,"+
+            " divisionMaster.name" +
             ") \n" +
             "from District district\n" +
             "left join State state\n" +
             "on district.stateId = state.stateId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on district.divisionMasterId = divisionMaster.divisionMasterId " +
             "where district.active = :isActive AND district.districtId = :id"
     )
     public DistrictDTO getByDistrictIdAndActive(long id, boolean isActive);
@@ -80,11 +88,15 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.stateId," +
             " district.lgDistrict," +
             " district.districtCode," +
-            " state.stateName" +
+            " state.stateName," +
+            " district.divisionMasterId,"+
+            " divisionMaster.name" +
             ") \n" +
             "from District district\n" +
             "left join State state\n" +
             "on district.stateId = state.stateId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on district.divisionMasterId = divisionMaster.divisionMasterId " +
             "where district.active = :isActive AND district.districtName LIKE :searchText"
     )
     public List<DistrictDTO> searchByDistrictNameAndActive(String searchText, boolean isActive);
@@ -96,11 +108,15 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
             " district.stateId," +
             " district.lgDistrict," +
             " district.districtCode," +
-            " state.stateName" +
+            " state.stateName," +
+            " district.divisionMasterId,"+
+            " divisionMaster.name" +
             ") \n" +
             "from District district\n" +
             "left join State state\n" +
             "on district.stateId = state.stateId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on district.divisionMasterId = divisionMaster.divisionMasterId " +
             "where district.active = :isActive AND " +
             "(:joinColumn = 'district.districtName' AND district.districtName LIKE :searchText) OR " +
             "(:joinColumn = 'state.stateName' AND state.stateName LIKE :searchText)"

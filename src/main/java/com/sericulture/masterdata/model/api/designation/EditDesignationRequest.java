@@ -28,4 +28,7 @@ public class EditDesignationRequest extends RequestBody {
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;
 
+    @Schema(name = "level", example = "Karnataka", required = true)
+    String level;
+
 }

@@ -34,6 +34,13 @@ public class DistrictResponse {
     @Schema(name = "districtCode", example = "1234")
     String districtCode;
 
+    @Schema(name = "divisionMasterId", example = "1")
+    Long divisionMasterId;
+
+    @Schema(name = "name", example = "Karnataka", required = true)
+    String name;
+
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

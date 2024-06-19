@@ -30,6 +30,11 @@ public class DistrictDTO {
     @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
     private String stateName;
 
+    private Long divisionMasterId;
+
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Level name must contain only letters and numbers")
+    private String name;
+
 //    public DistrictDTO(){
 //
 //    }

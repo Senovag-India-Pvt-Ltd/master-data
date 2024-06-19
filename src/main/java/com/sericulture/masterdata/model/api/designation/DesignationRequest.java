@@ -23,4 +23,7 @@ public class DesignationRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation name in kannada must contain only letters and numbers")
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;
+
+    @Schema(name = "level", example = "Karnataka", required = true)
+    String level;
 }
