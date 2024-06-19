@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class VillageDTO {
     private Long villageId;
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Village must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Village must contain only letters and numbers")
 
     private String villageName;
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Village name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Village name in kannada must contain only letters and numbers")
 
     private String villageNameInKannada;
     private Long stateId;
@@ -17,22 +17,22 @@ public class VillageDTO {
     private Long talukId;
     private Long hobliId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgVillage name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lgVillage name must contain only letters and numbers")
     private String lgVillage;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "villageCode name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "villageCode name must contain only letters and numbers")
     private String villageCode;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
     private String stateName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
     private String districtName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk name must contain only letters and numbers")
     private String talukName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Hobli name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Hobli name must contain only letters and numbers")
     private String hobliName;
 
     public VillageDTO(){

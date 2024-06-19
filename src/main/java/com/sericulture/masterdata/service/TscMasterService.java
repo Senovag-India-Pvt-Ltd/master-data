@@ -6,6 +6,9 @@ import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRespo
 import com.sericulture.masterdata.model.api.tscMaster.EditTscMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterResponse;
+import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.TscMasterDTO;
+import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
 import com.sericulture.masterdata.model.entity.TscMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
@@ -76,11 +79,6 @@ public class TscMasterService {
         return convertToMapResponse(tscMasterRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllByActive(boolean isActive){
-        return convertListEntityToMapResponse(tscMasterRepository.findByActive(isActive));
-    }
-
     private Map<String, Object> convertToMapResponse(final Page<TscMaster> activeTscMasters) {
         Map<String, Object> response = new HashMap<>();
 
@@ -93,6 +91,13 @@ public class TscMasterService {
 
         return response;
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getAllByActive(boolean isActive){
+        return convertListEntityToMapResponse(tscMasterRepository.findByActive(isActive));
+    }
+
+
 
     private Map<String, Object> convertListEntityToMapResponse(final List<TscMaster> activeTscMasters) {
         Map<String, Object> response = new HashMap<>();
@@ -136,6 +141,55 @@ public class TscMasterService {
     }
 
     @Transactional
+    public TscMasterResponse getByIdJoin(int id) {
+        TscMasterResponse tscMasterResponse = new TscMasterResponse();
+        TscMasterDTO tscMasterDTO = tscMasterRepository.getByTscMasterIdAndActive(id, true);
+        if (tscMasterDTO == null) {
+            // throw new ValidationException("Invalid Id");
+            tscMasterResponse.setError(true);
+            tscMasterResponse.setError_description("Invalid id");
+        } else {
+            tscMasterResponse = mapper.tscMasterDTOToObject(tscMasterDTO, TscMasterResponse.class);
+            tscMasterResponse.setError(false);
+        }
+        log.info("Entity is ", tscMasterDTO);
+        return tscMasterResponse;
+    }
+
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String,Object> getPaginatedTscMasterDetailsWithJoin(final Pageable pageable){
+        return convertDTOToMapResponse(tscMasterRepository.getByActiveOrderByTscMasterIdAsc( true, pageable));
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(final Page<TscMasterDTO> activeTscMasters) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<TscMasterResponse> tscMasterResponses= activeTscMasters.getContent().stream()
+                .map(tscMaster -> mapper.tscMasterDTOToObject(tscMaster,TscMasterResponse.class)).collect(Collectors.toList());
+        response.put("tscMaster",tscMasterResponses);
+        response.put("currentPage", activeTscMasters.getNumber());
+        response.put("totalItems", activeTscMasters.getTotalElements());
+        response.put("totalPages", activeTscMasters.getTotalPages());
+
+        return response;
+    }
+
+//    private Map<String, Object> convertDTOToMapResponse(final Page<VillageDTO> activeVillages) {
+//        Map<String, Object> response = new HashMap<>();
+//
+//        List<VillageResponse> villageResponses = activeVillages.getContent().stream()
+//                .map(village -> mapper.villageDTOToObject(village,VillageResponse.class)).collect(Collectors.toList());
+//        response.put("village",villageResponses);
+//        response.put("currentPage", activeVillages.getNumber());
+//        response.put("totalItems", activeVillages.getTotalElements());
+//        response.put("totalPages", activeVillages.getTotalPages());
+//        return response;
+//    }
+
+
+
+    @Transactional
     public TscMasterResponse updateTscMastersDetails(EditTscMasterRequest tscMasterRequest){
 
         TscMasterResponse tscMasterResponse = new TscMasterResponse();
@@ -151,6 +205,9 @@ public class TscMasterService {
             if(Objects.nonNull(tscMaster)){
                 tscMaster.setName( tscMasterRequest.getName());
                 tscMaster.setNameInKannada( tscMasterRequest.getNameInKannada());
+                tscMaster.setDistrictId(tscMasterRequest.getDistrictId());
+                tscMaster.setTalukId(tscMasterRequest.getTalukId());
+                tscMaster.setAddress(tscMasterRequest.getAddress());
                 tscMaster.setActive(true);
                 TscMaster tscMaster1= tscMasterRepository.save(tscMaster);
                 tscMasterResponse = mapper.tscMasterEntityToObject(tscMaster1, TscMasterResponse.class);

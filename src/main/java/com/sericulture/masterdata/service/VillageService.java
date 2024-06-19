@@ -64,7 +64,7 @@ public class VillageService {
         VillageResponse villageResponse = new VillageResponse();
         Village village = mapper.villageObjectToEntity(villageRequest,Village.class);
         validator.validate(village);
-        List<Village> villageList = villageRepository.findByVillageNameAndVillageNameInKannada(villageRequest.getVillageName(), villageRequest.getVillageNameInKannada());
+        List<Village> villageList = villageRepository.findByVillageNameAndVillageNameInKannadaAndStateIdAndDistrictIdAndTalukIdAndHobliIdAndActive(villageRequest.getVillageName(), villageRequest.getVillageNameInKannada(),villageRequest.getStateId(),villageRequest.getDistrictId(),villageRequest.getTalukId(),villageRequest.getHobliId(),true);
         if(!villageList.isEmpty() && villageList.stream().filter(Village::getActive).findAny().isPresent()){
            // throw new ValidationException("Village name already exist");
             villageResponse.setError(true);

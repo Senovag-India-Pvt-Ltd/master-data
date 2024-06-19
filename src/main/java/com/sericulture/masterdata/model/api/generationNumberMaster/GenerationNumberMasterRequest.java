@@ -12,7 +12,7 @@ import lombok.*;
 @Getter
 @Setter
 public class GenerationNumberMasterRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "GenerationNumber must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "GenerationNumber must contain only letters and numbers")
     @Schema(name = "generationNumber", example = "Karnataka", required = true)
     String generationNumber;
 }

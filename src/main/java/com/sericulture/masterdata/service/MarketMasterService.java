@@ -208,6 +208,7 @@ public class MarketMasterService {
                 marketMaster.setSerialNumberPrefix(marketMasterRequest.getSerialNumberPrefix());
                 marketMaster.setBoxWeight(marketMasterRequest.getBoxWeight());
                 marketMaster.setLotWeight(marketMasterRequest.getLotWeight());
+                marketMaster.setPaymentMode(marketMasterRequest.getPaymentMode());
                 marketMaster.setStateId(marketMasterRequest.getStateId());
                 marketMaster.setDistrictId(marketMasterRequest.getDistrictId());
                 marketMaster.setTalukId(marketMasterRequest.getTalukId());

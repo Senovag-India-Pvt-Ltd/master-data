@@ -15,11 +15,26 @@ public class TscMasterResponse {
     @Schema(name = "tscMasterId", example = "1")
     Long tscMasterId;
 
+    @Schema(name = "districtId", example = "1")
+    Long districtId;
+
+    @Schema(name = "talukId", example = "1")
+    Long talukId;
+
+    @Schema(name = "address", example = "")
+    String address;
+
     @Schema(name = "name", example = "Karnataka", required = true)
     String name;
 
     @Schema(name = "nameInKannada", example = "ಕನ್ನಡ")
     String nameInKannada;
+
+    @Schema(name = "districtName", example = "")
+    String districtName;
+
+    @Schema(name = "talukName", example = "Karnataka")
+    String talukName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

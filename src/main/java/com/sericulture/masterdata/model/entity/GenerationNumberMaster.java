@@ -22,7 +22,7 @@ public class GenerationNumberMaster extends BaseEntity implements Serializable {
     private Long generationNumberId;
 
 
-    @Size(min = 2, max = 250, message = "GenerationNumber name should be more than 1 characters.")
+//    @Size(min = 2, max = 250, message = "GenerationNumber name should be more than 1 characters.")
     @Column(name = "generation_number", unique = true)
     private String generationNumber;
 }

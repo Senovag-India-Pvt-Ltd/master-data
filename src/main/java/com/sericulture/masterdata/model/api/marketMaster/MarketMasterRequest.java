@@ -125,4 +125,7 @@ public class MarketMasterRequest extends RequestBody {
 
     @Schema(name = "divisionMasterId", example = "1")
     Long divisionMasterId;
+
+    @Schema(name = "paymentMode", example = "1")
+    String paymentMode;
 }
