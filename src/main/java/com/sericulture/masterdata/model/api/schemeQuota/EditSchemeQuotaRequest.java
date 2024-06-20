@@ -39,4 +39,8 @@ public class EditSchemeQuotaRequest extends RequestBody {
     @Schema(name = "schemeQuotaPaymentType", example = "1")
     String schemeQuotaPaymentType;
 
+    @Schema(name = "ddoCode", example = "Karnataka", required = true)
+    String ddoCode;
+
+
 }

@@ -43,4 +43,7 @@ public class SchemeQuota extends BaseEntity implements Serializable {
     @Column(name = "dbt_code", unique = true)
     private String dbtCode;
 
+    @Column(name = "ddo_code", unique = true)
+    private String ddoCode;
+
 }

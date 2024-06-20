@@ -48,8 +48,8 @@ public class SchemeQuotaService {
         else if(!schemeQuotaList.isEmpty() && schemeQuotaList.stream().filter(Predicate.not(SchemeQuota::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             schemeQuotaResponse.setError(true);
-            schemeQuotaResponse.setError_description("SchemeDetails already exist with inactive state");
-        }else {
+            schemeQuotaResponse.setError_description("SchemeDetails already exist with inactive state");}
+        else {
             schemeQuotaResponse = mapper.schemeQuotaEntityToObject(schemeQuotaRepository.save(schemeQuota), SchemeQuotaResponse.class);
             schemeQuotaResponse.setError(false);
         }
@@ -221,6 +221,7 @@ public class SchemeQuotaService {
                 schemeQuota.setSchemeQuotaPaymentType(schemeQuotaRequest.getSchemeQuotaPaymentType());
                 schemeQuota.setSchemeQuotaCode(schemeQuotaRequest.getSchemeQuotaCode());
                 schemeQuota.setDbtCode(schemeQuotaRequest.getDbtCode());
+                schemeQuota.setDdoCode(schemeQuotaRequest.getDdoCode());
 
 
                 schemeQuota.setActive(true);

@@ -18,4 +18,5 @@ public class SchemeQuotaDTO {
     private String schemeQuotaPaymentType;
     private String dbtCode;
     private String schemeName;
+    private String ddoCode;
 }
