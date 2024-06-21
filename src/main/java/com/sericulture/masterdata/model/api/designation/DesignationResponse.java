@@ -19,9 +19,6 @@ public class DesignationResponse extends RequestBody {
     @Schema(name = "name", example = "Admin", required = true)
     String name;
 
-    @Schema(name = "amount", example = "amount", required = true)
-    BigDecimal amount;
-
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;
 

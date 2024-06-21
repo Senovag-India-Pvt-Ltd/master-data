@@ -27,9 +27,6 @@ public class Designation extends BaseEntity implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "amount")
-    private BigDecimal amount;
-
     @Column(name = "designation_name_in_kannada")
     private String designationNameInKannada;
 

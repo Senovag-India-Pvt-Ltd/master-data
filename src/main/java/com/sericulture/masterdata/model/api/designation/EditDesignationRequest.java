@@ -21,9 +21,6 @@ public class EditDesignationRequest extends RequestBody {
     @Schema(name = "name", example = "Admin", required = true)
     String name;
 
-    @Schema(name = "amount", example = "amount", required = true)
-    BigDecimal amount;
-
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation in kannada must contain only letters and numbers")
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;
