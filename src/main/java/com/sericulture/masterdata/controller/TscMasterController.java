@@ -7,7 +7,10 @@ import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRespo
 import com.sericulture.masterdata.model.api.tscMaster.EditTscMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterResponse;
+import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.TscMasterDTO;
+import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.service.TrProgramMasterService;
 import com.sericulture.masterdata.service.TscMasterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -215,5 +218,26 @@ public class TscMasterController {
         rw.setContent(tscMasterService.getByIdJoin(id));
         return ResponseEntity.ok(rw);
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-by-districtId-and-talukId")
+    public ResponseEntity<?> getByAndDistrictIdAndTalukId(
+            @Valid @RequestBody final TscMasterDTO tscMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TscMasterResponse.class);
+
+        rw.setContent(tscMasterService.getByAndDistrictIdAndTalukId(tscMasterDTO.getDistrictId(),tscMasterDTO.getTalukId()));
+        return ResponseEntity.ok(rw);
+    }
+
 
 }

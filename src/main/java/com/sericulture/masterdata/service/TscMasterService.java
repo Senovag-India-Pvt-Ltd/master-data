@@ -6,8 +6,10 @@ import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterRespo
 import com.sericulture.masterdata.model.api.tscMaster.EditTscMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterRequest;
 import com.sericulture.masterdata.model.api.tscMaster.TscMasterResponse;
+import com.sericulture.masterdata.model.api.useMaster.UserMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.TscMasterDTO;
+import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
 import com.sericulture.masterdata.model.entity.TscMaster;
@@ -162,6 +164,28 @@ public class TscMasterService {
         return convertDTOToMapResponse(tscMasterRepository.getByActiveOrderByTscMasterIdAsc( true, pageable));
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByAndDistrictIdAndTalukId(Long districtId,Long talukId) {
+        Map<String, Object> response = new HashMap<>();
+        List<TscMasterDTO> tscMasterDTOS = tscMasterRepository.getByDistrictIdAndTalukIdAndActive(districtId,talukId,true);
+        if(tscMasterDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", tscMasterDTOS);
+            response = convertDTOToMapResponse(tscMasterDTOS);
+        }
+        return response;
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(List<TscMasterDTO> tscMasterDTOS) {
+        Map<String, Object> response = new HashMap<>();
+        List<TscMasterResponse> tscMasterResponses = tscMasterDTOS.stream()
+                .map(tscMasterDTO -> mapper.tscMasterDTOToObject(tscMasterDTO,TscMasterResponse.class)).collect(Collectors.toList());
+        response.put("tscMaster",tscMasterResponses);
+        response.put("totalItems", tscMasterDTOS.size());
+        return response;
+    }
     private Map<String, Object> convertDTOToMapResponse(final Page<TscMasterDTO> activeTscMasters) {
         Map<String, Object> response = new HashMap<>();
 
