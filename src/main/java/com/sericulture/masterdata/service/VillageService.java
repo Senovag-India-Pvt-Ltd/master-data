@@ -1,10 +1,13 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.helper.Util;
+import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.state.StateResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
+import com.sericulture.masterdata.model.api.village.VillageDetailsResponse;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.HobliDTO;
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -293,5 +297,57 @@ public class VillageService {
         response.put("totalPages", activeVillages.getTotalPages());
 
         return response;
+    }
+
+    public ResponseEntity<?> searchVillageDetails(Long districtId,
+                                                  Long talukId,
+                                                  Long hobliId,
+                                                  String villageName,
+                                                  int pageNumber, int pageSize) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(List.class);
+        List<VillageDetailsResponse> villageResponseList = new ArrayList<>();
+
+        districtId = (districtId == 0) ? null : districtId;
+        talukId = (talukId == 0) ? null : talukId;
+        hobliId = (hobliId == 0) ? null : hobliId;
+        villageName = (villageName == null || villageName.isEmpty()) ? null : villageName;
+//        villageId = (villageId == 0) ? null : villageId;
+
+//        districtId = (districtId == null || districtId == 0) ? null : districtId;
+//        talukId = (talukId == null || talukId == 0) ? null : talukId;
+//        hobliId = (hobliId == null || hobliId == 0) ? null : hobliId;
+//        villageId = (villageId == null || villageId == 0) ? null : villageId;
+
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Object[]> applicablePage = villageRepository.getVillageDetails(districtId, talukId,hobliId,villageName,pageable);
+        List<Object[]> applicableList = applicablePage.getContent();
+        long totalRecords = applicablePage.getTotalElements();
+
+
+        villageDetailsResponse(villageResponseList, applicableList, pageNumber, pageSize);
+        rw.setTotalRecords(totalRecords);
+        rw.setContent(villageResponseList);
+        return ResponseEntity.ok(rw);
+    }
+
+    private static void villageDetailsResponse(List<VillageDetailsResponse> villageResponseList, List<Object[]> applicableList, int pageNumber, int pageSize) {
+        int serialNumber = pageNumber * pageSize + 1;
+        for (Object[] arr : applicableList) {
+            VillageDetailsResponse villageResponse;
+            villageResponse = VillageDetailsResponse.builder()
+                    .serialNumber(serialNumber++)
+                    .villageId(Util.objectToInteger(arr[0]))
+                    .stateName(Util.objectToString(arr[1]))
+                    .districtName(Util.objectToString(arr[2]))
+                    .talukName(Util.objectToString(arr[3]))
+                    .hobliName(Util.objectToString(arr[4]))
+                    .villageName(Util.objectToString(arr[5]))
+                    .villageNameInKannada(Util.objectToString(arr[6]))
+                    .lgVillage(Util.objectToString(arr[7]))
+                    .villageCode(Util.objectToString(arr[8]))
+                    .build();
+            villageResponseList.add(villageResponse);
+        }
     }
 }
