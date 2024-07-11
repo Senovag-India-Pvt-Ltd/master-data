@@ -35,20 +35,6 @@ public class TrProgramMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrProgramMasterResponse getTrProgramMasterDetails(String trProgramMasterName){
-        TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
-        TrProgramMaster trProgramMaster= trProgramMasterRepository.findByTrProgramMasterNameAndActive(trProgramMasterName,true);
-        if(trProgramMaster==null){
-            trProgramMasterResponse.setError(true);
-            trProgramMasterResponse.setError_description("Program not found");
-        }else{
-            trProgramMasterResponse = mapper.trProgramMasterEntityToObject(trProgramMaster,TrProgramMasterResponse.class);
-            trProgramMasterResponse.setError(false);
-        }
-        log.info("Entity is ",trProgramMaster);
-        return trProgramMasterResponse;
-    }
 
     @Transactional
     public TrProgramMasterResponse insertTrProgramMasterDetails(TrProgramMasterRequest trProgramMasterRequest){
@@ -70,12 +56,10 @@ public class TrProgramMasterService {
         return trProgramMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrProgramMasterDetails(final Pageable pageable){
         return convertToMapResponse(trProgramMasterRepository.findByActiveOrderByTrProgramMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trProgramMasterRepository.findByActive(isActive));
     }
@@ -119,7 +103,6 @@ public class TrProgramMasterService {
         return trProgramMasterResponse;
     }
 
-    @Transactional
     public TrProgramMasterResponse getById(int id){
         TrProgramMasterResponse trProgramMasterResponse = new TrProgramMasterResponse();
         TrProgramMaster trProgramMaster= trProgramMasterRepository.findByTrProgramMasterIdAndActive(id, true);

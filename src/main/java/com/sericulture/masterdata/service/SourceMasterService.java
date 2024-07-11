@@ -33,20 +33,6 @@ public class SourceMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public SourceMasterResponse getSourceMasterDetails(String sourceMasterName){
-        SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
-        SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterNameAndActive(sourceMasterName,true);
-        if(sourceMaster==null){
-            sourceMasterResponse.setError(true);
-            sourceMasterResponse.setError_description("Source not found");
-        }else{
-            sourceMasterResponse = mapper.sourceMasterEntityToObject(sourceMaster, SourceMasterResponse.class);
-            sourceMasterResponse.setError(false);
-        }
-        log.info("Entity is ",sourceMaster);
-        return sourceMasterResponse;
-    }
 
     @Transactional
     public SourceMasterResponse insertSourceMasterDetails(SourceMasterRequest sourceMasterRequest){
@@ -69,12 +55,10 @@ public class SourceMasterService {
         return sourceMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSourceMasterDetails(final Pageable pageable){
         return convertToMapResponse(sourceMasterRepository.findByActiveOrderBySourceMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(sourceMasterRepository.findByActive(isActive));
     }
@@ -117,7 +101,6 @@ public class SourceMasterService {
         return sourceMasterResponse;
     }
 
-    @Transactional
     public SourceMasterResponse getById(int id){
         SourceMasterResponse sourceMasterResponse = new SourceMasterResponse();
         SourceMaster sourceMaster = sourceMasterRepository.findBySourceMasterIdAndActive(id,true);

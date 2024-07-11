@@ -55,12 +55,11 @@ public class ScSubSchemeMappingService {
         return scSubSchemeMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getScSubSchemeMappingDetails(final Pageable pageable){
         return convertToMapResponse(scSubSchemeMappingRepository.findByActiveOrderByScSubSchemeMappingIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scSubSchemeMappingRepository.findByActive(isActive));
     }
@@ -87,7 +86,6 @@ public class ScSubSchemeMappingService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScSubSchemeMappingWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scSubSchemeMappingRepository.getByActiveOrderByScSubSchemeMappingIdAsc( true, pageable));
     }
@@ -121,7 +119,6 @@ public class ScSubSchemeMappingService {
         return scSubSchemeMappingResponse;
     }
 
-    @Transactional
     public ScSubSchemeMappingResponse getById(int id){
         ScSubSchemeMappingResponse scSubSchemeMappingResponse = new ScSubSchemeMappingResponse();
         ScSubSchemeMapping scSubSchemeMapping = scSubSchemeMappingRepository.findByScSubSchemeMappingIdAndActive(id,true);
@@ -138,25 +135,7 @@ public class ScSubSchemeMappingService {
         return scSubSchemeMappingResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScSubSchemeMappingDTO> ScSubSchemeMappingList = ScSubSchemeMappingRepository.getScSubSchemeMapping(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(ScSubSchemeMappingList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", ScSubSchemeMappingList);
-//            response = convertListToMapResponse(ScSubSchemeMappingList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public ScSubSchemeMappingResponse getByIdJoin(int id){
         ScSubSchemeMappingResponse scSubSchemeMappingResponse = new ScSubSchemeMappingResponse();
         ScSubSchemeMappingDTO scSubSchemeMappingDTO = scSubSchemeMappingRepository.getByScSubSchemeMappingIdAndActive(id,true);
@@ -171,7 +150,6 @@ public class ScSubSchemeMappingService {
         return scSubSchemeMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getScSchemeDetailsIdAndScSubSchemeDetailsId(Long scSchemeDetailsId,Long scSubSchemeDetailsId) {
         Map<String, Object> response = new HashMap<>();
         List<ScSubSchemeMapping> scSubSchemeMappingList = scSubSchemeMappingRepository.findByScSchemeDetailsIdAndScSubSchemeDetailsIdAndActive(scSchemeDetailsId,scSubSchemeDetailsId,true);
@@ -229,7 +207,7 @@ public class ScSubSchemeMappingService {
         return scSubSchemeMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -259,6 +237,7 @@ public class ScSubSchemeMappingService {
         log.info("Entity is ",ScSubSchemeMappingDTOS);
         return convertPageableDTOToMapResponse(ScSubSchemeMappingDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScSubSchemeMappingDTO> activeScSubSchemeMapping) {
         Map<String, Object> response = new HashMap<>();
 

@@ -30,20 +30,7 @@ public class ReelerTypeMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ReelerTypeMasterResponse getReelerTypeMasterDetails(String reelerTypeMasterName){
-        ReelerTypeMasterResponse reelerTypeMasterResponse = new ReelerTypeMasterResponse();
-        ReelerTypeMaster reelerTypeMaster= reelerTypeMasterRepository. findByReelerTypeMasterNameAndActive(reelerTypeMasterName, true);
-        if(reelerTypeMaster==null){
-            reelerTypeMasterResponse.setError(true);
-            reelerTypeMasterResponse.setError_description("Reeler Type  not found");
-        }else{
-            reelerTypeMasterResponse = mapper.reelerTypeMasterEntityToObject(reelerTypeMaster, ReelerTypeMasterResponse.class);
-            reelerTypeMasterResponse.setError(false);
-        }
-        log.info("Entity is ",reelerTypeMaster);
-        return reelerTypeMasterResponse;
-    }
+
 
     @Transactional
     public ReelerTypeMasterResponse insertReelerTypeMasterDetails(ReelerTypeMasterRequest reelerTypeMasterRequest){
@@ -65,12 +52,10 @@ public class ReelerTypeMasterService {
         return reelerTypeMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedReelerTypeMasterDetails(final Pageable pageable){
         return convertToMapResponse(reelerTypeMasterRepository.findByActiveOrderByReelerTypeMasterNameAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(reelerTypeMasterRepository.findByActive(isActive));
     }
@@ -114,7 +99,6 @@ public class ReelerTypeMasterService {
         return reelerTypeMasterResponse;
     }
 
-    @Transactional
     public ReelerTypeMasterResponse getById(int id){
         ReelerTypeMasterResponse reelerTypeMasterResponse  = new ReelerTypeMasterResponse();
         ReelerTypeMaster reelerTypeMaster= reelerTypeMasterRepository. findByReelerTypeMasterIdAndActive(id, true);

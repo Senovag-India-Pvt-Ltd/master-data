@@ -55,12 +55,10 @@ public class TsBudgetDistrictService {
         return tsBudgetDistrictResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsBudgetDistrictDetails(final Pageable pageable){
         return convertToMapResponse(tsBudgetDistrictRepository.findByActiveOrderByTsBudgetDistrictIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsBudgetDistrictRepository.findByActive(isActive));
     }
@@ -87,7 +85,6 @@ public class TsBudgetDistrictService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsBudgetDistrictWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsBudgetDistrictRepository.getByActiveOrderByTsBudgetDistrictIdAsc( true, pageable));
     }
@@ -121,7 +118,6 @@ public class TsBudgetDistrictService {
         return tsBudgetDistrictResponse;
     }
 
-    @Transactional
     public TsBudgetDistrictResponse getById(int id){
         TsBudgetDistrictResponse tsBudgetDistrictResponse = new TsBudgetDistrictResponse();
         TsBudgetDistrict tsBudgetDistrict = tsBudgetDistrictRepository.findByTsBudgetDistrictIdAndActive(id,true);
@@ -138,25 +134,7 @@ public class TsBudgetDistrictService {
         return tsBudgetDistrictResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetDistrictDTO> tsBudgetDistrictList = tsBudgetDistrictRepository.getTsBudgetDistrict(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsBudgetDistrictList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsBudgetDistrictList);
-//            response = convertListToMapResponse(tsBudgetDistrictList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsBudgetDistrictResponse getByIdJoin(int id){
         TsBudgetDistrictResponse tsBudgetDistrictResponse = new TsBudgetDistrictResponse();
         TsBudgetDistrictDTO tsBudgetDistrictDTO = tsBudgetDistrictRepository.getByTsBudgetDistrictIdAndActive(id,true);
@@ -171,25 +149,6 @@ public class TsBudgetDistrictService {
         return tsBudgetDistrictResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsBudgetDistrictByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetDistrictDTO> tsBudgetDistrictList = tsBudgetDistrictRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsBudgetDistrictList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsBudgetDistrictList);
-//            response = convertListDTOToMapResponse(tsBudgetDistrictList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsBudgetDistrict> tsBudgetDistrictList) {
         Map<String, Object> response = new HashMap<>();
@@ -242,7 +201,6 @@ public class TsBudgetDistrictService {
         return tsBudgetDistrictResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

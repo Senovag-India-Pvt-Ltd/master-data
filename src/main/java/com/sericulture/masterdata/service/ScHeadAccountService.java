@@ -64,12 +64,10 @@ public class ScHeadAccountService {
         return scHeadAccountResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScHeadAccountDetails(final Pageable pageable){
         return convertToMapResponse(scHeadAccountRepository.findByActiveOrderByScHeadAccountNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scHeadAccountRepository.findByActive(isActive));
     }
@@ -96,7 +94,6 @@ public class ScHeadAccountService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScHeadAccountWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scHeadAccountRepository.getByActiveOrderByScHeadAccountIdAsc( true, pageable));
     }
@@ -129,7 +126,6 @@ public class ScHeadAccountService {
         return scHeadAccountResponse;
     }
 
-    @Transactional
     public ScHeadAccountResponse getById(int id){
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccount scHeadAccount = scHeadAccountRepository.findByScHeadAccountIdAndActive(id,true);
@@ -144,27 +140,6 @@ public class ScHeadAccountService {
         return scHeadAccountResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getScHeadAccountByScProgramId(Long scProgramId){
-//        List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScProgramIdAndActiveOrderByScHeadAccountName(scProgramId,true);
-//        if(scHeadAccountList.isEmpty()){
-//            throw new ValidationException("Invalid Id");
-//        }
-//        log.info("Entity is ",scHeadAccountList);
-//        return convertListToMapResponse(scHeadAccountList);
-//    }
-//
-//    private Map<String, Object> convertListToMapResponse(List<ScHeadAccount> scHeadAccountList) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScHeadAccountResponse> scHeadAccountResponses = scHeadAccountList.stream()
-//                .map(scHeadAccount -> mapper.scHeadAccountEntityToObject(scHeadAccount,ScHeadAccountResponse.class)).collect(Collectors.toList());
-//        response.put("scHeadAccount",scHeadAccountResponses);
-//        response.put("totalItems", scHeadAccountList.size());
-//        return response;
-//    }
-
-
-    @Transactional
     public ScHeadAccountResponse getByIdJoin(int id){
         ScHeadAccountResponse scHeadAccountResponse = new ScHeadAccountResponse();
         ScHeadAccountDTO scHeadAccountDTO = scHeadAccountRepository.getByScHeadAccountIdAndActive(id,true);
@@ -179,7 +154,6 @@ public class ScHeadAccountService {
         return scHeadAccountResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getScHeadAccountByScSchemeDetailsId(Long scSchemeDetailsId) {
         Map<String, Object> response = new HashMap<>();
         List<ScHeadAccount> scHeadAccountList = scHeadAccountRepository.findByScSchemeDetailsIdAndActiveOrderByScHeadAccountNameAsc(scSchemeDetailsId, true);
@@ -237,7 +211,6 @@ public class ScHeadAccountService {
         return scHeadAccountResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

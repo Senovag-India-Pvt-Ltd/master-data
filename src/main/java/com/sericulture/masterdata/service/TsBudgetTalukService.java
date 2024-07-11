@@ -54,12 +54,10 @@ public class TsBudgetTalukService {
         return tsBudgetTalukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsBudgetTalukDetails(final Pageable pageable){
         return convertToMapResponse(tsBudgetTalukRepository.findByActiveOrderByTsBudgetTalukIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsBudgetTalukRepository.findByActive(isActive));
     }
@@ -86,7 +84,6 @@ public class TsBudgetTalukService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsBudgetTalukWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsBudgetTalukRepository.getByActiveOrderByTsBudgetTalukIdAsc( true, pageable));
     }
@@ -120,7 +117,6 @@ public class TsBudgetTalukService {
         return tsBudgetTalukResponse;
     }
 
-    @Transactional
     public TsBudgetTalukResponse getById(int id){
         TsBudgetTalukResponse tsBudgetTalukResponse = new TsBudgetTalukResponse();
         TsBudgetTaluk tsBudgetTaluk = tsBudgetTalukRepository.findByTsBudgetTalukIdAndActive(id,true);
@@ -137,25 +133,7 @@ public class TsBudgetTalukService {
         return tsBudgetTalukResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetTalukDTO> tsBudgetTalukList = tsBudgetTalukRepository.getTsBudgetTaluk(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsBudgetTalukList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsBudgetTalukList);
-//            response = convertListToMapResponse(tsBudgetTalukList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsBudgetTalukResponse getByIdJoin(int id){
         TsBudgetTalukResponse tsBudgetTalukResponse = new TsBudgetTalukResponse();
         TsBudgetTalukDTO tsBudgetTalukDTO = tsBudgetTalukRepository.getByTsBudgetTalukIdAndActive(id,true);
@@ -169,26 +147,6 @@ public class TsBudgetTalukService {
         log.info("Entity is ", tsBudgetTalukDTO);
         return tsBudgetTalukResponse;
     }
-
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsBudgetTalukByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetTalukDTO> tsBudgetTalukList = tsBudgetTalukRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsBudgetTalukList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsBudgetTalukList);
-//            response = convertListDTOToMapResponse(tsBudgetTalukList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsBudgetTaluk> tsBudgetTalukList) {
         Map<String, Object> response = new HashMap<>();
@@ -242,7 +200,6 @@ public class TsBudgetTalukService {
         return tsBudgetTalukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -55,12 +55,10 @@ public class TsReleaseBudgetDistrictService {
         return tsReleaseBudgetDistrictResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsReleaseBudgetDistrictDetails(final Pageable pageable){
         return convertToMapResponse(tsReleaseBudgetDistrictRepository.findByActiveOrderByTsReleaseBudgetDistrictIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsReleaseBudgetDistrictRepository.findByActive(isActive));
     }
@@ -87,7 +85,6 @@ public class TsReleaseBudgetDistrictService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsReleaseBudgetDistrictWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsReleaseBudgetDistrictRepository.getByActiveOrderByTsReleaseBudgetDistrictIdAsc( true, pageable));
     }
@@ -121,7 +118,6 @@ public class TsReleaseBudgetDistrictService {
         return tsReleaseBudgetDistrictResponse;
     }
 
-    @Transactional
     public TsReleaseBudgetDistrictResponse getById(int id){
         TsReleaseBudgetDistrictResponse tsReleaseBudgetDistrictResponse = new TsReleaseBudgetDistrictResponse();
         TsReleaseBudgetDistrict tsReleaseBudgetDistrict = tsReleaseBudgetDistrictRepository.findByTsReleaseBudgetDistrictIdAndActive(id,true);
@@ -138,25 +134,7 @@ public class TsReleaseBudgetDistrictService {
         return tsReleaseBudgetDistrictResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsReleaseBudgetDistrictDTO> tsReleaseBudgetDistrictList = tsReleaseBudgetDistrictRepository.getTsReleaseBudgetDistrict(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsReleaseBudgetDistrictList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsReleaseBudgetDistrictList);
-//            response = convertListToMapResponse(tsReleaseBudgetDistrictList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsReleaseBudgetDistrictResponse getByIdJoin(int id){
         TsReleaseBudgetDistrictResponse tsReleaseBudgetDistrictResponse = new TsReleaseBudgetDistrictResponse();
         TsReleaseBudgetDistrictDTO tsReleaseBudgetDistrictDTO = tsReleaseBudgetDistrictRepository.getByTsReleaseBudgetDistrictIdAndActive(id,true);
@@ -170,26 +148,6 @@ public class TsReleaseBudgetDistrictService {
         log.info("Entity is ", tsReleaseBudgetDistrictDTO);
         return tsReleaseBudgetDistrictResponse;
     }
-
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsReleaseBudgetDistrictByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsReleaseBudgetDistrictDTO> tsReleaseBudgetDistrictList = tsReleaseBudgetDistrictRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsReleaseBudgetDistrictList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsReleaseBudgetDistrictList);
-//            response = convertListDTOToMapResponse(tsReleaseBudgetDistrictList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsReleaseBudgetDistrict> tsReleaseBudgetDistrictList) {
         Map<String, Object> response = new HashMap<>();
@@ -242,7 +200,6 @@ public class TsReleaseBudgetDistrictService {
         return tsReleaseBudgetDistrictResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

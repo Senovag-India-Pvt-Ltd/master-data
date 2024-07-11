@@ -55,12 +55,10 @@ public class RendittaMasterService {
         return rendittaMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getRendittaMasterDetails(final Pageable pageable){
         return convertToMapResponse(rendittaMasterRepository.findByActiveOrderByRendittaMasterIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(rendittaMasterRepository.findByActive(isActive));
     }
@@ -87,7 +85,6 @@ public class RendittaMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRendittaMasterWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(rendittaMasterRepository.getByActiveOrderByRendittaMasterIdAsc( true, pageable));
     }
@@ -121,7 +118,6 @@ public class RendittaMasterService {
         return rendittaMasterResponse;
     }
 
-    @Transactional
     public RendittaMasterResponse getById(int id){
         RendittaMasterResponse rendittaMasterResponse = new RendittaMasterResponse();
         RendittaMaster rendittaMaster = rendittaMasterRepository.findByRendittaMasterIdAndActive(id,true);
@@ -163,7 +159,6 @@ public class RendittaMasterService {
         return response;
     }
 
-    @Transactional
     public RendittaMasterResponse getByIdJoin(int id){
         RendittaMasterResponse rendittaMasterResponse = new RendittaMasterResponse();
         RendittaMasterDTO rendittaMasterDTO = rendittaMasterRepository.getByRendittaMasterIdAndActive(id,true);
@@ -207,7 +202,6 @@ public class RendittaMasterService {
         return rendittaMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

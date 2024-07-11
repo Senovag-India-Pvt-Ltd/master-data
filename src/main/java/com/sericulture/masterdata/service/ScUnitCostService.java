@@ -61,12 +61,11 @@ public class ScUnitCostService {
         return scUnitCostResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getScUnitCostDetails(final Pageable pageable){
         return convertToMapResponse(scUnitCostRepository.findByActiveOrderByScUnitCostIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scUnitCostRepository.findByActive(isActive));
     }
@@ -93,7 +92,6 @@ public class ScUnitCostService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScUnitCostWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scUnitCostRepository.getByActiveOrderByScUnitCostIdAsc( true, pageable));
     }
@@ -127,7 +125,6 @@ public class ScUnitCostService {
         return scUnitCostResponse;
     }
 
-    @Transactional
     public ScUnitCostResponse getById(int id){
         ScUnitCostResponse scUnitCostResponse = new ScUnitCostResponse();
         ScUnitCost scUnitCost = scUnitCostRepository.findByScUnitCostIdAndActive(id,true);
@@ -144,25 +141,7 @@ public class ScUnitCostService {
         return scUnitCostResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScUnitCostDTO> ScUnitCostList = ScUnitCostRepository.getScUnitCost(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(ScUnitCostList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", ScUnitCostList);
-//            response = convertListToMapResponse(ScUnitCostList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public ScUnitCostResponse getByIdJoin(int id){
         ScUnitCostResponse scUnitCostResponse = new ScUnitCostResponse();
         ScUnitCostDTO scUnitCostDTO = scUnitCostRepository.getByScUnitCostIdAndActive(id,true);
@@ -177,7 +156,6 @@ public class ScUnitCostService {
         return scUnitCostResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getScUnitCostByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsId(Long scHeadAccountId,Long scCategoryId,Long scSubSchemeDetailsId) {
         Map<String, Object> response = new HashMap<>();
         List<ScUnitCost> scUnitCostList = scUnitCostRepository.findByScHeadAccountIdAndScCategoryIdAndScSubSchemeDetailsIdAndActive(scHeadAccountId, scCategoryId,scSubSchemeDetailsId,true);
@@ -241,7 +219,6 @@ public class ScUnitCostService {
         return scUnitCostResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -271,6 +248,7 @@ public class ScUnitCostService {
         log.info("Entity is ",ScUnitCostDTOS);
         return convertPageableDTOToMapResponse(ScUnitCostDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScUnitCostDTO> activeScUnitCost) {
         Map<String, Object> response = new HashMap<>();
 

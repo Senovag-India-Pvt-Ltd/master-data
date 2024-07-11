@@ -36,7 +36,6 @@ public class MachineTypeMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public MachineTypeMasterResponse getMachineTypeMasterDetails(String machineTypeMasterName){
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeNameAndActive(machineTypeMasterName,true);
@@ -72,12 +71,10 @@ public class MachineTypeMasterService {
         return machineTypeMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMachineTypeMasterDetails(final Pageable pageable){
         return convertToMapResponse(machineTypeMasterRepository.findByActiveOrderByMachineTypeNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(machineTypeMasterRepository.findByActiveOrderByMachineTypeNameAsc(isActive));
     }
@@ -120,7 +117,6 @@ public class MachineTypeMasterService {
         return machineTypeMasterResponse;
     }
 
-    @Transactional
     public MachineTypeMasterResponse getById(int id){
         MachineTypeMasterResponse machineTypeMasterResponse = new MachineTypeMasterResponse();
         MachineTypeMaster machineTypeMaster = machineTypeMasterRepository.findByMachineTypeIdAndActive(id,true);

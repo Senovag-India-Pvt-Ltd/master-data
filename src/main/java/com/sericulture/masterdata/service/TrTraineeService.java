@@ -70,13 +70,10 @@ public class TrTraineeService {
         return trTraineeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrTraineeDetails(final Pageable pageable){
         return convertToMapResponse(trTraineeRepository.findByActiveOrderByTrTraineeNameAsc( true,pageable ));
-
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trTraineeRepository.findByActiveOrderByTrTraineeNameAsc(isActive));
     }
@@ -103,7 +100,6 @@ public class TrTraineeService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrTraineeDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(trTraineeRepository.getByActiveOrderByTrTraineeIdAsc( true, pageable));
     }
@@ -138,7 +134,6 @@ public class TrTraineeService {
         return trTraineeResponse;
     }
 
-    @Transactional
     public TrTraineeResponse getById(int id){
         TrTraineeResponse trTraineeResponse = new TrTraineeResponse();
         TrTrainee trTrainee = trTraineeRepository.findByTrTraineeIdAndActive(id,true);
@@ -153,7 +148,6 @@ public class TrTraineeService {
         return trTraineeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByTrScheduleId(int TrScheduleId) {
         Map<String, Object> response = new HashMap<>();
         List<TrTrainee> trTraineeList = trTraineeRepository.findByTrScheduleIdAndActive(TrScheduleId, true);
@@ -176,7 +170,6 @@ public class TrTraineeService {
         return response;
     }
 
-    @Transactional
     public TrTraineeResponse getByIdJoin(int id) {
         TrTraineeResponse trTraineeResponse= new TrTraineeResponse();
         TrTraineeDTO trTraineeDTO = trTraineeRepository.getByTrTraineeIdAndActive(id, true);
@@ -236,7 +229,6 @@ public class TrTraineeService {
         return trTraineeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -280,7 +272,6 @@ public class TrTraineeService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByTrScheduleIdJoin(int trScheduleId){
         Map<String, Object> response = new HashMap<>();
         List<TrTraineeDTO> trTraineeDTO = trTraineeRepository.getByTrScheduleIdAndActive(trScheduleId, true);

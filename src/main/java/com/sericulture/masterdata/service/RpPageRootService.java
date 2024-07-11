@@ -55,12 +55,10 @@ public class RpPageRootService {
         return rpPageRootResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRpPageRootDetails(final Pageable pageable){
         return convertToMapResponse(rpPageRootRepository.findByActiveOrderByRpPageRootIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(rpPageRootRepository.findByActive(isActive));
     }
@@ -103,7 +101,6 @@ public class RpPageRootService {
         return rpPageRootResponse;
     }
 
-    @Transactional
     public RpPageRootResponse getById(int id){
         RpPageRootResponse rpPageRootResponse = new RpPageRootResponse();
         RpPageRoot rpPageRoot = rpPageRootRepository.findByRpPageRootIdAndActive(id,true);

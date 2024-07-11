@@ -48,20 +48,6 @@ public class VillageService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public VillageResponse getVillageDetails(String villageName){
-        VillageResponse villageResponse = new VillageResponse();
-        Village village =  villageRepository.findByVillageNameAndActive(villageName,true);
-        if(village==null){
-            villageResponse.setError(true);
-            villageResponse.setError_description("Village not found");
-        }else{
-            villageResponse = mapper.villageEntityToObject(village,VillageResponse.class);
-            villageResponse.setError(false);
-        }
-        log.info("Entity is ",village);
-        return villageResponse;
-    }
 
     @Transactional
     public VillageResponse insertVillageDetails(VillageRequest villageRequest){
@@ -85,12 +71,12 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getPaginatedVillageDetails(final Pageable pageable){
         return convertToMapResponse(villageRepository.findByActiveOrderByVillageIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(villageRepository.findByActive(isActive));
     }
@@ -117,7 +103,6 @@ public class VillageService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedVillageDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(villageRepository.getByActiveOrderByVillageIdAsc( true, pageable));
     }
@@ -151,7 +136,6 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional
     public VillageResponse getById(int id){
         VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageIdAndActive(id,true);
@@ -167,7 +151,6 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional
     public VillageResponse getByIdJoin(int id) {
         VillageResponse villageResponse = new VillageResponse();
         VillageDTO villageDTO = villageRepository.getByVillageIdAndActive(id, true);
@@ -182,7 +165,7 @@ public class VillageService {
         log.info("Entity is ", villageDTO);
         return villageResponse;
     }
-        @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getVillageByHobliId(Long hobliId){
         Map<String, Object> response = new HashMap<>();
         List<Village> villageList = villageRepository.findByHobliIdAndActive(hobliId,true);
@@ -240,7 +223,6 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public VillageResponse getDetailsByVillageName(String villageName) {
         VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageNameAndActive(villageName, true);
@@ -255,7 +237,7 @@ public class VillageService {
             // return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true), VillageResponse.class);
         }
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

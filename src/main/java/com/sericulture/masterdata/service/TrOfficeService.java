@@ -58,13 +58,10 @@ public class TrOfficeService {
         return trOfficeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrOfficeDetails(final Pageable pageable){
         return convertToMapResponse(trOfficeRepository.findByActiveOrderByTrOfficeNameAsc( true,pageable ));
-
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trOfficeRepository.findByActiveOrderByTrOfficeNameAsc(isActive));
     }
@@ -108,7 +105,6 @@ public class TrOfficeService {
         return trOfficeResponse;
     }
 
-    @Transactional
     public TrOfficeResponse getById(int id){
         TrOfficeResponse trOfficeResponse = new TrOfficeResponse();
         TrOffice trOffice = trOfficeRepository.findByTrOfficeIdAndActive(id,true);

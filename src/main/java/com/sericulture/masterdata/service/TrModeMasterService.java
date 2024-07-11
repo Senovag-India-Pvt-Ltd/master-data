@@ -37,21 +37,6 @@ public class TrModeMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrModeMasterResponse getTrModeMasterDetails(String trModeMasterName){
-        TrModeMasterResponse trModeMasterResponse = new TrModeMasterResponse();
-        TrModeMaster trModeMaster = trModeMasterRepository.findByTrModeMasterNameAndActive(trModeMasterName, true);
-        if(trModeMaster==null){
-            trModeMasterResponse.setError(true);
-            trModeMasterResponse.setError_description("Training Mode not Found");
-        }else{
-            trModeMasterResponse = mapper.trModeMasterEntityToObject(trModeMaster, TrModeMasterResponse.class);
-            trModeMasterResponse.setError(false);
-        }
-        log.info("Entity is ",trModeMaster);
-        return trModeMasterResponse;
-
-    }
 
     @Transactional
     public TrModeMasterResponse insertTrModeMasterDetails(TrModeMasterRequest trModeMasterRequest){
@@ -73,13 +58,10 @@ public class TrModeMasterService {
         return trModeMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrModeMasterDetails(final Pageable pageable){
         return convertToMapResponse(trModeMasterRepository.findByActiveOrderByTrModeMasterNameAsc( true,pageable ));
-
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trModeMasterRepository.findByActiveOrderByTrModeMasterNameAsc(isActive));
     }
@@ -123,7 +105,6 @@ public class TrModeMasterService {
         return trModeMasterResponse;
     }
 
-    @Transactional
     public TrModeMasterResponse getById(int id){
         TrModeMasterResponse trModeMasterResponse = new TrModeMasterResponse();
         TrModeMaster trModeMaster = trModeMasterRepository.findByTrModeMasterIdAndActive(id,true);

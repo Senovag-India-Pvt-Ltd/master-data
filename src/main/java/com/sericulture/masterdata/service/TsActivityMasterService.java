@@ -29,20 +29,6 @@ public class TsActivityMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TsActivityMasterResponse getTsActivityMasterDetails(String name){
-        TsActivityMasterResponse tsActivityMasterResponse = new TsActivityMasterResponse();
-        TsActivityMaster tsActivityMaster= tsActivityMasterRepository.findByNameAndActive(name,true);
-        if(tsActivityMaster==null){
-            tsActivityMasterResponse.setError(true);
-            tsActivityMasterResponse.setError_description("Program not found");
-        }else{
-            tsActivityMasterResponse = mapper.tsActivityMasterEntityToObject(tsActivityMaster,TsActivityMasterResponse.class);
-            tsActivityMasterResponse.setError(false);
-        }
-        log.info("Entity is ",tsActivityMaster);
-        return tsActivityMasterResponse;
-    }
 
     @Transactional
     public TsActivityMasterResponse insertTsActivityMasterDetails(TsActivityMasterRequest tsActivityMasterRequest){
@@ -64,12 +50,10 @@ public class TsActivityMasterService {
         return tsActivityMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsActivityMasterDetails(final Pageable pageable){
         return convertToMapResponse(tsActivityMasterRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsActivityMasterRepository.findByActive(isActive));
     }
@@ -113,7 +97,6 @@ public class TsActivityMasterService {
         return tsActivityMasterResponse;
     }
 
-    @Transactional
     public TsActivityMasterResponse getById(int id){
         TsActivityMasterResponse tsActivityMasterResponse = new TsActivityMasterResponse();
         TsActivityMaster tsActivityMaster= tsActivityMasterRepository.findByTsActivityMasterIdAndActive(id, true);

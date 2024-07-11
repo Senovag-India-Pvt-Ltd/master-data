@@ -60,12 +60,10 @@ public class ScHeadAccountCategoryService {
         return scHeadAccountCategoryResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getScHeadAccountCategoryDetails(final Pageable pageable){
         return convertToMapResponse(scHeadAccountCategoryRepository.findByActiveOrderByScHeadAccountCategoryIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scHeadAccountCategoryRepository.findByActive(isActive));
     }
@@ -92,7 +90,6 @@ public class ScHeadAccountCategoryService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScHeadAccountCategoryWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scHeadAccountCategoryRepository.getByActiveOrderByScHeadAccountCategoryIdAsc( true, pageable));
     }
@@ -126,7 +123,6 @@ public class ScHeadAccountCategoryService {
         return scHeadAccountCategoryResponse;
     }
 
-    @Transactional
     public ScHeadAccountCategoryResponse getById(int id){
         ScHeadAccountCategoryResponse scHeadAccountCategoryResponse = new ScHeadAccountCategoryResponse();
         ScHeadAccountCategory scHeadAccountCategory = scHeadAccountCategoryRepository.findByScHeadAccountCategoryIdAndActive(id,true);
@@ -143,24 +139,7 @@ public class ScHeadAccountCategoryService {
         return scHeadAccountCategoryResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<scHeadAccountCategoryDTO> scHeadAccountCategoryList = scHeadAccountCategoryRepository.getscHeadAccountCategory(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(scHeadAccountCategoryList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", scHeadAccountCategoryList);
-//            response = convertListToMapResponse(scHeadAccountCategoryList);
-//            return response;
-//        }
-//    }
 
-
-    @Transactional
     public ScHeadAccountCategoryResponse getByIdJoin(int id){
         ScHeadAccountCategoryResponse scHeadAccountCategoryResponse = new ScHeadAccountCategoryResponse();
         ScHeadAccountCategoryDTO scHeadAccountCategoryDTO = scHeadAccountCategoryRepository.getByScHeadAccountCategoryIdAndActive(id,true);
@@ -175,7 +154,6 @@ public class ScHeadAccountCategoryService {
         return scHeadAccountCategoryResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getScHeadAccountCategoryByScHeadAccountId(Long scHeadAccountId) {
         Map<String, Object> response = new HashMap<>();
         List<ScHeadAccountCategoryDTO> scHeadAccountCategoryList = scHeadAccountCategoryRepository.getByScHeadAccountIdAndActive(scHeadAccountId, true);
@@ -242,7 +220,6 @@ public class ScHeadAccountCategoryService {
         return scHeadAccountCategoryResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -56,12 +56,10 @@ public class ScVendorBankService {
         return scVendorBankResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getScVendorBankDetails(final Pageable pageable){
         return convertToMapResponse(scVendorBankRepository.findByActiveOrderByScVendorBankIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scVendorBankRepository.findByActive(isActive));
     }
@@ -88,7 +86,6 @@ public class ScVendorBankService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScVendorBankWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scVendorBankRepository.getByActiveOrderByScVendorBankIdAsc( true, pageable));
     }
@@ -122,7 +119,6 @@ public class ScVendorBankService {
         return scVendorBankResponse;
     }
 
-    @Transactional
     public ScVendorBankResponse getById(int id){
         ScVendorBankResponse scVendorBankResponse = new ScVendorBankResponse();
         ScVendorBank scVendorBank = scVendorBankRepository.findByScVendorBankIdAndActive(id,true);
@@ -139,24 +135,7 @@ public class ScVendorBankService {
         return scVendorBankResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScVendorBankDTO> scVendorBankList = scVendorBankRepository.getScVendorBank(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(scVendorBankList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", scVendorBankList);
-//            response = convertListToMapResponse(scVendorBankList);
-//            return response;
-//        }
-//    }
 
-
-    @Transactional
     public ScVendorBankResponse getByIdJoin(int id){
         ScVendorBankResponse scVendorBankResponse = new ScVendorBankResponse();
         ScVendorBankDTO scVendorBankDTO = scVendorBankRepository.getByScVendorBankIdAndActive(id,true);
@@ -171,7 +150,6 @@ public class ScVendorBankService {
         return scVendorBankResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getScVendorBankByScVendorId(Long scVendorId) {
         Map<String, Object> response = new HashMap<>();
         List<ScVendorBank> scVendorBankList = scVendorBankRepository.findByScVendorIdAndActiveOrderByBankNameAsc(scVendorId, true);
@@ -234,7 +212,6 @@ public class ScVendorBankService {
         return scVendorBankResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

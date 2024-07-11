@@ -58,12 +58,10 @@ public class ScApprovingAuthorityService {
         return scApprovingAuthorityResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getScApprovingAuthorityDetails(final Pageable pageable){
         return convertToMapResponse(scApprovingAuthorityRepository.findByActiveOrderByScApprovingAuthorityIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scApprovingAuthorityRepository.findByActive(isActive));
     }
@@ -90,7 +88,6 @@ public class ScApprovingAuthorityService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScApprovingAuthorityWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scApprovingAuthorityRepository.getByActiveOrderByScApprovingAuthorityIdAsc( true, pageable));
     }
@@ -124,7 +121,6 @@ public class ScApprovingAuthorityService {
         return scApprovingAuthorityResponse;
     }
 
-    @Transactional
     public ScApprovingAuthorityResponse getById(int id){
         ScApprovingAuthorityResponse scApprovingAuthorityResponse = new ScApprovingAuthorityResponse();
         ScApprovingAuthority scApprovingAuthority = scApprovingAuthorityRepository.findByScApprovingAuthorityIdAndActive(id,true);
@@ -159,7 +155,6 @@ public class ScApprovingAuthorityService {
 
 
 
-    @Transactional
     public ScApprovingAuthorityResponse getByIdJoin(int id){
         ScApprovingAuthorityResponse scApprovingAuthorityResponse = new ScApprovingAuthorityResponse();
         ScApprovingAuthorityDTO scApprovingAuthorityDTO = scApprovingAuthorityRepository.getByScApprovingAuthorityIdAndActive(id,true);
@@ -174,7 +169,6 @@ public class ScApprovingAuthorityService {
         return scApprovingAuthorityResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getScApprovingAuthorityByRoleId(Long roleId) {
         Map<String, Object> response = new HashMap<>();
         List<ScApprovingAuthorityDTO> scApprovingAuthorityList = scApprovingAuthorityRepository.getByRoleIdAndActive(roleId, true);
@@ -243,7 +237,6 @@ public class ScApprovingAuthorityService {
         return scApprovingAuthorityResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -35,20 +35,6 @@ public class PlantationTypeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public PlantationTypeResponse getPlantationTypeDetails(String plantationTypeName){
-        PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
-        PlantationType plantationType = plantationTypeRepository.findByPlantationTypeNameAndActive(plantationTypeName,true);
-        if(plantationType==null){
-            plantationTypeResponse.setError(true);
-            plantationTypeResponse.setError_description("Plantation Type not found");
-        }else{
-            plantationTypeResponse = mapper.plantationTypeEntityToObject(plantationType, PlantationTypeResponse.class);
-            plantationTypeResponse.setError(false);
-        }
-        log.info("Entity is ",plantationType);
-        return plantationTypeResponse;
-    }
 
     @Transactional
     public PlantationTypeResponse insertPlantationTypeDetails(PlantationTypeRequest plantationTypeRequest){
@@ -71,12 +57,10 @@ public class PlantationTypeService {
         return plantationTypeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedPlantationTypeDetails(final Pageable pageable){
         return convertToMapResponse(plantationTypeRepository.findByActiveOrderByPlantationTypeNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(plantationTypeRepository.findByActive(isActive));
     }
@@ -119,7 +103,6 @@ public class PlantationTypeService {
         return plantationTypeResponse;
     }
 
-    @Transactional
     public PlantationTypeResponse getById(int id){
         PlantationTypeResponse plantationTypeResponse = new PlantationTypeResponse();
         PlantationType plantationType = plantationTypeRepository.findByPlantationTypeIdAndActive(id,true);

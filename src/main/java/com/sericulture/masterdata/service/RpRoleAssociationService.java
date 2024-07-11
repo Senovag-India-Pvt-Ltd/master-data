@@ -52,12 +52,10 @@ public class RpRoleAssociationService {
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedRpRoleAssociationDetails(final Pageable pageable) {
         return convertToMapResponse(rpRoleAssociationRepository.findByActiveOrderByRpRoleAssociationIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(rpRoleAssociationRepository.findByActive(isActive));
     }
@@ -100,7 +98,6 @@ public class RpRoleAssociationService {
         return rpRoleAssociationResponse;
     }
 
-    @Transactional
     public RpRoleAssociationResponse getById(int id) {
         RpRoleAssociationResponse rpRoleAssociationResponse = new RpRoleAssociationResponse();
         RpRoleAssociation rpRoleAssociation = rpRoleAssociationRepository.findByRpRoleAssociationIdAndActive(id, true);
@@ -161,7 +158,6 @@ public class RpRoleAssociationService {
         return rpRoleAssociationResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByRoleIdAndRpRolePermissionId(Long roleId, Long rolePermissionId) {
         Map<String, Object> response = new HashMap<>();
         List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRoleIdAndRpRolePermissionIdAndActive(roleId, rolePermissionId, true);
@@ -175,7 +171,6 @@ public class RpRoleAssociationService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByRoleId(Long roleId) {
         Map<String, Object> response = new HashMap<>();
         List<RpRoleAssociationDTO> rpRoleAssociationDTOS = rpRoleAssociationRepository.getByRoleIdAndActive(roleId,true);

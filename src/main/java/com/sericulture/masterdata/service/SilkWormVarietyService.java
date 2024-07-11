@@ -36,20 +36,6 @@ public class SilkWormVarietyService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public SilkWormVarietyResponse getSilkWormVarietyDetails(String silkWormVarietyName){
-        SilkWormVarietyResponse silkWormVarietyResponse = new SilkWormVarietyResponse();
-        SilkWormVariety silkWormVariety = silkWormVarietyRepository.findBySilkWormVarietyNameAndActive(silkWormVarietyName,true);
-        if(silkWormVariety==null){
-            silkWormVarietyResponse.setError(true);
-            silkWormVarietyResponse.setError_description("Silk Worm Variety not found");
-        }else{
-            silkWormVarietyResponse = mapper.silkWormVarietyEntityToObject(silkWormVariety, SilkWormVarietyResponse.class);
-            silkWormVarietyResponse.setError(false);
-        }
-        log.info("Entity is ",silkWormVariety);
-        return silkWormVarietyResponse;
-    }
 
     @Transactional
     public SilkWormVarietyResponse insertSilkWormVarietyDetails(SilkWormVarietyRequest silkWormVarietyRequest){
@@ -72,12 +58,10 @@ public class SilkWormVarietyService {
         return silkWormVarietyResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSilkWormVarietyDetails(final Pageable pageable){
         return convertToMapResponse(silkWormVarietyRepository.findByActiveOrderBySilkWormVarietyNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(silkWormVarietyRepository.findByActive(isActive));
     }
@@ -120,7 +104,6 @@ public class SilkWormVarietyService {
         return silkWormVarietyResponse;
     }
 
-    @Transactional
     public SilkWormVarietyResponse getById(int id){
         SilkWormVarietyResponse silkWormVarietyResponse = new SilkWormVarietyResponse();
         SilkWormVariety silkWormVariety = silkWormVarietyRepository.findBySilkWormVarietyIdAndActive(id,true);
