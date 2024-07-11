@@ -35,7 +35,6 @@ public class HdAnswerMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdAnswerMasterResponse getHdAnswerMasterDetails(String hdAnswerName){
         HdAnswerMasterResponse hdAnswerMasterResponse = new HdAnswerMasterResponse();
         HdAnswerMaster hdAnswerMaster =  hdAnswerMasterRepository.findByHdAnswerNameAndActive(hdAnswerName, true);
@@ -71,13 +70,11 @@ public class HdAnswerMasterService {
         return hdAnswerMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdAnswerMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdAnswerMasterRepository.findByActiveOrderByHdAnswerNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdAnswerMasterRepository.findByActiveOrderByHdAnswerNameAsc(isActive));
     }
@@ -121,7 +118,6 @@ public class HdAnswerMasterService {
         return hdAnswerMasterResponse;
     }
 
-    @Transactional
     public HdAnswerMasterResponse getById(int id){
         HdAnswerMasterResponse hdAnswerMasterResponse = new HdAnswerMasterResponse();
         HdAnswerMaster hdAnswerMaster = hdAnswerMasterRepository.findByHdAnswerIdAndActive(id,true);

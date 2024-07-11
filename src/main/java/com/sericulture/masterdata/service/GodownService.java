@@ -54,7 +54,6 @@ public class GodownService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public GodownResponse getGodownDetails(String godownName){
         GodownResponse godownResponse = new GodownResponse();
         Godown godown = godownRepository.findByGodownNameAndActive(godownName,true);
@@ -90,12 +89,10 @@ public class GodownService {
         return godownResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedGodownDetails(final Pageable pageable){
         return convertToMapResponse(godownRepository.findByActiveOrderByGodownIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(godownRepository.findByActive(isActive));
     }
@@ -122,7 +119,6 @@ public class GodownService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedGodownDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(godownRepository.getByActiveOrderByGodownIdAsc( true, pageable));
     }
@@ -155,7 +151,6 @@ public class GodownService {
         return godownResponse;
     }
 
-    @Transactional
     public GodownResponse getById(int id){
         GodownResponse godownResponse = new GodownResponse();
         Godown godown = godownRepository.findByGodownIdAndActive(id,true);
@@ -170,7 +165,6 @@ public class GodownService {
         return godownResponse;
     }
 
-    @Transactional
     public GodownResponse getByIdJoin(int id){
         GodownResponse godownResponse = new GodownResponse();
         GodownDTO godownDTO = godownRepository.getByGodownIdAndActive(id,true);
@@ -185,7 +179,6 @@ public class GodownService {
         return godownResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByMarketMasterId(int marketMasterId){
         Map<String, Object> response = new HashMap<>();
         List<Godown> godownList = godownRepository.findByMarketMasterIdAndActive(marketMasterId,true);
@@ -237,7 +230,6 @@ public class GodownService {
 
         return godownResponse;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

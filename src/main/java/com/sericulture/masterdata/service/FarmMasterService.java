@@ -45,7 +45,6 @@ public class FarmMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public FarmMasterResponse getFarmMasterDetails(String farmName){
         FarmMasterResponse farmMasterResponse = new FarmMasterResponse();
         FarmMaster farmMaster = farmMasterRepository.findByFarmNameAndActive(farmName, true);
@@ -81,13 +80,11 @@ public class FarmMasterService {
         return farmMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedFarmMasterDetails(final Pageable pageable){
         return convertToMapResponse(farmMasterRepository.findByActiveOrderByFarmNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(farmMasterRepository.findByActiveOrderByFarmNameAsc(isActive));
     }
@@ -115,7 +112,6 @@ public class FarmMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedFarmMasterWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(farmMasterRepository.getByActiveOrderByFarmMasterIdAsc( true, pageable));
     }
@@ -149,7 +145,7 @@ public class FarmMasterService {
         return farmMasterResponse;
     }
 
-    @Transactional
+
     public FarmMasterResponse getById(int id){
         FarmMasterResponse farmMasterResponse = new FarmMasterResponse();
         FarmMaster farmMaster = farmMasterRepository.findByFarmIdAndActive(id,true);
@@ -173,7 +169,6 @@ public class FarmMasterService {
         return response;
     }
 
-    @Transactional
     public FarmMasterResponse getByIdJoin(int id){
         FarmMasterResponse farmMasterResponse = new FarmMasterResponse();
         FarmMasterDTO farmMasterDTO = farmMasterRepository.getByFarmMasterIdAndActive(id,true);
@@ -218,7 +213,6 @@ public class FarmMasterService {
         }
         return farmMasterResponse;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

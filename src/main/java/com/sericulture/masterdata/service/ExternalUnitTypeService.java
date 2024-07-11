@@ -41,7 +41,6 @@ public class ExternalUnitTypeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public ExternalUnitTypeResponse getExternalUnitTypeDetails(String externalUnitTypeName){
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeNameAndActive(externalUnitTypeName,true);
@@ -77,12 +76,10 @@ public class ExternalUnitTypeService {
         return externalUnitTypeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedExternalUnitTypeDetails(final Pageable pageable){
         return convertToMapResponse(externalUnitTypeRepository.findByActiveOrderByExternalUnitTypeNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(externalUnitTypeRepository.findByActive(isActive));
     }
@@ -125,7 +122,6 @@ public class ExternalUnitTypeService {
         return externalUnitTypeResponse;
     }
 
-    @Transactional
     public ExternalUnitTypeResponse getById(int id){
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActive(id,true);

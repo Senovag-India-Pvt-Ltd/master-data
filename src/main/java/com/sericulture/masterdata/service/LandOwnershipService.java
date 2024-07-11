@@ -35,7 +35,6 @@ public class LandOwnershipService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public LandOwnershipResponse getLandOwnershipDetails(String landOwnershipName){
         LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipNameAndActive(landOwnershipName,true);
@@ -71,12 +70,10 @@ public class LandOwnershipService {
         return landOwnershipResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedLandOwnershipDetails(final Pageable pageable){
         return convertToMapResponse(landOwnershipRepository.findByActiveOrderByLandOwnershipNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(landOwnershipRepository.findByActive(isActive));
     }
@@ -119,7 +116,6 @@ public class LandOwnershipService {
         return landOwnershipResponse;
     }
 
-    @Transactional
     public LandOwnershipResponse getById(int id){
         LandOwnershipResponse landOwnershipResponse = new LandOwnershipResponse();
         LandOwnership landOwnership = landOwnershipRepository.findByLandOwnershipIdAndActive(id,true);

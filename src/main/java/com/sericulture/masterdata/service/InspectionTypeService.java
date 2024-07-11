@@ -32,7 +32,6 @@ public class InspectionTypeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public InspectionTypeResponse getInspectionTypeDetails(String name){
         InspectionTypeResponse inspectionTypeResponse = new InspectionTypeResponse();
         InspectionType inspectionType = inspectionTypeRepository.findByNameAndActive(name,true);
@@ -68,12 +67,10 @@ public class InspectionTypeService {
         return inspectionTypeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedInspectionTypeDetails(final Pageable pageable){
         return convertToMapResponse(inspectionTypeRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(inspectionTypeRepository.findByActive(isActive));
     }
@@ -116,7 +113,6 @@ public class InspectionTypeService {
         return inspectionTypeResponse;
     }
 
-    @Transactional
     public InspectionTypeResponse getById(int id){
         InspectionTypeResponse inspectionTypeResponse = new InspectionTypeResponse();
         InspectionType inspectionType = inspectionTypeRepository.findByInspectionTypeIdAndActive(id,true);

@@ -40,7 +40,6 @@ public class HobliService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HobliResponse getHobliDetails(String hobliName){
         HobliResponse hobliResponse = new HobliResponse();
         Hobli hobli = hobliRepository.findByHobliNameAndActive(hobliName,true);
@@ -76,12 +75,10 @@ public class HobliService {
         return hobliResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHobliDetails(final Pageable pageable){
         return convertToMapResponse(hobliRepository.findByActiveOrderByHobliIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hobliRepository.findByActive(isActive));
     }
@@ -106,7 +103,6 @@ public class HobliService {
         response.put("hobli",hobliResponses);
         return response;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHobliDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(hobliRepository.getByActiveOrderByHobliIdAsc( true, pageable));
     }
@@ -139,7 +135,6 @@ public class HobliService {
         return hobliResponse;
     }
 
-    @Transactional
     public HobliResponse getById(int id){
         HobliResponse hobliResponse = new HobliResponse();
         Hobli hobli = hobliRepository.findByHobliIdAndActive(id,true);
@@ -154,7 +149,6 @@ public class HobliService {
         return hobliResponse;
     }
 
-    @Transactional
     public HobliResponse getByIdJoin(int id){
         HobliResponse hobliResponse = new HobliResponse();
         HobliDTO hobliDTO = hobliRepository.getByHobliIdAndActive(id,true);
@@ -168,7 +162,6 @@ public class HobliService {
         log.info("Entity is ", hobliDTO);
         return hobliResponse;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getHobliByTalukId(Long talukId){
         Map<String, Object> response = new HashMap<>();
         List<Hobli> hobliList = hobliRepository.findByTalukIdAndActive(talukId,true);
@@ -219,7 +212,6 @@ public class HobliService {
 //        }
         return hobliResponse;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -41,7 +41,6 @@ public class HdSubCategoryMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdSubCategoryMasterResponse getHdSubCategoryMasterDetails(String hdSubCategoryName) {
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
         HdSubCategoryMaster hdSubCategoryMaster = hdSubCategoryMasterRepository.findByHdSubCategoryNameAndActive(hdSubCategoryName, true);;
@@ -76,13 +75,11 @@ public class HdSubCategoryMasterService {
         return hdSubCategoryMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedHdSubCategoryMasterDetails(final Pageable pageable) {
         return convertToMapResponse(hdSubCategoryMasterRepository.findByActiveOrderByHdSubCategoryIdAsc(true, pageable));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(hdSubCategoryMasterRepository.findByActiveOrderByHdSubCategoryNameAsc(isActive));
     }
@@ -110,7 +107,6 @@ public class HdSubCategoryMasterService {
     }
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedHdSubCategoryMasterDetailsWithJoin(final Pageable pageable) {
         return convertDTOToMapResponse(hdSubCategoryMasterRepository.getByActiveOrderByHdSubCategoryIdAsc(true, pageable));
     }
@@ -144,7 +140,6 @@ public class HdSubCategoryMasterService {
         return hdSubCategoryMasterResponse;
     }
 
-    @Transactional
     public HdSubCategoryMasterResponse getById(int id) {
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
         HdSubCategoryMaster hdSubCategoryMaster = hdSubCategoryMasterRepository.findByHdSubCategoryIdAndActive(id, true);
@@ -159,7 +154,6 @@ public class HdSubCategoryMasterService {
         return hdSubCategoryMasterResponse;
     }
 
-    @Transactional
     public HdSubCategoryMasterResponse getByIdJoin(int id) {
         HdSubCategoryMasterResponse hdSubCategoryMasterResponse = new HdSubCategoryMasterResponse();
         HdSubCategoryMasterDTO hdSubCategoryMasterDTO = hdSubCategoryMasterRepository.getByHdSubCategoryIdAndActive(id, true);
@@ -175,7 +169,6 @@ public class HdSubCategoryMasterService {
     }
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByHdCategoryId(int hdCategoryId){
         Map<String, Object> response = new HashMap<>();
         List<HdSubCategoryMaster> hdSubCategoryMasterList = hdSubCategoryMasterRepository.findByHdCategoryIdAndActive(hdCategoryId,true);
@@ -229,7 +222,6 @@ public class HdSubCategoryMasterService {
         return hdSubCategoryMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest) {
         if (searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")) {
             searchWithSortRequest.setSearchText("%%");

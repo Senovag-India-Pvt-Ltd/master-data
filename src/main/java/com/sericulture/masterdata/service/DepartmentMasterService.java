@@ -52,12 +52,10 @@ public class DepartmentMasterService {
         return departmentMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDepartmentMasterDetails(final Pageable pageable){
         return convertToMapResponse(departmentMasterRepository.findByActiveOrderByDepartmentNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(departmentMasterRepository.findByActive(isActive));
     }
@@ -101,7 +99,6 @@ public class DepartmentMasterService {
         return departmentMasterResponse;
     }
 
-    @Transactional
     public DepartmentMasterResponse getById(int id){
         DepartmentMasterResponse departmentMasterResponse = new DepartmentMasterResponse();
         DepartmentMaster departmentMaster = departmentMasterRepository.findByDepartmentIdAndActive(id,true);

@@ -37,7 +37,6 @@ public class HdCategoryMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdCategoryMasterResponse getHdCategoryMasterDetails(String hdCategoryName){
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
         HdCategoryMaster hdCategoryMaster = hdCategoryMasterRepository.findByHdCategoryNameAndActive(hdCategoryName, true);
@@ -73,13 +72,11 @@ public class HdCategoryMasterService {
         return hdCategoryMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdCategoryMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdCategoryMasterRepository.findByActiveOrderByHdCategoryIdAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdCategoryMasterRepository.findByActiveOrderByHdCategoryNameAsc(isActive));
     }
@@ -106,7 +103,6 @@ public class HdCategoryMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdCategoryMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(hdCategoryMasterRepository.getByActiveOrderByHdCategoryIdAsc( true, pageable));
     }
@@ -140,7 +136,6 @@ public class HdCategoryMasterService {
         return hdCategoryMasterResponse;
     }
 
-    @Transactional
     public HdCategoryMasterResponse getById(int id){
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
         HdCategoryMaster hdCategoryMaster = hdCategoryMasterRepository.findByHdCategoryIdAndActive(id,true);
@@ -154,7 +149,6 @@ public class HdCategoryMasterService {
         log.info("Entity is ",hdCategoryMaster);
         return hdCategoryMasterResponse;
     }
-    @Transactional
     public HdCategoryMasterResponse getByIdJoin(int id){
         HdCategoryMasterResponse hdCategoryMasterResponse = new HdCategoryMasterResponse();
         HdCategoryMasterDTO hdCategoryMasterDTO = hdCategoryMasterRepository.getByHdCategoryIdAndActive(id,true);
@@ -169,7 +163,6 @@ public class HdCategoryMasterService {
         return hdCategoryMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByHdBoardCategoryId(int hdBoardCategoryId){
         Map<String, Object> response = new HashMap<>();
         List<HdCategoryMaster> hdCategoryMasterList = hdCategoryMasterRepository.findByHdBoardCategoryIdAndActive(hdBoardCategoryId,true);
@@ -226,7 +219,6 @@ public class HdCategoryMasterService {
         return hdCategoryMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -38,7 +38,6 @@ public class GrainageMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public GrainageMasterResponse getGrainageMasterDetails(String grainageMasterName){
         GrainageMasterResponse grainageMasterResponse = new GrainageMasterResponse();
         GrainageMaster grainageMaster = grainageMasterRepository.findByGrainageMasterNameAndActive(grainageMasterName, true);
@@ -74,13 +73,11 @@ public class GrainageMasterService {
         return grainageMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedGrainageMasterDetails(final Pageable pageable){
         return convertToMapResponse(grainageMasterRepository.findByActiveOrderByGrainageMasterNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(grainageMasterRepository.findByActiveOrderByGrainageMasterNameAsc(isActive));
     }
@@ -107,7 +104,6 @@ public class GrainageMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedGrainageMasterWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(grainageMasterRepository.getByActiveOrderByGrainageMasterIdAsc( true, pageable));
     }
@@ -141,7 +137,6 @@ public class GrainageMasterService {
         return grainageMasterResponse;
     }
 
-    @Transactional
     public GrainageMasterResponse getById(int id){
         GrainageMasterResponse grainingMasterResponse = new GrainageMasterResponse();
         GrainageMaster grainageMaster = grainageMasterRepository.findByGrainageMasterIdAndActive(id,true);
@@ -165,7 +160,6 @@ public class GrainageMasterService {
         return response;
     }
 
-    @Transactional
     public GrainageMasterResponse getByIdJoin(int id){
         GrainageMasterResponse grainageMasterResponse = new GrainageMasterResponse();
         GrainageMasterDTO grainageMasterDTO = grainageMasterRepository.getByGrainageMasterIdAndActive(id,true);
@@ -212,7 +206,6 @@ public class GrainageMasterService {
         }
         return grainageMasterResponse;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

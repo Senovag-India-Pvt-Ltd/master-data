@@ -36,7 +36,6 @@ public class LineNameMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public LineNameMasterResponse getLineNameMasterDetails(String disinfectantMasterName){
         LineNameMasterResponse lineNameMasterResponse = new LineNameMasterResponse();
         LineNameMaster lineNameMaster = lineNameMasterRepository.findByLineNameAndActive(disinfectantMasterName, true);
@@ -72,13 +71,11 @@ public class LineNameMasterService {
         return lineNameMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedLineNameMasterDetails(final Pageable pageable){
         return convertToMapResponse(lineNameMasterRepository.findByActiveOrderByLineNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(lineNameMasterRepository.findByActiveOrderByLineNameAsc(isActive));
     }
@@ -122,7 +119,6 @@ public class LineNameMasterService {
         return lineNameMasterResponse;
     }
 
-    @Transactional
     public LineNameMasterResponse getById(int id){
         LineNameMasterResponse lineNameMasterResponse = new LineNameMasterResponse();
         LineNameMaster lineNameMaster = lineNameMasterRepository.findByLineNameIdAndActive(id,true);
