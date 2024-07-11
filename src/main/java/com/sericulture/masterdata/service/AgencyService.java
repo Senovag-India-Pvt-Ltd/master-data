@@ -53,12 +53,10 @@ public class AgencyService {
         return agencyResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedAgencyDetails(final Pageable pageable){
         return convertToMapResponse(agencyRepository.findByActiveOrderByAgencyIfscCodeAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(agencyRepository.findByActive(isActive));
     }
@@ -101,7 +99,6 @@ public class AgencyService {
         return agencyResponse;
     }
 
-    @Transactional
     public AgencyResponse getById(int id){
         AgencyResponse agencyResponse = new AgencyResponse();
         Agency agency = agencyRepository.findByAgencyIdAndActive(id,true);

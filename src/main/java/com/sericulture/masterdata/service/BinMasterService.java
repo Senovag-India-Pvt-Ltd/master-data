@@ -39,7 +39,6 @@ public class BinMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public BinMasterResponse getBinMasterDetails(int binNumber){
         BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = binMasterRepository.findByBinNumberAndActive(binNumber,true);
@@ -74,7 +73,6 @@ public class BinMasterService {
 //        return binMasterResponse;
 //    }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByGodownIdAndMarketId(Integer godownId,Integer marketId) {
 //        BinMasterResponse binMasterResponse = new BinMasterResponse();
         Map<String, Object> response = new HashMap<>();
@@ -114,12 +112,10 @@ public class BinMasterService {
         return binMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedBinMasterDetails(final Pageable pageable){
         return convertToMapResponse(binMasterRepository.findByActiveOrderByBinMasterIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(binMasterRepository.findByActive(isActive));
     }
@@ -161,7 +157,6 @@ public class BinMasterService {
         return binMasterResponse;
     }
 
-    @Transactional
     public BinMasterResponse getById(int id){
         BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = binMasterRepository.findByBinMasterIdAndActive(id,true);
@@ -176,7 +171,6 @@ public class BinMasterService {
         return binMasterResponse;
     }
 
-    @Transactional
     public BinMaster getByMarketGodownTypeBinNumber(int marketId, int godownId, String type, int binNumber){
         BinMasterResponse binMasterResponse = new BinMasterResponse();
         BinMaster binMaster = binMasterRepository.findByGodownIdAndMarketIdAndTypeAndBinNumberAndActive(godownId,marketId,type, binNumber, true);
@@ -192,7 +186,6 @@ public class BinMasterService {
 //        return binMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getBinMasterAndBinCounterMasterId(int binCounterMasterId) {
 //        BinMasterResponse binMasterResponse = new BinMasterResponse();
         Map<String, Object> response = new HashMap<>();
