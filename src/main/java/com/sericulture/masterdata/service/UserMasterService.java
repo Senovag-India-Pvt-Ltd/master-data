@@ -398,6 +398,26 @@ public class UserMasterService {
     }
 
     @Transactional
+    public UserMasterResponse loginWithoutOtp(UserMasterDTO userMasterDTO){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUsernameAndActive(userMasterDTO.getUsername(), true);
+
+        if(userMaster == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Please check username");
+        }else if(!encoder.matches(userMasterDTO.getPassword(),userMaster.getPassword())) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Please check password");
+        }else{
+            userMasterResponse =  mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class);
+            userMasterResponse.setOtpVerified(true);
+            userMasterResponse.setError(false);
+        }
+        log.info("Entity is ",userMaster);
+        return userMasterResponse;
+    }
+
+    @Transactional
     public UserMasterResponse verifyOtp(UserMasterDTO userMasterDTO){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster = userMasterRepository.findByUsernameAndActive(userMasterDTO.getUsername(),true);
