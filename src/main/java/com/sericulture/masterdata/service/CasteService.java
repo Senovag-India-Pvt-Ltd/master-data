@@ -36,7 +36,6 @@ public class CasteService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public CasteResponse getCasteDetailsByTitle(String title){
         Caste caste = casteRepository.findByTitleAndActive(title,true);
         log.info("Entity is ",caste);
@@ -73,12 +72,10 @@ public class CasteService {
 
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedCasteDetails(final Pageable pageable){
         return convertToMapResponse(casteRepository.findByActiveOrderByTitleAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(casteRepository.findByActive(isActive));
     }
@@ -121,7 +118,6 @@ public class CasteService {
         return casteResponse;
     }
 
-    @Transactional
     public CasteResponse getById(int id){
         CasteResponse casteResponse = new CasteResponse();
         Caste caste = casteRepository.findByIdAndActive(id,true);
