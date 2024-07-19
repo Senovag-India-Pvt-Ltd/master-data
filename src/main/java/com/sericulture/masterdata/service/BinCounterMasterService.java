@@ -112,11 +112,9 @@ public class BinCounterMasterService {
         }
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedBinCounterMasterDetails(final Pageable pageable){
         return convertToMapResponse(binCounterMasterRepository.findByActiveOrderByBinCounterMasterIdAsc( true, pageable));
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(binCounterMasterRepository.findByActive(isActive));
     }
@@ -158,7 +156,6 @@ public class BinCounterMasterService {
         return binCounterMasterResponse;
     }
 
-    @Transactional
     public BinCounterMasterResponse getById(int id){
         BinCounterMasterResponse binCounterMasterResponse = new BinCounterMasterResponse();
         BinCounterMaster binCounterMaster = binCounterMasterRepository.findByBinCounterMasterIdAndActive(id,true);

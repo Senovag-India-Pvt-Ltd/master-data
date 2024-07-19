@@ -56,12 +56,10 @@ public class ScSubSchemeDetailsService {
         return scSubSchemeDetailsResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getScSubSchemeDetails(final Pageable pageable){
         return convertToMapResponse(scSubSchemeDetailsRepository.findByActiveOrderByScSubSchemeDetailsIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scSubSchemeDetailsRepository.findByActive(isActive));
     }
@@ -88,7 +86,7 @@ public class ScSubSchemeDetailsService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getPaginatedScSubSchemeDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scSubSchemeDetailsRepository.getByActiveOrderByScSubSchemeDetailsIdAsc( true, pageable));
     }
@@ -122,7 +120,7 @@ public class ScSubSchemeDetailsService {
         return scSubSchemeDetailsResponse;
     }
 
-    @Transactional
+
     public ScSubSchemeDetailsResponse getById(int id){
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
         ScSubSchemeDetails scSubSchemeDetails = scSubSchemeDetailsRepository.findByScSubSchemeDetailsIdAndActive(id,true);
@@ -139,25 +137,7 @@ public class ScSubSchemeDetailsService {
         return scSubSchemeDetailsResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScSubSchemeDetailsDTO> scSubSchemeDetailsList = scSubSchemeDetailsRepository.getScSubSchemeDetails(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(scSubSchemeDetailsList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", scSubSchemeDetailsList);
-//            response = convertListToMapResponse(scSubSchemeDetailsList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public ScSubSchemeDetailsResponse getByIdJoin(int id){
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
         ScSubSchemeDetailsDTO scSubSchemeDetailsDTO = scSubSchemeDetailsRepository.getByScSubSchemeDetailsIdAndActive(id,true);
@@ -172,7 +152,7 @@ public class ScSubSchemeDetailsService {
         return scSubSchemeDetailsResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String, Object> getScSubSchemeDetailsByScSchemeDetailsId(Long scSchemeDetailsId) {
         Map<String, Object> response = new HashMap<>();
         List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndActiveOrderBySubSchemeNameAsc(scSchemeDetailsId, true);
@@ -239,7 +219,7 @@ public class ScSubSchemeDetailsService {
         return scSubSchemeDetailsResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -269,6 +249,7 @@ public class ScSubSchemeDetailsService {
         log.info("Entity is ",ScSubSchemeDetailsDTOS);
         return convertPageableDTOToMapResponse(ScSubSchemeDetailsDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScSubSchemeDetailsDTO> activeScSubSchemeDetails) {
         Map<String, Object> response = new HashMap<>();
 

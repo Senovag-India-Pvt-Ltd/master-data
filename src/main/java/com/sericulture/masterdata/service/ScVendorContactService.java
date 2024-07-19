@@ -58,12 +58,10 @@ public class ScVendorContactService {
         return scVendorContactResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getScVendorContactDetails(final Pageable pageable){
         return convertToMapResponse(scVendorContactRepository.findByActiveOrderByScVendorContactIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scVendorContactRepository.findByActive(isActive));
     }
@@ -90,7 +88,6 @@ public class ScVendorContactService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScVendorContactWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scVendorContactRepository.getByActiveOrderByScVendorContactIdAsc( true, pageable));
     }
@@ -124,7 +121,6 @@ public class ScVendorContactService {
         return scVendorContactResponse;
     }
 
-    @Transactional
     public ScVendorContactResponse getById(int id){
         ScVendorContactResponse scVendorContactResponse = new ScVendorContactResponse();
         ScVendorContact scVendorContact = scVendorContactRepository.findByScVendorContactIdAndActive(id,true);
@@ -141,24 +137,7 @@ public class ScVendorContactService {
         return scVendorContactResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScVendorContactDTO> scVendorContactList = scVendorContactRepository.getScVendorContact(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(scVendorContactList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", scVendorContactList);
-//            response = convertListToMapResponse(scVendorContactList);
-//            return response;
-//        }
-//    }
 
-
-    @Transactional
     public ScVendorContactResponse getByIdJoin(int id){
         ScVendorContactResponse scVendorContactResponse = new ScVendorContactResponse();
         ScVendorContactDTO scVendorContactDTO = scVendorContactRepository.getByScVendorContactIdAndActive(id,true);
@@ -173,7 +152,7 @@ public class ScVendorContactService {
         return scVendorContactResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String, Object> getScVendorContactByScVendorId(Long scVendorId) {
         Map<String, Object> response = new HashMap<>();
         List<ScVendorContact> scVendorContactList = scVendorContactRepository.findByScVendorIdAndActiveOrderByPhoneAsc(scVendorId, true);
@@ -236,7 +215,6 @@ public class ScVendorContactService {
         return scVendorContactResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -266,6 +244,7 @@ public class ScVendorContactService {
         log.info("Entity is ",scVendorContactDTOS);
         return convertPageableDTOToMapResponse(scVendorContactDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScVendorContactDTO> activeScVendorContact) {
         Map<String, Object> response = new HashMap<>();
 

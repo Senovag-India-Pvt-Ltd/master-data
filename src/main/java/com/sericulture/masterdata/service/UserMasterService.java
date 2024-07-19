@@ -76,7 +76,7 @@ public class UserMasterService {
     private String otpTemplateId;
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getLoginDetails(String username, String password){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster1 = userMasterRepository.findByUsername(username);
@@ -95,7 +95,7 @@ public class UserMasterService {
         log.info("Entity is ",userMaster1);
         return userMasterResponse;
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getByUserNameAndPassword(String username, String password) {
         UserMasterResponse userMasterResponse = new UserMasterResponse();
 
@@ -116,7 +116,7 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByRoleIdAndTalukId(Long roleId,Long talukId) {
         Map<String, Object> response = new HashMap<>();
         List<UserMasterDTO> userMasterDTOS = userMasterRepository.getByRoleIdAndTalukIdAndActive(roleId,talukId,true);
@@ -130,7 +130,7 @@ public class UserMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByDesignationIdAndDistrictId(Long designationId,Long districtId) {
         Map<String, Object> response = new HashMap<>();
         List<UserMasterDTO> userMasterDTOS = userMasterRepository.getByDesignationIdAndDistrictIdAndActive(designationId,districtId,true);
@@ -144,7 +144,7 @@ public class UserMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByDesignationIdAndDistrictIdAndTalukId(Long designationId,Long districtId, Long talukId) {
         Map<String, Object> response = new HashMap<>();
         List<UserMasterDTO> userMasterDTOS = userMasterRepository.getByDesignationIdAndDistrictIdAndActive(designationId,districtId,talukId,true);
@@ -157,6 +157,21 @@ public class UserMasterService {
         }
         return response;
     }
+
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByDesignationIdAndDistrictIdAndTalukIdAndWorkingInstitutionId(Long designationId,Long districtId, Long talukId,Long workingInstitutionId) {
+        Map<String, Object> response = new HashMap<>();
+        List<UserMasterDTO> userMasterDTOS = userMasterRepository.getByDesignationIdAndDistrictIdAndWorkingInstitutionIdAndActive(designationId,districtId,talukId,workingInstitutionId,true);
+        if(userMasterDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", userMasterDTOS);
+            response = convertDTOToMapResponse(userMasterDTOS);
+        }
+        return response;
+    }
+
 
     private Map<String, Object> convertDTOToMapResponse(List<UserMasterDTO> userMasterDTOS) {
         Map<String, Object> response = new HashMap<>();
@@ -191,12 +206,12 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedUserMasterDetails(final Pageable pageable){
         return convertToMapResponse(userMasterRepository.findByActiveOrderByUserMasterIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(userMasterRepository.findByActive(isActive));
     }
@@ -223,7 +238,7 @@ public class UserMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedUserMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(userMasterRepository.getByActiveOrderByUserMasterIdAsc( true, pageable));
     }
@@ -249,7 +264,7 @@ public class UserMasterService {
         return response;
     }
 
-    @Transactional
+//    @Transactional
     public UserMasterResponse getByIdJoin(int id){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMasterDTO userMasterDTO = userMasterRepository.getByUserMasterIdAndActive(id,true);
@@ -284,7 +299,7 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
-    @Transactional
+//    @Transactional
     public UserMasterResponse getById(int id){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(id,true);
@@ -657,7 +672,7 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -701,17 +716,17 @@ public class UserMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllReelerUsers(boolean isActive, long reelerId){
         return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getEscalateRoleUsers(String roleName){
         return convertDTOListEntityToMapResponse(userMasterRepository.getByActiveAndRoleName(true, roleName));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+//    @Transactional(isolation = Isolation.READ_COMMITTED)
     public UserMasterResponse getConfigureUserDetailsForReeler(boolean isActive, long reelerId){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         Reeler reeler = reelerRepository.findByReelerIdAndActive(reelerId, true);

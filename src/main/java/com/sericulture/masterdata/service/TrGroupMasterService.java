@@ -36,21 +36,6 @@ public class TrGroupMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrGroupMasterResponse getTrGroupMasterDetails(String trGroupMasterName){
-        TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
-        TrGroupMaster trGroupMaster =  trGroupMasterRepository.findByTrGroupMasterNameAndActive(trGroupMasterName, true);
-        if(trGroupMaster==null){
-            trGroupMasterResponse.setError(true);
-            trGroupMasterResponse.setError_description("Training Group is not found");
-        }else{
-            trGroupMasterResponse = mapper.trGroupMasterEntityToObject(trGroupMaster, TrGroupMasterResponse.class);
-            trGroupMasterResponse.setError(false);
-        }
-        log.info("Entity is ",trGroupMaster);
-        return trGroupMasterResponse;
-
-    }
 
     @Transactional
     public TrGroupMasterResponse insertTrGroupMasterDetails(TrGroupMasterRequest trGroupMasterRequest){
@@ -72,13 +57,11 @@ public class TrGroupMasterService {
         return trGroupMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrGroupMasterDetails(final Pageable pageable){
         return convertToMapResponse(trGroupMasterRepository.findByActiveOrderByTrGroupMasterNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trGroupMasterRepository.findByActiveOrderByTrGroupMasterNameAsc(isActive));
     }
@@ -122,7 +105,6 @@ public class TrGroupMasterService {
         return trGroupMasterResponse;
     }
 
-    @Transactional
     public TrGroupMasterResponse getById(int id){
         TrGroupMasterResponse trGroupMasterResponse = new TrGroupMasterResponse();
         TrGroupMaster trGroupMaster = trGroupMasterRepository.findByTrGroupMasterIdAndActive(id,true);

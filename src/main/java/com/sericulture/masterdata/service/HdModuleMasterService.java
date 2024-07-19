@@ -36,7 +36,6 @@ public class HdModuleMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdModuleMasterResponse getHdModuleMasterDetails(String hdModuleName){
         HdModuleMasterResponse hdModuleMasterResponse = new HdModuleMasterResponse();
         HdModuleMaster hdModuleMaster = hdModuleMasterRepository.findByHdModuleNameAndActive(hdModuleName, true);
@@ -72,13 +71,11 @@ public class HdModuleMasterService {
         return hdModuleMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdModuleMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdModuleMasterRepository.findByActiveOrderByHdModuleNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdModuleMasterRepository.findByActiveOrderByHdModuleNameAsc(isActive));
     }
@@ -122,7 +119,6 @@ public class HdModuleMasterService {
         return hdModuleMasterResponse;
     }
 
-    @Transactional
     public HdModuleMasterResponse getById(int id){
         HdModuleMasterResponse hdModuleMasterResponse = new HdModuleMasterResponse();
         HdModuleMaster hdModuleMaster = hdModuleMasterRepository.findByHdModuleIdAndActive(id,true);

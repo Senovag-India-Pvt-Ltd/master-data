@@ -50,12 +50,10 @@ public class ScSchemeDetailsService {
         return scSchemeDetailsResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScSchemeDetailsDetails(final Pageable pageable){
         return convertToMapResponse(scSchemeDetailsRepository.findByActiveOrderBySchemeNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scSchemeDetailsRepository.findByActive(isActive));
     }
@@ -99,7 +97,6 @@ public class ScSchemeDetailsService {
         return scSchemeDetailsResponse;
     }
 
-    @Transactional
     public ScSchemeDetailsResponse getById(int id){
         ScSchemeDetailsResponse scSchemeDetailsResponse = new ScSchemeDetailsResponse();
         ScSchemeDetails scSchemeDetails= scSchemeDetailsRepository.findByScSchemeDetailsIdAndActive(id, true);

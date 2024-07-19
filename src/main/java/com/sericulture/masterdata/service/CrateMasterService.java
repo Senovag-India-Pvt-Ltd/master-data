@@ -54,12 +54,10 @@ public class CrateMasterService {
         return mapper.crateMasterEntityToObject(crateMasterRepository.save(crateMaster),CrateMasterResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedCrateMasterDetails(final Pageable pageable){
         return convertToMapResponse(crateMasterRepository.findByActiveOrderByCrateMasterIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(crateMasterRepository.findByActive(isActive));
     }
@@ -86,7 +84,6 @@ public class CrateMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedCrateMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(crateMasterRepository.getByActiveOrderByCrateMasterIdAsc( true, pageable));
     }
@@ -120,7 +117,6 @@ public class CrateMasterService {
         return crateMasterResponse;
     }
 
-    @Transactional
     public CrateMasterResponse getById(int id){
         CrateMasterResponse crateMasterResponse = new CrateMasterResponse();
         CrateMaster crateMaster = crateMasterRepository.findByCrateMasterIdAndActive(id,true);
@@ -137,7 +133,6 @@ public class CrateMasterService {
         return crateMasterResponse;
     }
 
-    @Transactional
     public CrateMasterResponse getByIdJoin(int id){
         CrateMasterResponse crateMasterResponse = new CrateMasterResponse();
         CrateMasterDTO crateMasterDTO = crateMasterRepository.getByCrateMasterIdAndActive(id,true);

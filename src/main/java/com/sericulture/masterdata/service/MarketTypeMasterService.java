@@ -37,7 +37,6 @@ public class MarketTypeMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public MarketTypeMasterResponse getMarketTypeMasterDetails(String marketTypeMasterName){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
         MarketTypeMaster marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterNameAndActive(marketTypeMasterName,true);
@@ -74,12 +73,10 @@ public class MarketTypeMasterService {
         return marketTypeMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMarketTypeMasterDetails(final Pageable pageable){
         return convertToMapResponse(marketTypeMasterRepository.findByActiveOrderByMarketTypeMasterIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(marketTypeMasterRepository.findByActiveOrderByMarketTypeMasterNameAsc(isActive));
     }
@@ -123,7 +120,6 @@ public class MarketTypeMasterService {
         return marketTypeMasterResponse;
     }
 
-    @Transactional
     public MarketTypeMasterResponse getById(int id){
         MarketTypeMasterResponse marketTypeMasterResponse = new MarketTypeMasterResponse();
         MarketTypeMaster marketTypeMaster = marketTypeMasterRepository.findByMarketTypeMasterIdAndActive(id,true);

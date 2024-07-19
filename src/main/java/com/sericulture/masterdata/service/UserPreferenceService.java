@@ -59,12 +59,10 @@ public class UserPreferenceService {
         return mapper.userPreferenceEntityToObject(userPreferenceRepository.save(userPreference), UserPreferenceResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedUserPreferenceDetails(final Pageable pageable){
         return convertToMapResponse(userPreferenceRepository.findByActiveOrderByUserPreferenceIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(userPreferenceRepository.findByActive(isActive));
     }
@@ -91,7 +89,6 @@ public class UserPreferenceService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedUserPreferenceDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(userPreferenceRepository.getByActiveOrderByUserPreferenceIdAsc( true, pageable));
     }
@@ -108,7 +105,6 @@ public class UserPreferenceService {
         return response;
     }
 
-    @Transactional
     public UserPreferenceResponse getByIdJoin(int id){
         UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
         UserPreferenceDTO userPreferenceDTO = userPreferenceRepository.getByUserPreferenceIdAndActive(id,true);
@@ -143,7 +139,6 @@ public class UserPreferenceService {
         return userPreferenceResponse;
     }
 
-    @Transactional
     public UserPreferenceResponse getById(int id){
         UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
         UserPreference userPreference = userPreferenceRepository.findByUserPreferenceIdAndActive(id,true);
@@ -158,31 +153,6 @@ public class UserPreferenceService {
         return userPreferenceResponse;
     }
 
-//    @Transactional
-//    public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest){
-//        UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
-////        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
-////        if(rpPageRootList.size()>0){
-////            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
-////        }
-//
-//        UserPreference userPreference = userPreferenceRepository.findByUserPreferenceIdAndActiveIn(userPreferenceRequest.getUserPreferenceId(), Set.of(true,false));
-//        if(Objects.nonNull(userPreference)){
-//            userPreference.setUserPreferenceId(userPreferenceRequest.getUserPreferenceId());
-//            userPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
-//            userPreference.setGodownId(userPreferenceRequest.getGodownId());
-//            userPreference.setActive(true);
-//            UserPreference userPreference1 = userPreferenceRepository.save(userPreference);
-//            userPreferenceResponse = mapper.userPreferenceEntityToObject(userPreference1, UserPreferenceResponse.class);
-//            userPreferenceResponse.setError(false);
-//        } else {
-//            userPreferenceResponse.setError(true);
-//            userPreferenceResponse.setError_description("Error occurred while fetching userMaster");
-//            // throw new ValidationException("Error occurred while fetching village");
-//        }
-//
-//        return userPreferenceResponse;
-//    }
 
     @Transactional
     public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest) {
@@ -213,87 +183,4 @@ public class UserPreferenceService {
     }
 
 
-//    @Transactional
-//    public UserPreferenceResponse updateUserPreferenceDetails(EditUserPreferenceRequest userPreferenceRequest) {
-//        UserPreferenceResponse userPreferenceResponse = new UserPreferenceResponse();
-//
-//
-//        if (userPreferenceRequest.getUserMasterId() != null) {
-//            // Update existing record
-//            UserPreference userPreference = userPreferenceRepository.findByUserMasterIdAndActive(
-//                    userPreferenceRequest.getUserMasterId(), true);
-//
-//            if (Objects.nonNull(userPreference)) {
-//                userPreference.setGodownId(userPreferenceRequest.getGodownId());
-//                // Other fields to update if needed
-//                userPreference.setActive(true);
-//
-//                UserPreference updatedUserPreference = userPreferenceRepository.save(userPreference);
-//                userPreferenceResponse = mapper.userPreferenceEntityToObject(updatedUserPreference, UserPreferenceResponse.class);
-//                userPreferenceResponse.setError(false);
-//            } else {
-//                userPreferenceResponse.setError(true);
-//                userPreferenceResponse.setError_description("Error occurred while fetching userPreference");
-//            }
-//        } else {
-//            // Create a new record
-//            UserPreference newUserPreference = new UserPreference();
-//            newUserPreference.setUserMasterId(userPreferenceRequest.getUserMasterId());
-//            newUserPreference.setGodownId(userPreferenceRequest.getGodownId());
-//            // Set other fields from the payload if needed
-//            newUserPreference.setActive(true);
-//
-//            UserPreference savedUserPreference = userPreferenceRepository.save(newUserPreference);
-//            userPreferenceResponse = mapper.userPreferenceEntityToObject(savedUserPreference, UserPreferenceResponse.class);
-//            userPreferenceResponse.setError(false);
-//        }
-//
-//        return userPreferenceResponse;
-//    }
-
-
-
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
-//        if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
-//            searchWithSortRequest.setSearchText("%%");
-//        }else{
-//            searchWithSortRequest.setSearchText("%" + searchWithSortRequest.getSearchText() + "%");
-//        }
-//        if(searchWithSortRequest.getSortColumn() == null || searchWithSortRequest.getSortColumn().equals("")){
-//            searchWithSortRequest.setSortColumn("username");
-//        }
-//        if(searchWithSortRequest.getSortOrder() == null || searchWithSortRequest.getSortOrder().equals("")){
-//            searchWithSortRequest.setSortOrder("asc");
-//        }
-//        if(searchWithSortRequest.getPageNumber() == null || searchWithSortRequest.getPageNumber().equals("")){
-//            searchWithSortRequest.setPageNumber("0");
-//        }
-//        if(searchWithSortRequest.getPageSize() == null || searchWithSortRequest.getPageSize().equals("")){
-//            searchWithSortRequest.setPageSize("5");
-//        }
-//        Sort sort;
-//        if(searchWithSortRequest.getSortOrder().equals("asc")){
-//            sort = Sort.by(Sort.Direction.ASC, searchWithSortRequest.getSortColumn());
-//        }else{
-//            sort = Sort.by(Sort.Direction.DESC, searchWithSortRequest.getSortColumn());
-//        }
-//        Pageable pageable = PageRequest.of(Integer.parseInt(searchWithSortRequest.getPageNumber()), Integer.parseInt(searchWithSortRequest.getPageSize()), sort);
-//        Page<UserMasterDTO> userMasterDTOS = userMasterRepository.getSortedUsers(searchWithSortRequest.getJoinColumn(),searchWithSortRequest.getSearchText(),true, pageable);
-//        log.info("Entity is ",userMasterDTOS);
-//        return convertPageableDTOToMapResponse(userMasterDTOS);
-//    }
-//
-//    private Map<String, Object> convertPageableDTOToMapResponse(final Page<UserMasterDTO> activeUsers) {
-//        Map<String, Object> response = new HashMap<>();
-//
-//        List<UserMasterResponse> userMasterResponses = activeUsers.getContent().stream()
-//                .map(userMaster -> mapper.userMasterDTOToObject(userMaster,UserMasterResponse.class)).collect(Collectors.toList());
-//        response.put("userMaster",userMasterResponses);
-//        response.put("currentPage", activeUsers.getNumber());
-//        response.put("totalItems", activeUsers.getTotalElements());
-//        response.put("totalPages", activeUsers.getTotalPages());
-//
-//        return response;
-//    }
 }

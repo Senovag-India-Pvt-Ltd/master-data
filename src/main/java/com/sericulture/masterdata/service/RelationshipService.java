@@ -41,20 +41,6 @@ public class RelationshipService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public RelationshipResponse getRelationshipDetails(String relationshipName){
-        RelationshipResponse relationshipResponse = new RelationshipResponse();
-        Relationship relationship = relationshipRepository.findByRelationshipNameAndActive(relationshipName,true);
-        if(relationship==null){
-            relationshipResponse.setError(true);
-            relationshipResponse.setError_description("Relationship not found");
-        }else{
-            relationshipResponse = mapper.relationshipEntityToObject(relationship, RelationshipResponse.class);
-            relationshipResponse.setError(false);
-        }
-        log.info("Entity is ",relationship);
-        return relationshipResponse;
-    }
 
     @Transactional
     public RelationshipResponse insertRelationshipDetails(RelationshipRequest relationshipRequest){
@@ -77,11 +63,10 @@ public class RelationshipService {
         return relationshipResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRelationshipDetails(final Pageable pageable){
         return convertToMapResponse(relationshipRepository.findByActiveOrderByRelationshipNameAsc( true, pageable));
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(relationshipRepository.findByActive(isActive));
     }
@@ -124,7 +109,6 @@ public class RelationshipService {
         return relationshipResponse;
     }
 
-    @Transactional
     public RelationshipResponse getById(int id){
         RelationshipResponse relationshipResponse = new RelationshipResponse();
         Relationship relationship = relationshipRepository.findByRelationshipIdAndActive(id,true);

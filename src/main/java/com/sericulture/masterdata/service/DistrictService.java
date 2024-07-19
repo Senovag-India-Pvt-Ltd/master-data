@@ -42,7 +42,6 @@ public class DistrictService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public DistrictResponse getDistrictDetails(String districtName){
         DistrictResponse districtResponse = new DistrictResponse();
         District district = districtRepository.findByDistrictNameAndActive(districtName,true);
@@ -78,12 +77,10 @@ public class DistrictService {
         return districtResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDistrictDetails(final Pageable pageable){
         return convertToMapResponse(districtRepository.findByActiveOrderByDistrictIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(districtRepository.findByActive(isActive));
     }
@@ -110,7 +107,6 @@ public class DistrictService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDistrictDetailsWithStateName(final Pageable pageable){
         return convertDTOToMapResponse(districtRepository.getByActiveOrderByDistrictIdAsc( true, pageable));
     }
@@ -143,7 +139,7 @@ public class DistrictService {
         return districtResponse;
     }
 
-    @Transactional
+
     public DistrictResponse getById(int id){
         DistrictResponse districtResponse = new DistrictResponse();
         District district = districtRepository.findByDistrictIdAndActive(id,true);
@@ -158,7 +154,6 @@ public class DistrictService {
         return districtResponse;
     }
 
-    @Transactional
     public DistrictResponse getByIdJoin(int id){
         DistrictResponse districtResponse = new DistrictResponse();
         DistrictDTO districtDTO = districtRepository.getByDistrictIdAndActive(id,true);
@@ -173,7 +168,6 @@ public class DistrictService {
         return districtResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getDistrictByStateId(Long stateId){
         List<District> districtList = districtRepository.findByStateIdAndActiveOrderByDistrictName(stateId,true);
         if(districtList.isEmpty()){
@@ -192,7 +186,6 @@ public class DistrictService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByName(String searchText){
         if(searchText != null && !searchText.equals("")){
             searchText = "%" + searchText + "%";
@@ -247,7 +240,6 @@ public class DistrictService {
         return districtResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

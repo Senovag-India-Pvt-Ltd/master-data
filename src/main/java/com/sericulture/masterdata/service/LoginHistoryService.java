@@ -67,11 +67,9 @@ public class LoginHistoryService {
         return mapper.loginHistoryEntityToObject(loginHistoryRepository.save(loginHistory),LoginHistoryResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedLoginHistoryDetails(final Pageable pageable){
         return convertToMapResponse(loginHistoryRepository.findByActiveOrderByLoginHistoryIdAsc( true, pageable));
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(loginHistoryRepository.findByActiveOrderByLoginHistoryIdAsc(isActive));
     }
@@ -131,7 +129,6 @@ public class LoginHistoryService {
         return loginHistoryResponse;
     }
 
-    @Transactional
     public LoginHistoryResponse getById(int id){
         LoginHistoryResponse loginHistoryResponse = new LoginHistoryResponse();
         LoginHistory loginHistory = loginHistoryRepository.findByLoginHistoryIdAndActive(id,true);

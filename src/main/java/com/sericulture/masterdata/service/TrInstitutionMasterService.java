@@ -36,22 +36,6 @@ public class TrInstitutionMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public TrInstitutionMasterResponse getTrInstitutionMasterDetails(String trInstitutionMasterName){
-        TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
-        TrInstitutionMaster trInstitutionMaster = trInstitutionMasterRepository.findByTrInstitutionMasterNameAndActive(trInstitutionMasterName, true);
-        if(trInstitutionMaster==null){
-            trInstitutionMasterResponse.setError(true);
-            trInstitutionMasterResponse.setError_description("Training Institution not found");
-        }else{
-            trInstitutionMasterResponse = mapper.trInstitutionMasterEntityToObject(trInstitutionMaster, TrInstitutionMasterResponse.class);
-            trInstitutionMasterResponse.setError(false);
-        }
-        log.info("Entity is ",trInstitutionMaster);
-        return trInstitutionMasterResponse;
-
-    }
-
     @Transactional
     public TrInstitutionMasterResponse insertTrInstitutionMasterDetails(TrInstitutionMasterRequest trInstitutionMasterRequest){
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
@@ -72,12 +56,10 @@ public class TrInstitutionMasterService {
         return trInstitutionMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrInstitutionMasterDetails(final Pageable pageable){
         return convertToMapResponse(trInstitutionMasterRepository.findByActiveOrderByTrInstitutionMasterNameAsc( true,pageable ));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trInstitutionMasterRepository.findByActiveOrderByTrInstitutionMasterNameAsc(isActive));
     }
@@ -121,7 +103,6 @@ public class TrInstitutionMasterService {
         return trInstitutionMasterResponse;
     }
 
-    @Transactional
     public TrInstitutionMasterResponse getById(int id){
         TrInstitutionMasterResponse trInstitutionMasterResponse = new TrInstitutionMasterResponse();
         TrInstitutionMaster trInstitutionMaster = trInstitutionMasterRepository.findByTrInstitutionMasterIdAndActive(id,true);

@@ -54,12 +54,11 @@ public class ScProgramService {
         return scProgramResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getPaginatedScProgramDetails(final Pageable pageable){
         return convertToMapResponse(scProgramRepository.findByActiveOrderByScProgramNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scProgramRepository.findByActive(isActive));
     }
@@ -102,7 +101,6 @@ public class ScProgramService {
         return scProgramResponse;
     }
 
-    @Transactional
     public ScProgramResponse getById(int id){
         ScProgramResponse scProgramResponse = new ScProgramResponse();
         ScProgram scProgram = scProgramRepository.findByScProgramIdAndActive(id,true);

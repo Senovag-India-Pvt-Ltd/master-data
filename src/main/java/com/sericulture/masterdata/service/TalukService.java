@@ -74,12 +74,10 @@ public class TalukService {
         return talukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedTalukDetails(final Pageable pageable) {
         return convertToMapResponse(talukRepository.findByActiveOrderByTalukIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(talukRepository.findByActive(isActive));
     }
@@ -106,7 +104,6 @@ public class TalukService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedTalukDetailsWithJoin(final Pageable pageable) {
         return convertDTOToMapResponse(talukRepository.getByActiveOrderByTalukIdAsc(true, pageable));
     }
@@ -141,7 +138,6 @@ public class TalukService {
         return talukResponse;
     }
 
-    @Transactional
     public TalukResponse getById(int id) {
         TalukResponse talukResponse = new TalukResponse();
         Taluk taluk = talukRepository.findByTalukIdAndActive(id, true);
@@ -157,7 +153,6 @@ public class TalukService {
         return talukResponse;
     }
 
-    @Transactional
     public TalukResponse getByIdJoin(int id) {
         TalukResponse talukResponse = new TalukResponse();
         TalukDTO talukDTO = talukRepository.getByTalukIdAndActive(id, true);
@@ -173,7 +168,6 @@ public class TalukService {
         return talukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getTalukByDistrictId(Long districtId) {
         Map<String, Object> response = new HashMap<>();
         List<Taluk> talukList = talukRepository.findByDistrictIdAndActiveOrderByTalukNameAsc(districtId, true);
@@ -230,7 +224,6 @@ public class TalukService {
         return talukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

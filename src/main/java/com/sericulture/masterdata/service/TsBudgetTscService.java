@@ -54,12 +54,10 @@ public class TsBudgetTscService {
         return tsBudgetTscResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsBudgetTscDetails(final Pageable pageable){
         return convertToMapResponse(tsBudgetTscRepository.findByActiveOrderByTsBudgetTscIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsBudgetTscRepository.findByActive(isActive));
     }
@@ -86,7 +84,6 @@ public class TsBudgetTscService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsBudgetTscWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsBudgetTscRepository.getByActiveOrderByTsBudgetTscIdAsc( true, pageable));
     }
@@ -120,7 +117,6 @@ public class TsBudgetTscService {
         return tsBudgetTscResponse;
     }
 
-    @Transactional
     public TsBudgetTscResponse getById(int id){
         TsBudgetTscResponse tsBudgetTscResponse = new TsBudgetTscResponse();
         TsBudgetTsc tsBudgetTsc = tsBudgetTscRepository.findByTsBudgetTscIdAndActive(id,true);
@@ -137,25 +133,7 @@ public class TsBudgetTscService {
         return tsBudgetTscResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetTscDTO> tsBudgetTscList = tsBudgetTscRepository.getTsBudgetTsc(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsBudgetTscList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsBudgetTscList);
-//            response = convertListToMapResponse(tsBudgetTscList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsBudgetTscResponse getByIdJoin(int id){
         TsBudgetTscResponse tsBudgetTscResponse = new TsBudgetTscResponse();
         TsBudgetTscDTO tsBudgetTscDTO = tsBudgetTscRepository.getByTsBudgetTscIdAndActive(id,true);
@@ -169,26 +147,6 @@ public class TsBudgetTscService {
         log.info("Entity is ", tsBudgetTscDTO);
         return tsBudgetTscResponse;
     }
-
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsBudgetTscByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetTscDTO> tsBudgetTscList = tsBudgetTscRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsBudgetTscList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsBudgetTscList);
-//            response = convertListDTOToMapResponse(tsBudgetTscList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsBudgetTsc> tsBudgetTscList) {
         Map<String, Object> response = new HashMap<>();
@@ -242,7 +200,6 @@ public class TsBudgetTscService {
         return tsBudgetTscResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -272,6 +229,7 @@ public class TsBudgetTscService {
         log.info("Entity is ",tsBudgetTscDTOS);
         return convertPageableDTOToMapResponse(tsBudgetTscDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<TsBudgetTscDTO> activeTsBudgetTsc) {
         Map<String, Object> response = new HashMap<>();
 

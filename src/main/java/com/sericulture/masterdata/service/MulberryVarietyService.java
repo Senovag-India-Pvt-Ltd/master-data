@@ -37,7 +37,6 @@ public class MulberryVarietyService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public MulberryVarietyResponse getMulberryVarietyDetails(String mulberryVarietyName){
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyNameAndActive(mulberryVarietyName,true);
@@ -73,12 +72,10 @@ public class MulberryVarietyService {
         return mulberryVarietyResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMulberryVarietyDetails(final Pageable pageable){
         return convertToMapResponse(mulberryVarietyRepository.findByActiveOrderByMulberryVarietyNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(mulberryVarietyRepository.findByActive(isActive));
     }
@@ -121,7 +118,6 @@ public class MulberryVarietyService {
         return mulberryVarietyResponse;
     }
 
-    @Transactional
     public MulberryVarietyResponse getById(int id){
         MulberryVarietyResponse mulberryVarietyResponse = new MulberryVarietyResponse();
         MulberryVariety mulberryVariety = mulberryVarietyRepository.findByMulberryVarietyIdAndActive(id,true);

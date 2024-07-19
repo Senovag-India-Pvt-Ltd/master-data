@@ -29,20 +29,6 @@ public class ScVendorService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScVendorResponse getScVendorDetails(String name){
-        ScVendorResponse scVendorResponse = new ScVendorResponse();
-        ScVendor scVendor= scVendorRepository.findByNameAndActive(name,true);
-        if(scVendor==null){
-            scVendorResponse.setError(true);
-            scVendorResponse.setError_description("Program not found");
-        }else{
-            scVendorResponse = mapper.scVendorEntityToObject(scVendor,ScVendorResponse.class);
-            scVendorResponse.setError(false);
-        }
-        log.info("Entity is ",scVendor);
-        return scVendorResponse;
-    }
 
     @Transactional
     public ScVendorResponse insertScVendorDetails(ScVendorRequest scVendorRequest){
@@ -64,12 +50,10 @@ public class ScVendorService {
         return scVendorResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScVendorDetails(final Pageable pageable){
         return convertToMapResponse(scVendorRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scVendorRepository.findByActive(isActive));
     }
@@ -113,7 +97,6 @@ public class ScVendorService {
         return scVendorResponse;
     }
 
-    @Transactional
     public ScVendorResponse getById(int id){
         ScVendorResponse scVendorResponse = new ScVendorResponse();
         ScVendor scVendor= scVendorRepository.findByScVendorIdAndActive(id, true);

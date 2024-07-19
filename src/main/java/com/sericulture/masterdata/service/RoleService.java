@@ -35,21 +35,6 @@ public class RoleService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public RoleResponse getRoleDetails(String roleName){
-        RoleResponse roleResponse = new RoleResponse();
-        Role role = roleRepository.findByRoleNameAndActive(roleName,true);
-        if(role==null){
-            roleResponse.setError(true);
-            roleResponse.setError_description("Role not found");
-        }else{
-            roleResponse = mapper.roleEntityToObject(role, RoleResponse.class);
-            roleResponse.setError(false);
-        }
-        log.info("Entity is ",role);
-        return roleResponse;
-    }
-
     @Transactional
     public RoleResponse insertRoleDetails(RoleRequest roleRequest){
         RoleResponse roleResponse = new RoleResponse();
@@ -71,12 +56,10 @@ public class RoleService {
         return roleResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRoleDetails(final Pageable pageable){
         return convertToMapResponse(roleRepository.findByActiveOrderByRoleNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(roleRepository.findByActiveOrderByRoleNameAsc(isActive));
     }
@@ -119,7 +102,6 @@ public class RoleService {
         return roleResponse;
     }
 
-    @Transactional
     public RoleResponse getById(int id){
         RoleResponse roleResponse = new RoleResponse();
         Role role = roleRepository.findByRoleIdAndActive(id,true);

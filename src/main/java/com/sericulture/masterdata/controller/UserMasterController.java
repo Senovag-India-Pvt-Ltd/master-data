@@ -584,4 +584,25 @@ public class UserMasterController {
         rw.setContent(userMasterService.getConfigureUserDetailsForReeler( true, userMasterDTO.getUserTypeId()));
         return ResponseEntity.ok(rw);
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @PostMapping("/get-by-designationId-and-districtId-and-talukId-and-workingInstitutionId")
+    public ResponseEntity<?> getByDesignationIdAndDistrictIdAndTalukIdAndWorkingInstitutionId(
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+
+        rw.setContent(userMasterService.getByDesignationIdAndDistrictIdAndTalukIdAndWorkingInstitutionId(userMasterDTO.getDesignationId(), userMasterDTO.getDistrictId(), userMasterDTO.getTalukId(), userMasterDTO.getWorkingInstitutionId()));
+        return ResponseEntity.ok(rw);
+    }
+
 }

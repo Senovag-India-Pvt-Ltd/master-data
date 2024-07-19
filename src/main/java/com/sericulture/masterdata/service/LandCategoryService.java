@@ -36,7 +36,6 @@ public class LandCategoryService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public LandCategoryResponse getLandCategoryDetails(String landCategoryName){
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = landCategoryRepository.findByLandCategoryNameAndActive(landCategoryName,true);
@@ -72,12 +71,10 @@ public class LandCategoryService {
         return landCategoryResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedLandCategoryDetails(final Pageable pageable){
         return convertToMapResponse(landCategoryRepository.findByActiveOrderByLandCategoryNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(landCategoryRepository.findByActive(isActive));
     }
@@ -120,7 +117,6 @@ public class LandCategoryService {
         return landCategoryResponse;
     }
 
-    @Transactional
     public LandCategoryResponse getById(int id){
         LandCategoryResponse landCategoryResponse = new LandCategoryResponse();
         LandCategory landCategory = landCategoryRepository.findByIdAndActive(id,true);

@@ -1,10 +1,13 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.helper.Util;
+import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliResponse;
 import com.sericulture.masterdata.model.api.state.StateResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
 import com.sericulture.masterdata.model.api.village.EditVillageRequest;
+import com.sericulture.masterdata.model.api.village.VillageDetailsResponse;
 import com.sericulture.masterdata.model.api.village.VillageRequest;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.HobliDTO;
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,20 +48,6 @@ public class VillageService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public VillageResponse getVillageDetails(String villageName){
-        VillageResponse villageResponse = new VillageResponse();
-        Village village =  villageRepository.findByVillageNameAndActive(villageName,true);
-        if(village==null){
-            villageResponse.setError(true);
-            villageResponse.setError_description("Village not found");
-        }else{
-            villageResponse = mapper.villageEntityToObject(village,VillageResponse.class);
-            villageResponse.setError(false);
-        }
-        log.info("Entity is ",village);
-        return villageResponse;
-    }
 
     @Transactional
     public VillageResponse insertVillageDetails(VillageRequest villageRequest){
@@ -81,12 +71,12 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getPaginatedVillageDetails(final Pageable pageable){
         return convertToMapResponse(villageRepository.findByActiveOrderByVillageIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(villageRepository.findByActive(isActive));
     }
@@ -113,7 +103,6 @@ public class VillageService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedVillageDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(villageRepository.getByActiveOrderByVillageIdAsc( true, pageable));
     }
@@ -147,7 +136,6 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional
     public VillageResponse getById(int id){
         VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageIdAndActive(id,true);
@@ -163,7 +151,6 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional
     public VillageResponse getByIdJoin(int id) {
         VillageResponse villageResponse = new VillageResponse();
         VillageDTO villageDTO = villageRepository.getByVillageIdAndActive(id, true);
@@ -178,7 +165,7 @@ public class VillageService {
         log.info("Entity is ", villageDTO);
         return villageResponse;
     }
-        @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getVillageByHobliId(Long hobliId){
         Map<String, Object> response = new HashMap<>();
         List<Village> villageList = villageRepository.findByHobliIdAndActive(hobliId,true);
@@ -236,7 +223,6 @@ public class VillageService {
         return villageResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public VillageResponse getDetailsByVillageName(String villageName) {
         VillageResponse villageResponse = new VillageResponse();
         Village village = villageRepository.findByVillageNameAndActive(villageName, true);
@@ -251,7 +237,7 @@ public class VillageService {
             // return mapper.villageDTOToObject(villageRepository.getByVillageIdAndActive(village.getVillageId(), true), VillageResponse.class);
         }
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -293,5 +279,57 @@ public class VillageService {
         response.put("totalPages", activeVillages.getTotalPages());
 
         return response;
+    }
+
+    public ResponseEntity<?> searchVillageDetails(Long districtId,
+                                                  Long talukId,
+                                                  Long hobliId,
+                                                  String villageName,
+                                                  int pageNumber, int pageSize) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(List.class);
+        List<VillageDetailsResponse> villageResponseList = new ArrayList<>();
+
+        districtId = (districtId == 0) ? null : districtId;
+        talukId = (talukId == 0) ? null : talukId;
+        hobliId = (hobliId == 0) ? null : hobliId;
+        villageName = (villageName == null || villageName.isEmpty()) ? null : villageName;
+//        villageId = (villageId == 0) ? null : villageId;
+
+//        districtId = (districtId == null || districtId == 0) ? null : districtId;
+//        talukId = (talukId == null || talukId == 0) ? null : talukId;
+//        hobliId = (hobliId == null || hobliId == 0) ? null : hobliId;
+//        villageId = (villageId == null || villageId == 0) ? null : villageId;
+
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Object[]> applicablePage = villageRepository.getVillageDetails(districtId, talukId,hobliId,villageName,pageable);
+        List<Object[]> applicableList = applicablePage.getContent();
+        long totalRecords = applicablePage.getTotalElements();
+
+
+        villageDetailsResponse(villageResponseList, applicableList, pageNumber, pageSize);
+        rw.setTotalRecords(totalRecords);
+        rw.setContent(villageResponseList);
+        return ResponseEntity.ok(rw);
+    }
+
+    private static void villageDetailsResponse(List<VillageDetailsResponse> villageResponseList, List<Object[]> applicableList, int pageNumber, int pageSize) {
+        int serialNumber = pageNumber * pageSize + 1;
+        for (Object[] arr : applicableList) {
+            VillageDetailsResponse villageResponse;
+            villageResponse = VillageDetailsResponse.builder()
+                    .serialNumber(serialNumber++)
+                    .villageId(Util.objectToInteger(arr[0]))
+                    .stateName(Util.objectToString(arr[1]))
+                    .districtName(Util.objectToString(arr[2]))
+                    .talukName(Util.objectToString(arr[3]))
+                    .hobliName(Util.objectToString(arr[4]))
+                    .villageName(Util.objectToString(arr[5]))
+                    .villageNameInKannada(Util.objectToString(arr[6]))
+                    .lgVillage(Util.objectToString(arr[7]))
+                    .villageCode(Util.objectToString(arr[8]))
+                    .build();
+            villageResponseList.add(villageResponse);
+        }
     }
 }

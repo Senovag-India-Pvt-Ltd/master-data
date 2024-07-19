@@ -41,6 +41,7 @@ public class ScProgramAccountMappingService {
 
     @Autowired
     CustomValidator validator;
+
     @Transactional
     public ScProgramAccountMappingResponse insertScProgramAccountMappingDetails(ScProgramAccountMappingRequest scProgramAccountMappingRequest){
         ScProgramAccountMappingResponse scProgramAccountMappingResponse = new ScProgramAccountMappingResponse();
@@ -62,12 +63,12 @@ public class ScProgramAccountMappingService {
         return scProgramAccountMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getScProgramAccountMappingDetails(final Pageable pageable){
         return convertToMapResponse(scProgramAccountMappingRepository.findByActiveOrderByScProgramAccountMappingIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scProgramAccountMappingRepository.findByActive(isActive));
     }
@@ -94,7 +95,7 @@ public class ScProgramAccountMappingService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getPaginatedScProgramAccountMappingWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scProgramAccountMappingRepository.getByActiveOrderByScProgramAccountMappingIdAsc( true, pageable));
     }
@@ -128,7 +129,7 @@ public class ScProgramAccountMappingService {
         return scProgramAccountMappingResponse;
     }
 
-    @Transactional
+
     public ScProgramAccountMappingResponse getById(int id){
         ScProgramAccountMappingResponse scProgramAccountMappingResponse = new ScProgramAccountMappingResponse();
         ScProgramAccountMapping scProgramAccountMapping = scProgramAccountMappingRepository.findByScProgramAccountMappingIdAndActive(id,true);
@@ -145,21 +146,6 @@ public class ScProgramAccountMappingService {
         return scProgramAccountMappingResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScProgramApprovalMappingDTO> scProgramApprovalMappingList = scProgramApprovalMappingRepository.getScProgramApprovalMapping(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(scProgramApprovalMappingList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", scProgramApprovalMappingList);
-//            response = convertListToMapResponse(scProgramApprovalMappingList);
-//            return response;
-//        }
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<ScProgramAccountMappingDTO> scProgramAccountMappingList) {
         Map<String, Object> response = new HashMap<>();
@@ -170,7 +156,7 @@ public class ScProgramAccountMappingService {
         return response;
     }
 
-    @Transactional
+
     public ScProgramAccountMappingResponse getByIdJoin(int id){
         ScProgramAccountMappingResponse scProgramAccountMappingResponse = new ScProgramAccountMappingResponse();
         ScProgramAccountMappingDTO scProgramAccountMappingDTO = scProgramAccountMappingRepository.getByScProgramAccountMappingIdAndActive(id,true);
@@ -215,7 +201,7 @@ public class ScProgramAccountMappingService {
         return scProgramAccountMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -245,6 +231,7 @@ public class ScProgramAccountMappingService {
         log.info("Entity is ",scProgramAccountMappingDTOS);
         return convertPageableDTOToMapResponse(scProgramAccountMappingDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScProgramAccountMappingDTO> activeScProgramAccountMapping) {
         Map<String, Object> response = new HashMap<>();
 

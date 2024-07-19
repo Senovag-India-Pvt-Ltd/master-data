@@ -44,20 +44,6 @@ public class MarketMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public MarketMasterResponse getMarketMasterDetails(String marketMasterName){
-        MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
-        MarketMaster marketMaster = marketMasterRepository.findByMarketMasterNameAndActive(marketMasterName,true);
-        if(marketMaster==null){
-            marketMasterResponse.setError(true);
-            marketMasterResponse.setError_description("Market not found");
-        }else{
-            marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster, MarketMasterResponse.class);
-            marketMasterResponse.setError(false);
-        }
-        log.info("Entity is ",marketMaster);
-        return marketMasterResponse;
-    }
 
     @Transactional
     public MarketMasterResponse insertMarketMasterDetails(MarketMasterRequest marketMasterRequest){
@@ -80,11 +66,9 @@ public class MarketMasterService {
         return marketMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMarketMasterDetails(final Pageable pageable){
         return convertToMapResponse(marketMasterRepository.findByActiveOrderByMarketMasterIdAsc( true, pageable));
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(marketMasterRepository.findByActiveOrderByMarketMasterNameAsc(isActive));
     }
@@ -111,7 +95,6 @@ public class MarketMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedMarketMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(marketMasterRepository.getByActiveOrderByMarketMasterIdAsc( true, pageable));
     }
@@ -144,7 +127,6 @@ public class MarketMasterService {
         return marketMasterResponse;
     }
 
-    @Transactional
     public MarketMasterResponse getById(int id){
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMaster marketMaster = marketMasterRepository.findByMarketMasterIdAndActive(id,true);
@@ -159,7 +141,6 @@ public class MarketMasterService {
         return marketMasterResponse;
     }
 
-    @Transactional
     public MarketMasterResponse getByIdJoin(int id) {
         MarketMasterResponse marketMasterResponse = new MarketMasterResponse();
         MarketMasterDTO marketMasterDTO = marketMasterRepository.getByMarketMasterIdAndActive(id, true);
@@ -236,7 +217,6 @@ public class MarketMasterService {
         return marketMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -35,20 +35,6 @@ public class SoilTypeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public SoilTypeResponse getSoilTypeDetails(String soilTypeName){
-        SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
-        SoilType soilType = soilTypeRepository.findBySoilTypeNameAndActive(soilTypeName,true);
-        if(soilType==null){
-            soilTypeResponse.setError(true);
-            soilTypeResponse.setError_description("Soil Type not found");
-        }else{
-            soilTypeResponse = mapper.soilTypeEntityToObject(soilType, SoilTypeResponse.class);
-            soilTypeResponse.setError(false);
-        }
-        log.info("Entity is ",soilType);
-        return soilTypeResponse;
-    }
 
     @Transactional
     public SoilTypeResponse insertSoilTypeDetails(SoilTypeRequest soilTypeRequest){
@@ -71,12 +57,10 @@ public class SoilTypeService {
         return soilTypeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSoilTypeDetails(final Pageable pageable){
         return convertToMapResponse(soilTypeRepository.findByActiveOrderBySoilTypeNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(soilTypeRepository.findByActive(isActive));
     }
@@ -119,7 +103,6 @@ public class SoilTypeService {
         return soilTypeResponse;
     }
 
-    @Transactional
     public SoilTypeResponse getById(int id){
         SoilTypeResponse soilTypeResponse = new SoilTypeResponse();
         SoilType soilType = soilTypeRepository.findBySoilTypeIdAndActive(id,true);

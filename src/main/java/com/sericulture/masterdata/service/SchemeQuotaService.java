@@ -56,12 +56,10 @@ public class SchemeQuotaService {
         return schemeQuotaResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getSchemeQuota(final Pageable pageable){
         return convertToMapResponse(schemeQuotaRepository.findByActiveOrderBySchemeQuotaIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(schemeQuotaRepository.findByActive(isActive));
     }
@@ -88,7 +86,6 @@ public class SchemeQuotaService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedSchemeQuotaWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(schemeQuotaRepository.getByActiveOrderBySchemeQuotaIdAsc( true, pageable));
     }
@@ -122,7 +119,6 @@ public class SchemeQuotaService {
         return schemeQuotaResponse;
     }
 
-    @Transactional
     public SchemeQuotaResponse getById(int id){
         SchemeQuotaResponse schemeQuotaResponse = new SchemeQuotaResponse();
         SchemeQuota schemeQuota = schemeQuotaRepository.findBySchemeQuotaIdAndActive(id,true);
@@ -139,25 +135,6 @@ public class SchemeQuotaService {
         return schemeQuotaResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<SchemeQuotaDTO> schemeQuotaList = schemeQuotaRepository.getSchemeQuota(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(schemeQuotaList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", schemeQuotaList);
-//            response = convertListToMapResponse(schemeQuotaList);
-//            return response;
-//        }
-//    }
-
-
-
-    @Transactional
     public SchemeQuotaResponse getByIdJoin(int id){
         SchemeQuotaResponse schemeQuotaResponse = new SchemeQuotaResponse();
         SchemeQuotaDTO schemeQuotaDTO = schemeQuotaRepository.getBySchemeQuotaIdAndActive(id,true);
@@ -172,7 +149,6 @@ public class SchemeQuotaService {
         return schemeQuotaResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getSchemeQuotaByScSchemeDetailsId(Long scSchemeDetailsId) {
         Map<String, Object> response = new HashMap<>();
         List<SchemeQuota> schemeQuotaList = schemeQuotaRepository.findByScSchemeDetailsIdAndActiveOrderBySchemeQuotaNameAsc(scSchemeDetailsId, true);
@@ -238,7 +214,7 @@ public class SchemeQuotaService {
         return schemeQuotaResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -268,6 +244,7 @@ public class SchemeQuotaService {
         log.info("Entity is ",SchemeQuotaDTOS);
         return convertPageableDTOToMapResponse(SchemeQuotaDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<SchemeQuotaDTO> activeSchemeQuota) {
         Map<String, Object> response = new HashMap<>();
 

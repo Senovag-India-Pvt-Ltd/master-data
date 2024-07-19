@@ -41,20 +41,7 @@ public class RaceMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public RaceMasterResponse getRaceMasterDetails(String raceMasterName){
-        RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
-        RaceMaster raceMaster = raceMasterRepository.findByRaceMasterNameAndActive(raceMasterName,true);
-        if(raceMaster==null){
-            raceMasterResponse.setError(true);
-            raceMasterResponse.setError_description("Race not found");
-        }else{
-            raceMasterResponse = mapper.raceMasterEntityToObject(raceMaster, RaceMasterResponse.class);
-            raceMasterResponse.setError(false);
-        }
-        log.info("Entity is ",raceMaster);
-        return raceMasterResponse;
-    }
+
 
     @Transactional
     public RaceMasterResponse insertRaceMasterDetails(RaceMasterRequest raceMasterRequest){
@@ -77,12 +64,10 @@ public class RaceMasterService {
         return raceMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRaceMasterDetails(final Pageable pageable){
         return convertToMapResponse(raceMasterRepository.findByActiveOrderByRaceMasterIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(raceMasterRepository.findByActiveOrderByRaceMasterNameAsc(isActive));
     }
@@ -109,7 +94,6 @@ public class RaceMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRaceMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(raceMasterRepository.getByActiveOrderByRaceMasterIdAsc( true, pageable));
     }
@@ -143,7 +127,6 @@ public class RaceMasterService {
         return raceMasterResponse;
     }
 
-    @Transactional
     public RaceMasterResponse getById(int id){
         RaceMaster raceMaster = raceMasterRepository.findByRaceMasterIdAndActive(id,true);
         if(raceMaster == null){
@@ -153,7 +136,6 @@ public class RaceMasterService {
         return mapper.raceMasterEntityToObject(raceMaster,RaceMasterResponse.class);
     }
 
-    @Transactional
     public RaceMasterResponse getByIdJoin(int id){
         RaceMasterResponse raceMasterResponse = new RaceMasterResponse();
         RaceMasterDTO raceMasterDTO = raceMasterRepository.getByRaceMasterIdAndActive(id,true);
@@ -168,7 +150,6 @@ public class RaceMasterService {
         return raceMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByMarketMasterId(int marketMasterId){
         Map<String, Object> response = new HashMap<>();
         List<RaceMaster> raceMasterList = raceMasterRepository.findByMarketMasterIdAndActive(marketMasterId,true);
@@ -219,7 +200,6 @@ public class RaceMasterService {
         return raceMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

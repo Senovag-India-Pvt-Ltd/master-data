@@ -268,4 +268,15 @@ public class VillageController {
         rw.setContent(villageService.searchByColumnAndSort(searchWithSortRequest));
         return ResponseEntity.ok(rw);
     }
+
+    @PostMapping("/searchVillageDetails")
+    public ResponseEntity<?> searchVillageDetails(
+            @RequestParam(required = false) Long districtId,
+            @RequestParam(required = false) Long talukId,
+            @RequestParam(required = false) Long hobliId,
+            @RequestParam(required = false) String villageName,
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "50") int pageSize) {
+        return villageService.searchVillageDetails(districtId, talukId,hobliId,villageName, pageNumber, pageSize);
+    }
 }

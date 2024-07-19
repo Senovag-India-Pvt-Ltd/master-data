@@ -59,12 +59,10 @@ public class DeputedInstituteMasterService {
         return deputedInstituteMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDeputedInstituteDetails(final Pageable pageable){
         return convertToMapResponse(deputedInstituteMasterRepository.findByActiveOrderByDeputedInstituteNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(deputedInstituteMasterRepository.findByActiveOrderByDeputedInstituteNameAsc(isActive));
     }
@@ -107,7 +105,6 @@ public class DeputedInstituteMasterService {
         return deputedInstituteMasterResponse;
     }
 
-    @Transactional
     public DeputedInstituteMasterResponse getById(int id){
         DeputedInstituteMasterResponse deputedInstituteMasterResponse = new DeputedInstituteMasterResponse();
         DeputedInstituteMaster deputedInstituteMaster = deputedInstituteMasterRepository.findByDeputedInstituteIdAndActive(id,true);
