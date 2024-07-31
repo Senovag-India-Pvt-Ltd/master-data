@@ -62,12 +62,11 @@ public class ScProgramApprovalMappingService {
         return scProgramApprovalMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getScProgramApprovalMappingDetails(final Pageable pageable){
         return convertToMapResponse(scProgramApprovalMappingRepository.findByActiveOrderByScProgramApprovalMappingIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scProgramApprovalMappingRepository.findByActive(isActive));
     }
@@ -94,7 +93,7 @@ public class ScProgramApprovalMappingService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getPaginatedScProgramApprovalMappingWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scProgramApprovalMappingRepository.getByActiveOrderByScProgramApprovalMappingIdAsc( true, pageable));
     }
@@ -128,7 +127,6 @@ public class ScProgramApprovalMappingService {
         return scProgramApprovalMappingResponse;
     }
 
-    @Transactional
     public ScProgramApprovalMappingResponse getById(int id){
         ScProgramApprovalMappingResponse scProgramApprovalMappingResponse = new ScProgramApprovalMappingResponse();
         ScProgramApprovalMapping scProgramApprovalMapping = scProgramApprovalMappingRepository.findByScProgramApprovalMappingIdAndActive(id,true);
@@ -145,21 +143,6 @@ public class ScProgramApprovalMappingService {
         return scProgramApprovalMappingResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<ScProgramApprovalMappingDTO> scProgramApprovalMappingList = scProgramApprovalMappingRepository.getScProgramApprovalMapping(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(scProgramApprovalMappingList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", scProgramApprovalMappingList);
-//            response = convertListToMapResponse(scProgramApprovalMappingList);
-//            return response;
-//        }
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<ScProgramApprovalMappingDTO> scProgramApprovalMappingList) {
         Map<String, Object> response = new HashMap<>();
@@ -170,7 +153,6 @@ public class ScProgramApprovalMappingService {
         return response;
     }
 
-    @Transactional
     public ScProgramApprovalMappingResponse getByIdJoin(int id){
         ScProgramApprovalMappingResponse scProgramApprovalMappingResponse = new ScProgramApprovalMappingResponse();
         ScProgramApprovalMappingDTO scProgramApprovalMappingDTO = scProgramApprovalMappingRepository.getByScProgramApprovalMappingIdAndActive(id,true);
@@ -217,7 +199,7 @@ public class ScProgramApprovalMappingService {
         return scProgramApprovalMappingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");
@@ -247,6 +229,7 @@ public class ScProgramApprovalMappingService {
         log.info("Entity is ",scProgramApprovalMappingDTOS);
         return convertPageableDTOToMapResponse(scProgramApprovalMappingDTOS);
     }
+
     private Map<String, Object> convertPageableDTOToMapResponse(final Page<ScProgramApprovalMappingDTO> activeScProgramApprovalMapping) {
         Map<String, Object> response = new HashMap<>();
 

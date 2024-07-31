@@ -58,12 +58,10 @@ public class ScComponentService {
         return scComponentResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScComponentDetails(final Pageable pageable){
         return convertToMapResponse(scComponentRepository.findByActiveOrderByScComponentNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScComponentWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(scComponentRepository.getByActiveOrderByScComponentIdAsc( true, pageable));
     }
@@ -81,7 +79,6 @@ public class ScComponentService {
     }
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scComponentRepository.findByActive(isActive));
     }
@@ -124,7 +121,6 @@ public class ScComponentService {
         return scComponentResponse;
     }
 
-    @Transactional
     public ScComponentResponse getById(int id){
         ScComponentResponse scComponentResponse = new ScComponentResponse();
         ScComponent scComponent = scComponentRepository.findByScComponentIdAndActive(id,true);
@@ -139,7 +135,6 @@ public class ScComponentService {
         return scComponentResponse;
     }
 
-    @Transactional
     public ScComponentResponse getByIdJoin(int id){
         ScComponentResponse scComponentResponse = new ScComponentResponse();
         ScComponentDTO scComponentDTO = scComponentRepository.getByScComponentIdAndActive(id,true);

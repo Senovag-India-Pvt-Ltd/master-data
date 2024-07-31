@@ -55,12 +55,10 @@ public class TsReleaseBudgetInstitutionService {
         return tsReleaseBudgetInstitutionResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsReleaseBudgetInstitutionDetails(final Pageable pageable){
         return convertToMapResponse(tsReleaseBudgetInstitutionRepository.findByActiveOrderByTsReleaseBudgetInstitutionIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsReleaseBudgetInstitutionRepository.findByActive(isActive));
     }
@@ -87,7 +85,6 @@ public class TsReleaseBudgetInstitutionService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsReleaseBudgetInstitutionWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsReleaseBudgetInstitutionRepository.getByActiveOrderByTsReleaseBudgetInstitutionIdAsc( true, pageable));
     }
@@ -121,7 +118,6 @@ public class TsReleaseBudgetInstitutionService {
         return tsReleaseBudgetInstitutionResponse;
     }
 
-    @Transactional
     public TsReleaseBudgetInstitutionResponse getById(int id){
         TsReleaseBudgetInstitutionResponse tsReleaseBudgetInstitutionResponse = new TsReleaseBudgetInstitutionResponse();
         TsReleaseBudgetInstitution tsReleaseBudgetInstitution = tsReleaseBudgetInstitutionRepository.findByTsReleaseBudgetInstitutionIdAndActive(id,true);
@@ -138,25 +134,7 @@ public class TsReleaseBudgetInstitutionService {
         return tsReleaseBudgetInstitutionResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsReleaseBudgetInstitutionDTO> tsReleaseBudgetInstitutionList = tsReleaseBudgetInstitutionRepository.getTsReleaseBudgetInstitution(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsReleaseBudgetInstitutionList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsReleaseBudgetInstitutionList);
-//            response = convertListToMapResponse(tsReleaseBudgetInstitutionList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsReleaseBudgetInstitutionResponse getByIdJoin(int id){
         TsReleaseBudgetInstitutionResponse tsReleaseBudgetInstitutionResponse = new TsReleaseBudgetInstitutionResponse();
         TsReleaseBudgetInstitutionDTO tsReleaseBudgetInstitutionDTO = tsReleaseBudgetInstitutionRepository.getByTsReleaseBudgetInstitutionIdAndActive(id,true);
@@ -171,25 +149,6 @@ public class TsReleaseBudgetInstitutionService {
         return tsReleaseBudgetInstitutionResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsReleaseBudgetInstitutionByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsReleaseBudgetInstitutionDTO> tsReleaseBudgetInstitutionList = tsReleaseBudgetInstitutionRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsReleaseBudgetInstitutionList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsReleaseBudgetInstitutionList);
-//            response = convertListDTOToMapResponse(tsReleaseBudgetInstitutionList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsReleaseBudgetInstitution> tsReleaseBudgetInstitutionList) {
         Map<String, Object> response = new HashMap<>();
@@ -243,7 +202,6 @@ public class TsReleaseBudgetInstitutionService {
         return tsReleaseBudgetInstitutionResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

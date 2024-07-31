@@ -36,20 +36,7 @@ public class ReasonLotRejectMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ReasonLotRejectMasterResponse getReasonLotRejectMasterDetails(String reasonLotRejectMasterName){
-        ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
-        ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectNameAndActive(reasonLotRejectMasterName,true);
-        if(reasonLotRejectMaster==null){
-            reasonLotRejectMasterResponse.setError(true);
-            reasonLotRejectMasterResponse.setError_description("Reason for lot rejection is not found");
-        }else{
-            reasonLotRejectMasterResponse = mapper.reasonLotRejectEntityToObject(reasonLotRejectMaster, ReasonLotRejectMasterResponse.class);
-            reasonLotRejectMasterResponse.setError(false);
-        }
-        log.info("Entity is ",reasonLotRejectMaster);
-        return reasonLotRejectMasterResponse;
-    }
+
 
     @Transactional
     public ReasonLotRejectMasterResponse insertReasonLotRejectMasterDetails(ReasonLotRejectMasterRequest reasonLotRejectMasterRequest){
@@ -72,12 +59,10 @@ public class ReasonLotRejectMasterService {
         return reasonLotRejectMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedReasonLotRejectMasterDetails(final Pageable pageable){
         return convertToMapResponse(reasonLotRejectMasterRepository.findByActiveOrderByReasonLotRejectNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(reasonLotRejectMasterRepository.findByActiveOrderByReasonLotRejectNameAsc(isActive));
     }
@@ -121,7 +106,6 @@ public class ReasonLotRejectMasterService {
         return reasonLotRejectMasterResponse;
     }
 
-    @Transactional
     public ReasonLotRejectMasterResponse getById(int id){
         ReasonLotRejectMasterResponse reasonLotRejectMasterResponse = new ReasonLotRejectMasterResponse();
         ReasonLotRejectMaster reasonLotRejectMaster = reasonLotRejectMasterRepository.findByReasonLotRejectIdAndActive(id,true);

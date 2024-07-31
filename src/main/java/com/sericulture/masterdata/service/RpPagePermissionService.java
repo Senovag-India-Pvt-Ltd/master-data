@@ -48,12 +48,10 @@ public class RpPagePermissionService {
         return mapper.rpPagePermissionEntityToObject(rpPagePermissionRepository.save(rpPagePermission),RpPagePermissionResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRpPagePermissionDetails(final Pageable pageable){
         return convertToMapResponse(rpPagePermissionRepository.findByActiveOrderByRpPagePermissionIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(rpPagePermissionRepository.findByActiveOrderByPageNameAsc(isActive));
     }
@@ -96,7 +94,6 @@ public class RpPagePermissionService {
         return rpPagePermissionResponse;
     }
 
-    @Transactional
     public RpPagePermissionResponse getById(int id){
         RpPagePermissionResponse rpPagePermissionResponse = new RpPagePermissionResponse();
         RpPagePermission rpPagePermission = rpPagePermissionRepository.findByRpPagePermissionIdAndActive(id,true);

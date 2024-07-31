@@ -31,20 +31,7 @@ public class WorkingInstitutionService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public WorkingInstitutionResponse getWorkingInstitutionDetails(String workingInstitutionName){
-        WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
-        WorkingInstitution workingInstitution = workingInstitutionRepository.findByWorkingInstitutionNameAndActive(workingInstitutionName,true);
-        if(workingInstitution==null){
-            workingInstitutionResponse.setError(true);
-            workingInstitutionResponse.setError_description("Working Institution not found");
-        }else{
-            workingInstitutionResponse = mapper.workingInstitutionEntityToObject(workingInstitution,WorkingInstitutionResponse.class);
-            workingInstitutionResponse.setError(false);
-        }
-        log.info("Entity is ",workingInstitution);
-        return workingInstitutionResponse;
-    }
+
 
     @Transactional
     public WorkingInstitutionResponse insertWorkingInstitutionDetails(WorkingInstitutionRequest workingInstitutionRequest){
@@ -66,12 +53,10 @@ public class WorkingInstitutionService {
         return workingInstitutionResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedWorkingInstitutionDetails(final Pageable pageable){
         return convertToMapResponse(workingInstitutionRepository.findByActiveOrderByWorkingInstitutionNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(workingInstitutionRepository.findByActiveOrderByWorkingInstitutionNameAsc(isActive));
     }
@@ -115,7 +100,6 @@ public class WorkingInstitutionService {
         return workingInstitutionResponse;
     }
 
-    @Transactional
     public WorkingInstitutionResponse getById(int id){
         WorkingInstitutionResponse workingInstitutionResponse = new WorkingInstitutionResponse();
         WorkingInstitution workingInstitution = workingInstitutionRepository.findByWorkingInstitutionIdAndActive(id,true);

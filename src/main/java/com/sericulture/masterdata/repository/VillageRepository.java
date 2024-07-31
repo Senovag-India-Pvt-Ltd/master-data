@@ -133,4 +133,59 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
             "(:joinColumn = 'hobli.hobliName' AND hobli.hobliName LIKE :searchText)"
     )
     public Page<VillageDTO> getSortedVillages(@Param("joinColumn") String joinColumn, @Param("searchText") String searchText, @Param("isActive") boolean isActive, Pageable pageable);
+
+    @Query(nativeQuery = true, value = """
+    SELECT
+        v.village_id AS villageId,
+        s.state_name AS stateName,
+        d.district_name AS districtName,
+        t.taluk_name AS talukName,
+        h.hobli_name AS hobliName,
+        v.village_name AS villageName,
+        v.village_name_in_kannada AS villageNameInKannada,
+        v.lg_village AS lgVillage,
+        v.code AS villageCode
+    FROM
+        village v
+    LEFT JOIN
+        state s ON v.state_id = s.state_id
+    LEFT JOIN
+        district d ON v.district_id = d.district_id
+    LEFT JOIN
+        taluk t ON v.taluk_id = t.taluk_id
+    LEFT JOIN
+        hobli h ON v.hobli_id = h.hobli_id
+    WHERE
+       (:districtId IS NULL OR v.district_id = :districtId) AND
+       (:talukId IS NULL OR v.taluk_id = :talukId) AND
+       (:hobliId IS NULL OR v.hobli_id = :hobliId) AND
+       (:villageName IS NULL OR v.village_name = :villageName)
+   ORDER BY v.village_name ASC
+""", countQuery = """
+    SELECT COUNT(*)
+    FROM
+        village v
+    LEFT JOIN
+        state s ON v.state_id = s.state_id
+    LEFT JOIN
+        district d ON v.district_id = d.district_id
+    LEFT JOIN
+        taluk t ON v.taluk_id = t.taluk_id
+    LEFT JOIN
+        hobli h ON v.hobli_id = h.hobli_id
+    WHERE
+        (:districtId IS NULL OR v.district_id = :districtId) AND
+        (:talukId IS NULL OR v.taluk_id = :talukId) AND
+        (:hobliId IS NULL OR v.hobli_id = :hobliId) AND
+        (:villageName IS NULL OR v.village_name = :villageName)
+        
+""")
+    Page<Object[]> getVillageDetails(
+            @Param("districtId") Long districtId,
+            @Param("talukId") Long talukId,
+            @Param("hobliId") Long hobliId,
+            @Param("villageName") String villageName,
+            Pageable pageable);
+
+
 }

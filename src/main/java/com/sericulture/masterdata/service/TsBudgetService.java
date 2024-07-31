@@ -54,12 +54,10 @@ public class TsBudgetService {
         return tsBudgetResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsBudgetDetails(final Pageable pageable){
         return convertToMapResponse(tsBudgetRepository.findByActiveOrderByTsBudgetIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsBudgetRepository.findByActive(isActive));
     }
@@ -86,7 +84,6 @@ public class TsBudgetService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsBudgetWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsBudgetRepository.getByActiveOrderByTsBudgetIdAsc( true, pageable));
     }
@@ -120,7 +117,6 @@ public class TsBudgetService {
         return tsBudgetResponse;
     }
 
-    @Transactional
     public TsBudgetResponse getById(int id){
         TsBudgetResponse tsBudgetResponse = new TsBudgetResponse();
         TsBudget tsBudget = tsBudgetRepository.findByTsBudgetIdAndActive(id,true);
@@ -137,25 +133,7 @@ public class TsBudgetService {
         return tsBudgetResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetDTO> tsBudgetList = tsBudgetRepository.getTsBudget(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsBudgetList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsBudgetList);
-//            response = convertListToMapResponse(tsBudgetList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsBudgetResponse getByIdJoin(int id){
         TsBudgetResponse tsBudgetResponse = new TsBudgetResponse();
         TsBudgetDTO tsBudgetDTO = tsBudgetRepository.getByTsBudgetIdAndActive(id,true);
@@ -170,25 +148,6 @@ public class TsBudgetService {
         return tsBudgetResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsBudgetByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsBudgetDTO> tsBudgetList = tsBudgetRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsBudgetList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsBudgetList);
-//            response = convertListDTOToMapResponse(tsBudgetList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsBudget> tsBudgetList) {
         Map<String, Object> response = new HashMap<>();
@@ -240,7 +199,6 @@ public class TsBudgetService {
         return tsBudgetResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

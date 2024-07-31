@@ -34,20 +34,6 @@ public class StateService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public StateResponse getStateDetails(String stateName){
-        StateResponse stateResponse = new StateResponse();
-        State state = stateRepository.findByStateNameAndActive(stateName,true);
-        if(state==null){
-            stateResponse.setError(true);
-            stateResponse.setError_description("State not found");
-        }else{
-            stateResponse = mapper.stateEntityToObject(state,StateResponse.class);
-            stateResponse.setError(false);
-        }
-        log.info("Entity is ",state);
-        return stateResponse;
-    }
 
     @Transactional
     public StateResponse insertStateDetails(StateRequest stateRequest){
@@ -69,12 +55,10 @@ public class StateService {
         return stateResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedStateDetails(final Pageable pageable){
         return convertToMapResponse(stateRepository.findByActiveOrderByStateNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(stateRepository.findByActiveOrderByStateNameAsc(isActive));
     }
@@ -118,7 +102,6 @@ public class StateService {
             return stateResponse;
     }
 
-    @Transactional
     public StateResponse getById(int id){
             StateResponse stateResponse = new StateResponse();
             State state = stateRepository.findByStateIdAndActive(id,true);

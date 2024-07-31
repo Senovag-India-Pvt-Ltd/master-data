@@ -37,7 +37,6 @@ public class HdStatusMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdStatusMasterResponse getHdStatusMasterDetails(String hdStatusName){
         HdStatusMasterResponse hdStatusMasterResponse = new HdStatusMasterResponse();
         HdStatusMaster hdStatusMaster = hdStatusMasterRepository.findByHdStatusNameAndActive(hdStatusName, true);
@@ -73,13 +72,11 @@ public class HdStatusMasterService {
         return hdStatusMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdStatusMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdStatusMasterRepository.findByActiveOrderByHdStatusNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdStatusMasterRepository.findByActiveOrderByHdStatusNameAsc(isActive));
     }
@@ -123,7 +120,6 @@ public class HdStatusMasterService {
         return hdStatusMasterResponse;
     }
 
-    @Transactional
     public HdStatusMasterResponse getById(int id){
         HdStatusMasterResponse hdStatusMasterResponse = new HdStatusMasterResponse();
         HdStatusMaster hdStatusMaster = hdStatusMasterRepository.findByHdStatusIdAndActive(id,true);

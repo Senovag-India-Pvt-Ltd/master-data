@@ -63,11 +63,10 @@ public class TrTrainingService {
         return mapper.trTrainingEntityToObject(trTrainingRepository.save(trTraining),TrTrainingResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrTrainingDetails(final Pageable pageable){
         return convertToMapResponse(trTrainingRepository.findByActiveOrderByTrTrainingIdAsc( true, pageable));
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trTrainingRepository.findByActiveOrderByTrTrainingIdAsc(isActive));
     }
@@ -94,7 +93,6 @@ public class TrTrainingService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrTrainingDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(trTrainingRepository.getByActiveOrderByTrTrainingIdAsc( true, pageable));
     }
@@ -127,7 +125,6 @@ public class TrTrainingService {
         return trTrainingResponse;
     }
 
-    @Transactional
     public TrTrainingResponse getById(int id){
         TrTrainingResponse trTrainingResponse = new TrTrainingResponse();
         TrTraining trTraining = trTrainingRepository.findByTrTrainingIdAndActive(id,true);
@@ -142,7 +139,6 @@ public class TrTrainingService {
         return trTrainingResponse;
     }
 
-    @Transactional
     public TrTrainingResponse getByIdJoin(int id) {
         TrTrainingResponse trTrainingResponse = new TrTrainingResponse();
         TrTrainingDTO  trTrainingDTO = trTrainingRepository.getByTrTrainingIdAndActive(id, true);
@@ -195,7 +191,6 @@ public class TrTrainingService {
         return trTrainingResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

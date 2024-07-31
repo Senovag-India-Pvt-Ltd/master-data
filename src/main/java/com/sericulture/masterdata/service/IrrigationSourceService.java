@@ -35,7 +35,6 @@ public class IrrigationSourceService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public IrrigationSourceResponse getIrrigationSourceDetails(String irrigationSourceName){
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceNameAndActive(irrigationSourceName,true);
@@ -71,12 +70,10 @@ public class IrrigationSourceService {
         return irrigationSourceResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedIrrigationSourceDetails(final Pageable pageable){
         return convertToMapResponse(irrigationSourceRepository.findByActiveOrderByIrrigationSourceNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(irrigationSourceRepository.findByActive(isActive));
     }
@@ -119,7 +116,6 @@ public class IrrigationSourceService {
         return irrigationSourceResponse;
     }
 
-    @Transactional
     public IrrigationSourceResponse getById(int id){
         IrrigationSourceResponse irrigationSourceResponse = new IrrigationSourceResponse();
         IrrigationSource irrigationSource = irrigationSourceRepository.findByIrrigationSourceIdAndActive(id,true);

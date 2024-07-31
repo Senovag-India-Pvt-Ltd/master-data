@@ -53,12 +53,11 @@ public class RejectReasonWorkFlowMasterService {
         return rejectReasonWorkFlowMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRejectReasonWorkFlowMasterDetails(final Pageable pageable){
         return convertToMapResponse(rejectReasonWorkFlowMasterRepository.findByActiveOrderByReasonAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(rejectReasonWorkFlowMasterRepository.findByActiveOrderByReasonAsc(isActive));
     }
@@ -102,7 +101,6 @@ public class RejectReasonWorkFlowMasterService {
         return rejectReasonWorkFlowMasterResponse;
     }
 
-    @Transactional
     public RejectReasonWorkFlowMasterResponse getById(long rejectReasonWorkFlowMasterId){
         RejectReasonWorkFlowMasterResponse rejectReasonWorkFlowMasterResponse = new RejectReasonWorkFlowMasterResponse();
         RejectReasonWorkFlowMaster rejectReasonWorkFlowMaster = rejectReasonWorkFlowMasterRepository.findByRejectReasonWorkFlowMasterIdAndActive(rejectReasonWorkFlowMasterId,true);

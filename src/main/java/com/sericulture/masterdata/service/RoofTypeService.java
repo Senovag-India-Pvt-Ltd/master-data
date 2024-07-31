@@ -35,20 +35,6 @@ public class RoofTypeService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public RoofTypeResponse getRoofTypeDetails(String roofTypeName){
-        RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
-        RoofType roofType = roofTypeRepository.findByRoofTypeNameAndActive(roofTypeName,true);
-        if(roofType==null){
-            roofTypeResponse.setError(true);
-            roofTypeResponse.setError_description("Roof Type not found");
-        }else{
-            roofTypeResponse = mapper.roofTypeEntityToObject(roofType, RoofTypeResponse.class);
-            roofTypeResponse.setError(false);
-        }
-        log.info("Entity is ",roofType);
-        return roofTypeResponse;
-    }
 
     @Transactional
     public RoofTypeResponse insertRoofTypeDetails(RoofTypeRequest roofTypeRequest){
@@ -71,12 +57,10 @@ public class RoofTypeService {
         return roofTypeResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRoofTypeDetails(final Pageable pageable){
         return convertToMapResponse(roofTypeRepository.findByActiveOrderByRoofTypeNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(roofTypeRepository.findByActive(isActive));
     }
@@ -119,7 +103,6 @@ public class RoofTypeService {
         return roofTypeResponse;
     }
 
-    @Transactional
     public RoofTypeResponse getById(int id){
         RoofTypeResponse roofTypeResponse = new RoofTypeResponse();
         RoofType roofType = roofTypeRepository.findByRoofTypeIdAndActive(id,true);

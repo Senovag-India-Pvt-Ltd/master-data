@@ -63,11 +63,10 @@ public class TrainingDeputationTrackerService {
         return mapper.trainingDeputationTrackerEntityToObject(trainingDeputationTrackerRepository.save(trainingDeputationTracker),TrainingDeputationTrackerResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrainingDeputationTrackerDetails(final Pageable pageable){
         return convertToMapResponse(trainingDeputationTrackerRepository.findByActiveOrderByTrainingDeputationIdAsc( true, pageable));
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trainingDeputationTrackerRepository.findByActiveOrderByOfficialNameAsc(isActive));
     }
@@ -94,7 +93,6 @@ public class TrainingDeputationTrackerService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrainingDeputationTrackerDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(trainingDeputationTrackerRepository.getByActiveOrderByTrainingDeputationIdAsc( true, pageable));
     }
@@ -127,7 +125,6 @@ public class TrainingDeputationTrackerService {
         return trainingDeputationTrackerResponse;
     }
 
-    @Transactional
     public TrainingDeputationTrackerResponse getById(int id){
         TrainingDeputationTrackerResponse trainingDeputationTrackerResponse = new TrainingDeputationTrackerResponse();
         TrainingDeputationTracker trainingDeputationTracker = trainingDeputationTrackerRepository.findByTrainingDeputationIdAndActive(id,true);
@@ -142,7 +139,6 @@ public class TrainingDeputationTrackerService {
         return trainingDeputationTrackerResponse;
     }
 
-    @Transactional
     public TrainingDeputationTrackerResponse getByIdJoin(int id) {
         TrainingDeputationTrackerResponse trainingDeputationTrackerResponse = new TrainingDeputationTrackerResponse();
         TrainingDeputationTrackerDTO trainingDeputationTrackerDTO = trainingDeputationTrackerRepository.getByTrainingDeputationIdAndActive(id, true);
@@ -193,7 +189,6 @@ public class TrainingDeputationTrackerService {
         return trainingDeputationTrackerResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

@@ -35,7 +35,6 @@ public class HdSeverityMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdSeverityMasterResponse getHdSeverityMasterDetails(String hdSeverityName){
         HdSeverityMasterResponse hdSeverityMasterResponse = new HdSeverityMasterResponse();
         HdSeverityMaster hdSeverityMaster = hdSeverityMasterRepository.findByHdSeverityNameAndActive(hdSeverityName, true);
@@ -71,13 +70,11 @@ public class HdSeverityMasterService {
         return hdSeverityMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdSeverityMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdSeverityMasterRepository.findByActiveOrderByHdSeverityNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdSeverityMasterRepository.findByActiveOrderByHdSeverityNameAsc(isActive));
     }
@@ -121,7 +118,6 @@ public class HdSeverityMasterService {
         return hdSeverityMasterResponse;
     }
 
-    @Transactional
     public HdSeverityMasterResponse getById(int id){
         HdSeverityMasterResponse hdSeverityMasterResponse = new HdSeverityMasterResponse();
         HdSeverityMaster hdSeverityMaster = hdSeverityMasterRepository.findByHdSeverityIdAndActive(id,true);

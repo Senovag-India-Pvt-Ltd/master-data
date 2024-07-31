@@ -55,12 +55,10 @@ public class TsReleaseBudgetTalukService {
         return tsReleaseBudgetTalukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getTsReleaseBudgetTalukDetails(final Pageable pageable){
         return convertToMapResponse(tsReleaseBudgetTalukRepository.findByActiveOrderByTsReleaseBudgetTalukIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(tsReleaseBudgetTalukRepository.findByActive(isActive));
     }
@@ -87,7 +85,6 @@ public class TsReleaseBudgetTalukService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTsReleaseBudgetTalukWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(tsReleaseBudgetTalukRepository.getByActiveOrderByTsReleaseBudgetTalukIdAsc( true, pageable));
     }
@@ -121,7 +118,6 @@ public class TsReleaseBudgetTalukService {
         return tsReleaseBudgetTalukResponse;
     }
 
-    @Transactional
     public TsReleaseBudgetTalukResponse getById(int id){
         TsReleaseBudgetTalukResponse tsReleaseBudgetTalukResponse = new TsReleaseBudgetTalukResponse();
         TsReleaseBudgetTaluk tsReleaseBudgetTaluk = tsReleaseBudgetTalukRepository.findByTsReleaseBudgetTalukIdAndActive(id,true);
@@ -138,25 +134,7 @@ public class TsReleaseBudgetTalukService {
         return tsReleaseBudgetTalukResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByScProgramId(long scProgramId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsReleaseBudgetTalukDTO> tsReleaseBudgetTalukList = tsReleaseBudgetTalukRepository.getTsReleaseBudgetTaluk(scProgramId,true);
-//        // List<RaceMarketMasterDTO> raceMarketMasterList = new ArrayList<>();
-//        if(tsReleaseBudgetTalukList.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            log.info("Entity is ", tsReleaseBudgetTalukList);
-//            response = convertListToMapResponse(tsReleaseBudgetTalukList);
-//            return response;
-//        }
-//    }
 
-
-
-    @Transactional
     public TsReleaseBudgetTalukResponse getByIdJoin(int id){
         TsReleaseBudgetTalukResponse tsReleaseBudgetTalukResponse = new TsReleaseBudgetTalukResponse();
         TsReleaseBudgetTalukDTO tsReleaseBudgetTalukDTO = tsReleaseBudgetTalukRepository.getByTsReleaseBudgetTalukIdAndActive(id,true);
@@ -171,25 +149,6 @@ public class TsReleaseBudgetTalukService {
         return tsReleaseBudgetTalukResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String, Object> getTsReleaseBudgetTalukByFinancialYearMasterId(Long financialYearMasterId) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TsReleaseBudgetTalukDTO> tsReleaseBudgetTalukList = tsReleaseBudgetTalukRepository.getByFinancialYearMasterIdAndActive(financialYearMasterId, true);
-//        if (tsReleaseBudgetTalukList.isEmpty()) {
-////            throw new ValidationException("Invalid Id");
-//            response.put("error", "Error");
-//            response.put("error_description", "Invalid id");
-//            response.put("success", false);
-//            return response;
-//        } else {
-//            log.info("Entity is ", tsReleaseBudgetTalukList);
-//            response = convertListDTOToMapResponse(tsReleaseBudgetTalukList);
-//            response.put("success", true);
-//            return response;
-//
-//        }
-//
-//    }
 
     private Map<String, Object> convertListToMapResponse(List<TsReleaseBudgetTaluk> tsReleaseBudgetTalukList) {
         Map<String, Object> response = new HashMap<>();
@@ -244,7 +203,6 @@ public class TsReleaseBudgetTalukService {
         return tsReleaseBudgetTalukResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

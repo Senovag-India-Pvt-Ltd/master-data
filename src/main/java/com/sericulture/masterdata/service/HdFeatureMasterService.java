@@ -43,7 +43,6 @@ public class HdFeatureMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdFeatureMasterResponse getHdFeatureMasterDetails(String hdFeatureName){
         HdFeatureMasterResponse hdFeatureMasterResponse = new HdFeatureMasterResponse();
         HdFeatureMaster hdFeatureMaster = hdFeatureMasterRepository.findByHdFeatureNameAndActive(hdFeatureName,true);
@@ -79,12 +78,10 @@ public class HdFeatureMasterService {
         return hdFeatureMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdFeatureMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdFeatureMasterRepository.findByActiveOrderByHdFeatureIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdFeatureMasterRepository.findByActiveOrderByHdFeatureNameAsc(isActive));
     }
@@ -111,7 +108,6 @@ public class HdFeatureMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdFeatureMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(hdFeatureMasterRepository.getByActiveOrderByHdFeatureIdAsc( true, pageable));
     }
@@ -145,7 +141,6 @@ public class HdFeatureMasterService {
         return hdFeatureMasterResponse;
     }
 
-    @Transactional
     public HdFeatureMasterResponse getById(int id){
         HdFeatureMaster hdFeatureMaster = hdFeatureMasterRepository.findByHdFeatureIdAndActive(id,true);
         if(hdFeatureMaster == null){
@@ -155,7 +150,6 @@ public class HdFeatureMasterService {
         return mapper.hdFeatureMasterEntityToObject(hdFeatureMaster,HdFeatureMasterResponse.class);
     }
 
-    @Transactional
     public HdFeatureMasterResponse getByIdJoin(int id){
         HdFeatureMasterResponse hdFeatureMasterResponse = new HdFeatureMasterResponse();
         HdFeatureMasterDTO hdFeatureMasterDTO = hdFeatureMasterRepository.getByHdFeatureIdAndActive(id,true);
@@ -170,7 +164,6 @@ public class HdFeatureMasterService {
         return hdFeatureMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByHdModuleId(int hdModuleId){
         Map<String, Object> response = new HashMap<>();
         List<HdFeatureMaster> hdFeatureMasterList = hdFeatureMasterRepository.findByHdModuleIdAndActive(hdModuleId,true);
@@ -220,7 +213,6 @@ public class HdFeatureMasterService {
         return hdFeatureMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

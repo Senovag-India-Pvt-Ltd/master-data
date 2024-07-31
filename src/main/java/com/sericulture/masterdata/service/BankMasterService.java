@@ -55,12 +55,10 @@ public class BankMasterService {
         return bankMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedBankMasterDetails(final Pageable pageable){
         return convertToMapResponse(bankMasterRepository.findByActiveOrderByBankNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(bankMasterRepository.findByActive(isActive));
     }
@@ -104,7 +102,6 @@ public class BankMasterService {
         return bankMasterResponse;
     }
 
-    @Transactional
     public BankMasterResponse getById(int id){
         BankMasterResponse bankMasterResponse = new BankMasterResponse();
         BankMaster bankMaster= bankMasterRepository.findByBankMasterIdAndActive(id, true);

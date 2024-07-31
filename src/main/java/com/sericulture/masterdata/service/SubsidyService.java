@@ -120,7 +120,6 @@ public class SubsidyService {
         return subsidyResponse;
     }
 
-    @Transactional
     public SubsidyResponse getById(int id){
         SubsidyResponse subsidyResponse = new SubsidyResponse();
         Subsidy subsidy = subsidyRepository.findBySubsidyIdAndActive(id,true);

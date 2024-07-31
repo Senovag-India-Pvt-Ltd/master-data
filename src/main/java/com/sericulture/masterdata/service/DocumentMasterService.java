@@ -36,7 +36,6 @@ public class DocumentMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public DocumentMasterResponse getDocumentMasterDetails(String documentMasterName){
         DocumentMasterResponse documentMasterResponse = new DocumentMasterResponse();
         DocumentMaster documentMaster = documentMasterRepository.findByDocumentMasterNameAndActive(documentMasterName,true);
@@ -71,12 +70,10 @@ public class DocumentMasterService {
         return documentMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDocumentMasterDetails(final Pageable pageable){
         return convertToMapResponse(documentMasterRepository.findByActiveOrderByDocumentMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(documentMasterRepository.findByActive(isActive));
     }
@@ -120,7 +117,7 @@ public class DocumentMasterService {
         return documentMasterResponse;
     }
 
-    @Transactional
+
     public DocumentMasterResponse getById(int id){
         DocumentMasterResponse documentMasterResponse = new DocumentMasterResponse();
         DocumentMaster documentMaster = documentMasterRepository.findByDocumentMasterIdAndActive(id,true);

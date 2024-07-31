@@ -60,12 +60,10 @@ public class VendorMasterService {
         return vendorMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedVendorMasterDetails(final Pageable pageable){
         return convertToMapResponse(vendorMasterRepository.findByActiveOrderByVendorMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(vendorMasterRepository.findByActive(isActive));
     }
@@ -108,7 +106,6 @@ public class VendorMasterService {
         return vendorMasterResponse;
     }
 
-    @Transactional
     public VendorMasterResponse getById(int id){
         VendorMasterResponse vendorMasterResponse = new VendorMasterResponse();
         VendorMaster vendorMaster = vendorMasterRepository.findByVendorMasterIdAndActive(id,true);

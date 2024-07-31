@@ -48,12 +48,10 @@ public class UserHierarchyMappingService {
         return mapper.userHierarchyMappingEntityToObject(userHierarchyMappingRepository.save(userHierarchyMapping), UserHierarchyMappingResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedUserHierarchyMappingDetails(final Pageable pageable){
         return convertToMapResponse(userHierarchyMappingRepository.findByActiveOrderByUserHierarchyMappingIdAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(userHierarchyMappingRepository.findByActive(isActive));
     }
@@ -80,42 +78,6 @@ public class UserHierarchyMappingService {
         return response;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getPaginatedUserHierarchyMappingDetailsWithJoin(final Pageable pageable){
-//        return convertDTOToMapResponse(userHierarchyMappingRepository.getByActiveOrderByUserHierarchyMappingIdAsc( true, pageable));
-//    }
-//
-//    private Map<String, Object> convertDTOToMapResponse(final Page<UserHierarchyMappingDTO> activeUserHierarchyMappings) {
-//        Map<String, Object> response = new HashMap<>();
-//
-//        List<UserHierarchyMappingResponse> userHierarchyMappingResponses = activeUserHierarchyMappings.getContent().stream()
-//                .map(userHierarchyMapping -> mapper.userHierarchyMappingDTOToObject(userHierarchyMapping,UserHierarchyMappingResponse.class)).collect(Collectors.toList());
-//        response.put("userHierarchyMapping",userHierarchyMappingResponses);
-//        response.put("currentPage", activeUserHierarchyMappings.getNumber());
-//        response.put("totalItems", activeUserHierarchyMappings.getTotalElements());
-//        response.put("totalPages", activeUserHierarchyMappings.getTotalPages());
-//        return response;
-//    }
-
-//    @Transactional
-//    public UserHierarchyMappingResponse getByIdJoin(int id){
-//        UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
-//        UserHierarchyMappingDTO userHierarchyMappingDTO = userHierarchyMappingRepository.getByUserHierarchyMappingIdAndActive(id,true);
-//        if(userHierarchyMappingDTO == null){
-////            throw new ValidationException("Invalid Id");
-////        }
-////        log.info("Entity is ", userMasterDTO);
-////        return mapper.userMasterDTOToObject(userMasterDTO, UserMasterResponse.class);
-//            userHierarchyMappingResponse.setError(true);
-//            userHierarchyMappingResponse.setError_description("Invalid id");
-//        }else{
-//            userHierarchyMappingResponse =  mapper.userHierarchyMappingDTOToObject(userHierarchyMappingDTO,UserHierarchyMappingResponse.class);
-//            userHierarchyMappingResponse.setError(false);
-//        }
-//        log.info("Entity is ",userHierarchyMappingDTO);
-//        return userHierarchyMappingResponse;
-//    }
-
     @Transactional
     public UserHierarchyMappingResponse deleteUserHierarchyMappingDetails(long id) {
         UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
@@ -132,7 +94,6 @@ public class UserHierarchyMappingService {
         return userHierarchyMappingResponse;
     }
 
-    @Transactional
     public UserHierarchyMappingResponse getById(int id){
         UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
         UserHierarchyMapping userHierarchyMapping = userHierarchyMappingRepository.findByUserHierarchyMappingIdAndActive(id,true);
@@ -173,31 +134,5 @@ public class UserHierarchyMappingService {
         return userHierarchyMappingResponse;
     }
 
-//    @Transactional
-//    public UserHierarchyMappingResponse updateUserHierarchyMappingDetails(EditUserHierarchyMappingRequest userHierarchyMappingRequest) {
-//        UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
-//        UserHierarchyMapping userHierarchyMapping = userHierarchyMappingRepository.findByUserMasterIdAndActive(
-//                userHierarchyMappingRequest.getUserMasterId(), true);
-//        if (Objects.nonNull(userHierarchyMapping)){
-//            userHierarchyMapping.setGodownId(userHierarchyMappingRequest.getGodownId());
-//            // Other fields to update if needed
-//            userHierarchyMapping.setActive(true);
-//
-//            UserHierarchyMapping updatedUserHierarchyMapping = userHierarchyMappingRepository.save(userHierarchyMapping);
-//            userHierarchyMappingResponse = mapper.userHierarchyMappingEntityToObject(updatedUserHierarchyMapping, UserHierarchyMappingResponse.class);
-//            userHierarchyMappingResponse.setError(false);
-//        }else if(userHierarchyMapping==null){
-//            UserHierarchyMapping newUserHierarchyMapping = new UserHierarchyMapping();
-//            newUserHierarchyMapping.setUserMasterId(userHierarchyMappingRequest.getUserMasterId());
-//            newUserHierarchyMapping.setGodownId(userHierarchyMappingRequest.getGodownId());
-//            newUserHierarchyMapping.setActive(true);
-//            UserHierarchyMapping savedUserHierarchyMapping = userHierarchyMappingRepository.save(newUserHierarchyMapping);
-//            userHierarchyMappingResponse = mapper.userHierarchyMappingEntityToObject(savedUserHierarchyMapping, UserHierarchyMappingResponse.class);
-//            userHierarchyMappingResponse.setError(false);
-//        }else {
-//            userHierarchyMappingResponse.setError(true);
-//            userHierarchyMappingResponse.setError_description("Error occurred while fetching userHierarchyMapping");
-//        }
-//        return userHierarchyMappingResponse;
-//    }
+
 }

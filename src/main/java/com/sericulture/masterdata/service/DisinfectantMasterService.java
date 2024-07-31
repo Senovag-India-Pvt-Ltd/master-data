@@ -37,7 +37,6 @@ public class DisinfectantMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public DisinfectantMasterResponse getDisinfectantMasterDetails(String disinfectantMasterName){
         DisinfectantMasterResponse disinfectantMasterResponse = new DisinfectantMasterResponse();
         DisinfectantMaster disinfectantMaster = disinfectantMasterRepository.findByDisinfectantMasterNameAndActive(disinfectantMasterName, true);
@@ -73,13 +72,11 @@ public class DisinfectantMasterService {
         return disinfectantMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDisinfectantMasterDetails(final Pageable pageable){
         return convertToMapResponse(disinfectantMasterRepository.findByActiveOrderByDisinfectantMasterNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(disinfectantMasterRepository.findByActiveOrderByDisinfectantMasterNameAsc(isActive));
     }
@@ -123,7 +120,6 @@ public class DisinfectantMasterService {
         return disinfectantMasterResponse;
     }
 
-    @Transactional
     public DisinfectantMasterResponse getById(int id){
         DisinfectantMasterResponse disinfectantMasterResponse = new DisinfectantMasterResponse();
         DisinfectantMaster disinfectantMaster = disinfectantMasterRepository.findByDisinfectantMasterIdAndActive(id,true);

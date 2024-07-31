@@ -29,7 +29,6 @@ public class DivisionMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public DivisionMasterResponse getDivisionMasterDetails(String name){
         DivisionMasterResponse divisionMasterResponse = new DivisionMasterResponse();
         DivisionMaster divisionMaster= divisionMasterRepository.findByNameAndActive(name,true);
@@ -64,12 +63,10 @@ public class DivisionMasterService {
         return divisionMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedDivisionMasterDetails(final Pageable pageable){
         return convertToMapResponse(divisionMasterRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(divisionMasterRepository.findByActive(isActive));
     }
@@ -113,7 +110,7 @@ public class DivisionMasterService {
         return divisionMasterResponse;
     }
 
-    @Transactional
+
     public DivisionMasterResponse getById(int id){
         DivisionMasterResponse divisionMasterResponse = new DivisionMasterResponse();
         DivisionMaster divisionMaster= divisionMasterRepository.findByDivisionMasterIdAndActive(id, true);

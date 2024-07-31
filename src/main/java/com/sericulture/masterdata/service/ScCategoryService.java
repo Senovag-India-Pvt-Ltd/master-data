@@ -40,20 +40,7 @@ public class ScCategoryService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public ScCategoryResponse getScCategoryDetails(String categoryName){
-        ScCategoryResponse scCategoryResponse = new ScCategoryResponse();
-        ScCategory scCategory= scCategoryRepository.findByCategoryNameAndActive(categoryName,true);
-        if(scCategory==null){
-            scCategoryResponse.setError(true);
-            scCategoryResponse.setError_description("Program not found");
-        }else{
-            scCategoryResponse = mapper.scCategoryEntityToObject(scCategory,ScCategoryResponse.class);
-            scCategoryResponse.setError(false);
-        }
-        log.info("Entity is ",scCategory);
-        return scCategoryResponse;
-    }
+
 
     @Transactional
     public ScCategoryResponse insertScCategoryDetails(ScCategoryRequest scCategoryRequest){
@@ -75,12 +62,10 @@ public class ScCategoryService {
         return scCategoryResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScCategoryDetails(final Pageable pageable){
         return convertToMapResponse(scCategoryRepository.findByActiveOrderByCategoryNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scCategoryRepository.findByActive(isActive));
     }
@@ -124,7 +109,6 @@ public class ScCategoryService {
         return scCategoryResponse;
     }
 
-    @Transactional
     public ScCategoryResponse getById(int id){
         ScCategoryResponse scCategoryResponse = new ScCategoryResponse();
         ScCategory scCategory= scCategoryRepository.findByScCategoryIdAndActive(id, true);

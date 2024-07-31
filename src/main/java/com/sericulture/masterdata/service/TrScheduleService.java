@@ -66,13 +66,11 @@ public class TrScheduleService {
         return mapper.trScheduleEntityToObject(trScheduleRepository.save(trSchedule), TrScheduleResponse.class);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrScheduleDetails(final Pageable pageable){
         return convertToMapResponse(trScheduleRepository.findByActiveOrderByTrNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trScheduleRepository.findByActiveOrderByTrNameAsc(isActive));
     }
@@ -99,7 +97,6 @@ public class TrScheduleService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrScheduleDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(trScheduleRepository.getByActiveOrderByTrScheduleIdAsc( true, pageable));
     }
@@ -134,7 +131,6 @@ public class TrScheduleService {
         return trScheduleResponse;
     }
 
-    @Transactional
     public TrScheduleResponse getById(int id){
         TrScheduleResponse trScheduleResponse = new TrScheduleResponse();
         TrSchedule trSchedule = trScheduleRepository.findByTrScheduleIdAndActive(id,true);
@@ -149,7 +145,6 @@ public class TrScheduleService {
         return trScheduleResponse;
     }
 
-    @Transactional
     public TrScheduleResponse getByIdJoin(int id) {
         TrScheduleResponse trScheduleResponse= new TrScheduleResponse();
         TrScheduleDTO trScheduleDTO = trScheduleRepository.getByTrScheduleIdAndActive(id, true);
@@ -165,32 +160,6 @@ public class TrScheduleService {
         return trScheduleResponse;
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public Map<String,Object> getByUserMasterIdJoin(int userMasterId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<TrScheduleDTO> trScheduleDTO = trScheduleRepository.getByUserMasterIdAndActive(userMasterId, true);
-//        if(trScheduleDTO.isEmpty()){
-//            response.put("error","Error");
-//            response.put("error_description","Invalid id");
-//            return response;
-//        }else {
-//            response = convertListDTOToMapResponse(trScheduleDTO);
-//            return response;
-//
-//        }
-//
-//    }
-//
-//    private Map<String, Object> convertListDTOToMapResponse(List<TrScheduleDTO> trScheduleDTOList) {
-//        Map<String, Object> response = new HashMap<>();
-//        List<TrScheduleResponse> trScheduleResponses = trScheduleDTOList.stream()
-//                .map(trScheduleDTO -> mapper.trScheduleDTOToObject(trScheduleDTO, TrScheduleResponse.class)).collect(Collectors.toList());
-//        response.put("trSchedule", trScheduleResponses);
-//        response.put("totalItems", trScheduleDTOList.size());
-//        return response;
-//    }
-
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public  Map<String, Object> getByUserMasterId(Long userMasterId) {
         Map<String, Object> response = new HashMap<>();
         List<TrScheduleDTO> trScheduleDTOS = trScheduleRepository.getByUserMasterIdAndActive(userMasterId,true);
@@ -214,7 +183,6 @@ public class TrScheduleService {
     }
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByUserMasterId(int UserMasterId) {
         Map<String, Object> response = new HashMap<>();
         List<TrSchedule> trScheduleList = trScheduleRepository.findByUserMasterIdAndActive(UserMasterId, true);
@@ -279,7 +247,6 @@ public class TrScheduleService {
         return trScheduleResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest){
         if(searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")){
             searchWithSortRequest.setSearchText("%%");

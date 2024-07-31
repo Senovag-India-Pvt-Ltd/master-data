@@ -62,12 +62,10 @@ public class TrCourseMasterService {
         return trCourseMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTrCourseMasterDetails(final Pageable pageable){
         return convertToMapResponse(trCourseMasterRepository.findByActiveOrderByTrCourseMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(trCourseMasterRepository.findByActive(isActive));
     }
@@ -111,7 +109,6 @@ public class TrCourseMasterService {
         return trCourseMasterResponse;
     }
 
-    @Transactional
     public TrCourseMasterResponse getById(int id){
         TrCourseMasterResponse trCourseMasterResponse = new TrCourseMasterResponse();
         TrCourseMaster trCourseMaster= trCourseMasterRepository.findByTrCourseMasterIdAndActive(id,true);

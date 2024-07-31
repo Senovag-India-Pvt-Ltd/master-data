@@ -28,7 +28,6 @@ public class FinancialYearMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public FinancialYearMasterResponse getFinancialYearMasterDetails(String financialYear){
         FinancialYearMasterResponse financialYearMasterResponse = new FinancialYearMasterResponse();
         FinancialYearMaster financialYearMaster= financialYearMasterRepository.findByFinancialYearAndActive(financialYear,true);
@@ -70,12 +69,10 @@ public class FinancialYearMasterService {
         return financialYearMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedFinancialYearMasterDetails(final Pageable pageable){
         return convertToMapResponse(financialYearMasterRepository.findByActiveOrderByFinancialYearAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(financialYearMasterRepository.findByActive(isActive));
     }
@@ -134,7 +131,7 @@ public class FinancialYearMasterService {
         return financialYearMasterResponse;
     }
 
-    @Transactional
+
     public FinancialYearMasterResponse getById(int id){
         FinancialYearMasterResponse financialYearMasterResponse = new FinancialYearMasterResponse();
         FinancialYearMaster financialYearMaster= financialYearMasterRepository.findByFinancialYearMasterIdAndActive(id, true);

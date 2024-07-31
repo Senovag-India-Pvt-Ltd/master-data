@@ -35,7 +35,6 @@ public class HdBoardCategoryMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdBoardCategoryMasterResponse getHdBoardCategoryMasterDetails(String hdBoardCategoryName){
         HdBoardCategoryMasterResponse hdBoardCategoryMasterResponse = new HdBoardCategoryMasterResponse();
         HdBoardCategoryMaster hdBoardCategoryMaster = hdBoardCategoryMasterRepository.findByHdBoardCategoryNameAndActive(hdBoardCategoryName, true);
@@ -71,13 +70,11 @@ public class HdBoardCategoryMasterService {
         return hdBoardCategoryMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdBoardCategoryMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdBoardCategoryMasterRepository.findByActiveOrderByHdBoardCategoryNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdBoardCategoryMasterRepository.findByActiveOrderByHdBoardCategoryNameAsc(isActive));
     }
@@ -121,7 +118,6 @@ public class HdBoardCategoryMasterService {
         return hdBoardCategoryMasterResponse;
     }
 
-    @Transactional
     public HdBoardCategoryMasterResponse getById(int id){
         HdBoardCategoryMasterResponse hdBoardCategoryMasterResponse = new HdBoardCategoryMasterResponse();
         HdBoardCategoryMaster hdBoardCategoryMaster = hdBoardCategoryMasterRepository.findByHdBoardCategoryIdAndActive(id,true);

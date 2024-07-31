@@ -57,13 +57,11 @@ public class GenerationNumberMasterService {
         return generationNumberMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedGenerationNumberMasterDetails(final Pageable pageable){
         return convertToMapResponse(generationNumberMasterRepository.findByActiveOrderByGenerationNumberAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(generationNumberMasterRepository.findByActiveOrderByGenerationNumberAsc(isActive));
     }
@@ -107,7 +105,7 @@ public class GenerationNumberMasterService {
         return generationNumberMasterResponse;
     }
 
-    @Transactional
+
     public GenerationNumberMasterResponse getById(int id){
         GenerationNumberMasterResponse generationNumberMasterResponse = new GenerationNumberMasterResponse();
         GenerationNumberMaster generationNumberMaster = generationNumberMasterRepository.findByGenerationNumberIdAndActive(id,true);

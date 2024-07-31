@@ -61,12 +61,10 @@ public class RaceMarketMasterService {
         return raceMarketMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRaceMarketMasterDetails(final Pageable pageable){
         return convertToMapResponse(raceMarketMasterRepository.findByActiveOrderByRaceMarketMasterIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(raceMarketMasterRepository.findByActive(isActive));
     }
@@ -93,7 +91,6 @@ public class RaceMarketMasterService {
         return response;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedRaceMarketMasterDetailsWithJoin(final Pageable pageable){
         return convertDTOToMapResponse(raceMarketMasterRepository.getByActiveOrderByRaceMarketMasterIdAsc( true, pageable));
     }
@@ -127,7 +124,6 @@ public class RaceMarketMasterService {
         return raceMarketMasterResponse;
     }
 
-    @Transactional
     public RaceMarketMasterResponse getById(int id){
         RaceMarketMasterResponse raceMarketMasterResponse = new RaceMarketMasterResponse();
         RaceMarketMaster raceMarketMaster = raceMarketMasterRepository.findByRaceMarketMasterIdAndActive(id,true);
@@ -144,7 +140,6 @@ public class RaceMarketMasterService {
         return raceMarketMasterResponse;
     }
 
-    @Transactional
     public RaceMarketMasterResponse getByIdJoin(int id){
         RaceMarketMasterResponse raceMarketMasterResponse = new RaceMarketMasterResponse();
         RaceMarketMasterDTO raceMarketMasterDTO = raceMarketMasterRepository.getByRaceMarketMasterIdAndActive(id,true);
@@ -187,7 +182,6 @@ public class RaceMarketMasterService {
         return raceMarketMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getByMarketMasterId(long marketMasterId){
         Map<String, Object> response = new HashMap<>();
         List<RaceMarketMasterDTO> raceMarketMasterList = raceMarketMasterRepository.getRaceMaster(marketMasterId,true);

@@ -60,12 +60,10 @@ public class EducationService {
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedEducationDetails(final Pageable pageable) {
         return convertToMapResponse(educationRepository.findByActiveOrderByNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(educationRepository.findByActive(isActive));
     }
@@ -111,7 +109,6 @@ public class EducationService {
         return educationResponse;
     }
 
-    @Transactional
     public EducationResponse getById(long id) {
         EducationResponse educationResponse = new EducationResponse();
         Education education = educationRepository.findByIdAndActive(id, true);

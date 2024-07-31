@@ -53,12 +53,10 @@ public class WormStageMasterService {
         return wormStageMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedWormStageMasterDetails(final Pageable pageable){
         return convertToMapResponse(wormStageMasterRepository.findByActiveOrderByWormStageMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(wormStageMasterRepository.findByActiveOrderByWormStageMasterNameAsc(isActive));
     }
@@ -102,7 +100,6 @@ public class WormStageMasterService {
         return wormStageMasterResponse;
     }
 
-    @Transactional
     public WormStageMasterResponse getById(int id){
         WormStageMasterResponse wormStageMasterResponse = new WormStageMasterResponse();
         WormStageMaster wormStageMaster = wormStageMasterRepository.findByWormStageMasterIdAndActive(id,true);

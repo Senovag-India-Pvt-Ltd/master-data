@@ -54,12 +54,10 @@ public class TraderTypeMasterService {
         return traderTypeMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedTraderTypeMasterDetails(final Pageable pageable){
         return convertToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(traderTypeMasterRepository.findByActiveOrderByTraderTypeMasterNameAsc(isActive));
     }
@@ -102,7 +100,7 @@ public class TraderTypeMasterService {
         return traderTypeMasterResponse;
     }
 
-    @Transactional
+
     public TraderTypeMasterResponse getById(int id){
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActive(id,true);

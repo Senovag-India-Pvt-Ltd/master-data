@@ -42,7 +42,6 @@ public class HdQuestionMasterService {
     @Autowired
     CustomValidator validator;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public HdQuestionMasterResponse getHdQuestionMasterDetails(String hdQuestionName){
         HdQuestionMasterResponse hdQuestionMasterResponse = new HdQuestionMasterResponse();
         HdQuestionMaster hdQuestionMaster = hdQuestionMasterRepository.findByHdQuestionNameAndActive(hdQuestionName, true);
@@ -78,13 +77,11 @@ public class HdQuestionMasterService {
         return hdQuestionMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedHdQuestionMasterDetails(final Pageable pageable){
         return convertToMapResponse(hdQuestionMasterRepository.findByActiveOrderByHdQuestionNameAsc( true,pageable ));
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(hdQuestionMasterRepository.findByActiveOrderByHdQuestionNameAsc(isActive));
     }
@@ -128,7 +125,6 @@ public class HdQuestionMasterService {
         return hdQuestionMasterResponse;
     }
 
-    @Transactional
     public HdQuestionMasterResponse getById(int id){
         HdQuestionMasterResponse hdQuestionMasterResponse = new HdQuestionMasterResponse();
         HdQuestionMaster hdQuestionMaster = hdQuestionMasterRepository.findByHdQuestionIdAndActive(id,true);
@@ -173,7 +169,6 @@ public class HdQuestionMasterService {
         return hdQuestionMasterResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> searchByColumnAndSort(SearchWithSortRequest searchWithSortRequest) {
         if (searchWithSortRequest.getSearchText() == null || searchWithSortRequest.getSearchText().equals("")) {
             searchWithSortRequest.setSearchText("%%");

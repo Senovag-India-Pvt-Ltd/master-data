@@ -62,12 +62,10 @@ public class ScApprovalStageService {
         return scApprovalStageResponse;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getPaginatedScApprovalStageDetails(final Pageable pageable){
         return convertToMapResponse(scApprovalStageRepository.findByActiveOrderByStageNameAsc( true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getAllByActive(boolean isActive){
         return convertListEntityToMapResponse(scApprovalStageRepository.findByActive(isActive));
     }
@@ -111,7 +109,6 @@ public class ScApprovalStageService {
         return scApprovalStageResponse;
     }
 
-    @Transactional
     public ScApprovalStageResponse getById(int id){
         ScApprovalStageResponse scApprovalStageResponse = new ScApprovalStageResponse();
         ScApprovalStage scApprovalStage= scApprovalStageRepository.findByScApprovalStageIdAndActive(id, true);

@@ -57,12 +57,10 @@ public class RpRolePermissionService {
 
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getPaginatedRpRolePermissionDetails(final Pageable pageable) {
         return convertToMapResponse(rpRolePermissionRepository.findByActiveOrderByRpRolePermissionIdAsc(true, pageable));
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, Object> getAllByActive(boolean isActive) {
         return convertListEntityToMapResponse(rpRolePermissionRepository.findByActive(isActive));
     }
@@ -105,7 +103,6 @@ public class RpRolePermissionService {
         return rpRolePermissionResponse;
     }
 
-    @Transactional
     public RpRolePermissionResponse getById(int id) {
         RpRolePermissionResponse rpRolePermissionResponse = new RpRolePermissionResponse();
         RpRolePermission rpRolePermission = rpRolePermissionRepository.findByRpRolePermissionIdAndActive(id, true);
