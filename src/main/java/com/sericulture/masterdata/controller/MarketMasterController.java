@@ -5,7 +5,10 @@ import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.marketMaster.EditMarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
+import com.sericulture.masterdata.model.api.tscMaster.TscMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
+import com.sericulture.masterdata.model.dto.MarketMasterDTO;
+import com.sericulture.masterdata.model.dto.TscMasterDTO;
 import com.sericulture.masterdata.service.MarketMasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -225,6 +228,16 @@ public class MarketMasterController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(marketMasterService.searchByColumnAndSort(searchWithSortRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @PostMapping("/get-market-by-districtId")
+    public ResponseEntity<?> getByAndDistrictId(
+            @Valid @RequestBody final MarketMasterDTO marketMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(MarketMasterResponse.class);
+
+        rw.setContent(marketMasterService.getMarketByDistrictId(marketMasterDTO.getDistrictId()));
         return ResponseEntity.ok(rw);
     }
 

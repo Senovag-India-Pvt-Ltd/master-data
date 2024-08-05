@@ -6,9 +6,11 @@ import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterResponse;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceResponse;
 import com.sericulture.masterdata.model.api.taluk.TalukResponse;
+import com.sericulture.masterdata.model.api.tscMaster.TscMasterResponse;
 import com.sericulture.masterdata.model.api.village.VillageResponse;
 import com.sericulture.masterdata.model.dto.MarketMasterDTO;
 import com.sericulture.masterdata.model.dto.TalukDTO;
+import com.sericulture.masterdata.model.dto.TscMasterDTO;
 import com.sericulture.masterdata.model.dto.VillageDTO;
 import com.sericulture.masterdata.model.entity.MarketMaster;
 import com.sericulture.masterdata.model.entity.MulberrySource;
@@ -257,6 +259,29 @@ public class MarketMasterService {
         response.put("totalItems", activeMarkets.getTotalElements());
         response.put("totalPages", activeMarkets.getTotalPages());
 
+        return response;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getMarketByDistrictId(Long districtId) {
+        Map<String, Object> response = new HashMap<>();
+        List<MarketMasterDTO> marketMasterDTOS = marketMasterRepository.getByDistrictIdAndActive(districtId,true);
+        if(marketMasterDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", marketMasterDTOS);
+            response = convertDTOToMapResponse(marketMasterDTOS);
+        }
+        return response;
+    }
+
+    private Map<String, Object> convertDTOToMapResponse(List<MarketMasterDTO> marketMasterDTOS) {
+        Map<String, Object> response = new HashMap<>();
+        List<MarketMasterResponse> marketMasterResponses = marketMasterDTOS.stream()
+                .map(marketMasterDTO -> mapper.marketMasterDTOToObject(marketMasterDTO,MarketMasterResponse.class)).collect(Collectors.toList());
+        response.put("marketMaster",marketMasterResponses);
+        response.put("totalItems", marketMasterDTOS.size());
         return response;
     }
 }
