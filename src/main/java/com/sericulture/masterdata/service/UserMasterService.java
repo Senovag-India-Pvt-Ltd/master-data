@@ -2,13 +2,12 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
+import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.useMaster.*;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
-import com.sericulture.masterdata.model.entity.ExternalUnitRegistration;
-import com.sericulture.masterdata.model.entity.Reeler;
-import com.sericulture.masterdata.model.entity.ReelerTypeMaster;
-import com.sericulture.masterdata.model.entity.UserMaster;
+import com.sericulture.masterdata.model.entity.*;
+import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ExternalUnitRegistrationRepository;
 import com.sericulture.masterdata.repository.ReelerRepository;
@@ -181,6 +180,23 @@ public class UserMasterService {
         response.put("totalItems", userMasterDTOS.size());
         return response;
     }
+    public Map<String,Object> getUserByTscMasterId(Long tscMasterId){
+        List<UserMaster> userMasterList = userMasterRepository.findByTscMasterIdAndActive(tscMasterId,true);
+        if(userMasterList.isEmpty()){
+            throw new ValidationException("Invalid Id");
+        }
+        log.info("Entity is ",userMasterList);
+        return convertListToMapResponse(userMasterList);
+    }
+
+    private Map<String, Object> convertListToMapResponse(List<UserMaster> userMasterList) {
+        Map<String, Object> response = new HashMap<>();
+        List<UserMasterResponse> userMasterResponses = userMasterList.stream()
+                .map(userMaster -> mapper.userMasterEntityToObject(userMaster,UserMasterResponse.class)).collect(Collectors.toList());
+        response.put("userMaster",userMasterResponses);
+        response.put("totalItems", userMasterList.size());
+        return response;
+    }
 
 
 
@@ -342,6 +358,7 @@ public class UserMasterService {
             userMaster.setDeviceId(userMasterRequest.getDeviceId());
             userMaster.setDdoCode(userMasterRequest.getDdoCode());
             userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
+            userMaster.setTscMasterId(userMasterRequest.getTscMasterId());
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
