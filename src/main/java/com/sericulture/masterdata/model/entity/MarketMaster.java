@@ -140,4 +140,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     @Column(name = "payment_mode")
     private String paymentMode;
 
+    @Column(name="cocoon_age")
+    private Long cocoonAge;
+
 }

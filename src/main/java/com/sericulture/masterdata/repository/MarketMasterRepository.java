@@ -65,6 +65,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.snorkelRequestPath," +
             " marketMaster.snorkelResponsePath," +
             " marketMaster.clientCode," +
+            " marketMaster.cocoonAge," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -123,6 +124,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.snorkelRequestPath," +
             " marketMaster.snorkelResponsePath," +
             " marketMaster.clientCode," +
+            " marketMaster.cocoonAge," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -180,6 +182,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.snorkelRequestPath," +
             " marketMaster.snorkelResponsePath," +
             " marketMaster.clientCode," +
+            " marketMaster.cocoonAge," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -240,6 +243,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketMaster.snorkelRequestPath," +
             " marketMaster.snorkelResponsePath," +
             " marketMaster.clientCode," +
+            " marketMaster.cocoonAge," +
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +

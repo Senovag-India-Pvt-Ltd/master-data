@@ -146,4 +146,7 @@ public class MarketMasterResponse {
 
     @Schema(name = "paymentMode", example = "1")
     String paymentMode;
+
+    @Schema(name = "cocoonAge", example = "1")
+    Long cocoonAge;
 }
