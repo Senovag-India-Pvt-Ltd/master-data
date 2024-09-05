@@ -22,4 +22,7 @@ public class FarmMasterRequest extends RequestBody {
 
     @Schema(name = "userMasterId", example = "1")
     Long userMasterId;
+
+    @Schema(name = "isBsf", example = "yes")
+    String isBsf;
 }
