@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
+import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
 
     public List<UserMaster> findByActiveAndUserTypeId(boolean isActive, long userTypeId);
 
+    public List<UserMaster> findByTscMasterIdAndActive(long tscMasterId, boolean isActive);
+
+
     public List<UserMaster> findByActiveAndRoleId(boolean isActive, long roleId);
 
     public UserMaster findByUserMasterIdAndActiveIn(@Param("userMasterId") long userMasterId, @Param("active") Set<Boolean> active);
@@ -47,6 +51,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -79,6 +85,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive " +
             "ORDER BY userMaster.username ASC"
     )
@@ -96,6 +104,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -128,6 +138,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive AND userMaster.userMasterId = :id"
     )
     public UserMasterDTO getByUserMasterIdAndActive(long id, boolean isActive);
@@ -145,6 +157,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -177,6 +191,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive AND role.roleName = :roleName"
     )
     List<UserMasterDTO> getByActiveAndRoleName(@Param("isActive") boolean isActive,@Param("roleName")String roleName);
@@ -195,6 +211,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -228,6 +246,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive AND " +
             "(:joinColumn = 'userMaster.username' AND userMaster.username LIKE :searchText) OR " +
             "(:joinColumn = 'userMaster.phoneNumber' AND userMaster.phoneNumber LIKE :searchText)"
@@ -246,6 +266,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -278,6 +300,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.roleId = :roleId " +
             "and userMaster.talukId = :talukId")
@@ -295,6 +319,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -327,6 +353,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.designationId = :designationId " +
             "and userMaster.districtId = :districtId")
@@ -344,6 +372,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -376,6 +406,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.designationId = :designationId " +
             "and userMaster.talukId = :talukId " +
@@ -395,6 +427,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.talukId," +
             " userMaster.roleId," +
             " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name,"+
             " state.stateName," +
             " district.districtName," +
             " taluk.talukName," +
@@ -427,6 +461,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster " +
+            "on userMaster.tscMasterId = tscMaster.tscMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.designationId = :designationId " +
             "and userMaster.talukId = :talukId " +

@@ -12,56 +12,34 @@ import lombok.NoArgsConstructor;
 public class UserMasterDTO {
 
     private Long userMasterId;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "First name must contain only letters and numbers")
     private String firstName;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Middle name must contain only letters and numbers")
     private String middleName;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Last name must contain only letters and numbers")
     private String lastName;
     private String password;
-//    @Pattern(regexp = "^[a-zA-Z0-9.@]*$", message = "Email must contain only letters and numbers")
     private String emailID;
     private Long stateId;
     private Long districtId;
     private Long talukId;
     private Long roleId;
     private Long marketMasterId;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "State name must contain only letters and numbers")
+    private Long tscMasterId;
+    private String tscName;
     private String stateName;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "District name must contain only letters and numbers")
     private String districtName;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Taluk name must contain only letters and numbers")
     private String talukName;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Role name must contain only letters and numbers")
     private String roleName;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market master name must contain only letters and numbers")
     private String marketMasterName;
-//    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Username must contain only letters and numbers")
     private String username;
     private Long designationId;
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Name must contain only letters and numbers")
     private String name;
-
-//    @Pattern(regexp = "^[+0-9\\s]*$", message = "Phone number must contain only letters and numbers")
     private String phoneNumber;
-
     private int userType;
-
     private Long userTypeId;
-
-//    @Pattern(regexp = "^[a-zA-Z0-9-\\s]*$", message = "Device Id must contain only letters and numbers")
     private String deviceId;
-
     private Long workingInstitutionId;
-
     private String ddoCode;
-
-//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Working institution name must contain only letters and numbers")
     private String workingInstitutionName;
-
-//    @Pattern(regexp = "^[0-9\\s]*$", message = "OTP must contain only numbers")
     private String enteredOtpByUser; //User entered otp for verification
-    // Constructors (default and the one you've specified)
 //    public UserMasterDTO() {}
 //
 //    public UserMasterDTO(
