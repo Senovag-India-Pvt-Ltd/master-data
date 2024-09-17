@@ -21,6 +21,9 @@ public class ScApprovalStageResponse {
     @Schema(name = "stageNameInKannada", example = "ಕನ್ನಡ")
     String stageNameInKannada;
 
+    @Schema(name = "workFlowType", example = "1")
+    String workFlowType;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

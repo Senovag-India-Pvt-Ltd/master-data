@@ -157,6 +157,7 @@ public class ScApprovalStageService {
             if(Objects.nonNull(scApprovalStage)){
                 scApprovalStage.setStageName( scApprovalStageRequest.getStageName());
                 scApprovalStage.setStageNameInKannada(scApprovalStageRequest.getStageNameInKannada());
+                scApprovalStage.setWorkFlowType(scApprovalStageRequest.getWorkFlowType());
                 scApprovalStage.setActive(true);
                 ScApprovalStage scApprovalStage1= scApprovalStageRepository.save(scApprovalStage);
                 scApprovalStageResponse = mapper.scApprovalStageEntityToObject(scApprovalStage1, ScApprovalStageResponse.class);

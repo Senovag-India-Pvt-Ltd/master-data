@@ -29,4 +29,7 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = " stage_name_in_kannada", unique = true)
     private String stageNameInKannada;
+
+    @Column(name = "work_flow_type", unique = true)
+    private String workFlowType;
 }
