@@ -13,11 +13,14 @@ import lombok.*;
 @EqualsAndHashCode
 public class ScApprovalStageRequest extends RequestBody {
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Sc Approval name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Sc Approval name must contain only letters and numbers")
     @Schema(name = "stageName", example = "Karnataka", required = true)
     String stageName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Sc Approval name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Sc Approval name in kannada must contain only letters and numbers")
     @Schema(name = "stageNameInKannada", example = "ಕನ್ನಡ")
     String stageNameInKannada;
+
+    @Schema(name = "workFlowType", example = "1")
+    String workFlowType;
 }
