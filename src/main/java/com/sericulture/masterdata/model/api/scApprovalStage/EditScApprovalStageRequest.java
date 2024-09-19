@@ -25,4 +25,8 @@ public class EditScApprovalStageRequest extends RequestBody {
 
     @Schema(name = "workFlowType", example = "1")
     String workFlowType;
+
+    @Schema(name = "action", example = "true")
+    String action;
+
 }

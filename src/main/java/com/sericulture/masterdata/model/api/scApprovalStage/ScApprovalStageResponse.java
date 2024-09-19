@@ -24,6 +24,9 @@ public class ScApprovalStageResponse {
     @Schema(name = "workFlowType", example = "1")
     String workFlowType;
 
+    @Schema(name = "action", example = "action")
+    String action;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

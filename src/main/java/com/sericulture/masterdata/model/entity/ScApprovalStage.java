@@ -32,4 +32,7 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = "work_flow_type", unique = true)
     private String workFlowType;
+
+    @Column(name = "action", unique = true)
+    private String action;
 }

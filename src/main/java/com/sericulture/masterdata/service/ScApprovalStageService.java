@@ -145,7 +145,7 @@ public class ScApprovalStageService {
     public ScApprovalStageResponse updateScApprovalStageDetails(EditScApprovalStageRequest scApprovalStageRequest){
 
         ScApprovalStageResponse scApprovalStageResponse = new ScApprovalStageResponse();
-        List<ScApprovalStage> scApprovalStageList = scApprovalStageRepository. findByStageNameAndStageNameInKannadaAndScApprovalStageIdIsNot(scApprovalStageRequest.getStageName(), scApprovalStageRequest.getStageNameInKannada(),scApprovalStageRequest.getScApprovalStageId());
+            List<ScApprovalStage> scApprovalStageList = scApprovalStageRepository. findByStageNameAndStageNameInKannadaAndScApprovalStageIdIsNot(scApprovalStageRequest.getStageName(), scApprovalStageRequest.getStageNameInKannada(),scApprovalStageRequest.getScApprovalStageId());
         if(scApprovalStageList.size()>0){
             scApprovalStageResponse.setError(true);
             scApprovalStageResponse.setError_description("Sc Approval exists, duplicates are not allowed.");
@@ -158,6 +158,7 @@ public class ScApprovalStageService {
                 scApprovalStage.setStageName( scApprovalStageRequest.getStageName());
                 scApprovalStage.setStageNameInKannada(scApprovalStageRequest.getStageNameInKannada());
                 scApprovalStage.setWorkFlowType(scApprovalStageRequest.getWorkFlowType());
+                scApprovalStage.setAction(scApprovalStageRequest.getAction());
                 scApprovalStage.setActive(true);
                 ScApprovalStage scApprovalStage1= scApprovalStageRepository.save(scApprovalStage);
                 scApprovalStageResponse = mapper.scApprovalStageEntityToObject(scApprovalStage1, ScApprovalStageResponse.class);
