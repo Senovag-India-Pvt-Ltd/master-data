@@ -79,6 +79,9 @@ public class UserMasterResponse {
     @Schema(name = "userTypeId", example = "1")
     Long userTypeId;
 
+    @Schema(name = "tscMasterId", example = "1")
+    Long tscMasterId;
+
     @Schema(name = "deviceId", example = "998s3gf6478776655")
     String deviceId;
 
@@ -96,6 +99,9 @@ public class UserMasterResponse {
 
     @Schema(name = "maxReelerUsers", example = "1")
     Long maxReelerUsers;
+
+    @Schema(name = "tscName", example = "OBC")
+    private String tscName;
 
     @Schema(name = "error", example = "true")
     Boolean error;

@@ -133,4 +133,7 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "paymentMode", example = "1")
     String paymentMode;
 
+    @Schema(name = "cocoonAge", example = "1")
+    Long cocoonAge;
+
 }

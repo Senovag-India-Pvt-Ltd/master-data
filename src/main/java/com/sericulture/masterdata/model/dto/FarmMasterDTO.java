@@ -16,4 +16,5 @@ public class FarmMasterDTO {
     private String farmNameInKannada;
     private Long userMasterId;
     private String username;
+    private String isBsf;
 }

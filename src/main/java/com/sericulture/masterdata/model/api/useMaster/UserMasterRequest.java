@@ -2,6 +2,7 @@ package com.sericulture.masterdata.model.api.useMaster;
 
 import com.sericulture.masterdata.model.api.RequestBody;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
@@ -72,4 +73,8 @@ public class UserMasterRequest extends RequestBody {
 
     @Schema(name = "workingInstitutionId", example = "1")
     Long workingInstitutionId;
+
+    @Schema(name = "tscMasterId", example = "1")
+    Long tscMasterId;
+
 }

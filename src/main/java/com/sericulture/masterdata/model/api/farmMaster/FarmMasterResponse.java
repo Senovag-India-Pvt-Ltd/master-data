@@ -26,6 +26,9 @@ public class FarmMasterResponse {
     @Schema(name = "username", example = "test")
     String username;
 
+    @Schema(name = "isBsf", example = "yes")
+    String isBsf;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
