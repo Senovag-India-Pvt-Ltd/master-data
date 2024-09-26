@@ -31,6 +31,12 @@ public class ScSchemeDetailsResponse {
     @Schema(name = "dbtCode", example = "Karnataka", required = true)
     String dbtCode;
 
+    @Schema(name = "hectare", example = "1")
+    Boolean hectare;
+
+    @Schema(name = "spacing", example = "1")
+    Boolean spacing;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -129,6 +129,8 @@ public class ScSchemeDetailsService {
                 scSchemeDetails.setSchemeNameInKannada( scSchemeDetailsRequest.getSchemeNameInKannada());
                 scSchemeDetails.setSchemeStartDate( scSchemeDetailsRequest.getSchemeStartDate());
                 scSchemeDetails.setSchemeEndDate( scSchemeDetailsRequest.getSchemeEndDate());
+                scSchemeDetails.setSpacing( scSchemeDetailsRequest.getSpacing());
+                scSchemeDetails.setHectare( scSchemeDetailsRequest.getHectare());
                 scSchemeDetails.setDbtCode(scSchemeDetailsRequest.getDbtCode());
 
                 scSchemeDetails.setActive(true);

@@ -30,6 +30,7 @@ import com.sericulture.masterdata.model.api.hdQuestionMaster.HdQuestionMasterReq
 import com.sericulture.masterdata.model.api.hdSeverityMaster.HdSeverityMasterRequest;
 import com.sericulture.masterdata.model.api.hdStatusMaster.HdStatusMasterRequest;
 import com.sericulture.masterdata.model.api.hdSubCategoryMaster.HdSubCategoryMasterRequest;
+import com.sericulture.masterdata.model.api.hectareMaster.HectareMasterRequest;
 import com.sericulture.masterdata.model.api.hobli.HobliRequest;
 import com.sericulture.masterdata.model.api.inspectionType.InspectionTypeRequest;
 import com.sericulture.masterdata.model.api.irrigationSource.IrrigationSourceRequest;
@@ -79,6 +80,7 @@ import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
+import com.sericulture.masterdata.model.api.spacing.SpacingMasterRequest;
 import com.sericulture.masterdata.model.api.state.StateRequest;
 import com.sericulture.masterdata.model.api.subsidy.SubsidyRequest;
 import com.sericulture.masterdata.model.api.trCourseMaster.TrCourseMasterRequest;
@@ -2822,5 +2824,44 @@ public class Mapper {
         return (T) mapper.map(scProgramAccountMappingRequest, claaz);
     }
 
+    /**
+     * Maps hectareMaster Entity to hectareMaster Response Object
+     * @param hectareMasterEntity
+     * @param <T>
+     */
+    public <T> T hectareMasterEntityToObject(HectareMaster hectareMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,hectareMasterEntity);
+        return (T) mapper.map(hectareMasterEntity, claaz);
+    }
+
+    /**
+     * Maps hectareMaster Object to hectareMaster  Response Object
+     * @param hectareMasterRequest
+     * @param <T>
+     */
+    public <T> T hectareMasterObjectToEntity(HectareMasterRequest hectareMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, hectareMasterRequest);
+        return (T) mapper.map(hectareMasterRequest, claaz);
+    }
+
+    /**
+     * Maps spacingMaster Entity to spacingMaster Response Object
+     * @param spacingMasterEntity
+     * @param <T>
+     */
+    public <T> T spacingMasterEntityToObject(SpacingMaster spacingMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,spacingMasterEntity);
+        return (T) mapper.map(spacingMasterEntity, claaz);
+    }
+
+    /**
+     * Maps spacing Object to spacingMaster  Response Object
+     * @param spacingMasterRequest
+     * @param <T>
+     */
+    public <T> T spacingMasterObjectToEntity(SpacingMasterRequest spacingMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, spacingMasterRequest);
+        return (T) mapper.map(spacingMasterRequest, claaz);
+    }
 
 }
