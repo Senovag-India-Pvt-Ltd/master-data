@@ -39,4 +39,10 @@ public class ScSchemeDetails extends BaseEntity implements Serializable {
 
     @Column(name = "dbt_code", unique = true)
     private String dbtCode;
+
+    @Column(name = "hectare" ,columnDefinition = "TINYINT")
+    private Boolean hectare;
+
+    @Column(name = "spacing" ,columnDefinition = "TINYINT")
+    private Boolean spacing;
 }

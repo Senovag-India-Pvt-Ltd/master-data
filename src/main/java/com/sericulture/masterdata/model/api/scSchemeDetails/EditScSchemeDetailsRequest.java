@@ -35,5 +35,11 @@ public class EditScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "schemeEndDate", example = "1")
     Date schemeEndDate;
 
+    @Schema(name = "spacing", example = "1")
+    Boolean spacing;
+
+    @Schema(name = "hectare", example = "1")
+    Boolean hectare;
+
 
 }

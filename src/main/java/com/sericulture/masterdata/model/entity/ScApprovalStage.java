@@ -35,4 +35,19 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = "action", unique = true)
     private String action;
+
+    @Column(name = "work_order",columnDefinition = "TINYINT")
+    private Boolean workOrder;
+
+    @Column(name = "sanction_order", columnDefinition = "TINYINT")
+    private Boolean sanctionOrder;
+
+    @Column(name = "inspection", columnDefinition = "TINYINT")
+    private Boolean inspection;
+
+    @Column(name = "push_to_dbt", columnDefinition = "TINYINT")
+    private Boolean pushToDbt;
+
+    @Column(name = "financial_delegation", columnDefinition = "TINYINT")
+    private Boolean financialDelegation;
 }
