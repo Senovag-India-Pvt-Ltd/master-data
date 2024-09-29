@@ -29,4 +29,19 @@ public class EditScApprovalStageRequest extends RequestBody {
     @Schema(name = "action", example = "true")
     String action;
 
+    @Schema(name = "inspection", example = "1")
+    Boolean inspection;
+
+    @Schema(name = "workOrder", example = "1")
+    Boolean workOrder;
+
+    @Schema(name = "sanctionOrder", example = "1")
+    Boolean sanctionOrder;
+
+    @Schema(name = "pushToDbt", example = "1")
+    Boolean pushToDbt;
+
+    @Schema(name = "financialDelegation", example = "1")
+    Boolean financialDelegation;
+
 }

@@ -27,6 +27,21 @@ public class ScApprovalStageResponse {
     @Schema(name = "action", example = "action")
     String action;
 
+    @Schema(name = "inspection", example = "1")
+    Boolean inspection;
+
+    @Schema(name = "workOrder", example = "1")
+    Boolean workOrder;
+
+    @Schema(name = "sanctionOrder", example = "1")
+    Boolean sanctionOrder;
+
+    @Schema(name = "pushToDbt", example = "1")
+    Boolean pushToDbt;
+
+    @Schema(name = "financialDelegation", example = "1")
+    Boolean financialDelegation;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
