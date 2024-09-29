@@ -6,7 +6,10 @@ import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.cropInspectionType.CropInspectionTypeRequest;
+import com.sericulture.masterdata.model.api.cropStatus.CropStatusRequest;
 import com.sericulture.masterdata.model.api.departmentMaster.DepartmentMasterRequest;
+import com.sericulture.masterdata.model.api.diseaseStatus.DiseaseStatusRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
@@ -40,6 +43,7 @@ import com.sericulture.masterdata.model.api.loginHistory.LoginHistoryRequest;
 import com.sericulture.masterdata.model.api.machineTypeMaster.MachineTypeMasterRequest;
 import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterRequest;
+import com.sericulture.masterdata.model.api.mountMaster.MountRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
@@ -47,6 +51,7 @@ import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterReq
 import com.sericulture.masterdata.model.api.raceMaster.RaceMasterRequest;
 import com.sericulture.masterdata.model.api.reasonBidRejectMaster.ReasonBidRejectMasterRequest;
 import com.sericulture.masterdata.model.api.reasonLotRejectMaster.ReasonLotRejectMasterRequest;
+import com.sericulture.masterdata.model.api.reasonMaster.ReasonRequest;
 import com.sericulture.masterdata.model.api.rejectReasonWorkflowMaster.RejectReasonWorkFlowMasterRequest;
 import com.sericulture.masterdata.model.api.relationship.RelationshipRequest;
 //import com.sericulture.masterdata.model.api.hobli.HobliRequest;
@@ -505,6 +510,104 @@ public class Mapper {
         return (T) mapper.map(mulberryVarietyRequest, claaz);
     }
 
+    /**
+     * Maps Reason Entity to Reason Response Object
+     * @param reasonEntity
+     * @param <T>
+     */
+    public <T> T reasonEntityToObject(Reason reasonEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, reasonEntity);
+        return (T) mapper.map(reasonEntity, claaz);
+    }
+
+    /**
+     * Maps Reason Object to Reason Response Entity
+     * @param reasonRequest
+     * @param <T>
+     */
+    public <T> T reasonObjectToEntity(ReasonRequest reasonRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, reasonRequest);
+        return (T) mapper.map(reasonRequest, claaz);
+    }
+
+    /**
+     * Maps CropInspectionType Entity to CropInspectionType Response Object
+     * @param  cropInspectionTypeEntity
+     * @param <T>
+     */
+    public <T> T cropInspectionTypeEntityToObject(CropInspectionType cropInspectionTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, cropInspectionTypeEntity);
+        return (T) mapper.map(cropInspectionTypeEntity, claaz);
+    }
+
+    /**
+     * Maps CropInspectionType Object to CropInspectionType Response Entity
+     * @param cropInspectionTypeRequest
+     * @param <T>
+     */
+    public <T> T cropInspectionTypeObjectToEntity(CropInspectionTypeRequest cropInspectionTypeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, cropInspectionTypeRequest);
+        return (T) mapper.map(cropInspectionTypeRequest, claaz);
+    }
+    /**
+     * Maps DiseaseStatus Entity to DiseaseStatus Response Object
+     * @param diseaseStatusEntity
+     * @param <T>
+     */
+    public <T> T diseaseStatusEntityToObject(DiseaseStatus diseaseStatusEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, diseaseStatusEntity);
+        return (T) mapper.map(diseaseStatusEntity, claaz);
+    }
+
+    /**
+     * Maps DiseaseStatus Object to DiseaseStatus Response Entity
+     * @param diseaseStatusRequest
+     * @param <T>
+     */
+    public <T> T diseaseStatusObjectToEntity(DiseaseStatusRequest diseaseStatusRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, diseaseStatusRequest);
+        return (T) mapper.map(diseaseStatusRequest, claaz);
+    }
+
+    /**
+     * Maps Mount Entity to Mount Response Object
+     * @param mountEntity
+     * @param <T>
+     */
+    public <T> T mountEntityToObject(Mount mountEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mountEntity);
+        return (T) mapper.map(mountEntity, claaz);
+    }
+
+    /**
+     * Maps Mount Object to Mount Response Entity
+     * @param mountRequest
+     * @param <T>
+     */
+    public <T> T mountObjectToEntity(MountRequest mountRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mountRequest);
+        return (T) mapper.map(mountRequest, claaz);
+    }
+
+    /**
+     * Maps CropStatus Entity to CropStatus Response Object
+     * @param cropStatusEntity
+     * @param <T>
+     */
+    public <T> T cropStatusEntityToObject(CropStatus cropStatusEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, cropStatusEntity);
+        return (T) mapper.map(cropStatusEntity, claaz);
+    }
+
+    /**
+     * Maps CropStatus Object to CropStatus Response Entity
+     * @param cropStatusRequest
+     * @param <T>
+     */
+    public <T> T cropStatusObjectToEntity(CropStatusRequest cropStatusRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, cropStatusRequest);
+        return (T) mapper.map(cropStatusRequest, claaz);
+    }
     /**
      * Maps Godown Entity to Godown Response Object
      * @param godownEntity
