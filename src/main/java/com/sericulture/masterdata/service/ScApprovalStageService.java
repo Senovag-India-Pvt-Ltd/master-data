@@ -47,7 +47,7 @@ public class ScApprovalStageService {
         ScApprovalStageResponse scApprovalStageResponse = new ScApprovalStageResponse();
         ScApprovalStage scApprovalStage = mapper.scApprovalStageObjectToEntity(scApprovalStageRequest,ScApprovalStage.class);
         validator.validate(scApprovalStage);
-        List<ScApprovalStage> scApprovalStageList = scApprovalStageRepository.findByStageNameAndStageNameInKannada(scApprovalStageRequest.getStageName(), scApprovalStageRequest.getStageNameInKannada());
+        List<ScApprovalStage> scApprovalStageList = scApprovalStageRepository.findByStageNameAndStageNameInKannadaAndActive(scApprovalStageRequest.getStageName(), scApprovalStageRequest.getStageNameInKannada(),true);
         if(!scApprovalStageList.isEmpty() && scApprovalStageList.stream().filter( ScApprovalStage::getActive).findAny().isPresent()){
             scApprovalStageResponse.setError(true);
             scApprovalStageResponse.setError_description("SC approval name already exist");
