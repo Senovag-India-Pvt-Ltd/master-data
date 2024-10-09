@@ -1,6 +1,5 @@
 package com.sericulture.masterdata.repository;
 
-import com.sericulture.masterdata.model.dto.traderLicense.TraderLicenseDTO;
 import com.sericulture.masterdata.model.entity.TraderLicense;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
