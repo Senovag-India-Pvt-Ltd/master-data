@@ -14,6 +14,9 @@ public class SaveReelerUserRequest extends RequestBody {
     @Schema(name = "reelerId", example = "1", required = true)
     Long reelerId;
 
+    @Schema(name = "traderLicenseId", example = "1", required = true)
+    Long traderLicenseId;
+
 //    @Pattern(regexp = "^[a-zA-Z0-9._@]*$", message = "User name must contain only letters and numbers")
     @Schema(name = "username", example = "test")
     String username;

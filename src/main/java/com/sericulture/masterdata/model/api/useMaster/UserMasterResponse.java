@@ -103,6 +103,9 @@ public class UserMasterResponse {
     @Schema(name = "tscName", example = "OBC")
     private String tscName;
 
+    @Schema(name = "maxTraderUsers", example = "1")
+    Long maxTraderUsers;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

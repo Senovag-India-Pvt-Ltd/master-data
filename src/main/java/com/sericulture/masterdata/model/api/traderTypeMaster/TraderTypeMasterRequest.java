@@ -12,11 +12,12 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class TraderTypeMasterRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "TraderType must contain only letters and numbers")
     @Schema(name = "traderTypeMasterName", example = "trader type 1", required = true)
     String traderTypeMasterName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "TraderType in kannada must contain only letters and numbers")
     @Schema(name = "traderTypeNameInKannada",  example = "ಭಾಷೆ")
     String traderTypeNameInKannada;
+
+    @Schema(name = "noOfDeviceAllowed",  example = "1")
+    Long noOfDeviceAllowed;
 }

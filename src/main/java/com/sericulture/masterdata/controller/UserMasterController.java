@@ -428,6 +428,15 @@ public class UserMasterController {
         return ResponseEntity.ok(rw);
     }
 
+    @PostMapping("/save-trader-user")
+    public ResponseEntity<?> saveTraderUser(
+            @Valid @RequestBody final SaveReelerUserRequest saveReelerUserRequest
+    ) {
+        ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+        rw.setContent(userMasterService.saveTraderUser(saveReelerUserRequest));
+        return ResponseEntity.ok(rw);
+    }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Object saved details"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
@@ -463,6 +472,15 @@ public class UserMasterController {
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
         rw.setContent(userMasterService.editReelerUser(saveReelerUserRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @PostMapping("/edit-trader-user")
+    public ResponseEntity<?> editTraderUser(
+            @Valid @RequestBody final EditReelerUserRequest saveReelerUserRequest
+    ) {
+        ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+        rw.setContent(userMasterService.editTraderUser(saveReelerUserRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -544,6 +562,14 @@ public class UserMasterController {
         rw.setContent(userMasterService.getAllReelerUsers(true, userMasterDTO.getUserTypeId()));
         return ResponseEntity.ok(rw);
     }
+    @PostMapping("/get-trader-users")
+    public ResponseEntity<?> getTraderUsers(
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(userMasterService.getAllTraderUsers(true, userMasterDTO.getUserTypeId()));
+        return ResponseEntity.ok(rw);
+    }
 
     @PostMapping("/get-escalate-users")
     @ApiResponses(value = {
@@ -582,6 +608,15 @@ public class UserMasterController {
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
         rw.setContent(userMasterService.getConfigureUserDetailsForReeler( true, userMasterDTO.getUserTypeId()));
+        return ResponseEntity.ok(rw);
+    }
+
+    @PostMapping("/get-configure-user-details-for-trader")
+    public ResponseEntity<?> getConfigureUserDetailsForTrader(
+            @Valid @RequestBody final UserMasterDTO userMasterDTO
+    ) {
+        ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+        rw.setContent(userMasterService.getConfigureUserDetailsForTrader( true, userMasterDTO.getUserTypeId()));
         return ResponseEntity.ok(rw);
     }
 

@@ -25,6 +25,9 @@ public class ScApprovalStageRequest extends RequestBody {
     @Schema(name = "workFlowType", example = "1")
     String workFlowType;
 
+    @Schema(name = "action", example = "true")
+    String action;
+
     @Schema(name = "workOrder", example = "true")
     private Boolean workOrder;
 

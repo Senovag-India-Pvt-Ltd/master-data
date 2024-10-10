@@ -9,10 +9,7 @@ import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
 import com.sericulture.masterdata.model.entity.*;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
-import com.sericulture.masterdata.repository.ExternalUnitRegistrationRepository;
-import com.sericulture.masterdata.repository.ReelerRepository;
-import com.sericulture.masterdata.repository.ReelerTypeMasterRepository;
-import com.sericulture.masterdata.repository.UserMasterRepository;
+import com.sericulture.masterdata.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +49,12 @@ public class UserMasterService {
 
     @Autowired
     ReelerTypeMasterRepository reelerTypeMasterRepository;
+
+    @Autowired
+    TraderTypeMasterRepository traderTypeMasterRepository;
+
+    @Autowired
+    TraderLicenseRepository traderLicenseRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -536,6 +539,74 @@ public class UserMasterService {
     }
 
     @Transactional
+    public UserMasterResponse saveTraderUser(SaveReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        TraderLicense traderLicense = traderLicenseRepository.findByTraderLicenseIdAndActive(saveReelerUserRequest.getTraderLicenseId(),  true);
+        if (traderLicense == null) {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Error occurred while fetching reeler");
+        }else {
+            UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
+            if (userMaster == null) {
+                TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActive(traderLicense.getTraderTypeMasterId(), true);
+                if(traderTypeMaster == null){
+                    userMasterResponse.setError(true);
+                    userMasterResponse.setError_description("ReelerType not found");
+                }else{
+                    userMasterResponse.setMaxTraderUsers(traderTypeMaster.getNoOfDeviceAllowed());
+                    List<UserMaster> currentTraderUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getTraderLicenseId());
+                    userMasterResponse.setCurrentReelerUsers(currentTraderUsers.size());
+                    if(currentTraderUsers.size()<traderTypeMaster.getNoOfDeviceAllowed()) {
+                        UserMaster userMaster1 = new UserMaster();
+                        userMaster1.setUsername(saveReelerUserRequest.getUsername());
+                        userMaster1.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+                        userMaster1.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+                        userMaster1.setEmailID(saveReelerUserRequest.getEmailID());
+                        userMaster1.setRoleId(0L);
+                        userMaster1.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+                        userMaster1.setDesignationId(saveReelerUserRequest.getDesignationId());
+                        userMaster1.setDeviceId(saveReelerUserRequest.getDeviceId());
+                        userMaster1.setUserType(3); //For Trader
+                        userMaster1.setUserTypeId(traderLicense.getTraderLicenseId());
+                        userMaster1.setFirstName(traderLicense.getFirstName());
+                        userMaster1.setStateId(traderLicense.getStateId());
+                        userMaster1.setDistrictId(traderLicense.getDistrictId());
+                        userMaster1.setActive(true);
+
+                        //Save reeler user
+                        UserMaster userMaster2 = userMasterRepository.save(userMaster1);
+                        userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+
+                        //Activate reeler
+                        traderLicense.setIsActivated(1); //activated
+                        if (saveReelerUserRequest.getWalletAMount() == null) {
+                            traderLicense.setWalletAmount(0.0);
+                        } else {
+                            if (saveReelerUserRequest.getWalletAMount() > 0.0) {
+                                traderLicense.setWalletAmount(saveReelerUserRequest.getWalletAMount());
+                            } else {
+                                traderLicense.setWalletAmount(0.0);
+                            }
+                        }
+                        traderLicense.setActive(true);
+                        traderLicenseRepository.save(traderLicense);
+
+                        userMasterResponse.setError(false);
+                    }else{
+                        userMasterResponse.setError(true);
+                        userMasterResponse.setError_description("Max number of users already configured");
+                    }
+                }
+            } else {
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("Username already exist");
+            }
+        }
+
+        return userMasterResponse;
+    }
+
+    @Transactional
     public UserMasterResponse saveForReelerUser(SaveReelerUserRequest saveReelerUserRequest){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         for(int i=0; i<1000; i++) {
@@ -624,6 +695,34 @@ public class UserMasterService {
             userMaster.setDesignationId(saveReelerUserRequest.getDesignationId());
             userMaster.setDeviceId(saveReelerUserRequest.getDeviceId());
             userMaster.setUserType(2); //For reeler
+            userMaster.setActive(true);
+
+            //Edit reeler user
+            UserMaster userMaster2 = userMasterRepository.save(userMaster);
+            userMasterResponse = mapper.userMasterEntityToObject(userMaster2, UserMasterResponse.class);
+            userMasterResponse.setError(false);
+
+        } else {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("User not found");
+        }
+        return userMasterResponse;
+    }
+
+    @Transactional
+    public UserMasterResponse editTraderUser(EditReelerUserRequest saveReelerUserRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActive(saveReelerUserRequest.getUserTypeId(), true);
+        if (userMaster != null) {
+            userMaster.setUsername(saveReelerUserRequest.getUsername());
+            userMaster.setPassword(encoder.encode(saveReelerUserRequest.getPassword()));
+            userMaster.setPhoneNumber(saveReelerUserRequest.getPhoneNumber());
+            userMaster.setEmailID(saveReelerUserRequest.getEmailID());
+            userMaster.setRoleId(0L);
+            userMaster.setMarketMasterId(saveReelerUserRequest.getMarketMasterId());
+            userMaster.setDesignationId(saveReelerUserRequest.getDesignationId());
+            userMaster.setDeviceId(saveReelerUserRequest.getDeviceId());
+            userMaster.setUserType(3); //For reeler
             userMaster.setActive(true);
 
             //Edit reeler user
@@ -738,6 +837,10 @@ public class UserMasterService {
         return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId));
     }
 
+    public Map<String,Object> getAllTraderUsers(boolean isActive, long traderLicenseId){
+        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, traderLicenseId));
+    }
+
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String,Object> getEscalateRoleUsers(String roleName){
         return convertDTOListEntityToMapResponse(userMasterRepository.getByActiveAndRoleName(true, roleName));
@@ -758,6 +861,27 @@ public class UserMasterService {
             }else{
                 userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
                 List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId);
+                userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
+                userMasterResponse.setError(false);
+            }
+        }
+        return userMasterResponse;
+    }
+
+    public UserMasterResponse getConfigureUserDetailsForTrader(boolean isActive, long traderLicenseId){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+        TraderLicense traderLicense = traderLicenseRepository.findByTraderLicenseIdAndActive(traderLicenseId, true);
+        if(traderLicense == null){
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Trader not found");
+        }else{
+            TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActive(traderLicense.getTraderTypeMasterId(), true);
+            if(traderTypeMaster == null){
+                userMasterResponse.setError(true);
+                userMasterResponse.setError_description("Trader Type not found");
+            }else{
+                userMasterResponse.setMaxTraderUsers(traderTypeMaster.getNoOfDeviceAllowed());
+                List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(isActive, traderLicenseId);
                 userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
                 userMasterResponse.setError(false);
             }

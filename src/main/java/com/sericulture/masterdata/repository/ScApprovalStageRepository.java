@@ -19,7 +19,7 @@ public interface ScApprovalStageRepository extends PagingAndSortingRepository<Sc
 
 //    public List<ScApprovalStage> findByScProgramIdAndActiveOrderByStageName(long scProgramId, boolean isActive);
 
-    public List<ScApprovalStage> findByStageNameAndStageNameInKannada(String stageName,String stageNameInKannada);
+    public List<ScApprovalStage> findByStageNameAndStageNameInKannadaAndActive(String stageName,String stageNameInKannada,boolean isActive);
 
     public List<ScApprovalStage> findByStageNameAndStageNameInKannadaAndScApprovalStageIdIsNot(String stageName,String stageNameInKannada,long scApprovalStageId);
 
