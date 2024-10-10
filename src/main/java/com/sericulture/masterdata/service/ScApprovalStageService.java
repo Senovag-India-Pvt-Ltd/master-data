@@ -159,6 +159,11 @@ public class ScApprovalStageService {
                 scApprovalStage.setStageNameInKannada(scApprovalStageRequest.getStageNameInKannada());
                 scApprovalStage.setWorkFlowType(scApprovalStageRequest.getWorkFlowType());
                 scApprovalStage.setAction(scApprovalStageRequest.getAction());
+                scApprovalStage.setInspection(scApprovalStageRequest.getInspection());
+                scApprovalStage.setPushToDbt(scApprovalStageRequest.getPushToDbt());
+                scApprovalStage.setSanctionOrder(scApprovalStageRequest.getSanctionOrder());
+                scApprovalStage.setFinancialDelegation(scApprovalStageRequest.getFinancialDelegation());
+                scApprovalStage.setWorkOrder(scApprovalStageRequest.getWorkOrder());
                 scApprovalStage.setActive(true);
                 ScApprovalStage scApprovalStage1= scApprovalStageRepository.save(scApprovalStage);
                 scApprovalStageResponse = mapper.scApprovalStageEntityToObject(scApprovalStage1, ScApprovalStageResponse.class);
