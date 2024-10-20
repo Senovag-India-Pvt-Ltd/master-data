@@ -38,7 +38,7 @@ public class TraderTypeMasterService {
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
         TraderTypeMaster traderTypeMaster = mapper.traderTypeMasterObjectToEntity(traderTypeMasterRequest,TraderTypeMaster.class);
         validator.validate(traderTypeMaster);
-        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByTraderTypeMasterNameAndTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
+        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByActiveAndTraderTypeMasterNameAndTraderTypeNameInKannada(true,traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
         if(!traderTypeMasterList.isEmpty() && traderTypeMasterList.stream().filter(TraderTypeMaster::getActive).findAny().isPresent()){
             traderTypeMasterResponse.setError(true);
             traderTypeMasterResponse.setError_description("TraderType name already exist");
@@ -118,17 +118,18 @@ public class TraderTypeMasterService {
     @Transactional
     public TraderTypeMasterResponse updateTraderTypeMasterDetails(EditTraderTypeMasterRequest traderTypeMasterRequest){
         TraderTypeMasterResponse traderTypeMasterResponse = new TraderTypeMasterResponse();
-        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByActiveAndTraderTypeMasterNameAndTraderTypeNameInKannada(true,traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
-        if(traderTypeMasterList.size()>0){
-            traderTypeMasterResponse.setError(true);
-            traderTypeMasterResponse.setError_description("TraderType already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        }else {
+//        List<TraderTypeMaster> traderTypeMasterList = traderTypeMasterRepository.findByActiveAndTraderTypeMasterNameAndTraderTypeNameInKannada(true,traderTypeMasterRequest.getTraderTypeMasterName(), traderTypeMasterRequest.getTraderTypeNameInKannada());
+//        if(traderTypeMasterList.size()>0){
+//            traderTypeMasterResponse.setError(true);
+//            traderTypeMasterResponse.setError_description("TraderType already exists, duplicates are not allowed.");
+//            // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//        }else {
 
         TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActiveIn(traderTypeMasterRequest.getTraderTypeMasterId(), Set.of(true,false));
         if(Objects.nonNull(traderTypeMaster)){
             traderTypeMaster.setTraderTypeMasterName(traderTypeMasterRequest.getTraderTypeMasterName());
             traderTypeMaster.setTraderTypeNameInKannada(traderTypeMasterRequest.getTraderTypeNameInKannada());
+            traderTypeMaster.setNoOfDeviceAllowed(traderTypeMasterRequest.getNoOfDeviceAllowed());
             traderTypeMaster.setActive(true);
             TraderTypeMaster traderTypeMaster1 = traderTypeMasterRepository.save(traderTypeMaster);
             traderTypeMasterResponse = mapper.traderTypeMasterEntityToObject(traderTypeMaster1, TraderTypeMasterResponse.class);
@@ -138,7 +139,7 @@ public class TraderTypeMasterService {
             traderTypeMasterResponse.setError_description("Error occurred while fetching Trader Type");
             // throw new ValidationException("Error occurred while fetching village");
         }
-        }
+//        }
         return traderTypeMasterResponse;
     }
 
