@@ -13,6 +13,7 @@ import com.sericulture.masterdata.model.api.diseaseStatus.DiseaseStatusRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
 import com.sericulture.masterdata.model.api.divisionMaster.DivisionMasterRequest;
 import com.sericulture.masterdata.model.api.farmMaster.FarmMasterRequest;
+import com.sericulture.masterdata.model.api.farmerBankAccountReason.FarmerBankAccountReasonRequest;
 import com.sericulture.masterdata.model.api.financialYearMaster.FinancialYearMasterRequest;
 import com.sericulture.masterdata.model.api.generationNumberMaster.GenerationNumberMasterRequest;
 import com.sericulture.masterdata.model.api.grainageMaster.GrainageMasterRequest;
@@ -2965,6 +2966,26 @@ public class Mapper {
     public <T> T spacingMasterObjectToEntity(SpacingMasterRequest spacingMasterRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, spacingMasterRequest);
         return (T) mapper.map(spacingMasterRequest, claaz);
+    }
+    /**
+     * Maps farmerBankAccountReasonEntity to farmerBankAccountReason Response Object
+     * @param farmerBankAccountReasonEntity
+     * @param <T>
+     */
+    public <T> T farmerBankAccountReasonEntityToObject(FarmerBankAccountReason farmerBankAccountReasonEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,farmerBankAccountReasonEntity);
+        return (T) mapper.map(farmerBankAccountReasonEntity, claaz);
+    }
+
+
+    /**
+     * Maps farmerBankAccountReason Object to farmerBankAccountReason  Response Object
+     * @param farmerBankAccountReasonRequest
+     * @param <T>
+     */
+    public <T> T farmerBankAccountReasonObjectToEntity(FarmerBankAccountReasonRequest farmerBankAccountReasonRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, farmerBankAccountReasonRequest);
+        return (T) mapper.map(farmerBankAccountReasonRequest, claaz);
     }
 
 }
