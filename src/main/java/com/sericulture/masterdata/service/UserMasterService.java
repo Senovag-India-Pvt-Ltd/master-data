@@ -544,14 +544,14 @@ public class UserMasterService {
         TraderLicense traderLicense = traderLicenseRepository.findByTraderLicenseIdAndActive(saveReelerUserRequest.getTraderLicenseId(),  true);
         if (traderLicense == null) {
             userMasterResponse.setError(true);
-            userMasterResponse.setError_description("Error occurred while fetching reeler");
+            userMasterResponse.setError_description("Error occurred while fetching Trader");
         }else {
             UserMaster userMaster = userMasterRepository.findByUsername(saveReelerUserRequest.getUsername());
             if (userMaster == null) {
                 TraderTypeMaster traderTypeMaster = traderTypeMasterRepository.findByTraderTypeMasterIdAndActive(traderLicense.getTraderTypeMasterId(), true);
                 if(traderTypeMaster == null){
                     userMasterResponse.setError(true);
-                    userMasterResponse.setError_description("ReelerType not found");
+                    userMasterResponse.setError_description("Trader Type not found");
                 }else{
                     userMasterResponse.setMaxTraderUsers(traderTypeMaster.getNoOfDeviceAllowed());
                     List<UserMaster> currentTraderUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getTraderLicenseId());
