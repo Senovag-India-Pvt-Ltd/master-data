@@ -96,4 +96,24 @@ public interface TscMasterRepository extends PagingAndSortingRepository<TscMaste
             public List <TscMasterDTO> getByDistrictIdAndTalukIdAndActive( @Param("districtId") long districtId, @Param("talukId") long talukId, @Param("isActive") boolean isActive);
 
 
+    @Query("select new com.sericulture.masterdata.model.dto.TscMasterDTO(" +
+            " tscMaster.tscMasterId," +
+            " tscMaster.districtId," +
+            " tscMaster.talukId," +
+            " tscMaster.address," +
+            " tscMaster.name," +
+            " tscMaster.nameInKannada," +
+            " district.districtName," +
+            " taluk.talukName" +
+            ") \n" +
+            "from TscMaster tscMaster\n" +
+            "left join District district\n" +
+            "on tscMaster.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on tscMaster.talukId = taluk.talukId " +
+            "where tscMaster.active = :isActive " +
+            "and tscMaster.districtId = :districtId")
+    public List <TscMasterDTO> getByDistrictIdAndActive( @Param("districtId") long districtId, @Param("isActive") boolean isActive);
+
+
 }
