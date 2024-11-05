@@ -559,7 +559,7 @@ public class UserMasterController {
             @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(userMasterService.getAllReelerUsers(true, userMasterDTO.getUserTypeId()));
+        rw.setContent(userMasterService.getAllReelerUsers(true, userMasterDTO.getUserTypeId(), userMasterDTO.getMarketMasterId()));
         return ResponseEntity.ok(rw);
     }
     @PostMapping("/get-trader-users")
@@ -567,7 +567,7 @@ public class UserMasterController {
             @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(userMasterService.getAllTraderUsers(true, userMasterDTO.getUserTypeId()));
+        rw.setContent(userMasterService.getAllTraderUsers(true, userMasterDTO.getUserTypeId(), userMasterDTO.getMarketMasterId()));
         return ResponseEntity.ok(rw);
     }
 
@@ -607,7 +607,7 @@ public class UserMasterController {
             @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
-        rw.setContent(userMasterService.getConfigureUserDetailsForReeler( true, userMasterDTO.getUserTypeId()));
+        rw.setContent(userMasterService.getConfigureUserDetailsForReeler( true, userMasterDTO.getUserTypeId(),userMasterDTO.getMarketMasterId()));
         return ResponseEntity.ok(rw);
     }
 
@@ -616,7 +616,7 @@ public class UserMasterController {
             @Valid @RequestBody final UserMasterDTO userMasterDTO
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
-        rw.setContent(userMasterService.getConfigureUserDetailsForTrader( true, userMasterDTO.getUserTypeId()));
+        rw.setContent(userMasterService.getConfigureUserDetailsForTrader( true, userMasterDTO.getUserTypeId(), userMasterDTO.getMarketMasterId()));
         return ResponseEntity.ok(rw);
     }
 

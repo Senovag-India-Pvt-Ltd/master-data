@@ -2,7 +2,6 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
-import com.sericulture.masterdata.model.api.district.DistrictResponse;
 import com.sericulture.masterdata.model.api.useMaster.*;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.dto.govtSmsService.GovtSmsServiceDTO;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -485,7 +483,7 @@ public class UserMasterService {
                     userMasterResponse.setError_description("ReelerType not found");
                 }else{
                     userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
-                    List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getReelerId());
+                    List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(true, saveReelerUserRequest.getReelerId(),saveReelerUserRequest.getMarketMasterId());
                     userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
                     if(currentReelerUsers.size()<reelerTypeMaster.getNoOfDeviceAllowed()) {
                         UserMaster userMaster1 = new UserMaster();
@@ -554,7 +552,7 @@ public class UserMasterService {
                     userMasterResponse.setError_description("Trader Type not found");
                 }else{
                     userMasterResponse.setMaxTraderUsers(traderTypeMaster.getNoOfDeviceAllowed());
-                    List<UserMaster> currentTraderUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getTraderLicenseId());
+                    List<UserMaster> currentTraderUsers = userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(true, saveReelerUserRequest.getTraderLicenseId(),saveReelerUserRequest.getMarketMasterId());
                     userMasterResponse.setCurrentReelerUsers(currentTraderUsers.size());
                     if(currentTraderUsers.size()<traderTypeMaster.getNoOfDeviceAllowed()) {
                         UserMaster userMaster1 = new UserMaster();
@@ -627,7 +625,7 @@ public class UserMasterService {
                         userMasterResponse.setError_description("ReelerType not found");
                     } else {
                         userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
-                        List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(true, saveReelerUserRequest.getReelerId());
+                        List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(true, saveReelerUserRequest.getReelerId(),saveReelerUserRequest.getMarketMasterId());
                         userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
                         if (currentReelerUsers.size() < reelerTypeMaster.getNoOfDeviceAllowed()) {
                             UserMaster userMaster1 = new UserMaster();
@@ -833,12 +831,12 @@ public class UserMasterService {
     }
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Map<String,Object> getAllReelerUsers(boolean isActive, long reelerId){
-        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId));
+    public Map<String,Object> getAllReelerUsers(boolean isActive, long reelerId, long marketMasterId){
+        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(isActive, reelerId,marketMasterId));
     }
 
-    public Map<String,Object> getAllTraderUsers(boolean isActive, long traderLicenseId){
-        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeId(isActive, traderLicenseId));
+    public Map<String,Object> getAllTraderUsers(boolean isActive, long traderLicenseId, long marketMasterId){
+        return convertListEntityToMapResponse(userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(isActive, traderLicenseId, marketMasterId));
     }
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -847,7 +845,7 @@ public class UserMasterService {
     }
 
 //    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public UserMasterResponse getConfigureUserDetailsForReeler(boolean isActive, long reelerId){
+    public UserMasterResponse getConfigureUserDetailsForReeler(boolean isActive, long reelerId, long marketMasterId){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         Reeler reeler = reelerRepository.findByReelerIdAndActive(reelerId, true);
         if(reeler == null){
@@ -860,7 +858,7 @@ public class UserMasterService {
                 userMasterResponse.setError_description("ReelerType not found");
             }else{
                 userMasterResponse.setMaxReelerUsers(reelerTypeMaster.getNoOfDeviceAllowed());
-                List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(isActive, reelerId);
+                List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(isActive, reelerId, marketMasterId);
                 userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
                 userMasterResponse.setError(false);
             }
@@ -868,7 +866,7 @@ public class UserMasterService {
         return userMasterResponse;
     }
 
-    public UserMasterResponse getConfigureUserDetailsForTrader(boolean isActive, long traderLicenseId){
+    public UserMasterResponse getConfigureUserDetailsForTrader(boolean isActive, long traderLicenseId, long marketMasterId){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
         TraderLicense traderLicense = traderLicenseRepository.findByTraderLicenseIdAndActive(traderLicenseId, true);
         if(traderLicense == null){
@@ -881,7 +879,7 @@ public class UserMasterService {
                 userMasterResponse.setError_description("Trader Type not found");
             }else{
                 userMasterResponse.setMaxTraderUsers(traderTypeMaster.getNoOfDeviceAllowed());
-                List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeId(isActive, traderLicenseId);
+                List<UserMaster> currentReelerUsers = userMasterRepository.findByActiveAndUserTypeIdAndMarketMasterId(isActive, traderLicenseId,marketMasterId);
                 userMasterResponse.setCurrentReelerUsers(currentReelerUsers.size());
                 userMasterResponse.setError(false);
             }

@@ -239,5 +239,15 @@ public class TscMasterController {
         return ResponseEntity.ok(rw);
     }
 
+    @PostMapping("/get-by-districtId")
+    public ResponseEntity<?> getByDistrictId(
+            @Valid @RequestBody final TscMasterDTO tscMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(TscMasterResponse.class);
+
+        rw.setContent(tscMasterService.getByDistrictId(tscMasterDTO.getDistrictId()));
+        return ResponseEntity.ok(rw);
+    }
+
 
 }

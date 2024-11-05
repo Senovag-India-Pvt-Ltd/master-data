@@ -158,6 +158,20 @@ public class TscMasterService {
         return response;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public  Map<String, Object> getByDistrictId(Long districtId) {
+        Map<String, Object> response = new HashMap<>();
+        List<TscMasterDTO> tscMasterDTOS = tscMasterRepository.getByDistrictIdAndActive(districtId,true);
+        if(tscMasterDTOS.size()<=0){
+            response.put("error","Error");
+            response.put("error_description","No records found");
+        }else {
+            log.info("Entity is ", tscMasterDTOS);
+            response = convertDTOToMapResponse(tscMasterDTOS);
+        }
+        return response;
+    }
+
     private Map<String, Object> convertDTOToMapResponse(List<TscMasterDTO> tscMasterDTOS) {
         Map<String, Object> response = new HashMap<>();
         List<TscMasterResponse> tscMasterResponses = tscMasterDTOS.stream()

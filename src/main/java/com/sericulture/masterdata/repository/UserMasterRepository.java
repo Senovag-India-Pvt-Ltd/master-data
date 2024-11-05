@@ -1,10 +1,7 @@
 package com.sericulture.masterdata.repository;
 
-import com.sericulture.masterdata.model.dto.TalukDTO;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
-import com.sericulture.masterdata.model.entity.District;
 import com.sericulture.masterdata.model.entity.UserMaster;
-import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -26,7 +23,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
 
     UserMaster findByUsername(String username);
 
-    public List<UserMaster> findByActiveAndUserTypeId(boolean isActive, long userTypeId);
+    public List<UserMaster> findByActiveAndUserTypeIdAndMarketMasterId(boolean isActive, long userTypeId, long marketMasterId);
 
     public List<UserMaster> findByTscMasterIdAndActive(long tscMasterId, boolean isActive);
 
