@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 public class HdModuleMasterRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Module name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Module name must contain only letters and numbers")
     @Schema(name = "hdModuleName", example = "Karnataka", required = true)
     String hdModuleName;
 }

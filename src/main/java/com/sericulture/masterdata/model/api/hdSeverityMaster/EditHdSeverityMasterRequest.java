@@ -16,7 +16,7 @@ public class EditHdSeverityMasterRequest extends RequestBody {
     @Schema(name = "hdSeverityId", example = "1")
     Long hdSeverityId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Severity name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Severity name must contain only letters and numbers")
     @Schema(name = "hdSeverityName", example = "Karnataka", required = true)
     String hdSeverityName;
 }
