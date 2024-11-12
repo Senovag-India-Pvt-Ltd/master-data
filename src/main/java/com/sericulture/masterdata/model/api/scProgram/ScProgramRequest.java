@@ -12,7 +12,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class ScProgramRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "scProgram must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "scProgram must contain only letters and numbers")
     @Schema(name = "scProgramName", example = "scProgram 1", required = true)
     String scProgramName;
 }
