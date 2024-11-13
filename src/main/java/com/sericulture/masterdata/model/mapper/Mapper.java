@@ -47,6 +47,7 @@ import com.sericulture.masterdata.model.api.marketMaster.MarketMasterRequest;
 import com.sericulture.masterdata.model.api.marketTypeMaster.MarketTypeMasterRequest;
 import com.sericulture.masterdata.model.api.mountMaster.MountRequest;
 import com.sericulture.masterdata.model.api.mulberrySource.MulberrySourceRequest;
+import com.sericulture.masterdata.model.api.mulberryTargetType.MulberryTargetTypeRequest;
 import com.sericulture.masterdata.model.api.mulberryVariety.MulberryVarietyRequest;
 import com.sericulture.masterdata.model.api.plantationType.PlantationTypeRequest;
 import com.sericulture.masterdata.model.api.raceMarketMaster.RaceMarketMasterRequest;
@@ -2986,6 +2987,27 @@ public class Mapper {
     public <T> T farmerBankAccountReasonObjectToEntity(FarmerBankAccountReasonRequest farmerBankAccountReasonRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, farmerBankAccountReasonRequest);
         return (T) mapper.map(farmerBankAccountReasonRequest, claaz);
+    }
+
+    /**
+     * Maps mulberryTargetTypeEntity to mulberryTargetTypeEntity Response Object
+     * @param mulberryTargetTypeEntity
+     * @param <T>
+     */
+    public <T> T mulberryTargetTypeEntityToObject(MulberryTargetType mulberryTargetTypeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,mulberryTargetTypeEntity);
+        return (T) mapper.map(mulberryTargetTypeEntity, claaz);
+    }
+
+
+    /**
+     * Maps MulberryTargetType Object to mulberryTargetType  Response Object
+     * @param mulberryTargetTypeRequest
+     * @param <T>
+     */
+    public <T> T mulberryTargetTypeObjectToEntity(MulberryTargetTypeRequest mulberryTargetTypeRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, mulberryTargetTypeRequest);
+        return (T) mapper.map(mulberryTargetTypeRequest, claaz);
     }
 
 }
