@@ -13,4 +13,7 @@ public class MulberryTargetTypeRequest extends RequestBody {
 
     @Schema(name = "mulberryTargetTypeName", example = "Commercial Market", required = true)
     String mulberryTargetTypeName;
+
+    @Schema(name = "mulberryTargetTypeNameInKannada", example = "ವಾಣಿಜ್ಯ ಮಾರುಕಟ್ಟೆ", required = true)
+    String mulberryTargetTypeNameInKannada;
 }

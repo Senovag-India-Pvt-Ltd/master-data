@@ -37,7 +37,7 @@ public class MulberryTargetTypeService {
         MulberryTargetTypeResponse mulberryTargetTypeResponse = new MulberryTargetTypeResponse();
         MulberryTargetType mulberryTargetType = mapper.mulberryTargetTypeObjectToEntity(mulberryTargetTypeRequest,MulberryTargetType.class);
         validator.validate(mulberryTargetType);
-        List<MulberryTargetType> mulberryTargetTypeList = mulberryTargetTypeRepository.findByMulberryTargetTypeNameAndActive(mulberryTargetTypeRequest.getMulberryTargetTypeName(),true);
+        List<MulberryTargetType> mulberryTargetTypeList = mulberryTargetTypeRepository.findByMulberryTargetTypeNameAndMulberryTargetTypeNameInKannadaAndActive(mulberryTargetTypeRequest.getMulberryTargetTypeName(),mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada(),true);
         if(!mulberryTargetTypeList.isEmpty() && mulberryTargetTypeList.stream().filter(MulberryTargetType::getActive).findAny().isPresent()){
             mulberryTargetTypeResponse.setError(true);
             mulberryTargetTypeResponse.setError_description("MulberryTargetType name already exist");
@@ -116,7 +116,7 @@ public class MulberryTargetTypeService {
     @Transactional
     public MulberryTargetTypeResponse updateMulberryTargetTypeDetails(EditMulberryTargetTypeRequest mulberryTargetTypeRequest){
         MulberryTargetTypeResponse mulberryTargetTypeResponse = new MulberryTargetTypeResponse();
-        List<MulberryTargetType> mulberryTargetTypeList = mulberryTargetTypeRepository.findByMulberryTargetTypeNameAndActive(mulberryTargetTypeRequest.getMulberryTargetTypeName(),true);
+        List<MulberryTargetType> mulberryTargetTypeList = mulberryTargetTypeRepository.findByMulberryTargetTypeNameAndMulberryTargetTypeNameInKannadaAndActive(mulberryTargetTypeRequest.getMulberryTargetTypeName(),mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada(),true);
         if(mulberryTargetTypeList.size()>0){
             mulberryTargetTypeResponse.setError(true);
             mulberryTargetTypeResponse.setError_description("MulberryTargetType already exists, duplicates are not allowed.");
@@ -126,6 +126,7 @@ public class MulberryTargetTypeService {
             MulberryTargetType mulberryTargetType = mulberryTargetTypeRepository.findByMulberryTargetTypeIdAndActiveIn(mulberryTargetTypeRequest.getMulberryTargetTypeId(), Set.of(true,false));
             if(Objects.nonNull(mulberryTargetType)){
                 mulberryTargetType.setMulberryTargetTypeName(mulberryTargetTypeRequest.getMulberryTargetTypeName());
+                mulberryTargetType.setMulberryTargetTypeNameInKannada(mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada());
                 mulberryTargetType.setActive(true);
                 MulberryTargetType mulberryTargetType1 = mulberryTargetTypeRepository.save(mulberryTargetType);
                 mulberryTargetTypeResponse = mapper.mulberryTargetTypeEntityToObject(mulberryTargetType1, MulberryTargetTypeResponse.class);
