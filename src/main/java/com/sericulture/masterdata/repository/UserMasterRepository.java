@@ -467,4 +467,18 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "and userMaster.workingInstitutionId = :workingInstitutionId ")
     public List <UserMasterDTO> getByDesignationIdAndDistrictIdAndWorkingInstitutionIdAndActive(@Param("designationId") long designationId, @Param("districtId") long districtId, @Param("talukId") long talukId,  @Param("workingInstitutionId") long workingInstitutionId, @Param("isActive") boolean isActive);
 
+    @Query(nativeQuery = true, value = """
+            SELECT
+                user_master_id ,
+                first_name,
+                last_name,
+                username
+            FROM
+                user_master um
+            WHERE
+                manager_id is NULL
+            AND um.active = 1;
+            """)
+    public List<Object[]> getUserManagerDetails();
+
 }
