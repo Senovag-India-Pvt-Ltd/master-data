@@ -79,4 +79,7 @@ public class EditUserMasterRequest extends RequestBody {
 
     @Schema(name = "tscMasterId", example = "1")
     Long tscMasterId;
+
+    @Schema(name = "managerId", example = "1")
+    Long managerId;
 }

@@ -15,7 +15,7 @@ public class EditHdStatusMasterRequest extends RequestBody {
     @Schema(name = "hdStatusId", example = "1")
     Long hdStatusId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Status name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Status name must contain only letters and numbers")
     @Schema(name = "hdStatusName", example = "Karnataka", required = true)
     String hdStatusName;
 }

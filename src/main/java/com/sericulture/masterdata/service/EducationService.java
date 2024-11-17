@@ -43,7 +43,7 @@ public class EducationService {
         Education education = mapper.educationObjectToEntity(request, Education.class);
         //validating the class
         validator.validate(education);
-        List<Education> educations = educationRepository.findByNameAndEducationNameInKannada(education.getName(),education.getEducationNameInKannada());
+        List<Education> educations = educationRepository.findByActiveAndNameAndEducationNameInKannada(true,education.getName(),education.getEducationNameInKannada());
         if(!educations.isEmpty() && educations.stream().filter(Education::getActive).findAny().isPresent()) {
             educationResponse.setError(true);
             educationResponse.setError_description("Education name already exist");

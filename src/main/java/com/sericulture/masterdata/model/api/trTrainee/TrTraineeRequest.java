@@ -18,7 +18,7 @@ public class TrTraineeRequest extends RequestBody {
     @Schema(name = "trScheduleId", example = "1")
     Long trScheduleId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr trainee name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Tr trainee name must contain only letters and numbers")
     @Schema(name = "trTraineeName", example = "Karnataka", required = true)
     String trTraineeName;
 

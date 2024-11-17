@@ -20,6 +20,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -143,6 +144,15 @@ public class UserMasterController {
     ) {
         ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
         rw.setContent(userMasterService.updateUserMasterDetails(editUserMasterRequest));
+        return ResponseEntity.ok(rw);
+    }
+
+    @PostMapping("/updateManagerDetails")
+    public ResponseEntity<?> updateManagerDetails(
+            @Valid @RequestBody final EditUserMasterRequest editUserMasterRequest
+    ) {
+        ResponseWrapper<UserMasterResponse> rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+        rw.setContent(userMasterService.updateManagerIdDetails(editUserMasterRequest));
         return ResponseEntity.ok(rw);
     }
 
@@ -657,6 +667,11 @@ public class UserMasterController {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(userMasterService.getUserByTscMasterId(tscMasterId));
         return ResponseEntity.ok(rw);
+    }
+
+    @GetMapping("/getUserManagerDetails")
+    public List<UserMasterResponse> getUserManagerDetails() {
+        return userMasterService.getUserManagerDetails();
     }
 
 }

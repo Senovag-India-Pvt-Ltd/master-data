@@ -26,11 +26,11 @@ public class EditBinMasterRequest extends RequestBody {
     @Schema(name = "binNumber", example = "12S")
     Integer binNumber;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Type must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Type must contain only letters and numbers")
     @Schema(name = "type", example = "small",required=true)
     String type;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Status must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Status must contain only letters and numbers")
     @Schema(name = "status", example = "available",required=true)
     String status;
 }

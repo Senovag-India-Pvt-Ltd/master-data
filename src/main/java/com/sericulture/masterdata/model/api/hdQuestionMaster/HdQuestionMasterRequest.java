@@ -12,11 +12,11 @@ import lombok.*;
 @Getter
 @Setter
 public class HdQuestionMasterRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Question name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Question name must contain only letters and numbers")
     @Schema(name = "hdQuestionName", example = "Karnataka", required = true)
     String hdQuestionName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Question answer name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Question answer name must contain only letters and numbers")
     @Schema(name = "hdQuestionAnswerName", example = "Karnataka",required=true)
     String hdQuestionAnswerName;
 

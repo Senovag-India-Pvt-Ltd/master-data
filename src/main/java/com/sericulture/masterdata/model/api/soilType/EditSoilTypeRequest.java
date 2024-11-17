@@ -14,11 +14,11 @@ public class EditSoilTypeRequest extends RequestBody {
     @Schema(name = "soilTypeId", example = "1")
     Integer soilTypeId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "SoilType must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "SoilType must contain only letters and numbers")
     @Schema(name = "soilTypeName", example = "Red Soil", required = true)
     String soilTypeName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "SoilType in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "SoilType in kannada must contain only letters and numbers")
     @Schema(name = "soilTypeNameInKannada",  example = "ಭಾಷೆ")
     String soilTypeNameInKannada;
 

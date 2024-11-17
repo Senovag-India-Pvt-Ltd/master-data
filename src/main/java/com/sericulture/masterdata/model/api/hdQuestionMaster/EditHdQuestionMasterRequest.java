@@ -14,15 +14,15 @@ public class EditHdQuestionMasterRequest  extends RequestBody {
     @Schema(name = "hdQuestionId", example = "1")
     Long hdQuestionId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Question name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD Question name must contain only letters and numbers")
     @Schema(name = "hdQuestionName", example = "Karnataka", required = true)
     String hdQuestionName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD question answer name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "HD question answer name must contain only letters and numbers")
     @Schema(name = "hdQuestionAnswerName", example = "Karnataka",required=true)
     String hdQuestionAnswerName;
 
-    @Schema(name = "hdFaqUploadPath", example = "Karnataka", required = true)
+//    @Schema(name = "hdFaqUploadPath", example = "Karnataka", required = true)
     String hdFaqUploadPath;
 
 }

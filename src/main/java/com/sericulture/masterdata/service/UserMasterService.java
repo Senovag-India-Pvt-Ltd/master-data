@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
+import com.sericulture.masterdata.helper.Util;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.useMaster.*;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
@@ -884,6 +885,48 @@ public class UserMasterService {
                 userMasterResponse.setError(false);
             }
         }
+        return userMasterResponse;
+    }
+
+    public List<UserMasterResponse> getUserManagerDetails() {
+        List<Object[]> userDetails = userMasterRepository.getUserManagerDetails();
+        List<UserMasterResponse> responses = new ArrayList<>();
+
+        for (Object[] arr : userDetails) {
+            UserMasterResponse response = UserMasterResponse.builder()
+                    .userMasterId(Util.objectToInteger(arr[0]))
+                    .firstName(Util.objectToString(arr[1]))
+                    .lastName(Util.objectToString(arr[2]))
+                    .username(Util.objectToString(arr[3]))
+                    .build();
+
+            responses.add(response);
+        }
+
+        return responses;
+    }
+
+    @Transactional
+    public UserMasterResponse updateManagerIdDetails(EditUserMasterRequest userMasterRequest){
+        UserMasterResponse userMasterResponse = new UserMasterResponse();
+//        List<RpRoleAssociation> rpRoleAssociationList = rpRoleAssociationRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
+//        if(rpPageRootList.size()>0){
+//            throw new ValidationException("RpPageRoot already exists with this name, duplicates are not allowed.");
+//        }
+
+        UserMaster userMaster = userMasterRepository.findByUserMasterIdAndActiveIn(userMasterRequest.getUserMasterId(), Set.of(true,false));
+        if(Objects.nonNull(userMaster)){
+           userMaster.setManagerId(userMasterRequest.getManagerId());
+            userMaster.setActive(true);
+            UserMaster userMaster1 = userMasterRepository.save(userMaster);
+            userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);
+            userMasterResponse.setError(false);
+        } else {
+            userMasterResponse.setError(true);
+            userMasterResponse.setError_description("Error occurred while fetching userMaster");
+            // throw new ValidationException("Error occurred while fetching village");
+        }
+
         return userMasterResponse;
     }
 }

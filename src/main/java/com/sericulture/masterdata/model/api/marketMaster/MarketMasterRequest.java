@@ -24,7 +24,7 @@ public class MarketMasterRequest extends RequestBody {
     @Schema(name = "marketNameInKannada",  example = "ಭಾಷೆ")
     String marketNameInKannada;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market Address must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Market Address must contain only letters and numbers")
     @Schema(name = "marketMasterAddress", example = "Udupi", required = true)
     String marketMasterAddress;
 

@@ -14,19 +14,19 @@ public class EditLineNameMasterRequest extends RequestBody {
     @Schema(name = "lineNameId", example = "1")
     Long lineNameId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "LineNameMaster name must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "LineNameMaster name must contain only letters and numbers")
     @Schema(name = "lineName", example = "Karnataka", required = true)
     String lineName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "LineNameMaster in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "LineNameMaster in kannada must contain only letters and numbers")
     @Schema(name = "lineNameInKannada", example = "ಭಾಷೆ", required = true)
     String lineNameInKannada;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lineNameRepresentation  must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "lineNameRepresentation  must contain only letters and numbers")
     @Schema(name = "lineNameRepresentation", example = "Karnataka", required = true)
     String lineNameRepresentation;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Line Code must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Line Code must contain only letters and numbers")
     @Schema(name = "lineCode", example = "Karnataka", required = true)
     String lineCode;
 }

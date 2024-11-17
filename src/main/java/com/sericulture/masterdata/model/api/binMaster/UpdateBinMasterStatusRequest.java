@@ -21,14 +21,14 @@ public class UpdateBinMasterStatusRequest extends RequestBody {
     @Schema(name = "smallBinNumber", example = "12S")
     Integer smallBinNumber;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Small bin status must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Small bin status must contain only letters and numbers")
     @Schema(name = "smallBinStatus", example = "12S")
     String smallBinStatus;
 
     @Schema(name = "bigBinNumber", example = "12S")
     Integer bigBinNumber;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Big bin status must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Big bin status must contain only letters and numbers")
     @Schema(name = "bigBinStatus", example = "12S")
     String bigBinStatus;
 
