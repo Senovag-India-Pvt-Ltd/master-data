@@ -15,7 +15,7 @@ public interface MulberryTargetTypeRepository extends PagingAndSortingRepository
 
     public List<MulberryTargetType> findByMulberryTargetTypeName(String mulberryTargetTypeName);
 
-    public List<MulberryTargetType> findByMulberryTargetTypeNameAndActive(String MulberryTargetTypeName,boolean isActive);
+    public List<MulberryTargetType> findByMulberryTargetTypeNameAndMulberryTargetTypeNameInKannadaAndActive(String mulberryTargetTypeName,String mulberryTargetNameInKannada, boolean isActive);
 
     public Page<MulberryTargetType> findByActiveOrderByMulberryTargetTypeIdAsc(boolean isActive, final Pageable pageable);
 

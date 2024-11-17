@@ -27,4 +27,8 @@ public class MulberryTargetType extends BaseEntity implements Serializable {
     @Column(name = "mulberry_target_type_name", unique = true)
     private String mulberryTargetTypeName;
 
+    @Size(min = 2, max = 250, message = "Mulberry source variety name should be more than 1 characters.")
+    @Column(name = "mulberry_target_type_name_in_kannada", unique = true)
+    private String mulberryTargetTypeNameInKannada;
+
 }
