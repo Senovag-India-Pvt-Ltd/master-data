@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.repository;
 
+import com.sericulture.masterdata.helper.Util;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
 import com.sericulture.masterdata.model.entity.UserMaster;
 import org.springframework.data.domain.Page;
@@ -480,5 +481,86 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             AND um.active = 1;
             """)
     public List<Object[]> getUserManagerDetails();
+
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+              user_master_id ,
+              manager_id ,
+              first_name,
+              last_name,
+              username,
+              um.phone_number,
+              d.district_name,
+              ds.name AS designation_name
+          FROM
+              user_master um
+           LEFT JOIN
+              district d ON um.district_id = d.district_id
+          LEFT JOIN
+              designation ds ON um.designation_id = ds.designation_id
+          WHERE
+              manager_id = :managerId
+            AND um.active = 1;
+          """)
+    public List<Object[]> getDirectReporteeDetails(Long managerId);
+
+    @Query(nativeQuery = true, value = """
+              WITH user_hierarchy AS (
+              SELECT
+                  um.user_master_id,
+                  um.manager_id,
+                  um.first_name,
+                  um.last_name,
+                  um.username,
+                  um.phone_number,
+                  d.district_name,
+                  ds.name AS designation_name,
+                  1 AS level
+              FROM
+                  user_master um
+              LEFT JOIN
+                  district d ON um.district_id = d.district_id
+              LEFT JOIN
+                  designation ds ON um.designation_id = ds.designation_id
+              WHERE
+                  um.manager_id = :managerId
+
+              UNION ALL
+              SELECT
+                  e.user_master_id,
+                  e.manager_id,
+                  e.first_name,
+                  e.last_name,
+                  e.username,
+                  e.phone_number,
+                  NULL AS district_name,
+                  NULL AS designation_name,
+                  uh.level + 1 AS level
+              FROM
+                  user_master e
+              INNER JOIN
+                  user_hierarchy uh ON e.manager_id = uh.user_master_id
+          )
+          SELECT
+              uh.user_master_id,
+              uh.manager_id,
+              uh.first_name,
+              uh.last_name,
+              uh.username,
+              uh.phone_number,
+              COALESCE(d.district_name, '') AS district_name,
+              COALESCE(ds.name, '') AS designation_name,
+              uh.level
+          FROM
+              user_hierarchy uh
+          LEFT JOIN
+              district d ON uh.user_master_id IN (SELECT user_master_id FROM user_master WHERE district_id = d.district_id)
+          LEFT JOIN
+              designation ds ON uh.user_master_id IN (SELECT user_master_id FROM user_master WHERE designation_id = ds.designation_id)
+          ORDER BY
+              uh.level, uh.user_master_id;
+          """)
+    public List<Object[]> getAllReporteeDetails(Long managerId);
 
 }

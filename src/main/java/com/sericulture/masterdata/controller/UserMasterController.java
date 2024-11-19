@@ -674,4 +674,14 @@ public class UserMasterController {
         return userMasterService.getUserManagerDetails();
     }
 
+    @GetMapping("/getDirectReporteeDetails")
+    public List<UserMasterResponse> getDirectReporteeDetails() {
+        return userMasterService.getDirectReporteeDetails();
+    }
+
+    @GetMapping("/getAllReporteeDetails")
+    public List<UserMasterResponse> getAllReporteeDetails() {
+        return userMasterService.getAllReporteeDetails();
+    }
+
 }

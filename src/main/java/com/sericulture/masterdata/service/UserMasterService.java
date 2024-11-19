@@ -906,6 +906,51 @@ public class UserMasterService {
         return responses;
     }
 
+    public List<UserMasterResponse> getDirectReporteeDetails() {
+        List<Object[]> userDetails = userMasterRepository.getDirectReporteeDetails(Util.getUserMasterId(Util.getTokenValues()));
+        List<UserMasterResponse> responses = new ArrayList<>();
+
+        for (Object[] arr : userDetails) {
+            UserMasterResponse response = UserMasterResponse.builder()
+                    .userMasterId(Util.objectToInteger(arr[0]))
+                    .managerId(Util.objectToLong(arr[1]))
+                    .firstName(Util.objectToString(arr[2]))
+                    .lastName(Util.objectToString(arr[3]))
+                    .username(Util.objectToString(arr[4]))
+                    .phoneNumber(Util.objectToString(arr[5]))
+                    .districtName(Util.objectToString(arr[6]))
+                    .name(Util.objectToString(arr[7]))
+                    .build();
+
+            responses.add(response);
+        }
+
+        return responses;
+    }
+
+    public List<UserMasterResponse> getAllReporteeDetails() {
+        List<Object[]> userDetails = userMasterRepository.getAllReporteeDetails(Util.getUserMasterId(Util.getTokenValues()));
+        List<UserMasterResponse> responses = new ArrayList<>();
+
+        for (Object[] arr : userDetails) {
+            UserMasterResponse response = UserMasterResponse.builder()
+                    .userMasterId(Util.objectToInteger(arr[0]))
+                    .managerId(Util.objectToLong(arr[1]))
+                    .firstName(Util.objectToString(arr[2]))
+                    .lastName(Util.objectToString(arr[3]))
+                    .username(Util.objectToString(arr[4]))
+                    .phoneNumber(Util.objectToString(arr[5]))
+                    .districtName(Util.objectToString(arr[6]))
+                    .name(Util.objectToString(arr[7]))
+                    .level(Util.objectToString(arr[8]))
+                    .build();
+
+            responses.add(response);
+        }
+
+        return responses;
+    }
+
     @Transactional
     public UserMasterResponse updateManagerIdDetails(EditUserMasterRequest userMasterRequest){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
