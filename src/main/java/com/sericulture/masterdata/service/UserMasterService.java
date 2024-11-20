@@ -11,6 +11,10 @@ import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -21,6 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -950,6 +959,74 @@ public class UserMasterService {
 
         return responses;
     }
+
+
+    public FileInputStream exportUserReport(boolean isHierarchy) throws Exception {
+        // Retrieve data based on the type of export
+//        Long managerIdFromToken = Util.getUserMasterId(Util.getTokenValues());
+        List<UserMasterResponse> userDetailsList;
+        if (isHierarchy) {
+            userDetailsList = getAllReporteeDetails();
+        } else {
+            userDetailsList = getDirectReporteeDetails();
+        }
+
+        // Create a new Excel workbook and sheet
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("User Details");
+
+        // Create header row
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("User ID");
+        headerRow.createCell(1).setCellValue("Manager ID");
+        headerRow.createCell(2).setCellValue("First Name");
+        headerRow.createCell(3).setCellValue("Last Name");
+        headerRow.createCell(4).setCellValue("Username");
+        headerRow.createCell(5).setCellValue("Phone Number");
+        headerRow.createCell(6).setCellValue("District Name");
+        headerRow.createCell(7).setCellValue("Designation");
+        if (isHierarchy) {
+            headerRow.createCell(8).setCellValue("Hierarchy Level");
+        }
+
+        // Populate data rows
+        int rowNumber = 1;
+        for (UserMasterResponse user : userDetailsList) {
+            Row row = sheet.createRow(rowNumber++);
+            row.createCell(0).setCellValue(user.getUserMasterId());
+            row.createCell(1).setCellValue(user.getManagerId());
+            row.createCell(2).setCellValue(user.getFirstName());
+            row.createCell(3).setCellValue(user.getLastName());
+            row.createCell(4).setCellValue(user.getUsername());
+            row.createCell(5).setCellValue(user.getPhoneNumber());
+            row.createCell(6).setCellValue(user.getDistrictName());
+            row.createCell(7).setCellValue(user.getName());
+            if (isHierarchy) {
+                row.createCell(8).setCellValue(user.getLevel());
+            }
+        }
+
+        // Auto-size columns
+        for (int columnIndex = 0; columnIndex < headerRow.getLastCellNum(); columnIndex++) {
+            sheet.autoSizeColumn(columnIndex);
+        }
+
+        // Save file to the user's Downloads directory
+        String userHome = System.getProperty("user.home");
+        String directoryPath = Paths.get(userHome, "Downloads").toString();
+        Files.createDirectories(Paths.get(directoryPath));
+        Path filePath = Paths.get(directoryPath, "UserDetailsReport.xlsx");
+
+        try (FileOutputStream fileOut = new FileOutputStream(filePath.toFile())) {
+            workbook.write(fileOut);
+        }
+        workbook.close();
+
+        // Return FileInputStream for the saved file
+        return new FileInputStream(filePath.toFile());
+    }
+
+
 
     @Transactional
     public UserMasterResponse updateManagerIdDetails(EditUserMasterRequest userMasterRequest){
