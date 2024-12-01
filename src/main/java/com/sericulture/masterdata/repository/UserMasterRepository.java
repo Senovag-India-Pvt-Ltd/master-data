@@ -563,4 +563,60 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
           """)
     public List<Object[]> getAllReporteeDetails(Long managerId);
 
+    @Query("select new com.sericulture.masterdata.model.dto.UserMasterDTO(" +
+            " userMaster.userMasterId," +
+            " userMaster.firstName," +
+            " userMaster.middleName," +
+            " userMaster.lastName," +
+            " userMaster.password," +
+            " userMaster.emailID," +
+            " userMaster.stateId," +
+            " userMaster.districtId," +
+            " userMaster.talukId," +
+            " userMaster.roleId," +
+            " userMaster.marketMasterId," +
+            " userMaster.tscMasterId," +
+            " tscMaster.name," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName," +
+            " role.roleName," +
+            " marketMaster.marketMasterName," +
+            " userMaster.username," +
+            " userMaster.designationId," +
+            " designation.name," +
+            " userMaster.phoneNumber," +
+            " userMaster.userType," +
+            " userMaster.userTypeId," +
+            " userMaster.deviceId," +
+            " userMaster.workingInstitutionId," +
+            " userMaster.ddoCode," +
+            " workingInstitution.workingInstitutionName," +
+            " workingInstitution.workingInstitutionName" +
+            ") " +
+            "from UserMaster userMaster " +
+            "left join State state on userMaster.stateId = state.stateId " +
+            "left join District district on userMaster.districtId = district.districtId " +
+            "left join Taluk taluk on userMaster.talukId = taluk.talukId " +
+            "left join role_master role on userMaster.roleId = role.roleId " +
+            "left join market_master marketMaster on userMaster.marketMasterId = marketMaster.marketMasterId " +
+            "left join Designation designation on userMaster.designationId = designation.designationId " +
+            "left join WorkingInstitution workingInstitution on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
+            "left join TscMaster tscMaster on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "where userMaster.active = :isActive " +
+            "and (:designationId IS NULL OR userMaster.designationId = :designationId) " +
+            "and (:districtId IS NULL OR userMaster.districtId = :districtId) " +
+            "and (:talukId IS NULL OR userMaster.talukId = :talukId) " +
+            "and (:mobileNumber IS NULL OR userMaster.phoneNumber = :mobileNumber) " +
+            "and (:username IS NULL OR userMaster.username = :username)")
+    public List<UserMasterDTO> getByDesignationIdDistrictIdTalukIdMobileNumberAndUsername(
+            @Param("designationId") Long designationId,
+            @Param("districtId") Long districtId,
+            @Param("talukId") Long talukId,
+            @Param("mobileNumber") String mobileNumber,
+            @Param("username") String username,
+            @Param("isActive") boolean isActive
+    );
+
+
 }

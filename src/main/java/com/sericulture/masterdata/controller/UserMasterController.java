@@ -325,6 +325,29 @@ public class UserMasterController {
         return ResponseEntity.ok(rw);
     }
 
+    @PostMapping("/get-by-designationId-districtId-talukId-and-mobileNumber-userName")
+    public ResponseEntity<?> getByDesignationIdAndDistrictIdAndTalukIdAndOptionalParams(
+            @RequestParam(required = false) Long designationId,
+            @RequestParam(required = false) Long districtId,
+            @RequestParam(required = false) Long talukId,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String username) {
+
+        ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+
+        rw.setContent(userMasterService.getByDesignationIdAndDistrictIdAndTalukIdAndOptionalParams(
+                designationId,
+                districtId,
+                talukId,
+                phoneNumber,
+                username
+        ));
+
+        return ResponseEntity.ok(rw);
+    }
+
+
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
