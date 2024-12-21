@@ -107,6 +107,12 @@ public class UserMasterResponse {
     @Schema(name = "maxTraderUsers", example = "1")
     Long maxTraderUsers;
 
+    @Schema(name = "managerId", example = "1")
+    Long managerId;
+
+    @Schema(name = "level", example = "test")
+    String level;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

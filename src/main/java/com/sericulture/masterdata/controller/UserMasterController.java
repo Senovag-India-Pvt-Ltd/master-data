@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.controller;
 
+import com.sericulture.masterdata.helper.Util;
 import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.useMaster.*;
@@ -12,13 +13,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -318,6 +324,29 @@ public class UserMasterController {
         rw.setContent(userMasterService.getByDesignationIdAndDistrictIdAndTalukId(userMasterDTO.getDesignationId(), userMasterDTO.getDistrictId(), userMasterDTO.getTalukId()));
         return ResponseEntity.ok(rw);
     }
+
+    @PostMapping("/get-by-designationId-districtId-talukId-and-mobileNumber-userName")
+    public ResponseEntity<?> getByDesignationIdAndDistrictIdAndTalukIdAndOptionalParams(
+            @RequestParam(required = false) Long designationId,
+            @RequestParam(required = false) Long districtId,
+            @RequestParam(required = false) Long talukId,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String username) {
+
+        ResponseWrapper rw = ResponseWrapper.createWrapper(UserMasterResponse.class);
+
+        rw.setContent(userMasterService.getByDesignationIdAndDistrictIdAndTalukIdAndOptionalParams(
+                designationId,
+                districtId,
+                talukId,
+                phoneNumber,
+                username
+        ));
+
+        return ResponseEntity.ok(rw);
+    }
+
+
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok Response"),
@@ -673,5 +702,44 @@ public class UserMasterController {
     public List<UserMasterResponse> getUserManagerDetails() {
         return userMasterService.getUserManagerDetails();
     }
+
+    @GetMapping("/getDirectReporteeDetails")
+    public List<UserMasterResponse> getDirectReporteeDetails() {
+        return userMasterService.getDirectReporteeDetails();
+    }
+
+    @GetMapping("/getAllReporteeDetails")
+    public List<UserMasterResponse> getAllReporteeDetails() {
+        return userMasterService.getAllReporteeDetails();
+    }
+
+    @PostMapping("/export-user-report")
+    public ResponseEntity<?> exportUserReport(@RequestParam(defaultValue = "false") boolean isHierarchy) {
+        try {
+            System.out.println("Enter exportUserReport");
+            // Call the service method to generate the report
+            FileInputStream fileInputStream = userMasterService.exportUserReport(isHierarchy);
+
+            // Wrap the file input stream in a resource
+            InputStreamResource resource = new InputStreamResource(fileInputStream);
+
+            // Set headers for the response
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=user_report_" + Util.getISTLocalDate() + ".xlsx");
+            headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+
+            // Return the response with the file resource
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+            HttpHeaders headers = new HttpHeaders();
+            return new ResponseEntity<>(ex.getMessage().getBytes(StandardCharsets.UTF_8), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

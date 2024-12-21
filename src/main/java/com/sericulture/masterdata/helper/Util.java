@@ -106,4 +106,7 @@ public final class Util {
     public static String getUserId(JwtPayloadData jwtPayloadData) {
         return jwtPayloadData.getUsername();
     }
+    public static Long getUserMasterId(JwtPayloadData jwtPayloadData) {
+        return jwtPayloadData.getUserMasterId();
+    }
 }
