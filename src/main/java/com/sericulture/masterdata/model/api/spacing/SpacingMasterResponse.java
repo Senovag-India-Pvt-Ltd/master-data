@@ -19,6 +19,15 @@ public class SpacingMasterResponse {
     @Schema(name = "spacingName", example = "Karnataka", required = true)
     String spacingName;
 
+    @Schema(name = "metre", example = "Karnataka", required = true)
+    String metre;
+
+    @Schema(name = "length", example = "Karnataka", required = true)
+    String length;
+
+    @Schema(name = "breadth", example = "Karnataka", required = true)
+    String breadth;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
