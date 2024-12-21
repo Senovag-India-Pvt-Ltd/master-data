@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.configurePmkysAmount.ConfigurePmkysAmountRequest;
 import com.sericulture.masterdata.model.api.cropInspectionType.CropInspectionTypeRequest;
 import com.sericulture.masterdata.model.api.cropStatus.CropStatusRequest;
 import com.sericulture.masterdata.model.api.departmentMaster.DepartmentMasterRequest;
@@ -3008,6 +3009,27 @@ public class Mapper {
     public <T> T mulberryTargetTypeObjectToEntity(MulberryTargetTypeRequest mulberryTargetTypeRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, mulberryTargetTypeRequest);
         return (T) mapper.map(mulberryTargetTypeRequest, claaz);
+    }
+
+    /**
+     * Maps configurePmkysAmountEntity to configurePmkysAmountEntity Response Object
+     * @param configurePmkysAmountEntity
+     * @param <T>
+     */
+    public <T> T configurePmkysAmountEntityToObject(ConfigurePmkysAmount configurePmkysAmountEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,configurePmkysAmountEntity);
+        return (T) mapper.map(configurePmkysAmountEntity, claaz);
+    }
+
+
+    /**
+     * Maps configurePmkysAmount Object to configurePmkysAmount  Response Object
+     * @param configurePmkysAmountRequest
+     * @param <T>
+     */
+    public <T> T configurePmkysAmountObjectToEntity(ConfigurePmkysAmountRequest configurePmkysAmountRequest , Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, configurePmkysAmountRequest);
+        return (T) mapper.map(configurePmkysAmountRequest, claaz);
     }
 
 }
