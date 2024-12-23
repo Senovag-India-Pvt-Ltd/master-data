@@ -127,6 +127,9 @@ public class SpacingMasterService {
             SpacingMaster spacingMaster= spacingMasterRepository.findBySpacingIdAndActiveIn(spacingMasterRequest.getSpacingId(), Set.of(true,false));
             if(Objects.nonNull(spacingMaster)){
                 spacingMaster.setSpacingName(spacingMasterRequest.getSpacingName());
+                spacingMaster.setMetre(spacingMasterRequest.getMetre());
+                spacingMaster.setLength(spacingMasterRequest.getLength());
+                spacingMaster.setBreadth(spacingMasterRequest.getBreadth());
                 spacingMaster.setActive(true);
                 SpacingMaster spacingMaster1 = spacingMasterRepository.save(spacingMaster);
                 spacingMasterResponse = mapper.spacingMasterEntityToObject(spacingMaster1, SpacingMasterResponse.class);

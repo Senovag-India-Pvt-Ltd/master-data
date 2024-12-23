@@ -25,4 +25,13 @@ public class SpacingMaster extends BaseEntity implements Serializable {
     @Size(min = 2, max = 250, message = "Hd Status name should be more than 1 characters.")
     @Column(name = "spacing_master_name", unique = true)
     private String spacingName;
+
+    @Column(name = "metre")
+    private String metre;
+
+    @Column(name = "length")
+    private String length;
+
+    @Column(name = "breadth")
+    private String breadth;
 }
