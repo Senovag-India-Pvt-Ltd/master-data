@@ -130,6 +130,11 @@ public class ConfigurePmkysAmountController {
         return configurePmkysAmountService.getAmountBySpacingAndHectare(spacingId,hectareId);
     }
 
+    @GetMapping("/getClosestAmountBySpacingAndHectare/{spacingId}/{hectareId}")
+    public List<ConfigurePmkysAmountResponse> getClosestAmountBySpacingAndHectare(@PathVariable Long spacingId,@PathVariable Long hectareId) {
+        return configurePmkysAmountService.getClosestAmountBySpacingAndHectare(spacingId,hectareId);
+    }
+
     @GetMapping("/getClosestRecordsSpacingAndHectare/{spacingId}/{hectareId}")
     public List<ConfigurePmkysAmountResponse> getClosestRecordsSpacingAndHectare(@PathVariable Long spacingId,@PathVariable Long hectareId) {
         return configurePmkysAmountService.getClosestRecordsSpacingAndHectare(spacingId,hectareId);
