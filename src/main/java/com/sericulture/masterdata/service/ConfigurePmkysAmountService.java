@@ -140,6 +140,21 @@ public class ConfigurePmkysAmountService {
         return responses;
     }
 
+    public List<ConfigurePmkysAmountResponse> getClosestAmountBySpacingAndHectare(Long spacingId, Long hectareId) {
+        List<Object[]> configurePmkysAmountDetails = configurePmkysAmountRepository.getClosestAmountBySpacingAndHectare(spacingId,hectareId);
+        List<ConfigurePmkysAmountResponse> responses = new ArrayList<>();
+
+        for (Object[] arr : configurePmkysAmountDetails) {
+            ConfigurePmkysAmountResponse response = ConfigurePmkysAmountResponse.builder()
+                    .amount(Util.objectToFloat(arr[0]))
+                    .build();
+
+            responses.add(response);
+        }
+
+        return responses;
+    }
+
     public List<ConfigurePmkysAmountResponse> getClosestRecordsSpacingAndHectare(Long spacingId, Long hectareId) {
         List<Object[]> configurePmkysAmountDetails = configurePmkysAmountRepository.getClosestRecordsSpacingAndHectare(spacingId,hectareId);
         List<ConfigurePmkysAmountResponse> responses = new ArrayList<>();

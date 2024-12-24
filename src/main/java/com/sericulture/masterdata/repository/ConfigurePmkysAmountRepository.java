@@ -69,8 +69,87 @@ SELECT * FROM SpacingFallback;
     """)
     List<Object[]> getClosestRecordsSpacingAndHectare(@Param("spacingId") Long spacingId,@Param("hectareId") Long hectareId);
 
+
+    @Query(nativeQuery = true, value = """       
+    WITH DirectMatch AS (
+                    SELECT DISTINCT\s
+                        amount
+                    FROM\s
+                        dbo.configure_pmkys_amount
+                    WHERE\s
+                        spacing_id = :spacingId
+                        AND hectare_id = :hectareId
+                ),
+                SpacingFallback AS (
+                    SELECT DISTINCT
+                        c1.amount AS lowest_amount,
+                        c2.amount AS highest_amount,
+                        CAST(s1.length AS FLOAT) * CAST(s1.breadth AS FLOAT) AS lowest_area,
+                        CAST(s2.length AS FLOAT) * CAST(s2.breadth AS FLOAT) AS highest_area,
+                        CAST(s_target.length AS FLOAT) * CAST(s_target.breadth AS FLOAT) AS target_area
+                    FROM\s
+                        dbo.configure_pmkys_amount c1
+                    INNER JOIN dbo.configure_pmkys_amount c2\s
+                        ON c1.hectare_id = c2.hectare_id\s
+                        AND c1.amount < c2.amount
+                    INNER JOIN dbo.spacing_master s1\s
+                        ON s1.spacing_master_id = c1.spacing_id
+                    INNER JOIN dbo.spacing_master s2\s
+                        ON s2.spacing_master_id = c2.spacing_id
+                    INNER JOIN dbo.spacing_master s_target\s
+                        ON s_target.spacing_master_id = :spacingId
+                    WHERE\s
+                        (CAST(s_target.length AS FLOAT) * CAST(s_target.breadth AS FLOAT))\s
+                        BETWEEN (CAST(s1.length AS FLOAT) * CAST(s1.breadth AS FLOAT))\s
+                        AND (CAST(s2.length AS FLOAT) * CAST(s2.breadth AS FLOAT))
+                        AND c1.hectare_id = :hectareId
+                ),
+                HectareFallback AS (
+                    SELECT DISTINCT\s
+                        c1.amount AS lowest_amount,
+                        c2.amount AS highest_amount,
+                        CAST(h1.hectare_master_name AS FLOAT) AS lowest_hectare_value,
+                        CAST(h2.hectare_master_name AS FLOAT) AS highest_hectare_value,
+                        CAST(h_target.hectare_master_name AS FLOAT) AS target_hectare_value
+                    FROM\s
+                        dbo.configure_pmkys_amount c1
+                    INNER JOIN dbo.configure_pmkys_amount c2\s
+                        ON c1.spacing_id = c2.spacing_id\s
+                        AND c1.amount < c2.amount
+                    INNER JOIN dbo.hectare_master h1\s
+                        ON h1.hectare_master_id = c1.hectare_id
+                    INNER JOIN dbo.hectare_master h2\s
+                        ON h2.hectare_master_id = c2.hectare_id
+                    INNER JOIN dbo.hectare_master h_target\s
+                        ON h_target.hectare_master_id = :hectareId
+                    WHERE\s
+                        CAST(h_target.hectare_master_name AS FLOAT)\s
+                        BETWEEN CAST(h1.hectare_master_name AS FLOAT)\s
+                        AND CAST(h2.hectare_master_name AS FLOAT)
+                        AND c1.spacing_id = :spacingId
+                )
+                SELECT TOP 1
+                    amount
+                FROM DirectMatch
+                UNION
+                SELECT TOP 1
+                    lowest_amount +\s
+                    CASE WHEN (highest_area - lowest_area) != 0 THEN ((highest_amount - lowest_amount) / (highest_area - lowest_area)) * (target_area - lowest_area)
+                         ELSE 0 END AS calculated_amount
+                FROM SpacingFallback
+                UNION
+                SELECT TOP 1
+                    lowest_amount +\s
+                    CASE WHEN (highest_hectare_value - lowest_hectare_value) != 0 THEN ((highest_amount - lowest_amount) / (highest_hectare_value - lowest_hectare_value)) * (highest_hectare_value - target_hectare_value)
+                         ELSE 0 END AS calculated_amount
+                FROM HectareFallback;
+            
+""")
+    List<Object[]> getClosestAmountBySpacingAndHectare(@Param("spacingId") Long spacingId, @Param("hectareId") Long hectareId);
+
+
     @Query(nativeQuery = true, value = """
-    SELECT\s
+    SELECT
         cpa.configure_pmkys_amount_id,
         cpa.spacing_id,
         cpa.hectare_id,
