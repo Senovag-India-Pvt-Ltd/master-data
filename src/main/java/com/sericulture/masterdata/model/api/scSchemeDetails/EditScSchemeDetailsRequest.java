@@ -41,5 +41,8 @@ public class EditScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "hectare", example = "1")
     Boolean hectare;
 
+    @Schema(name = "calculationBasedOn", example = "calculation")
+    String calculationBasedOn;
+
 
 }

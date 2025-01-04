@@ -45,4 +45,8 @@ public class ScSchemeDetails extends BaseEntity implements Serializable {
 
     @Column(name = "spacing" ,columnDefinition = "TINYINT")
     private Boolean spacing;
+
+
+    @Column(name = "calculation_based_on")
+    private String calculationBasedOn;
 }

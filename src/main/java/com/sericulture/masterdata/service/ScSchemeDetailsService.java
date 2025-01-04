@@ -132,6 +132,8 @@ public class ScSchemeDetailsService {
                 scSchemeDetails.setSpacing( scSchemeDetailsRequest.getSpacing());
                 scSchemeDetails.setHectare( scSchemeDetailsRequest.getHectare());
                 scSchemeDetails.setDbtCode(scSchemeDetailsRequest.getDbtCode());
+                scSchemeDetails.setDbtCode(scSchemeDetailsRequest.getDbtCode());
+                scSchemeDetails.setCalculationBasedOn(scSchemeDetailsRequest.getCalculationBasedOn());
 
                 scSchemeDetails.setActive(true);
                 ScSchemeDetails scSchemeDetails1= scSchemeDetailsRepository.save(scSchemeDetails);

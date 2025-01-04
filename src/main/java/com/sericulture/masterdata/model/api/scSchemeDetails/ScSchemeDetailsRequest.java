@@ -37,4 +37,8 @@ public class ScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "spacing", example = "1")
     Boolean spacing;
 
+
+    @Schema(name = "calculationBasedOn", example = "calculation")
+    String calculationBasedOn;
+
 }

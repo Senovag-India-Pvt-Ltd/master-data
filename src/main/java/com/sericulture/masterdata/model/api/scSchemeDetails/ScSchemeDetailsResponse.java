@@ -42,4 +42,7 @@ public class ScSchemeDetailsResponse {
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
+
+    @Schema(name = "calculationBasedOn", example = "calculation")
+    String calculationBasedOn;
 }
