@@ -37,6 +37,18 @@ public class ScSchemeDetailsResponse {
     @Schema(name = "spacing", example = "1")
     Boolean spacing;
 
+    @Schema(name = "workOrderForScheme", example = "calculation")
+    String workOrderForScheme;
+
+    @Schema(name = "sanctionOrderForScheme", example = "calculation")
+    String sanctionOrderForScheme;
+
+    @Schema(name = "unitForScheme", example = "calculation")
+    String unitForScheme;
+
+    @Schema(name = "acknowledgementForScheme", example = "calculation")
+    String acknowledgementForScheme;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

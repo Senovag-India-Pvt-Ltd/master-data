@@ -44,5 +44,17 @@ public class EditScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "calculationBasedOn", example = "calculation")
     String calculationBasedOn;
 
+    @Schema(name = "workOrderForScheme", example = "calculation")
+    String workOrderForScheme;
+
+    @Schema(name = "sanctionOrderForScheme", example = "calculation")
+    String sanctionOrderForScheme;
+
+    @Schema(name = "unitForScheme", example = "calculation")
+    String unitForScheme;
+
+    @Schema(name = "acknowledgementForScheme", example = "calculation")
+    String acknowledgementForScheme;
+
 
 }

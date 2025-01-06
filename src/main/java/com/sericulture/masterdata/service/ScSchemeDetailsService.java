@@ -134,6 +134,10 @@ public class ScSchemeDetailsService {
                 scSchemeDetails.setDbtCode(scSchemeDetailsRequest.getDbtCode());
                 scSchemeDetails.setDbtCode(scSchemeDetailsRequest.getDbtCode());
                 scSchemeDetails.setCalculationBasedOn(scSchemeDetailsRequest.getCalculationBasedOn());
+                scSchemeDetails.setWorkOrderForScheme(scSchemeDetailsRequest.getWorkOrderForScheme());
+                scSchemeDetails.setSanctionOrderForScheme(scSchemeDetailsRequest.getSanctionOrderForScheme());
+                scSchemeDetails.setAcknowledgementForScheme(scSchemeDetailsRequest.getAcknowledgementForScheme());
+                scSchemeDetails.setUnitForScheme(scSchemeDetailsRequest.getUnitForScheme());
 
                 scSchemeDetails.setActive(true);
                 ScSchemeDetails scSchemeDetails1= scSchemeDetailsRepository.save(scSchemeDetails);
