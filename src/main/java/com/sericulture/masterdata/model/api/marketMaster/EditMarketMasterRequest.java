@@ -136,4 +136,6 @@ public class EditMarketMasterRequest extends RequestBody {
     @Schema(name = "cocoonAge", example = "1")
     Long cocoonAge;
 
+    @Schema(name = "isTest", example = "true")
+    Boolean isTest;
 }

@@ -143,4 +143,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     @Column(name="cocoon_age")
     private Long cocoonAge;
 
+    @Column(name = "is_test", columnDefinition = "TINYINT")
+    private Boolean isTest;
+
 }
