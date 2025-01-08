@@ -149,4 +149,7 @@ public class MarketMasterResponse {
 
     @Schema(name = "cocoonAge", example = "1")
     Long cocoonAge;
+
+    @Schema(name = "isTest", example = "true")
+    Boolean isTest;
 }
