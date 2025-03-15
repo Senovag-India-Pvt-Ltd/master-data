@@ -42,4 +42,7 @@ public class ScApprovalStageRequest extends RequestBody {
 
     @Schema(name = "financialDelegation", example = "true")
     private Boolean financialDelegation;
+
+    @Schema(name = "directlyToFruits", example = "true")
+    private Boolean directlyToFruits;
 }

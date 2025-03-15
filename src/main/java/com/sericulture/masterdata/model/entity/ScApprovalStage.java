@@ -50,4 +50,7 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = "financial_delegation", columnDefinition = "TINYINT")
     private Boolean financialDelegation;
+
+    @Column(name = "directly_to_fruits", columnDefinition = "TINYINT")
+    private Boolean directlyToFruits;
 }
