@@ -108,6 +108,20 @@ public class UserHierarchyMappingService {
         return userHierarchyMappingResponse;
     }
 
+    public UserHierarchyMappingResponse getByReporteeUserMasterId(int reporteeUserMasterId){
+        UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
+        UserHierarchyMapping userHierarchyMapping = userHierarchyMappingRepository.findByReporteeUserMasterIdAndActive(reporteeUserMasterId,true);
+        if(userHierarchyMapping == null){
+            userHierarchyMappingResponse.setError(true);
+            userHierarchyMappingResponse.setError_description("Invalid id");
+        }else{
+            userHierarchyMappingResponse =  mapper.userHierarchyMappingEntityToObject(userHierarchyMapping,UserHierarchyMappingResponse.class);
+            userHierarchyMappingResponse.setError(false);
+        }
+        log.info("Entity is ",userHierarchyMapping);
+        return userHierarchyMappingResponse;
+    }
+
     @Transactional
     public UserHierarchyMappingResponse updateUserHierarchyMappingDetails(EditUserHierarchyMappingRequest userHierarchyMappingRequest){
         UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
