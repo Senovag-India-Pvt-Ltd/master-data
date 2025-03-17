@@ -20,6 +20,8 @@ public interface UserHierarchyMappingRepository extends PagingAndSortingReposito
 
     public UserHierarchyMapping findByUserHierarchyMappingIdAndActive(long userHierarchyMappingId, boolean isActive);
 
+    public UserHierarchyMapping findByReporteeUserMasterIdAndActive(long reporteeUserMasterId, boolean isActive);
+
     public UserHierarchyMapping findByUserHierarchyMappingIdAndActiveIn(@Param("userHierarchyMappingId") long userHierarchyMappingIdId, @Param("active") Set<Boolean> active);
 
     public List<UserHierarchyMapping> findByActive(boolean isActive);

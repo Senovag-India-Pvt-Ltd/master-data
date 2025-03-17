@@ -44,4 +44,7 @@ public class EditScApprovalStageRequest extends RequestBody {
     @Schema(name = "financialDelegation", example = "1")
     Boolean financialDelegation;
 
+    @Schema(name = "directlyToFruits", example = "1")
+    Boolean directlyToFruits;
+
 }

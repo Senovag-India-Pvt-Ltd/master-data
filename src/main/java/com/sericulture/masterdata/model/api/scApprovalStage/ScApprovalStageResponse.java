@@ -42,6 +42,9 @@ public class ScApprovalStageResponse {
     @Schema(name = "financialDelegation", example = "1")
     Boolean financialDelegation;
 
+    @Schema(name = "directlyToFruits", example = "true")
+    Boolean directlyToFruits;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

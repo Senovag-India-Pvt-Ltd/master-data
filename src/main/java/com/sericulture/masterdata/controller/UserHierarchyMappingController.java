@@ -147,6 +147,15 @@ public class UserHierarchyMappingController {
         rw.setContent(userHierarchyMappingService.getById(id));
         return ResponseEntity.ok(rw);
     }
+    @GetMapping("/getByReporteeUserMasterId/{reporteeUserMasterId}")
+    public ResponseEntity<?> getByReporteeUserMasterId(
+            @PathVariable final Integer reporteeUserMasterId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(UserHierarchyMappingResponse.class);
+
+        rw.setContent(userHierarchyMappingService.getByReporteeUserMasterId(reporteeUserMasterId));
+        return ResponseEntity.ok(rw);
+    }
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "Ok Response"),
 //            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
