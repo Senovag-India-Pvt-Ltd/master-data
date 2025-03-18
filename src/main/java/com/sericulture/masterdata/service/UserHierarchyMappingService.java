@@ -32,21 +32,51 @@ public class UserHierarchyMappingService {
     CustomValidator validator;
 
 
-    @Transactional
-    public UserHierarchyMappingResponse insertUserHierarchyMappingDetails(UserHierarchyMappingRequest userHierarchyMappingRequest){
-        UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
-        UserHierarchyMapping userHierarchyMapping = mapper.userHierarchyMappingObjectToEntity(userHierarchyMappingRequest,UserHierarchyMapping.class);
-        validator.validate(userHierarchyMapping);
-//        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
-//        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
-//            throw new ValidationException("RpPageRoot name already exist");
-//        }
-//        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
-//            throw new ValidationException("RpPageRoot name already exist with inactive state");
-//        }
+//    @Transactional
+//    public UserHierarchyMappingResponse insertUserHierarchyMappingDetails(UserHierarchyMappingRequest userHierarchyMappingRequest){
+//        UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
+//        UserHierarchyMapping userHierarchyMapping = mapper.userHierarchyMappingObjectToEntity(userHierarchyMappingRequest,UserHierarchyMapping.class);
+//        validator.validate(userHierarchyMapping);
+////        List<RpPageRoot> rpPageRootList = rpPageRootRepository.findByRpPageRootName(rpPageRootRequest.getRpPageRootName());
+////        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(RpPageRoot::getActive).findAny().isPresent()){
+////            throw new ValidationException("RpPageRoot name already exist");
+////        }
+////        if(!rpPageRootList.isEmpty() && rpPageRootList.stream().filter(Predicate.not(RpPageRoot::getActive)).findAny().isPresent()){
+////            throw new ValidationException("RpPageRoot name already exist with inactive state");
+////        }
+//
+//        return mapper.userHierarchyMappingEntityToObject(userHierarchyMappingRepository.save(userHierarchyMapping), UserHierarchyMappingResponse.class);
+//    }
 
-        return mapper.userHierarchyMappingEntityToObject(userHierarchyMappingRepository.save(userHierarchyMapping), UserHierarchyMappingResponse.class);
+@Transactional
+public UserHierarchyMappingResponse insertUserHierarchyMappingDetails(UserHierarchyMappingRequest userHierarchyMappingRequest) {
+    UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
+
+    // Convert request DTO to entity
+    UserHierarchyMapping userHierarchyMapping = mapper.userHierarchyMappingObjectToEntity(userHierarchyMappingRequest, UserHierarchyMapping.class);
+
+    // Validate input data
+    validator.validate(userHierarchyMapping);
+
+    // Check if a record exists for the given ReporteeUserMasterId
+    UserHierarchyMapping existingMapping = userHierarchyMappingRepository.findByReporteeUserMasterIdAndActive(userHierarchyMappingRequest.getReporteeUserMasterId(), true);
+
+    if (existingMapping != null) {
+        // Update the existing record
+        existingMapping.setReportToUserMasterId(userHierarchyMapping.getReportToUserMasterId());
+
+        // Save updated entity
+        userHierarchyMapping = userHierarchyMappingRepository.save(existingMapping);
+    } else {
+        // Create a new record if no existing mapping is found
+        userHierarchyMapping = userHierarchyMappingRepository.save(userHierarchyMapping);
     }
+
+    // Convert entity back to response DTO and return
+    return mapper.userHierarchyMappingEntityToObject(userHierarchyMapping, UserHierarchyMappingResponse.class);
+}
+
+
 
     public Map<String,Object> getPaginatedUserHierarchyMappingDetails(final Pageable pageable){
         return convertToMapResponse(userHierarchyMappingRepository.findByActiveOrderByUserHierarchyMappingIdAsc( true, pageable));
