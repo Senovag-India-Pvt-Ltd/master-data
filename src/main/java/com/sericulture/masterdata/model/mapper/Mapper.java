@@ -9,6 +9,7 @@ import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.configurePmkysAmount.ConfigurePmkysAmountRequest;
 import com.sericulture.masterdata.model.api.cropInspectionType.CropInspectionTypeRequest;
 import com.sericulture.masterdata.model.api.cropStatus.CropStatusRequest;
+import com.sericulture.masterdata.model.api.dbtStatusCheck.DbtStatusCheckRequest;
 import com.sericulture.masterdata.model.api.departmentMaster.DepartmentMasterRequest;
 import com.sericulture.masterdata.model.api.diseaseStatus.DiseaseStatusRequest;
 import com.sericulture.masterdata.model.api.disinfectantMaster.DisinfectantMasterRequest;
@@ -3030,6 +3031,26 @@ public class Mapper {
     public <T> T configurePmkysAmountObjectToEntity(ConfigurePmkysAmountRequest configurePmkysAmountRequest , Class<T> claaz) {
         log.info("Value of mapper is:",mapper, configurePmkysAmountRequest);
         return (T) mapper.map(configurePmkysAmountRequest, claaz);
+    }
+
+    /**
+     * Maps DbtStatusCheck Entity to DbtStatusCheck  Response Object
+     * @param dbtStatusCheckEntity
+     * @param <T>
+     */
+    public <T> T dbtStatusCheckEntityToObject(DbtStatusCheck dbtStatusCheckEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,dbtStatusCheckEntity );
+        return (T) mapper.map(dbtStatusCheckEntity, claaz);
+    }
+
+    /**
+     * Maps DbtStatusCheck  Object to DbtStatusCheck  Response Object
+     * @param dbtStatusCheckRequest
+     * @param <T>
+     */
+    public <T> T dbtStatusCheckObjectToEntity(DbtStatusCheckRequest dbtStatusCheckRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, dbtStatusCheckRequest);
+        return (T) mapper.map(dbtStatusCheckRequest, claaz);
     }
 
 }
