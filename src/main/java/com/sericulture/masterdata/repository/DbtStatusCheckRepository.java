@@ -18,6 +18,9 @@ public interface DbtStatusCheckRepository extends PagingAndSortingRepository<Dbt
 
     public List<DbtStatusCheck> findByUsername(String username);
 
+    public List<DbtStatusCheck> findByDeptCodeAndSchemeIdAndComponentTypeIdAndComponentIdAndSubComponentIdAndDbtSchemeAndUsernameAndPassword(Long deptCode,Long schemeId, Long componentTypeId, Long componentId, Long subComponentId,Long dbtScheme, String username, String password);
+
+
     public List<DbtStatusCheck> findByUsernameAndDbtStatusCheckIdIsNot(String username, long dbtStatusCheckId);
 
     public Page<DbtStatusCheck> findByActiveOrderByDbtStatusCheckIdAsc(boolean isActive, final Pageable pageable);

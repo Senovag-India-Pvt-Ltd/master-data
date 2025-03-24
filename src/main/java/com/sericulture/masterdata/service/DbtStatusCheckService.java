@@ -45,15 +45,16 @@ public class DbtStatusCheckService {
         DbtStatusCheckResponse dbtStatusCheckResponse = new DbtStatusCheckResponse();
         DbtStatusCheck dbtStatusCheck = mapper.dbtStatusCheckObjectToEntity(dbtStatusCheckRequest,DbtStatusCheck.class);
         validator.validate(dbtStatusCheck);
-        List<DbtStatusCheck> dbtStatusCheckList = dbtStatusCheckRepository.findByUsername(dbtStatusCheckRequest.getUsername());
+//        List<DbtStatusCheck> dbtStatusCheckList = dbtStatusCheckRepository.findByUsername(dbtStatusCheckRequest.getUsername());
+                List<DbtStatusCheck> dbtStatusCheckList = dbtStatusCheckRepository.findByDeptCodeAndSchemeIdAndComponentTypeIdAndComponentIdAndSubComponentIdAndDbtSchemeAndUsernameAndPassword(dbtStatusCheckRequest.getDeptCode(),dbtStatusCheckRequest.getSchemeId(),dbtStatusCheckRequest.getComponentTypeId(),dbtStatusCheckRequest.getComponentId(),dbtStatusCheckRequest.getSubComponentId(),dbtStatusCheckRequest.getDbtScheme(),dbtStatusCheckRequest.getUsername(),dbtStatusCheckRequest.getPassword());
         if(!dbtStatusCheckList.isEmpty() && dbtStatusCheckList.stream().filter(DbtStatusCheck::getActive).findAny().isPresent()){
             dbtStatusCheckResponse.setError(true);
-            dbtStatusCheckResponse.setError_description("DbtStatusCheck name already exist");
+            dbtStatusCheckResponse.setError_description("Provided Data already exist");
         }
         else if(!dbtStatusCheckList.isEmpty() && dbtStatusCheckList.stream().filter(Predicate.not(DbtStatusCheck::getActive)).findAny().isPresent()){
             //throw new ValidationException("Village name already exist with inactive state");
             dbtStatusCheckResponse.setError(true);
-            dbtStatusCheckResponse.setError_description("DbtStatusCheck name already exist with inactive state");
+            dbtStatusCheckResponse.setError_description("Provided Data already exist with inactive state");
         }else {
             dbtStatusCheckResponse = mapper.dbtStatusCheckEntityToObject(dbtStatusCheckRepository.save(dbtStatusCheck), DbtStatusCheckResponse.class);
             dbtStatusCheckResponse.setError(false);
