@@ -172,6 +172,26 @@ public class ScSubSchemeDetailsService {
 
     }
 
+    public Map<String, Object> getScSubSchemeDetailsBySchemeAndSubSchemeId(Long scSchemeDetailsId, Long scSubSchemeDetailsId) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ScSubSchemeDetails> scSubSchemeDetailsList =
+                scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndScSubSchemeDetailsIdAndActive(
+                        scSchemeDetailsId, scSubSchemeDetailsId, true);
+
+        if (scSubSchemeDetailsList.isEmpty()) {
+            response.put("error", "Error");
+            response.put("error_description", "Invalid scheme or sub-scheme ID");
+            response.put("success", false);
+        } else {
+            log.info("Entities: {}", scSubSchemeDetailsList);
+            response = convertListToMapResponse(scSubSchemeDetailsList); // your existing converter
+            response.put("success", true);
+        }
+
+        return response;
+    }
+
     private Map<String, Object> convertListToMapResponse(List<ScSubSchemeDetails> scSubSchemeDetailsList) {
         Map<String, Object> response = new HashMap<>();
         List<ScSubSchemeDetailsResponse> scSubSchemeDetailsResponses = scSubSchemeDetailsList.stream()
@@ -204,6 +224,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setWithLand(scSubSchemeDetailsRequest.getWithLand());
                 scSubSchemeDetails.setBeneficiaryType(scSubSchemeDetailsRequest.getBeneficiaryType());
                 scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
+                scSubSchemeDetails.setAllowMultipleSanction(scSubSchemeDetailsRequest.getAllowMultipleSanction());
 
                 scSubSchemeDetails.setActive(true);
                 ScSubSchemeDetails scSubSchemeDetails1 = scSubSchemeDetailsRepository.save(scSubSchemeDetails);

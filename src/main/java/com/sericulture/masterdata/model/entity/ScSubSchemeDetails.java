@@ -52,4 +52,7 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "dbt_code", unique = true)
     private String dbtCode;
 
+    @Column(name = "allow_multiple_sanction" ,columnDefinition = "TINYINT")
+    private Boolean allowMultipleSanction;
+
 }
