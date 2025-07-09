@@ -192,6 +192,18 @@ public class ScSubSchemeDetailsController {
         rw.setContent(scSubSchemeDetailsService.getScSubSchemeDetailsByScSchemeDetailsId(scSchemeDetailsId));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/get-by-scheme-and-sub-scheme-details-id/{scSchemeDetailsId}/{scSubSchemeDetailsId}")
+    public ResponseEntity<?> getBySchemeAndSubSchemeDetailsId(
+            @PathVariable final Long scSchemeDetailsId,
+            @PathVariable final Long scSubSchemeDetailsId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scSubSchemeDetailsService.getScSubSchemeDetailsBySchemeAndSubSchemeId(scSchemeDetailsId, scSubSchemeDetailsId));
+        return ResponseEntity.ok(rw);
+    }
+
+
     @GetMapping("/list-with-join")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =
@@ -252,4 +264,6 @@ public class ScSubSchemeDetailsController {
         rw.setContent(scSubSchemeDetailsService.searchByColumnAndSort(searchWithSortRequest));
         return ResponseEntity.ok(rw);
     }
+
+
 }

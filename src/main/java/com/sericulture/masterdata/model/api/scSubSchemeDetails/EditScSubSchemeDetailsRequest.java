@@ -43,6 +43,9 @@ public class EditScSubSchemeDetailsRequest extends RequestBody {
     @Schema(name = "beneficiaryType", example = "1")
     Long beneficiaryType;
 
+    @Schema(name = "allowMultipleSanction", example = "1")
+    Boolean allowMultipleSanction;
+
 //    @Schema(name = "sanctionOrderForScheme", example = "sanctionOrderForScheme")
 //    String sanctionOrderForScheme;
 

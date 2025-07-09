@@ -42,6 +42,9 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
 //    @Schema(name = "sanctionOrderForScheme", example = "calculation")
 //    String sanctionOrderForScheme;
 
+    @Schema(name = "allowMultipleSanction", example = "1")
+    Boolean allowMultipleSanction;
+
 //    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
     @Schema(name = "dbtCode", example = "Karnataka", required = true)
     String dbtCode;
