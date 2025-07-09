@@ -52,4 +52,7 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "dbt_code", unique = true)
     private String dbtCode;
 
+//    @Column(name = "sanction_order_for_scheme")
+//    private String sanctionOrderForScheme;
+
 }

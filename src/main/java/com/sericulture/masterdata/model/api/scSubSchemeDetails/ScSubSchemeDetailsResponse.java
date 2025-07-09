@@ -47,6 +47,9 @@ public class ScSubSchemeDetailsResponse {
     @Schema(name = "dbtCode", example = "Karnataka", required = true)
     String dbtCode;
 
+//    @Schema(name = "sanctionOrderForScheme", example = "calculation")
+//    String sanctionOrderForScheme;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

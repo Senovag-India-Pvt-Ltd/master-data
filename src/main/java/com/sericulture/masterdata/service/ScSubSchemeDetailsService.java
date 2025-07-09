@@ -204,6 +204,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setWithLand(scSubSchemeDetailsRequest.getWithLand());
                 scSubSchemeDetails.setBeneficiaryType(scSubSchemeDetailsRequest.getBeneficiaryType());
                 scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
+//                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);
                 ScSubSchemeDetails scSubSchemeDetails1 = scSubSchemeDetailsRepository.save(scSubSchemeDetails);
