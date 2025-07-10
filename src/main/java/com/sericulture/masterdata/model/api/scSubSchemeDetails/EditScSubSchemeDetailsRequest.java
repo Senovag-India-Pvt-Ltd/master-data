@@ -43,6 +43,12 @@ public class EditScSubSchemeDetailsRequest extends RequestBody {
     @Schema(name = "beneficiaryType", example = "1")
     Long beneficiaryType;
 
+    @Schema(name = "allowMultipleSanction", example = "1")
+    Boolean allowMultipleSanction;
+
+//    @Schema(name = "sanctionOrderForScheme", example = "sanctionOrderForScheme")
+//    String sanctionOrderForScheme;
+
 //    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "DBT Code must contain only letters and numbers")
     @Schema(name = "dbtCode", example = "Karnataka", required = true)
     String dbtCode;
