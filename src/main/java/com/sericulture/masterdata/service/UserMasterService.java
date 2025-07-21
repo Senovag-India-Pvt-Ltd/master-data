@@ -386,6 +386,7 @@ public class UserMasterService {
             userMaster.setUserTypeId(userMasterRequest.getUserTypeId());
             userMaster.setDeviceId(userMasterRequest.getDeviceId());
             userMaster.setDdoCode(userMasterRequest.getDdoCode());
+            userMaster.setKhazaneRecipientId(userMasterRequest.getKhazaneRecipientId());
             userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
             userMaster.setTscMasterId(userMasterRequest.getTscMasterId());
             userMaster.setActive(true);
