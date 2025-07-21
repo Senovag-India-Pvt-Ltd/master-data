@@ -82,4 +82,7 @@ public class EditUserMasterRequest extends RequestBody {
 
     @Schema(name = "managerId", example = "1")
     Long managerId;
+
+    @Schema(name = "khazaneRecipientId", example = "ddoCode 1", required = true)
+    String khazaneRecipientId;
 }

@@ -65,6 +65,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -118,6 +119,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -171,6 +173,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -225,6 +228,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
 
@@ -280,6 +284,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -333,6 +338,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -386,6 +392,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -441,6 +448,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") \n" +
@@ -591,6 +599,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.deviceId," +
             " userMaster.workingInstitutionId," +
             " userMaster.ddoCode," +
+            " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
             " workingInstitution.workingInstitutionName" +
             ") " +

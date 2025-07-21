@@ -113,6 +113,9 @@ public class UserMasterResponse {
     @Schema(name = "level", example = "test")
     String level;
 
+    @Schema(name = "khazaneRecipientId", example = "ddoCode 1")
+    String khazaneRecipientId;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

@@ -77,4 +77,7 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "tscMasterId", example = "1")
     Long tscMasterId;
 
+    @Schema(name = "khazaneRecipientId", example = "ddoCode 1")
+    String khazaneRecipientId;
+
 }

@@ -38,6 +38,7 @@ public class UserMasterDTO {
     private String deviceId;
     private Long workingInstitutionId;
     private String ddoCode;
+    private String khazaneRecipientId;
     private String workingInstitutionName;
     private String enteredOtpByUser; //User entered otp for verification
 //    public UserMasterDTO() {}
