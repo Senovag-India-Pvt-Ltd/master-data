@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.entity.MulberrySource;
 import com.sericulture.masterdata.model.entity.MulberryTargetType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -26,6 +27,11 @@ public interface MulberryTargetTypeRepository extends PagingAndSortingRepository
     public MulberryTargetType findByMulberryTargetTypeIdAndActiveIn(@Param("mulberryTargetTypeId") long mulberryTargetTypeId, @Param("active") Set<Boolean> active);
 
     public List<MulberryTargetType> findByActiveOrderByMulberryTargetTypeNameAsc(boolean isActive);
+
+    List<MulberryTargetType> findByMulberryRequiredAndActiveTrue(Boolean mulberryRequired);
+
+    @Query("SELECT m FROM MulberryTargetType m WHERE (m.mulberryRequired = false OR m.mulberryRequired IS NULL) AND m.active = true")
+    List<MulberryTargetType> findByMulberryRequiredFalseOrNullAndActiveTrue();
 
     public Page<MulberryTargetType> findByActiveOrderByMulberryTargetTypeNameAsc(boolean isActive, final Pageable pageable);
 

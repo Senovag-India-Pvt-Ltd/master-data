@@ -108,6 +108,16 @@ public class MulberryTargetTypeController {
         return ResponseEntity.ok(rw);
     }
 
+    @GetMapping("/get-by-required-true")
+    public ResponseEntity<Map<String, Object>> getMulberryRequiredTrue() {
+        return ResponseEntity.ok(mulberryTargetTypeService.getAllMulberryRequiredTrue());
+    }
+
+    @GetMapping("/get-by-required-false")
+    public ResponseEntity<Map<String, Object>> getMulberryRequiredFalse() {
+        return ResponseEntity.ok(mulberryTargetTypeService.getAllMulberryRequiredFalse());
+    }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",

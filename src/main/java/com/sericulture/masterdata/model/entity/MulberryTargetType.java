@@ -31,4 +31,7 @@ public class MulberryTargetType extends BaseEntity implements Serializable {
     @Column(name = "mulberry_target_type_name_in_kannada", unique = true)
     private String mulberryTargetTypeNameInKannada;
 
+    @Column(name = "mulberry_required")
+    private Boolean mulberryRequired = false;
+
 }
