@@ -124,32 +124,47 @@ public class MulberryTargetTypeService {
     }
 
     @Transactional
-    public MulberryTargetTypeResponse updateMulberryTargetTypeDetails(EditMulberryTargetTypeRequest mulberryTargetTypeRequest){
+    public MulberryTargetTypeResponse updateMulberryTargetTypeDetails(EditMulberryTargetTypeRequest mulberryTargetTypeRequest) {
         MulberryTargetTypeResponse mulberryTargetTypeResponse = new MulberryTargetTypeResponse();
-        List<MulberryTargetType> mulberryTargetTypeList = mulberryTargetTypeRepository.findByMulberryTargetTypeNameAndMulberryTargetTypeNameInKannadaAndActive(mulberryTargetTypeRequest.getMulberryTargetTypeName(),mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada(),true);
-        if(mulberryTargetTypeList.size()>0){
+
+        // Validation check commented as requested
+        List<MulberryTargetType> mulberryTargetTypeList = mulberryTargetTypeRepository
+                .findByMulberryTargetTypeNameAndMulberryTargetTypeNameInKannadaAndActive(
+                        mulberryTargetTypeRequest.getMulberryTargetTypeName(),
+                        mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada(),
+                        true);
+
+//    if (mulberryTargetTypeList.size() > 0) {
+//        mulberryTargetTypeResponse.setError(true);
+//        // mulberryTargetTypeResponse.setError_description("MulberryTargetType already exists, duplicates are not allowed.");
+//        // throw new ValidationException("Village already exists, duplicates are not allowed.");
+//    } else {
+
+        MulberryTargetType mulberryTargetType = mulberryTargetTypeRepository
+                .findByMulberryTargetTypeIdAndActiveIn(
+                        mulberryTargetTypeRequest.getMulberryTargetTypeId(),
+                        Set.of(true, false));
+
+        if (Objects.nonNull(mulberryTargetType)) {
+            mulberryTargetType.setMulberryTargetTypeName(mulberryTargetTypeRequest.getMulberryTargetTypeName());
+            mulberryTargetType.setMulberryTargetTypeNameInKannada(mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada());
+            mulberryTargetType.setMulberryRequired(mulberryTargetTypeRequest.getMulberryRequired());
+            mulberryTargetType.setUnit(mulberryTargetTypeRequest.getUnit());
+            mulberryTargetType.setActive(true);
+
+            MulberryTargetType mulberryTargetType1 = mulberryTargetTypeRepository.save(mulberryTargetType);
+            mulberryTargetTypeResponse = mapper.mulberryTargetTypeEntityToObject(
+                    mulberryTargetType1, MulberryTargetTypeResponse.class);
+            mulberryTargetTypeResponse.setError(false);
+        } else {
             mulberryTargetTypeResponse.setError(true);
-            mulberryTargetTypeResponse.setError_description("MulberryTargetType already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        }else {
-
-            MulberryTargetType mulberryTargetType = mulberryTargetTypeRepository.findByMulberryTargetTypeIdAndActiveIn(mulberryTargetTypeRequest.getMulberryTargetTypeId(), Set.of(true,false));
-            if(Objects.nonNull(mulberryTargetType)){
-                mulberryTargetType.setMulberryTargetTypeName(mulberryTargetTypeRequest.getMulberryTargetTypeName());
-                mulberryTargetType.setMulberryTargetTypeNameInKannada(mulberryTargetTypeRequest.getMulberryTargetTypeNameInKannada());
-                mulberryTargetType.setMulberryRequired(mulberryTargetTypeRequest.getMulberryRequired());
-
-                mulberryTargetType.setActive(true);
-                MulberryTargetType mulberryTargetType1 = mulberryTargetTypeRepository.save(mulberryTargetType);
-                mulberryTargetTypeResponse = mapper.mulberryTargetTypeEntityToObject(mulberryTargetType1, MulberryTargetTypeResponse.class);
-                mulberryTargetTypeResponse.setError(false);
-            } else {
-                mulberryTargetTypeResponse.setError(true);
-                mulberryTargetTypeResponse.setError_description("Error occurred while fetching MulberryTargetType");
-                // throw new ValidationException("Error occurred while fetching village");
-            }
+            mulberryTargetTypeResponse.setError_description("Error occurred while fetching MulberryTargetType");
+            // throw new ValidationException("Error occurred while fetching village");
         }
+//    }
+
         return mulberryTargetTypeResponse;
     }
+
 
 }
