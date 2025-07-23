@@ -21,6 +21,12 @@ public class MulberryTargetTypeResponse {
     @Schema(name = "mulberryTargetTypeNameInKannada", example = "Commercial Market", required = true)
     String mulberryTargetTypeNameInKannada;
 
+    @Schema(name = "mulberryRequired", example = "true")
+    Boolean mulberryRequired;
+
+    @Schema(name = "unit", example = "Commercial Market", required = true)
+    String unit;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
