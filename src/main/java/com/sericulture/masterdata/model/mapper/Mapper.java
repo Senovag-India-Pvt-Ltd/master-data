@@ -7,6 +7,10 @@ import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterReq
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
 import com.sericulture.masterdata.model.api.configurePmkysAmount.ConfigurePmkysAmountRequest;
+import com.sericulture.masterdata.model.api.configure_icb.ConfigureIcbRequest;
+import com.sericulture.masterdata.model.api.configure_imcb.ConfigureImcbRequest;
+import com.sericulture.masterdata.model.api.configure_reeling_shed.ConfigureReelingShedRequest;
+import com.sericulture.masterdata.model.api.configure_silk_incentive.ConfigureSilkIncentiveRequest;
 import com.sericulture.masterdata.model.api.cropInspectionType.CropInspectionTypeRequest;
 import com.sericulture.masterdata.model.api.cropStatus.CropStatusRequest;
 import com.sericulture.masterdata.model.api.dbtStatusCheck.DbtStatusCheckRequest;
@@ -3051,6 +3055,91 @@ public class Mapper {
     public <T> T dbtStatusCheckObjectToEntity(DbtStatusCheckRequest dbtStatusCheckRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, dbtStatusCheckRequest);
         return (T) mapper.map(dbtStatusCheckRequest, claaz);
+    }
+
+
+    /**
+     * Maps ConfigureIcb Entity to ConfigureIcb  Response Object
+     * @param configureIcbEntity
+     * @param <T>
+     */
+    public <T> T configureIcbEntityToObject(ConfigureIcb configureIcbEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,configureIcbEntity );
+        return (T) mapper.map(configureIcbEntity, claaz);
+    }
+
+    /**
+     * Maps ConfigureIcb  Object to ConfigureIcb  Response Object
+     * @param configureIcbRequest
+     * @param <T>
+     */
+    public <T> T configureIcbObjectToEntity(ConfigureIcbRequest configureIcbRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, configureIcbRequest);
+        return (T) mapper.map(configureIcbRequest, claaz);
+    }
+
+
+
+    /**
+     * Maps ConfigureImcb Entity to ConfigureImcb  Response Object
+     * @param configureImcbEntity
+     * @param <T>
+     */
+    public <T> T configureImcbEntityToObject(ConfigureImcb configureImcbEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,configureImcbEntity );
+        return (T) mapper.map(configureImcbEntity, claaz);
+    }
+
+    /**
+     * Maps ConfigureImcb Object to ConfigureImcb  Response Object
+     * @param configureImcbRequest
+     * @param <T>
+     */
+    public <T> T configureImcbObjectToEntity(ConfigureImcbRequest configureImcbRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, configureImcbRequest);
+        return (T) mapper.map(configureImcbRequest, claaz);
+    }
+
+    /**
+     * Maps ConfigureReelingShed Entity to ConfigureReelingShed  Response Object
+     * @param configureReelingShedEntity
+     * @param <T>
+     */
+    public <T> T configureReelingShedEntityToObject(ConfigureReelingShed configureReelingShedEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,configureReelingShedEntity );
+        return (T) mapper.map(configureReelingShedEntity, claaz);
+    }
+
+    /**
+     * Maps ConfigureReelingShed Object to ConfigureReelingShed  Response Object
+     * @param configureReelingShedRequest
+     * @param <T>
+     */
+    public <T> T configureReelingShedObjectToEntity(ConfigureReelingShedRequest configureReelingShedRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, configureReelingShedRequest);
+        return (T) mapper.map(configureReelingShedRequest, claaz);
+    }
+
+
+
+    /**
+     * Maps ConfigureSilkIncentive Entity to ConfigureSilkIncentive  Response Object
+     * @param configureSilkIncentiveEntity
+     * @param <T>
+     */
+    public <T> T configureSilkIncentiveEntityToObject(ConfigureSilkIncentive configureSilkIncentiveEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,configureSilkIncentiveEntity );
+        return (T) mapper.map(configureSilkIncentiveEntity, claaz);
+    }
+
+    /**
+     * Maps ConfigureSilkIncentive Object to ConfigureSilkIncentive  Response Object
+     * @param configureSilkIncentiveRequest
+     * @param <T>
+     */
+    public <T> T configureSilkIncentiveObjectToEntity(ConfigureSilkIncentiveRequest configureSilkIncentiveRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, configureSilkIncentiveRequest);
+        return (T) mapper.map(configureSilkIncentiveRequest, claaz);
     }
 
 }
