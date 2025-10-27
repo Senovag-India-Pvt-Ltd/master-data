@@ -53,11 +53,28 @@ public class ScSubSchemeDetailsResponse {
     @Schema(name = "allowMultipleSanction", example = "1")
     Boolean allowMultipleSanction;
 
+    @Schema(name = "sanctionForReeling", example = "1")
+    Boolean sanctionForReeling;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
 
+    @Schema(name = "calculationBasedOn", example = "calculation")
+    String calculationBasedOn;
+
+    @Schema(name = "workOrderForScheme", example = "calculation")
+    String workOrderForScheme;
+
+    @Schema(name = "sanctionOrderForScheme", example = "calculation")
+    String sanctionOrderForScheme;
+
+    @Schema(name = "unitForScheme", example = "calculation")
+    String unitForScheme;
+
+    @Schema(name = "acknowledgementForScheme", example = "calculation")
+    String acknowledgementForScheme;
 
 }

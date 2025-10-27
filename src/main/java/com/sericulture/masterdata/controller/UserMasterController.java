@@ -741,5 +741,52 @@ public class UserMasterController {
         }
     }
 
+    @PostMapping("/userMasterDetails")
+    public ResponseEntity<?> userMasterDetails(
+            @RequestParam(required = false) Long designationId,
+            @RequestParam(required = false) Long districtId,
+            @RequestParam(required = false) Long talukId,
+            @RequestParam(required = false) String mobileNumber,
+            @RequestParam(required = false) String username,
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "50") int pageSize) {
+
+        return userMasterService.userMasterDetails(
+                designationId, districtId, talukId, mobileNumber, username, pageNumber, pageSize);
+    }
+
+    @PostMapping("/userMasterDetailsReport")
+    public ResponseEntity<?> userMasterDetailsReport(
+            @RequestParam(required = false) Long designationId,
+            @RequestParam(required = false) Long districtId,
+            @RequestParam(required = false) Long talukId,
+            @RequestParam(required = false) String mobileNumber,
+            @RequestParam(required = false) String username,
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "50") int pageSize) {
+        try {
+            FileInputStream fileInputStream =
+                    userMasterService.userMasterReport(
+                            designationId, districtId, talukId, mobileNumber, username, pageNumber, pageSize);
+
+            InputStreamResource resource = new InputStreamResource(fileInputStream);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=user_master_report" + Util.getISTLocalDate() + ".xlsx");
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+            return ResponseEntity.ok().headers(headers).body(resource);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(
+                    ex.getMessage().getBytes(StandardCharsets.UTF_8),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+
 
 }

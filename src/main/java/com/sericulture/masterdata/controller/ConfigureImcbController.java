@@ -175,4 +175,17 @@ public class ConfigureImcbController {
         rw.setContent(configureImcbService.getById(id));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/findByImcbTableAndComponentTypeIdAndComponentIdAndCategoryIdAndActive")
+    public ResponseEntity<?> findByImcbTableAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(
+            @RequestParam(defaultValue = "true") String imcbTable,
+            @RequestParam(defaultValue = "true") long componentTypeId,
+            @RequestParam(defaultValue = "true") long componentId,
+            @RequestParam(defaultValue = "true") long categoryId,
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(configureImcbService.findByImcbTableAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(imcbTable,componentTypeId,componentId,categoryId,isActive));
+        return ResponseEntity.ok(rw);
+    }
 }

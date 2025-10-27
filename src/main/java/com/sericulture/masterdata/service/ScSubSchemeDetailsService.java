@@ -225,6 +225,12 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setBeneficiaryType(scSubSchemeDetailsRequest.getBeneficiaryType());
                 scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
                 scSubSchemeDetails.setAllowMultipleSanction(scSubSchemeDetailsRequest.getAllowMultipleSanction());
+                scSubSchemeDetails.setSanctionForReeling(scSubSchemeDetailsRequest.getSanctionForReeling());
+                scSubSchemeDetails.setCalculationBasedOn(scSubSchemeDetailsRequest.getCalculationBasedOn());
+                scSubSchemeDetails.setWorkOrderForScheme(scSubSchemeDetailsRequest.getWorkOrderForScheme());
+                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
+                scSubSchemeDetails.setAcknowledgementForScheme(scSubSchemeDetailsRequest.getAcknowledgementForScheme());
+                scSubSchemeDetails.setUnitForScheme(scSubSchemeDetailsRequest.getUnitForScheme());
 //                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);

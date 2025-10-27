@@ -31,6 +31,8 @@ public interface ConfigureSilkIncentiveRepository  extends PagingAndSortingRepos
 
     List<ConfigureSilkIncentive> findByActiveAndSilkIncentiveIdIsNot(boolean isActive, long silkIncentiveId);
 
+    public List<ConfigureSilkIncentive> findByComponentTypeIdAndComponentIdAndCategoryIdAndMachineTypeIdAndActive(long componentTypeId,long componentId, long categoryId,long machineTypeId ,boolean isActive);
+
     @Query(nativeQuery = true, value = """
             SELECT
              crs.reeling_shed_id,

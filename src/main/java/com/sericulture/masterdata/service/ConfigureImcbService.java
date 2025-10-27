@@ -46,6 +46,10 @@ public class ConfigureImcbService {
         return response;
     }
 
+    public Map<String,Object> findByImcbTableAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String imcbTable,long componentTypeId,long componentId, long categoryId ,boolean isActive){
+        return convertListEntityToMapResponse(configureImcbRepository.findByImcbTableAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(imcbTable,componentTypeId,componentId,categoryId,isActive));
+    }
+
     /**
      * ✅ Insert new Configure IMCB record
      */

@@ -61,7 +61,7 @@ public class ConfigureSilkIncentiveController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addConfigureSilkIncentiveDetails(@Valid @RequestBody ConfigureSilkIncentiveRequest request) {
+    public ResponseEntity<?> addConfigureSilkIncentiveDetails( @RequestBody ConfigureSilkIncentiveRequest request) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(ConfigureSilkIncentiveResponse.class);
         rw.setContent(configureSilkIncentiveService.insertConfigureSilkIncentiveDetails(request));
         return ResponseEntity.ok(rw);
@@ -189,6 +189,19 @@ public class ConfigureSilkIncentiveController {
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(ConfigureSilkIncentiveResponse.class);
         rw.setContent(configureSilkIncentiveService.getById(id));
+        return ResponseEntity.ok(rw);
+    }
+
+    @GetMapping("/getAmountByMachineTypeComponentsAndSchemes")
+    public ResponseEntity<?> getAmountByMachineTypeComponentsAndSchemes(
+            @RequestParam(defaultValue = "true") long componentTypeId,
+            @RequestParam(defaultValue = "true") long componentId,
+            @RequestParam(defaultValue = "true") long categoryId,
+            @RequestParam(defaultValue = "true") long machineTypeId,
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(configureSilkIncentiveService.getAmountByMachineTypeComponentsAndSchemes(componentTypeId,componentId,categoryId,machineTypeId,isActive));
         return ResponseEntity.ok(rw);
     }
 }

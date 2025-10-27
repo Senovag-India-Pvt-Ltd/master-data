@@ -87,6 +87,10 @@ public class ConfigureSilkIncentiveService {
         return response;
     }
 
+    public Map<String,Object> getAmountByMachineTypeComponentsAndSchemes(long componentTypeId,long componentId, long categoryId,long machineTypeId ,boolean isActive){
+        return convertListEntityToMapResponse(configureSilkIncentiveRepository.findByComponentTypeIdAndComponentIdAndCategoryIdAndMachineTypeIdAndActive(componentTypeId,componentId,categoryId,machineTypeId,isActive));
+    }
+
     private Map<String, Object> convertListEntityToMapResponse(List<ConfigureSilkIncentive> list) {
         Map<String, Object> response = new HashMap<>();
         List<ConfigureSilkIncentiveResponse> responses = list.stream()

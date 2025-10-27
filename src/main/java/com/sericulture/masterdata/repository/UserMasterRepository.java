@@ -627,5 +627,60 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             @Param("isActive") boolean isActive
     );
 
+    @Query(nativeQuery = true, value = """
+        SELECT
+            um.first_name,
+            um.middle_name,
+            um.last_name,
+            um.password,
+            um.email_id,
+            tsc.name AS tsc_name,
+            s.state_name,
+            d.district_name,
+            t.taluk_name,
+            r.role_name,
+            m.market_name,
+            um.username,
+            des.name AS designation_name,
+            um.phone_number,
+            um.ddo_code,
+            um.khazane_recipient_id,
+            wi.name AS working_institution_name
+        FROM user_master um
+        LEFT JOIN state s ON um.state_id = s.state_id
+        LEFT JOIN district d ON um.district_id = d.district_id
+        LEFT JOIN taluk t ON um.taluk_id = t.taluk_id
+        LEFT JOIN role_master r ON um.role_id = r.role_id
+        LEFT JOIN market_master m ON um.market_id = m.market_master_id
+        LEFT JOIN designation des ON um.designation_id = des.designation_id
+        LEFT JOIN working_institution wi ON um.working_institution_id = wi.working_institution_id
+        LEFT JOIN tsc_master tsc ON um.tsc_master_id = tsc.tsc_master_id
+        WHERE um.active = 1
+          AND (:designationId IS NULL OR um.designation_id = :designationId)
+          AND (:districtId IS NULL OR um.district_id = :districtId)
+          AND (:talukId IS NULL OR um.taluk_id = :talukId)
+          AND (:mobileNumber IS NULL OR um.phone_number = :mobileNumber)
+          AND (:username IS NULL OR um.username = :username)
+        ORDER BY um.user_master_id DESC
+        """,
+            countQuery = """
+        SELECT COUNT(*)
+        FROM user_master um
+        WHERE um.active = 1
+          AND (:designationId IS NULL OR um.designation_id = :designationId)
+          AND (:districtId IS NULL OR um.district_id = :districtId)
+          AND (:talukId IS NULL OR um.taluk_id = :talukId)
+          AND (:mobileNumber IS NULL OR um.phone_number = :mobileNumber)
+          AND (:username IS NULL OR um.username = :username)
+        """)
+    Page<Object[]> getUserMasterDetails(
+            @Param("designationId") Long designationId,
+            @Param("districtId") Long districtId,
+            @Param("talukId") Long talukId,
+            @Param("mobileNumber") String mobileNumber,
+            @Param("username") String username,
+            Pageable pageable);
+
+
 
 }

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.ConfigureImcb;
 import com.sericulture.masterdata.model.entity.ConfigureImcb;
+import com.sericulture.masterdata.model.entity.ConfigureSilkIncentive;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,8 @@ public interface ConfigureImcbRepository extends PagingAndSortingRepository<Conf
     ConfigureImcb findByImcbIdAndActive(long imcbId, boolean isActive);
 
     ConfigureImcb findByImcbIdAndActiveIn(@Param("imcbId") long imcbId, @Param("active") Set<Boolean> active);
+
+    public List<ConfigureImcb> findByImcbTableAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String imcbTable,long componentTypeId, long componentId, long categoryId, boolean isActive);
 
     List<ConfigureImcb> findByActive(boolean isActive);
 

@@ -2,6 +2,7 @@ package com.sericulture.masterdata.service;
 
 import com.sericulture.masterdata.controller.GovtSMSServiceController;
 import com.sericulture.masterdata.helper.Util;
+import com.sericulture.masterdata.model.ResponseWrapper;
 import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.useMaster.*;
 import com.sericulture.masterdata.model.dto.UserMasterDTO;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -1070,4 +1072,134 @@ public class UserMasterService {
 
         return userMasterResponse;
     }
+
+    public ResponseEntity<?> userMasterDetails(Long designationId, Long districtId, Long talukId,
+                                               String mobileNumber, String username,
+                                               int pageNumber, int pageSize) {
+
+        ResponseWrapper rw = ResponseWrapper.createWrapper(List.class);
+        List<UserMasterDetailsResponse> responseList = new ArrayList<>();
+
+        designationId = (designationId != null && designationId == 0) ? null : designationId;
+        districtId = (districtId != null && districtId == 0) ? null : districtId;
+        talukId = (talukId != null && talukId == 0) ? null : talukId;
+        mobileNumber = (mobileNumber != null && mobileNumber.trim().isEmpty()) ? null : mobileNumber;
+        username = (username != null && username.trim().isEmpty()) ? null : username;
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Object[]> applicablePage =
+                userMasterRepository.getUserMasterDetails(designationId, districtId, talukId, mobileNumber, username, pageable);
+
+        List<Object[]> applicableList = applicablePage.getContent();
+        long totalRecords = applicablePage.getTotalElements();
+
+        mapUserMasterResponse(responseList, applicableList, pageNumber, pageSize);
+
+        rw.setTotalRecords(totalRecords);
+        rw.setContent(responseList);
+        return ResponseEntity.ok(rw);
+    }
+
+    private static void mapUserMasterResponse(List<UserMasterDetailsResponse> responseList,
+                                              List<Object[]> applicableList,
+                                              int pageNumber,
+                                              int pageSize) {
+        int serialNumber = pageNumber * pageSize + 1;
+        for (Object[] arr : applicableList) {
+            UserMasterDetailsResponse response = UserMasterDetailsResponse.builder()
+                    .serialNumber(serialNumber++)
+                    .firstName(Util.objectToString(arr[0]))
+                    .middleName(Util.objectToString(arr[1]))
+                    .lastName(Util.objectToString(arr[2]))
+                    .password(Util.objectToString(arr[3]))
+                    .emailId(Util.objectToString(arr[4]))
+                    .tscName(Util.objectToString(arr[5]))
+                    .stateName(Util.objectToString(arr[6]))
+                    .districtName(Util.objectToString(arr[7]))
+                    .talukName(Util.objectToString(arr[8]))
+                    .roleName(Util.objectToString(arr[9]))
+                    .marketName(Util.objectToString(arr[10]))
+                    .username(Util.objectToString(arr[11]))
+                    .designationName(Util.objectToString(arr[12]))
+                    .phoneNumber(Util.objectToString(arr[13]))
+                    .ddoCode(Util.objectToString(arr[14]))
+                    .khazaneRecipientId(Util.objectToString(arr[15]))
+                    .workingInstitutionName(Util.objectToString(arr[16]))
+                    .build();
+            responseList.add(response);
+        }
+    }
+
+    public FileInputStream userMasterReport(Long designationId, Long districtId, Long talukId,
+                                            String mobileNumber, String username,
+                                            int pageNumber, int pageSize) throws Exception {
+
+        List<UserMasterDetailsResponse> responseList = new ArrayList<>();
+
+        designationId = (designationId != null && designationId == 0) ? null : designationId;
+        districtId = (districtId != null && districtId == 0) ? null : districtId;
+        talukId = (talukId != null && talukId == 0) ? null : talukId;
+        mobileNumber = (mobileNumber != null && mobileNumber.trim().isEmpty()) ? null : mobileNumber;
+        username = (username != null && username.trim().isEmpty()) ? null : username;
+
+        Pageable pageable = null; // Fetch all
+        Page<Object[]> applicablePage =
+                userMasterRepository.getUserMasterDetails(designationId, districtId, talukId, mobileNumber, username, pageable);
+
+        mapUserMasterResponse(responseList, applicablePage.getContent(), pageNumber, pageSize);
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("User Master Report");
+
+        String[] headers = {
+                "Sl.No", "First Name", "Middle Name", "Last Name", "Password", "Email ID",
+                "TSC Name", "State", "District", "Taluk", "Role", "Market", "Username",
+                "Designation", "Phone Number", "DDO Code", "Khazane Recipient ID", "Working Institution"
+        };
+
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            headerRow.createCell(i).setCellValue(headers[i]);
+        }
+
+        int dataRow = 1;
+        for (UserMasterDetailsResponse u : responseList) {
+            Row row = sheet.createRow(dataRow++);
+            row.createCell(0).setCellValue(u.getSerialNumber());
+            row.createCell(1).setCellValue(u.getFirstName());
+            row.createCell(2).setCellValue(u.getMiddleName());
+            row.createCell(3).setCellValue(u.getLastName());
+            row.createCell(4).setCellValue(u.getPassword());
+            row.createCell(5).setCellValue(u.getEmailId());
+            row.createCell(6).setCellValue(u.getTscName());
+            row.createCell(7).setCellValue(u.getStateName());
+            row.createCell(8).setCellValue(u.getDistrictName());
+            row.createCell(9).setCellValue(u.getTalukName());
+            row.createCell(10).setCellValue(u.getRoleName());
+            row.createCell(11).setCellValue(u.getMarketName());
+            row.createCell(12).setCellValue(u.getUsername());
+            row.createCell(13).setCellValue(u.getDesignationName());
+            row.createCell(14).setCellValue(u.getPhoneNumber());
+            row.createCell(15).setCellValue(u.getDdoCode());
+            row.createCell(16).setCellValue(u.getKhazaneRecipientId());
+            row.createCell(17).setCellValue(u.getWorkingInstitutionName());
+        }
+
+        for (int col = 0; col < headers.length; col++) {
+            sheet.autoSizeColumn(col, true);
+        }
+
+        String userHome = System.getProperty("user.home");
+        String directoryPath = Paths.get(userHome, "Downloads").toString();
+        Files.createDirectories(Paths.get(directoryPath));
+        Path filePath = Paths.get(directoryPath, "user_master_report_" + Util.getISTLocalDate() + ".xlsx");
+
+        FileOutputStream fileOut = new FileOutputStream(filePath.toString());
+        workbook.write(fileOut);
+        fileOut.close();
+        workbook.close();
+
+        return new FileInputStream(filePath.toString());
+    }
+
 }
