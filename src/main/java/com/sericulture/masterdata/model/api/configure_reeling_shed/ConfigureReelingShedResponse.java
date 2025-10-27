@@ -18,8 +18,8 @@ public class ConfigureReelingShedResponse {
     @Schema(name = "reelingUnit", example = "Unit A", required = true)
     String reelingUnit;
 
-    @Schema(name = "sqft", example = "1200")
-    String sqft;
+    @Schema(name = "reelingSqft", example = "1200")
+    String reelingSqft;
 
     @Schema(name = "categoryId", example = "1")
     Long categoryId;

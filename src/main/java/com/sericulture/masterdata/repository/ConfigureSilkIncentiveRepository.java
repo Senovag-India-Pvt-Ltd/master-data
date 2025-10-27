@@ -37,7 +37,7 @@ public interface ConfigureSilkIncentiveRepository  extends PagingAndSortingRepos
             SELECT
              crs.reeling_shed_id,
              crs.reeling_unit,
-             crs.sqft,
+             crs.reelingSqft,
              crs.category_id,
              crs.component_id,
              crs.component_type_id,

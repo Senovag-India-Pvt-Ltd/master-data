@@ -76,6 +76,10 @@ public class ConfigureReelingShedService {
         return convertListEntityToMapResponse(configureReelingShedRepository.findByActive(isActive));
     }
 
+    public Map<String,Object> findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String reelingUnit,String reelingSqft,long componentTypeId,long componentId, long categoryId ,boolean isActive){
+        return convertListEntityToMapResponse(configureReelingShedRepository.findByReelingUnitAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(reelingUnit,reelingSqft,componentTypeId,componentId,categoryId,isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(Page<ConfigureReelingShed> list) {
         Map<String, Object> response = new HashMap<>();
         List<ConfigureReelingShedResponse> responses = list.getContent().stream()
@@ -200,7 +204,7 @@ public class ConfigureReelingShedService {
         ConfigureReelingShed entity = configureReelingShedRepository.findByReelingShedIdAndActiveIn(request.getReelingShedId(), Set.of(true, false));
         if (entity != null) {
             entity.setReelingUnit(request.getReelingUnit());
-            entity.setSqft(request.getSqft());
+            entity.setReelingSqft(request.getReelingSqft());
             entity.setCategoryId(request.getCategoryId());
             entity.setComponentId(request.getComponentId());
             entity.setComponentTypeId(request.getComponentTypeId());

@@ -1,6 +1,7 @@
 package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.Caste;
+import com.sericulture.masterdata.model.entity.ConfigureIcb;
 import com.sericulture.masterdata.model.entity.ConfigureReelingShed;
 import com.sericulture.masterdata.model.entity.ConfigureReelingShed;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
 
     ConfigureReelingShed save(ConfigureReelingShed configureReelingShed);
 
+    public List<ConfigureReelingShed> findByReelingUnitAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String reelingUnit,String reelingSqft, long componentTypeId, long componentId, long categoryId, boolean isActive);
+
     // ✅ ID-based queries only (removed farmName & farmNameInKannada)
     ConfigureReelingShed findByReelingShedIdAndActive(long reelingShedId, boolean isActive);
 
@@ -37,7 +40,7 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
         SELECT
          crs.reeling_shed_id,
          crs.reeling_unit,
-         crs.sqft,
+         crs.reelingSqft,
          crs.category_id,
          crs.component_id,
          crs.component_type_id,
@@ -59,7 +62,7 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
             SELECT
          crs.reeling_shed_id,
          crs.reeling_unit,
-         crs.sqft,
+         crs.reelingSqft,
          crs.category_id,
          crs.component_id,
          crs.component_type_id,
@@ -83,7 +86,7 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
         SELECT 
             crs.reeling_shed_id AS reelingShedId,
             crs.reeling_unit AS reelingUnit,
-            crs.sqft AS sqft,
+            crs.reelingSqft AS reelingSqft,
             crs.category_id AS categoryId,
             crs.component_id AS componentId,
             crs.component_type_id AS componentTypeId,
@@ -110,7 +113,7 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
         SELECT TOP 1
             crs.reeling_shed_id AS reelingShedId,
             crs.reeling_unit AS reelingUnit,
-            crs.sqft AS sqft,
+            crs.reelingSqft AS reelingSqft,
             crs.category_id AS categoryId,
             crs.component_id AS componentId,
             crs.component_type_id AS componentTypeId,

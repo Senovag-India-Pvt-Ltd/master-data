@@ -2,6 +2,7 @@ package com.sericulture.masterdata.repository;
 
 import com.sericulture.masterdata.model.entity.Caste;
 import com.sericulture.masterdata.model.entity.ConfigureIcb;
+import com.sericulture.masterdata.model.entity.ConfigureImcb;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -25,6 +26,8 @@ public interface ConfigureIcbRepository extends PagingAndSortingRepository<Confi
     ConfigureIcb findByIcbIdAndActiveIn(@Param("icbId") long icbId, @Param("active") Set<Boolean> active);
 
     List<ConfigureIcb> findByActive(boolean isActive);
+
+    public List<ConfigureIcb> findByIcbBasinEndsAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String icbBasinEnds, long componentTypeId, long componentId, long categoryId, boolean isActive);
 
     List<ConfigureIcb> findByActiveAndIcbIdIsNot(boolean isActive, long icbId);
 

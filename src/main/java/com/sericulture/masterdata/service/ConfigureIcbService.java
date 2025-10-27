@@ -46,6 +46,10 @@ public class ConfigureIcbService {
         return response;
     }
 
+    public Map<String,Object> findByIcbBasinEndsAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String icbBasinEnds,long componentTypeId,long componentId, long categoryId ,boolean isActive){
+        return convertListEntityToMapResponse(configureIcbRepository.findByIcbBasinEndsAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(icbBasinEnds,componentTypeId,componentId,categoryId,isActive));
+    }
+
     /**
      * ✅ Insert new Configure ICB record
      */

@@ -26,7 +26,7 @@ public class ConfigureReelingShed extends BaseEntity implements Serializable {
     private String reelingUnit;
 
     @Column(name = "sqft")
-    private String sqft;
+    private String reelingSqft;
 
     @Column(name = "category_id")
     private Long categoryId;

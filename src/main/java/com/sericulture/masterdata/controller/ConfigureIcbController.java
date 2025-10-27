@@ -181,5 +181,19 @@ public class ConfigureIcbController {
     }
 
 
+    @GetMapping("/findByIcbBasinEndsAndComponentTypeIdAndComponentIdAndCategoryIdAndActive")
+    public ResponseEntity<?> findByIcbBasinEndsAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(
+            @RequestParam(defaultValue = "true") String icbBasinEnds,
+            @RequestParam(defaultValue = "true") long componentTypeId,
+            @RequestParam(defaultValue = "true") long componentId,
+            @RequestParam(defaultValue = "true") long categoryId,
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(configureIcbService.findByIcbBasinEndsAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(icbBasinEnds,componentTypeId,componentId,categoryId,isActive));
+        return ResponseEntity.ok(rw);
+    }
+
+
 
 }
