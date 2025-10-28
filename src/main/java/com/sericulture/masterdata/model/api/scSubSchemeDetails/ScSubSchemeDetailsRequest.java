@@ -66,4 +66,29 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
 
     @Schema(name = "acknowledgementForScheme", example = "calculation")
     String acknowledgementForScheme;
+
+    @Schema(name = "admGovtOrder", example = "calculation")
+    String admGovtOrder;
+
+    @Schema(name = "schemeCircularNo", example = "calculation")
+    String schemeCircularNo;
+
+    @Schema(name = "deptDelegationNo", example = "calculation")
+    String deptDelegationNo;
+
+    @Schema(name = "allotReleaseNo", example = "calculation")
+    String allotReleaseNo;
+
+
+    @Schema(name = "admGovtDate", example = "1")
+    Date admGovtDate;
+
+    @Schema(name = "schemeCircularDate", example = "1")
+    Date schemeCircularDate;
+
+    @Schema(name = "deptDelegationDate", example = "1")
+    Date deptDelegationDate;
+
+    @Schema(name = "allotReleaseDate", example = "1")
+    Date allotReleaseDate;
 }

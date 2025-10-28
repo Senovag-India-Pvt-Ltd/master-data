@@ -48,8 +48,15 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.withLand," +
             " scSubSchemeDetails.beneficiaryType," +
             " scSubSchemeDetails.dbtCode," +
-            " scSchemeDetails.schemeName" +
-
+            " scSchemeDetails.schemeName," +
+            " scSubSchemeDetails.admGovtOrder," +
+            " scSubSchemeDetails.schemeCircularNo," +
+            " scSubSchemeDetails.deptDelegationNo," +
+            " scSubSchemeDetails.allotReleaseNo," +
+            " scSubSchemeDetails.admGovtDate," +
+            " scSubSchemeDetails.schemeCircularDate," +
+            " scSubSchemeDetails.deptDelegationDate," +
+            " scSubSchemeDetails.allotReleaseDate" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +
             "left join ScSchemeDetails scSchemeDetails\n" +
@@ -70,7 +77,15 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.withLand," +
             " scSubSchemeDetails.beneficiaryType," +
             " scSubSchemeDetails.dbtCode," +
-            " scSchemeDetails.schemeName" +
+            " scSchemeDetails.schemeName," +
+            " scSubSchemeDetails.admGovtOrder," +
+            " scSubSchemeDetails.schemeCircularNo," +
+            " scSubSchemeDetails.deptDelegationNo," +
+            " scSubSchemeDetails.allotReleaseNo," +
+            " scSubSchemeDetails.admGovtDate," +
+            " scSubSchemeDetails.schemeCircularDate," +
+            " scSubSchemeDetails.deptDelegationDate," +
+            " scSubSchemeDetails.allotReleaseDate" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +
             "left join ScSchemeDetails scSchemeDetails\n" +
@@ -91,7 +106,15 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
             " scSubSchemeDetails.withLand," +
             " scSubSchemeDetails.beneficiaryType," +
             " scSubSchemeDetails.dbtCode," +
-            " scSchemeDetails.schemeName" +
+            " scSchemeDetails.schemeName," +
+            " scSubSchemeDetails.admGovtOrder," +
+            " scSubSchemeDetails.schemeCircularNo," +
+            " scSubSchemeDetails.deptDelegationNo," +
+            " scSubSchemeDetails.allotReleaseNo," +
+            " scSubSchemeDetails.admGovtDate," +
+            " scSubSchemeDetails.schemeCircularDate," +
+            " scSubSchemeDetails.deptDelegationDate," +
+            " scSubSchemeDetails.allotReleaseDate" +
             ") \n" +
             "from ScSubSchemeDetails scSubSchemeDetails\n" +
             "left join ScSchemeDetails scSchemeDetails\n" +

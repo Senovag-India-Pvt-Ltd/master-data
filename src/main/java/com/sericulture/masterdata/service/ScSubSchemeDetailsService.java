@@ -231,6 +231,16 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
                 scSubSchemeDetails.setAcknowledgementForScheme(scSubSchemeDetailsRequest.getAcknowledgementForScheme());
                 scSubSchemeDetails.setUnitForScheme(scSubSchemeDetailsRequest.getUnitForScheme());
+
+                scSubSchemeDetails.setAdmGovtOrder(scSubSchemeDetailsRequest.getAdmGovtOrder());
+                scSubSchemeDetails.setSchemeCircularNo(scSubSchemeDetailsRequest.getSchemeCircularNo());
+                scSubSchemeDetails.setDeptDelegationNo(scSubSchemeDetailsRequest.getDeptDelegationNo());
+                scSubSchemeDetails.setAllotReleaseNo(scSubSchemeDetailsRequest.getAllotReleaseNo());
+
+                scSubSchemeDetails.setAdmGovtDate(scSubSchemeDetailsRequest.getAdmGovtDate());
+                scSubSchemeDetails.setSchemeCircularDate(scSubSchemeDetailsRequest.getSchemeCircularDate());
+                scSubSchemeDetails.setDeptDelegationDate(scSubSchemeDetailsRequest.getDeptDelegationDate());
+                scSubSchemeDetails.setAllotReleaseDate(scSubSchemeDetailsRequest.getAllotReleaseDate());
 //                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);
