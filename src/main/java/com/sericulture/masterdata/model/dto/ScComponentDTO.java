@@ -12,5 +12,6 @@ public class ScComponentDTO {
     private Long scSubSchemeDetailsId;
     private String scComponentName;
     private String subSchemeName;
+    private String scComponentNameInKannada;
 
 }

@@ -30,4 +30,7 @@ public class ScComponent extends BaseEntity implements Serializable {
 
     @Column(name = "sc_sub_scheme_details_id")
     private Long scSubSchemeDetailsId;
+
+    @Column(name = "sc_component_name_in_kannada", unique = true)
+    private String scComponentNameInKannada;
 }
