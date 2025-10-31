@@ -164,6 +164,8 @@ public class ScComponentService {
                 scComponent.setScComponentName(scComponentRequest.getScComponentName());
                 scComponent.setDbtCode(scComponentRequest.getDbtCode());
                 scComponent.setScSubSchemeDetailsId(scComponentRequest.getScSubSchemeDetailsId());
+                scComponent.setScComponentNameInKannada(scComponentRequest.getScComponentNameInKannada());
+
                 scComponent.setActive(true);
                 ScComponent scComponent1 = scComponentRepository.save(scComponent);
                 scComponentResponse = mapper.scComponentEntityToObject(scComponent1, ScComponentResponse.class);

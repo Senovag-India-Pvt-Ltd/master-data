@@ -28,6 +28,9 @@ public class ScComponentResponse {
     @Schema(name = "dbtCode", example = "Karnataka", required = true)
     String dbtCode;
 
+    @Schema(name = "scComponentNameInKannada", example = "scComponentNameInKannada 1 ", required = true)
+    String scComponentNameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

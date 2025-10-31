@@ -22,4 +22,7 @@ public class ScComponentRequest extends RequestBody {
 
     @Schema(name = "scSubSchemeDetailsId", example = "1")
     Long scSubSchemeDetailsId;
+
+    @Schema(name = "scComponentNameInKannada", example = "scComponentNameInKannada 1 ", required = true)
+    String scComponentNameInKannada;
 }

@@ -33,7 +33,8 @@ public interface ScComponentRepository extends PagingAndSortingRepository<ScComp
             " scComponent.scComponentId," +
             " scComponent.scSubSchemeDetailsId," +
             " scComponent.scComponentName," +
-            " scSubSchemeDetails.subSchemeName" +
+            " scSubSchemeDetails.subSchemeName," +
+            " scComponent.scComponentNameInKannada" +
             ") \n" +
             "from ScComponent scComponent\n" +
             "left join ScSubSchemeDetails scSubSchemeDetails\n" +
@@ -47,7 +48,8 @@ public interface ScComponentRepository extends PagingAndSortingRepository<ScComp
             " scComponent.scComponentId," +
             " scComponent.scSubSchemeDetailsId," +
             " scComponent.scComponentName," +
-            " scSubSchemeDetails.subSchemeName" +
+            " scSubSchemeDetails.subSchemeName," +
+            " scComponent.scComponentNameInKannada" +
             ") \n" +
             "from ScComponent scComponent\n" +
             "left join ScSubSchemeDetails scSubSchemeDetails\n" +
@@ -61,7 +63,8 @@ public interface ScComponentRepository extends PagingAndSortingRepository<ScComp
             " scComponent.scComponentId," +
             " scComponent.scSubSchemeDetailsId," +
             " scComponent.scComponentName," +
-            " scSubSchemeDetails.subSchemeName" +
+            " scSubSchemeDetails.subSchemeName," +
+            " scComponent.scComponentNameInKannada" +
             ") \n" +
             "from ScComponent scComponent\n" +
             "left join ScSubSchemeDetails scSubSchemeDetails\n" +
