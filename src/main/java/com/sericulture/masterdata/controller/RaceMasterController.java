@@ -222,7 +222,7 @@ public class RaceMasterController {
     })
     public ResponseEntity<?> getPaginatedListWithJoin(
             @RequestParam(defaultValue = "0") final Integer pageNumber,
-            @RequestParam(defaultValue = "5") final Integer size
+            @RequestParam(defaultValue = "50") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(raceMasterService.getPaginatedRaceMasterDetailsWithJoin(PageRequest.of(pageNumber, size)));
