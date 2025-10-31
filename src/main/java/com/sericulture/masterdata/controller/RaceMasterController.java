@@ -55,7 +55,7 @@ public class RaceMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addRaceMasterDetails(@Valid @RequestBody RaceMasterRequest raceMasterRequest){
+    public ResponseEntity<?> addRaceMasterDetails( @RequestBody RaceMasterRequest raceMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(RaceMasterResponse.class);
 
         rw.setContent(raceMasterService.insertRaceMasterDetails(raceMasterRequest));
@@ -140,7 +140,7 @@ public class RaceMasterController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editRaceMasterDetails(
-            @Valid @RequestBody final EditRaceMasterRequest editRaceMasterRequest
+             @RequestBody final EditRaceMasterRequest editRaceMasterRequest
     ) {
         ResponseWrapper<RaceMasterResponse> rw = ResponseWrapper.createWrapper(RaceMasterResponse.class);
         rw.setContent(raceMasterService.updateRaceMasterDetails(editRaceMasterRequest));
@@ -240,7 +240,7 @@ public class RaceMasterController {
     })
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @Valid @RequestBody final SearchWithSortRequest searchWithSortRequest
+             @RequestBody final SearchWithSortRequest searchWithSortRequest
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(raceMasterService.searchByColumnAndSort(searchWithSortRequest));

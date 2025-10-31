@@ -15,11 +15,11 @@ public class EditRaceMasterRequest extends RequestBody {
     @Schema(name = "raceMasterId", example = "1")
     Integer raceMasterId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "RaceMaster must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "RaceMaster must contain only letters and numbers")
     @Schema(name = "raceMasterName", example = "raceName 1", required = true)
     String raceMasterName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "RaceMaster in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "RaceMaster in kannada must contain only letters and numbers")
     @Schema(name = "raceNameInKannada",  example = "ಭಾಷೆ")
     String raceNameInKannada;
 
