@@ -161,6 +161,7 @@ public class ScCategoryService {
                 scCategory.setCodeNumber( scCategoryRequest.getCodeNumber());
                 scCategory.setDescription( scCategoryRequest.getDescription());
                 scCategory.setDbtCode(scCategoryRequest.getDbtCode());
+                scCategory.setCategoryShortName(scCategoryRequest.getCategoryShortName());
 
 
                 scCategory.setActive(true);

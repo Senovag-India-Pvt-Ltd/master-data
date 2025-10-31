@@ -38,5 +38,8 @@ public class EditScCategoryRequest extends RequestBody {
     @Schema(name = "description", example = "Karnataka", required = true)
     String description;
 
+    @Schema(name = "categoryShortName", example = "Karnataka", required = true)
+    String categoryShortName;
+
 
 }
