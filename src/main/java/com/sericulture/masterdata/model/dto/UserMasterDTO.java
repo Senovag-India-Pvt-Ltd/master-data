@@ -40,63 +40,7 @@ public class UserMasterDTO {
     private String ddoCode;
     private String khazaneRecipientId;
     private String workingInstitutionName;
-    private String enteredOtpByUser; //User entered otp for verification
-//    public UserMasterDTO() {}
-//
-//    public UserMasterDTO(
-//            Long userMasterId,
-//            String firstName,
-//            String middleName,
-//            String lastName,
-//            String password,
-//            String emailID,
-//            Long stateId,
-//            Long districtId,
-//            Long talukId,
-//            Long roleId,
-//            Long marketMasterId,
-//            String stateName,
-//            String districtName,
-//            String talukName,
-//            String roleName,
-//            String marketMasterName,
-//            String username,
-//            Long designationId,
-//            String name,
-//            String phoneNumber,
-//            int userType,
-//            Long userTypeId,
-//            String deviceId,
-//            Long workingInstitutionId,
-//            String ddoCode,
-//            String workingInstitutionName
-//    ) {
-//        // Initialize your fields here
-//        this.userMasterId = userMasterId;
-//        this.firstName = firstName;
-//        this.middleName = middleName;
-//        this.lastName = lastName;
-//        this.password = password;
-//        this.emailID = emailID;
-//        this.stateId = stateId;
-//        this.districtId = districtId;
-//        this.talukId = talukId;
-//        this.roleId = roleId;
-//        this.marketMasterId = marketMasterId;
-//        this.stateName = stateName;
-//        this.districtName = districtName;
-//        this.talukName = talukName;
-//        this.roleName = roleName;
-//        this.marketMasterName = marketMasterName;
-//        this.username = username;
-//        this.designationId = designationId;
-//        this.name = name;
-//        this.phoneNumber = phoneNumber;
-//        this.userType = userType;
-//        this.userTypeId = userTypeId;
-//        this.deviceId = deviceId;
-//        this.workingInstitutionId = workingInstitutionId;
-//        this.ddoCode = ddoCode;
-//        this.workingInstitutionName = workingInstitutionName;
-//    }
+    private String enteredOtpByUser;
+    private Long divisionMasterId;
+    private String nameInKannada;
 }

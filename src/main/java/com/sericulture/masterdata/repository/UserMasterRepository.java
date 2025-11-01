@@ -67,7 +67,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -84,8 +86,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive " +
             "ORDER BY userMaster.username ASC"
     )
@@ -121,7 +125,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -138,8 +144,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive AND userMaster.userMasterId = :id"
     )
     public UserMasterDTO getByUserMasterIdAndActive(long id, boolean isActive);
@@ -175,7 +183,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -192,8 +202,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive AND role.roleName = :roleName"
     )
     List<UserMasterDTO> getByActiveAndRoleName(@Param("isActive") boolean isActive,@Param("roleName")String roleName);
@@ -230,7 +242,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
 
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -248,8 +262,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive AND " +
             "(:joinColumn = 'userMaster.username' AND userMaster.username LIKE :searchText) OR " +
             "(:joinColumn = 'userMaster.phoneNumber' AND userMaster.phoneNumber LIKE :searchText)"
@@ -286,7 +302,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -303,8 +321,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.roleId = :roleId " +
             "and userMaster.talukId = :talukId")
@@ -340,7 +360,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -357,8 +379,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.designationId = :designationId " +
             "and userMaster.districtId = :districtId")
@@ -394,7 +418,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -411,8 +437,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.designationId = :designationId " +
             "and userMaster.talukId = :talukId " +
@@ -450,7 +478,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -467,8 +497,10 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution\n" +
             "on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
-            "left join TscMaster tscMaster " +
+            "left join TscMaster tscMaster\n" +
             "on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster "+
+            "on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive " +
             "and userMaster.designationId = :designationId " +
             "and userMaster.talukId = :talukId " +
@@ -601,7 +633,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName" +
+            " workingInstitution.workingInstitutionName," +
+            " userMaster.divisionMasterId," +
+            " divisionMaster.nameInKannada " +
             ") " +
             "from UserMaster userMaster " +
             "left join State state on userMaster.stateId = state.stateId " +
@@ -612,6 +646,7 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             "left join Designation designation on userMaster.designationId = designation.designationId " +
             "left join WorkingInstitution workingInstitution on userMaster.workingInstitutionId = workingInstitution.workingInstitutionId " +
             "left join TscMaster tscMaster on userMaster.tscMasterId = tscMaster.tscMasterId " +
+            "left join DivisionMaster divisionMaster on userMaster.divisionMasterId = divisionMaster.divisionMasterId " +
             "where userMaster.active = :isActive " +
             "and (:designationId IS NULL OR userMaster.designationId = :designationId) " +
             "and (:districtId IS NULL OR userMaster.districtId = :districtId) " +

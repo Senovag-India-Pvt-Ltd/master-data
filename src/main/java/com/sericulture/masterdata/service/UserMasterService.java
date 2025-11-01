@@ -391,6 +391,8 @@ public class UserMasterService {
             userMaster.setKhazaneRecipientId(userMasterRequest.getKhazaneRecipientId());
             userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
             userMaster.setTscMasterId(userMasterRequest.getTscMasterId());
+            userMaster.setDivisionMasterId(userMasterRequest.getDivisionMasterId());
+
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);
             userMasterResponse = mapper.userMasterEntityToObject(userMaster1, UserMasterResponse.class);

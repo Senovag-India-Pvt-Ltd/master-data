@@ -116,6 +116,12 @@ public class UserMasterResponse {
     @Schema(name = "khazaneRecipientId", example = "ddoCode 1")
     String khazaneRecipientId;
 
+    @Schema(name = "divisionMasterId", example = "ddoCode 1")
+    Long divisionMasterId;
+
+    @Schema(name = "nameInKannada", example = "ddoCode 1")
+    String nameInKannada;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

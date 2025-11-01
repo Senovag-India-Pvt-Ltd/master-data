@@ -92,5 +92,8 @@ public class UserMaster extends BaseEntity implements Serializable {
     @Column(name = "manager_id")
     private Long managerId;
 
+    @Column(name = "division_master_id")
+    private Long divisionMasterId;
+
 
 }

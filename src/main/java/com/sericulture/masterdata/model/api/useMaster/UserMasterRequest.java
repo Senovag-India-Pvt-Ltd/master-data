@@ -80,4 +80,7 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "khazaneRecipientId", example = "ddoCode 1")
     String khazaneRecipientId;
 
+    @Schema(name = "divisionMasterId", example = "ddoCode 1")
+    Long divisionMasterId;
+
 }
