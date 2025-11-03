@@ -31,53 +31,7 @@ public interface ConfigureImcbRepository extends PagingAndSortingRepository<Conf
     List<ConfigureImcb> findByActive(boolean isActive);
 
     List<ConfigureImcb> findByActiveAndImcbIdIsNot(boolean isActive, long imcbId);
-    
-    @Query(nativeQuery = true, value = """
-        SELECT
-         cim.imcb_id,
-         cim.imcb_table,
-         cim.category_id,
-         cim.component_id,
-         cim.component_type_id,
-         cim.unit_cost,
-         sc.category_name,
-         scm.sc_component_name,
-         ssd.sub_scheme_name
-     FROM
-         configure_imcb cim
-         LEFT JOIN sc_category sc ON sc.sc_category_id = cim.category_id
-         LEFT JOIN sc_component scm ON scm.sc_component_id = cim.component_id
-         LEFT JOIN sc_sub_scheme_details ssd ON ssd.sc_sub_scheme_details_id = cim.component_type_id
-     WHERE
-         cim.active = 1
-         """)
-    Page<Object[]> getByActiveOrderByconfigureImmcbIdAsc(@Param("isActive") boolean isActive, final Pageable pageable);
 
-    @Query(nativeQuery = true, value = """
-            SELECT
-         cim.imcb_id,
-         cim.imcb_table,
-         cim.category_id,
-         cim.component_id,
-         cim.component_type_id,
-         cim.unit_cost,
-         sc.category_name,
-         scm.sc_component_name,
-         ssd.sub_scheme_name
-     FROM
-         configure_imcb cim
-         LEFT JOIN sc_category sc ON sc.sc_category_id = cim.category_id
-         LEFT JOIN sc_component scm ON scm.sc_component_id = cim.component_id
-         LEFT JOIN sc_sub_scheme_details ssd ON ssd.sc_sub_scheme_details_id = cim.component_type_id
-     WHERE
-         cim.active = 1
-         """)
-    Page<Object[]> getByConfigureImmcbIdAndActive(@Param("isActive") boolean isActive, final Pageable pageable);
-
-
-    /**
-     * ✅ Paginated list with join (Category, Component, SubScheme)
-     */
     @Query(value = """
         SELECT 
             cim.imcb_id AS imcbId,
