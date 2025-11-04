@@ -6,6 +6,7 @@ import com.sericulture.masterdata.model.api.bankMaster.BankMasterRequest;
 import com.sericulture.masterdata.model.api.binCounterMaster.BinCounterMasterRequest;
 import com.sericulture.masterdata.model.api.binMaster.BinMasterRequest;
 import com.sericulture.masterdata.model.api.caste.CasteRequest;
+import com.sericulture.masterdata.model.api.configureAdoptingBoiler.ConfigureAdoptingBoilerRequest;
 import com.sericulture.masterdata.model.api.configurePmkysAmount.ConfigurePmkysAmountRequest;
 import com.sericulture.masterdata.model.api.configure_icb.ConfigureIcbRequest;
 import com.sericulture.masterdata.model.api.configure_imcb.ConfigureImcbRequest;
@@ -3140,6 +3141,26 @@ public class Mapper {
     public <T> T configureSilkIncentiveObjectToEntity(ConfigureSilkIncentiveRequest configureSilkIncentiveRequest, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, configureSilkIncentiveRequest);
         return (T) mapper.map(configureSilkIncentiveRequest, claaz);
+    }
+
+    /**
+     * Maps ConfigureAdoptingBoiler Entity to ConfigureAdoptingBoiler  Response Object
+     * @param configureAdoptingBoilerEntity
+     * @param <T>
+     */
+    public <T> T configureAdoptingBoilerEntityToObject(ConfigureAdoptingBoiler configureAdoptingBoilerEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,configureAdoptingBoilerEntity );
+        return (T) mapper.map(configureAdoptingBoilerEntity, claaz);
+    }
+
+    /**
+     * Maps ConfigureAdoptingBoiler Object to ConfigureAdoptingBoiler  Response Object
+     * @param configureAdoptingBoilerRequest
+     * @param <T>
+     */
+    public <T> T configureAdoptingBoilerObjectToEntity(ConfigureAdoptingBoilerRequest configureAdoptingBoilerRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, configureAdoptingBoilerRequest);
+        return (T) mapper.map(configureAdoptingBoilerRequest, claaz);
     }
 
 }
