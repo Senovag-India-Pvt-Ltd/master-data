@@ -105,7 +105,7 @@ public class DivisionMasterController {
     })
     public ResponseEntity<?> getPaginatedList(
             @RequestParam(defaultValue = "0") final Integer pageNumber,
-            @RequestParam(defaultValue = "5") final Integer size
+            @RequestParam(defaultValue = "50") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(divisionMasterService.getPaginatedDivisionMasterDetails(PageRequest.of(pageNumber, size)));

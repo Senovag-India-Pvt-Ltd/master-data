@@ -218,7 +218,7 @@ public class UserMasterController {
     })
     public ResponseEntity<?> getPaginatedUserMasterDetailsWithJoin(
             @RequestParam(defaultValue = "0") final Integer pageNumber,
-            @RequestParam(defaultValue = "5") final Integer size
+            @RequestParam(defaultValue = "50") final Integer size
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
         rw.setContent(userMasterService.getPaginatedUserMasterDetailsWithJoin(PageRequest.of(pageNumber, size)));
