@@ -31,7 +31,7 @@ public interface ConfigureSilkIncentiveRepository  extends PagingAndSortingRepos
 
     List<ConfigureSilkIncentive> findByActiveAndSilkIncentiveIdIsNot(boolean isActive, long silkIncentiveId);
 
-    public List<ConfigureSilkIncentive> findByComponentTypeIdAndComponentIdAndCategoryIdAndMachineTypeIdAndActive(long componentTypeId,long componentId, long categoryId,long machineTypeId ,boolean isActive);
+    public List<ConfigureSilkIncentive> findByComponentTypeIdAndComponentIdAndCategoryIdAndMachineTypeIdAndSilkTableBasinEndsAndRendittaGradeAndAndActive(long componentTypeId,long componentId, long categoryId,long machineTypeId ,String silkTable,String renditta,boolean isActive);
 
     @Query(nativeQuery = true, value = """
             SELECT
@@ -92,7 +92,9 @@ public interface ConfigureSilkIncentiveRepository  extends PagingAndSortingRepos
             mtm.machine_type_name AS machineTypeName,
             sc.category_name AS categoryName,
             scm.sc_component_name AS scComponentName,
-            ssd.sub_scheme_name AS subSchemeName
+            ssd.sub_scheme_name AS subSchemeName,
+            csi.renditta_grade,
+            csi.silk_table_basin_ends
         FROM configure_silk_incentive csi
         LEFT JOIN machine_type_master mtm ON mtm.machine_type_id = csi.machine_type_id
         LEFT JOIN sc_category sc ON sc.sc_category_id = csi.category_id

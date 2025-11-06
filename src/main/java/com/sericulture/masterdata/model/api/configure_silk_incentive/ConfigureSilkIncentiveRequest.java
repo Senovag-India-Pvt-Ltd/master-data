@@ -31,5 +31,11 @@ public class ConfigureSilkIncentiveRequest extends RequestBody {
 
     @Schema(name = "max", example = "120.5")
     Float max;
+
+    @Schema(name = "rendittaGrade", example = "120.5")
+    String rendittaGrade;
+
+    @Schema(name = "silkTableBasinEnds", example = "120.5")
+    String silkTableBasinEnds;
 }
 

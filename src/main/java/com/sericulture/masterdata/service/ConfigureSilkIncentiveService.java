@@ -87,8 +87,8 @@ public class ConfigureSilkIncentiveService {
         return response;
     }
 
-    public Map<String,Object> getAmountByMachineTypeComponentsAndSchemes(long componentTypeId,long componentId, long categoryId,long machineTypeId ,boolean isActive){
-        return convertListEntityToMapResponse(configureSilkIncentiveRepository.findByComponentTypeIdAndComponentIdAndCategoryIdAndMachineTypeIdAndActive(componentTypeId,componentId,categoryId,machineTypeId,isActive));
+    public Map<String,Object> getAmountByMachineTypeComponentsAndSchemes(long componentTypeId,long componentId, long categoryId,long machineTypeId ,String silkTable,String renditta,  boolean isActive){
+        return convertListEntityToMapResponse(configureSilkIncentiveRepository.findByComponentTypeIdAndComponentIdAndCategoryIdAndMachineTypeIdAndSilkTableBasinEndsAndRendittaGradeAndAndActive(componentTypeId,componentId,categoryId,machineTypeId,silkTable,renditta,isActive));
     }
 
     private Map<String, Object> convertListEntityToMapResponse(List<ConfigureSilkIncentive> list) {
@@ -142,7 +142,9 @@ public class ConfigureSilkIncentiveService {
                     obj[10] != null ? obj[10].toString() : null,
                     obj[11] != null ? obj[11].toString() : null,
                     false,
-                    null
+                    null,
+                    obj[12] != null ? obj[12].toString() : null,
+                    obj[13] != null ? obj[13].toString() : null
             );
         }
 
@@ -205,6 +207,9 @@ public class ConfigureSilkIncentiveService {
             entity.setCategoryId(request.getCategoryId());
             entity.setComponentId(request.getComponentId());
             entity.setComponentTypeId(request.getComponentTypeId());
+            entity.setAmountPerKg(request.getAmountPerKg());
+            entity.setRendittaGrade(request.getRendittaGrade());
+            entity.setSilkTableBasinEnds(request.getSilkTableBasinEnds());
             entity.setAmountPerKg(request.getAmountPerKg());
             entity.setMin(request.getMin());
             entity.setMax(request.getMax());

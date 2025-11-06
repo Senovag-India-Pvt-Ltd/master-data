@@ -40,4 +40,10 @@ public class ConfigureSilkIncentive extends BaseEntity implements Serializable {
     @Column(name = "max")
     private Float max;
 
+    @Column(name = "renditta_grade")
+    private String rendittaGrade;
+
+    @Column(name = "silk_table_basin_ends")
+    private String silkTableBasinEnds;
+
 }

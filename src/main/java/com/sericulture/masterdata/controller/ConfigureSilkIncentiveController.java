@@ -198,10 +198,12 @@ public class ConfigureSilkIncentiveController {
             @RequestParam(defaultValue = "true") long componentId,
             @RequestParam(defaultValue = "true") long categoryId,
             @RequestParam(defaultValue = "true") long machineTypeId,
+            @RequestParam(required = false) String silkTable,
+            @RequestParam(required = false) String renditta,
             @RequestParam(defaultValue = "true") boolean isActive
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(configureSilkIncentiveService.getAmountByMachineTypeComponentsAndSchemes(componentTypeId,componentId,categoryId,machineTypeId,isActive));
+        rw.setContent(configureSilkIncentiveService.getAmountByMachineTypeComponentsAndSchemes(componentTypeId,componentId,categoryId,machineTypeId,silkTable,renditta,isActive));
         return ResponseEntity.ok(rw);
     }
 }

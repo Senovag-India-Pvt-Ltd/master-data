@@ -51,4 +51,10 @@ public class ConfigureSilkIncentiveResponse {
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
+
+    @Schema(name = "rendittaGrade", example = "120.5")
+    String rendittaGrade;
+
+    @Schema(name = "silkTableBasinEnds", example = "120.5")
+    String silkTableBasinEnds;
 }
