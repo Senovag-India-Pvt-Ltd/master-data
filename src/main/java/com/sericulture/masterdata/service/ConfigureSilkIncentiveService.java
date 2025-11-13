@@ -144,7 +144,8 @@ public class ConfigureSilkIncentiveService {
                     false,
                     null,
                     obj[12] != null ? obj[12].toString() : null,
-                    obj[13] != null ? obj[13].toString() : null
+                    obj[13] != null ? obj[13].toString() : null,
+                    obj[14] != null ? obj[14].toString() : null
             );
         }
 

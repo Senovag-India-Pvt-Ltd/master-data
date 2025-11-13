@@ -94,7 +94,8 @@ public interface ConfigureSilkIncentiveRepository  extends PagingAndSortingRepos
             scm.sc_component_name AS scComponentName,
             ssd.sub_scheme_name AS subSchemeName,
             csi.renditta_grade,
-            csi.silk_table_basin_ends
+            csi.silk_table_basin_ends,
+            mtm.machine_type_name
         FROM configure_silk_incentive csi
         LEFT JOIN machine_type_master mtm ON mtm.machine_type_id = csi.machine_type_id
         LEFT JOIN sc_category sc ON sc.sc_category_id = csi.category_id

@@ -57,4 +57,7 @@ public class ConfigureSilkIncentiveResponse {
 
     @Schema(name = "silkTableBasinEnds", example = "120.5")
     String silkTableBasinEnds;
+
+    @Schema(name = "machineTypeName", example = "Basin End A", required = true)
+    String machineTypeName;
 }
