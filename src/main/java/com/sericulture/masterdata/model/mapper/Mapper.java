@@ -91,6 +91,7 @@ import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
 import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaRequest;
+import com.sericulture.masterdata.model.api.silkExchange.SilkExchangeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
 import com.sericulture.masterdata.model.api.sourceMaster.SourceMasterRequest;
@@ -3162,5 +3163,30 @@ public class Mapper {
         log.info("Value of mapper is:",mapper, configureAdoptingBoilerRequest);
         return (T) mapper.map(configureAdoptingBoilerRequest, claaz);
     }
+
+
+
+    /**
+     * Maps SilkExchange Entity to SilkExchange  Response Object
+     * @param silkExchangeEntity
+     * @param <T>
+     */
+    public <T> T silkExchangeEntityToObject(SilkExchange silkExchangeEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper,silkExchangeEntity );
+        return (T) mapper.map(silkExchangeEntity, claaz);
+    }
+
+    /**
+     * Maps SilkExchange Object to SilkExchange  Response Object
+     * @param silkExchangeRequest
+     * @param <T>
+     */
+    public <T> T silkExchangeObjectToEntity(SilkExchangeRequest silkExchangeRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, silkExchangeRequest);
+        return (T) mapper.map(silkExchangeRequest, claaz);
+    }
+
+
+
 
 }
