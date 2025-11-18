@@ -53,4 +53,10 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = "directly_to_fruits", columnDefinition = "TINYINT")
     private Boolean directlyToFruits;
+
+    @Column(name = "allow_multiple_sanction" ,columnDefinition = "TINYINT")
+    private Boolean allowMultipleSanction;
+
+    @Column(name = "sanction_for_reeling" ,columnDefinition = "TINYINT")
+    private Boolean sanctionForReeling;
 }

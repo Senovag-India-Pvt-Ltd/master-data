@@ -45,4 +45,10 @@ public class ScApprovalStageRequest extends RequestBody {
 
     @Schema(name = "directlyToFruits", example = "true")
     private Boolean directlyToFruits;
+
+    @Schema(name = "allowMultipleSanction", example = "1")
+    private Boolean allowMultipleSanction;
+
+    @Schema(name = "sanctionForReeling", example = "1")
+    private Boolean sanctionForReeling;
 }

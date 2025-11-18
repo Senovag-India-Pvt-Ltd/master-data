@@ -165,6 +165,8 @@ public class ScApprovalStageService {
                 scApprovalStage.setFinancialDelegation(scApprovalStageRequest.getFinancialDelegation());
                 scApprovalStage.setWorkOrder(scApprovalStageRequest.getWorkOrder());
                 scApprovalStage.setDirectlyToFruits(scApprovalStageRequest.getDirectlyToFruits());
+                scApprovalStage.setAllowMultipleSanction(scApprovalStageRequest.getAllowMultipleSanction());
+                scApprovalStage.setSanctionForReeling(scApprovalStageRequest.getSanctionForReeling());
                 scApprovalStage.setActive(true);
                 ScApprovalStage scApprovalStage1= scApprovalStageRepository.save(scApprovalStage);
                 scApprovalStageResponse = mapper.scApprovalStageEntityToObject(scApprovalStage1, ScApprovalStageResponse.class);

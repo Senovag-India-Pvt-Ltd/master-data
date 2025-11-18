@@ -45,6 +45,12 @@ public class ScApprovalStageResponse {
     @Schema(name = "directlyToFruits", example = "true")
     Boolean directlyToFruits;
 
+    @Schema(name = "allowMultipleSanction", example = "1")
+    Boolean allowMultipleSanction;
+
+    @Schema(name = "sanctionForReeling", example = "1")
+    Boolean sanctionForReeling;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
