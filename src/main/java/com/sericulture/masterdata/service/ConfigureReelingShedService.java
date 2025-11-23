@@ -163,6 +163,8 @@ public class ConfigureReelingShedService {
                     obj[9] != null ? obj[9].toString() : null,
                     obj[10] != null ? obj[10].toString() : null,
                     obj[11] != null ? obj[11].toString() : null,
+                    obj[12] != null ? ((Number) obj[3]).longValue() : null,
+                    obj[13] != null ? obj[11].toString() : null,
                     false,
                     null
             );
@@ -211,6 +213,7 @@ public class ConfigureReelingShedService {
             entity.setUnitCost(request.getUnitCost());
             entity.setMin(request.getMin());
             entity.setMax(request.getMax());
+            entity.setMachineTypeId(request.getMachineTypeId());
             entity.setActive(true);
 
             ConfigureReelingShed saved = configureReelingShedRepository.save(entity);

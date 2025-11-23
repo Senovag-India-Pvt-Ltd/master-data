@@ -45,6 +45,9 @@ public class ConfigureReelingShed extends BaseEntity implements Serializable {
 
     @Column(name = "max")
     private Float max;
+
+    @Column(name = "machine_type_id")
+    private Long machineTypeId;
 }
 
 

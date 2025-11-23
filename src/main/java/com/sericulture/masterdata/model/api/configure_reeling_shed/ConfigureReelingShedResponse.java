@@ -48,11 +48,20 @@ public class ConfigureReelingShedResponse {
     @Schema(name = "subSchemeName", example = "Basin End A", required = true)
     String subSchemeName;
 
+
+    @Schema(name = "machineTypeId", example = "120.5")
+    Long machineTypeId;
+
+    @Schema(name = "machineTypeName", example = "120.5")
+    String machineTypeName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
     @Schema(name = "error_description", example = "Username or password is incorrect")
     String error_description;
+
+
 
 }
 

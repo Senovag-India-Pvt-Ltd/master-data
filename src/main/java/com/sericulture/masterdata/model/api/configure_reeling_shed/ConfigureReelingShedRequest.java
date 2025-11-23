@@ -36,4 +36,7 @@ public class ConfigureReelingShedRequest extends RequestBody {
 
     @Schema(name = "max", example = "120.5")
     Float max;
+
+    @Schema(name = "machineTypeId", example = "120.5")
+    Long machineTypeId;
 }

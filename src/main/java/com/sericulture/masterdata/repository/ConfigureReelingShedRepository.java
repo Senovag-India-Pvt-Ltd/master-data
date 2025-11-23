@@ -40,7 +40,7 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
         SELECT
          crs.reeling_shed_id,
          crs.reeling_unit,
-         crs.reelingSqft,
+         crs.sqft,
          crs.category_id,
          crs.component_id,
          crs.component_type_id,
@@ -60,23 +60,33 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
 
     @Query(nativeQuery = true, value = """
             SELECT
-         crs.reeling_shed_id,
-         crs.reeling_unit,
-         crs.reelingSqft,
-         crs.category_id,
-         crs.component_id,
-         crs.component_type_id,
-         crs.unit_cost,
-         sc.category_name,
-         scm.sc_component_name,
-         ssd.sub_scheme_name
-     FROM
-         configure_reeling_shed crs
-         LEFT JOIN sc_category sc ON sc.sc_category_id = crs.category_id
-         LEFT JOIN sc_component scm ON scm.sc_component_id = crs.component_id
-         LEFT JOIN sc_sub_scheme_details ssd ON ssd.sc_sub_scheme_details_id = crs.component_type_id
-     WHERE
-         crs.active = 1
+                   crs.reeling_shed_id,
+                   crs.reeling_unit,
+                   crs.sqft,
+                   crs.category_id,
+                   crs.component_id,
+                   crs.component_type_id,
+                   crs.unit_cost,
+                   sc.category_name,
+                   scm.sc_component_name,
+                   ssd.sub_scheme_name,
+                   crs.machine_type_name
+               FROM
+                   configure_reeling_shed crs
+                   LEFT JOIN sc_category sc
+                       ON sc.sc_category_id = crs.category_id
+                       AND sc.active = 1
+                   LEFT JOIN sc_component scm
+                       ON scm.sc_component_id = crs.component_id
+                       AND scm.active = 1
+                   LEFT JOIN sc_sub_scheme_details ssd
+                       ON ssd.sc_sub_scheme_details_id = crs.component_type_id
+                       AND ssd.active = 1
+                   LEFT JOIN machine_type_master mtm
+                       ON mtm.machine_type_id = crs.machine_type_id
+                       AND mtm.active = 1
+               WHERE
+                   crs.active = 1;
          """)
     Page<Object[]> getByConfigureReelingShedIdAndActive(@Param("isActive") boolean isActive, final Pageable pageable);
 
@@ -86,26 +96,38 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
         SELECT 
             crs.reeling_shed_id AS reelingShedId,
             crs.reeling_unit AS reelingUnit,
-            crs.reelingSqft AS reelingSqft,
+            crs.sqft AS reelingSqft,
             crs.category_id AS categoryId,
             crs.component_id AS componentId,
             crs.component_type_id AS componentTypeId,
+            crs.machine_type_id AS machineTypeId,
             crs.unit_cost AS unitCost,
             crs.min AS min,
             crs.max AS max,
             sc.category_name AS categoryName,
             scm.sc_component_name AS scComponentName,
-            ssd.sub_scheme_name AS subSchemeName
+            ssd.sub_scheme_name AS subSchemeName,
+            mtm.machine_type_name AS machineTypeName
         FROM configure_reeling_shed crs
-        LEFT JOIN sc_category sc ON sc.sc_category_id = crs.category_id
-        LEFT JOIN sc_component scm ON scm.sc_component_id = crs.component_id
-        LEFT JOIN sc_sub_scheme_details ssd ON ssd.sc_sub_scheme_details_id = crs.component_type_id
+        LEFT JOIN sc_category sc 
+            ON sc.sc_category_id = crs.category_id AND sc.active = 1
+        LEFT JOIN sc_component scm 
+            ON scm.sc_component_id = crs.component_id AND scm.active = 1
+        LEFT JOIN sc_sub_scheme_details ssd 
+            ON ssd.sc_sub_scheme_details_id = crs.component_type_id AND ssd.active = 1
+        LEFT JOIN machine_type_master mtm 
+            ON mtm.machine_type_id = crs.machine_type_id AND mtm.active = 1
         WHERE crs.active = 1
         ORDER BY crs.reeling_shed_id ASC
         """,
-            countQuery = "SELECT COUNT(*) FROM configure_reeling_shed WHERE active = 1",
+            countQuery = """
+        SELECT COUNT(*)
+        FROM configure_reeling_shed
+        WHERE active = 1
+        """,
             nativeQuery = true)
     Page<Object[]> getConfigureReelingShedListWithJoin(Pageable pageable);
+
 
 
     // ✅ Get by ID with joins
@@ -113,22 +135,32 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
         SELECT TOP 1
             crs.reeling_shed_id AS reelingShedId,
             crs.reeling_unit AS reelingUnit,
-            crs.reelingSqft AS reelingSqft,
+            crs.sqft AS reelingSqft,
             crs.category_id AS categoryId,
             crs.component_id AS componentId,
             crs.component_type_id AS componentTypeId,
+            crs.machine_type_id AS machineTypeId,
             crs.unit_cost AS unitCost,
             crs.min AS min,
             crs.max AS max,
             sc.category_name AS categoryName,
             scm.sc_component_name AS scComponentName,
-            ssd.sub_scheme_name AS subSchemeName
+            ssd.sub_scheme_name AS subSchemeName,
+            mtm.machine_type_name AS machineTypeName
         FROM configure_reeling_shed crs
-        LEFT JOIN sc_category sc ON sc.sc_category_id = crs.category_id
-        LEFT JOIN sc_component scm ON scm.sc_component_id = crs.component_id
-        LEFT JOIN sc_sub_scheme_details ssd ON ssd.sc_sub_scheme_details_id = crs.component_type_id
-        WHERE crs.active = 1 AND crs.reeling_shed_id = :reelingShedId
-        """, nativeQuery = true)
+        LEFT JOIN sc_category sc 
+            ON sc.sc_category_id = crs.category_id AND sc.active = 1
+        LEFT JOIN sc_component scm 
+            ON scm.sc_component_id = crs.component_id AND scm.active = 1
+        LEFT JOIN sc_sub_scheme_details ssd 
+            ON ssd.sc_sub_scheme_details_id = crs.component_type_id AND ssd.active = 1
+        LEFT JOIN machine_type_master mtm 
+            ON mtm.machine_type_id = crs.machine_type_id AND mtm.active = 1
+        WHERE crs.active = 1 
+            AND crs.reeling_shed_id = :reelingShedId
+        """,
+            nativeQuery = true)
     Object getConfigureReelingShedByIdWithJoin(@Param("reelingShedId") Long reelingShedId);
+
 
 }
