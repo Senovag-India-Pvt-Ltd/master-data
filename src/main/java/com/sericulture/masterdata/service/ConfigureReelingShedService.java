@@ -157,14 +157,14 @@ public class ConfigureReelingShedService {
                     obj[3] != null ? ((Number) obj[3]).longValue() : null,
                     obj[4] != null ? ((Number) obj[4]).longValue() : null,
                     obj[5] != null ? ((Number) obj[5]).longValue() : null,
-                    obj[6] != null ? ((Number) obj[6]).floatValue() : null,
+                    obj[6] != null ? ((Number) obj[6]).longValue() : null,
                     obj[7] != null ? ((Number) obj[7]).floatValue() : null,
                     obj[8] != null ? ((Number) obj[8]).floatValue() : null,
-                    obj[9] != null ? obj[9].toString() : null,
+                    obj[9] != null ? ((Number) obj[9]).floatValue() : null,
                     obj[10] != null ? obj[10].toString() : null,
                     obj[11] != null ? obj[11].toString() : null,
-                    obj[12] != null ? ((Number) obj[3]).longValue() : null,
-                    obj[13] != null ? obj[11].toString() : null,
+                    obj[12] != null ? obj[12].toString() : null,
+                    obj[13] != null ? obj[13].toString() : null,
                     false,
                     null
             );

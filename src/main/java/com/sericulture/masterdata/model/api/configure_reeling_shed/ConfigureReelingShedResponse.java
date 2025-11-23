@@ -30,6 +30,9 @@ public class ConfigureReelingShedResponse {
     @Schema(name = "componentTypeId", example = "1")
     Long componentTypeId;
 
+    @Schema(name = "machineTypeId", example = "1")
+    Long machineTypeId;
+
     @Schema(name = "unitCost", example = "200.0")
     Float unitCost;
 
@@ -47,10 +50,6 @@ public class ConfigureReelingShedResponse {
 
     @Schema(name = "subSchemeName", example = "Basin End A", required = true)
     String subSchemeName;
-
-
-    @Schema(name = "machineTypeId", example = "120.5")
-    Long machineTypeId;
 
     @Schema(name = "machineTypeName", example = "120.5")
     String machineTypeName;
