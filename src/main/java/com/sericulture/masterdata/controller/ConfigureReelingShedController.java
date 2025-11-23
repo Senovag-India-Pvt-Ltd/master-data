@@ -199,7 +199,7 @@ public class ConfigureReelingShedController {
 
     @GetMapping("/findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive")
     public ResponseEntity<?> findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(
-            @RequestParam(defaultValue = "true") String reelingUnit,
+            @RequestParam(defaultValue = "true") Long machineTypeId,
             @RequestParam(defaultValue = "true") String reelingSqft,
             @RequestParam(defaultValue = "true") long componentTypeId,
             @RequestParam(defaultValue = "true") long componentId,
@@ -207,7 +207,7 @@ public class ConfigureReelingShedController {
             @RequestParam(defaultValue = "true") boolean isActive
     ) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
-        rw.setContent(configureReelingShedService.findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(reelingUnit,reelingSqft,componentTypeId,componentId,categoryId,isActive));
+        rw.setContent(configureReelingShedService.findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(machineTypeId,reelingSqft,componentTypeId,componentId,categoryId,isActive));
         return ResponseEntity.ok(rw);
     }
 }

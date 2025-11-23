@@ -22,7 +22,7 @@ public interface ConfigureReelingShedRepository  extends PagingAndSortingReposit
 
     ConfigureReelingShed save(ConfigureReelingShed configureReelingShed);
 
-    public List<ConfigureReelingShed> findByReelingUnitAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String reelingUnit,String reelingSqft, long componentTypeId, long componentId, long categoryId, boolean isActive);
+    public List<ConfigureReelingShed> findByMachineTypeIdAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(Long machineTypeId,String reelingSqft, long componentTypeId, long componentId, long categoryId, boolean isActive);
 
     // ✅ ID-based queries only (removed farmName & farmNameInKannada)
     ConfigureReelingShed findByReelingShedIdAndActive(long reelingShedId, boolean isActive);

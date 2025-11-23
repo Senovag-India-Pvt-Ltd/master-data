@@ -76,8 +76,8 @@ public class ConfigureReelingShedService {
         return convertListEntityToMapResponse(configureReelingShedRepository.findByActive(isActive));
     }
 
-    public Map<String,Object> findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(String reelingUnit,String reelingSqft,long componentTypeId,long componentId, long categoryId ,boolean isActive){
-        return convertListEntityToMapResponse(configureReelingShedRepository.findByReelingUnitAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(reelingUnit,reelingSqft,componentTypeId,componentId,categoryId,isActive));
+    public Map<String,Object> findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(Long machineTypeId,String reelingSqft,long componentTypeId,long componentId, long categoryId ,boolean isActive){
+        return convertListEntityToMapResponse(configureReelingShedRepository.findByMachineTypeIdAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(machineTypeId,reelingSqft,componentTypeId,componentId,categoryId,isActive));
     }
 
     private Map<String, Object> convertToMapResponse(Page<ConfigureReelingShed> list) {
