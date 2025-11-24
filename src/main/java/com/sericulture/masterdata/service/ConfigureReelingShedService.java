@@ -80,6 +80,10 @@ public class ConfigureReelingShedService {
         return convertListEntityToMapResponse(configureReelingShedRepository.findByMachineTypeIdAndReelingSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(machineTypeId,reelingSqft,componentTypeId,componentId,categoryId,isActive));
     }
 
+    public Map<String,Object> getDetailsForSolarWaterHeater(Long machineTypeId,String reelingSqft,String reelingUnit,long componentTypeId,long componentId, long categoryId ,boolean isActive){
+        return convertListEntityToMapResponse(configureReelingShedRepository.findByMachineTypeIdAndReelingSqftAndReelingUnitAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(machineTypeId,reelingSqft,reelingUnit,componentTypeId,componentId,categoryId,isActive));
+    }
+
     private Map<String, Object> convertToMapResponse(Page<ConfigureReelingShed> list) {
         Map<String, Object> response = new HashMap<>();
         List<ConfigureReelingShedResponse> responses = list.getContent().stream()

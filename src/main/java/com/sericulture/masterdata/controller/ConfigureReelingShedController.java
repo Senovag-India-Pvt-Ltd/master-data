@@ -210,4 +210,19 @@ public class ConfigureReelingShedController {
         rw.setContent(configureReelingShedService.findByReelingUnitAndSqftAndComponentTypeIdAndComponentIdAndCategoryIdAndActive(machineTypeId,reelingSqft,componentTypeId,componentId,categoryId,isActive));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/getDetailsForSolarWaterHeater")
+    public ResponseEntity<?> getDetailsForSolarWaterHeater(
+            @RequestParam(defaultValue = "true") Long machineTypeId,
+            @RequestParam(defaultValue = "true") String reelingSqft,
+            @RequestParam(defaultValue = "true") String reelinUnit,
+            @RequestParam(defaultValue = "true") long componentTypeId,
+            @RequestParam(defaultValue = "true") long componentId,
+            @RequestParam(defaultValue = "true") long categoryId,
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(configureReelingShedService.getDetailsForSolarWaterHeater(machineTypeId,reelingSqft,reelinUnit,componentTypeId,componentId,categoryId,isActive));
+        return ResponseEntity.ok(rw);
+    }
 }
