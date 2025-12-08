@@ -67,8 +67,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -125,8 +126,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " (CASE WHEN userMaster.allowAnyUser = true THEN true ELSE false END)," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -183,8 +185,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -242,8 +245,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
 
             ") \n" +
@@ -302,8 +306,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -360,8 +365,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -418,8 +424,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -478,8 +485,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -633,8 +641,9 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " userMaster.ddoCode," +
             " userMaster.khazaneRecipientId," +
             " workingInstitution.workingInstitutionName," +
-            " workingInstitution.workingInstitutionName," +
+            " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
+            " userMaster.allowAnyUser," +
             " divisionMaster.nameInKannada " +
             ") " +
             "from UserMaster userMaster " +

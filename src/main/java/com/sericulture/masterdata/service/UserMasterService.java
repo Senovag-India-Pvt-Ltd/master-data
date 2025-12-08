@@ -392,6 +392,7 @@ public class UserMasterService {
             userMaster.setWorkingInstitutionId(userMasterRequest.getWorkingInstitutionId());
             userMaster.setTscMasterId(userMasterRequest.getTscMasterId());
             userMaster.setDivisionMasterId(userMasterRequest.getDivisionMasterId());
+            userMaster.setAllowAnyUser(userMasterRequest.getAllowAnyUser());
 
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);

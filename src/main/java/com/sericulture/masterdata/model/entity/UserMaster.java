@@ -95,5 +95,8 @@ public class UserMaster extends BaseEntity implements Serializable {
     @Column(name = "division_master_id")
     private Long divisionMasterId;
 
+    @Column(name = "allow_any_user" ,columnDefinition = "TINYINT")
+    private Boolean allowAnyUser;
+
 
 }

@@ -42,5 +42,6 @@ public class UserMasterDTO {
     private String workingInstitutionName;
     private String enteredOtpByUser;
     private Long divisionMasterId;
+    private Boolean allowAnyUser;
     private String nameInKannada;
 }

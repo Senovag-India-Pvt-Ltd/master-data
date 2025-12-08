@@ -122,6 +122,9 @@ public class UserMasterResponse {
     @Schema(name = "nameInKannada", example = "ddoCode 1")
     String nameInKannada;
 
+    @Schema(name = "allowAnyUser", example = "ddoCode 1")
+    Boolean allowAnyUser;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

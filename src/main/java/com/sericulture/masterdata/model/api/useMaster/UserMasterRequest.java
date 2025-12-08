@@ -83,4 +83,7 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "divisionMasterId", example = "ddoCode 1")
     Long divisionMasterId;
 
+    @Schema(name = "allowAnyUser", example = "ddoCode 1")
+    Boolean allowAnyUser;
+
 }
