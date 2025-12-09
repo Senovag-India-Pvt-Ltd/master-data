@@ -152,4 +152,7 @@ public class MarketMasterResponse {
 
     @Schema(name = "isTest", example = "true")
     Boolean isTest;
+
+    @Schema(name = "requiredBasePrice", example = "true")
+    Boolean requiredBasePrice;
 }

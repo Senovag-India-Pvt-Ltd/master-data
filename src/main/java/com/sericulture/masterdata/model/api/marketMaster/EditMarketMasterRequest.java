@@ -138,4 +138,7 @@ public class EditMarketMasterRequest extends RequestBody {
 
     @Schema(name = "isTest", example = "true")
     Boolean isTest;
+
+    @Schema(name = "requiredBasePrice", example = "true")
+    Boolean requiredBasePrice;
 }

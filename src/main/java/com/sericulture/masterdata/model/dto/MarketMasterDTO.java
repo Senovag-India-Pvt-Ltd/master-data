@@ -48,6 +48,7 @@ public class MarketMasterDTO {
     private String clientCode;
     private Long cocoonAge;
     private Long divisionMasterId;
+    private Boolean requiredBasePrice;
     private String name;
 
 
@@ -96,6 +97,7 @@ public class MarketMasterDTO {
         String marketTypeMasterName,
         Long reelerMinimumBalance,
         Long divisionMasterId,
+        Boolean requiredBasePrice,
         String name
             ) {
         this.marketMasterId = marketMasterId;
@@ -138,6 +140,7 @@ public class MarketMasterDTO {
         this.marketTypeMasterName = marketTypeMasterName;
         this.reelerMinimumBalance = reelerMinimumBalance;
         this.divisionMasterId = divisionMasterId;
+        this.requiredBasePrice = requiredBasePrice;
         this.name = name;
 
 

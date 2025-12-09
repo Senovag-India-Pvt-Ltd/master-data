@@ -209,6 +209,7 @@ public class MarketMasterService {
                 marketMaster.setDivisionMasterId(marketMasterRequest.getDivisionMasterId());
                 marketMaster.setCocoonAge(marketMasterRequest.getCocoonAge());
                 marketMaster.setIsTest(marketMasterRequest.getIsTest());
+                marketMaster.setRequiredBasePrice(marketMasterRequest.getRequiredBasePrice());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);

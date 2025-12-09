@@ -72,6 +72,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketTypeMaster.marketTypeMasterName," +
             " marketMaster.reelerMinimumBalance," +
             " marketMaster.divisionMasterId," +
+            " marketMaster.requiredBasePrice," +
             " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +
@@ -131,6 +132,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketTypeMaster.marketTypeMasterName," +
             " marketMaster.reelerMinimumBalance," +
             " marketMaster.divisionMasterId," +
+            " marketMaster.requiredBasePrice," +
             " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +
@@ -189,6 +191,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketTypeMaster.marketTypeMasterName," +
             " marketMaster.reelerMinimumBalance," +
             " marketMaster.divisionMasterId," +
+            " marketMaster.requiredBasePrice," +
             " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +
@@ -250,6 +253,7 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             " marketTypeMaster.marketTypeMasterName," +
             " marketMaster.reelerMinimumBalance," +
             " marketMaster.divisionMasterId," +
+            " marketMaster.requiredBasePrice," +
             " divisionMaster.name" +
             ") \n" +
             "from market_master marketMaster\n" +

@@ -146,4 +146,7 @@ public class MarketMaster extends  BaseEntity implements Serializable {
     @Column(name = "is_test", columnDefinition = "TINYINT")
     private Boolean isTest;
 
+    @Column(name = "required_base_price" ,columnDefinition = "TINYINT")
+    private Boolean requiredBasePrice;
+
 }
