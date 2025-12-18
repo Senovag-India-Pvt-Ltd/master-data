@@ -437,7 +437,7 @@ public class UserMasterService {
     @Transactional
     public UserMasterResponse generateOtpByUserNameAndPassword(UserMasterDTO userMasterDTO){
         UserMasterResponse userMasterResponse = new UserMasterResponse();
-        UserMaster userMaster = userMasterRepository.findByUsernameAndActive(userMasterDTO.getUsername(), true);
+        UserMaster userMaster = userMasterRepository.findByUsernameAndActiveCaseSensitive(userMasterDTO.getUsername(), true);
 
         if(userMaster == null) {
             userMasterResponse.setError(true);

@@ -215,6 +215,21 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
 
     public UserMaster findByUsernameAndActive(String userName, boolean isActive);
 
+    @Query(
+            value = """
+        SELECT *
+        FROM user_master
+        WHERE username COLLATE SQL_Latin1_General_CP1_CS_AS = :username
+          AND active = :active
+        """,
+            nativeQuery = true
+    )
+    UserMaster findByUsernameAndActiveCaseSensitive(
+            @Param("username") String username,
+            @Param("active") boolean active
+    );
+
+
     @Query("select new com.sericulture.masterdata.model.dto.UserMasterDTO(" +
             " userMaster.userMasterId," +
             " userMaster.firstName," +
