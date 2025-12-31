@@ -101,4 +101,7 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
 //    @Column(name = "sanction_order_for_scheme")
 //    private String sanctionOrderForScheme;
 
+    @Column(name = "allow_dbt_push" ,columnDefinition = "TINYINT")
+    private Boolean allowDbtPush;
+
 }
