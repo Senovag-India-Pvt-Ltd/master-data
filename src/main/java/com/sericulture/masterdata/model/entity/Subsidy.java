@@ -22,7 +22,7 @@ public class Subsidy extends BaseEntity implements Serializable {
     private Long subsidyId;
 
 
-    @Size(min = 2, max = 250, message = "Subsidy name should be more than 1 characters.")
+//    @Size(min = 2, max = 250, message = "Subsidy name should be more than 1 characters.")
     @Column(name = " subsidy_name", unique = true)
     private String subsidyName;
 

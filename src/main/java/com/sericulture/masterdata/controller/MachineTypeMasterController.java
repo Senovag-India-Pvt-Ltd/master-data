@@ -29,7 +29,7 @@ public class MachineTypeMasterController {
     @Autowired
     MachineTypeMasterService machineTypeMasterService;
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, Object> response = new HashMap<>();
         Map<String, String> errors = new HashMap<>();
@@ -54,7 +54,7 @@ public class MachineTypeMasterController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addMachineTypeMasterDetails(@Valid @RequestBody MachineTypeMasterRequest machineTypeMasterRequest){
+    public ResponseEntity<?> addMachineTypeMasterDetails( @RequestBody MachineTypeMasterRequest machineTypeMasterRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(MachineTypeMasterResponse.class);
 
         rw.setContent(machineTypeMasterService.insertMachineTypeMasterDetails(machineTypeMasterRequest));

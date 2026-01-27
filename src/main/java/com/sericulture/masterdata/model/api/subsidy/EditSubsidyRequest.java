@@ -14,11 +14,11 @@ public class EditSubsidyRequest extends RequestBody {
     @Schema(name = "subsidyId", example = "1")
     Integer subsidyId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Subsidy must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Subsidy must contain only letters and numbers")
     @Schema(name = "subsidyName", example = "Subsidy 1 ", required = true)
     String subsidyName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Subsidy in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Subsidy in kannada must contain only letters and numbers")
     @Schema(name = "subsidyNameInKannada",  example = "ಭಾಷೆ")
     String subsidyNameInKannada;
 }

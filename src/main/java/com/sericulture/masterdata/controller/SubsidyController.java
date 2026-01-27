@@ -28,7 +28,7 @@ public class SubsidyController {
     @Autowired
     SubsidyService subsidyService;
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, Object> response = new HashMap<>();
         Map<String, String> errors = new HashMap<>();
@@ -53,7 +53,7 @@ public class SubsidyController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
     @PostMapping("/add")
-    public ResponseEntity<?> addSubsidyMasterDetails(@Valid @RequestBody SubsidyRequest subsidyRequest){
+    public ResponseEntity<?> addSubsidyMasterDetails(@RequestBody SubsidyRequest subsidyRequest){
         ResponseWrapper rw = ResponseWrapper.createWrapper(SubsidyResponse.class);
 
         rw.setContent(subsidyService.insertSubsidyDetails(subsidyRequest));
@@ -138,7 +138,7 @@ public class SubsidyController {
     })
     @PostMapping("/edit")
     public ResponseEntity<?> editSubsidyDetails(
-            @Valid @RequestBody final EditSubsidyRequest editSubsidyRequest
+           @RequestBody final EditSubsidyRequest editSubsidyRequest
     ) {
         ResponseWrapper<SubsidyResponse> rw = ResponseWrapper.createWrapper(SubsidyResponse.class);
         rw.setContent(subsidyService.updateSubsidyDetails(editSubsidyRequest));
