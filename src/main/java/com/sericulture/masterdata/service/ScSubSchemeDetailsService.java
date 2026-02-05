@@ -253,7 +253,11 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
                 scSubSchemeDetails.setAllowMultipleSanction(scSubSchemeDetailsRequest.getAllowMultipleSanction());
                 scSubSchemeDetails.setSanctionForReeling(scSubSchemeDetailsRequest.getSanctionForReeling());
-                scSubSchemeDetails.setSanctionEnable(scSubSchemeDetailsRequest.getSanctionEnable());
+                if (scSubSchemeDetailsRequest.getSanctionEnable() != null) {
+                    scSubSchemeDetails.setSanctionEnable(scSubSchemeDetailsRequest.getSanctionEnable());
+                } else {
+                    scSubSchemeDetails.setSanctionEnable(false);
+                }
                 scSubSchemeDetails.setCalculationBasedOn(scSubSchemeDetailsRequest.getCalculationBasedOn());
                 scSubSchemeDetails.setWorkOrderForScheme(scSubSchemeDetailsRequest.getWorkOrderForScheme());
                 scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
