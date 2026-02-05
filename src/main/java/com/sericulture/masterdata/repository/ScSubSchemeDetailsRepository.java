@@ -28,6 +28,8 @@ public interface ScSubSchemeDetailsRepository extends PagingAndSortingRepository
 
     List<ScSubSchemeDetails> findByScSchemeDetailsIdAndScSubSchemeDetailsIdAndActive(Long scSchemeDetailsId, Long scSubSchemeDetailsId, boolean isActive);
 
+    public ScSubSchemeDetails findByScSubSchemeDetailsId(long id);
+
 
     public ScSubSchemeDetails save(ScSubSchemeDetails scSubSchemeDetails);
 

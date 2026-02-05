@@ -6,8 +6,11 @@ import com.sericulture.masterdata.model.api.scProgramApprovalMapping.EditScProgr
 import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingRequest;
 import com.sericulture.masterdata.model.api.scProgramApprovalMapping.ScProgramApprovalMappingResponse;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.EditScSubSchemeDetailsRequest;
+import com.sericulture.masterdata.model.api.scSubSchemeDetails.EnableSanctionRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsRequest;
 import com.sericulture.masterdata.model.api.scSubSchemeDetails.ScSubSchemeDetailsResponse;
+import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
+import com.sericulture.masterdata.repository.ScSubSchemeDetailsRepository;
 import com.sericulture.masterdata.service.ScProgramApprovalMappingService;
 import com.sericulture.masterdata.service.ScSubSchemeDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +30,9 @@ import java.util.Map;
 public class ScSubSchemeDetailsController {
     @Autowired
     ScSubSchemeDetailsService scSubSchemeDetailsService;
+
+    @Autowired
+    ScSubSchemeDetailsRepository scSubSchemeDetailsRepository;
 
     @Operation(summary = "Insert ScSub Scheme  Details", description = "Creates Sc Sub Scheme Details in to DB")
     @ApiResponses(value = {
@@ -202,6 +208,23 @@ public class ScSubSchemeDetailsController {
         rw.setContent(scSubSchemeDetailsService.getScSubSchemeDetailsBySchemeAndSubSchemeId(scSchemeDetailsId, scSubSchemeDetailsId));
         return ResponseEntity.ok(rw);
     }
+
+    @GetMapping("/is-sanction-enabled/{id}")
+    public ResponseEntity<Boolean> isSanctionEnabled(@PathVariable Long id) {
+
+        ScSubSchemeDetails entity =
+                scSubSchemeDetailsRepository.findByScSubSchemeDetailsId(id);
+
+        if (entity == null) {
+            return ResponseEntity.ok(false);
+        }
+
+        // ✅ Only sanctionEnable decides generation
+        return ResponseEntity.ok(Boolean.TRUE.equals(entity.getSanctionEnable()));
+    }
+
+
+
 
 
     @GetMapping("/list-with-join")

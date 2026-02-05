@@ -39,6 +39,10 @@ public class ScSubSchemeDetailsService {
     public ScSubSchemeDetailsResponse insertScSubSchemeDetailsDetails(ScSubSchemeDetailsRequest scSubSchemeDetailsRequest){
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
         ScSubSchemeDetails scSubSchemeDetails = mapper.scSubSchemeDetailsObjectToEntity(scSubSchemeDetailsRequest, ScSubSchemeDetails.class);
+        if (scSubSchemeDetails.getSanctionEnable() == null) {
+            scSubSchemeDetails.setSanctionEnable(false);
+        }
+
         validator.validate(scSubSchemeDetails);
         List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndSubSchemeName(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getSubSchemeName());
         if(!scSubSchemeDetailsList.isEmpty() && scSubSchemeDetailsList.stream().filter(ScSubSchemeDetails::getActive).findAny().isPresent()){
@@ -172,6 +176,29 @@ public class ScSubSchemeDetailsService {
 
     }
 
+    @Transactional
+    public ScSubSchemeDetailsResponse enableSanction(Long scSubSchemeDetailsId) {
+
+        ScSubSchemeDetails entity =
+                scSubSchemeDetailsRepository.findByScSubSchemeDetailsId(scSubSchemeDetailsId);
+
+        if (entity == null) {
+            ScSubSchemeDetailsResponse response = new ScSubSchemeDetailsResponse();
+            response.setError(true);
+            response.setError_description("Invalid Sub Scheme Id");
+            return response;
+        }
+
+        entity.setSanctionEnable(true);
+        scSubSchemeDetailsRepository.save(entity);
+
+        ScSubSchemeDetailsResponse response =
+                mapper.scSubSchemeDetailsEntityToObject(entity, ScSubSchemeDetailsResponse.class);
+        response.setError(false);
+
+        return response;
+    }
+
     public Map<String, Object> getScSubSchemeDetailsBySchemeAndSubSchemeId(Long scSchemeDetailsId, Long scSubSchemeDetailsId) {
         Map<String, Object> response = new HashMap<>();
 
@@ -226,6 +253,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
                 scSubSchemeDetails.setAllowMultipleSanction(scSubSchemeDetailsRequest.getAllowMultipleSanction());
                 scSubSchemeDetails.setSanctionForReeling(scSubSchemeDetailsRequest.getSanctionForReeling());
+                scSubSchemeDetails.setSanctionEnable(scSubSchemeDetailsRequest.getSanctionEnable());
                 scSubSchemeDetails.setCalculationBasedOn(scSubSchemeDetailsRequest.getCalculationBasedOn());
                 scSubSchemeDetails.setWorkOrderForScheme(scSubSchemeDetailsRequest.getWorkOrderForScheme());
                 scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());

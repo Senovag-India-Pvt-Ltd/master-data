@@ -91,4 +91,7 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
 
     @Schema(name = "allotReleaseDate", example = "1")
     Date allotReleaseDate;
+
+    @Schema(name = "sanctionEnable", example = "true")
+    Boolean sanctionEnable;
 }

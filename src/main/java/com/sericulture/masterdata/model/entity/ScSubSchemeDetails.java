@@ -104,4 +104,7 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "allow_dbt_push" ,columnDefinition = "TINYINT")
     private Boolean allowDbtPush;
 
+    @Column(name = "sanction_enable" ,columnDefinition = "TINYINT")
+    private Boolean sanctionEnable;
+
 }
