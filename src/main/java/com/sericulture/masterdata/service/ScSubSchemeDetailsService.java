@@ -40,7 +40,7 @@ public class ScSubSchemeDetailsService {
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
         ScSubSchemeDetails scSubSchemeDetails = mapper.scSubSchemeDetailsObjectToEntity(scSubSchemeDetailsRequest, ScSubSchemeDetails.class);
         if (scSubSchemeDetails.getSanctionEnable() == null) {
-            scSubSchemeDetails.setSanctionEnable(false);
+            scSubSchemeDetails.setSanctionEnable(0);
         }
 
         validator.validate(scSubSchemeDetails);
@@ -189,7 +189,7 @@ public class ScSubSchemeDetailsService {
             return response;
         }
 
-        entity.setSanctionEnable(true);
+        entity.setSanctionEnable(0);
         scSubSchemeDetailsRepository.save(entity);
 
         ScSubSchemeDetailsResponse response =
@@ -253,11 +253,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setDbtCode(scSubSchemeDetailsRequest.getDbtCode());
                 scSubSchemeDetails.setAllowMultipleSanction(scSubSchemeDetailsRequest.getAllowMultipleSanction());
                 scSubSchemeDetails.setSanctionForReeling(scSubSchemeDetailsRequest.getSanctionForReeling());
-                if (scSubSchemeDetailsRequest.getSanctionEnable() != null) {
-                    scSubSchemeDetails.setSanctionEnable(scSubSchemeDetailsRequest.getSanctionEnable());
-                } else {
-                    scSubSchemeDetails.setSanctionEnable(false);
-                }
+                scSubSchemeDetails.setSanctionEnable(scSubSchemeDetailsRequest.getSanctionEnable());
                 scSubSchemeDetails.setCalculationBasedOn(scSubSchemeDetailsRequest.getCalculationBasedOn());
                 scSubSchemeDetails.setWorkOrderForScheme(scSubSchemeDetailsRequest.getWorkOrderForScheme());
                 scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
