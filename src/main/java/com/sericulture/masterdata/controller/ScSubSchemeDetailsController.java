@@ -219,8 +219,8 @@ public class ScSubSchemeDetailsController {
             return ResponseEntity.ok(false);
         }
 
-        // ✅ Only sanctionEnable decides generation
-        return ResponseEntity.ok(Boolean.TRUE.equals(entity.getSanctionEnable()));
+        Integer sanctionEnable = entity.getSanctionEnable();
+        return ResponseEntity.ok(sanctionEnable == null || sanctionEnable == 0);
     }
 
 
