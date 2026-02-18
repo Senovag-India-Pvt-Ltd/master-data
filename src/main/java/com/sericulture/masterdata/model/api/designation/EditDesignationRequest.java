@@ -17,13 +17,16 @@ public class EditDesignationRequest extends RequestBody {
     @Schema(name = "designationId", example = "1")
     Integer designationId;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Designation must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Designation must contain only letters and numbers")
     @Schema(name = "name", example = "Admin", required = true)
     String name;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation in kannada must contain only letters and numbers")
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;
+
+    @Schema(name = "designationNameInKannadaForSanctionOrder",  example = "ಭಾಷೆ")
+    String designationNameInKannadaForSanctionOrder;
 
     @Schema(name = "level", example = "Karnataka", required = true)
     String level;
