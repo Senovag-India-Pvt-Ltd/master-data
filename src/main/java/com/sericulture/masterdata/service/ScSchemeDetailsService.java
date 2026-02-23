@@ -138,6 +138,7 @@ public class ScSchemeDetailsService {
                 scSchemeDetails.setSanctionOrderForScheme(scSchemeDetailsRequest.getSanctionOrderForScheme());
                 scSchemeDetails.setAcknowledgementForScheme(scSchemeDetailsRequest.getAcknowledgementForScheme());
                 scSchemeDetails.setUnitForScheme(scSchemeDetailsRequest.getUnitForScheme());
+                scSchemeDetails.setSchemeCodeForSanctionOrder(scSchemeDetailsRequest.getSchemeCodeForSanctionOrder());
 
                 scSchemeDetails.setActive(true);
                 ScSchemeDetails scSchemeDetails1= scSchemeDetailsRepository.save(scSchemeDetails);

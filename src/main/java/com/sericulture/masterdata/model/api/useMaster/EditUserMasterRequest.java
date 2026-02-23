@@ -91,4 +91,7 @@ public class EditUserMasterRequest extends RequestBody {
 
     @Schema(name = "allowAnyUser", example = "ddoCode 1")
     Boolean allowAnyUser;
+
+    @Schema(name = "designationNameInKannadaForSanctionOrder",  example = "ಭಾಷೆ")
+    String designationNameInKannadaForSanctionOrder;
 }

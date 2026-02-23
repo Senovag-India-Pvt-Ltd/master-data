@@ -49,6 +49,9 @@ public class ScSchemeDetailsResponse {
     @Schema(name = "acknowledgementForScheme", example = "calculation")
     String acknowledgementForScheme;
 
+    @Schema(name = "schemeCodeForSanctionOrder", example = "calculation")
+    String schemeCodeForSanctionOrder;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

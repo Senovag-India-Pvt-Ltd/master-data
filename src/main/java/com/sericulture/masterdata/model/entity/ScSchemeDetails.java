@@ -61,4 +61,7 @@ public class ScSchemeDetails extends BaseEntity implements Serializable {
 
     @Column(name = "acknowledgement_for_scheme")
     private String acknowledgementForScheme;
+
+    @Column(name = "scheme_code_for_sanction_order")
+    private String schemeCodeForSanctionOrder;
 }

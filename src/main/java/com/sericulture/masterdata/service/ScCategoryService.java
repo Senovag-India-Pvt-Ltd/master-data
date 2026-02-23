@@ -162,6 +162,7 @@ public class ScCategoryService {
                 scCategory.setDescription( scCategoryRequest.getDescription());
                 scCategory.setDbtCode(scCategoryRequest.getDbtCode());
                 scCategory.setCategoryShortName(scCategoryRequest.getCategoryShortName());
+                scCategory.setCategoryCodeForSanctionOrder(scCategoryRequest.getCategoryCodeForSanctionOrder());
 
 
                 scCategory.setActive(true);

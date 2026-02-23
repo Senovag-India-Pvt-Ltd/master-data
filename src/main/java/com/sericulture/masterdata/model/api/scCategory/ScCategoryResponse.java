@@ -37,6 +37,9 @@ public class ScCategoryResponse {
     @Schema(name = "categoryShortName", example = "Karnataka", required = true)
     String categoryShortName;
 
+    @Schema(name = "categoryCodeForSanctionOrder", example = "calculation")
+    String categoryCodeForSanctionOrder;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

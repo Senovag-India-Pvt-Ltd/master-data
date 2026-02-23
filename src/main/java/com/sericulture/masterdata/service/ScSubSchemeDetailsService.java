@@ -269,6 +269,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setSchemeCircularDate(scSubSchemeDetailsRequest.getSchemeCircularDate());
                 scSubSchemeDetails.setDeptDelegationDate(scSubSchemeDetailsRequest.getDeptDelegationDate());
                 scSubSchemeDetails.setAllotReleaseDate(scSubSchemeDetailsRequest.getAllotReleaseDate());
+                scSubSchemeDetails.setSchemeCodeForSanctionOrder(scSubSchemeDetailsRequest.getSchemeCodeForSanctionOrder());
 //                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);

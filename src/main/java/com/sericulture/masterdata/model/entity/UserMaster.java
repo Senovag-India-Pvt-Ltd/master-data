@@ -98,5 +98,7 @@ public class UserMaster extends BaseEntity implements Serializable {
     @Column(name = "allow_any_user" ,columnDefinition = "TINYINT")
     private Boolean allowAnyUser;
 
+    @Column(name = "designation_name_in_kannada_for_sanction_order")
+    private String designationNameInKannadaForSanctionOrder;
 
 }

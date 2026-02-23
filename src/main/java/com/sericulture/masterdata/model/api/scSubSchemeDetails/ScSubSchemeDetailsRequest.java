@@ -94,4 +94,7 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
 
     @Schema(name = "sanctionEnable", example = "0 or 1")
     Integer sanctionEnable;
+
+    @Schema(name = "schemeCodeForSanctionOrder", example = "calculation")
+    String schemeCodeForSanctionOrder;
 }
