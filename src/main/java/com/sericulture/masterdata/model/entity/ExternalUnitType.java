@@ -28,4 +28,10 @@ public class ExternalUnitType extends BaseEntity implements Serializable {
 
     @Column(name = "external_unit_type_name_in_kannada")
     private String externalUnitTypeNameInKannada;
+
+    @Column(name = "payment_via_bank")
+    private Boolean paymentViaBank;
+
+    @Column(name = "payment_via_k2")
+    private Boolean paymentViaK2;
 }

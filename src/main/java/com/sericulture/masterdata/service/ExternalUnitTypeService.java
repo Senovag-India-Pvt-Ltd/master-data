@@ -60,7 +60,8 @@ public class ExternalUnitTypeService {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
         ExternalUnitType externalUnitType = mapper.externalUnitTypeObjectToEntity(externalUnitTypeRequest,ExternalUnitType.class);
         validator.validate(externalUnitType);
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActive(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(), true);
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository
+                .findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActive(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(), true);
         if(!externalUnitTypeList.isEmpty() && externalUnitTypeList.stream().filter(ExternalUnitType::getActive).findAny().isPresent()){
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType name already exist");
@@ -139,17 +140,21 @@ public class ExternalUnitTypeService {
     @Transactional
     public ExternalUnitTypeResponse updateExternalUnitTypeDetails(EditExternalUnitTypeRequest externalUnitTypeRequest) {
         ExternalUnitTypeResponse externalUnitTypeResponse = new ExternalUnitTypeResponse();
-        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActive(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(), true);
-        if (externalUnitTypeList.size() > 0) {
+        List<ExternalUnitType> externalUnitTypeList = externalUnitTypeRepository.findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActiveAndExternalUnitTypeIdNot(externalUnitTypeRequest.getExternalUnitTypeName(),externalUnitTypeRequest.getExternalUnitTypeNameInKannada(),true, externalUnitTypeRequest.getExternalUnitTypeId());
+        if (!externalUnitTypeList.isEmpty()) {
             externalUnitTypeResponse.setError(true);
             externalUnitTypeResponse.setError_description("ExternalUnitType already exists, duplicates are not allowed.");
-            // throw new ValidationException("Village already exists, duplicates are not allowed.");
-        } else {
+            return externalUnitTypeResponse;
+
+        }
+        else {
 
             ExternalUnitType externalUnitType = externalUnitTypeRepository.findByExternalUnitTypeIdAndActiveIn(externalUnitTypeRequest.getExternalUnitTypeId(), Set.of(true, false));
             if (Objects.nonNull(externalUnitType)) {
                 externalUnitType.setExternalUnitTypeName(externalUnitTypeRequest.getExternalUnitTypeName());
                 externalUnitType.setExternalUnitTypeNameInKannada(externalUnitTypeRequest.getExternalUnitTypeNameInKannada());
+                externalUnitType.setPaymentViaBank(externalUnitTypeRequest.getPaymentViaBank());
+                externalUnitType.setPaymentViaK2(externalUnitTypeRequest.getPaymentViaK2());
                 externalUnitType.setActive(true);
                 ExternalUnitType externalUnitType1 = externalUnitTypeRepository.save(externalUnitType);
                 externalUnitTypeResponse = mapper.externalUnitTypeEntityToObject(externalUnitType1, ExternalUnitTypeResponse.class);

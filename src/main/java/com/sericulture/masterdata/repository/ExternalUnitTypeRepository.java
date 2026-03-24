@@ -18,6 +18,8 @@ public interface ExternalUnitTypeRepository extends PagingAndSortingRepository<E
 
     public List<ExternalUnitType> findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActive(String externalUnitTypeName,String externalUnitTypeNameInKannada, boolean active);
 
+    public List<ExternalUnitType> findByExternalUnitTypeNameAndExternalUnitTypeNameInKannadaAndActiveAndExternalUnitTypeIdNot(String externalUnitTypeName,String externalUnitTypeNameInKannada, boolean active,long externalUnitTypeId);
+
     public ExternalUnitType findByExternalUnitTypeNameAndActive(String externalUnitTypeName,boolean isActive);
 
     public Page<ExternalUnitType> findByActiveOrderByExternalUnitTypeNameAsc(boolean isActive, final Pageable pageable);
