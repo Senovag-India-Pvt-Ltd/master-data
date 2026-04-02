@@ -43,5 +43,8 @@ public class ScCategory extends BaseEntity implements Serializable {
     @Column(name = " ca_name", unique = true)
     private String categoryShortName;
 
+    @Column(name = "category_code_for_sanction_order")
+    private String categoryCodeForSanctionOrder;
+
 
 }

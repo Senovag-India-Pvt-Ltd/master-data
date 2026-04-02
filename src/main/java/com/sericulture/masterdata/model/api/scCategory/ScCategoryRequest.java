@@ -38,4 +38,7 @@ public class ScCategoryRequest extends RequestBody {
 
     @Schema(name = "categoryShortName", example = "Karnataka", required = true)
     String categoryShortName;
+
+    @Schema(name = "categoryCodeForSanctionOrder", example = "calculation")
+    String categoryCodeForSanctionOrder;
 }

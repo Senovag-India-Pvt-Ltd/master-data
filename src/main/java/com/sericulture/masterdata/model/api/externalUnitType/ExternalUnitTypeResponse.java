@@ -20,6 +20,12 @@ public class ExternalUnitTypeResponse {
     @Schema(name = "externalUnitTypeNameInKannada",  example = "ಭಾಷೆ")
     String externalUnitTypeNameInKannada;
 
+    @Schema(name = "paymentViaBank", example = "true", description = "Payment via bank selected")
+    private Boolean paymentViaBank;
+
+    @Schema(name = "paymentViaK2", example = "false", description = "Payment via K2 selected")
+    private Boolean paymentViaK2;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

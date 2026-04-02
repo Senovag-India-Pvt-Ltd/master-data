@@ -40,7 +40,7 @@ public class ScSubSchemeDetailsService {
         ScSubSchemeDetailsResponse scSubSchemeDetailsResponse = new ScSubSchemeDetailsResponse();
         ScSubSchemeDetails scSubSchemeDetails = mapper.scSubSchemeDetailsObjectToEntity(scSubSchemeDetailsRequest, ScSubSchemeDetails.class);
         if (scSubSchemeDetails.getSanctionEnable() == null) {
-            scSubSchemeDetails.setSanctionEnable(false);
+            scSubSchemeDetails.setSanctionEnable(0);
         }
 
         validator.validate(scSubSchemeDetails);
@@ -189,7 +189,7 @@ public class ScSubSchemeDetailsService {
             return response;
         }
 
-        entity.setSanctionEnable(true);
+        entity.setSanctionEnable(0);
         scSubSchemeDetailsRepository.save(entity);
 
         ScSubSchemeDetailsResponse response =
@@ -269,6 +269,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setSchemeCircularDate(scSubSchemeDetailsRequest.getSchemeCircularDate());
                 scSubSchemeDetails.setDeptDelegationDate(scSubSchemeDetailsRequest.getDeptDelegationDate());
                 scSubSchemeDetails.setAllotReleaseDate(scSubSchemeDetailsRequest.getAllotReleaseDate());
+                scSubSchemeDetails.setSchemeCodeForSanctionOrder(scSubSchemeDetailsRequest.getSchemeCodeForSanctionOrder());
 //                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);

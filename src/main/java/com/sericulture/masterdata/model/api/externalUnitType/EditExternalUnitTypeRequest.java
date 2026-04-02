@@ -21,4 +21,11 @@ public class EditExternalUnitTypeRequest extends RequestBody {
     @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "External unit type name in kannada must contain only letters and numbers")
     @Schema(name = "externalUnitTypeNameInKannada",  example = "ಭಾಷೆ")
     String externalUnitTypeNameInKannada;
+
+    @Schema(name = "paymentViaBank", example = "true", description = "Payment via bank selected")
+    private Boolean paymentViaBank;
+
+    @Schema(name = "paymentViaK2", example = "false", description = "Payment via K2 selected")
+    private Boolean paymentViaK2;
+
 }

@@ -52,4 +52,7 @@ public class ScSchemeDetailsRequest extends RequestBody {
     @Schema(name = "acknowledgementForScheme", example = "calculation")
     String acknowledgementForScheme;
 
+    @Schema(name = "schemeCodeForSanctionOrder", example = "calculation")
+    String schemeCodeForSanctionOrder;
+
 }

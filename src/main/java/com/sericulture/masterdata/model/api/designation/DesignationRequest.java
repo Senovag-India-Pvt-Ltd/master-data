@@ -13,13 +13,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class DesignationRequest extends RequestBody {
-    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Designation must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s]*$", message = "Designation must contain only letters and numbers")
     @Schema(name = "name", example = "Admin", required = true)
     String name;
 
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation name in kannada must contain only letters and numbers")
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation name in kannada must contain only letters and numbers")
     @Schema(name = "designationNameInKannada",  example = "ಭಾಷೆ")
     String designationNameInKannada;
+
+//    @Pattern(regexp = "^[a-zA-Z0-9\\s\\u0C80-\\u0CFF]*$", message = "Designation name in kannada must contain only letters and numbers")
+
 
     @Schema(name = "level", example = "Karnataka", required = true)
     String level;
