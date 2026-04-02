@@ -1,6 +1,8 @@
 package com.sericulture.masterdata.controller;
 
+import com.sericulture.masterdata.helper.Util;
 import com.sericulture.masterdata.model.ResponseWrapper;
+import com.sericulture.masterdata.model.api.common.SearchWithSortRequest;
 import com.sericulture.masterdata.model.api.userHierarchyMapping.EditUserHierarchyMappingRequest;
 import com.sericulture.masterdata.model.api.userHierarchyMapping.UserHierarchyMappingRequest;
 import com.sericulture.masterdata.model.api.userHierarchyMapping.UserHierarchyMappingResponse;
@@ -10,12 +12,20 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.io.FileInputStream;
+
 
 @RestController
 @RequestMapping("/v1/userHierarchyMapping")
@@ -155,6 +165,77 @@ public class UserHierarchyMappingController {
 
         rw.setContent(userHierarchyMappingService.getByReporteeUserMasterId(reporteeUserMasterId));
         return ResponseEntity.ok(rw);
+    }
+    @GetMapping("/list-with-join")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content - fetched successfully", content =
+                    {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"totalItems\":2,\"userHierarchyMapping\":[{\"userHierarchyMappingId\":1,\"employeeId\":101,\"employeeName\":\"Ravi\",\"managerId\":201,\"managerName\":\"Suresh\"},{\"userHierarchyMappingId\":2,\"employeeId\":102,\"employeeName\":\"Anil\",\"managerId\":202,\"managerName\":\"Mahesh\"}],\"totalPages\":1,\"currentPage\":0},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Has validation errors",
+                    content =
+                            {
+                                    @Content(mediaType = "application/json", schema =
+                                    @Schema(example = "{\"content\":null,\"errorMessages\":[{\"errorType\":\"VALIDATION\",\"message\":[{\"message\":\"Invalid Id\",\"label\":\"NON_LABEL_MESSAGE\",\"locale\":null}]}]}"))
+                            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    public ResponseEntity<?> getPaginatedListWithJoin(
+            @RequestParam(defaultValue = "0") final Integer pageNumber,
+            @RequestParam(defaultValue = "5") final Integer size
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+
+        rw.setContent(
+                userHierarchyMappingService.getPaginatedEmployeeManagerList(
+                        PageRequest.of(pageNumber, size)
+                )
+        );
+
+        return ResponseEntity.ok(rw);
+    }
+
+    @PostMapping("/completed-report")
+    public ResponseEntity<InputStreamResource> completedReport() {
+        try {
+            FileInputStream fis = userHierarchyMappingService.downloadCompletedList();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=completed_user_hierarchy_" + Util.getISTLocalDate() + ".xlsx")
+                    .header(HttpHeaders.CONTENT_TYPE,
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    .body(new InputStreamResource(fis));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/pending-report")
+    public ResponseEntity<?> pendingReport() {
+        try {
+            FileInputStream fis = userHierarchyMappingService.downloadPendingList();
+
+            InputStreamResource resource = new InputStreamResource(fis);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=pending_user_hierarchy_" + Util.getISTLocalDate() + ".xlsx");
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    e.getMessage().getBytes(StandardCharsets.UTF_8),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "Ok Response"),

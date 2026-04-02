@@ -1,5 +1,6 @@
 package com.sericulture.masterdata.service;
 
+import com.sericulture.masterdata.helper.Util;
 import com.sericulture.masterdata.model.api.userHierarchyMapping.EditUserHierarchyMappingRequest;
 import com.sericulture.masterdata.model.api.userHierarchyMapping.UserHierarchyMappingRequest;
 import com.sericulture.masterdata.model.api.userHierarchyMapping.UserHierarchyMappingResponse;
@@ -14,9 +15,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 
 @Service
 @Slf4j
@@ -52,6 +70,10 @@ public class UserHierarchyMappingService {
 public UserHierarchyMappingResponse insertUserHierarchyMappingDetails(UserHierarchyMappingRequest userHierarchyMappingRequest) {
     UserHierarchyMappingResponse userHierarchyMappingResponse = new UserHierarchyMappingResponse();
 
+    if (userHierarchyMappingRequest.getReporteeUserMasterId()
+            .equals(userHierarchyMappingRequest.getReportToUserMasterId())) {
+        throw new IllegalArgumentException("Employee cannot report to themselves");
+    }
     // Convert request DTO to entity
     UserHierarchyMapping userHierarchyMapping = mapper.userHierarchyMappingObjectToEntity(userHierarchyMappingRequest, UserHierarchyMapping.class);
 
@@ -176,7 +198,122 @@ public UserHierarchyMappingResponse insertUserHierarchyMappingDetails(UserHierar
         }
 
         return userHierarchyMappingResponse;
+
+    }
+
+    public Map<String, Object> getPaginatedEmployeeManagerList(Pageable pageable) {
+
+        List<Object[]> result = userHierarchyMappingRepository.getEmployeeManagerList();
+
+        List<Map<String, Object>> list = result.stream().map(row -> {
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("userHierarchyMappingId", row[0]);
+            map.put("employeeId", row[1]);
+            map.put("employeeName", row[2]);
+            map.put("employeeDesignationId", row[3]);
+            map.put("employeeDistrictId", row[4]);
+            map.put("managerId", row[5]);
+            map.put("managerName", row[6]);
+            map.put("managerDesignationId", row[7]);
+            map.put("managerDistrictId", row[8]);
+            return map;
+        }).collect(Collectors.toList());
+
+        // ✅ SAME pagination style as village
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), list.size());
+
+        List<Map<String, Object>> paginatedList =
+                (start > list.size()) ? new ArrayList<>() : list.subList(start, end);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userHierarchyMapping", paginatedList);
+        response.put("currentPage", pageable.getPageNumber());
+        response.put("totalItems", list.size());
+        response.put("totalPages", (int) Math.ceil((double) list.size() / pageable.getPageSize()));
+
+        return response;
     }
 
 
+    public FileInputStream downloadCompletedList() throws Exception {
+
+        List<Object[]> list = userHierarchyMappingRepository.getCompletedList();
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Completed");
+
+        Row header = sheet.createRow(0);
+        header.createCell(0).setCellValue("Employee ID");
+        header.createCell(1).setCellValue("Employee Name");
+        header.createCell(2).setCellValue("Manager ID");
+        header.createCell(3).setCellValue("Manager Name");
+
+        int rowNum = 1;
+
+        for (Object[] row : list) {
+            Row dataRow = sheet.createRow(rowNum++);
+
+            dataRow.createCell(0).setCellValue(row[0] != null ? row[0].toString() : "");
+            dataRow.createCell(1).setCellValue(row[1] != null ? row[1].toString() : "");
+            dataRow.createCell(2).setCellValue(row[2] != null ? row[2].toString() : "");
+            dataRow.createCell(3).setCellValue(row[3] != null ? row[3].toString() : "");
+        }
+
+        for (int i = 0; i < 4; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        String userHome = System.getProperty("user.home");
+        String path = userHome + "/Downloads/completed_user_hierarchy_" + Util.getISTLocalDate() + ".xlsx";
+
+        FileOutputStream fos = new FileOutputStream(path);
+        workbook.write(fos);
+        fos.close();
+        workbook.close();
+
+        return new FileInputStream(path);
+    }
+
+    public FileInputStream downloadPendingList() throws Exception {
+
+        List<Object[]> list = userHierarchyMappingRepository.getPendingList();
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Pending");
+
+        Row header = sheet.createRow(0);
+        header.createCell(0).setCellValue("Employee ID");
+        header.createCell(1).setCellValue("Employee Name");
+
+        int rowNum = 1;
+
+        for (Object[] row : list) {
+            Row dataRow = sheet.createRow(rowNum++);
+            dataRow.createCell(0).setCellValue(row[0] != null ? row[0].toString() : "");
+            dataRow.createCell(1).setCellValue(row[1] != null ? row[1].toString() : "");
+        }
+
+        for (int i = 0; i < 2; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // ✅ SAME STYLE AS CHOWKI
+        String userHome = System.getProperty("user.home");
+        String directoryPath = Paths.get(userHome, "Downloads").toString();
+        Files.createDirectories(Paths.get(directoryPath));
+
+        Path filePath = Paths.get(directoryPath,
+                "pending_user_hierarchy_" + Util.getISTLocalDate() + ".xlsx");
+
+        // ✅ WRITE FIRST
+        FileOutputStream fos = new FileOutputStream(filePath.toString());
+        workbook.write(fos);
+        fos.close();
+        workbook.close();
+
+        // ✅ THEN READ
+        return new FileInputStream(filePath.toString());
+    }
 }
