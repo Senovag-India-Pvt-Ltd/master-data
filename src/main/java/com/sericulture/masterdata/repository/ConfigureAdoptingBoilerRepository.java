@@ -52,7 +52,7 @@ public interface ConfigureAdoptingBoilerRepository extends JpaRepository<Configu
          cab.active = 1
         ORDER BY cab.adopting_boiler_id ASC
         """,
-            countQuery = "SELECT COUNT(*) FROM configureAdoptingBoiler WHERE active = 1",
+            countQuery = "SELECT COUNT(*) FROM configure_adopting_boiler WHERE active = 1",
             nativeQuery = true)
     Page<Object[]> getConfigureAdoptingBoilerListWithJoin(Pageable pageable);
 
