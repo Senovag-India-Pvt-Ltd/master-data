@@ -287,4 +287,24 @@ public class MarketMasterService {
         response.put("totalItems", marketMasterDTOS.size());
         return response;
     }
+
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getByMarketTypeMasterId(Long marketTypeMasterId) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        List<MarketMasterDTO> marketMasterDTOS =
+                marketMasterRepository.getByMarketTypeMasterIdAndActive(marketTypeMasterId, true);
+
+        if (marketMasterDTOS == null || marketMasterDTOS.isEmpty()) {
+            response.put("error", "Error");
+            response.put("error_description", "No records found");
+        } else {
+            log.info("Market list: {}", marketMasterDTOS);
+            response = convertDTOToMapResponse(marketMasterDTOS);
+        }
+
+        return response;
+    }
 }
