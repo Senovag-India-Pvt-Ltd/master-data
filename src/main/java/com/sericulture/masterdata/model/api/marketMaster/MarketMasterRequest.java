@@ -137,4 +137,8 @@ public class MarketMasterRequest extends RequestBody {
 
     @Schema(name = "requiredBasePrice", example = "true")
     Boolean requiredBasePrice;
+
+    @Schema(name = "rejectionPercentage", example = "5.00",
+            description = "Threshold (%) above which leftover cocoon weight is flagged for rejection")
+    BigDecimal rejectionPercentage;
 }

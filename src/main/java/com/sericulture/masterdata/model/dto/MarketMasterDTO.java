@@ -50,6 +50,7 @@ public class MarketMasterDTO {
     private Long divisionMasterId;
     private Boolean requiredBasePrice;
     private String name;
+    private BigDecimal rejectionPercentage;
 
 
     public MarketMasterDTO() {
