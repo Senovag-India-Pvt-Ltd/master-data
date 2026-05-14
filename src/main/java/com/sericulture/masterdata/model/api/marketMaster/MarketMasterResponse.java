@@ -155,4 +155,8 @@ public class MarketMasterResponse {
 
     @Schema(name = "requiredBasePrice", example = "true")
     Boolean requiredBasePrice;
+
+    @Schema(name = "rejectionPercentage", example = "5.00",
+            description = "Maximum allowable remaining cocoon percentage before lot is marked for rejection")
+    BigDecimal rejectionPercentage;
 }

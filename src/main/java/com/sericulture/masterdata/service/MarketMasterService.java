@@ -210,6 +210,7 @@ public class MarketMasterService {
                 marketMaster.setCocoonAge(marketMasterRequest.getCocoonAge());
                 marketMaster.setIsTest(marketMasterRequest.getIsTest());
                 marketMaster.setRequiredBasePrice(marketMasterRequest.getRequiredBasePrice());
+                marketMaster.setRejectionPercentage(marketMasterRequest.getRejectionPercentage());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
