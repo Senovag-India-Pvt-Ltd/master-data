@@ -19,7 +19,4 @@ public class SchemeDocumentMasterRequest extends RequestBody {
 
     @Schema(name = "documentId", example = "1", required = true)
     Integer documentId;
-
-    @Schema(name = "allow", example = "true")
-    Boolean allow;
 }

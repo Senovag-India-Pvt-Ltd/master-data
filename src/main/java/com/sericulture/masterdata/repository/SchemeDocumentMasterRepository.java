@@ -32,4 +32,7 @@ public interface SchemeDocumentMasterRepository extends PagingAndSortingReposito
             @Param("schemeDocumentId") long schemeDocumentId, @Param("active") Set<Boolean> active);
 
     List<SchemeDocumentMaster> findByActive(boolean isActive);
+
+    List<SchemeDocumentMaster> findByActiveAndScSchemeDetailsIdAndScSubSchemeDetailsId(
+            boolean active, Integer scSchemeDetailsId, Integer scSubSchemeDetailsId);
 }

@@ -30,7 +30,4 @@ public class SchemeDocumentMaster extends BaseEntity implements Serializable {
 
     @Column(name = "document_id")
     private Integer documentId;
-
-    @Column(name = "allow", columnDefinition = "TINYINT DEFAULT 1")
-    private Boolean allow = true;
 }

@@ -3,8 +3,14 @@ package com.sericulture.masterdata.service;
 import com.sericulture.masterdata.model.api.schemeDocumentMaster.EditSchemeDocumentMasterRequest;
 import com.sericulture.masterdata.model.api.schemeDocumentMaster.SchemeDocumentMasterRequest;
 import com.sericulture.masterdata.model.api.schemeDocumentMaster.SchemeDocumentMasterResponse;
+import com.sericulture.masterdata.model.entity.DocumentMaster;
+import com.sericulture.masterdata.model.entity.ScSchemeDetails;
+import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
 import com.sericulture.masterdata.model.entity.SchemeDocumentMaster;
 import com.sericulture.masterdata.model.mapper.Mapper;
+import com.sericulture.masterdata.repository.DocumentMasterRepository;
+import com.sericulture.masterdata.repository.ScSchemeDetailsRepository;
+import com.sericulture.masterdata.repository.ScSubSchemeDetailsRepository;
 import com.sericulture.masterdata.repository.SchemeDocumentMasterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +28,15 @@ public class SchemeDocumentMasterService {
 
     @Autowired
     SchemeDocumentMasterRepository schemeDocumentMasterRepository;
+
+    @Autowired
+    ScSchemeDetailsRepository scSchemeDetailsRepository;
+
+    @Autowired
+    ScSubSchemeDetailsRepository scSubSchemeDetailsRepository;
+
+    @Autowired
+    DocumentMasterRepository documentMasterRepository;
 
     @Autowired
     Mapper mapper;
@@ -47,9 +62,6 @@ public class SchemeDocumentMasterService {
     public SchemeDocumentMasterResponse insertSchemeDocumentMasterDetails(SchemeDocumentMasterRequest schemeDocumentMasterRequest) {
         SchemeDocumentMasterResponse schemeDocumentMasterResponse = new SchemeDocumentMasterResponse();
         SchemeDocumentMaster schemeDocumentMaster = mapper.schemeDocumentMasterObjectToEntity(schemeDocumentMasterRequest, SchemeDocumentMaster.class);
-        if (schemeDocumentMaster.getAllow() == null) {
-            schemeDocumentMaster.setAllow(true);
-        }
         validator.validate(schemeDocumentMaster);
         List<SchemeDocumentMaster> existingList = schemeDocumentMasterRepository
                 .findByActiveAndScSchemeDetailsIdAndScSubSchemeDetailsIdAndDocumentId(
@@ -76,10 +88,32 @@ public class SchemeDocumentMasterService {
         return convertListEntityToMapResponse(schemeDocumentMasterRepository.findByActive(isActive));
     }
 
+    public Map<String, Object> getBySchemeAndSubScheme(Integer scSchemeDetailsId, Integer scSubSchemeDetailsId) {
+        List<SchemeDocumentMaster> list = schemeDocumentMasterRepository
+                .findByActiveAndScSchemeDetailsIdAndScSubSchemeDetailsId(true, scSchemeDetailsId, scSubSchemeDetailsId);
+        return convertListEntityToMapResponse(list);
+    }
+
+    private SchemeDocumentMasterResponse enrichWithNames(SchemeDocumentMaster entity, SchemeDocumentMasterResponse response) {
+        if (entity.getScSchemeDetailsId() != null) {
+            ScSchemeDetails scheme = scSchemeDetailsRepository.findByScSchemeDetailsIdAndActive(entity.getScSchemeDetailsId(), true);
+            if (scheme != null) response.setSchemeName(scheme.getSchemeName());
+        }
+        if (entity.getScSubSchemeDetailsId() != null) {
+            ScSubSchemeDetails subScheme = scSubSchemeDetailsRepository.findByScSubSchemeDetailsIdAndActive(entity.getScSubSchemeDetailsId(), true);
+            if (subScheme != null) response.setSubSchemeName(subScheme.getSubSchemeName());
+        }
+        if (entity.getDocumentId() != null) {
+            DocumentMaster document = documentMasterRepository.findByDocumentMasterIdAndActive(entity.getDocumentId(), true);
+            if (document != null) response.setDocumentMasterName(document.getDocumentMasterName());
+        }
+        return response;
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<SchemeDocumentMaster> activeList) {
         Map<String, Object> response = new HashMap<>();
         List<SchemeDocumentMasterResponse> responseList = activeList.getContent().stream()
-                .map(entity -> mapper.schemeDocumentMasterEntityToObject(entity, SchemeDocumentMasterResponse.class))
+                .map(entity -> enrichWithNames(entity, mapper.schemeDocumentMasterEntityToObject(entity, SchemeDocumentMasterResponse.class)))
                 .collect(Collectors.toList());
         response.put("schemeDocumentMaster", responseList);
         response.put("currentPage", activeList.getNumber());
@@ -91,7 +125,7 @@ public class SchemeDocumentMasterService {
     private Map<String, Object> convertListEntityToMapResponse(final List<SchemeDocumentMaster> activeList) {
         Map<String, Object> response = new HashMap<>();
         List<SchemeDocumentMasterResponse> responseList = activeList.stream()
-                .map(entity -> mapper.schemeDocumentMasterEntityToObject(entity, SchemeDocumentMasterResponse.class))
+                .map(entity -> enrichWithNames(entity, mapper.schemeDocumentMasterEntityToObject(entity, SchemeDocumentMasterResponse.class)))
                 .collect(Collectors.toList());
         response.put("schemeDocumentMaster", responseList);
         return response;
@@ -132,7 +166,6 @@ public class SchemeDocumentMasterService {
                 schemeDocumentMaster.setScSchemeDetailsId(editRequest.getScSchemeDetailsId());
                 schemeDocumentMaster.setScSubSchemeDetailsId(editRequest.getScSubSchemeDetailsId());
                 schemeDocumentMaster.setDocumentId(editRequest.getDocumentId());
-                schemeDocumentMaster.setAllow(editRequest.getAllow() != null ? editRequest.getAllow() : true);
                 schemeDocumentMaster.setActive(true);
                 SchemeDocumentMaster saved = schemeDocumentMasterRepository.save(schemeDocumentMaster);
                 schemeDocumentMasterResponse = mapper.schemeDocumentMasterEntityToObject(saved, SchemeDocumentMasterResponse.class);

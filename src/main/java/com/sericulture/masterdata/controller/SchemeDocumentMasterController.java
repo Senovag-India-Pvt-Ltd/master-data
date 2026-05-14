@@ -143,4 +143,21 @@ public class SchemeDocumentMasterController {
         rw.setContent(schemeDocumentMasterService.getById(id));
         return ResponseEntity.ok(rw);
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok Response",
+                    content = {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(example = "{\"content\":{\"schemeDocumentMaster\":[{\"schemeDocumentId\":1,\"scSchemeDetailsId\":1,\"scSubSchemeDetailsId\":1,\"documentId\":1}]},\"errorMessages\":[]}"))
+                    }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
+    })
+    @GetMapping("/get-by-scheme-and-sub-scheme")
+    public ResponseEntity<?> getBySchemeAndSubScheme(
+            @RequestParam final Integer scSchemeDetailsId,
+            @RequestParam(required = false) final Integer scSubSchemeDetailsId) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(schemeDocumentMasterService.getBySchemeAndSubScheme(scSchemeDetailsId, scSubSchemeDetailsId));
+        return ResponseEntity.ok(rw);
+    }
 }

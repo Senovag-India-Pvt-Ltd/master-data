@@ -24,8 +24,14 @@ public class SchemeDocumentMasterResponse {
     @Schema(name = "documentId", example = "1")
     Integer documentId;
 
-    @Schema(name = "allow", example = "true")
-    Boolean allow;
+    @Schema(name = "schemeName", example = "Scheme A")
+    String schemeName;
+
+    @Schema(name = "subSchemeName", example = "Sub Scheme A")
+    String subSchemeName;
+
+    @Schema(name = "documentMasterName", example = "Document A")
+    String documentMasterName;
 
     @Schema(name = "error", example = "true")
     Boolean error;
