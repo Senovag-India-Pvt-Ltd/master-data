@@ -23,6 +23,10 @@ public class QueryService {
     private static final int CONFIRMATION_WAIT_SECONDS = 30;
     private static final int MAX_SELECT_ROWS = 1000;
 
+    // Only this user is permitted to run UPDATE / DELETE in production.
+    // Authorised user: SIPLTEST2 / Satish / 9986710284
+    private static final String ALLOWED_UPDATE_DELETE_USERNAME = "SIPLTEST2";
+
     private static final Pattern WHERE_PATTERN =
             Pattern.compile("(?i)(?<![A-Z0-9_])WHERE(?![A-Z0-9_])");
     private static final Pattern STRING_LITERAL_PATTERN =
@@ -48,6 +52,14 @@ public class QueryService {
         String queryType = detectQueryType(stripped);
 
         if ("UPDATE".equals(queryType) || "DELETE".equals(queryType)) {
+            String username = request.getUsername() == null ? "" : request.getUsername().trim();
+            if (!ALLOWED_UPDATE_DELETE_USERNAME.equals(username)) {
+                log.warn("Blocked {} attempt by unauthorised user '{}'", queryType, username);
+                return ExecuteQueryResponse.builder()
+                        .queryType(queryType)
+                        .message(queryType + " is restricted to the authorised user (SIPLTEST2 / Satish / 9986710284).")
+                        .build();
+            }
             if (!WHERE_PATTERN.matcher(stripped).find()) {
                 return ExecuteQueryResponse.builder()
                         .queryType(queryType)
