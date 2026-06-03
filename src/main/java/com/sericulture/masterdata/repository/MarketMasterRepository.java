@@ -271,4 +271,65 @@ public interface MarketMasterRepository extends PagingAndSortingRepository<Marke
             "and marketMaster.districtId = :districtId"
     )
     public List <MarketMasterDTO> getByDistrictIdAndActive(@Param("districtId") long districtId,@Param("isActive") boolean isActive);
+
+    @Query("select new com.sericulture.masterdata.model.dto.MarketMasterDTO(" +
+            " marketMaster.marketMasterId," +
+            " marketMaster.marketMasterName," +
+            " marketMaster.marketNameInKannada," +
+            " marketMaster.marketMasterAddress," +
+            " marketMaster.paymentMode," +
+            " marketMaster.boxWeight," +
+            " marketMaster.lotWeight," +
+            " marketMaster.stateId," +
+            " marketMaster.districtId," +
+            " marketMaster.talukId," +
+            " marketMaster.issueBidSlipStartTime," +
+            " marketMaster.issueBidSlipEndTime," +
+            " marketMaster.auction1StartTime," +
+            " marketMaster.auction2StartTime," +
+            " marketMaster.auction3StartTime," +
+            " marketMaster.auction1EndTime," +
+            " marketMaster.auction2EndTime," +
+            " marketMaster.auction3EndTime," +
+            " marketMaster.auctionAcceptance1StartTime," +
+            " marketMaster.auctionAcceptance2StartTime," +
+            " marketMaster.auctionAcceptance3StartTime," +
+            " marketMaster.auctionAcceptance1EndTime," +
+            " marketMaster.auctionAcceptance2EndTime," +
+            " marketMaster.auctionAcceptance3EndTime," +
+            " marketMaster.serialNumberPrefix," +
+            " marketMaster.clientId," +
+            " marketMaster.marketTypeMasterId," +
+            " marketMaster.marketLatitude," +
+            " marketMaster.marketLongitude," +
+            " marketMaster.radius," +
+            " marketMaster.snorkelRequestPath," +
+            " marketMaster.snorkelResponsePath," +
+            " marketMaster.clientCode," +
+            " marketMaster.cocoonAge," +
+            " state.stateName," +
+            " district.districtName," +
+            " taluk.talukName," +
+            " marketTypeMaster.marketTypeMasterName," +
+            " marketMaster.reelerMinimumBalance," +
+            " marketMaster.divisionMasterId," +
+            " marketMaster.requiredBasePrice," +
+            " divisionMaster.name" +
+            ") \n" +
+            "from market_master marketMaster\n" +
+            "left join State state\n" +
+            "on marketMaster.stateId = state.stateId " +
+            "left join District district\n" +
+            "on marketMaster.districtId = district.districtId " +
+            "left join Taluk taluk\n" +
+            "on marketMaster.talukId = taluk.talukId " +
+            "left join MarketTypeMaster marketTypeMaster\n" +
+            "on marketMaster.marketTypeMasterId = marketTypeMaster.marketTypeMasterId " +
+            "left join DivisionMaster divisionMaster\n" +
+            "on marketMaster.divisionMasterId = divisionMaster.divisionMasterId " +
+            "where marketMaster.active = :isActive " +
+            "and marketMaster.marketTypeMasterId = :marketTypeMasterId"
+    )
+    public List <MarketMasterDTO> getByMarketTypeMasterIdAndActive(@Param("marketTypeMasterId") long marketTypeMasterId,@Param("isActive") boolean isActive);
+
 }

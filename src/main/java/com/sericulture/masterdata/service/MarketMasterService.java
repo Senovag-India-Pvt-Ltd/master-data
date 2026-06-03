@@ -210,6 +210,7 @@ public class MarketMasterService {
                 marketMaster.setCocoonAge(marketMasterRequest.getCocoonAge());
                 marketMaster.setIsTest(marketMasterRequest.getIsTest());
                 marketMaster.setRequiredBasePrice(marketMasterRequest.getRequiredBasePrice());
+                marketMaster.setRejectionPercentage(marketMasterRequest.getRejectionPercentage());
                 marketMaster.setActive(true);
                 MarketMaster marketMaster1 = marketMasterRepository.save(marketMaster);
                 marketMasterResponse = mapper.marketMasterEntityToObject(marketMaster1, MarketMasterResponse.class);
@@ -285,6 +286,26 @@ public class MarketMasterService {
                 .map(marketMasterDTO -> mapper.marketMasterDTOToObject(marketMasterDTO,MarketMasterResponse.class)).collect(Collectors.toList());
         response.put("marketMaster",marketMasterResponses);
         response.put("totalItems", marketMasterDTOS.size());
+        return response;
+    }
+
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, Object> getByMarketTypeMasterId(Long marketTypeMasterId) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        List<MarketMasterDTO> marketMasterDTOS =
+                marketMasterRepository.getByMarketTypeMasterIdAndActive(marketTypeMasterId, true);
+
+        if (marketMasterDTOS == null || marketMasterDTOS.isEmpty()) {
+            response.put("error", "Error");
+            response.put("error_description", "No records found");
+        } else {
+            log.info("Market list: {}", marketMasterDTOS);
+            response = convertDTOToMapResponse(marketMasterDTOS);
+        }
+
         return response;
     }
 }

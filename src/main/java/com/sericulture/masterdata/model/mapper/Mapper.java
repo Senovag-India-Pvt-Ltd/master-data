@@ -32,6 +32,7 @@ import com.sericulture.masterdata.model.api.deputedInstituteMaster.DeputedInstit
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.documentMaster.DocumentMasterRequest;
+import com.sericulture.masterdata.model.api.schemeDocumentMaster.SchemeDocumentMasterRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
@@ -3188,6 +3189,15 @@ public class Mapper {
     }
 
     /**
+     * Maps SchemeDocumentMaster Entity to SchemeDocumentMaster Response Object
+     * @param schemeDocumentMasterEntity
+     * @param <T>
+     */
+    public <T> T schemeDocumentMasterEntityToObject(SchemeDocumentMaster schemeDocumentMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeDocumentMasterEntity);
+        return (T) mapper.map(schemeDocumentMasterEntity, claaz);
+    }
+    /**
      * Maps GovtAccount Entity to GovtAccount Response Object
      * @param govtAccountEntity
      * @param <T>
@@ -3207,6 +3217,15 @@ public class Mapper {
         return (T) mapper.map(govtAccountRequest, claaz);
     }
 
+    /**
+     * Maps SchemeDocumentMaster Object to SchemeDocumentMaster Entity
+     * @param schemeDocumentMasterRequest
+     * @param <T>
+     */
+    public <T> T schemeDocumentMasterObjectToEntity(SchemeDocumentMasterRequest schemeDocumentMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeDocumentMasterRequest);
+        return (T) mapper.map(schemeDocumentMasterRequest, claaz);
+    }
 
 
 }

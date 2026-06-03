@@ -241,4 +241,18 @@ public class MarketMasterController {
         return ResponseEntity.ok(rw);
     }
 
+    @PostMapping("/get-market-by-typeMasterId")
+    public ResponseEntity<?> getByMarketTypeMasterId(
+            @Valid @RequestBody final MarketMasterDTO marketMasterDTO
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(MarketMasterResponse.class);
+
+        rw.setContent(
+                marketMasterService.getByMarketTypeMasterId(
+                        marketMasterDTO.getMarketTypeMasterId()
+                )
+        );
+
+        return ResponseEntity.ok(rw);
+    }
 }
