@@ -3207,5 +3207,14 @@ public class Mapper {
         return (T) mapper.map(schemeDocumentMasterRequest, claaz);
     }
 
+    public <T> T sericultureTableEntityToObject(com.sericulture.masterdata.model.entity.SericultureTable sericultureTableEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, sericultureTableEntity);
+        return (T) mapper.map(sericultureTableEntity, claaz);
+    }
+
+    public <T> T sericultureTableObjectToEntity(com.sericulture.masterdata.model.api.sericultureTable.SericultureTableRequest sericultureTableRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, sericultureTableRequest);
+        return (T) mapper.map(sericultureTableRequest, claaz);
+    }
 
 }
