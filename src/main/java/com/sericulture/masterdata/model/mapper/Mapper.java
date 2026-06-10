@@ -92,6 +92,7 @@ import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
 import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaRequest;
+import com.sericulture.masterdata.model.api.govtAccount.GovtAccountRequest;
 import com.sericulture.masterdata.model.api.silkExchange.SilkExchangeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
@@ -3195,6 +3196,25 @@ public class Mapper {
     public <T> T schemeDocumentMasterEntityToObject(SchemeDocumentMaster schemeDocumentMasterEntity, Class<T> claaz) {
         log.info("Value of mapper is:",mapper, schemeDocumentMasterEntity);
         return (T) mapper.map(schemeDocumentMasterEntity, claaz);
+    }
+    /**
+     * Maps GovtAccount Entity to GovtAccount Response Object
+     * @param govtAccountEntity
+     * @param <T>
+     */
+    public <T> T govtAccountEntityToObject(com.sericulture.masterdata.model.entity.GovtAccount govtAccountEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, govtAccountEntity);
+        return (T) mapper.map(govtAccountEntity, claaz);
+    }
+
+    /**
+     * Maps GovtAccount Request Object to GovtAccount Entity
+     * @param govtAccountRequest
+     * @param <T>
+     */
+    public <T> T govtAccountObjectToEntity(GovtAccountRequest govtAccountRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, govtAccountRequest);
+        return (T) mapper.map(govtAccountRequest, claaz);
     }
 
     /**
