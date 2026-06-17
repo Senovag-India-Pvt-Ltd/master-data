@@ -44,5 +44,9 @@ public class EditScCategoryRequest extends RequestBody {
     @Schema(name = "categoryCodeForSanctionOrder", example = "calculation")
     String categoryCodeForSanctionOrder;
 
+    @Schema(name = "schemeId", example = "1")
+    Long schemeId;
 
+    @Schema(name = "subSchemeId", example = "1")
+    Long subSchemeId;
 }

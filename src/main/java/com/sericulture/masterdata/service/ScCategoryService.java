@@ -9,10 +9,14 @@ import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterReque
 import com.sericulture.masterdata.model.api.trProgramMaster.TrProgramMasterResponse;
 import com.sericulture.masterdata.model.entity.Designation;
 import com.sericulture.masterdata.model.entity.ScCategory;
+import com.sericulture.masterdata.model.entity.ScSchemeDetails;
+import com.sericulture.masterdata.model.entity.ScSubSchemeDetails;
 import com.sericulture.masterdata.model.entity.TrProgramMaster;
 import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ScCategoryRepository;
+import com.sericulture.masterdata.repository.ScSchemeDetailsRepository;
+import com.sericulture.masterdata.repository.ScSubSchemeDetailsRepository;
 import com.sericulture.masterdata.repository.TrProgramMasterRespository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,12 @@ public class ScCategoryService {
 
     @Autowired
     ScCategoryRepository scCategoryRepository;
+
+    @Autowired
+    ScSchemeDetailsRepository scSchemeDetailsRepository;
+
+    @Autowired
+    ScSubSchemeDetailsRepository scSubSchemeDetailsRepository;
 
     @Autowired
     Mapper mapper;
@@ -56,7 +66,8 @@ public class ScCategoryService {
             scCategoryResponse.setError(true);
             scCategoryResponse.setError_description("ScCategory name already exist with inactive state");
         }else {
-            scCategoryResponse  = mapper.scCategoryEntityToObject( scCategoryRepository.save(scCategory), ScCategoryResponse.class);
+            scCategoryResponse = mapper.scCategoryEntityToObject(scCategoryRepository.save(scCategory), ScCategoryResponse.class);
+            populateNames(scCategoryResponse);
             scCategoryResponse.setError(false);
         }
         return scCategoryResponse;
@@ -70,11 +81,26 @@ public class ScCategoryService {
         return convertListEntityToMapResponse(scCategoryRepository.findByActive(isActive));
     }
 
+    private void populateNames(ScCategoryResponse response) {
+        if (response.getSchemeId() != null) {
+            ScSchemeDetails scheme = scSchemeDetailsRepository.findByScSchemeDetailsIdAndActive(response.getSchemeId(), true);
+            if (scheme != null) response.setSchemeName(scheme.getSchemeName());
+        }
+        if (response.getSubSchemeId() != null) {
+            ScSubSchemeDetails subScheme = scSubSchemeDetailsRepository.findByScSubSchemeDetailsIdAndActive(response.getSubSchemeId(), true);
+            if (subScheme != null) response.setSubSchemeName(subScheme.getSubSchemeName());
+        }
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<ScCategory> activeScCategorys) {
         Map<String, Object> response = new HashMap<>();
 
         List<ScCategoryResponse> scCategoryResponses= activeScCategorys.getContent().stream()
-                .map(scCategory -> mapper.scCategoryEntityToObject(scCategory,ScCategoryResponse.class)).collect(Collectors.toList());
+                .map(scCategory -> {
+                    ScCategoryResponse r = mapper.scCategoryEntityToObject(scCategory, ScCategoryResponse.class);
+                    populateNames(r);
+                    return r;
+                }).collect(Collectors.toList());
         response.put("scCategory",scCategoryResponses);
         response.put("currentPage", activeScCategorys.getNumber());
         response.put("totalItems", activeScCategorys.getTotalElements());
@@ -87,7 +113,11 @@ public class ScCategoryService {
         Map<String, Object> response = new HashMap<>();
 
         List<ScCategoryResponse> scCategoryResponses= activeScCategorys.stream()
-                .map(scCategory -> mapper.scCategoryEntityToObject(scCategory,ScCategoryResponse.class)).collect(Collectors.toList());
+                .map(scCategory -> {
+                    ScCategoryResponse r = mapper.scCategoryEntityToObject(scCategory, ScCategoryResponse.class);
+                    populateNames(r);
+                    return r;
+                }).collect(Collectors.toList());
         response.put("scCategory",scCategoryResponses);
         return response;
     }
@@ -116,7 +146,8 @@ public class ScCategoryService {
             scCategoryResponse.setError(true);
             scCategoryResponse.setError_description("Invalid id");
         }else{
-            scCategoryResponse =  mapper.scCategoryEntityToObject(scCategory, ScCategoryResponse.class);
+            scCategoryResponse = mapper.scCategoryEntityToObject(scCategory, ScCategoryResponse.class);
+            populateNames(scCategoryResponse);
             scCategoryResponse.setError(false);
         }
         log.info("Entity is ",scCategory);
@@ -163,11 +194,14 @@ public class ScCategoryService {
                 scCategory.setDbtCode(scCategoryRequest.getDbtCode());
                 scCategory.setCategoryShortName(scCategoryRequest.getCategoryShortName());
                 scCategory.setCategoryCodeForSanctionOrder(scCategoryRequest.getCategoryCodeForSanctionOrder());
+                scCategory.setSchemeId(scCategoryRequest.getSchemeId());
+                scCategory.setSubSchemeId(scCategoryRequest.getSubSchemeId());
 
 
                 scCategory.setActive(true);
                 ScCategory scCategory1= scCategoryRepository.save(scCategory);
                 scCategoryResponse = mapper.scCategoryEntityToObject(scCategory1, ScCategoryResponse.class);
+                populateNames(scCategoryResponse);
                 scCategoryResponse.setError(false);
             } else {
                 scCategoryResponse.setError(true);

@@ -40,6 +40,18 @@ public class ScCategoryResponse {
     @Schema(name = "categoryCodeForSanctionOrder", example = "calculation")
     String categoryCodeForSanctionOrder;
 
+    @Schema(name = "schemeId", example = "1")
+    Long schemeId;
+
+    @Schema(name = "subSchemeId", example = "1")
+    Long subSchemeId;
+
+    @Schema(name = "schemeName", example = "Scheme Name")
+    String schemeName;
+
+    @Schema(name = "subSchemeName", example = "Sub Scheme Name")
+    String subSchemeName;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
