@@ -21,6 +21,9 @@ public class SericultureTableResponse {
     @Schema(name = "daysCount", example = "30")
     Integer daysCount;
 
+    @Schema(name = "groupNo", example = "1")
+    Integer groupNo;
+
     @Schema(name = "approvalStageName", example = "Stage Name")
     String approvalStageName;
 

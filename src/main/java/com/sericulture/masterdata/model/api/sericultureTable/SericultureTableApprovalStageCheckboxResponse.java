@@ -26,4 +26,7 @@ public class SericultureTableApprovalStageCheckboxResponse {
 
     @Schema(name = "daysCount", example = "30")
     Integer daysCount;
+
+    @Schema(name = "groupNo", example = "1")
+    Integer groupNo;
 }

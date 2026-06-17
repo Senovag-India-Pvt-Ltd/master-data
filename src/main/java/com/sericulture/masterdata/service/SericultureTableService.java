@@ -60,6 +60,7 @@ public class SericultureTableService {
         SericultureTable sericultureTable;
         if (existing != null) {
             existing.setDaysCount(sericultureTableRequest.getDaysCount());
+            existing.setGroupNo(sericultureTableRequest.getGroupNo());
             sericultureTable = existing;
         } else {
             sericultureTable = mapper.sericultureTableObjectToEntity(sericultureTableRequest, SericultureTable.class);
@@ -160,6 +161,7 @@ public class SericultureTableService {
         if (Objects.nonNull(sericultureTable)) {
             sericultureTable.setStepId(editSericultureTableRequest.getStepId());
             sericultureTable.setDaysCount(editSericultureTableRequest.getDaysCount());
+            sericultureTable.setGroupNo(editSericultureTableRequest.getGroupNo());
             sericultureTable.setSchemeId(editSericultureTableRequest.getSchemeId());
             sericultureTable.setSubSchemeId(editSericultureTableRequest.getSubSchemeId());
             sericultureTable.setActive(true);
@@ -192,6 +194,7 @@ public class SericultureTableService {
                 item.setChecked(true);
                 item.setSericultureTableId(match.getSericultureTableId());
                 item.setDaysCount(match.getDaysCount());
+                item.setGroupNo(match.getGroupNo());
             } else {
                 item.setChecked(false);
             }

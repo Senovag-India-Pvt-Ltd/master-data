@@ -28,6 +28,9 @@ public class SericultureTable extends BaseEntity implements Serializable {
     @Column(name = "days_count")
     private Integer daysCount;
 
+    @Column(name = "group_no")
+    private Integer groupNo;
+
     @Column(name = "scheme_id")
     private Long schemeId;
 

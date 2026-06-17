@@ -20,6 +20,9 @@ public class EditSericultureTableRequest extends RequestBody {
     @Schema(name = "daysCount", example = "30")
     Integer daysCount;
 
+    @Schema(name = "groupNo", example = "1")
+    Integer groupNo;
+
     @Schema(name = "schemeId", example = "1")
     Long schemeId;
 
