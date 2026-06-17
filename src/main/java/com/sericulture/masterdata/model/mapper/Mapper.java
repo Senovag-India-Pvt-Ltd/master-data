@@ -32,6 +32,7 @@ import com.sericulture.masterdata.model.api.deputedInstituteMaster.DeputedInstit
 import com.sericulture.masterdata.model.api.designation.DesignationRequest;
 import com.sericulture.masterdata.model.api.district.DistrictRequest;
 import com.sericulture.masterdata.model.api.documentMaster.DocumentMasterRequest;
+import com.sericulture.masterdata.model.api.schemeDocumentMaster.SchemeDocumentMasterRequest;
 import com.sericulture.masterdata.model.api.education.EducationRequest;
 import com.sericulture.masterdata.model.api.externalUnitType.ExternalUnitTypeRequest;
 import com.sericulture.masterdata.model.api.godown.GodownRequest;
@@ -91,6 +92,7 @@ import com.sericulture.masterdata.model.api.scVendor.ScVendorRequest;
 import com.sericulture.masterdata.model.api.scVendorBank.ScVendorBankRequest;
 import com.sericulture.masterdata.model.api.scVendorContact.ScVendorContactRequest;
 import com.sericulture.masterdata.model.api.schemeQuota.SchemeQuotaRequest;
+import com.sericulture.masterdata.model.api.govtAccount.GovtAccountRequest;
 import com.sericulture.masterdata.model.api.silkExchange.SilkExchangeRequest;
 import com.sericulture.masterdata.model.api.soilType.SoilTypeRequest;
 import com.sericulture.masterdata.model.api.silkwormvariety.SilkWormVarietyRequest;
@@ -3186,7 +3188,53 @@ public class Mapper {
         return (T) mapper.map(silkExchangeRequest, claaz);
     }
 
+    /**
+     * Maps SchemeDocumentMaster Entity to SchemeDocumentMaster Response Object
+     * @param schemeDocumentMasterEntity
+     * @param <T>
+     */
+    public <T> T schemeDocumentMasterEntityToObject(SchemeDocumentMaster schemeDocumentMasterEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeDocumentMasterEntity);
+        return (T) mapper.map(schemeDocumentMasterEntity, claaz);
+    }
+    /**
+     * Maps GovtAccount Entity to GovtAccount Response Object
+     * @param govtAccountEntity
+     * @param <T>
+     */
+    public <T> T govtAccountEntityToObject(com.sericulture.masterdata.model.entity.GovtAccount govtAccountEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, govtAccountEntity);
+        return (T) mapper.map(govtAccountEntity, claaz);
+    }
 
+    /**
+     * Maps GovtAccount Request Object to GovtAccount Entity
+     * @param govtAccountRequest
+     * @param <T>
+     */
+    public <T> T govtAccountObjectToEntity(GovtAccountRequest govtAccountRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, govtAccountRequest);
+        return (T) mapper.map(govtAccountRequest, claaz);
+    }
 
+    /**
+     * Maps SchemeDocumentMaster Object to SchemeDocumentMaster Entity
+     * @param schemeDocumentMasterRequest
+     * @param <T>
+     */
+    public <T> T schemeDocumentMasterObjectToEntity(SchemeDocumentMasterRequest schemeDocumentMasterRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, schemeDocumentMasterRequest);
+        return (T) mapper.map(schemeDocumentMasterRequest, claaz);
+    }
+
+    public <T> T sericultureTableEntityToObject(com.sericulture.masterdata.model.entity.SericultureTable sericultureTableEntity, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, sericultureTableEntity);
+        return (T) mapper.map(sericultureTableEntity, claaz);
+    }
+
+    public <T> T sericultureTableObjectToEntity(com.sericulture.masterdata.model.api.sericultureTable.SericultureTableRequest sericultureTableRequest, Class<T> claaz) {
+        log.info("Value of mapper is:",mapper, sericultureTableRequest);
+        return (T) mapper.map(sericultureTableRequest, claaz);
+    }
 
 }

@@ -20,4 +20,9 @@ public class ExecuteQueryRequest {
                           "Required for UPDATE / DELETE queries; ignored for SELECT / INSERT / others.",
             example = "false")
     private Boolean confirmed;
+
+    @Schema(description = "Username of the caller (sent by the UI from the logged-in session). " +
+                          "UPDATE / DELETE queries are only permitted for the authorised user.",
+            example = "SIPLTEST2")
+    private String username;
 }
