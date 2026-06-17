@@ -17,4 +17,5 @@ public class FarmMasterDTO {
     private Long userMasterId;
     private String username;
     private String isBsf;
+    private String farmType;
 }

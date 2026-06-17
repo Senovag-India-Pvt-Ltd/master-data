@@ -202,6 +202,7 @@ public class FarmMasterService {
                 farmMaster.setFarmNameInKannada(farmMasterRequest.getFarmNameInKannada());
                 farmMaster.setUserMasterId(farmMasterRequest.getUserMasterId());
                 farmMaster.setIsBsf(farmMasterRequest.getIsBsf());
+                farmMaster.setFarmType(farmMasterRequest.getFarmType());
                 farmMaster.setActive(true);
                 FarmMaster farmMaster1 = farmMasterRepository.save(farmMaster);
                 farmMasterResponse = mapper.farmMasterEntityToObject(farmMaster1, FarmMasterResponse.class);

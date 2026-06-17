@@ -36,4 +36,7 @@ public class FarmMaster extends BaseEntity implements Serializable {
 
     @Column(name = "is_bsf")
     private String isBsf;
+
+    @Column(name = "farm_type")
+    private String farmType;
 }

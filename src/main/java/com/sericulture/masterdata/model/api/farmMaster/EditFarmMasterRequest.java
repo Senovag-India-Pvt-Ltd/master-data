@@ -31,4 +31,7 @@ public class EditFarmMasterRequest extends RequestBody {
     @Schema(name = "isBsf", example = "yes")
     String isBsf;
 
+    @Schema(name = "farmType", example = "Commercial")
+    String farmType;
+
 }

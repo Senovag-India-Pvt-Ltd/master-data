@@ -42,7 +42,8 @@ public interface FarmMasterRepository extends PagingAndSortingRepository<FarmMas
             " farmMaster.farmNameInKannada," +
             " farmMaster.userMasterId," +
             " userMaster.username," +
-            " farmMaster.isBsf" +
+            " farmMaster.isBsf," +
+            " farmMaster.farmType" +
             ") \n" +
             "from FarmMaster farmMaster\n" +
             "left join UserMaster userMaster\n" +
@@ -58,7 +59,8 @@ public interface FarmMasterRepository extends PagingAndSortingRepository<FarmMas
             " farmMaster.farmNameInKannada," +
             " farmMaster.userMasterId," +
             " userMaster.username," +
-            " farmMaster.isBsf" +
+            " farmMaster.isBsf," +
+            " farmMaster.farmType" +
             ") \n" +
             "from FarmMaster farmMaster\n" +
             "left join UserMaster userMaster\n" +
@@ -74,7 +76,8 @@ public interface FarmMasterRepository extends PagingAndSortingRepository<FarmMas
             " farmMaster.farmNameInKannada," +
             " farmMaster.userMasterId," +
             " userMaster.username," +
-            " farmMaster.isBsf" +
+            " farmMaster.isBsf," +
+            " farmMaster.farmType" +
             ") \n" +
             "from FarmMaster farmMaster\n" +
             "left join UserMaster userMaster\n" +
