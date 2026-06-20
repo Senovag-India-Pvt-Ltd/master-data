@@ -193,7 +193,7 @@ public class GrainageMasterService {
                 grainageMaster.setUserMasterId(grainageMasterRequest.getUserMasterId());
                 grainageMaster.setGrainageType(grainageMasterRequest.getGrainageType());
                 grainageMaster.setGrainageNameRepresentation(grainageMasterRequest.getGrainageNameRepresentation());
-
+                grainageMaster.setGrainageAreaType(grainageMasterRequest.getGrainageAreaType());
                 grainageMaster.setActive(true);
                 GrainageMaster grainingMaster1 = grainageMasterRepository.save(grainageMaster);
                 grainageMasterResponse = mapper.grainageMasterEntityToObject(grainingMaster1, GrainageMasterResponse.class);

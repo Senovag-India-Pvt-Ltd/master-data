@@ -29,6 +29,8 @@ public class GrainageMasterResponse {
     @Schema(name = "grainageNameRepresentation", example = "Karnataka", required = true)
     String grainageNameRepresentation;
 
+    @Schema(name = "grainageAreaType", example = "Commercial")
+    String grainageAreaType;
 
     @Schema(name = "userMasterId", example = "1")
     Long userMasterId;

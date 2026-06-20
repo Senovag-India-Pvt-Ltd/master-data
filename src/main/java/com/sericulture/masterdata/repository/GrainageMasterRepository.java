@@ -40,7 +40,8 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
             " grainageMaster.grainageNameRepresentation," +
             " grainageMaster.grainageType," +
             " grainageMaster.userMasterId," +
-            " userMaster.username" +
+            " userMaster.username," +
+            " grainageMaster.grainageAreaType" +
             ") \n" +
             "from GrainageMaster grainageMaster\n" +
             "left join UserMaster userMaster\n" +
@@ -57,7 +58,8 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
             " grainageMaster.grainageNameRepresentation," +
             " grainageMaster.grainageType," +
             " grainageMaster.userMasterId," +
-            " userMaster.username" +
+            " userMaster.username," +
+            " grainageMaster.grainageAreaType" +
             ") \n" +
             "from GrainageMaster grainageMaster\n" +
             "left join UserMaster userMaster\n" +
@@ -74,7 +76,8 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
             " grainageMaster.grainageNameRepresentation," +
             " grainageMaster.grainageType," +
             " grainageMaster.userMasterId," +
-            " userMaster.username" +
+            " userMaster.username," +
+            " grainageMaster.grainageAreaType" +
             ") \n" +
             "from GrainageMaster grainageMaster\n" +
             "left join UserMaster userMaster\n" +

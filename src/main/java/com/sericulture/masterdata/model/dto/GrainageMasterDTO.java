@@ -18,5 +18,6 @@ public class GrainageMasterDTO {
     private String grainageType;
     private Long userMasterId;
     private String username;
+    private String grainageAreaType;
 
 }

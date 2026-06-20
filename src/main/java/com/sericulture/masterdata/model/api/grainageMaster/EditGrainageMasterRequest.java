@@ -34,4 +34,7 @@ public class EditGrainageMasterRequest extends RequestBody {
 
     @Schema(name = "userMasterId", example = "1")
     Long userMasterId;
+
+    @Schema(name = "grainageAreaType", example = "Commercial")
+    String grainageAreaType;
 }
