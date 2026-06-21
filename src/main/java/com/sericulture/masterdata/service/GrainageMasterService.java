@@ -82,6 +82,10 @@ public class GrainageMasterService {
         return convertListEntityToMapResponse(grainageMasterRepository.findByActiveOrderByGrainageMasterNameAsc(isActive));
     }
 
+    public Map<String,Object> getByTscMasterId(Long tscId, boolean isActive){
+        return convertListEntityToMapResponse(grainageMasterRepository.findActiveByTscMasterId(isActive, tscId));
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<GrainageMaster> activeGrainageMasters) {
         Map<String, Object> response = new HashMap<>();
 

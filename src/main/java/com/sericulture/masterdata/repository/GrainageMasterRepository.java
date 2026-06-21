@@ -32,6 +32,16 @@ public interface GrainageMasterRepository extends PagingAndSortingRepository<Gra
 
     public List<GrainageMaster> findByActiveOrderByGrainageMasterNameAsc(boolean isActive);
 
+    // Grainages mapped to a TSC. grainage_master has no TSC column; the only link is
+    // grainage_master.user_master_id -> user_master.tsc_master_id.
+    @Query("select grainageMaster from GrainageMaster grainageMaster " +
+            "left join UserMaster userMaster " +
+            "on grainageMaster.userMasterId = userMaster.userMasterId " +
+            "where grainageMaster.active = :isActive and userMaster.tscMasterId = :tscId " +
+            "order by grainageMaster.grainageMasterName asc")
+    public List<GrainageMaster> findActiveByTscMasterId(@Param("isActive") boolean isActive,
+                                                        @Param("tscId") Long tscId);
+
 
     @Query("select new com.sericulture.masterdata.model.dto.GrainageMasterDTO(" +
             " grainageMaster.grainageMasterId," +
