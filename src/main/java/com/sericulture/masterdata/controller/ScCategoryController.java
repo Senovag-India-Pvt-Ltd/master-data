@@ -187,4 +187,30 @@ public class ScCategoryController {
 //        rw.setContent(scCategoryService.getScCategoryByScHeadAccountId(scHeadAccountId));
 //        return ResponseEntity.ok(rw);
 //    }
+
+    @DeleteMapping("/mapping/delete/{mappingId}")
+    public ResponseEntity<?> deleteMappingDetails(@PathVariable final Long mappingId) {
+        ResponseWrapper<ScCategoryResponse> rw = ResponseWrapper.createWrapper(ScCategoryResponse.class);
+        rw.setContent(scCategoryService.deleteMappingDetails(mappingId));
+        return ResponseEntity.ok(rw);
+    }
+
+    @GetMapping("/get-by-scheme-id")
+    public ResponseEntity<?> getBySchemeId(
+            @RequestParam Long schemeId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scCategoryService.getBySchemeId(schemeId));
+        return ResponseEntity.ok(rw);
+    }
+
+    @GetMapping("/get-by-scheme-and-sub-scheme-id")
+    public ResponseEntity<?> getBySchemeAndSubSchemeId(
+            @RequestParam Long schemeId,
+            @RequestParam Long subSchemeId
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(scCategoryService.getBySchemeIdAndSubSchemeId(schemeId, subSchemeId));
+        return ResponseEntity.ok(rw);
+    }
 }
