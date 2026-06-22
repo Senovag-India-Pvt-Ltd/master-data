@@ -87,6 +87,17 @@ public class GrainageMasterControlller {
         return ResponseEntity.ok(rw);
     }
 
+    @Operation(summary = "Get Grainages by TSC", description = "Returns active grainages mapped to a TSC (via user_master.tsc_master_id)")
+    @GetMapping("/get-by-tsc/{tscId}")
+    public ResponseEntity<?> getByTscMasterId(
+            @PathVariable final Long tscId,
+            @RequestParam(defaultValue = "true") boolean isActive
+    ) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(grainageMasterService.getByTscMasterId(tscId, isActive));
+        return ResponseEntity.ok(rw);
+    }
+
     @GetMapping("/list")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content - inserted successfully",content =

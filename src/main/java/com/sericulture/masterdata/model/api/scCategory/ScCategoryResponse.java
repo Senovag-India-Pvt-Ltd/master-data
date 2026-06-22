@@ -52,6 +52,9 @@ public class ScCategoryResponse {
     @Schema(name = "subSchemeName", example = "Sub Scheme Name")
     String subSchemeName;
 
+    @Schema(name = "mappings", description = "List of scheme/sub-scheme/dbtCode mappings for this category")
+    java.util.List<java.util.Map<String, Object>> mappings;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 
