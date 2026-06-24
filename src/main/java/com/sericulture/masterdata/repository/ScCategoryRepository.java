@@ -23,15 +23,7 @@ public interface ScCategoryRepository extends PagingAndSortingRepository<ScCateg
 
     public List<ScCategory> findByCategoryNameAndCategoryNameInKannadaAndScCategoryIdIsNot(String categoryName,String categoryNameInKannada,long scCategoryId);
 
-    public List<ScCategory> findByCategoryNameAndCategoryNameInKannadaAndSchemeIdAndSubSchemeId(String categoryName, String categoryNameInKannada, Long schemeId, Long subSchemeId);
-
-    public List<ScCategory> findByCategoryNameAndCategoryNameInKannadaAndSchemeIdAndSubSchemeIdAndScCategoryIdIsNot(String categoryName, String categoryNameInKannada, Long schemeId, Long subSchemeId, long scCategoryId);
-
-    public List<ScCategory> findBySchemeIdAndSubSchemeIdAndActive(Long schemeId, Long subSchemeId, boolean isActive);
-
-    public List<ScCategory> findBySchemeIdAndActive(Long schemeId, boolean isActive);
-
-    public ScCategory findByCategoryNameAndActive(String categoryName,boolean isActive);
+    public ScCategory findByCategoryNameAndActive(String categoryName, boolean isActive);
 
     public Page<ScCategory> findByActiveOrderByCategoryNameAsc(boolean isActive, final Pageable pageable);
 

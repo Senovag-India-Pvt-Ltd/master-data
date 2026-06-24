@@ -77,9 +77,6 @@ public class ScCategoryService {
             category.setDescription(req.getDescription());
             category.setCategoryShortName(req.getCategoryShortName());
             category.setCategoryCodeForSanctionOrder(req.getCategoryCodeForSanctionOrder());
-            // Keep schemeId/subSchemeId/dbtCode on the category row for backward compat
-            category.setSchemeId(req.getSchemeId());
-            category.setSubSchemeId(req.getSubSchemeId());
             category.setDbtCode(req.getDbtCode());
             category = scCategoryRepository.save(category);
         }
@@ -235,8 +232,6 @@ public class ScCategoryService {
 
         // If schemeId/subSchemeId/dbtCode provided in request, update the mapping table too
         if (req.getSchemeId() != null && req.getSubSchemeId() != null) {
-            cat.setSchemeId(req.getSchemeId());
-            cat.setSubSchemeId(req.getSubSchemeId());
             cat.setDbtCode(req.getDbtCode());
             // Update or create mapping entry
             ScCategorySchemeMapping mapping = scCategoryMappingRepository

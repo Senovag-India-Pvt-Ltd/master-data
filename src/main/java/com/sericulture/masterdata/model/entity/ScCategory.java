@@ -46,10 +46,4 @@ public class ScCategory extends BaseEntity implements Serializable {
     @Column(name = "category_code_for_sanction_order")
     private String categoryCodeForSanctionOrder;
 
-    @Column(name = "scheme_id")
-    private Long schemeId;
-
-    @Column(name = "sub_scheme_id")
-    private Long subSchemeId;
-
 }
