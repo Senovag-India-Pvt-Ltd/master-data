@@ -3237,4 +3237,13 @@ public class Mapper {
         return (T) mapper.map(sericultureTableRequest, claaz);
     }
 
+
+    // ── ArmCalculation ────────────────────────────────────────────────────────
+    public <T> T armCalculationObjectToEntity(com.sericulture.masterdata.model.api.armCalculation.ArmCalculationRequest req, Class<T> claaz) {
+        return (T) mapper.map(req, claaz);
+    }
+
+    public <T> T armCalculationEntityToObject(ArmCalculation entity, Class<T> claaz) {
+        return (T) mapper.map(entity, claaz);
+    }
 }
