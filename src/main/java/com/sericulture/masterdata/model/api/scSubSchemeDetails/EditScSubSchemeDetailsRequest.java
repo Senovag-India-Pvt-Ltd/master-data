@@ -103,5 +103,8 @@ public class EditScSubSchemeDetailsRequest extends RequestBody {
     @Schema(name = "schemeCodeForSanctionOrder", example = "calculation")
     String schemeCodeForSanctionOrder;
 
+    @Schema(name = "monthlyFrequency", example = "1")
+    Boolean monthlyFrequency;
+
 
 }
