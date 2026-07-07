@@ -45,6 +45,9 @@ public class ScApprovalStageResponse {
     @Schema(name = "directlyToFruits", example = "true")
     Boolean directlyToFruits;
 
+    @Schema(name = "directApplication", example = "true")
+    Boolean directApplication;
+
     @Schema(name = "allowMultipleSanction", example = "1")
     Boolean allowMultipleSanction;
 

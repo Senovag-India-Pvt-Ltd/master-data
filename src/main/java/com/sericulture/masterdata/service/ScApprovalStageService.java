@@ -165,6 +165,7 @@ public class ScApprovalStageService {
                 scApprovalStage.setFinancialDelegation(scApprovalStageRequest.getFinancialDelegation());
                 scApprovalStage.setWorkOrder(scApprovalStageRequest.getWorkOrder());
                 scApprovalStage.setDirectlyToFruits(scApprovalStageRequest.getDirectlyToFruits());
+                scApprovalStage.setDirectApplication(scApprovalStageRequest.getDirectApplication());
                 scApprovalStage.setAllowMultipleSanction(scApprovalStageRequest.getAllowMultipleSanction());
                 scApprovalStage.setSanctionForReeling(scApprovalStageRequest.getSanctionForReeling());
                 scApprovalStage.setActive(true);
