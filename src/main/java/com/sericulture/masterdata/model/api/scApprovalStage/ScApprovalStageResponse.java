@@ -51,6 +51,12 @@ public class ScApprovalStageResponse {
     @Schema(name = "sanctionForReeling", example = "1")
     Boolean sanctionForReeling;
 
+    @Schema(name = "armStageConfig", example = "ESCROW_BANK")
+    String armStageConfig;
+
+    @Schema(name = "armFlow", example = "true")
+    Boolean armFlow;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

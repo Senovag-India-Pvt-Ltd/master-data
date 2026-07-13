@@ -59,4 +59,10 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = "sanction_for_reeling" ,columnDefinition = "TINYINT")
     private Boolean sanctionForReeling;
+
+    @Column(name = "arm_stage_config", length = 50)
+    private String armStageConfig;
+
+    @Column(name = "arm_flow", columnDefinition = "TINYINT")
+    private Boolean armFlow;
 }

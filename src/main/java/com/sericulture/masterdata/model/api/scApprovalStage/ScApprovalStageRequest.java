@@ -51,4 +51,10 @@ public class ScApprovalStageRequest extends RequestBody {
 
     @Schema(name = "sanctionForReeling", example = "1")
     private Boolean sanctionForReeling;
+
+    @Schema(name = "armStageConfig", example = "ESCROW_BANK")
+    private String armStageConfig;
+
+    @Schema(name = "armFlow", example = "true")
+    private Boolean armFlow;
 }
