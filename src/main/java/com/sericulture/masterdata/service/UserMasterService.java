@@ -12,9 +12,19 @@ import com.sericulture.masterdata.model.exceptions.ValidationException;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -1152,45 +1162,164 @@ public class UserMasterService {
 
         mapUserMasterResponse(responseList, applicablePage.getContent(), pageNumber, pageSize);
 
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("User Master Report");
-
-        String[] headers = {
+        String[] headerLabels = {
                 "Sl.No", "First Name", "Middle Name", "Last Name", "Password", "Email ID",
                 "TSC Name", "State", "District", "Taluk", "Role", "Market", "Username",
                 "Designation", "Phone Number", "DDO Code", "Khazane Recipient ID", "Working Institution"
         };
+        final int TOTAL_COLS = headerLabels.length;
 
-        Row headerRow = sheet.createRow(0);
-        for (int i = 0; i < headers.length; i++) {
-            headerRow.createCell(i).setCellValue(headers[i]);
+        SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+        workbook.setCompressTempFiles(true);
+        Sheet sheet = workbook.createSheet("User Master Report");
+
+        // ── Colors ───────────────────────────────────────────────────────────
+        XSSFColor primaryBlue = new XSSFColor(new byte[]{(byte)26,  (byte)95,  (byte)158}, null);
+        XSSFColor darkNavy    = new XSSFColor(new byte[]{(byte)12,  (byte)74,  (byte)158}, null);
+        XSSFColor altRow      = new XSSFColor(new byte[]{(byte)247, (byte)250, (byte)253}, null);
+        XSSFColor white       = new XSSFColor(new byte[]{(byte)255, (byte)255, (byte)255}, null);
+        XSSFColor darkText    = new XSSFColor(new byte[]{(byte)30,  (byte)58,  (byte)95},  null);
+        XSSFColor black       = new XSSFColor(new byte[]{(byte)0,   (byte)0,   (byte)0},   null);
+
+        // ── Fonts ────────────────────────────────────────────────────────────
+        XSSFFont titleFont = (XSSFFont) workbook.createFont();
+        titleFont.setFontName("Calibri"); titleFont.setFontHeightInPoints((short)16);
+        titleFont.setBold(true); titleFont.setColor(white);
+
+        XSSFFont subFont = (XSSFFont) workbook.createFont();
+        subFont.setFontName("Calibri"); subFont.setFontHeightInPoints((short)11);
+        subFont.setColor(white);
+
+        XSSFFont hdrFont = (XSSFFont) workbook.createFont();
+        hdrFont.setFontName("Calibri"); hdrFont.setFontHeightInPoints((short)11);
+        hdrFont.setBold(true); hdrFont.setColor(white);
+
+        XSSFFont dataFont = (XSSFFont) workbook.createFont();
+        dataFont.setFontName("Calibri"); dataFont.setFontHeightInPoints((short)10);
+        dataFont.setColor(darkText);
+
+        // ── Styles ───────────────────────────────────────────────────────────
+        XSSFCellStyle titleStyle = (XSSFCellStyle) workbook.createCellStyle();
+        titleStyle.setFont(titleFont);
+        titleStyle.setFillForegroundColor(darkNavy);
+        titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        titleStyle.setBorderTop(BorderStyle.THIN); titleStyle.setBorderBottom(BorderStyle.THIN);
+        titleStyle.setBorderLeft(BorderStyle.THIN); titleStyle.setBorderRight(BorderStyle.THIN);
+        titleStyle.setTopBorderColor(black); titleStyle.setBottomBorderColor(black);
+        titleStyle.setLeftBorderColor(black); titleStyle.setRightBorderColor(black);
+
+        XSSFCellStyle subStyle = (XSSFCellStyle) workbook.createCellStyle();
+        subStyle.setFont(subFont);
+        subStyle.setFillForegroundColor(primaryBlue);
+        subStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        subStyle.setAlignment(HorizontalAlignment.CENTER);
+        subStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        subStyle.setBorderTop(BorderStyle.THIN); subStyle.setBorderBottom(BorderStyle.THIN);
+        subStyle.setBorderLeft(BorderStyle.THIN); subStyle.setBorderRight(BorderStyle.THIN);
+        subStyle.setTopBorderColor(black); subStyle.setBottomBorderColor(black);
+        subStyle.setLeftBorderColor(black); subStyle.setRightBorderColor(black);
+
+        XSSFCellStyle hdrStyle = (XSSFCellStyle) workbook.createCellStyle();
+        hdrStyle.setFont(hdrFont);
+        hdrStyle.setFillForegroundColor(primaryBlue);
+        hdrStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        hdrStyle.setAlignment(HorizontalAlignment.CENTER);
+        hdrStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        hdrStyle.setWrapText(true);
+        hdrStyle.setBorderTop(BorderStyle.THIN); hdrStyle.setBorderBottom(BorderStyle.THIN);
+        hdrStyle.setBorderLeft(BorderStyle.THIN); hdrStyle.setBorderRight(BorderStyle.THIN);
+        hdrStyle.setTopBorderColor(black); hdrStyle.setBottomBorderColor(black);
+        hdrStyle.setLeftBorderColor(black); hdrStyle.setRightBorderColor(black);
+
+        XSSFCellStyle dataWhite = (XSSFCellStyle) workbook.createCellStyle();
+        dataWhite.setFont(dataFont);
+        dataWhite.setAlignment(HorizontalAlignment.CENTER);
+        dataWhite.setVerticalAlignment(VerticalAlignment.CENTER);
+        dataWhite.setWrapText(true);
+        dataWhite.setBorderTop(BorderStyle.THIN); dataWhite.setBorderBottom(BorderStyle.THIN);
+        dataWhite.setBorderLeft(BorderStyle.THIN); dataWhite.setBorderRight(BorderStyle.THIN);
+        dataWhite.setTopBorderColor(black); dataWhite.setBottomBorderColor(black);
+        dataWhite.setLeftBorderColor(black); dataWhite.setRightBorderColor(black);
+
+        XSSFCellStyle dataAlt = (XSSFCellStyle) workbook.createCellStyle();
+        dataAlt.cloneStyleFrom(dataWhite);
+        dataAlt.setFillForegroundColor(altRow);
+        dataAlt.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        // ── Row 0: Department title ───────────────────────────────────────────
+        Row titleRow = sheet.createRow(0);
+        titleRow.setHeightInPoints(36);
+        Cell titleCell = titleRow.createCell(0);
+        titleCell.setCellValue("Department of Sericulture, Government of Karnataka");
+        titleCell.setCellStyle(titleStyle);
+        for (int c = 1; c < TOTAL_COLS; c++) { titleRow.createCell(c).setCellStyle(titleStyle); }
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, TOTAL_COLS - 1));
+
+        // ── Row 1: Report name ────────────────────────────────────────────────
+        Row reportRow = sheet.createRow(1);
+        reportRow.setHeightInPoints(24);
+        Cell reportCell = reportRow.createCell(0);
+        reportCell.setCellValue("USER MASTER DETAILS REPORT");
+        reportCell.setCellStyle(subStyle);
+        for (int c = 1; c < TOTAL_COLS; c++) { reportRow.createCell(c).setCellStyle(subStyle); }
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, TOTAL_COLS - 1));
+
+        // ── Row 2: Generated on ───────────────────────────────────────────────
+        Row genRow = sheet.createRow(2);
+        genRow.setHeightInPoints(20);
+        Cell genCell = genRow.createCell(0);
+        genCell.setCellValue("Generated On: " + new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm").format(new java.util.Date()));
+        genCell.setCellStyle(subStyle);
+        for (int c = 1; c < TOTAL_COLS; c++) { genRow.createCell(c).setCellStyle(subStyle); }
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 0, TOTAL_COLS - 1));
+
+        // ── Row 3: Column headers ─────────────────────────────────────────────
+        Row headerRow = sheet.createRow(3);
+        headerRow.setHeightInPoints(36);
+        for (int i = 0; i < TOTAL_COLS; i++) {
+            Cell hCell = headerRow.createCell(i);
+            hCell.setCellValue(headerLabels[i]);
+            hCell.setCellStyle(hdrStyle);
         }
 
-        int dataRow = 1;
-        for (UserMasterDetailsResponse u : responseList) {
-            Row row = sheet.createRow(dataRow++);
-            row.createCell(0).setCellValue(u.getSerialNumber());
-            row.createCell(1).setCellValue(u.getFirstName());
-            row.createCell(2).setCellValue(u.getMiddleName());
-            row.createCell(3).setCellValue(u.getLastName());
-            row.createCell(4).setCellValue(u.getPassword());
-            row.createCell(5).setCellValue(u.getEmailId());
-            row.createCell(6).setCellValue(u.getTscName());
-            row.createCell(7).setCellValue(u.getStateName());
-            row.createCell(8).setCellValue(u.getDistrictName());
-            row.createCell(9).setCellValue(u.getTalukName());
-            row.createCell(10).setCellValue(u.getRoleName());
-            row.createCell(11).setCellValue(u.getMarketName());
-            row.createCell(12).setCellValue(u.getUsername());
-            row.createCell(13).setCellValue(u.getDesignationName());
-            row.createCell(14).setCellValue(u.getPhoneNumber());
-            row.createCell(15).setCellValue(u.getDdoCode());
-            row.createCell(16).setCellValue(u.getKhazaneRecipientId());
-            row.createCell(17).setCellValue(u.getWorkingInstitutionName());
+        // ── Rows 4+: Data rows ────────────────────────────────────────────────
+        int dataStartsFrom = 4;
+        for (int i = 0; i < responseList.size(); i++) {
+            UserMasterDetailsResponse u = responseList.get(i);
+            Row row = sheet.createRow(dataStartsFrom + i);
+            XSSFCellStyle rowStyle = (i % 2 != 0) ? dataAlt : dataWhite;
+            String[] values = {
+                String.valueOf(u.getSerialNumber()),
+                u.getFirstName(),
+                u.getMiddleName(),
+                u.getLastName(),
+                u.getPassword(),
+                u.getEmailId(),
+                u.getTscName(),
+                u.getStateName(),
+                u.getDistrictName(),
+                u.getTalukName(),
+                u.getRoleName(),
+                u.getMarketName(),
+                u.getUsername(),
+                u.getDesignationName(),
+                u.getPhoneNumber(),
+                u.getDdoCode(),
+                u.getKhazaneRecipientId(),
+                u.getWorkingInstitutionName()
+            };
+            for (int col = 0; col < TOTAL_COLS; col++) {
+                Cell cell = row.createCell(col);
+                cell.setCellValue(values[col] != null ? values[col] : "");
+                cell.setCellStyle(rowStyle);
+            }
         }
 
-        for (int col = 0; col < headers.length; col++) {
-            sheet.autoSizeColumn(col, true);
+        sheet.createFreezePane(0, 4);
+        for (int col = 0; col < TOTAL_COLS; col++) {
+            sheet.setColumnWidth(col, 20 * 256);
         }
 
         String userHome = System.getProperty("user.home");
