@@ -105,6 +105,15 @@ public class ArmCalculationService {
         return resp;
     }
 
+    // ── GET BY ARM ENDS + CATEGORY ───────────────────────────────────────────
+    public Map<String, Object> getByArmEndsAndCategory(String armEnds, Long scCategoryId) {
+        List<ArmCalculation> list = armCalculationRepository
+                .findByArmEndsAndScCategoryIdAndActive(armEnds, scCategoryId, true);
+        Map<String, Object> result = new HashMap<>();
+        result.put("armCalculation", list.stream().map(this::toResponse).collect(Collectors.toList()));
+        return result;
+    }
+
     // ── GET BY CATEGORY ───────────────────────────────────────────────────────
     public Map<String, Object> getByCategory(Long scCategoryId) {
         List<ArmCalculation> list = armCalculationRepository.findByScCategoryIdAndActive(scCategoryId, true);

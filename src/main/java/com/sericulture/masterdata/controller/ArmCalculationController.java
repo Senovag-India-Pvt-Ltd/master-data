@@ -89,6 +89,17 @@ public class ArmCalculationController {
         return ResponseEntity.ok(rw);
     }
 
+    // ── GET BY ARM ENDS + CATEGORY ───────────────────────────────────────────
+    @Operation(summary = "Get ARM Calculation items by armEnds and scCategory")
+    @GetMapping("/get-by-arm-ends-and-category")
+    public ResponseEntity<?> getByArmEndsAndCategory(
+            @RequestParam String armEnds,
+            @RequestParam Long scCategoryId) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(armCalculationService.getByArmEndsAndCategory(armEnds, scCategoryId));
+        return ResponseEntity.ok(rw);
+    }
+
     // ── GET BY CATEGORY ───────────────────────────────────────────────────────
     @Operation(summary = "Get ARM Calculation by scCategory")
     @GetMapping("/get-by-category")
