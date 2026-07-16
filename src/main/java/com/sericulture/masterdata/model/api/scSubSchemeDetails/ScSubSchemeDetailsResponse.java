@@ -108,4 +108,7 @@ public class ScSubSchemeDetailsResponse {
     @Schema(name = "schemeCodeForSanctionOrder", example = "calculation")
     String schemeCodeForSanctionOrder;
 
+    @Schema(name = "monthlyFrequency", example = "1")
+    Boolean monthlyFrequency;
+
 }

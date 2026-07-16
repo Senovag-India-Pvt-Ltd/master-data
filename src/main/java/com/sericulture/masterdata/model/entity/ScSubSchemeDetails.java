@@ -110,4 +110,7 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "scheme_code_for_sanction_order")
     private String schemeCodeForSanctionOrder;
 
+    @Column(name = "monthly_frequency" ,columnDefinition = "TINYINT")
+    private Boolean monthlyFrequency;
+
 }

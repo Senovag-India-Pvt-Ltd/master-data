@@ -47,6 +47,9 @@ public class EditScApprovalStageRequest extends RequestBody {
     @Schema(name = "directlyToFruits", example = "1")
     Boolean directlyToFruits;
 
+    @Schema(name = "directApplication", example = "1")
+    Boolean directApplication;
+
     @Schema(name = "allowMultipleSanction", example = "1")
     Boolean allowMultipleSanction;
 
