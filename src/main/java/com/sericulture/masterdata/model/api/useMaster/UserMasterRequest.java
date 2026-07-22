@@ -89,4 +89,7 @@ public class UserMasterRequest extends RequestBody {
     @Schema(name = "designationNameInKannadaForSanctionOrder",  example = "ಭಾಷೆ")
     String designationNameInKannadaForSanctionOrder;
 
+    @Schema(name = "designationNameInEnglishForSanctionOrder", example = "Commissioner for Sericulture Development")
+    String designationNameInEnglishForSanctionOrder;
+
 }

@@ -68,4 +68,13 @@ public class ScApprovalStage extends BaseEntity implements Serializable {
 
     @Column(name = "arm_flow", columnDefinition = "TINYINT")
     private Boolean armFlow;
+
+    @Column(name = "advance_payment_letter", columnDefinition = "TINYINT")
+    private Boolean advancePaymentLetter;
+
+    @Column(name = "first_release_letter", columnDefinition = "TINYINT")
+    private Boolean firstReleaseLetter;
+
+    @Column(name = "final_release_letter", columnDefinition = "TINYINT")
+    private Boolean finalReleaseLetter;
 }

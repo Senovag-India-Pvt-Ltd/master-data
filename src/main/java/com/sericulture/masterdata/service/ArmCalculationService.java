@@ -76,8 +76,9 @@ public class ArmCalculationService {
             resp.setError_description("armEnds and scCategoryId are required");
             return resp;
         }
+        // Use DESC ordering so rows.get(0) is the latest-inserted row (matches the list page display)
         List<ArmCalculation> rows = armCalculationRepository
-                .findByArmEndsAndScCategoryIdAndActive(armEnds, scCategoryId, true);
+                .findByArmEndsAndScCategoryIdAndActiveOrderByArmCalculationIdDesc(armEnds, scCategoryId, true);
         if (rows.isEmpty()) {
             resp.setError(true);
             resp.setError_description("No ARM calculation records found for the given armEnds and category");
@@ -86,6 +87,7 @@ public class ArmCalculationService {
         BigDecimal totalUnitCost = rows.stream()
                 .map(r -> r.getUnitCost() != null ? r.getUnitCost() : BigDecimal.ZERO)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+        // Take percentage from latest row (highest ID) — same row the list page header shows
         BigDecimal centralPct = rows.get(0).getCentralPercentage() != null
                 ? rows.get(0).getCentralPercentage() : BigDecimal.ZERO;
         BigDecimal statePct = rows.get(0).getStatePercentage() != null
@@ -151,6 +153,9 @@ public class ArmCalculationService {
         entity.setUnitCost(request.getUnitCost());
         entity.setCentralPercentage(request.getCentralPercentage());
         entity.setStatePercentage(request.getStatePercentage());
+        entity.setAdvancePercentage(request.getAdvancePercentage());
+        entity.setFirstPayment(request.getFirstPayment());
+        entity.setFinalPayment(request.getFinalPayment());
         entity.setArmEnds(request.getArmEnds());
         entity = armCalculationRepository.save(entity);
         return toResponse(entity);
@@ -185,6 +190,9 @@ public class ArmCalculationService {
         r.setUnitCost(e.getUnitCost());
         r.setCentralPercentage(e.getCentralPercentage());
         r.setStatePercentage(e.getStatePercentage());
+        r.setAdvancePercentage(e.getAdvancePercentage());
+        r.setFirstPayment(e.getFirstPayment());
+        r.setFinalPayment(e.getFinalPayment());
         r.setArmEnds(e.getArmEnds());
         r.setActive(e.getActive());
         r.setError(false);

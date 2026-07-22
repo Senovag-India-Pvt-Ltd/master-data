@@ -101,4 +101,7 @@ public class UserMaster extends BaseEntity implements Serializable {
     @Column(name = "designation_name_in_kannada_for_sanction_order")
     private String designationNameInKannadaForSanctionOrder;
 
+    @Column(name = "designation_name_in_english_for_sanction_order")
+    private String designationNameInEnglishForSanctionOrder;
+
 }

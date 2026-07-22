@@ -71,6 +71,15 @@ public class EditScSubSchemeDetailsRequest extends RequestBody {
     @Schema(name = "acknowledgementForScheme", example = "calculation")
     String acknowledgementForScheme;
 
+    @Schema(name = "armAdvancePaymentForScheme", example = "Automatic Reeling Machine Unit")
+    String armAdvancePaymentForScheme;
+
+    @Schema(name = "armFirstReleaseForScheme", example = "Automatic Reeling Machine Unit")
+    String armFirstReleaseForScheme;
+
+    @Schema(name = "armFinalReleaseForScheme", example = "Automatic Reeling Machine Unit")
+    String armFinalReleaseForScheme;
+
 
     @Schema(name = "admGovtOrder", example = "calculation")
     String admGovtOrder;

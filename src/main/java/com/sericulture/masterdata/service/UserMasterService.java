@@ -404,6 +404,7 @@ public class UserMasterService {
             userMaster.setDivisionMasterId(userMasterRequest.getDivisionMasterId());
             userMaster.setAllowAnyUser(userMasterRequest.getAllowAnyUser());
             userMaster.setDesignationNameInKannadaForSanctionOrder(userMasterRequest.getDesignationNameInKannadaForSanctionOrder());
+            userMaster.setDesignationNameInEnglishForSanctionOrder(userMasterRequest.getDesignationNameInEnglishForSanctionOrder());
 
             userMaster.setActive(true);
             UserMaster userMaster1 = userMasterRepository.save(userMaster);

@@ -19,5 +19,8 @@ public class ArmCalculationRequest {
     private BigDecimal unitCost;
     private BigDecimal centralPercentage;
     private BigDecimal statePercentage;
+    private BigDecimal advancePercentage;
+    private BigDecimal firstPayment;
+    private BigDecimal finalPayment;
     private String armEnds;
 }

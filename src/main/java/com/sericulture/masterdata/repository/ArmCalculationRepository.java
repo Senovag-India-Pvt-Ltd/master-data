@@ -24,4 +24,6 @@ public interface ArmCalculationRepository extends PagingAndSortingRepository<Arm
     List<ArmCalculation> findByScCategoryIdAndActive(Long scCategoryId, boolean active);
 
     List<ArmCalculation> findByArmEndsAndScCategoryIdAndActive(String armEnds, Long scCategoryId, boolean active);
+
+    List<ArmCalculation> findByArmEndsAndScCategoryIdAndActiveOrderByArmCalculationIdDesc(String armEnds, Long scCategoryId, boolean active);
 }

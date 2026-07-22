@@ -60,4 +60,13 @@ public class ScApprovalStageRequest extends RequestBody {
 
     @Schema(name = "armFlow", example = "true")
     private Boolean armFlow;
+
+    @Schema(name = "advancePaymentLetter", example = "true")
+    private Boolean advancePaymentLetter;
+
+    @Schema(name = "firstReleaseLetter", example = "true")
+    private Boolean firstReleaseLetter;
+
+    @Schema(name = "finalReleaseLetter", example = "true")
+    private Boolean finalReleaseLetter;
 }

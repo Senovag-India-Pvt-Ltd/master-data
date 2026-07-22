@@ -259,6 +259,9 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
                 scSubSchemeDetails.setAcknowledgementForScheme(scSubSchemeDetailsRequest.getAcknowledgementForScheme());
                 scSubSchemeDetails.setUnitForScheme(scSubSchemeDetailsRequest.getUnitForScheme());
+                scSubSchemeDetails.setArmAdvancePaymentForScheme(scSubSchemeDetailsRequest.getArmAdvancePaymentForScheme());
+                scSubSchemeDetails.setArmFirstReleaseForScheme(scSubSchemeDetailsRequest.getArmFirstReleaseForScheme());
+                scSubSchemeDetails.setArmFinalReleaseForScheme(scSubSchemeDetailsRequest.getArmFinalReleaseForScheme());
 
                 scSubSchemeDetails.setAdmGovtOrder(scSubSchemeDetailsRequest.getAdmGovtOrder());
                 scSubSchemeDetails.setSchemeCircularNo(scSubSchemeDetailsRequest.getSchemeCircularNo());

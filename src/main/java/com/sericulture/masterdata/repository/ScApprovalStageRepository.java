@@ -34,4 +34,6 @@ public interface ScApprovalStageRepository extends PagingAndSortingRepository<Sc
     public ScApprovalStage findByScApprovalStageIdAndActiveIn(@Param("scApprovalStageId") long scApprovalStageId, @Param("active") Set<Boolean> active);
 
     public List<ScApprovalStage> findByActive(boolean isActive);
+
+    public List<ScApprovalStage> findByArmStageConfigAndActive(String armStageConfig, boolean active);
 }

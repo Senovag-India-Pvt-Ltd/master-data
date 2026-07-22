@@ -61,4 +61,13 @@ public class EditScApprovalStageRequest extends RequestBody {
 
     @Schema(name = "armFlow", example = "true")
     Boolean armFlow;
+
+    @Schema(name = "advancePaymentLetter", example = "true")
+    Boolean advancePaymentLetter;
+
+    @Schema(name = "firstReleaseLetter", example = "true")
+    Boolean firstReleaseLetter;
+
+    @Schema(name = "finalReleaseLetter", example = "true")
+    Boolean finalReleaseLetter;
 }

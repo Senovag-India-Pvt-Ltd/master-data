@@ -70,6 +70,16 @@ public class ScApprovalStageService {
         return convertListEntityToMapResponse(scApprovalStageRepository.findByActive(isActive));
     }
 
+    @Transactional
+    public void setDirectlyToFruitsForArmStages() {
+        List<ScApprovalStage> armStages = scApprovalStageRepository.findByArmStageConfigAndActive("ARM User Master", true);
+        armStages.forEach(stage -> {
+            stage.setDirectlyToFruits(true);
+            stage.setPushToDbt(false);
+            scApprovalStageRepository.save(stage);
+        });
+    }
+
     private Map<String, Object> convertToMapResponse(final Page<ScApprovalStage> activeScApprovalStages) {
         Map<String, Object> response = new HashMap<>();
 
@@ -170,6 +180,9 @@ public class ScApprovalStageService {
                 scApprovalStage.setSanctionForReeling(scApprovalStageRequest.getSanctionForReeling());
                 scApprovalStage.setArmStageConfig(scApprovalStageRequest.getArmStageConfig());
                 scApprovalStage.setArmFlow(scApprovalStageRequest.getArmFlow());
+                scApprovalStage.setAdvancePaymentLetter(scApprovalStageRequest.getAdvancePaymentLetter());
+                scApprovalStage.setFirstReleaseLetter(scApprovalStageRequest.getFirstReleaseLetter());
+                scApprovalStage.setFinalReleaseLetter(scApprovalStageRequest.getFinalReleaseLetter());
                 scApprovalStage.setActive(true);
                 ScApprovalStage scApprovalStage1= scApprovalStageRepository.save(scApprovalStage);
                 scApprovalStageResponse = mapper.scApprovalStageEntityToObject(scApprovalStage1, ScApprovalStageResponse.class);

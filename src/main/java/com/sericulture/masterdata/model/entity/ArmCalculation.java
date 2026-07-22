@@ -46,6 +46,15 @@ public class ArmCalculation extends BaseEntity {
     @Column(name = "state_percentage", precision = 5, scale = 2)
     private BigDecimal statePercentage;
 
+    @Column(name = "advance_percentage", precision = 5, scale = 2)
+    private BigDecimal advancePercentage;
+
+    @Column(name = "first_payment", precision = 5, scale = 2)
+    private BigDecimal firstPayment;
+
+    @Column(name = "final_payment", precision = 5, scale = 2)
+    private BigDecimal finalPayment;
+
     @Column(name = "arm_ends", length = 50)
     private String armEnds;
 }

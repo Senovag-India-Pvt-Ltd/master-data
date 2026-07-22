@@ -162,6 +162,12 @@ public class ScApprovalStageController {
                             }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error - Error occurred while processing the request.")
     })
+    @PostMapping("/set-directly-to-fruits-for-arm")
+    public ResponseEntity<?> setDirectlyToFruitsForArm() {
+        scApprovalStageService.setDirectlyToFruitsForArmStages();
+        return ResponseEntity.ok("Updated");
+    }
+
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getById(
             @PathVariable final Integer id

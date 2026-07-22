@@ -73,6 +73,15 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "acknowledgement_for_scheme")
     private String acknowledgementForScheme;
 
+    @Column(name = "arm_advance_payment_for_scheme")
+    private String armAdvancePaymentForScheme;
+
+    @Column(name = "arm_first_release_for_scheme")
+    private String armFirstReleaseForScheme;
+
+    @Column(name = "arm_final_release_for_scheme")
+    private String armFinalReleaseForScheme;
+
     @Column(name = "adm_govt_order")
     private String admGovtOrder;
 
