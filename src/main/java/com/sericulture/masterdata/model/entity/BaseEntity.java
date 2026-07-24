@@ -57,8 +57,11 @@ public class BaseEntity {
         if(active == null)
             active = true;
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        this.createdBy = principal.getName();
-        this.modifiedBy = principal.getName();
+        // Never let a missing/expired security context turn into a failed save — audit fields
+        // are best-effort, not a reason to abort the actual insert.
+        String name = principal != null ? principal.getName() : "SYSTEM";
+        this.createdBy = name;
+        this.modifiedBy = name;
     }
 
     @PreUpdate
@@ -66,6 +69,6 @@ public class BaseEntity {
         if(active == null)
             active = true;
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        this.modifiedBy = principal.getName();
+        this.modifiedBy = principal != null ? principal.getName() : "SYSTEM";
     }
 }
