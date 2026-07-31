@@ -44,4 +44,5 @@ public class UserMasterDTO {
     private Long divisionMasterId;
     private Boolean allowAnyUser;
     private String nameInKannada;
+    private String designationNameInEnglishForSanctionOrder;
 }

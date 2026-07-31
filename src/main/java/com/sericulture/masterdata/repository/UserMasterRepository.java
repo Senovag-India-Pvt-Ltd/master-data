@@ -70,7 +70,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -129,7 +130,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " (CASE WHEN userMaster.allowAnyUser = true THEN true ELSE false END)," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -188,7 +190,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -263,7 +266,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
 
             ") \n" +
             "from UserMaster userMaster\n" +
@@ -324,7 +328,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -383,7 +388,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -442,7 +448,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -503,7 +510,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") \n" +
             "from UserMaster userMaster\n" +
             "left join State state\n" +
@@ -659,7 +667,8 @@ public interface UserMasterRepository extends PagingAndSortingRepository<UserMas
             " CAST(null AS string)," +
             " userMaster.divisionMasterId," +
             " userMaster.allowAnyUser," +
-            " divisionMaster.nameInKannada " +
+            " divisionMaster.nameInKannada," +
+            " userMaster.designationNameInEnglishForSanctionOrder " +
             ") " +
             "from UserMaster userMaster " +
             "left join State state on userMaster.stateId = state.stateId " +
