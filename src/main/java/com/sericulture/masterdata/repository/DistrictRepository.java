@@ -21,6 +21,8 @@ public interface DistrictRepository extends PagingAndSortingRepository<District,
 
     District findByLgDistrict(String lgDistrict);
 
+    List<District> findByStateIdAndDistrictCodeAndActive(long stateId, String districtCode, boolean active);
+
     public List<District> findByDistrictNameAndDistrictNameInKannadaAndActive(String districtName,String districtNameInKannada, boolean active);
     public List<District> findByDistrictName(String districtName);
 

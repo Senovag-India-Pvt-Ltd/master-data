@@ -21,6 +21,8 @@ public interface HobliRepository extends PagingAndSortingRepository<Hobli, Long>
 
     Hobli findByHobliNameAndTalukIdAndActive(String hobliName, long talukId, boolean a);
 
+    List<Hobli> findByTalukIdAndHobliCodeAndActive(long talukId, String hobliCode, boolean a);
+
     Hobli findByHobliNameAndTalukIdAndDistrictIdAndActive(String hobliName, long talukId, long districtId, boolean a);
 
     public List<Hobli> findByHobliName(String hobliName);

@@ -59,6 +59,9 @@ public class TalukService {
         Taluk taluk = mapper.talukObjectToEntity(talukRequest, Taluk.class);
         validator.validate(taluk);
         List<Taluk> talukList = talukRepository.findByTalukNameAndTalukNameInKannada(talukRequest.getTalukName(), talukRequest.getTalukNameInKannada());
+        List<Taluk> duplicateCodeList = (talukRequest.getDistrictId() != null && talukRequest.getTalukCode() != null && !talukRequest.getTalukCode().isBlank())
+                ? talukRepository.findByDistrictIdAndTalukCodeAndActive(talukRequest.getDistrictId(), talukRequest.getTalukCode(), true)
+                : Collections.emptyList();
         if (!talukList.isEmpty() && talukList.stream().filter(Taluk::getActive).findAny().isPresent()) {
 //            throw new ValidationException("Taluk name already exist with this state");
             talukResponse.setError(true);
@@ -67,6 +70,9 @@ public class TalukService {
 //            //throw new ValidationException("Village name already exist with inactive state");
 //            talukResponse.setError(true);
 //            talukResponse.setError_description("Taluk name already exist with inactive state");
+        } else if (!duplicateCodeList.isEmpty()) {
+            talukResponse.setError(true);
+            talukResponse.setError_description("Taluk code already exists for this district");
         } else {
             talukResponse = mapper.talukEntityToObject(talukRepository.save(taluk), TalukResponse.class);
             talukResponse.setError(false);
@@ -200,9 +206,15 @@ public class TalukService {
     public TalukResponse updateTalukDetails(EditTalukRequest talukRequest) {
         TalukResponse talukResponse = new TalukResponse();
         List<Taluk> talukList = talukRepository.findByActiveAndTalukNameAndTalukNameInKannadaAndTalukIdIsNot(true,talukRequest.getTalukName(),talukRequest.getTalukNameInKannada(),talukRequest.getTalukId());
+        List<Taluk> duplicateCodeList = (talukRequest.getDistrictId() != null && talukRequest.getTalukCode() != null && !talukRequest.getTalukCode().isBlank())
+                ? talukRepository.findByDistrictIdAndTalukCodeAndActiveAndTalukIdIsNot(talukRequest.getDistrictId(), talukRequest.getTalukCode(), true, talukRequest.getTalukId())
+                : Collections.emptyList();
         if (talukList.size() > 0) {
             talukResponse.setError(true);
             talukResponse.setError_description("Taluk already exists, duplicates are not allowed.");
+        } else if (!duplicateCodeList.isEmpty()) {
+            talukResponse.setError(true);
+            talukResponse.setError_description("Taluk code already exists for this district");
         } else {
             Taluk taluk = talukRepository.findByTalukIdAndActiveIn(talukRequest.getTalukId(), Set.of(true, false));
             if (Objects.nonNull(taluk)) {

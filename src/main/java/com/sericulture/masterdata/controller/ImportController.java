@@ -520,21 +520,53 @@ public class ImportController {
                         System.out.println("\nEnd of Row " + rowNumber);
                         log.info("\nEnd of Row " + rowNumber);
 
-                        if(districtId>0){
-                            districtObj.setDistrictCode(distCode);
-                            districtRepository.save(districtObj);
+                        if(districtId>0 && !distCode.isEmpty()){
+                            final long finalDistrictId = districtId;
+                            boolean distCodeTaken = districtRepository
+                                    .findByStateIdAndDistrictCodeAndActive(districtObj.getStateId(), distCode, true)
+                                    .stream().anyMatch(d -> !d.getDistrictId().equals(finalDistrictId));
+                            if (distCodeTaken) {
+                                log.warn("Skipping district code '" + distCode + "' for districtId " + districtId + " - already assigned to another active district in this state");
+                            } else {
+                                districtObj.setDistrictCode(distCode);
+                                districtRepository.save(districtObj);
+                            }
                         }
-                        if(talukId>0){
-                            talukObj.setTalukCode(talukCode);
-                            talukRepository.save(talukObj);
+                        if(talukId>0 && !talukCode.isEmpty()){
+                            final long finalTalukId = talukId;
+                            boolean talukCodeTaken = talukRepository
+                                    .findByDistrictIdAndTalukCodeAndActive(talukObj.getDistrictId(), talukCode, true)
+                                    .stream().anyMatch(t -> !t.getTalukId().equals(finalTalukId));
+                            if (talukCodeTaken) {
+                                log.warn("Skipping taluk code '" + talukCode + "' for talukId " + talukId + " - already assigned to another active taluk in this district");
+                            } else {
+                                talukObj.setTalukCode(talukCode);
+                                talukRepository.save(talukObj);
+                            }
                         }
-                        if(hobliId>0){
-                            hobliObj.setHobliCode(hobliCode);
-                            hobliRepository.save(hobliObj);
+                        if(hobliId>0 && !hobliCode.isEmpty()){
+                            final long finalHobliId = hobliId;
+                            boolean hobliCodeTaken = hobliRepository
+                                    .findByTalukIdAndHobliCodeAndActive(hobliObj.getTalukId(), hobliCode, true)
+                                    .stream().anyMatch(h -> !h.getHobliId().equals(finalHobliId));
+                            if (hobliCodeTaken) {
+                                log.warn("Skipping hobli code '" + hobliCode + "' for hobliId " + hobliId + " - already assigned to another active hobli in this taluk");
+                            } else {
+                                hobliObj.setHobliCode(hobliCode);
+                                hobliRepository.save(hobliObj);
+                            }
                         }
-                        if(villageId>0){
-                            villageObj.setVillageCode(villageCode);
-                            villageRepository.save(villageObj);
+                        if(villageId>0 && !villageCode.isEmpty()){
+                            final long finalVillageId = villageId;
+                            boolean villageCodeTaken = villageRepository
+                                    .findByHobliIdAndVillageCodeAndActive(villageObj.getHobliId(), villageCode, true)
+                                    .stream().anyMatch(v -> !v.getVillageId().equals(finalVillageId));
+                            if (villageCodeTaken) {
+                                log.warn("Skipping village code '" + villageCode + "' for villageId " + villageId + " - already assigned to another active village in this hobli");
+                            } else {
+                                villageObj.setVillageCode(villageCode);
+                                villageRepository.save(villageObj);
+                            }
                         }
                     }
                 }

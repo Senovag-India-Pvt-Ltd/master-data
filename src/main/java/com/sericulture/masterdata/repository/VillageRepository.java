@@ -29,6 +29,8 @@ public interface VillageRepository extends PagingAndSortingRepository<Village, L
 
     public Village findByVillageNameAndActive(String villageName,boolean isActive);
 
+    List<Village> findByHobliIdAndVillageCodeAndActive(long hobliId, String villageCode, boolean active);
+
     public Village findByLgVillage(String lgVillage);
 
     @Query("select new com.sericulture.masterdata.model.dto.VillageDTO(" +
