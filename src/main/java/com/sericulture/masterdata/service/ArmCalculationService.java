@@ -84,17 +84,34 @@ public class ArmCalculationService {
             resp.setError_description("No ARM calculation records found for the given armEnds and category");
             return resp;
         }
-        BigDecimal totalUnitCost = rows.stream()
-                .map(r -> r.getUnitCost() != null ? r.getUnitCost() : BigDecimal.ZERO)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        // Take percentage from latest row (highest ID) — same row the list page header shows
-        BigDecimal centralPct = rows.get(0).getCentralPercentage() != null
-                ? rows.get(0).getCentralPercentage() : BigDecimal.ZERO;
-        BigDecimal statePct = rows.get(0).getStatePercentage() != null
-                ? rows.get(0).getStatePercentage() : BigDecimal.ZERO;
-        BigDecimal totalPct = centralPct.add(statePct);
-        BigDecimal subsidyAmt = totalUnitCost.multiply(totalPct)
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        // Rows in the same armEnds+category can carry different Central/State % (each row is
+        // independently editable), so the subsidy must be computed per-row and summed — applying
+        // a single row's percentage to the whole group's cost (the old behavior) silently produced
+        // a wrong subsidy amount whenever percentages weren't identical across every row.
+        BigDecimal totalUnitCost = BigDecimal.ZERO;
+        BigDecimal subsidyAmt = BigDecimal.ZERO;
+        BigDecimal weightedCentralSum = BigDecimal.ZERO;
+        BigDecimal weightedStateSum = BigDecimal.ZERO;
+        for (ArmCalculation r : rows) {
+            BigDecimal unitCost = r.getUnitCost() != null ? r.getUnitCost() : BigDecimal.ZERO;
+            BigDecimal rowCentralPct = r.getCentralPercentage() != null ? r.getCentralPercentage() : BigDecimal.ZERO;
+            BigDecimal rowStatePct = r.getStatePercentage() != null ? r.getStatePercentage() : BigDecimal.ZERO;
+            BigDecimal rowPct = rowCentralPct.add(rowStatePct);
+
+            totalUnitCost = totalUnitCost.add(unitCost);
+            subsidyAmt = subsidyAmt.add(
+                    unitCost.multiply(rowPct).divide(BigDecimal.valueOf(100), 10, RoundingMode.HALF_UP));
+            weightedCentralSum = weightedCentralSum.add(unitCost.multiply(rowCentralPct));
+            weightedStateSum = weightedStateSum.add(unitCost.multiply(rowStatePct));
+        }
+        subsidyAmt = subsidyAmt.setScale(2, RoundingMode.HALF_UP);
+        // Report the unit-cost-weighted average % across the group (rather than an arbitrary
+        // single row's %), so it stays consistent with the correctly-summed subsidyAmt above.
+        boolean hasCost = totalUnitCost.compareTo(BigDecimal.ZERO) > 0;
+        BigDecimal centralPct = hasCost
+                ? weightedCentralSum.divide(totalUnitCost, 2, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+        BigDecimal statePct = hasCost
+                ? weightedStateSum.divide(totalUnitCost, 2, RoundingMode.HALF_UP) : BigDecimal.ZERO;
 
         resp.setArmEnds(armEnds);
         resp.setScCategoryId(scCategoryId);
@@ -157,6 +174,8 @@ public class ArmCalculationService {
         entity.setFirstPayment(request.getFirstPayment());
         entity.setFinalPayment(request.getFinalPayment());
         entity.setArmEnds(request.getArmEnds());
+        entity.setProjectCostMin(request.getProjectCostMin());
+        entity.setProjectCostMax(request.getProjectCostMax());
         entity = armCalculationRepository.save(entity);
         return toResponse(entity);
     }
@@ -194,6 +213,8 @@ public class ArmCalculationService {
         r.setFirstPayment(e.getFirstPayment());
         r.setFinalPayment(e.getFinalPayment());
         r.setArmEnds(e.getArmEnds());
+        r.setProjectCostMin(e.getProjectCostMin());
+        r.setProjectCostMax(e.getProjectCostMax());
         r.setActive(e.getActive());
         r.setError(false);
         // totalAmount = quantity * unitRate

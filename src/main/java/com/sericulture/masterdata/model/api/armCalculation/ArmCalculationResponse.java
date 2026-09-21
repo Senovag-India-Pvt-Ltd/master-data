@@ -27,6 +27,8 @@ public class ArmCalculationResponse {
     private BigDecimal firstPayment;
     private BigDecimal finalPayment;
     private String armEnds;
+    private BigDecimal projectCostMin;
+    private BigDecimal projectCostMax;
     private Boolean active;
 
     private boolean error;

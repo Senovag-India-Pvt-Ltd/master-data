@@ -23,4 +23,6 @@ public class ArmCalculationRequest {
     private BigDecimal firstPayment;
     private BigDecimal finalPayment;
     private String armEnds;
+    private BigDecimal projectCostMin;
+    private BigDecimal projectCostMax;
 }

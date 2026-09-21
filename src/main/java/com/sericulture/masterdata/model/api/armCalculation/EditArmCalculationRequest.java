@@ -24,4 +24,6 @@ public class EditArmCalculationRequest {
     private BigDecimal firstPayment;
     private BigDecimal finalPayment;
     private String armEnds;
+    private BigDecimal projectCostMin;
+    private BigDecimal projectCostMax;
 }

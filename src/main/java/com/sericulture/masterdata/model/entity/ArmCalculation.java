@@ -57,4 +57,10 @@ public class ArmCalculation extends BaseEntity {
 
     @Column(name = "arm_ends", length = 50)
     private String armEnds;
+
+    @Column(name = "project_cost_min", precision = 18, scale = 2)
+    private BigDecimal projectCostMin;
+
+    @Column(name = "project_cost_max", precision = 18, scale = 2)
+    private BigDecimal projectCostMax;
 }
