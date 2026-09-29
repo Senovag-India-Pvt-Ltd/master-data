@@ -122,4 +122,9 @@ public class ScSubSchemeDetails extends BaseEntity implements Serializable {
     @Column(name = "monthly_frequency" ,columnDefinition = "TINYINT")
     private Boolean monthlyFrequency;
 
+    // How often a farmer may apply under this sub-scheme: MONTHLY, YEARLY, or
+    // ONE_TIME. Null/blank means no extra gate is applied on submission.
+    @Column(name = "payment_frequency")
+    private String paymentFrequency;
+
 }

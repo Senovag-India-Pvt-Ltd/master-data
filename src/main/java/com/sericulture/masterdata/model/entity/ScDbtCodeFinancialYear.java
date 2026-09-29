@@ -11,7 +11,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "sc_dbt_code_financial_year")
+    @Table(name = "sc_dbt_code_financial_year")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

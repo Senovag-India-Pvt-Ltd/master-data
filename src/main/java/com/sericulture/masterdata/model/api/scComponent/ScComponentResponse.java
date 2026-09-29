@@ -31,6 +31,9 @@ public class ScComponentResponse {
     @Schema(name = "scComponentNameInKannada", example = "scComponentNameInKannada 1 ", required = true)
     String scComponentNameInKannada;
 
+    @Schema(name = "paymentFrequency", example = "MONTHLY")
+    String paymentFrequency;
+
     @Schema(name = "error", example = "true")
     Boolean error;
 

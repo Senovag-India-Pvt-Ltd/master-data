@@ -165,6 +165,7 @@ public class ScComponentService {
                 scComponent.setDbtCode(scComponentRequest.getDbtCode());
                 scComponent.setScSubSchemeDetailsId(scComponentRequest.getScSubSchemeDetailsId());
                 scComponent.setScComponentNameInKannada(scComponentRequest.getScComponentNameInKannada());
+                scComponent.setPaymentFrequency(scComponentRequest.getPaymentFrequency());
 
                 scComponent.setActive(true);
                 ScComponent scComponent1 = scComponentRepository.save(scComponent);

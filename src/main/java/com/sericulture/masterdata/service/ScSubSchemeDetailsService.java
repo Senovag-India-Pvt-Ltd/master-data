@@ -274,6 +274,7 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setAllotReleaseDate(scSubSchemeDetailsRequest.getAllotReleaseDate());
                 scSubSchemeDetails.setSchemeCodeForSanctionOrder(scSubSchemeDetailsRequest.getSchemeCodeForSanctionOrder());
                 scSubSchemeDetails.setMonthlyFrequency(scSubSchemeDetailsRequest.getMonthlyFrequency());
+                scSubSchemeDetails.setPaymentFrequency(scSubSchemeDetailsRequest.getPaymentFrequency());
 //                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);
