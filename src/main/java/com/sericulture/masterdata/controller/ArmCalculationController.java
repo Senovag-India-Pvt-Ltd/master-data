@@ -5,6 +5,7 @@ import com.sericulture.masterdata.model.api.armCalculation.ArmCalculationRequest
 import com.sericulture.masterdata.model.api.armCalculation.ArmCalculationResponse;
 import com.sericulture.masterdata.model.api.armCalculation.ArmUnitPriceResponse;
 import com.sericulture.masterdata.model.api.armCalculation.EditArmCalculationRequest;
+import com.sericulture.masterdata.model.api.armCalculation.UpdateArmGroupSettingsRequest;
 import com.sericulture.masterdata.service.ArmCalculationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -124,6 +125,15 @@ public class ArmCalculationController {
     public ResponseEntity<?> editArmCalculation(@Valid @RequestBody EditArmCalculationRequest request) {
         ResponseWrapper rw = ResponseWrapper.createWrapper(ArmCalculationResponse.class);
         rw.setContent(armCalculationService.updateArmCalculationDetails(request));
+        return ResponseEntity.ok(rw);
+    }
+
+    // ── UPDATE GROUP SETTINGS (bulk) ─────────────────────────────────────────
+    @Operation(summary = "Apply Central/State/Advance/First/Final/Min/Max to every component in an armEnds+category group")
+    @PostMapping("/update-group-settings")
+    public ResponseEntity<?> updateGroupSettings(@Valid @RequestBody UpdateArmGroupSettingsRequest request) {
+        ResponseWrapper rw = ResponseWrapper.createWrapper(Map.class);
+        rw.setContent(armCalculationService.updateGroupSettings(request));
         return ResponseEntity.ok(rw);
     }
 

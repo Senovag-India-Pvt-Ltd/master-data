@@ -4,6 +4,7 @@ import com.sericulture.masterdata.model.api.armCalculation.ArmCalculationRequest
 import com.sericulture.masterdata.model.api.armCalculation.ArmCalculationResponse;
 import com.sericulture.masterdata.model.api.armCalculation.ArmUnitPriceResponse;
 import com.sericulture.masterdata.model.api.armCalculation.EditArmCalculationRequest;
+import com.sericulture.masterdata.model.api.armCalculation.UpdateArmGroupSettingsRequest;
 import com.sericulture.masterdata.model.entity.ArmCalculation;
 import com.sericulture.masterdata.model.mapper.Mapper;
 import com.sericulture.masterdata.repository.ArmCalculationRepository;
@@ -178,6 +179,29 @@ public class ArmCalculationService {
         entity.setProjectCostMax(request.getProjectCostMax());
         entity = armCalculationRepository.save(entity);
         return toResponse(entity);
+    }
+
+    // ── UPDATE GROUP SETTINGS (bulk) ─────────────────────────────────────────
+    // Applies Central%/State%/Advance%/First%/Final%/Min/Max to every active component
+    // in the given (armEnds, scCategoryId) group in one shot, instead of per-row edits.
+    @Transactional
+    public Map<String, Object> updateGroupSettings(UpdateArmGroupSettingsRequest request) {
+        List<ArmCalculation> rows = armCalculationRepository
+                .findByArmEndsAndScCategoryIdAndActive(request.getArmEnds(), request.getScCategoryId(), true);
+        for (ArmCalculation entity : rows) {
+            entity.setCentralPercentage(request.getCentralPercentage());
+            entity.setStatePercentage(request.getStatePercentage());
+            entity.setAdvancePercentage(request.getAdvancePercentage());
+            entity.setFirstPayment(request.getFirstPayment());
+            entity.setFinalPayment(request.getFinalPayment());
+            entity.setProjectCostMin(request.getProjectCostMin());
+            entity.setProjectCostMax(request.getProjectCostMax());
+            armCalculationRepository.save(entity);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("updatedCount", rows.size());
+        result.put("armCalculation", rows.stream().map(this::toResponse).collect(Collectors.toList()));
+        return result;
     }
 
     // ── DELETE ────────────────────────────────────────────────────────────────
