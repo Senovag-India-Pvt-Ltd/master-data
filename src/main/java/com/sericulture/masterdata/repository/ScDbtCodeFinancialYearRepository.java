@@ -15,4 +15,8 @@ public interface ScDbtCodeFinancialYearRepository extends PagingAndSortingReposi
     ScDbtCodeFinancialYear findByScDbtCodeFinancialYearIdAndActiveIn(Long id, Set<Boolean> activeStates);
 
     ScDbtCodeFinancialYear findByMasterTypeAndParentIdAndFinancialYearMasterIdAndActive(String masterType, Long parentId, Long financialYearMasterId, Boolean active);
+
+    // Any row (active or soft-deleted) for the combination – the table's unique
+    // constraint covers deleted rows too.
+    ScDbtCodeFinancialYear findFirstByMasterTypeAndParentIdAndFinancialYearMasterId(String masterType, Long parentId, Long financialYearMasterId);
 }

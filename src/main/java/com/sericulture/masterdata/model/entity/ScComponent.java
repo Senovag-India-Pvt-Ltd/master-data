@@ -33,4 +33,9 @@ public class ScComponent extends BaseEntity implements Serializable {
 
     @Column(name = "sc_component_name_in_kannada", unique = true)
     private String scComponentNameInKannada;
+
+    // How often a farmer may apply under this component: MONTHLY, YEARLY, or
+    // ONE_TIME. Null/blank means no extra gate is applied on submission.
+    @Column(name = "payment_frequency")
+    private String paymentFrequency;
 }

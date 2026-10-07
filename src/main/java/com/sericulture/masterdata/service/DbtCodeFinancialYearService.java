@@ -50,15 +50,18 @@ public class DbtCodeFinancialYearService {
         DbtCodeFinancialYearResponse response = new DbtCodeFinancialYearResponse();
 
         ScDbtCodeFinancialYear existing = scDbtCodeFinancialYearRepository
-                .findByMasterTypeAndParentIdAndFinancialYearMasterIdAndActive(
-                        request.getMasterType(), request.getParentId(), request.getFinancialYearMasterId(), true);
-        if (existing != null) {
+                .findFirstByMasterTypeAndParentIdAndFinancialYearMasterId(
+                        request.getMasterType(), request.getParentId(), request.getFinancialYearMasterId());
+        if (existing != null && Boolean.TRUE.equals(existing.getActive())) {
             response.setError(true);
             response.setError_description("DBT code already configured for this Financial Year. Edit the existing entry instead.");
             return response;
         }
 
-        ScDbtCodeFinancialYear entity = new ScDbtCodeFinancialYear();
+        // A deleted (inactive) row for the same Financial Year is re-used, since
+        // the unique constraint on the table would reject a second insert.
+        ScDbtCodeFinancialYear entity = existing != null ? existing : new ScDbtCodeFinancialYear();
+        entity.setActive(true);
         entity.setMasterType(request.getMasterType());
         entity.setParentId(request.getParentId());
         entity.setFinancialYearMasterId(request.getFinancialYearMasterId());
@@ -84,12 +87,19 @@ public class DbtCodeFinancialYearService {
         }
 
         ScDbtCodeFinancialYear conflict = scDbtCodeFinancialYearRepository
-                .findByMasterTypeAndParentIdAndFinancialYearMasterIdAndActive(
-                        request.getMasterType(), request.getParentId(), request.getFinancialYearMasterId(), true);
+                .findFirstByMasterTypeAndParentIdAndFinancialYearMasterId(
+                        request.getMasterType(), request.getParentId(), request.getFinancialYearMasterId());
         if (conflict != null && !Objects.equals(conflict.getScDbtCodeFinancialYearId(), request.getScDbtCodeFinancialYearId())) {
-            response.setError(true);
-            response.setError_description("DBT code already configured for this Financial Year.");
-            return response;
+            if (Boolean.TRUE.equals(conflict.getActive())) {
+                response.setError(true);
+                response.setError_description("DBT code already configured for this Financial Year.");
+                return response;
+            }
+            // Only a deleted row holds this Financial Year: re-use it (the unique
+            // constraint covers deleted rows) and retire the row being edited.
+            entity.setActive(false);
+            scDbtCodeFinancialYearRepository.save(entity);
+            entity = conflict;
         }
 
         entity.setMasterType(request.getMasterType());

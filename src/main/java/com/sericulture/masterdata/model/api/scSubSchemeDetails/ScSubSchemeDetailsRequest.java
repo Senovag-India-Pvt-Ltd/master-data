@@ -109,4 +109,7 @@ public class ScSubSchemeDetailsRequest extends RequestBody {
 
     @Schema(name = "monthlyFrequency", example = "1")
     Boolean monthlyFrequency;
+
+    @Schema(name = "paymentFrequency", example = "MONTHLY")
+    String paymentFrequency;
 }

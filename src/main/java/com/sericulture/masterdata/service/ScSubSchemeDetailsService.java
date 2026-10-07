@@ -42,6 +42,8 @@ public class ScSubSchemeDetailsService {
         if (scSubSchemeDetails.getSanctionEnable() == null) {
             scSubSchemeDetails.setSanctionEnable(0);
         }
+        // Monthly behaviour comes only from Payment Frequency; keep the old flag in sync.
+        scSubSchemeDetails.setMonthlyFrequency("MONTHLY".equals(scSubSchemeDetails.getPaymentFrequency()));
 
         validator.validate(scSubSchemeDetails);
         List<ScSubSchemeDetails> scSubSchemeDetailsList = scSubSchemeDetailsRepository.findByScSchemeDetailsIdAndSubSchemeName(scSubSchemeDetailsRequest.getScSchemeDetailsId(), scSubSchemeDetailsRequest.getSubSchemeName());
@@ -273,7 +275,9 @@ public class ScSubSchemeDetailsService {
                 scSubSchemeDetails.setDeptDelegationDate(scSubSchemeDetailsRequest.getDeptDelegationDate());
                 scSubSchemeDetails.setAllotReleaseDate(scSubSchemeDetailsRequest.getAllotReleaseDate());
                 scSubSchemeDetails.setSchemeCodeForSanctionOrder(scSubSchemeDetailsRequest.getSchemeCodeForSanctionOrder());
-                scSubSchemeDetails.setMonthlyFrequency(scSubSchemeDetailsRequest.getMonthlyFrequency());
+                scSubSchemeDetails.setPaymentFrequency(scSubSchemeDetailsRequest.getPaymentFrequency());
+                // Monthly behaviour comes only from Payment Frequency; keep the old flag in sync.
+                scSubSchemeDetails.setMonthlyFrequency("MONTHLY".equals(scSubSchemeDetailsRequest.getPaymentFrequency()));
 //                scSubSchemeDetails.setSanctionOrderForScheme(scSubSchemeDetailsRequest.getSanctionOrderForScheme());
 
                 scSubSchemeDetails.setActive(true);
