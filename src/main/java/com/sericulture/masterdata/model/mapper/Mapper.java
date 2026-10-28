@@ -3246,4 +3246,17 @@ public class Mapper {
     public <T> T armCalculationEntityToObject(ArmCalculation entity, Class<T> claaz) {
         return (T) mapper.map(entity, claaz);
     }
+
+    // ── ScTscGeoMapping ──────────────────────────────────────────────────────
+    public <T> T scTscGeoMappingEntityToObject(ScTscGeoMapping scTscGeoMappingEntity, Class<T> claaz) {
+        return (T) mapper.map(scTscGeoMappingEntity, claaz);
+    }
+
+    public <T> T scTscGeoMappingDTOToObject(ScTscGeoMappingDTO scTscGeoMappingDTO, Class<T> claaz) {
+        return (T) mapper.map(scTscGeoMappingDTO, claaz);
+    }
+
+    public <T> T scTscGeoMappingObjectToEntity(com.sericulture.masterdata.model.api.scTscGeoMapping.ScTscGeoMappingRequest scTscGeoMappingRequest, Class<T> claaz) {
+        return (T) mapper.map(scTscGeoMappingRequest, claaz);
+    }
 }
